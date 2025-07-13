@@ -1,52 +1,60 @@
 export default {
-  getChartPage (analyzer) {
+  getChartPage(analyzer) {
     let page = {
       component: 'oh-chart-page',
       config: {
         chartType: analyzer.chartType,
-        period: analyzer.period
+        period: analyzer.period,
       },
-      slots: {}
-    }
+      slots: {},
+    };
 
-    page.slots.grid = [{ component: 'oh-chart-grid', config: { includeLabels: true } }]
+    page.slots.grid = [{ component: 'oh-chart-grid', config: { includeLabels: true } }];
 
     page.slots.xAxis = [
       {
         component: 'oh-time-axis',
         config: {
-          gridIndex: 0
-        }
-      }
-    ]
+          gridIndex: 0,
+        },
+      },
+    ];
 
-    page.slots.yAxis = analyzer.valueAxesOptions.map((a) => {
+    page.slots.yAxis = analyzer.valueAxesOptions.map(a => {
       return {
         component: 'oh-value-axis',
         config: {
           gridIndex: 0,
           name: a.name || a.unit,
-          ...(a.min && a.min !== '') && { min: parseFloat(a.min) },
-          ...(a.max && a.max !== '') && { max: parseFloat(a.max) },
+          ...(a.min && a.min !== '' && { min: parseFloat(a.min) }),
+          ...(a.max && a.max !== '' && { max: parseFloat(a.max) }),
           scale: a.scale,
-          ...(a.split === 'none' || a.split === 'area' || a.split === 'area+minor') && { splitLine: { show: false } },
-          ...(a.split === 'line+minor' || a.split === 'area+minor' || a.split === 'all') && { minorTick: { show: true }, minorSplitLine: { show: true } },
-          ...(a.split === 'area' || a.split === 'line+area' || a.split === 'area+minor' || a.split === 'all') && { splitArea: { show: true } }
-        }
-      }
-    })
+          ...((a.split === 'none' || a.split === 'area' || a.split === 'area+minor') && {
+            splitLine: { show: false },
+          }),
+          ...((a.split === 'line+minor' || a.split === 'area+minor' || a.split === 'all') && {
+            minorTick: { show: true },
+            minorSplitLine: { show: true },
+          }),
+          ...((a.split === 'area' ||
+            a.split === 'line+area' ||
+            a.split === 'area+minor' ||
+            a.split === 'all') && { splitArea: { show: true } }),
+        },
+      };
+    });
     if (page.slots.yAxis.length === 0) {
       // add a default axis if none was found (for instance, only discrete values)
       page.slots.yAxis.push({
         component: 'oh-value-axis',
         config: {
-          gridIndex: 0
-        }
-      })
+          gridIndex: 0,
+        },
+      });
     }
 
-    page.slots.series = analyzer.items.map((item) => {
-      const seriesOptions = analyzer.seriesOptions[item.name]
+    page.slots.series = analyzer.items.map(item => {
+      const seriesOptions = analyzer.seriesOptions[item.name];
 
       if (seriesOptions.discrete) {
         return {
@@ -57,7 +65,7 @@ export default {
             xAxisIndex: 0,
             yAxisIndex: 0,
             type: 'line',
-            areaStyle: seriesOptions.type === 'area' ? {} : undefined
+            areaStyle: seriesOptions.type === 'area' ? {} : undefined,
           },
           slots: {
             markArea: [
@@ -66,28 +74,32 @@ export default {
                 config: {
                   name: item.name,
                   item: item.name,
-                  silent: seriesOptions.silent
-                }
-              }
-            ]
-          }
-        }
+                  silent: seriesOptions.silent,
+                },
+              },
+            ],
+          },
+        };
       }
 
-      const markLine = (seriesOptions.markers === 'avg' || seriesOptions.markers === 'all') ? {
-        data: [
-          { type: 'average' }
-        ]
-      } : undefined
-      const markPoint = (seriesOptions.markers === 'min-max' || seriesOptions.markers === 'all') ? {
-        label: {
-          backgroundColor: 'auto'
-        },
-        data: [
-          { type: 'min', name: 'min' },
-          { type: 'max', name: 'max' }
-        ]
-      } : undefined
+      const markLine =
+        seriesOptions.markers === 'avg' || seriesOptions.markers === 'all'
+          ? {
+              data: [{ type: 'average' }],
+            }
+          : undefined;
+      const markPoint =
+        seriesOptions.markers === 'min-max' || seriesOptions.markers === 'all'
+          ? {
+              label: {
+                backgroundColor: 'auto',
+              },
+              data: [
+                { type: 'min', name: 'min' },
+                { type: 'max', name: 'max' },
+              ],
+            }
+          : undefined;
 
       return {
         component: 'oh-time-series',
@@ -100,40 +112,40 @@ export default {
           item: item.name,
           areaStyle: seriesOptions.type === 'area' ? { opacity: 0.2 } : undefined,
           markLine,
-          markPoint
-        }
-      }
-    })
+          markPoint,
+        },
+      };
+    });
 
     page.slots.tooltip = [
       {
         component: 'oh-chart-tooltip',
         config: {
           confine: true,
-          smartFormatter: true
-        }
-      }
-    ]
+          smartFormatter: true,
+        },
+      },
+    ];
 
     page.slots.legend = [
       {
         component: 'oh-chart-legend',
         config: {
           bottom: 3,
-          type: 'scroll'
-        }
-      }
-    ]
+          type: 'scroll',
+        },
+      },
+    ];
 
     page.slots.dataZoom = [
       {
         component: 'oh-chart-datazoom',
         config: {
-          type: 'inside'
-        }
-      }
-    ]
+          type: 'inside',
+        },
+      },
+    ];
 
-    return page
-  }
-}
+    return page;
+  },
+};

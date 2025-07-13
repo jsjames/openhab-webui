@@ -2,7 +2,14 @@
   <div style="width: 100%">
     <f7-row v-if="enableAddonSelection">
       <f7-col width="100">
-        <f7-button ref="selectAddons" large icon-f7="bag_fill_badge_plus" icon-size="24" @click="selectAddons" :text="$t('setupwizard.addons.selectAddons')" />
+        <f7-button
+          ref="selectAddons"
+          large
+          icon-f7="bag_fill_badge_plus"
+          icon-size="24"
+          @click="selectAddons"
+          :text="$t('setupwizard.addons.selectAddons')"
+        />
       </f7-col>
     </f7-row>
     <f7-list media-list>
@@ -10,9 +17,21 @@
         <f7-block class="addon display-flex flex-direction-column">
           <f7-row no-gap>
             <div style="width: 100%">
-              <f7-checkbox style="margin-right: 0.5rem" :checked="selectedAddon(addon)" :disabled="addon.installed" @change="toggleAddonSelection(addon, $event)" />
+              <f7-checkbox
+                style="margin-right: 0.5rem"
+                :checked="selectedAddon(addon) ? true : null"
+                :disabled="addon.installed ? true : null"
+                @change="toggleAddonSelection(addon, $event)"
+              />
               {{ addon.label }}
-              <f7-link style="float: right" icon-f7="doc_text_search" :external="true" color="gray" target="_blank" :href="addon.link" />
+              <f7-link
+                style="float: right"
+                icon-f7="doc_text_search"
+                :external="true"
+                color="gray"
+                target="_blank"
+                :href="addon.link"
+              />
             </div>
           </f7-row>
           <f7-row no-gap style="margin-top: 0.5rem; margin-bottom: 0">
@@ -21,8 +40,8 @@
               <span class="text" v-html="addonDescription(addon)" />
             </div>
           </f7-row>
-        </f7-block>
-      </f7-list-item>/>
+        </f7-block> </f7-list-item
+      >/>
     </f7-list>
   </div>
 </template>
@@ -55,24 +74,24 @@
 </style>
 
 <script>
-import AddonLogo from '@/components/addons/addon-logo.vue'
+import AddonLogo from '@/components/addons/addon-logo.vue';
 
-import { loadLocaleMessages } from '@/js/i18n'
+import { loadLocaleMessages } from '@/js/i18n';
 
 export default {
   props: ['addons', 'preSelectedAddons', 'enableAddonSelection'],
   emits: ['update'],
   components: {
-    AddonLogo
+    AddonLogo,
   },
-  data () {
+  data() {
     return {
       shownAddons: [],
-      selectedAddons: []
-    }
+      selectedAddons: [],
+    };
   },
   i18n: {
-    messages: loadLocaleMessages(require.context('@/assets/i18n/setup-wizard'))
+    messages: loadLocaleMessages('/src/assets/i18n/setup-wizard'),
   },
   methods: {
     /**
@@ -80,29 +99,29 @@ export default {
      * @param addon
      * @returns {boolean}
      */
-    selectedAddon (addon) {
-      return this.selectedAddons.includes(addon)
+    selectedAddon(addon) {
+      return this.selectedAddons.includes(addon);
     },
     /**
      * Whether the given add-on is pre-selected.
      * @param addon
      * @returns {boolean}
      */
-    preSelectedAddon (addon) {
-      return this.preSelectedAddons.includes(addon)
+    preSelectedAddon(addon) {
+      return this.preSelectedAddons.includes(addon);
     },
     /**
      * Returns the add-on description.
      * @param addon
      * @returns {string}
      */
-    addonDescription (addon) {
-      const line1 = this.$t('setupwizard.addon.' + addon.uid + '.line1')
-      const line2 = this.$t('setupwizard.addon.' + addon.uid + '.line2')
-      const hasLine1 = (line1 !== 'setupwizard.addon.' + addon.uid + '.line1')
-      const hasLine2 = (line2 !== 'setupwizard.addon.' + addon.uid + '.line2')
-      const descr = (hasLine1 ? line1 : '') + (hasLine2 ? ('<br>' + line2) : '')
-      return descr || addon.description || (addon.uid + '<br>' + addon.version)
+    addonDescription(addon) {
+      const line1 = this.$t('setupwizard.addon.' + addon.uid + '.line1');
+      const line2 = this.$t('setupwizard.addon.' + addon.uid + '.line2');
+      const hasLine1 = line1 !== 'setupwizard.addon.' + addon.uid + '.line1';
+      const hasLine2 = line2 !== 'setupwizard.addon.' + addon.uid + '.line2';
+      const descr = (hasLine1 ? line1 : '') + (hasLine2 ? '<br>' + line2 : '');
+      return descr || addon.description || addon.uid + '<br>' + addon.version;
     },
     /**
      * Toggles the selection of a single add-on.
@@ -110,21 +129,23 @@ export default {
      * @param addon
      * @param event
      */
-    toggleAddonSelection (addon, event) {
+    toggleAddonSelection(addon, event) {
       if (event.target.checked) {
-        this.$set(this, 'selectedAddons', [...new Set(this.selectedAddons.concat(addon))])
+        this.selectedAddons.push(addon);
+        // this.selectAddons = [...new Set(this.selectedAddons.concat(addon))]
       } else {
-        this.$set(this, 'selectedAddons', this.selectedAddons.filter(a => (a.uid !== addon.uid)))
+        // this.selectedAddons = this.selectedAddons.filter(a => (a.uid !== addon.uid))
+        this.selectedAddons = this.selectedAddons.filter(a => a.uid !== addon.uid);
       }
-      this.$emit('update', this.selectedAddons)
+      this.$emit('update', this.selectedAddons);
     },
     /**
      * Opens the add-on selection popup.
      */
-    selectAddons () {
+    selectAddons() {
       if (this.autocompleteAddons) {
-        this.autocompleteAddons.value = this.selectedAddons.map(a => a.label)
-        this.autocompleteAddons.open()
+        this.autocompleteAddons.value = this.selectedAddons.map(a => a.label);
+        this.autocompleteAddons.open();
       }
     },
     /**
@@ -132,22 +153,24 @@ export default {
      * To be called by change event of the selection popup.
      * @param newSelected
      */
-    updateAddonSelection (newSelected) {
-      this.selectedAddons = newSelected
-      this.$emit('update', this.selectedAddons)
-    }
+    updateAddonSelection(newSelected) {
+      this.selectedAddons = newSelected;
+      this.$emit('update', this.selectedAddons);
+    },
   },
-  mounted () {
+  mounted() {
     // Update the list of shown and selected add-ons with the pre-selected add-ons.
     // Exclude add-ons that are in the list of pre-selected add-ons, but are not meant to be shown here (usually because these add-ons are handled in a separate step).
     if (Array.isArray(this.preSelectedAddons)) {
-      this.shownAddons = this.selectedAddons = this.preSelectedAddons.filter(a => this.addons.includes(a))
+      this.shownAddons = this.selectedAddons = this.preSelectedAddons.filter(a =>
+        this.addons.includes(a)
+      );
     }
 
     // Initialize the autocomplete, which provides the add-on selection popup, if add-on selection has been enabled.
-    if (!this.enableAddonSelection) return
-    const self = this
-    this.autocompleteAddons = this.$f7.autocomplete.create({
+    if (!this.enableAddonSelection) return;
+    const self = this;
+    this.autocompleteAddons = f7.autocomplete.create({
       openIn: 'popup',
       pageTitle: self.$t('setupwizard.addons.selectAddons'),
       searchbarPlaceholder: self.$t('setupwizard.addons.selectAddons.placeholder'),
@@ -157,34 +180,46 @@ export default {
       source: (query, render) => {
         // Exclude installed and pre-selected add-ons from the selection popup.
         if (query.length === 0) {
-          render(self.addons.filter(a => !a.installed && !self.preSelectedAddon(a)).map((a) => a.label))
+          render(
+            self.addons.filter(a => !a.installed && !self.preSelectedAddon(a)).map(a => a.label)
+          );
         } else {
-          render(self.addons
-            .filter(a => (!a.installed && !self.preSelectedAddon(a) && (a.label.toLowerCase().indexOf(query.toLowerCase()) >= 0 || a.uid.toLowerCase().indexOf(query.toLowerCase()) >= 0)))
-            .map(a => a.label))
+          render(
+            self.addons
+              .filter(
+                a =>
+                  !a.installed &&
+                  !self.preSelectedAddon(a) &&
+                  (a.label.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
+                    a.uid.toLowerCase().indexOf(query.toLowerCase()) >= 0)
+              )
+              .map(a => a.label)
+          );
         }
       },
       on: {
-        change (value) {
-          const selected = value.map(label => self.addons.find(a => (a.label === label)))
+        change(value) {
+          const selected = value.map(label => self.addons.find(a => a.label === label));
           // If we added addons, keep them visible on the main list, even if we deselect them again later.
-          self.shownAddons = [...new Set(self.selectedAddons.concat(selected))]
-          self.updateAddonSelection(selected)
-        }
-      }
-    })
+          self.shownAddons = [...new Set(self.selectedAddons.concat(selected))];
+          self.updateAddonSelection(selected);
+        },
+      },
+    });
 
     // Add event listener for locale change
-    this.$f7.on('localeChange', () => {
+    f7.on('locale-change', () => {
       if (this.autocompleteAddons) {
-        this.autocompleteAddons.params.pageTitle = this.$t('setupwizard.addons.selectAddons')
-        this.autocompleteAddons.params.searchbarPlaceholder = this.$t('setupwizard.addons.selectAddons.placeholder')
-        this.autocompleteAddons.params.searchbarDisableText = this.$t('dialogs.cancel')
-        this.autocompleteAddons.params.popupCloseLinkText = this.$t('dialogs.close')
-        this.autocompleteAddons.params.pageBackLinkText = this.$t('dialogs.back')
-        this.autocompleteAddons.params.notFoundText = this.$t('dialogs.search.nothingFound')
+        this.autocompleteAddons.params.pageTitle = this.$t('setupwizard.addons.selectAddons');
+        this.autocompleteAddons.params.searchbarPlaceholder = this.$t(
+          'setupwizard.addons.selectAddons.placeholder'
+        );
+        this.autocompleteAddons.params.searchbarDisableText = this.$t('dialogs.cancel');
+        this.autocompleteAddons.params.popupCloseLinkText = this.$t('dialogs.close');
+        this.autocompleteAddons.params.pageBackLinkText = this.$t('dialogs.back');
+        this.autocompleteAddons.params.notFoundText = this.$t('dialogs.search.nothingFound');
       }
-    })
-  }
-}
+    });
+  },
+};
 </script>

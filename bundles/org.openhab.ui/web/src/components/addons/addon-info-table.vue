@@ -1,9 +1,18 @@
 <template>
   <f7-list v-if="addon && information && information.length > 0" class="information-table">
-    <f7-list-item v-for="line in information" :key="line.id"
-                  :title="line.title" :after="line.value"
-                  :link="line.linkUrl" external no-chevron target="_blank">
-      <f7-icon slot="after" v-if="line.afterIcon" :f7="line.afterIcon" />
+    <f7-list-item
+      v-for="line in information"
+      :key="line.id"
+      :title="line.title"
+      :after="line.value"
+      :link="line.linkUrl"
+      external
+      no-chevron
+      target="_blank"
+    >
+      <template #after>
+        <f7-icon v-if="line.afterIcon" :f7="line.afterIcon" />
+      </template>
     </f7-list-item>
   </f7-list>
 </template>
@@ -30,107 +39,110 @@
 </style>
 
 <script>
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-dayjs.extend(utc)
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
-import { ContentTypes, Formats } from '@/assets/addon-store'
+import { ContentTypes, Formats } from '@/assets/addon-store';
 
 export default {
   props: ['addon'],
   computed: {
-    information () {
-      let info = []
-      if (!this.addon || !this.addon.uid) return info
-      const source = this.addon.uid.indexOf(':') > 0 ? this.addon.uid.substring(0, this.addon.uid.indexOf(':')) : 'karaf'
-      let sourceName = 'openHAB Distribution'
+    information() {
+      let info = [];
+      if (!this.addon || !this.addon.uid) return info;
+      const source =
+        this.addon.uid.indexOf(':') > 0
+          ? this.addon.uid.substring(0, this.addon.uid.indexOf(':'))
+          : 'karaf';
+      let sourceName = 'openHAB Distribution';
       if (source === 'marketplace') {
-        sourceName = 'Community Marketplace'
+        sourceName = 'Community Marketplace';
       } else if (source !== 'eclipse' && source !== 'karaf') {
-        sourceName = '3rd Party (' + source + ')'
+        sourceName = '3rd Party (' + source + ')';
       }
       info.push({
         id: 'service',
         title: 'Source',
-        value: sourceName
-      })
+        value: sourceName,
+      });
 
       if (this.addon.author) {
         info.push({
           id: 'author',
           title: 'Provided By',
           value: this.addon.author,
-          afterIcon: (this.addon.verifiedAuthor) ? 'checkmark_seal_fill' : ''
-        })
+          afterIcon: this.addon.verifiedAuthor ? 'checkmark_seal_fill' : '',
+        });
       }
 
       if (this.addon.version) {
         info.push({
           id: 'version',
           title: 'Version',
-          value: this.addon.version
-        })
+          value: this.addon.version,
+        });
       }
 
       info.push({
         id: 'type',
         title: 'Type',
-        value: this.addon.type
-      })
+        value: this.addon.type,
+      });
 
       if (this.addon.connection) {
         info.push({
           id: 'connection',
           title: 'Connection Type',
-          value: this.addon.connection
-        })
+          value: this.addon.connection,
+        });
       }
 
       if (this.addon.countries && this.addon.countries.length > 0) {
         info.push({
           id: 'countries',
           title: 'Regions/Countries',
-          value: this.addon.countries.join(', ').toUpperCase()
-        })
+          value: this.addon.countries.join(', ').toUpperCase(),
+        });
       }
 
       info.push({
         id: 'contentType',
         title: 'Content Type',
-        value: ContentTypes[this.addon.contentType] || this.addon.contentType
-      })
+        value: ContentTypes[this.addon.contentType] || this.addon.contentType,
+      });
 
-      let format
+      let format;
       if (source === 'eclipse') {
-        format = Formats.eclipse
+        format = Formats.eclipse;
       } else if (source === 'karaf' || source === 'jar') {
-        format = Formats.karaf
+        format = Formats.karaf;
       } else if (Object.keys(this.addon.properties).length > 0) {
         for (const property in this.addon.properties) {
-          if (Formats[property]) format = Formats[property]
+          if (Formats[property]) format = Formats[property];
         }
       }
 
       info.push({
         id: 'format',
         title: 'Provisioned With',
-        value: format
-      })
+        value: format,
+      });
 
       if (this.addon.properties && this.addon.properties.created_at) {
         info.push({
           id: 'createdAt',
           title: 'Created At',
-          value: dayjs(this.addon.properties.created_at).utc('z').local().format('LLL')
-        })
+          value: dayjs(this.addon.properties.created_at).utc('z').local().format('LLL'),
+        });
       }
 
       if (this.addon.properties && this.addon.properties.updated_at) {
         info.push({
           id: 'updated',
           title: 'Updated At',
-          value: dayjs(this.addon.properties.updated_at).utc('z').local().format('LLL')
-        })
+          value: dayjs(this.addon.properties.updated_at).utc('z').local().format('LLL'),
+        });
       }
 
       if (source === 'marketplace') {
@@ -138,54 +150,54 @@ export default {
           id: 'communityTopicLink',
           title: 'Community Topic',
           afterIcon: 'chat_bubble_2_fill',
-          linkUrl: this.addon.link
-        })
+          linkUrl: this.addon.link,
+        });
       } else if (source === 'eclipse' || source === 'karaf') {
         info.push({
           id: 'documentationLink',
           title: 'Documentation',
           afterIcon: 'question_circle_fill',
-          linkUrl: `${this.$store.state.websiteUrl}/addons/${this.addon.type.replace('misc', 'integrations').replace('binding', 'bindings').replace('transformation', 'transformations')}/${this.addon.id}` // this.addon.link
-        })
+          linkUrl: `${this.$store.state.websiteUrl}/addons/${this.addon.type.replace('misc', 'integrations').replace('binding', 'bindings').replace('transformation', 'transformations')}/${this.addon.id}`, // this.addon.link
+        });
 
-        let repository
-        let issueFilter = 'q=is%3Aopen'
+        let repository;
+        let issueFilter = 'q=is%3Aopen';
         if (this.addon.id === 'binding-zigbee') {
-          repository = 'org.openhab.binding.zigbee'
+          repository = 'org.openhab.binding.zigbee';
         } else if (this.addon.id === 'binding-zwave') {
-          repository = 'org.openhab.binding.zwave'
+          repository = 'org.openhab.binding.zwave';
         } else {
           if (this.addon.type === 'ui') {
-            repository = 'openhab-webui'
+            repository = 'openhab-webui';
           } else {
-            repository = 'openhab-addons'
+            repository = 'openhab-addons';
           }
-          issueFilter += `+${this.addon.id}`
+          issueFilter += `+${this.addon.id}`;
         }
 
         info.push({
           id: 'issuesLink',
           title: 'Issues',
           afterIcon: 'exclamationmark_bubble_fill',
-          linkUrl: `https://github.com/openhab/${repository}/issues?${issueFilter}`
-        })
+          linkUrl: `https://github.com/openhab/${repository}/issues?${issueFilter}`,
+        });
         info.push({
           id: 'discussionsLink',
           title: 'Community Discussions',
           afterIcon: 'chat_bubble_2_fill',
-          linkUrl: 'https://community.openhab.org/search?q=' + this.addon.id
-        })
+          linkUrl: 'https://community.openhab.org/search?q=' + this.addon.id,
+        });
       } else if (this.addon.link) {
         info.push({
           id: 'documentationLink',
           title: 'Documentation',
           afterIcon: 'question_circle_fill',
-          linkUrl: this.addon.link
-        })
+          linkUrl: this.addon.link,
+        });
       }
 
-      return info
-    }
-  }
-}
+      return info;
+    },
+  },
+};
 </script>

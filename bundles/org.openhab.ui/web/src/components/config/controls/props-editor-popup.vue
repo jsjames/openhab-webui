@@ -1,15 +1,23 @@
 <template>
-  <f7-popup ref="propSheet" close-on-escape class="widgetprops-popup" @popup:closed="propsSheetClosed">
+  <f7-popup
+    ref="propSheet"
+    close-on-escape
+    class="widgetprops-popup"
+    @popup:closed="propsSheetClosed"
+  >
     <f7-page>
       <f7-navbar>
         <f7-nav-left>
-          <f7-link icon-ios="f7:arrow_left" icon-md="material:arrow_back" icon-aurora="f7:arrow_left" class="popup-close" />
+          <f7-link
+            icon-ios="f7:arrow_left"
+            icon-md="material:arrow_back"
+            icon-aurora="f7:arrow_left"
+            class="popup-close"
+          />
         </f7-nav-left>
         <f7-nav-title>Set Component Props</f7-nav-title>
         <f7-nav-right>
-          <f7-link class="popup-close" @click="updateProps">
-            Done
-          </f7-link>
+          <f7-link class="popup-close" @click="updateProps"> Done </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <f7-block v-if="props">
@@ -17,7 +25,8 @@
           <config-sheet
             :parameterGroups="props.parameterGroups || []"
             :parameters="props.parameters || []"
-            :configuration="config" />
+            :configuration="config"
+          />
         </f7-col>
       </f7-block>
     </f7-page>
@@ -25,18 +34,23 @@
 </template>
 
 <script>
+import { f7 } from 'framework7-vue';
+import { defineAsyncComponent } from 'vue';
+
 export default {
   components: {
-    'config-sheet': () => import(/* webpackChunkName: "config-sheet" */ '@/components/config/config-sheet.vue')
+    'config-sheet': defineAsyncComponent(
+      () => import(/* webpackChunkName: "config-sheet" */ '@/components/config/config-sheet.vue')
+    ),
   },
   props: ['props', 'config'],
   methods: {
-    propsSheetClosed () {
-      this.$f7.emit('propsEditorClosed')
+    propsSheetClosed() {
+      f7.emit('props-editor-closed');
     },
-    updateProps () {
-      this.$f7.emit('propsEditorUpdate', this.config)
-    }
-  }
-}
+    updateProps() {
+      f7.emit('props-editor-update', this.config);
+    },
+  },
+};
 </script>

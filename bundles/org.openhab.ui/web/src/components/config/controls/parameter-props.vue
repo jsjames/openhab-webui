@@ -5,84 +5,91 @@
 </template>
 
 <script>
-import PropsEditorPopup from './props-editor-popup.vue'
+import PropsEditorPopup from './props-editor-popup.vue';
+import { f7 } from 'framework7-vue';
 
 export default {
   props: ['configDescription', 'value', 'parameters', 'configuration'],
-  data () {
+  emits: ['input'],
+  data() {
     return {
       propsSheetOpened: false,
-      config: {}
-    }
+      config: {},
+    };
   },
   computed: {
-    configureTarget () {
-      const modalRefParam = this.parameters.find((p) => p.groupName === this.configDescription.groupName && p.context === 'pagewidget')
+    configureTarget() {
+      const modalRefParam = this.parameters.find(
+        p => p.groupName === this.configDescription.groupName && p.context === 'pagewidget'
+      );
       if (!modalRefParam) {
-        console.warn('Cannot find related parameter to configure props')
-        return null
+        console.warn('Cannot find related parameter to configure props');
+        return null;
       }
-      return this.configuration[modalRefParam.name]
+      return this.configuration[modalRefParam.name];
     },
-    props () {
-      if (!this.configureTarget) return null
+    props() {
+      if (!this.configureTarget) return null;
       if (this.configureTarget.indexOf('page:') === 0) {
-        const page = this.$store.getters.page(this.configureTarget.substring(5))
+        const page = this.$store.getters.page(this.configureTarget.substring(5));
         if (!page) {
-          console.warn('Page not found: ' + this.configureTarget)
-          return
+          console.warn('Page not found: ' + this.configureTarget);
+          return;
         }
-        return page.props
+        return page.props;
       } else if (this.configureTarget.indexOf('widget:') === 0) {
-        const widget = this.$store.getters.widget(this.configureTarget.substring(7))
+        const widget = this.$store.getters.widget(this.configureTarget.substring(7));
         if (!widget) {
-          console.warn('Widget not found: ' + this.configureTarget)
-          return
+          console.warn('Widget not found: ' + this.configureTarget);
+          return;
         }
-        return widget.props
+        return widget.props;
       }
 
-      console.warn('Invalid prop configuration target')
-      return null
+      console.warn('Invalid prop configuration target');
+      return null;
     },
-    actualValue () {
-      if (typeof (this.value) === 'string') {
-        return this.value === 'true'
+    actualValue() {
+      if (typeof this.value === 'string') {
+        return this.value === 'true';
       }
-      return this.value
-    }
+      return this.value;
+    },
   },
   methods: {
-    openPropsSheet () {
-      this.config = Object.assign({}, this.value)
+    openPropsSheet() {
+      this.config = Object.assign({}, this.value);
       const popup = {
-        component: PropsEditorPopup
-      }
+        component: PropsEditorPopup,
+      };
 
-      this.$f7router.navigate({
-        url: 'configure-props',
-        route: {
-          path: 'configure-props',
-          popup
+      this.$f7router.navigate(
+        {
+          url: 'configure-props',
+          route: {
+            path: 'configure-props',
+            popup,
+          },
+        },
+        {
+          props: {
+            props: this.props,
+            config: this.config,
+          },
         }
-      }, {
-        props: {
-          props: this.props,
-          config: this.config
-        }
-      })
+      );
 
-      this.$f7.once('propsEditorUpdate', this.updateProps)
-      this.$f7.once('propsEditorClosed', () => {
-        this.$f7.off('propsEditorUpdate', this.updateProps)
-      })
+      f7.once('props-editor-update', this.updateProps);
+      f7.once('props-editor-closed', () => {
+        f7.off('props-editor-update', this.updateProps);
+      });
     },
-    propsSheetClosed () {
-      this.propsSheetOpened = false
+    propsSheetClosed() {
+      this.propsSheetOpened = false;
     },
-    updateProps (config) {
-      this.$emit('input', Object.assign({}, config))
-    }
-  }
-}
+    updateProps(config) {
+      this.$emit('input', Object.assign({}, config));
+    },
+  },
+};
 </script>

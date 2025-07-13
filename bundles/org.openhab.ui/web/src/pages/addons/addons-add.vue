@@ -1,5 +1,9 @@
 <template>
-  <f7-page @page:afterin="onPageAfterIn" @page:beforeout="addonPopupOpened = false" @page:afterout="stopEventSource">
+  <f7-page
+    @page:afterin="onPageAfterIn"
+    @page:beforeout="addonPopupOpened = false"
+    @page:afterout="stopEventSource"
+  >
     <f7-navbar :title="'Add ' + addonType + ' add-ons'" back-link="Back">
       <f7-subnavbar :inner="false" v-show="initSearchbar">
         <f7-searchbar
@@ -7,7 +11,8 @@
           :init="initSearchbar"
           v-if="initSearchbar"
           search-in=".item-title"
-          :disable-button="!$theme.aurora" />
+          :disable-button="!theme.aurora"
+        />
       </f7-subnavbar>
     </f7-navbar>
     <f7-list class="searchbar-not-found">
@@ -15,9 +20,7 @@
     </f7-list>
     <f7-block class="block-narrow searchbar-found">
       <f7-col>
-        <f7-block-title v-if="!ready">
-          Loading...
-        </f7-block-title>
+        <f7-block-title v-if="!ready"> Loading... </f7-block-title>
         <f7-block-title v-else>
           {{ addons.length }} add-on{{ addons.length > 1 ? 's' : '' }} available
         </f7-block-title>
@@ -29,7 +32,8 @@
             title="Label of the binding"
             header="BindingID"
             footer="Binding version"
-            media-item />
+            media-item
+          />
         </f7-list>
         <f7-list v-else media-list class="addons-list">
           <f7-list-item
@@ -40,8 +44,9 @@
             @click="openAddonPopup(addon.id)"
             :header="addon.id"
             :footer="addon.version"
-            :after="(currentlyInstalling.indexOf(addon.id) >= 0) ? 'Installing...' : ''"
-            :title="addon.label" />
+            :after="currentlyInstalling.indexOf(addon.id) >= 0 ? 'Installing...' : ''"
+            :title="addon.label"
+          />
         </f7-list>
       </f7-col>
     </f7-block>
@@ -50,86 +55,104 @@
       :addon-id="currentAddonId"
       :opened="addonPopupOpened"
       @closed="addonPopupOpened = false"
-      @install="installAddon" />
+      @install="installAddon"
+    />
   </f7-page>
 </template>
 
 <script>
-import AddonDetailsSheet from './addon-details-sheet.vue'
+import AddonDetailsSheet from './addon-details-sheet.vue';
+import { f7, theme } from 'framework7-vue';
 
 export default {
   components: {
-    AddonDetailsSheet
+    AddonDetailsSheet,
   },
   props: ['addonType'],
-  data () {
+  setup() {
+    return { theme };
+  },
+  data() {
     return {
       addons: [],
       currentAddonId: null,
       ready: false,
       initSearchbar: false,
       addonPopupOpened: false,
-      currentlyInstalling: []
-    }
+      currentlyInstalling: [],
+    };
   },
   methods: {
-    openAddonPopup (addonId) {
-      this.currentAddonId = addonId
-      this.addonPopupOpened = true
+    openAddonPopup(addonId) {
+      this.currentAddonId = addonId;
+      this.addonPopupOpened = true;
     },
-    onPageAfterIn () {
-      this.currentlyInstalling = []
-      this.load()
+    onPageAfterIn() {
+      this.currentlyInstalling = [];
+      this.load();
     },
-    load () {
-      this.$oh.api.get('/rest/addons').then(data => {
-        this.addons = data.filter(addon => !addon.installed && addon.type === this.addonType).sort((a, b) => a.label.toUpperCase().localeCompare(b.label.toUpperCase()))
-        this.ready = true
-        setTimeout(() => { this.initSearchbar = true })
-        this.startEventSource()
-      }).catch((err) => {
-        // sometimes we get 502 errors ('Jersey is not ready yet!'), keep trying
-        console.log('Error while accessing the API, retrying every 5 seconds: ', err)
-        setTimeout(this.load, 5000)
-      })
+    load() {
+      this.$oh.api
+        .get('/rest/addons')
+        .then(data => {
+          this.addons = data
+            .filter(addon => !addon.installed && addon.type === this.addonType)
+            .sort((a, b) => a.label.toUpperCase().localeCompare(b.label.toUpperCase()));
+          this.ready = true;
+          setTimeout(() => {
+            this.initSearchbar = true;
+          });
+          this.startEventSource();
+        })
+        .catch(err => {
+          // sometimes we get 502 errors ('Jersey is not ready yet!'), keep trying
+          console.log('Error while accessing the API, retrying every 5 seconds: ', err);
+          setTimeout(this.load, 5000);
+        });
     },
-    installAddon (addon) {
-      this.addonPopupOpened = false
-      this.currentlyInstalling.push(addon.uid)
+    installAddon(addon) {
+      this.addonPopupOpened = false;
+      this.currentlyInstalling.push(addon.uid);
     },
-    startEventSource () {
-      this.eventSource = this.$oh.sse.connect('/rest/events?topics=openhab/addons/*/*', null, (event) => {
-        const topicParts = event.topic.split('/')
-        switch (topicParts[3]) {
-          case 'installed':
-          case 'uninstalled':
-            this.stopEventSource()
-            this.load()
-            this.$f7.emit('addonChange', null)
-            break
-          case 'failed':
-            this.$f7.toast.create({
-              text: `Installation of add-on ${topicParts[2]} failed`,
-              closeButton: true,
-              destroyOnClose: true
-            }).open()
-            this.stopEventSource()
-            this.load()
-            break
+    startEventSource() {
+      this.eventSource = this.$oh.sse.connect(
+        '/rest/events?topics=openhab/addons/*/*',
+        null,
+        event => {
+          const topicParts = event.topic.split('/');
+          switch (topicParts[3]) {
+            case 'installed':
+            case 'uninstalled':
+              this.stopEventSource();
+              this.load();
+              f7.emit('addon-change', null);
+              break;
+            case 'failed':
+              f7.toast
+                .create({
+                  text: `Installation of add-on ${topicParts[2]} failed`,
+                  closeButton: true,
+                  destroyOnClose: true,
+                })
+                .open();
+              this.stopEventSource();
+              this.load();
+              break;
+          }
+        },
+        () => {
+          // in case of error, maybe the SSE connection was closed by the add-ons change itself - try reloading to refresh
+          this.stopEventSource();
+          this.load();
         }
-      }, () => {
-        // in case of error, maybe the SSE connection was closed by the add-ons change itself - try reloading to refresh
-        this.stopEventSource()
-        this.load()
-      })
+      );
     },
-    stopEventSource () {
-      this.$oh.sse.close(this.eventSource)
-      this.eventSource = null
-    }
-  }
-}
+    stopEventSource() {
+      this.$oh.sse.close(this.eventSource);
+      this.eventSource = null;
+    },
+  },
+};
 </script>
 
-<style>
-</style>
+<style></style>

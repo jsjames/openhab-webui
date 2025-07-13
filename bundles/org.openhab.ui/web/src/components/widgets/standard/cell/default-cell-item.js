@@ -3,29 +3,29 @@
    in the "cellWidget" metadata namespace of the item
  */
 
-import store from '@/js/store'
+import store from '@/js/store';
 
-export default function itemDefaultCellComponent (item, itemNameAsFooter) {
-  const stateDescription = item.stateDescription || {}
-  const metadata = (item.metadata && item.metadata.cellWidget) ? item.metadata.cellWidget : {}
-  let component = null
-  let semanticClass = {}
-  let semanticProperty = {}
+export default function itemDefaultCellComponent(item, itemNameAsFooter) {
+  const stateDescription = item.stateDescription || {};
+  const metadata = item.metadata && item.metadata.cellWidget ? item.metadata.cellWidget : {};
+  let component = null;
+  let semanticClass = {};
+  let semanticProperty = {};
 
   if (metadata.value && metadata.value !== ' ') {
     component = {
       component: metadata.value,
-      config: Object.assign({}, metadata.config)
-    }
+      config: Object.assign({}, metadata.config),
+    };
   } else {
-    item.tags.forEach((tag) => {
+    item.tags.forEach(tag => {
       if (store.getters.semanticClasses.Points.indexOf(tag) >= 0) {
-        semanticClass = tag
+        semanticClass = tag;
       }
       if (store.getters.semanticClasses.Properties.indexOf(tag) >= 0) {
-        semanticProperty = tag
+        semanticProperty = tag;
       }
-    })
+    });
 
     if (item.type === 'Switch' && !stateDescription.readOnly) {
       component = {
@@ -35,9 +35,9 @@ export default function itemDefaultCellComponent (item, itemNameAsFooter) {
           action: 'toggle',
           actionItem: item.name,
           actionCommand: 'ON',
-          actionCommandAlt: 'OFF'
-        }
-      }
+          actionCommandAlt: 'OFF',
+        },
+      };
     }
 
     if (item.type === 'Dimmer' && !stateDescription.readOnly) {
@@ -52,9 +52,9 @@ export default function itemDefaultCellComponent (item, itemNameAsFooter) {
           scaleSubSteps: 5,
           min: stateDescription.minimum,
           max: stateDescription.maximum,
-          step: stateDescription.step
-        }
-      }
+          step: stateDescription.step,
+        },
+      };
     }
 
     if (item.type === 'Color' && !stateDescription.readOnly) {
@@ -65,15 +65,15 @@ export default function itemDefaultCellComponent (item, itemNameAsFooter) {
           action: 'toggle',
           actionItem: item.name,
           actionCommand: 'ON',
-          actionCommandAlt: 'OFF'
-        }
-      }
+          actionCommandAlt: 'OFF',
+        },
+      };
     }
 
     if (item.type === 'Rollershutter' && !stateDescription.readOnly) {
       component = {
-        component: 'oh-rollershutter-cell'
-      }
+        component: 'oh-rollershutter-cell',
+      };
     }
 
     // if (item.type === 'Player' && !stateDescription.readOnly) {
@@ -92,18 +92,25 @@ export default function itemDefaultCellComponent (item, itemNameAsFooter) {
     //   }
     // }
 
-    if ((semanticClass === 'Control' || semanticClass === 'Setpoint') && !stateDescription.readOnly) {
+    if (
+      (semanticClass === 'Control' || semanticClass === 'Setpoint') &&
+      !stateDescription.readOnly
+    ) {
       if (item.type === 'Number:Temperature' || semanticProperty === 'Temperature') {
         component = {
           component: 'oh-knob-cell',
           config: {
             min: stateDescription.minimum,
             max: stateDescription.maximum,
-            stepSize: stateDescription.step
-          }
-        }
+            stepSize: stateDescription.step,
+          },
+        };
       }
-      if (semanticProperty === 'ColorTemperature' || semanticProperty === 'Level' || semanticProperty === 'SoundVolume') {
+      if (
+        semanticProperty === 'ColorTemperature' ||
+        semanticProperty === 'Level' ||
+        semanticProperty === 'SoundVolume'
+      ) {
         component = {
           component: 'oh-slider-cell',
           config: {
@@ -115,9 +122,9 @@ export default function itemDefaultCellComponent (item, itemNameAsFooter) {
             scaleSubSteps: 5,
             min: stateDescription.minimum,
             max: stateDescription.maximum,
-            step: stateDescription.step
-          }
-        }
+            step: stateDescription.step,
+          },
+        };
       }
     }
 
@@ -129,46 +136,56 @@ export default function itemDefaultCellComponent (item, itemNameAsFooter) {
           action: 'toggle',
           actionItem: item.name,
           actionCommand: 'ON',
-          actionCommandAlt: 'OFF'
-        }
-      }
+          actionCommandAlt: 'OFF',
+        },
+      };
     }
   }
 
   if (!component) {
     component = {
-      component: 'oh-label-cell'
-    }
+      component: 'oh-label-cell',
+    };
 
-    if (item.type.indexOf('Number') === 0 && (!item.commandDescription || !item.commandDescription.commandOptions || stateDescription.readOnly)) {
+    if (
+      item.type.indexOf('Number') === 0 &&
+      (!item.commandDescription ||
+        !item.commandDescription.commandOptions ||
+        stateDescription.readOnly)
+    ) {
       component.config = {
         trendItem: item.name,
         action: 'analyzer',
-        actionAnalyzerItems: [item.name]
-      }
-    } else if (item.commandDescription && item.commandDescription.commandOptions && !stateDescription.readOnly) {
+        actionAnalyzerItems: [item.name],
+      };
+    } else if (
+      item.commandDescription &&
+      item.commandDescription.commandOptions &&
+      !stateDescription.readOnly
+    ) {
       component.config = {
         action: 'options',
-        actionItem: item.name
+        actionItem: item.name,
         // command options will be retrieved on click from the API
-      }
+      };
     } else if (item.type.indexOf('Group') === 0) {
       component.config = {
         action: 'group',
-        actionGroupPopupItem: item.name
-      }
+        actionGroupPopupItem: item.name,
+      };
     }
   }
 
-  if (!component.config) component.config = {}
+  if (!component.config) component.config = {};
   if ((!metadata.value || metadata.value === ' ') && typeof metadata.config === 'object') {
-    component.config = Object.assign({}, component.config, metadata.config)
+    component.config = Object.assign({}, component.config, metadata.config);
   }
-  if (!component.config.item) component.config.item = item.name
-  if (!component.config.title) component.config.title = item.label || item.name
-  if (item.label && itemNameAsFooter && !component.config.footer) component.config.footer = item.name
-  component.config.stateAsHeader = true
-  if (component.component === 'oh-label-cell') component.config.expandable = false
+  if (!component.config.item) component.config.item = item.name;
+  if (!component.config.title) component.config.title = item.label || item.name;
+  if (item.label && itemNameAsFooter && !component.config.footer)
+    component.config.footer = item.name;
+  component.config.stateAsHeader = true;
+  if (component.component === 'oh-label-cell') component.config.expandable = false;
 
-  return component
+  return component;
 }

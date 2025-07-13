@@ -3,8 +3,11 @@
     <f7-navbar title="Things" back-link="Settings" back-link-url="/settings/" back-link-force>
       <f7-nav-right>
         <developer-dock-icon />
-        <f7-link icon-md="material:done_all" @click="toggleCheck()"
-                 :text="(!$theme.md) ? ((showCheckboxes) ? 'Done' : 'Select') : ''" />
+        <f7-link
+          icon-md="material:done_all"
+          @click="toggleCheck()"
+          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''"
+        />
       </f7-nav-right>
       <f7-subnavbar :inner="false" v-show="initSeachbar">
         <f7-searchbar
@@ -16,33 +19,99 @@
           @searchbar:clear="clearSearch"
           @searchbar:disable="clearSearch"
           :placeholder="searchPlaceholder"
-          :disable-button="!$theme.aurora" />
+          :disable-button="!theme.aurora"
+        />
       </f7-subnavbar>
     </f7-navbar>
-    <f7-toolbar class="contextual-toolbar" :class="{ 'navbar': $theme.md }" v-if="showCheckboxes" bottom-ios bottom-aurora>
-      <div class="display-flex justify-content-center" v-if="!$theme.md && selectedItems.length > 0" style="width: 100%">
-        <f7-link color="red" v-show="selectedItems.length" class="delete display-flex flex-direction-row margin-right" icon-ios="f7:trash" icon-aurora="f7:trash" @click="removeSelected">
+    <f7-toolbar
+      class="contextual-toolbar"
+      :class="{ navbar: theme.md }"
+      v-if="showCheckboxes"
+      bottom-ios
+      bottom-aurora
+    >
+      <div
+        class="display-flex justify-content-center"
+        v-if="!theme.md && selectedItems.length > 0"
+        style="width: 100%"
+      >
+        <f7-link
+          color="red"
+          v-show="selectedItems.length"
+          class="delete display-flex flex-direction-row margin-right"
+          icon-ios="f7:trash"
+          icon-aurora="f7:trash"
+          @click="removeSelected"
+        >
           Remove
         </f7-link>
-        <f7-link color="orange" v-show="selectedItems.length" class="disable display-flex flex-direction-row margin-right" @click="doDisableEnableSelected(false)" icon-ios="f7:pause_circle" icon-aurora="f7:pause_circle">
+        <f7-link
+          color="orange"
+          v-show="selectedItems.length"
+          class="disable display-flex flex-direction-row margin-right"
+          @click="doDisableEnableSelected(false)"
+          icon-ios="f7:pause_circle"
+          icon-aurora="f7:pause_circle"
+        >
           &nbsp;Disable
         </f7-link>
-        <f7-link color="green" v-show="selectedItems.length" class="enable display-flex flex-direction-row margin-right" @click="doDisableEnableSelected(true)" icon-ios="f7:play_circle" icon-aurora="f7:play_circle">
+        <f7-link
+          color="green"
+          v-show="selectedItems.length"
+          class="enable display-flex flex-direction-row margin-right"
+          @click="doDisableEnableSelected(true)"
+          icon-ios="f7:play_circle"
+          icon-aurora="f7:play_circle"
+        >
           &nbsp;Enable
         </f7-link>
-        <f7-link color="blue" v-show="selectedItems.length" class="copy display-flex flex-direction-row" @click="copyFileDefinitionToClipboard(ObjectType.THING, selectedItems)" icon-ios="f7:square_on_square" icon-aurora="f7:square_on_square">
+        <f7-link
+          color="blue"
+          v-show="selectedItems.length"
+          class="copy display-flex flex-direction-row"
+          @click="copyFileDefinitionToClipboard(ObjectType.THING, selectedItems)"
+          icon-ios="f7:square_on_square"
+          icon-aurora="f7:square_on_square"
+        >
           &nbsp;Copy
         </f7-link>
       </div>
-      <f7-link v-if="$theme.md" icon-md="material:close" icon-color="white" @click="showCheckboxes = false" />
-      <div class="title" v-if="$theme.md">
-        {{ selectedItems.length }} selected
-      </div>
-      <div class="right" v-if="$theme.md">
-        <f7-link v-show="selectedItems.length" tooltip="Disable selected" icon-md="material:pause_circle_outline" icon-color="white" @click="doDisableEnableSelected(false)" />
-        <f7-link v-show="selectedItems.length" tooltip="Enable selected" icon-md="material:play_circle_outline" icon-color="white" @click="doDisableEnableSelected(true)" />
-        <f7-link v-show="selectedItems.length" tooltip="Remove selected" icon-md="material:delete" icon-color="white" @click="removeSelected" />
-        <f7-link v-show="selectedItems.length" tooltip="Copy selected" icon-md="material:content_copy" icon-color="white" @click="copyFileDefinitionToClipboard(ObjectType.THING, selectedItems)" />
+      <f7-link
+        v-if="theme.md"
+        icon-md="material:close"
+        icon-color="white"
+        @click="showCheckboxes = false"
+      />
+      <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
+      <div class="right" v-if="theme.md">
+        <f7-link
+          v-show="selectedItems.length"
+          tooltip="Disable selected"
+          icon-md="material:pause_circle_outline"
+          icon-color="white"
+          @click="doDisableEnableSelected(false)"
+        />
+        <f7-link
+          v-show="selectedItems.length"
+          tooltip="Enable selected"
+          icon-md="material:play_circle_outline"
+          icon-color="white"
+          @click="doDisableEnableSelected(true)"
+        />
+        <f7-link
+          v-show="selectedItems.length"
+          tooltip="Remove selected"
+          icon-md="material:delete"
+          icon-color="white"
+          @click="removeSelected"
+        />
+        <f7-link
+          v-show="selectedItems.length"
+          tooltip="Copy selected"
+          icon-md="material:content_copy"
+          icon-color="white"
+          @click="copyFileDefinitionToClipboard(ObjectType.THING, selectedItems)"
+        />
       </div>
     </f7-toolbar>
 
@@ -52,7 +121,8 @@
       v-show="groupBy === 'alphabetical' && !$device.desktop"
       list-el=".things-list"
       :scroll-list="true"
-      :label="true" />
+      :label="true"
+    />
 
     <f7-block class="block-narrow">
       <f7-col v-show="ready">
@@ -60,14 +130,27 @@
           <span>{{ listTitle }}</span>
           <span v-if="showCheckboxes && filteredThings.length">
             -
-            <f7-link @click="selectDeselectAll" :text="allSelected ? 'Deselect all' : 'Select all'" />
+            <f7-link
+              @click="selectDeselectAll"
+              :text="allSelected ? 'Deselect all' : 'Select all'"
+            />
           </span>
           <template v-if="groupBy === 'location'">
-            <div v-if="!$device.desktop && $f7.width < 1024" style="text-align:right; color:var(--f7-block-text-color); font-weight: normal" class="float-right">
-              <f7-checkbox :checked="showNoLocation" @change="toggleShowNoLocation" /> <label @click="toggleShowNoLocation" style="cursor:pointer">Show no location</label>
+            <div
+              v-if="!$device.desktop && $f7.width < 1024"
+              style="text-align: right; color: var(--f7-block-text-color); font-weight: normal"
+              class="float-right"
+            >
+              <f7-checkbox :checked="showNoLocation ? true : null" @change="toggleShowNoLocation" />
+              <label @click="toggleShowNoLocation" style="cursor: pointer">Show no location</label>
             </div>
-            <div v-else style="text-align:right; color:var(--f7-block-text-color); font-weight: normal" class="float-right">
-              <label @click="toggleShowNoLocation" style="cursor:pointer">Show no location</label> <f7-checkbox :checked="showNoLocation" @change="toggleShowNoLocation" />
+            <div
+              v-else
+              style="text-align: right; color: var(--f7-block-text-color); font-weight: normal"
+              class="float-right"
+            >
+              <label @click="toggleShowNoLocation" style="cursor: pointer">Show no location</label>
+              <f7-checkbox :checked="showNoLocation ? true : null" @change="toggleShowNoLocation" />
             </div>
           </template>
         </f7-block-title>
@@ -84,7 +167,8 @@
               :class="`skeleton-text skeleton-effect-blink`"
               title="Label of the thing"
               subtitle="This contains the thing UID"
-              after="status badge" />
+              after="status badge"
+            />
           </f7-list-group>
         </f7-list>
       </f7-col>
@@ -92,7 +176,10 @@
       <f7-col v-else-if="things.length > 0">
         <div class="padding-left padding-right">
           <f7-segmented strong tag="p">
-            <f7-button :active="groupBy === 'alphabetical'" @click="switchGroupOrder('alphabetical')">
+            <f7-button
+              :active="groupBy === 'alphabetical'"
+              @click="switchGroupOrder('alphabetical')"
+            >
               Alphabetical
             </f7-button>
             <f7-button :active="groupBy === 'binding'" @click="switchGroupOrder('binding')">
@@ -115,26 +202,42 @@
               media-item
               class="thinglist-item"
               :checkbox="showCheckboxes"
-              :checked="isChecked(thing.UID)"
+              :checked="isChecked(thing.UID) ? true : null"
               :value="thing.UID"
-              @click.ctrl="(e) => ctrlClick(e, thing)"
-              @click.meta="(e) => ctrlClick(e, thing)"
-              @click.exact="(e) => click(e, thing)"
+              @click.ctrl="e => ctrlClick(e, thing)"
+              @click.meta="e => ctrlClick(e, thing)"
+              @click.exact="e => click(e, thing)"
               link=""
-              :title="thing.label || thing.UID">
-              <div slot="footer">
-                {{ thing.UID }}
-                <clipboard-icon :value="thing.UID" tooltip="Copy UID" />
-              </div>
+              :title="thing.label || thing.UID"
+            >
+              <template #footer>
+                <div>
+                  {{ thing.UID }}
+                  <clipboard-icon :value="thing.UID" tooltip="Copy UID" />
+                </div>
+              </template>
 
-              <div slot="subtitle" v-if="thing.location && groupBy !== 'location'">
-                {{ thing.location }}
-                <f7-icon f7="placemark" color="gray" style="font-size: 16px; width: 16px; height: 16px;" />
-              </div>
-              <f7-badge slot="after" :color="thingStatusBadgeColor(thing.statusInfo)" :tooltip="thing.statusInfo.description">
-                {{ thingStatusBadgeText(thing.statusInfo) }}
-              </f7-badge>
-              <f7-icon v-if="!thing.editable" slot="after-title" f7="lock_fill" size="1rem" color="gray" />
+              <template #subtitle>
+                <div v-if="thing.location && groupBy !== 'location'">
+                  {{ thing.location }}
+                  <f7-icon
+                    f7="placemark"
+                    color="gray"
+                    style="font-size: 16px; width: 16px; height: 16px"
+                  />
+                </div>
+              </template>
+              <template #after>
+                <f7-badge
+                  :color="thingStatusBadgeColor(thing.statusInfo)"
+                  :tooltip="thing.statusInfo.description"
+                >
+                  {{ thingStatusBadgeText(thing.statusInfo) }}
+                </f7-badge>
+              </template>
+              <template #after-title>
+                <f7-icon v-if="!thing.editable" f7="lock_fill" size="1rem" color="gray" />
+              </template>
             </f7-list-item>
           </f7-list-group>
         </f7-list>
@@ -144,20 +247,35 @@
     <f7-block v-if="ready && !things.length" class="block-narrow">
       <empty-state-placeholder icon="lightbulb" title="things.title" text="things.text" />
       <f7-row v-if="$f7.width < 1280" class="display-flex justify-content-center">
-        <f7-button large fill color="blue" external :href="`${$store.state.websiteUrl}/link/thing`" target="_blank" v-t="'home.overview.button.documentation'" />
+        <f7-button
+          large
+          fill
+          color="blue"
+          external
+          :href="`${$store.state.websiteUrl}/link/thing`"
+          target="_blank"
+          t="'home.overview.button.documentation'"
+        />
       </f7-row>
     </f7-block>
 
-    <f7-fab position="right-bottom" slot="fixed" color="blue" href="add">
-      <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
-      <!-- <f7-fab-buttons position="top">
+    <template #fixed>
+      <f7-fab position="right-bottom" color="blue" href="add">
+        <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
+        <!-- <f7-fab-buttons position="top">
         <f7-fab-button label="Scan and add to Inbox">S</f7-fab-button>
         <f7-fab-button label="Add thing manually">M</f7-fab-button>
       </f7-fab-buttons> -->
-    </f7-fab>
-    <f7-fab position="center-bottom" :text="`Inbox (${inboxCount})`" slot="fixed" :color="inboxCount > 0 ? 'red' : 'gray'" href="inbox">
-      <f7-icon f7="tray" />
-    </f7-fab>
+      </f7-fab>
+      <f7-fab
+        position="center-bottom"
+        :text="`Inbox (${inboxCount})`"
+        :color="inboxCount > 0 ? 'red' : 'gray'"
+        href="inbox"
+      >
+        <f7-icon f7="tray" />
+      </f7-fab>
+    </template>
   </f7-page>
 </template>
 
@@ -167,18 +285,26 @@
 </style>
 
 <script>
-import ThingStatus from '@/components/thing/thing-status-mixin'
-import ClipboardIcon from '@/components/util/clipboard-icon.vue'
-import FileDefinition from '@/pages/settings/file-definition-mixin'
+import ThingStatus from '@/components/thing/thing-status-mixin';
+import ClipboardIcon from '@/components/util/clipboard-icon.vue';
+import FileDefinition from '@/pages/settings/file-definition-mixin';
+import { f7, theme } from 'framework7-vue';
+import { nextTick } from 'vue';
+import { defineAsyncComponent } from 'vue';
 
 export default {
   mixins: [ThingStatus, FileDefinition],
   props: ['searchFor'],
   components: {
-    'empty-state-placeholder': () => import('@/components/empty-state-placeholder.vue'),
-    ClipboardIcon
+    'empty-state-placeholder': defineAsyncComponent(
+      () => import('@/components/empty-state-placeholder.vue')
+    ),
+    ClipboardIcon,
   },
-  data () {
+  setup() {
+    return { theme };
+  },
+  data() {
     return {
       ready: false,
       initSeachbar: false,
@@ -191,273 +317,315 @@ export default {
       showCheckboxes: false,
       groupBy: 'alphabetical',
       showNoLocation: false,
-      eventSource: null
-    }
+      eventSource: null,
+    };
   },
   computed: {
-    indexedThings () {
-      const things = this.filteredThings
+    indexedThings() {
+      const things = this.filteredThings;
       if (this.groupBy === 'alphabetical') {
         return things.reduce((prev, thing, i, things) => {
-          const initial = (thing.label || thing.UID).substring(0, 1).toUpperCase()
+          const initial = (thing.label || thing.UID).substring(0, 1).toUpperCase();
           if (!prev[initial]) {
-            prev[initial] = []
+            prev[initial] = [];
           }
-          prev[initial].push(thing)
+          prev[initial].push(thing);
 
-          return prev
-        }, {})
+          return prev;
+        }, {});
       } else if (this.groupBy === 'binding') {
         const bindingGroups = things.reduce((prev, thing, i, things) => {
-          const binding = thing.thingTypeUID.split(':')[0]
+          const binding = thing.thingTypeUID.split(':')[0];
           if (!prev[binding]) {
-            prev[binding] = []
+            prev[binding] = [];
           }
-          prev[binding].push(thing)
+          prev[binding].push(thing);
 
-          return prev
-        }, {})
-        return Object.keys(bindingGroups).sort((a, b) => a.localeCompare(b)).reduce((objEntries, key) => {
-          objEntries[key] = bindingGroups[key]
-          return objEntries
-        }, {})
+          return prev;
+        }, {});
+        return Object.keys(bindingGroups)
+          .sort((a, b) => a.localeCompare(b))
+          .reduce((objEntries, key) => {
+            objEntries[key] = bindingGroups[key];
+            return objEntries;
+          }, {});
       } else {
         const locationGroups = things.reduce((prev, thing, i, things) => {
-          if (!thing.location && !this.showNoLocation) return prev
-          const location = thing.location || '- No location -'
+          if (!thing.location && !this.showNoLocation) return prev;
+          const location = thing.location || '- No location -';
           if (!prev[location]) {
-            prev[location] = []
+            prev[location] = [];
           }
-          prev[location].push(thing)
+          prev[location].push(thing);
 
-          return prev
-        }, {})
-        return Object.keys(locationGroups).sort((a, b) => a.localeCompare(b)).reduce((objEntries, key) => {
-          objEntries[key] = locationGroups[key]
-          return objEntries
-        }, {})
+          return prev;
+        }, {});
+        return Object.keys(locationGroups)
+          .sort((a, b) => a.localeCompare(b))
+          .reduce((objEntries, key) => {
+            objEntries[key] = locationGroups[key];
+            return objEntries;
+          }, {});
       }
     },
-    thingsCount () {
-      let sum = 0
+    thingsCount() {
+      let sum = 0;
       Object.keys(this.indexedThings).forEach(key => {
-        sum = sum + this.indexedThings[key].length
-      })
-      return sum
+        sum = sum + this.indexedThings[key].length;
+      });
+      return sum;
     },
-    inboxCount () {
-      return this.inbox.length
+    inboxCount() {
+      return this.inbox.length;
     },
-    allSelected () {
-      return this.selectedItems.length === this.filteredThings.length
+    allSelected() {
+      return this.selectedItems.length === this.filteredThings.length;
     },
-    searchPlaceholder () {
-      return window.innerWidth >= 1280 ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))' : 'Search'
+    searchPlaceholder() {
+      return window.innerWidth >= 1280
+        ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))'
+        : 'Search';
     },
-    listTitle () {
-      let title = this.filteredThings.length
+    listTitle() {
+      let title = this.filteredThings.length;
       if (this.searchQuery) {
-        title += ` of ${this.things.length} Things found`
+        title += ` of ${this.things.length} Things found`;
       } else {
-        title += ' Things'
+        title += ' Things';
       }
       if (this.selectedItems.length > 0) {
-        title += `, ${this.selectedItems.length} selected`
+        title += `, ${this.selectedItems.length} selected`;
       }
-      return title
-    }
+      return title;
+    },
   },
   methods: {
-    onPageAfterIn () {
-      this.load()
+    onPageAfterIn() {
+      this.load();
     },
-    onPageBeforeOut () {
-      this.stopEventSource()
-      this.$f7.data.lastThingsSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query
+    onPageBeforeOut() {
+      this.stopEventSource();
+      f7.data.lastThingsSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
-    load () {
-      if (this.loading) return
-      this.loading = true
+    load() {
+      if (this.loading) return;
+      this.loading = true;
 
-      if (this.initSeachbar) this.$f7.data.lastThingsSearchQuery = this.$refs.searchbar?.f7Searchbar.query
-      this.initSeachbar = false
+      if (this.initSeachbar)
+        f7.data.lastThingsSearchQuery = this.$refs.searchbar?.f7Searchbar.query;
+      this.initSeachbar = false;
 
       if (this.searchFor) {
-        this.$refs.searchbar?.f7Searchbar.$inputEl.val(this.searchFor)
+        this.$refs.searchbar?.f7Searchbar.$inputEl.val(this.searchFor);
       }
 
-      this.$oh.api.get('/rest/things?summary=true').then((data) => {
-        this.things = data.sort((a, b) => (a.label || a.UID).localeCompare(b.label || a.UID))
-        this.filteredThings = this.things
-        this.initSeachbar = true
-        this.loading = false
-        this.ready = true
-        this.$nextTick(() => {
-          if (this.$refs.listIndex) this.$refs.listIndex.update()
+      this.$oh.api.get('/rest/things?summary=true').then(data => {
+        this.things = data.sort((a, b) => (a.label || a.UID).localeCompare(b.label || a.UID));
+        this.filteredThings = this.things;
+        this.initSeachbar = true;
+        this.loading = false;
+        this.ready = true;
+        nextTick(() => {
+          if (this.$refs.listIndex) this.$refs.listIndex.update();
           if (this.$device.desktop && this.$refs.searchbar) {
-            this.$refs.searchbar.f7Searchbar.$inputEl[0].focus()
+            this.$refs.searchbar.f7Searchbar.$inputEl[0].focus();
           }
-          this.$refs.searchbar?.f7Searchbar.search(this.searchFor || this.$f7.data.lastThingsSearchQuery || '')
-        })
-        if (!this.eventSource) this.startEventSource()
-      })
-      this.loadInbox()
+          this.$refs.searchbar?.f7Searchbar.search(
+            this.searchFor || f7.data.lastThingsSearchQuery || ''
+          );
+        });
+        if (!this.eventSource) this.startEventSource();
+      });
+      this.loadInbox();
     },
-    loadInbox () {
-      this.$oh.api.get('/rest/inbox?includeIgnored=false').then((data) => {
-        this.inbox = data
-      })
+    loadInbox() {
+      this.$oh.api.get('/rest/inbox?includeIgnored=false').then(data => {
+        this.inbox = data;
+      });
     },
-    switchGroupOrder (groupBy) {
-      this.groupBy = groupBy
-      const searchbar = this.$refs.searchbar.$el.f7Searchbar
-      const filterQuery = searchbar.query
-      this.$nextTick(() => {
+    switchGroupOrder(groupBy) {
+      this.groupBy = groupBy;
+      const searchbar = this.$refs.searchbar.$el.f7Searchbar;
+      const filterQuery = searchbar.query;
+      nextTick(() => {
         if (filterQuery) {
-          searchbar.clear()
-          searchbar.search(filterQuery)
+          searchbar.clear();
+          searchbar.search(filterQuery);
         }
-        if (groupBy === 'alphabetical') this.$refs.listIndex.update()
-      })
+        if (groupBy === 'alphabetical') this.$refs.listIndex.update();
+      });
     },
-    toggleShowNoLocation () {
-      this.showNoLocation = !this.showNoLocation
+    toggleShowNoLocation() {
+      this.showNoLocation = !this.showNoLocation;
     },
-    toggleCheck () {
-      this.showCheckboxes = !this.showCheckboxes
+    toggleCheck() {
+      this.showCheckboxes = !this.showCheckboxes;
     },
-    selectDeselectAll () {
+    selectDeselectAll() {
       if (this.selectedItems.length === this.filteredThings.length) {
-        this.selectedItems = []
+        this.selectedItems = [];
       } else {
-        this.selectedItems = this.filteredThings.map((t) => t.UID)
+        this.selectedItems = this.filteredThings.map(t => t.UID);
       }
     },
-    search (searchbar, query, previousQuery) {
-      this.searchQuery = query.trim().toLowerCase()
-      const searchTerms = this.searchQuery.split(',').map(s => s.trim()).filter(s => s)
+    search(searchbar, query, previousQuery) {
+      this.searchQuery = query.trim().toLowerCase();
+      const searchTerms = this.searchQuery
+        .split(',')
+        .map(s => s.trim())
+        .filter(s => s);
       if (!searchTerms.length) {
-        this.clearSearch()
-        return
+        this.clearSearch();
+        return;
       }
-      this.filteredThings = this.things.filter((thing) => {
-        let haystack = [thing.UID, thing.label, thing.location, this.thingStatusBadgeText(thing.statusInfo)]
-          .filter(h => h).join('|').toLowerCase()
-        return searchTerms.some(t => haystack.includes(t))
-      })
-      this.selectedItems = this.selectedItems.filter((i) => this.filteredThings.find((thing) => thing.UID === i))
+      this.filteredThings = this.things.filter(thing => {
+        let haystack = [
+          thing.UID,
+          thing.label,
+          thing.location,
+          this.thingStatusBadgeText(thing.statusInfo),
+        ]
+          .filter(h => h)
+          .join('|')
+          .toLowerCase();
+        return searchTerms.some(t => haystack.includes(t));
+      });
+      this.selectedItems = this.selectedItems.filter(i =>
+        this.filteredThings.find(thing => thing.UID === i)
+      );
     },
-    clearSearch () {
-      this.searchQuery = null
-      this.filteredThings = this.things
+    clearSearch() {
+      this.searchQuery = null;
+      this.filteredThings = this.things;
     },
-    isChecked (item) {
-      return this.selectedItems.indexOf(item) >= 0
+    isChecked(item) {
+      return this.selectedItems.indexOf(item) >= 0;
     },
-    click (event, item) {
+    click(event, item) {
       if (this.showCheckboxes) {
-        this.toggleItemCheck(event, item.UID, item)
+        this.toggleItemCheck(event, item.UID, item);
       } else {
-        this.$f7router.navigate(item.UID)
+        this.$f7router.navigate(item.UID);
       }
     },
-    ctrlClick (event, item) {
-      this.toggleItemCheck(event, item.UID, item)
-      if (!this.selectedItems.length) this.showCheckboxes = false
+    ctrlClick(event, item) {
+      this.toggleItemCheck(event, item.UID, item);
+      if (!this.selectedItems.length) this.showCheckboxes = false;
     },
-    toggleItemCheck (event, item) {
-      if (!this.showCheckboxes) this.showCheckboxes = true
+    toggleItemCheck(event, item) {
+      if (!this.showCheckboxes) this.showCheckboxes = true;
       if (this.isChecked(item)) {
-        this.selectedItems.splice(this.selectedItems.indexOf(item), 1)
+        this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
       } else {
-        this.selectedItems.push(item)
+        this.selectedItems.push(item);
       }
     },
-    removeSelected () {
-      const vm = this
+    removeSelected() {
+      const vm = this;
 
-      this.$f7.dialog.confirm(
+      f7.dialog.confirm(
         `Remove ${this.selectedItems.length} selected things?`,
         'Remove Things',
         () => {
-          vm.doRemoveSelected()
+          vm.doRemoveSelected();
         }
-      )
+      );
     },
-    doRemoveSelected () {
-      if (this.selectedItems.some((i) => this.things.find((thing) => thing.UID === i).editable === false)) {
-        this.$f7.dialog.alert('Some of the selected things are not modifiable because they have been provisioned by files')
-        return
+    doRemoveSelected() {
+      if (
+        this.selectedItems.some(i => this.things.find(thing => thing.UID === i).editable === false)
+      ) {
+        f7.dialog.alert(
+          'Some of the selected things are not modifiable because they have been provisioned by files'
+        );
+        return;
       }
 
-      let dialog = this.$f7.dialog.progress('Deleting Things...')
+      let dialog = f7.dialog.progress('Deleting Things...');
 
-      const promises = this.selectedItems.map((i) => this.$oh.api.delete('/rest/things/' + i))
-      Promise.all(promises).then((data) => {
-        this.$f7.toast.create({
-          text: 'Things removed',
-          destroyOnClose: true,
-          closeTimeout: 2000
-        }).open()
-        this.selectedItems = []
-        dialog.close()
-        this.load()
-      }).catch((err) => {
-        dialog.close()
-        this.load()
-        console.error(err)
-        this.$f7.dialog.alert('An error occurred while deleting: ' + err)
-      })
+      const promises = this.selectedItems.map(i => this.$oh.api.delete('/rest/things/' + i));
+      Promise.all(promises)
+        .then(data => {
+          f7.toast
+            .create({
+              text: 'Things removed',
+              destroyOnClose: true,
+              closeTimeout: 2000,
+            })
+            .open();
+          this.selectedItems = [];
+          dialog.close();
+          this.load();
+        })
+        .catch(err => {
+          dialog.close();
+          this.load();
+          console.error(err);
+          f7.dialog.alert('An error occurred while deleting: ' + err);
+        });
     },
-    doDisableEnableSelected (enable) {
-      let dialog = this.$f7.dialog.progress('Please Wait...')
+    doDisableEnableSelected(enable) {
+      let dialog = f7.dialog.progress('Please Wait...');
 
-      const promises = this.selectedItems.map((i) => this.$oh.api.putPlain('/rest/things/' + i + '/enable', enable.toString()))
-      Promise.all(promises).then((data) => {
-        this.$f7.toast.create({
-          text: (enable) ? 'Things enabled' : 'Things disabled',
-          destroyOnClose: true,
-          closeTimeout: 2000
-        }).open()
-        this.selectedItems = []
-        dialog.close()
-        this.load()
-      }).catch((err) => {
-        dialog.close()
-        this.load()
-        console.error(err)
-        this.$f7.dialog.alert('An error occurred while enabling/disabling: ' + err)
-      })
+      const promises = this.selectedItems.map(i =>
+        this.$oh.api.putPlain('/rest/things/' + i + '/enable', enable.toString())
+      );
+      Promise.all(promises)
+        .then(data => {
+          f7.toast
+            .create({
+              text: enable ? 'Things enabled' : 'Things disabled',
+              destroyOnClose: true,
+              closeTimeout: 2000,
+            })
+            .open();
+          this.selectedItems = [];
+          dialog.close();
+          this.load();
+        })
+        .catch(err => {
+          dialog.close();
+          this.load();
+          console.error(err);
+          f7.dialog.alert('An error occurred while enabling/disabling: ' + err);
+        });
     },
-    startEventSource () {
-      this.eventSource = this.$oh.sse.connect('/rest/events?topics=openhab/things/*/added,openhab/things/*/removed,openhab/things/*/updated,openhab/things/*/status,openhab/inbox/*/added,openhab/inbox/*/removed', null, (event) => {
-        const topicParts = event.topic.split('/')
-        if (topicParts[1] === 'inbox') {
-          this.loadInbox()
-        } else {
-          switch (topicParts[3]) {
-            case 'status':
-              const updatedThing = this.things.find((t) => t.UID === topicParts[2])
-              const newStatus = JSON.parse(event.payload)
-              if (updatedThing) {
-                if (updatedThing.statusInfo.status !== newStatus.status) updatedThing.statusInfo.status = newStatus.status
-                if (updatedThing.statusInfo.statusDetail !== newStatus.statusDetail) updatedThing.statusInfo.statusDetail = newStatus.statusDetail
-                if (updatedThing.statusInfo.description !== newStatus.description) updatedThing.statusInfo.description = newStatus.description
-              }
-              break
-            case 'added':
-            case 'removed':
-            case 'updated':
-              this.load()
-              break
+    startEventSource() {
+      this.eventSource = this.$oh.sse.connect(
+        '/rest/events?topics=openhab/things/*/added,openhab/things/*/removed,openhab/things/*/updated,openhab/things/*/status,openhab/inbox/*/added,openhab/inbox/*/removed',
+        null,
+        event => {
+          const topicParts = event.topic.split('/');
+          if (topicParts[1] === 'inbox') {
+            this.loadInbox();
+          } else {
+            switch (topicParts[3]) {
+              case 'status':
+                const updatedThing = this.things.find(t => t.UID === topicParts[2]);
+                const newStatus = JSON.parse(event.payload);
+                if (updatedThing) {
+                  if (updatedThing.statusInfo.status !== newStatus.status)
+                    updatedThing.statusInfo.status = newStatus.status;
+                  if (updatedThing.statusInfo.statusDetail !== newStatus.statusDetail)
+                    updatedThing.statusInfo.statusDetail = newStatus.statusDetail;
+                  if (updatedThing.statusInfo.description !== newStatus.description)
+                    updatedThing.statusInfo.description = newStatus.description;
+                }
+                break;
+              case 'added':
+              case 'removed':
+              case 'updated':
+                this.load();
+                break;
+            }
           }
         }
-      })
+      );
     },
-    stopEventSource () {
-      this.$oh.sse.close(this.eventSource)
-      this.eventSource = null
-    }
-  }
-}
+    stopEventSource() {
+      this.$oh.sse.close(this.eventSource);
+      this.eventSource = null;
+    },
+  },
+};
 </script>

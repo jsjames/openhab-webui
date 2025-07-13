@@ -1,14 +1,40 @@
 <template>
   <f7-treeview class="model-treeview">
-    <draggable :disabled="!canDragDrop" :list="children" :group="{ name: 'model-treeview', put: allowDrop }" animation="150" forceFallBack="true" fallbackOnBody="true" fallbackThreshold="5"
-               scrollSensitivity="200" delay="400" delayOnTouchOnly="true" touchStartThreshold="10" invertSwap="true" sort="false" ghost-class="model-sortable-ghost"
-               @start="onDragStart" @change="onDragChange" @end="onDragEnd" :move="onDragMove">
-      <model-treeview-item v-for="node in children"
-                           :key="node.item.name" :model="node" :parentNode="model" :rootNode="model"
-                           :includeItemName="includeItemName" :includeItemTags="includeItemTags" :canDragDrop="canDragDrop" :moveState="moveState"
-                           @selected="nodeSelected" :selected="selected"
-                           @checked="(item, check) => $emit('checked', item, check)"
-                           @reload="$emit('reload')" />
+    <draggable
+      :disabled="!canDragDrop ? true : null"
+      :list="children"
+      :group="{ name: 'model-treeview', put: allowDrop }"
+      animation="150"
+      forceFallBack="true"
+      fallbackOnBody="true"
+      fallbackThreshold="5"
+      scrollSensitivity="200"
+      delay="400"
+      delayOnTouchOnly="true"
+      touchStartThreshold="10"
+      invertSwap="true"
+      sort="false"
+      ghost-class="model-sortable-ghost"
+      @start="onDragStart"
+      @change="onDragChange"
+      @end="onDragEnd"
+      :move="onDragMove"
+    >
+      <model-treeview-item
+        v-for="node in children"
+        :key="node.item.name"
+        :model="node"
+        :parentNode="model"
+        :rootNode="model"
+        :includeItemName="includeItemName"
+        :includeItemTags="includeItemTags"
+        :canDragDrop="canDragDrop"
+        :moveState="moveState"
+        @selected="nodeSelected"
+        :selected="selected ? true : null"
+        @checked="(item, check) => $emit('checked', item, check)"
+        @reload="$emit('reload')"
+      />
       <!-- Drop zone for adding at root level -->
       <div v-if="canDragDrop" class="root-drop-zone">
         <!-- empty space to catch drops outside children -->
@@ -42,20 +68,20 @@
 </style>
 
 <script>
-import ModelTreeviewItem from '@/components/model/treeview-item.vue'
-import ModelDragDropMixin from '@/pages/settings/model/model-dragdrop-mixin'
-import Draggable from 'vuedraggable'
+import ModelTreeviewItem from '@/components/model/treeview-item.vue';
+import ModelDragDropMixin from '@/pages/settings/model/model-dragdrop-mixin';
+import Draggable from 'vuedraggable';
 
 export default {
   mixins: [ModelDragDropMixin],
   props: ['rootNodes', 'selected', 'includeItemName', 'includeItemTags', 'canDragDrop'],
-  emits: ['reload'],
+  emits: ['reload', 'checked', 'selected'],
   components: {
     Draggable,
-    ModelTreeviewItem
+    ModelTreeviewItem,
   },
   computed: {
-    model () {
+    model() {
       return {
         class: '',
         children: {
@@ -63,20 +89,20 @@ export default {
           equipment: this.rootNodes.filter(n => n.class.startsWith('Equipment')),
           points: this.rootNodes.filter(n => n.class.startsWith('Point')),
           groups: this.rootNodes.filter(n => !n.class && n.item.type === 'Group'),
-          items: this.rootNodes.filter(n => !n.class && n.item.type !== 'Group')
+          items: this.rootNodes.filter(n => !n.class && n.item.type !== 'Group'),
         },
         opened: true,
-        item: null
-      }
+        item: null,
+      };
     },
-    rootNode () {
-      return this.model
-    }
+    rootNode() {
+      return this.model;
+    },
   },
   methods: {
-    nodeSelected (node) {
-      this.$emit('selected', node)
-    }
-  }
-}
+    nodeSelected(node) {
+      this.$emit('selected', node);
+    },
+  },
+};
 </script>

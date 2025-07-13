@@ -1,7 +1,15 @@
 <template>
-  <oh-card :context="context" :content-class="['display-flex', 'justify-content-center', 'oh-rollershutter-card']" :content-style="{ height: config.vertical ? '10em' : undefined }">
+  <oh-card
+    :context="context"
+    :content-class="['display-flex', 'justify-content-center', 'oh-rollershutter-card']"
+    :content-style="{ height: config.vertical ? '10em' : undefined }"
+  >
     <template #content>
-      <oh-rollershutter :class="{ vertical: config.vertical }" :context="context" @command="onCommand" />
+      <oh-rollershutter
+        :class="{ vertical: config.vertical }"
+        :context="context"
+        @command="onCommand"
+      />
     </template>
   </oh-card>
 </template>
@@ -22,22 +30,22 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin'
-import OhCard from '@/components/widgets/standard/oh-card.vue'
-import OhRollershutter from '../system/oh-rollershutter.vue'
-import { OhRollershutterCardDefinition } from '@/assets/definitions/widgets/standard/cards'
+import mixin from '../widget-mixin';
+import OhCard from '@/components/widgets/standard/oh-card.vue';
+import OhRollershutter from '../system/oh-rollershutter.vue';
+import { OhRollershutterCardDefinition } from '@/assets/definitions/widgets/standard/cards';
 
 export default {
   mixins: [mixin],
   components: {
     OhCard,
-    OhRollershutter
+    OhRollershutter,
   },
   widget: OhRollershutterCardDefinition,
-  data () {
+  data() {
     return {
-      value: Math.random()
-    }
-  }
-}
+      value: Math.random(),
+    };
+  },
+};
 </script>

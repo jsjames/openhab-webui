@@ -1,10 +1,19 @@
 <template>
   <oh-card :context="context" :content-class="['oh-image-card', 'no-padding']">
     <template #content-root>
-      <f7-card-content :style="config.contentStyle" :class="[ ...(Array.isArray(config.contentClass) ? config.contentClass : []), 'oh-image-card', 'no-padding']">
+      <f7-card-content
+        :style="config.contentStyle"
+        :class="[
+          ...(Array.isArray(config.contentClass) ? config.contentClass : []),
+          'oh-image-card',
+          'no-padding',
+        ]"
+      >
         <f7-list v-if="hasAction" class="image-link">
           <f7-list-item class="oh-image-clickable" link="#" no-chevron @click="performAction">
-            <oh-image slot="content-start" :context="childContext(context.component)" />
+            <template #content-start>
+              <oh-image :context="childContext(context.component)" />
+            </template>
           </f7-list-item>
         </f7-list>
         <oh-image v-else :context="childContext(context.component)" />
@@ -34,18 +43,18 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin'
-import OhCard from '@/components/widgets/standard/oh-card.vue'
-import { actionsMixin } from '../widget-actions'
-import OhImage from '../system/oh-image.vue'
-import { OhImageCardDefinition } from '@/assets/definitions/widgets/standard/cards'
+import mixin from '../widget-mixin';
+import OhCard from '@/components/widgets/standard/oh-card.vue';
+import { actionsMixin } from '../widget-actions';
+import OhImage from '../system/oh-image.vue';
+import { OhImageCardDefinition } from '@/assets/definitions/widgets/standard/cards';
 
 export default {
   mixins: [mixin, actionsMixin],
   components: {
     OhCard,
-    OhImage
+    OhImage,
   },
-  widget: OhImageCardDefinition
-}
+  widget: OhImageCardDefinition,
+};
 </script>

@@ -7,17 +7,17 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin'
-import OhCard from '@/components/widgets/standard/oh-card.vue'
-import OhWebframe from '../system/oh-webframe.vue'
-import { OhWebFrameCardDefinition } from '@/assets/definitions/widgets/standard/cards'
+import mixin from '../widget-mixin';
+import OhCard from '@/components/widgets/standard/oh-card.vue';
+import OhWebframe from '../system/oh-webframe.vue';
+import { OhWebFrameCardDefinition } from '@/assets/definitions/widgets/standard/cards';
 
 export default {
   mixins: [mixin],
   components: {
     OhCard,
-    OhWebframe
+    OhWebframe,
   },
-  widget: OhWebFrameCardDefinition
-}
+  widget: OhWebFrameCardDefinition,
+};
 </script>

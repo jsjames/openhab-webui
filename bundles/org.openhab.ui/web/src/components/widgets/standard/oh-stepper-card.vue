@@ -12,17 +12,17 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin'
-import OhCard from '@/components/widgets/standard/oh-card.vue'
-import OhStepper from '../system/oh-stepper.vue'
-import { OhStepperCardDefinition } from '@/assets/definitions/widgets/standard/cards'
+import mixin from '../widget-mixin';
+import OhCard from '@/components/widgets/standard/oh-card.vue';
+import OhStepper from '../system/oh-stepper.vue';
+import { OhStepperCardDefinition } from '@/assets/definitions/widgets/standard/cards';
 
 export default {
   mixins: [mixin],
   components: {
     OhCard,
-    OhStepper
+    OhStepper,
   },
-  widget: OhStepperCardDefinition
-}
+  widget: OhStepperCardDefinition,
+};
 </script>

@@ -1,11 +1,19 @@
 <template>
   <oh-list-item :context="context" class="slider-listitem">
+    <<<<<<< HEAD
     <div slot="after">
       {{ value }}
     </div>
-    <div slot="footer" class="padding">
-      <generic-widget-component :context="childContext(sliderComponent)" v-on="$listeners" />
-    </div>
+    <template #footer>
+      <div class="padding">
+        <generic-widget-component v-bind="$attrs" :context="childContext(sliderComponent)" />
+      </div>
+    </template>
+    <template #after>
+      <div>
+        {{ context.store[config.item].displayState || context.store[config.item].state }}
+      </div>
+    </template>
   </oh-list-item>
 </template>
 
@@ -18,26 +26,29 @@
 </style>
 
 <script>
-import mixin from '../../widget-mixin'
-import OhListItem from './oh-list-item.vue'
-import { OhSliderItemDefinition } from '@/assets/definitions/widgets/standard/listitems'
+import mixin from '../../widget-mixin';
+import OhListItem from './oh-list-item.vue';
+import { OhSliderItemDefinition } from '@/assets/definitions/widgets/standard/listitems';
 
 export default {
   components: {
-    OhListItem
+    OhListItem,
   },
   mixins: [mixin],
   widget: OhSliderItemDefinition,
   computed: {
-    value () {
-      return (this.config?.ignoreDisplayState === true) ? this.context.store[this.config.item].state : this.context.store[this.config.item].displayState || this.context.store[this.config.item].state
+    value() {
+      return this.config?.ignoreDisplayState === true
+        ? this.context.store[this.config.item].state
+        : this.context.store[this.config.item].displayState ||
+            this.context.store[this.config.item].state;
     },
-    sliderComponent () {
+    sliderComponent() {
       return {
         component: 'oh-slider',
-        config: this.config
-      }
-    }
-  }
-}
+        config: this.config,
+      };
+    },
+  },
+};
 </script>

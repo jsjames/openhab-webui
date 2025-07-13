@@ -23,17 +23,17 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin'
-import OhCard from '@/components/widgets/standard/oh-card.vue'
-import OhPlayerControls from '../system/oh-player-controls.vue'
-import { OhPlayerCardDefinition } from '@/assets/definitions/widgets/standard/cards'
+import mixin from '../widget-mixin';
+import OhCard from '@/components/widgets/standard/oh-card.vue';
+import OhPlayerControls from '../system/oh-player-controls.vue';
+import { OhPlayerCardDefinition } from '@/assets/definitions/widgets/standard/cards';
 
 export default {
   mixins: [mixin],
   components: {
     OhCard,
-    OhPlayerControls
+    OhPlayerControls,
   },
-  widget: OhPlayerCardDefinition
-}
+  widget: OhPlayerCardDefinition,
+};
 </script>

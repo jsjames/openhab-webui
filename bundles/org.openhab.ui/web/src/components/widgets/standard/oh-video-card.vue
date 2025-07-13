@@ -19,17 +19,17 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin'
-import OhCard from '@/components/widgets/standard/oh-card.vue'
-import OhVideo from '../system/oh-video.vue'
-import { OhVideoCardDefinition } from '@/assets/definitions/widgets/standard/cards'
+import mixin from '../widget-mixin';
+import OhCard from '@/components/widgets/standard/oh-card.vue';
+import OhVideo from '../system/oh-video.vue';
+import { OhVideoCardDefinition } from '@/assets/definitions/widgets/standard/cards';
 
 export default {
   mixins: [mixin],
   components: {
     OhCard,
-    OhVideo
+    OhVideo,
   },
-  widget: OhVideoCardDefinition
-}
+  widget: OhVideoCardDefinition,
+};
 </script>

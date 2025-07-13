@@ -1,10 +1,18 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:afterout="onPageAfterOut">
-    <f7-navbar title="Transformations" back-link="Settings" back-link-url="/settings/" back-link-force>
+    <f7-navbar
+      title="Transformations"
+      back-link="Settings"
+      back-link-url="/settings/"
+      back-link-force
+    >
       <f7-nav-right>
         <developer-dock-icon />
-        <f7-link icon-md="material:done_all" @click="toggleCheck()"
-                 :text="(!$theme.md) ? ((showCheckboxes) ? 'Done' : 'Select') : ''" />
+        <f7-link
+          icon-md="material:done_all"
+          @click="toggleCheck()"
+          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''"
+        />
       </f7-nav-right>
       <f7-subnavbar :inner="false" v-show="initSearchbar">
         <f7-searchbar
@@ -15,19 +23,42 @@
           search-container=".transformations-list"
           search-item=".transformationlist-item"
           search-in=".item-title, .item-subtitle, .item-footer"
-          :disable-button="!$theme.aurora" />
+          :disable-button="!theme.aurora"
+        />
       </f7-subnavbar>
     </f7-navbar>
-    <f7-toolbar class="contextual-toolbar" :class="{ 'navbar': $theme.md }" v-if="showCheckboxes" bottom-ios bottom-aurora>
-      <f7-link color="red" v-show="selectedTransformations.length" v-if="!$theme.md" class="delete" icon-ios="f7:trash" icon-aurora="f7:trash" @click="removeSelected">
+    <f7-toolbar
+      class="contextual-toolbar"
+      :class="{ navbar: theme.md }"
+      v-if="showCheckboxes"
+      bottom-ios
+      bottom-aurora
+    >
+      <f7-link
+        color="red"
+        v-show="selectedTransformations.length"
+        v-if="!theme.md"
+        class="delete"
+        icon-ios="f7:trash"
+        icon-aurora="f7:trash"
+        @click="removeSelected"
+      >
         Remove {{ selectedTransformations.length }}
       </f7-link>
-      <f7-link v-if="$theme.md" icon-md="material:close" icon-color="white" @click="showCheckboxes = false" />
-      <div class="title" v-if="$theme.md">
-        {{ selectedTransformations.length }} selected
-      </div>
-      <div class="right" v-if="$theme.md">
-        <f7-link v-show="selectedTransformations.length" icon-md="material:delete" icon-color="white" @click="removeSelected" />
+      <f7-link
+        v-if="theme.md"
+        icon-md="material:close"
+        icon-color="white"
+        @click="showCheckboxes = false"
+      />
+      <div class="title" v-if="theme.md">{{ selectedTransformations.length }} selected</div>
+      <div class="right" v-if="theme.md">
+        <f7-link
+          v-show="selectedTransformations.length"
+          icon-md="material:delete"
+          icon-color="white"
+          @click="removeSelected"
+        />
       </div>
     </f7-toolbar>
 
@@ -37,7 +68,8 @@
       v-show="groupBy === 'alphabetical' && !$device.desktop"
       listEl=".transformations-list"
       :scroll-list="true"
-      :label="true" />
+      :label="true"
+    />
 
     <f7-block class="block-narrow">
       <!-- skeleton for not ready -->
@@ -52,7 +84,8 @@
               :class="`skeleton-text skeleton-effect-blink`"
               title="Label of the transformation"
               subtitle="Transformation type"
-              footer="Transformation UID" />
+              footer="Transformation UID"
+            />
           </f7-list-group>
         </f7-list>
       </f7-col>
@@ -63,7 +96,10 @@
         </f7-block-title>
         <div class="searchbar-found padding-left padding-right">
           <f7-segmented strong tag="p">
-            <f7-button :active="groupBy === 'alphabetical'" @click="switchGroupOrder('alphabetical')">
+            <f7-button
+              :active="groupBy === 'alphabetical'"
+              @click="switchGroupOrder('alphabetical')"
+            >
               Alphabetical
             </f7-button>
             <f7-button :active="groupBy === 'type'" @click="switchGroupOrder('type')">
@@ -78,8 +114,12 @@
         <f7-list
           class="searchbar-found col transformations-list"
           ref="transformationsList"
-          :contacts-list="groupBy === 'alphabetical'">
-          <f7-list-group v-for="(transformationsWithInitial, initial) in indexedTransformations" :key="initial">
+          :contacts-list="groupBy === 'alphabetical'"
+        >
+          <f7-list-group
+            v-for="(transformationsWithInitial, initial) in indexedTransformations"
+            :key="initial"
+          >
             <f7-list-item v-if="transformationsWithInitial.length" :title="initial" group-title />
             <f7-list-item
               v-for="transformation in transformationsWithInitial"
@@ -87,15 +127,18 @@
               media-item
               class="transformationlist-item"
               :checkbox="showCheckboxes && transformation.editable"
-              :checked="isChecked(transformation.uid)"
-              @click.ctrl="(e) => ctrlClick(e, transformation)"
-              @click.meta="(e) => ctrlClick(e, transformation)"
-              @click.exact="(e) => click(e, transformation)"
+              :checked="isChecked(transformation.uid) ? true : null"
+              @click.ctrl="e => ctrlClick(e, transformation)"
+              @click.meta="e => ctrlClick(e, transformation)"
+              @click.exact="e => click(e, transformation)"
               link=""
               :title="transformation.label"
-              :subtitle="transformation.type">
-              <f7-icon v-if="!transformation.editable" slot="after-title" f7="lock_fill" size="1rem" color="gray" />
-              <template slot="footer">
+              :subtitle="transformation.type"
+            >
+              <template #after-title>
+                <f7-icon v-if="!transformation.editable" f7="lock_fill" size="1rem" color="gray" />
+              </template>
+              <template #footer>
                 {{ transformation.uid }}
                 <clipboard-icon :value="transformation.uid" tooltip="Copy UID" />
               </template>
@@ -106,15 +149,29 @@
     </f7-block>
 
     <f7-block v-if="ready && !transformations.length" class="block-narrow">
-      <empty-state-placeholder icon="arrow_2_squarepath" title="transformations.title" text="transformations.text" />
+      <empty-state-placeholder
+        icon="arrow_2_squarepath"
+        title="transformations.title"
+        text="transformations.text"
+      />
       <f7-row v-if="$f7.width < 1280" class="display-flex justify-content-center">
-        <f7-button large fill color="blue" external :href="`${this.$store.state.websiteUrl}/link/transformations`" target="_blank" v-t="'home.overview.button.documentation'" />
+        <f7-button
+          large
+          fill
+          color="blue"
+          external
+          :href="`${this.$store.state.websiteUrl}/link/transformations`"
+          target="_blank"
+          t="'home.overview.button.documentation'"
+        />
       </f7-row>
     </f7-block>
 
-    <f7-fab v-show="ready && !showCheckboxes" position="right-bottom" slot="fixed" color="blue" href="add">
-      <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
-    </f7-fab>
+    <template #fixed>
+      <f7-fab v-show="ready && !showCheckboxes" position="right-bottom" color="blue" href="add">
+        <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
+      </f7-fab>
+    </template>
   </f7-page>
 </template>
 
@@ -126,14 +183,22 @@
 </style>
 
 <script>
-import ClipboardIcon from '@/components/util/clipboard-icon.vue'
+import ClipboardIcon from '@/components/util/clipboard-icon.vue';
+import { f7, theme } from 'framework7-vue';
+import { nextTick } from 'vue';
+import { defineAsyncComponent } from 'vue';
 
 export default {
   components: {
-    'empty-state-placeholder': () => import('@/components/empty-state-placeholder.vue'),
-    ClipboardIcon
+    'empty-state-placeholder': defineAsyncComponent(
+      () => import('@/components/empty-state-placeholder.vue')
+    ),
+    ClipboardIcon,
   },
-  data () {
+  setup() {
+    return { theme };
+  },
+  data() {
     return {
       ready: false,
       loading: false,
@@ -141,134 +206,147 @@ export default {
       initSearchbar: false,
       selectedTransformations: [],
       groupBy: 'alphabetical',
-      showCheckboxes: false
-    }
+      showCheckboxes: false,
+    };
   },
   computed: {
-    indexedTransformations () {
+    indexedTransformations() {
       if (this.groupBy === 'alphabetical') {
         return this.transformations.reduce((prev, transformation, i, transformations) => {
-          const label = transformation.label || transformation.uid
-          const initial = label.substring(0, 1).toUpperCase()
+          const label = transformation.label || transformation.uid;
+          const initial = label.substring(0, 1).toUpperCase();
           if (!prev[initial]) {
-            prev[initial] = []
+            prev[initial] = [];
           }
-          prev[initial].push(transformation)
+          prev[initial].push(transformation);
 
-          return prev
-        }, {})
+          return prev;
+        }, {});
       } else {
-        const typeGroups = this.transformations.reduce((prev, transformation, i, transformations) => {
-          const type = transformation.type.toUpperCase()
-          if (!prev[type]) {
-            prev[type] = []
-          }
-          prev[type].push(transformation)
+        const typeGroups = this.transformations.reduce(
+          (prev, transformation, i, transformations) => {
+            const type = transformation.type.toUpperCase();
+            if (!prev[type]) {
+              prev[type] = [];
+            }
+            prev[type].push(transformation);
 
-          return prev
-        }, {})
-        return Object.keys(typeGroups).sort((a, b) => a.localeCompare(b)).reduce((objEntries, key) => {
-          objEntries[key] = typeGroups[key]
-          return objEntries
-        }, {})
+            return prev;
+          },
+          {}
+        );
+        return Object.keys(typeGroups)
+          .sort((a, b) => a.localeCompare(b))
+          .reduce((objEntries, key) => {
+            objEntries[key] = typeGroups[key];
+            return objEntries;
+          }, {});
       }
-    }
+    },
   },
   methods: {
-    onPageAfterIn () {
-      this.load()
+    onPageAfterIn() {
+      this.load();
     },
-    onPageAfterOut () {
-
-    },
-    load () {
-      if (this.loading) return
-      this.loading = true
-      this.loading = true
-      this.$oh.api.get('/rest/transformations').then((data) => {
-        this.transformations = data.sort((a, b) => (a.label || a.uid).localeCompare(b.label || a.uid))
-        this.loading = false
-        this.ready = true
+    onPageAfterOut() {},
+    load() {
+      if (this.loading) return;
+      this.loading = true;
+      this.loading = true;
+      this.$oh.api.get('/rest/transformations').then(data => {
+        this.transformations = data.sort((a, b) =>
+          (a.label || a.uid).localeCompare(b.label || a.uid)
+        );
+        this.loading = false;
+        this.ready = true;
         setTimeout(() => {
-          this.initSearchbar = true
-          if (this.$refs.listIndex) this.$refs.listIndex.update()
-          if (this.$device.desktop && this.$refs.searchbar) this.$refs.searchbar.f7Searchbar.$inputEl[0].focus()
-        })
-      })
+          this.initSearchbar = true;
+          if (this.$refs.listIndex) this.$refs.listIndex.update();
+          if (this.$device.desktop && this.$refs.searchbar)
+            this.$refs.searchbar.f7Searchbar.$inputEl[0].focus();
+        });
+      });
     },
-    switchGroupOrder (groupBy) {
-      this.groupBy = groupBy
-      const searchbar = this.$refs.searchbar.$el.f7Searchbar
-      const filterQuery = searchbar.query
-      this.$nextTick(() => {
+    switchGroupOrder(groupBy) {
+      this.groupBy = groupBy;
+      const searchbar = this.$refs.searchbar.$el.f7Searchbar;
+      const filterQuery = searchbar.query;
+      nextTick(() => {
         if (filterQuery) {
-          searchbar.clear()
-          searchbar.search(filterQuery)
+          searchbar.clear();
+          searchbar.search(filterQuery);
         }
-        if (groupBy === 'alphabetical') this.$refs.listIndex.update()
-      })
+        if (groupBy === 'alphabetical') this.$refs.listIndex.update();
+      });
     },
-    toggleCheck () {
-      this.showCheckboxes = !this.showCheckboxes
+    toggleCheck() {
+      this.showCheckboxes = !this.showCheckboxes;
     },
-    isChecked (transformation) {
-      return this.selectedTransformations.indexOf(transformation) >= 0
+    isChecked(transformation) {
+      return this.selectedTransformations.indexOf(transformation) >= 0;
     },
-    click (event, transformation) {
+    click(event, transformation) {
       if (this.showCheckboxes) {
-        this.toggleTransformationCheck(event, transformation.uid, transformation)
+        this.toggleTransformationCheck(event, transformation.uid, transformation);
       } else {
-        this.$f7router.navigate(transformation.uid)
+        this.$f7router.navigate(transformation.uid);
       }
     },
-    ctrlClick (event, transformation) {
-      this.toggleTransformationCheck(event, transformation.uid, transformation)
-      if (!this.selectedTransformations.length) this.showCheckboxes = false
+    ctrlClick(event, transformation) {
+      this.toggleTransformationCheck(event, transformation.uid, transformation);
+      if (!this.selectedTransformations.length) this.showCheckboxes = false;
     },
-    toggleTransformationCheck (event, transformationUid, transformation) {
-      if (!transformation.editable) return
-      if (!this.showCheckboxes) this.showCheckboxes = true
+    toggleTransformationCheck(event, transformationUid, transformation) {
+      if (!transformation.editable) return;
+      if (!this.showCheckboxes) this.showCheckboxes = true;
       if (this.isChecked(transformationUid)) {
-        this.selectedTransformations.splice(this.selectedTransformations.indexOf(transformationUid), 1)
+        this.selectedTransformations.splice(
+          this.selectedTransformations.indexOf(transformationUid),
+          1
+        );
       } else {
-        this.selectedTransformations.push(transformationUid)
+        this.selectedTransformations.push(transformationUid);
       }
     },
-    removeSelected () {
-      const vm = this
+    removeSelected() {
+      const vm = this;
 
-      this.$f7.dialog.confirm(
+      f7.dialog.confirm(
         `Remove ${this.selectedTransformations.length} selected transformations?`,
         'Remove Transformations',
         () => {
-          vm.doRemoveSelected()
+          vm.doRemoveSelected();
         }
-      )
+      );
     },
-    doRemoveSelected () {
-      let dialog = this.$f7.dialog.progress('Deleting Transformations...')
+    doRemoveSelected() {
+      let dialog = f7.dialog.progress('Deleting Transformations...');
 
-      const promises = this.selectedTransformations.map((p) => {
-        return this.$oh.api.delete('/rest/transformations/' + p)
-      })
-      Promise.all(promises).then((data) => {
-        this.$f7.toast.create({
-          text: 'Transformations removed',
-          destroyOnClose: true,
-          closeTimeout: 2000
-        }).open()
-        this.selectedTransformations = []
-        dialog.close()
-        this.load()
-        this.$f7.emit('sidebarRefresh', null) // for what?
-      }).catch((err) => {
-        dialog.close()
-        this.load()
-        console.error(err)
-        this.$f7.dialog.alert('An error occurred while deleting: ' + err)
-        this.$f7.emit('sidebarRefresh', null) // for what?
-      })
-    }
-  }
-}
+      const promises = this.selectedTransformations.map(p => {
+        return this.$oh.api.delete('/rest/transformations/' + p);
+      });
+      Promise.all(promises)
+        .then(data => {
+          f7.toast
+            .create({
+              text: 'Transformations removed',
+              destroyOnClose: true,
+              closeTimeout: 2000,
+            })
+            .open();
+          this.selectedTransformations = [];
+          dialog.close();
+          this.load();
+          f7.emit('sidebar-refresh', null); // for what?
+        })
+        .catch(err => {
+          dialog.close();
+          this.load();
+          console.error(err);
+          f7.dialog.alert('An error occurred while deleting: ' + err);
+          f7.emit('sidebar-refresh', null); // for what?
+        });
+    },
+  },
+};
 </script>

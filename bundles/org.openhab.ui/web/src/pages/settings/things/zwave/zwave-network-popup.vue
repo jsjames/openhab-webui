@@ -1,11 +1,14 @@
 <template>
-  <f7-popup tablet-fullscreen close-on-escape @popup:opened="() => showNetwork = true" @popup:closed="$emit('closed')">
+  <f7-popup
+    tablet-fullscreen
+    close-on-escape
+    @popup:opened="() => (showNetwork = true)"
+    @popup:closed="$emit('closed')"
+  >
     <f7-page class="analyzer-content">
       <f7-navbar title="Z-Wave Network Map">
         <f7-nav-right>
-          <f7-link popup-close>
-            Close
-          </f7-link>
+          <f7-link popup-close> Close </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <zwave-network v-if="showNetwork" :bridgeUID="bridgeUID" />
@@ -14,19 +17,23 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue';
+
 export default {
   props: ['bridgeUID'],
   components: {
-    'zwave-network': () => import(/* webpackChunkName: "zwave-network" */ '@/components/thing/zwave/zwave-network.vue')
+    'zwave-network': defineAsyncComponent(
+      () =>
+        import(/* webpackChunkName: "zwave-network" */ '@/components/thing/zwave/zwave-network.vue')
+    ),
   },
-  data () {
+  emits: ['closed'],
+  data() {
     return {
-      showNetwork: false
-    }
+      showNetwork: false,
+    };
   },
-  methods: {
-  },
-  computed: {
-  }
-}
+  methods: {},
+  computed: {},
+};
 </script>

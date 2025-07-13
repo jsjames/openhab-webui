@@ -2,48 +2,51 @@
  * Field allowing to pick the name of an item from the model
  */
 
-import Blockly from 'blockly'
-import ModelPickerPopup from '@/components/model/model-picker-popup.vue'
+import Blockly from 'blockly';
+import ModelPickerPopup from '@/components/model/model-picker-popup.vue';
 
 export class FieldItemModelPicker extends Blockly.FieldTextInput {
-  constructor (optValue, optValidator, optConfig) {
-    super(optValue, optValidator, optConfig)
-    if (optConfig.f7) this.f7 = optConfig.f7
+  constructor(optValue, optValidator, optConfig) {
+    super(optValue, optValidator, optConfig);
+    if (optConfig.f7) this.f7 = optConfig.f7;
   }
 
-  static fromJson (options) {
-    return new FieldItemModelPicker(options['options'], undefined, options)
+  static fromJson(options) {
+    return new FieldItemModelPicker(options['options'], undefined, options);
   }
 
-  showEditor_ (options) {
+  showEditor_(options) {
     if (this.f7) {
-      const itemsPicked = (value) => {
-        this.data = [value.name, value.label]
-        this.setEditorValue_(value.name)
-      }
+      const itemsPicked = value => {
+        this.data = [value.name, value.label];
+        this.setEditorValue_(value.name);
+      };
       const popup = {
-        component: ModelPickerPopup
-      }
+        component: ModelPickerPopup,
+      };
 
-      this.f7.views.main.router.navigate({
-        url: 'pick-from-model',
-        route: {
-          path: 'pick-from-model',
-          popup
+      this.f7.views.main.router.navigate(
+        {
+          url: 'pick-from-model',
+          route: {
+            path: 'pick-from-model',
+            popup,
+          },
+        },
+        {
+          props: {
+            value: this.value_,
+            multiple: false,
+          },
         }
-      }, {
-        props: {
-          value: this.value_,
-          multiple: false
-        }
-      })
+      );
 
-      this.f7.once('itemsPicked', itemsPicked)
-      this.f7.once('modelPickerClosed', () => {
-        this.f7.off('itemsPicked', itemsPicked)
-      })
+      this.f7.once('items-picked', itemsPicked);
+      this.f7.once('model-picker-closed', () => {
+        this.f7.off('items-picked', itemsPicked);
+      });
     }
   }
 }
 
-Blockly.fieldRegistry.register('oh_item_field', FieldItemModelPicker)
+Blockly.fieldRegistry.register('oh_item_field', FieldItemModelPicker);

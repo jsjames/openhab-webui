@@ -1,7 +1,18 @@
 <template>
-  <oh-card :context="context" :content-class="['oh-gauge-card', 'display-flex', 'justify-content-center']">
+  <oh-card
+    :context="context"
+    :content-class="['oh-gauge-card', 'display-flex', 'justify-content-center']"
+  >
     <template #content-root>
-      <f7-card-content :style="config.contentStyle" :class="[ ...(Array.isArray(config.contentClass) ? config.contentClass : []), 'oh-gauge-card', 'display-flex', 'justify-content-center']">
+      <f7-card-content
+        :style="config.contentStyle"
+        :class="[
+          ...(Array.isArray(config.contentClass) ? config.contentClass : []),
+          'oh-gauge-card',
+          'display-flex',
+          'justify-content-center',
+        ]"
+      >
         <f7-link v-if="hasAction" class="oh-gauge-link" @click="performAction">
           <oh-gauge :context="childContext(context.component)" />
         </f7-link>
@@ -21,18 +32,18 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin'
-import { actionsMixin } from '@/components/widgets/widget-actions'
-import OhCard from '@/components/widgets/standard/oh-card.vue'
-import OhGauge from '../system/oh-gauge.vue'
-import { OhGaugeCardDefinition } from '@/assets/definitions/widgets/standard/cards'
+import mixin from '../widget-mixin';
+import { actionsMixin } from '@/components/widgets/widget-actions';
+import OhCard from '@/components/widgets/standard/oh-card.vue';
+import OhGauge from '../system/oh-gauge.vue';
+import { OhGaugeCardDefinition } from '@/assets/definitions/widgets/standard/cards';
 
 export default {
   mixins: [mixin, actionsMixin],
   components: {
     OhCard,
-    OhGauge
+    OhGauge,
   },
-  widget: OhGaugeCardDefinition
-}
+  widget: OhGaugeCardDefinition,
+};
 </script>

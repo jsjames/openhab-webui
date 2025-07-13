@@ -1,7 +1,18 @@
 <template>
-  <oh-card :context="context" :content-class="[ (config.vertical ? 'slider-card-vertical' : ''), 'display-flex', 'justify-content-center' ]">
+  <oh-card
+    :context="context"
+    :content-class="[
+      config.vertical ? 'slider-card-vertical' : '',
+      'display-flex',
+      'justify-content-center',
+    ]"
+  >
     <template #content>
-      <oh-slider :context="childContext(context.component)" :class="{ 'slider-card-vertical': config.vertical }" @command="onCommand" />
+      <oh-slider
+        :context="childContext(context.component)"
+        :class="{ 'slider-card-vertical': config.vertical }"
+        @command="onCommand"
+      />
     </template>
   </oh-card>
 </template>
@@ -12,17 +23,17 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin'
-import OhCard from '@/components/widgets/standard/oh-card.vue'
-import OhSlider from '../system/oh-slider.vue'
-import { OhSliderCardDefinition } from '@/assets/definitions/widgets/standard/cards'
+import mixin from '../widget-mixin';
+import OhCard from '@/components/widgets/standard/oh-card.vue';
+import OhSlider from '../system/oh-slider.vue';
+import { OhSliderCardDefinition } from '@/assets/definitions/widgets/standard/cards';
 
 export default {
   mixins: [mixin],
   components: {
     OhCard,
-    OhSlider
+    OhSlider,
   },
-  widget: OhSliderCardDefinition
-}
+  widget: OhSliderCardDefinition,
+};
 </script>

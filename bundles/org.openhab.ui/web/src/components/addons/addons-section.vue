@@ -10,28 +10,80 @@
       {{ subtitle }}
     </f7-block-footer>
     <template v-if="featuredAddons?.length > 0">
-      <addons-swiper v-if="!$device.desktop && !$device.ipad" :addons-list="featuredAddons" :install-action-text="installActionText" :headline="'Featured'" @addonButtonClick="addonButtonClick" />
+      <addons-swiper
+        v-if="!$device.desktop && !$device.ipad"
+        :addons-list="featuredAddons"
+        :install-action-text="installActionText"
+        :headline="'Featured'"
+        @addon-button-click="addonButtonClick"
+      />
       <div v-else class="addons-cards">
-        <addon-card class="addon-card-desktop" v-for="addon in featuredAddons" :key="addon.uid" :addon="addon" :install-action-text="installActionText" :headline="'Featured'" @addonButtonClick="addonButtonClick" />
+        <addon-card
+          class="addon-card-desktop"
+          v-for="addon in featuredAddons"
+          :key="addon.uid"
+          :addon="addon"
+          :install-action-text="installActionText"
+          :headline="'Featured'"
+          @addon-button-click="addonButtonClick"
+        />
       </div>
     </template>
     <template v-if="suggested">
-      <addons-swiper v-if="!$device.desktop && !$device.ipad" :addons-list="addonsList" :install-action-text="installActionText" :headline="'Suggested'" @addonButtonClick="addonButtonClick" />
+      <addons-swiper
+        v-if="!$device.desktop && !$device.ipad"
+        :addons-list="addonsList"
+        :install-action-text="installActionText"
+        :headline="'Suggested'"
+        @addon-button-click="addonButtonClick"
+      />
       <div v-else class="addons-cards">
-        <addon-card class="addon-card-desktop" v-for="addon in addonsList" :key="addon.uid" :addon="addon" :install-action-text="installActionText" :headline="'Suggested'" @addonButtonClick="addonButtonClick" />
+        <addon-card
+          class="addon-card-desktop"
+          v-for="addon in addonsList"
+          :key="addon.uid"
+          :addon="addon"
+          :install-action-text="installActionText"
+          :headline="'Suggested'"
+          @addon-button-click="addonButtonClick"
+        />
       </div>
     </template>
     <template v-else-if="showAsCards">
-      <addons-swiper v-if="!$device.desktop && !$device.ipad && (this.addons.length < this.addonCollapsedLimit)" :addons-list="addonsList" :install-action-text="installActionText" @addonButtonClick="addonButtonClick" />
+      <addons-swiper
+        v-if="!$device.desktop && !$device.ipad && this.addons.length < this.addonCollapsedLimit"
+        :addons-list="addonsList"
+        :install-action-text="installActionText"
+        @addon-button-click="addonButtonClick"
+      />
       <div v-else class="addons-cards">
-        <addon-card class="addon-card-desktop" v-for="addon in addonsList" :key="addon.uid" :addon="addon" :install-action-text="installActionText" @addonButtonClick="addonButtonClick" />
+        <addon-card
+          class="addon-card-desktop"
+          v-for="addon in addonsList"
+          :key="addon.uid"
+          :addon="addon"
+          :install-action-text="installActionText"
+          @addon-button-click="addonButtonClick"
+        />
       </div>
     </template>
     <f7-list v-else media-list ref="addonlist" class="addons-table-list" no-chevron no-hairlines>
-      <addon-list-item v-for="addon in addonsList" :key="addon.uid" :addon="addon" :install-action-text="installActionText" @addonButtonClick="addonButtonClick" />
+      <addon-list-item
+        v-for="addon in addonsList"
+        :key="addon.uid"
+        :addon="addon"
+        :install-action-text="installActionText"
+        @addon-button-click="addonButtonClick"
+      />
     </f7-list>
     <f7-block v-if="canExpand" class="display-flex justify-content-center">
-      <f7-button class="" outline color="blue" @click="expand" :text="`Show ${addons.length - addonCollapsedLimit} More`" />
+      <f7-button
+        class=""
+        outline
+        color="blue"
+        @click="expand"
+        :text="`Show ${addons.length - addonCollapsedLimit} More`"
+      />
     </f7-block>
   </f7-block>
 </template>
@@ -91,64 +143,74 @@
 </style>
 
 <script>
-import AddonListItem from './addon-list-item.vue'
-import AddonCard from './addon-card.vue'
-import { compareAddons } from '@/assets/addon-store'
-import AddonsSwiper from '@/components/addons/addons-swiper.vue'
+import AddonListItem from './addon-list-item.vue';
+import AddonCard from './addon-card.vue';
+import { compareAddons } from '@/assets/addon-store';
+import AddonsSwiper from '@/components/addons/addons-swiper.vue';
 
 export default {
-  props: ['addons', 'title', 'subtitle', 'showAll', 'featured', 'showAsCards', 'suggested', 'installActionText'],
+  props: [
+    'addons',
+    'title',
+    'subtitle',
+    'showAll',
+    'featured',
+    'showAsCards',
+    'suggested',
+    'installActionText',
+  ],
+  emits: ['addon-button-click'],
   components: {
     AddonsSwiper,
     AddonListItem,
-    AddonCard
+    AddonCard,
   },
-  data () {
+  data() {
     return {
-      collapsed: true
-    }
+      collapsed: true,
+    };
   },
   computed: {
-    featuredAddons () {
+    featuredAddons() {
       if (this.featured) {
-        return this.addons.filter(a => this.featured.indexOf(a.uid) >= 0).sort(compareAddons)
+        return this.addons.filter(a => this.featured.indexOf(a.uid) >= 0).sort(compareAddons);
       }
-      return null
+      return null;
     },
-    notFeaturedAddons () {
-      return (this.featuredAddons && this.featuredAddons.length)
+    notFeaturedAddons() {
+      return this.featuredAddons && this.featuredAddons.length
         ? this.addons.filter(a => this.featuredAddons.indexOf(a) < 0).sort(compareAddons)
-        : [...this.addons].sort(compareAddons)
+        : [...this.addons].sort(compareAddons);
     },
-    addonCollapsedLimit () {
-      const installedCount = this.notFeaturedAddons.filter(a => a.installed).length
-      if (installedCount >= 22) return 36
-      if (installedCount >= 10) return 24
-      return 12
+    addonCollapsedLimit() {
+      const installedCount = this.notFeaturedAddons.filter(a => a.installed).length;
+      if (installedCount >= 22) return 36;
+      if (installedCount >= 10) return 24;
+      return 12;
     },
-    addonsList () {
-      if (this.collapsed) return this.notFeaturedAddons.slice(0, this.addonCollapsedLimit)
-      return this.notFeaturedAddons
+    addonsList() {
+      if (this.collapsed) return this.notFeaturedAddons.slice(0, this.addonCollapsedLimit);
+      return this.notFeaturedAddons;
     },
-    canExpand () {
-      if (!this.collapsed) return false
-      if (this.addons.length < this.addonCollapsedLimit) return false
-      return true
-    }
+    canExpand() {
+      if (!this.collapsed) return false;
+      if (this.addons.length < this.addonCollapsedLimit) return false;
+      return true;
+    },
   },
   methods: {
-    expand () {
-      this.collapsed = false
+    expand() {
+      this.collapsed = false;
       setTimeout(() => {
-        this.$f7.lazy.create('.page-addon-store')
-      }, 100)
+        f7.lazy.create('.page-addon-store');
+      }, 100);
     },
-    addonButtonClick (addon) {
-      this.$emit('addonButtonClick', addon)
-    }
+    addonButtonClick(addon) {
+      this.$emit('addon-button-click', addon);
+    },
   },
-  mounted () {
-    if (this.showAll) this.expand()
-  }
-}
+  mounted() {
+    if (this.showAll) this.expand();
+  },
+};
 </script>

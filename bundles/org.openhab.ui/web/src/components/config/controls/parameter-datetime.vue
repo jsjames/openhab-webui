@@ -5,12 +5,14 @@
       ref="input"
       type="datetime-local"
       :step="step"
-      :floating-label="$theme.md"
+      :floating-label="theme.md"
       :label="configDescription.label"
       :name="configDescription.name"
       :value="value"
-      :required="configDescription.required" validate
-      @input="updateValue" />
+      :required="configDescription.required"
+      validate
+      @input="updateValue"
+    />
   </ul>
 </template>
 
@@ -21,18 +23,24 @@
 </style>
 
 <script>
+import { theme } from 'framework7-vue';
+
 export default {
   props: ['configDescription', 'value'],
+  emits: ['input'],
+  setup() {
+    return { theme };
+  },
   computed: {
-    step () {
-      if (this.configDescription.stepsize !== undefined) return this.configDescription.stepsize
-      return 60
-    }
+    step() {
+      if (this.configDescription.stepsize !== undefined) return this.configDescription.stepsize;
+      return 60;
+    },
   },
   methods: {
-    updateValue (event) {
-      this.$emit('input', event.target.value)
-    }
-  }
-}
+    updateValue(event) {
+      this.$emit('input', event.target.value);
+    },
+  },
+};
 </script>

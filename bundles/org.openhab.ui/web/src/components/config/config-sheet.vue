@@ -1,14 +1,15 @@
 <template>
   <f7-block v-if="parameters" class="config-sheet no-margin" ref="sheet">
-    <div style="text-align:right" class="padding-right padding-bottom" v-if="hasAdvanced">
-      <label @click="toggleAdvanced" class="advanced-label">Show advanced</label> <f7-checkbox :checked="showAdvanced" @change="toggleAdvanced" />
+    <div style="text-align: right" class="padding-right padding-bottom" v-if="hasAdvanced">
+      <label @click="toggleAdvanced" class="advanced-label">Show advanced</label>
+      <f7-checkbox :checked="showAdvanced ? true : null" @change="toggleAdvanced" />
     </div>
     <f7-col>
       <f7-block width="100" class="parameter-group no-margin no-padding">
-        <f7-row v-if="displayedParameters.some((p) => !p.groupName)">
+        <f7-row v-if="displayedParameters.some(p => !p.groupName)">
           <f7-col>
             <config-parameter
-              v-for="parameter in displayedParameters.filter((p) => !p.groupName)"
+              v-for="parameter in displayedParameters.filter(p => !p.groupName)"
               :key="parameter.name"
               :config-description="parameter"
               :value="configurationWithDefaults[parameter.name]"
@@ -16,14 +17,20 @@
               :configuration="configurationWithDefaults"
               :read-only="readOnly"
               :status="parameterStatus(parameter)"
-              @update="(value) => updateParameter(parameter, value)" />
+              @update="value => updateParameter(parameter, value)"
+            />
           </f7-col>
         </f7-row>
       </f7-block>
     </f7-col>
     <f7-col v-if="parameterGroups.length">
-      <f7-block width="100" class="parameter-group" v-for="group in parameterGroups" :key="group.name">
-        <f7-row v-if="displayedParameters.some((p) => p.groupName === group.name)">
+      <f7-block
+        width="100"
+        class="parameter-group"
+        v-for="group in parameterGroups"
+        :key="group.name"
+      >
+        <f7-row v-if="displayedParameters.some(p => p.groupName === group.name)">
           <f7-col>
             <f7-block-title class="parameter-group-title">
               {{ group.label }}
@@ -33,7 +40,7 @@
             </f7-block-footer>
 
             <config-parameter
-              v-for="parameter in displayedParameters.filter((p) => p.groupName === group.name)"
+              v-for="parameter in displayedParameters.filter(p => p.groupName === group.name)"
               :key="parameter.name"
               :config-description="parameter"
               :value="configurationWithDefaults[parameter.name]"
@@ -41,7 +48,8 @@
               :configuration="configurationWithDefaults"
               :read-only="readOnly"
               :status="parameterStatus(parameter)"
-              @update="(value) => updateParameter(parameter, value)" />
+              @update="value => updateParameter(parameter, value)"
+            />
           </f7-col>
         </f7-row>
       </f7-block>
@@ -73,85 +81,107 @@
 </style>
 
 <script>
-import { actionParams } from '@/assets/definitions/widgets/actions'
+import { actionParams } from '@/assets/definitions/widgets/actions';
+import { defineAsyncComponent } from 'vue';
 
 export default {
-  props: ['parameterGroups', 'parameters', 'configuration', 'status', 'readOnly', 'setEmptyConfigAsNull'],
+  props: [
+    'parameterGroups',
+    'parameters',
+    'configuration',
+    'status',
+    'readOnly',
+    'setEmptyConfigAsNull',
+  ],
+  emits: ['updated'],
   components: {
-    'config-parameter': () => import(/* webpackChunkName: "config-parameter" */ './config-parameter.vue')
+    'config-parameter': defineAsyncComponent(
+      () => import(/* webpackChunkName: "config-parameter" */ './config-parameter.vue')
+    ),
   },
-  data () {
+  data() {
     return {
-      showAdvanced: false
-    }
+      showAdvanced: false,
+    };
   },
   computed: {
-    configurationWithDefaults () {
-      const conf = Object.assign({}, this.configuration)
-      this.parameters.forEach((p) => {
+    configurationWithDefaults() {
+      const conf = Object.assign({}, this.configuration);
+      this.parameters.forEach(p => {
         if (conf[p.name] === undefined && p.default !== undefined) {
           if (typeof p.default === 'function') {
-            conf[p.name] = p.default(this.configuration)
+            conf[p.name] = p.default(this.configuration);
           } else if (p.multiple) {
-            conf[p.name] = p.defaultValues
+            conf[p.name] = p.defaultValues;
           } else {
-            conf[p.name] = p.default
+            conf[p.name] = p.default;
           }
         }
-      })
-      return conf
+      });
+      return conf;
     },
-    hasAdvanced () {
-      return this.parameters.length > 0 && this.parameters.some((p) => p.advanced)
+    hasAdvanced() {
+      return this.parameters.length > 0 && this.parameters.some(p => p.advanced);
     },
-    displayedParameters () {
-      function notNullNotUndefined (value) {
-        return value !== null && value !== undefined
+    displayedParameters() {
+      function notNullNotUndefined(value) {
+        return value !== null && value !== undefined;
       }
 
-      if (!this.parameters.length) return []
-      let finalParameters = [...this.parameters]
-      if (this.parameterGroups && this.parameterGroups.some((g) => g.context === 'action')) {
-        this.parameterGroups.filter((g) => g.context === 'action').forEach((g) => {
-          const prefix = g.name.replace(/action/gi, '')
-          finalParameters = [...finalParameters, ...actionParams(g.name, prefix)]
-        })
+      if (!this.parameters.length) return [];
+      let finalParameters = [...this.parameters];
+      if (this.parameterGroups && this.parameterGroups.some(g => g.context === 'action')) {
+        this.parameterGroups
+          .filter(g => g.context === 'action')
+          .forEach(g => {
+            const prefix = g.name.replace(/action/gi, '');
+            finalParameters = [...finalParameters, ...actionParams(g.name, prefix)];
+          });
       }
-      if (this.showAdvanced) return finalParameters // show all parameters
+      if (this.showAdvanced) return finalParameters; // show all parameters
       // exclude advanced parameters:
-      return finalParameters.filter((p) =>
-        // parameter is not advanced: always show
-        !p.advanced ||
-        // parameter is advanced: show only if default is defined and value is different from default
-        (notNullNotUndefined(p.default) && notNullNotUndefined(this.configuration[p.name]) && this.configuration[p.name].toString() !== p.default)
-      )
-    }
+      return finalParameters.filter(
+        p =>
+          // parameter is not advanced: always show
+          !p.advanced ||
+          // parameter is advanced: show only if default is defined and value is different from default
+          (notNullNotUndefined(p.default) &&
+            notNullNotUndefined(this.configuration[p.name]) &&
+            this.configuration[p.name].toString() !== p.default)
+      );
+    },
   },
   methods: {
-    isValid () {
-      return this.$f7.input.validateInputs(this.$refs.sheet.$el)
+    isValid() {
+      return f7.input.validateInputs(this.$refs.sheet.$el);
     },
-    toggleAdvanced (event) {
-      this.showAdvanced = !this.showAdvanced // event.target.checked
+    toggleAdvanced(event) {
+      this.showAdvanced = !this.showAdvanced; // event.target.checked
     },
-    updateParameter (parameter, value) {
-      if ((typeof value === 'number' && isNaN(value)) || value === '' || value === undefined || value === null || (parameter.multiple && Array.isArray(value) && !value.length)) {
+    updateParameter(parameter, value) {
+      if (
+        (typeof value === 'number' && isNaN(value)) ||
+        value === '' ||
+        value === undefined ||
+        value === null ||
+        (parameter.multiple && Array.isArray(value) && !value.length)
+      ) {
         if (this.setEmptyConfigAsNull) {
           // deleting the parameter sometimes lead to saves not updating it, so set it explicitely to null
-          this.$set(this.configuration, parameter.name, null)
+          this.configuration[parameter.name] = null;
         } else {
-          this.$delete(this.configuration, parameter.name)
+          this.$delete(this.configuration, parameter.name);
         }
       } else {
-        this.$set(this.configuration, parameter.name, value)
+        this.configuration[parameter.name] = value;
       }
-      console.debug(JSON.stringify(this.configuration))
-      this.$emit('updated')
+      console.debug(JSON.stringify(this.configuration));
+      this.$emit('updated');
     },
-    parameterStatus (parameter) {
-      if (!this.status || !this.status.length) return null
-      return this.status.find((ps) => ps.parameterName === parameter.name)
-    }
-  }
-}
+    parameterStatus(parameter) {
+      if (!this.status || !this.status.length) return null;
+      return this.status.find(ps => ps.parameterName === parameter.name);
+    },
+  },
+};
 </script>

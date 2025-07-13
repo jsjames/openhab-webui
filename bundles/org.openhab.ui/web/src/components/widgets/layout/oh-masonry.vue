@@ -3,83 +3,212 @@
     <f7-menu v-if="context.editmode" class="configure-layout-menu margin-bottom">
       <f7-menu-item style="margin-left: auto" icon-f7="rectangle_grid_3x2" dropdown>
         <f7-menu-dropdown right>
-          <f7-menu-dropdown-item @click="context.editmode.configureWidget(context.component, context)" href="#" text="Configure Masonry" />
-          <f7-menu-dropdown-item @click="context.editmode.editWidgetCode(context.component, context)" href="#" text="Edit YAML" />
-          <f7-menu-dropdown-item v-if="context.clipboardtype && context.clipboardtype !== 'oh-block' && context.clipboardtype !== 'oh-grid-row' && context.clipboardtype !== 'oh-grid-col'" @click="context.editmode.pasteWidget(context.component, context.parent)" href="#" text="Paste" />
+          <f7-menu-dropdown-item
+            @click="context.editmode.configureWidget(context.component, context)"
+            href="#"
+            text="Configure Masonry"
+          />
+          <f7-menu-dropdown-item
+            @click="context.editmode.editWidgetCode(context.component, context)"
+            href="#"
+            text="Edit YAML"
+          />
+          <f7-menu-dropdown-item
+            v-if="
+              context.clipboardtype &&
+              context.clipboardtype !== 'oh-block' &&
+              context.clipboardtype !== 'oh-grid-row' &&
+              context.clipboardtype !== 'oh-grid-col'
+            "
+            @click="context.editmode.pasteWidget(context.component, context.parent)"
+            href="#"
+            text="Paste"
+          />
           <f7-menu-dropdown-item divider />
-          <f7-menu-dropdown-item @click="context.editmode.removeWidget(context.component, context.parent, 'masonry')" href="#" text="Remove Masonry" />
+          <f7-menu-dropdown-item
+            @click="context.editmode.removeWidget(context.component, context.parent, 'masonry')"
+            href="#"
+            text="Remove Masonry"
+          />
         </f7-menu-dropdown>
       </f7-menu-item>
     </f7-menu>
     <!-- <magic-grid v-if="config.flavor === 'magic-grid'" class="oh-magic-grid" :gap="16" :maxColWidth="300" :animate="false">
       <template v-slot>
-        <generic-widget-component class="magic-grid-item" :context="childContext(slotComponent)" v-for="(slotComponent, idx) in context.component.slots.default" :key="idx" v-on="$listeners" />
+        <generic-widget-component class="magic-grid-item" :context="childContext(slotComponent)" v-for="(slotComponent, idx) in context.component.slots.default" :key="idx" v-bind="$attrs" />
       </template>
     </magic-grid> -->
     <div v-if="config.flavor === 'css-grid'" class="oh-masonry">
-      <div v-for="(slotComponent, idx) in context.component.slots.default" :key="idx" class="oh-masonry-item" :style="{ 'min-height': dropdownMenuOpened === idx ? 'calc(10 * var(--f7-menu-dropdown-item-height))' : undefined, 'z-index': 100 - context.component.slots.default.indexOf(slotComponent) }">
+      <div
+        v-for="(slotComponent, idx) in context.component.slots.default"
+        :key="idx"
+        class="oh-masonry-item"
+        :style="{
+          'min-height':
+            dropdownMenuOpened === idx
+              ? 'calc(10 * var(--f7-menu-dropdown-item-height))'
+              : undefined,
+          'z-index': 100 - context.component.slots.default.indexOf(slotComponent),
+        }"
+      >
         <f7-menu v-if="context.editmode" class="configure-layout-menu">
-          <f7-menu-item style="margin-left: auto" icon-f7="slider_horizontal_below_rectangle" dropdown @menu:opened="dropdownMenuOpened = idx" @menu:closed="dropdownMenuOpened = null">
+          <f7-menu-item
+            style="margin-left: auto"
+            icon-f7="slider_horizontal_below_rectangle"
+            dropdown
+            @menu:opened="dropdownMenuOpened = idx"
+            @menu:closed="dropdownMenuOpened = null"
+          >
             <f7-menu-dropdown right>
-              <f7-menu-dropdown-item @click="context.editmode.configureWidget(slotComponent, context)" href="#" text="Configure Widget" />
-              <f7-menu-dropdown-item @click="context.editmode.editWidgetCode(slotComponent, context)" href="#" text="Edit YAML" />
+              <f7-menu-dropdown-item
+                @click="context.editmode.configureWidget(slotComponent, context)"
+                href="#"
+                text="Configure Widget"
+              />
+              <f7-menu-dropdown-item
+                @click="context.editmode.editWidgetCode(slotComponent, context)"
+                href="#"
+                text="Edit YAML"
+              />
               <f7-menu-dropdown-item divider />
-              <f7-menu-dropdown-item @click="context.editmode.cutWidget(slotComponent, context)" href="#" text="Cut" />
-              <f7-menu-dropdown-item @click="context.editmode.copyWidget(slotComponent, context)" href="#" text="Copy" />
+              <f7-menu-dropdown-item
+                @click="context.editmode.cutWidget(slotComponent, context)"
+                href="#"
+                text="Cut"
+              />
+              <f7-menu-dropdown-item
+                @click="context.editmode.copyWidget(slotComponent, context)"
+                href="#"
+                text="Copy"
+              />
               <f7-menu-dropdown-item divider />
-              <f7-menu-dropdown-item @click="context.editmode.moveWidgetUp(slotComponent, context)" href="#" text="Move Up" />
-              <f7-menu-dropdown-item @click="context.editmode.moveWidgetDown(slotComponent, context)" href="#" text="Move Down" />
+              <f7-menu-dropdown-item
+                @click="context.editmode.moveWidgetUp(slotComponent, context)"
+                href="#"
+                text="Move Up"
+              />
+              <f7-menu-dropdown-item
+                @click="context.editmode.moveWidgetDown(slotComponent, context)"
+                href="#"
+                text="Move Down"
+              />
               <f7-menu-dropdown-item divider />
-              <f7-menu-dropdown-item @click="context.editmode.removeWidget(slotComponent, context)" href="#" text="Remove Widget" />
+              <f7-menu-dropdown-item
+                @click="context.editmode.removeWidget(slotComponent, context)"
+                href="#"
+                text="Remove Widget"
+              />
             </f7-menu-dropdown>
           </f7-menu-item>
         </f7-menu>
-        <generic-widget-component :context="childContext(slotComponent)" v-on="$listeners" />
+        <generic-widget-component v-bind="$attrs" :context="childContext(slotComponent)" />
       </div>
-      <oh-placeholder-widget v-if="context.editmode" class="oh-column-item placeholder" @click="context.editmode.addWidget(context.component, null, context.parent)" />
+      <oh-placeholder-widget
+        v-if="context.editmode"
+        class="oh-column-item placeholder"
+        @click="context.editmode.addWidget(context.component, null, context.parent)"
+      />
     </div>
-    <masonry v-else :cols="config.cols || {default: 5, 1400: 4, 1280: 3, 1023: 4, 768: 3, 576: 2, 480: 1}">
-      <div v-for="(slotComponent, idx) in context.component.slots.default" :key="idx" class="oh-masonry-item">
+    <masonry
+      v-else
+      :cols="
+        config.cols || {
+          default: 5,
+          1400: 4,
+          1280: 3,
+          1023: 4,
+          768: 3,
+          576: 2,
+          480: 1,
+        }
+      "
+    >
+      <div
+        v-for="(slotComponent, idx) in context.component.slots.default"
+        :key="idx"
+        class="oh-masonry-item"
+      >
         <f7-menu v-if="context.editmode" class="configure-layout-menu">
-          <f7-menu-item style="margin-left: auto" icon-f7="slider_horizontal_below_rectangle" dropdown @menu:opened="dropdownMenuOpened = idx" @menu:closed="dropdownMenuOpened = null">
+          <f7-menu-item
+            style="margin-left: auto"
+            icon-f7="slider_horizontal_below_rectangle"
+            dropdown
+            @menu:opened="dropdownMenuOpened = idx"
+            @menu:closed="dropdownMenuOpened = null"
+          >
             <f7-menu-dropdown right>
-              <f7-menu-dropdown-item @click="context.editmode.configureWidget(slotComponent, context)" href="#" text="Configure Widget" />
-              <f7-menu-dropdown-item @click="context.editmode.editWidgetCode(slotComponent, context)" href="#" text="Edit YAML" />
+              <f7-menu-dropdown-item
+                @click="context.editmode.configureWidget(slotComponent, context)"
+                href="#"
+                text="Configure Widget"
+              />
+              <f7-menu-dropdown-item
+                @click="context.editmode.editWidgetCode(slotComponent, context)"
+                href="#"
+                text="Edit YAML"
+              />
               <f7-menu-dropdown-item divider />
-              <f7-menu-dropdown-item @click="context.editmode.cutWidget(slotComponent, context)" href="#" text="Cut" />
-              <f7-menu-dropdown-item @click="context.editmode.copyWidget(slotComponent, context)" href="#" text="Copy" />
+              <f7-menu-dropdown-item
+                @click="context.editmode.cutWidget(slotComponent, context)"
+                href="#"
+                text="Cut"
+              />
+              <f7-menu-dropdown-item
+                @click="context.editmode.copyWidget(slotComponent, context)"
+                href="#"
+                text="Copy"
+              />
               <f7-menu-dropdown-item divider />
-              <f7-menu-dropdown-item @click="context.editmode.moveWidgetUp(slotComponent, context)" href="#" text="Move Up" />
-              <f7-menu-dropdown-item @click="context.editmode.moveWidgetDown(slotComponent, context)" href="#" text="Move Down" />
+              <f7-menu-dropdown-item
+                @click="context.editmode.moveWidgetUp(slotComponent, context)"
+                href="#"
+                text="Move Up"
+              />
+              <f7-menu-dropdown-item
+                @click="context.editmode.moveWidgetDown(slotComponent, context)"
+                href="#"
+                text="Move Down"
+              />
               <f7-menu-dropdown-item divider />
-              <f7-menu-dropdown-item @click="context.editmode.removeWidget(slotComponent, context)" href="#" text="Remove Widget" />
+              <f7-menu-dropdown-item
+                @click="context.editmode.removeWidget(slotComponent, context)"
+                href="#"
+                text="Remove Widget"
+              />
             </f7-menu-dropdown>
           </f7-menu-item>
         </f7-menu>
-        <generic-widget-component :context="childContext(slotComponent)" v-on="$listeners" />
+        <generic-widget-component v-bind="$attrs" :context="childContext(slotComponent)" />
       </div>
-      <oh-placeholder-widget v-if="context.editmode" class="oh-column-item placeholder" @click="context.editmode.addWidget(context.component, null, context.parent)" />
+      <oh-placeholder-widget
+        v-if="context.editmode"
+        class="oh-column-item placeholder"
+        @click="context.editmode.addWidget(context.component, null, context.parent)"
+      />
     </masonry>
   </div>
 </template>
 
 <script>
-import mixin from '../widget-mixin'
-import OhPlaceholderWidget from './oh-placeholder-widget.vue'
-import { OhMasonryDefinition } from '@/assets/definitions/widgets/layout'
+import mixin from '../widget-mixin';
+import OhPlaceholderWidget from './oh-placeholder-widget.vue';
+import { OhMasonryDefinition } from '@/assets/definitions/widgets/layout';
+import { MasonryGrid, MasonryGridItem } from 'vue3-masonry-css';
 
 export default {
   mixins: [mixin],
   components: {
-    OhPlaceholderWidget
+    OhPlaceholderWidget,
+    MasonryGrid,
+    MasonryGridItem,
   },
-  data () {
+  data() {
     return {
-      dropdownMenuOpened: null
-    }
+      dropdownMenuOpened: null,
+    };
   },
-  widget: OhMasonryDefinition
-}
+  widget: OhMasonryDefinition,
+};
 </script>
 
 <style lang="stylus">
@@ -105,5 +234,4 @@ export default {
       z-index inherit
     &.placeholder
       width calc(100% - 16px)
-
 </style>

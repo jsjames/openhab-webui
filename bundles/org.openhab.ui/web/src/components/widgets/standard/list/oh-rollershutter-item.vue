@@ -1,29 +1,31 @@
 <template>
   <oh-list-item :context="context">
-    <div slot="after">
-      <generic-widget-component :context="childContext(afterComponent)" v-on="$listeners" />
-    </div>
+    <template #after>
+      <div>
+        <generic-widget-component v-bind="$attrs" :context="childContext(afterComponent)" />
+      </div>
+    </template>
   </oh-list-item>
 </template>
 
 <script>
-import mixin from '../../widget-mixin'
-import OhListItem from './oh-list-item.vue'
-import { OhRollershutterItemDefinition } from '@/assets/definitions/widgets/standard/listitems'
+import mixin from '../../widget-mixin';
+import OhListItem from './oh-list-item.vue';
+import { OhRollershutterItemDefinition } from '@/assets/definitions/widgets/standard/listitems';
 
 export default {
   components: {
-    OhListItem
+    OhListItem,
   },
   mixins: [mixin],
   widget: OhRollershutterItemDefinition,
   computed: {
-    afterComponent () {
+    afterComponent() {
       return {
         component: 'oh-rollershutter',
-        config: this.config
-      }
-    }
-  }
-}
+        config: this.config,
+      };
+    },
+  },
+};
 </script>

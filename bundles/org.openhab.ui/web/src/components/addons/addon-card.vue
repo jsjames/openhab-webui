@@ -2,30 +2,53 @@
   <f7-link v-if="addon" class="addon-card" :href="`/addons/${addon.type}/${addon.uid}`">
     <div class="addon-card-inner card">
       <div class="addon-card-headline">
-        <div>{{ headline || autoHeadline || "&nbsp;" }}</div>
+        <div>{{ headline || autoHeadline || '&nbsp;' }}</div>
       </div>
       <div class="addon-card-title">
         <div v-if="showInstallActions" class="addon-card-title-after">
           <f7-preloader v-if="addon.pending" color="blue" />
-          <f7-button v-else-if="addon.installed" class="install-button prevent-active-state-propagation" text="Remove"
-                     color="red" round small @click="buttonClicked" />
-          <f7-button v-else class="install-button prevent-active-state-propagation"
-                     :text="installActionText || 'Install'" color="blue" round small @click="buttonClicked" />
+          <f7-button
+            v-else-if="addon.installed"
+            class="install-button prevent-active-state-propagation"
+            text="Remove"
+            color="red"
+            round
+            small
+            @click="buttonClicked"
+          />
+          <f7-button
+            v-else
+            class="install-button prevent-active-state-propagation"
+            :text="installActionText || 'Install'"
+            color="blue"
+            round
+            small
+            @click="buttonClicked"
+          />
         </div>
         <div class="addon-card-label" :title="addon.label">
           {{ addon.label }}
         </div>
         <div v-if="addon.verifiedAuthor" class="addon-card-subtitle">
           {{ addon.author }}
-          <f7-icon v-if="addon.verifiedAuthor" size="15"
-                   :color="$f7.data.themeOptions.dark === 'dark' ? 'white' : 'blue'" f7="checkmark_seal_fill"
-                   style="margin-top: -3px;" />
+          <f7-icon
+            v-if="addon.verifiedAuthor"
+            size="15"
+            :color="themeOptions.dark === 'dark' ? 'white' : 'blue'"
+            f7="checkmark_seal_fill"
+            style="margin-top: -3px"
+          />
         </div>
         <div v-else-if="addon.properties && addon.properties.views" class="addon-card-subtitle">
           <addon-stats-line :addon="addon" :iconSize="15" />
         </div>
       </div>
-      <addon-logo class="logo-square" :lazy="lazyLogo !== undefined ? lazyLogo : true" :addon="addon" :size="150" />
+      <addon-logo
+        class="logo-square"
+        :lazy="lazyLogo !== undefined ? lazyLogo : true"
+        :addon="addon"
+        :size="150"
+      />
     </div>
   </f7-link>
 </template>
@@ -108,31 +131,54 @@
 </style>
 
 <script>
-import AddonStatsLine from './addon-stats-line.vue'
-import AddonLogo from '@/components/addons/addon-logo.vue'
+import AddonStatsLine from './addon-stats-line.vue';
+import AddonLogo from '@/components/addons/addon-logo.vue';
+import { f7 } from 'framework7-vue';
+import { themeOptionsStore } from '@/js/stores/theme-options';
 
 export default {
   props: ['addon', 'headline', 'installActionText', 'lazyLogo'],
+  emits: ['addon-button-click'],
   components: {
     AddonLogo,
-    AddonStatsLine
+    AddonStatsLine,
+  },
+  data() {
+    return {
+      themeOptions: themeOptionsStore(),
+    };
   },
   computed: {
-    autoHeadline () {
-      if (this.addon.properties && this.addon.properties.like_count && this.addon.properties.like_count >= 20) return 'Top'
-      if (this.addon.properties && this.addon.properties.views && this.addon.properties.views >= 1000) return 'Popular'
-      if (this.addon.properties && this.addon.properties.posts_count && this.addon.properties.posts_count >= 15) return 'Hot'
-      return ''
+    autoHeadline() {
+      if (
+        this.addon.properties &&
+        this.addon.properties.like_count &&
+        this.addon.properties.like_count >= 20
+      )
+        return 'Top';
+      if (
+        this.addon.properties &&
+        this.addon.properties.views &&
+        this.addon.properties.views >= 1000
+      )
+        return 'Popular';
+      if (
+        this.addon.properties &&
+        this.addon.properties.posts_count &&
+        this.addon.properties.posts_count >= 15
+      )
+        return 'Hot';
+      return '';
     },
-    showInstallActions () {
-      let splitted = this.addon.uid.split(':')
-      return splitted.length < 2 || splitted[0] !== 'eclipse'
-    }
+    showInstallActions() {
+      let splitted = this.addon.uid.split(':');
+      return splitted.length < 2 || splitted[0] !== 'eclipse';
+    },
   },
   methods: {
-    buttonClicked () {
-      this.$emit('addonButtonClick', this.addon)
-    }
-  }
-}
+    buttonClicked() {
+      this.$emit('addon-button-click', this.addon);
+    },
+  },
+};
 </script>

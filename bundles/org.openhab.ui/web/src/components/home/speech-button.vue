@@ -1,7 +1,12 @@
 <template>
-  <f7-link class="habot-speech-icon" v-if="supported"
-           :icon-f7="(listening && activity) ? 'mic_fill' : 'mic'" :icon-size="24" :icon-color="listening ? 'red' : 'gray'"
-           @click="toggleSpeech" />
+  <f7-link
+    class="habot-speech-icon"
+    v-if="supported"
+    :icon-f7="listening && activity ? 'mic_fill' : 'mic'"
+    :icon-size="24"
+    :icon-color="listening ? 'red' : 'gray'"
+    @click="toggleSpeech"
+  />
 </template>
 
 <style lang="stylus">
@@ -23,62 +28,65 @@
 .aurora .habot-speech-icon
   top calc(-0.80 * var(--f7-searchbar-height))
   float right
-
 </style>
 
 <script>
 export default {
   props: ['lang'],
-  data () {
+  emits: ['result'],
+  data() {
     return {
       supported: this.$oh.speech.isRecognitionSupported(),
       listening: false,
-      activity: false
-    }
+      activity: false,
+    };
   },
   methods: {
-    toggleSpeech () {
-      const self = this
-      if (!this.supported) return
+    toggleSpeech() {
+      const self = this;
+      if (!this.supported) return;
       if (!this.listening) {
         // FIXME
-        const locale = (this.lang === 'en') ? 'en-US' : this.lang + '-' + this.lang.toUpperCase()
+        const locale = this.lang === 'en' ? 'en-US' : this.lang + '-' + this.lang.toUpperCase();
 
-        this.$oh.speech.startRecognition(locale,
+        this.$oh.speech.startRecognition(
+          locale,
           // start
-          (ev) => {
-            this.listening = true
+          ev => {
+            this.listening = true;
           },
           // error
-          (ev) => {
-            self.$f7.toast.create({
-              icon: '<i class="f7-icons">mic_slash_fill</i>',
-              text: ev.error,
-              position: 'center',
-              destroyOnClose: true,
-              closeTimeout: 2000
-            }).open()
+          ev => {
+            self.$f7.toast
+              .create({
+                icon: '<i class="f7-icons">mic_slash_fill</i>',
+                text: ev.error,
+                position: 'center',
+                destroyOnClose: true,
+                closeTimeout: 2000,
+              })
+              .open();
           },
           // activity
-          (ev) => {
-            if (ev.type === 'soundstart') self.activity = true
-            if (ev.type === 'soundend') self.activity = false
+          ev => {
+            if (ev.type === 'soundstart') self.activity = true;
+            if (ev.type === 'soundend') self.activity = false;
           },
           // result
-          (result) => {
-            self.$emit('result', result)
+          result => {
+            self.$emit('result', result);
           },
           // end
-          (ev) => {
-            self.listening = false
-            self.activity = false
-            this.$oh.speech.stopRecognition()
+          ev => {
+            self.listening = false;
+            self.activity = false;
+            this.$oh.speech.stopRecognition();
           }
-        )
+        );
       } else {
-        this.$oh.speech.stopRecognition()
+        this.$oh.speech.stopRecognition();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

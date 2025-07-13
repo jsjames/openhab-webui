@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkopenhab=self.webpackChunkopenhab||[]).push([[5773],{5773:function(e,t,n){n.r(t),n.d(t,{default:function(){return o}});var u={props:["context"],components:{ModelTab:n(4193).A}},o=(0,n(14486).A)(u,(function(){return(0,this._self._c)("model-tab",{attrs:{type:"equipment",page:this.context}})}),[],!1,null,null,null).exports}}]);

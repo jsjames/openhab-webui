@@ -8,9 +8,9 @@ const chalk = require('chalk');
 
 const config = require('./webpack.config.js');
 
-const env = process.env.NODE_ENV || 'development';
-const target = process.env.TARGET || 'web';
-const maven = process.env.MAVEN || false;
+const env = (import.meta.env.DEV) ? 'development' : 'production';
+const target = import.meta.TARGET || 'web';
+const maven = import.meta.MAVEN || false;
 const outPath = maven ? '../target/classes/app' : 'www';
 
 const spinner = ora(env === 'production' ? chalk.cyan('Building for production...') : chalk.cyan('Building development version...'));

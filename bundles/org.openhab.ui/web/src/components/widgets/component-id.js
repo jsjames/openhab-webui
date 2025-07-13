@@ -1,17 +1,17 @@
-const ids = new WeakMap()
-let index = 1
+const ids = new WeakMap();
+let index = 1;
 
 export default {
-  get (component) {
-    if (!component || typeof component !== 'object') return undefined
+  get(component) {
+    if (!component || typeof component !== 'object') return undefined;
 
-    let id = ids.get(component)
+    let id = ids.get(component);
     if (!id) {
-      id = index
-      index += 1
-      ids.set(component, id)
+      id = index;
+      index += 1;
+      ids.set(component, id);
     }
 
-    return id
-  }
-}
+    return id;
+  },
+};

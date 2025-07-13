@@ -1,60 +1,62 @@
+import { f7 } from 'framework7-vue';
+
 export default {
-  data () {
+  data() {
     return {
       pageEl: null,
-      inForeground: false
-    }
+      inForeground: false,
+    };
   },
-  mounted () {
-    const isInModal = this.$el.closest('.framework7-modals') || this.$el.closest('.modal-in')
+  mounted() {
+    const isInModal = this.$el.closest('.framework7-modals') || this.$el.closest('.modal-in');
     if (isInModal) {
-      this.inForeground = true
-      this.startForegroundActivity()
-      return
+      this.inForeground = true;
+      this.startForegroundActivity();
+      return;
     }
 
-    this.pageEl = this.$el.closest('.page')
+    this.pageEl = this.$el.closest('.page');
     if (this.pageEl && this.pageEl.classList.contains('page-current')) {
-      this.inForeground = true
-      this.startForegroundActivity()
+      this.inForeground = true;
+      this.startForegroundActivity();
     }
 
-    this.$f7.on('pageAfterIn', this.onPageAfterIn)
-    this.$f7.on('pageBeforeOut', this.onPageBeforeOut)
-    document.addEventListener('visibilitychange', this.onVisibilityChange)
+    f7.on('pageAfterIn', this.onPageAfterIn);
+    f7.on('pageBeforeOut', this.onPageBeforeOut);
+    document.addEventListener('visibilitychange', this.onVisibilityChange);
   },
-  beforeDestroy () {
-    this.$f7.off('pageAfterIn', this.onPageAfterIn)
-    this.$f7.off('pageBeforeOut', this.onPageBeforeOut)
-    document.removeEventListener('visibilitychange', this.onVisibilityChange)
-    this.inForeground = false
-    this.stopForegroundActivity()
+  beforeUnmount() {
+    f7.off('pageAfterIn', this.onPageAfterIn);
+    f7.off('pageBeforeOut', this.onPageBeforeOut);
+    document.removeEventListener('visibilitychange', this.onVisibilityChange);
+    this.inForeground = false;
+    this.stopForegroundActivity();
   },
   methods: {
-    startForegroundActivity () {
+    startForegroundActivity() {
       // override this in your widget
     },
-    stopForegroundActivity () {
+    stopForegroundActivity() {
       // override this in your widget
     },
-    onPageAfterIn (page) {
+    onPageAfterIn(page) {
       if (page.el === this.pageEl) {
-        this.inForeground = true
-        this.startForegroundActivity()
+        this.inForeground = true;
+        this.startForegroundActivity();
       }
     },
-    onPageBeforeOut (page) {
+    onPageBeforeOut(page) {
       if (page.el === this.pageEl) {
-        this.inForeground = false
-        this.stopForegroundActivity()
+        this.inForeground = false;
+        this.stopForegroundActivity();
       }
     },
-    onVisibilityChange () {
+    onVisibilityChange() {
       if (document.visibilityState === 'visible' && this.inForeground) {
-        this.startForegroundActivity()
+        this.startForegroundActivity();
       } else if (document.visibilityState === 'hidden' && this.inForeground) {
-        this.stopForegroundActivity()
+        this.stopForegroundActivity();
       }
-    }
-  }
-}
+    },
+  },
+};

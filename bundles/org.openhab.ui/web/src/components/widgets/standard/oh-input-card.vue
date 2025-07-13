@@ -1,7 +1,11 @@
 <template>
   <oh-card :context="context">
     <template #content>
-      <oh-input class="input-card-content" :context="childContext(context.component)" @command="onCommand" />
+      <oh-input
+        class="input-card-content"
+        :context="childContext(context.component)"
+        @command="onCommand"
+      />
     </template>
   </oh-card>
 </template>
@@ -14,17 +18,17 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin'
-import OhCard from '@/components/widgets/standard/oh-card.vue'
-import { OhInput } from '@/components/widgets/system'
-import { OhInputCardDefinition } from '@/assets/definitions/widgets/standard/cards'
+import mixin from '../widget-mixin';
+import OhCard from '@/components/widgets/standard/oh-card.vue';
+import { OhInput } from '@/components/widgets/system';
+import { OhInputCardDefinition } from '@/assets/definitions/widgets/standard/cards';
 
 export default {
   mixins: [mixin],
   components: {
     OhCard,
-    OhInput
+    OhInput,
   },
-  widget: OhInputCardDefinition
-}
+  widget: OhInputCardDefinition,
+};
 </script>

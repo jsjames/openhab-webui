@@ -1,6 +1,15 @@
 <template>
-  <f7-range ref="rangeslider" class="oh-slider" v-bind="config" :value="sliderValue" :format-label="formatLabel" :format-scale-label="formatScaleLabel"
-            @range:change="onChange($event)" @click.native.stop="sendCommandDebounced(sliderValue, true)" @touchend.native="sendCommandDebounced(sliderValue, true)" />
+  <f7-range
+    v-bind="config"
+    ref="rangeslider"
+    class="oh-slider"
+    v-model="sliderValue"
+    :format-label="formatLabel"
+    :format-scale-label="formatScaleLabel"
+    @range:change="onChange($event)"
+    @click.stop="sendCommandDebounced(sliderValue, true)"
+    @touchend="sendCommandDebounced(sliderValue, true)"
+  />
 </template>
 
 <style lang="stylus">
@@ -10,64 +19,66 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin'
-import slideMixin from './slide-mixin'
-import { OhSliderDefinition } from '@/assets/definitions/widgets/system'
+import mixin from '../widget-mixin';
+import slideMixin from './slide-mixin';
+import { OhSliderDefinition } from '@/assets/definitions/widgets/system';
 
 export default {
   mixins: [mixin, slideMixin],
   widget: OhSliderDefinition,
-  data () {
+  data() {
     return {
-      sliderValue: null
-    }
+      sliderValue: null,
+    };
   },
   watch: {
-    value (newValue) {
+    value(newValue) {
       if (!isNaN(newValue)) {
-        this.sliderValue = newValue
+        this.sliderValue = newValue;
       }
-    }
+    },
   },
-  created () {
+  created() {
     if (!isNaN(this.value)) {
-      this.sliderValue = this.value
+      this.sliderValue = this.value;
     } else {
-      this.sliderValue = this.config.min || this.config.max || 0
+      this.sliderValue = this.config.min || this.config.max || 0;
     }
   },
-  mounted () {
+  mounted() {
     // f7-range inside of masonry can get rendered faulty, as the masonry changes its breakpoint layout after being rendered
     // re-calculate the range slider after masonry is updated
     setTimeout(() => {
       if (this.$refs.rangeslider) {
-        this.$refs.rangeslider.f7Range.calcSize()
-        this.$refs.rangeslider.f7Range.layout()
+        //TODO this.$refs.rangeslider.f7Range.calcSize()
+        //TODO this.$refs.rangeslider.f7Range.layout()
       }
-    }, 0)
+    }, 0);
   },
   methods: {
-    formatLabel (value) {
-      return this.toStepFixed(value) + (this.unit ? ' ' + this.unit : '')
+    formatLabel(value) {
+      return this.toStepFixed(value) + (this.unit ? ' ' + this.unit : '');
     },
-    formatScaleLabel (value) {
-      return this.toStepFixed(value)
+    formatScaleLabel(value) {
+      return this.toStepFixed(value);
     },
-    toStepFixed (value) {
+    toStepFixed(value) {
       // uses the number of decimals in the step config to round the provided number
-      const nbDecimals = this.config.step ? Number(this.config.step).toString().replace(',', '.').split('.')[1]?.length : 0
-      return parseFloat(Number(value).toFixed(nbDecimals ?? 0))
+      const nbDecimals = this.config.step
+        ? Number(this.config.step).toString().replace(',', '.').split('.')[1]?.length
+        : 0;
+      return parseFloat(Number(value).toFixed(nbDecimals ?? 0));
     },
-    onChange (newValue) {
-      if (isNaN(this.value)) return
-      const tsf = this.toStepFixed(newValue)
+    onChange(newValue) {
+      if (isNaN(this.value)) return;
+      const tsf = this.toStepFixed(newValue);
       // Do NOT send command if sliderValue is smaller than real value +-step
       if (Math.abs(tsf - this.value) < (this.config.step || 1)) {
-        this.$refs.rangeslider.setValue(this.value)
+        this.sliderValue = this.value;
       } else {
-        this.sendCommandDebounced(tsf)
+        this.sendCommandDebounced(tsf);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

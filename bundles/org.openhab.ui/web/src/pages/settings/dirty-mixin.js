@@ -1,49 +1,53 @@
+import { f7 } from 'framework7-vue';
+
 export default {
-  data () {
+  data() {
     return {
-      dirty: false
-    }
+      dirty: false,
+    };
   },
   computed: {
-    dirtyIndicator () {
+    dirtyIndicator() {
       if (this.dirty) {
-        return ' ●' // &#9679;
+        return ' ●'; // &#9679;
       }
-      return ''
-    }
+      return '';
+    },
   },
   methods: {
-    confirmLeaveWithoutSaving (callbackLeave, callbackCancel) {
-      this.$f7.dialog.confirm(
+    confirmLeaveWithoutSaving(callbackLeave, callbackCancel) {
+      f7.dialog.confirm(
         'Do you want to leave this page without saving?',
         'Changes have not been saved',
         callbackLeave,
         callbackCancel
-      )
+      );
     },
-    beforeLeave (router, routeTo, routeFrom, resolve, reject) {
+    beforeLeave(context) {
       if (this.dirty) {
         this.confirmLeaveWithoutSaving(
-          function () { resolve() },
           function () {
-            const { pushStateRoot = '', pushStateSeparator } = router.params
-            let url = routeFrom.url
-            history.pushState({ 'view_main': { url } }, '', pushStateRoot + pushStateSeparator + url)
-            reject()
-            router.allowPageChange = true
+            context.resolve();
+          },
+          function () {
+            const { pushStateRoot = '', pushStateSeparator } = router.params;
+            let url = routeFrom.url;
+            history.pushState({ view_main: { url } }, '', pushStateRoot + pushStateSeparator + url);
+            context.reject();
+            router.allowPageChange = true;
           }
-        )
+        );
       } else {
-        resolve()
+        context.resolve();
       }
     },
-    switchTab (tab, onSuccessCallback) {
+    switchTab(tab, onSuccessCallback) {
       if (this.currentTab !== tab) {
-        this.currentTab = tab
+        this.currentTab = tab;
         if (onSuccessCallback) {
-          onSuccessCallback()
+          onSuccessCallback();
         }
       }
-    }
-  }
-}
+    },
+  },
+};

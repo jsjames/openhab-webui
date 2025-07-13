@@ -1,25 +1,53 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut">
-    <f7-navbar :title="(createMode ? 'Create' : 'Edit') + ' Transformation' + dirtyIndicator" :subtitle="(!createMode && transformation) ? editorMode : ''" back-link="Back">
+    <f7-navbar
+      :title="(createMode ? 'Create' : 'Edit') + ' Transformation' + dirtyIndicator"
+      :subtitle="!createMode && transformation ? editorMode : ''"
+      back-link="Back"
+    >
       <f7-nav-right>
         <f7-link v-if="createMode" @click="createTransformation" icon-md="material:save">
-          {{ $theme.md ? '' : 'Create' }}
+          {{ theme.md ? '' : 'Create' }}
         </f7-link>
         <f7-link v-else-if="isEditable" @click="save()" icon-md="material:save">
-          <template v-if="!$theme.md">
+          <template v-if="!theme.md">
             Save<span v-if="$device.desktop">&nbsp;(Ctrl-S)</span>
           </template>
         </f7-link>
-        <f7-link v-else icon-f7="lock_fill" tooltip="This transformation is not editable through the UI">
+        <f7-link
+          v-else
+          icon-f7="lock_fill"
+          tooltip="This transformation is not editable through the UI"
+        >
           Details
         </f7-link>
       </f7-nav-right>
     </f7-navbar>
     <!-- Create Transformation -->
-    <transformation-general-settings v-if="createMode && ready" :createMode="true" :transformation="transformation" :types="types" :languages="languages" :language="language" @newType="transformation.type = $event" @newLanguage="language = $event" />
-    <div v-if="ready && createMode" class="if-aurora display-flex justify-content-center margin padding">
+    <transformation-general-settings
+      v-if="createMode && ready"
+      :createMode="true"
+      :transformation="transformation"
+      :types="types"
+      :languages="languages"
+      :language="language"
+      @new-type="transformation.type = $event"
+      @new-language="language = $event"
+    />
+    <div
+      v-if="ready && createMode"
+      class="if-aurora display-flex justify-content-center margin padding"
+    >
       <div class="flex-shrink-0">
-        <f7-button class="padding-left padding-right" style="width: 150px" color="blue" large raised fill @click="createTransformation">
+        <f7-button
+          class="padding-left padding-right"
+          style="width: 150px"
+          color="blue"
+          large
+          raised
+          fill
+          @click="createTransformation"
+        >
           Create
         </f7-button>
       </div>
@@ -29,30 +57,91 @@
       <span class="display-flex flex-direction-row align-items-center" />
       <span class="display-flex flex-direction-row align-items-center">
         <f7-segmented v-if="isBlockly" class="margin-right">
-          <f7-button outline small :active="!blocklyCodePreview" icon-f7="ticket" :icon-size="($theme.aurora) ? 20 : 22" class="no-ripple" @click="blocklyCodePreview = false" />
-          <f7-button outline small :active="blocklyCodePreview" icon-f7="doc_text" :icon-size="($theme.aurora) ? 20 : 22" class="no-ripple" @click="showBlocklyCode" />
+          <f7-button
+            outline
+            small
+            :active="!blocklyCodePreview"
+            icon-f7="ticket"
+            :icon-size="theme.aurora ? 20 : 22"
+            class="no-ripple"
+            @click="blocklyCodePreview = false"
+          />
+          <f7-button
+            outline
+            small
+            :active="blocklyCodePreview"
+            icon-f7="doc_text"
+            :icon-size="theme.aurora ? 20 : 22"
+            class="no-ripple"
+            @click="showBlocklyCode"
+          />
         </f7-segmented>
-        <f7-link v-if="DocumentationLinks[transformation.type]"
-                 icon-color="blue"
-                 :text="$device.desktop ? 'Open Documentation' : 'Docs'"
-                 tooltip="Open documentation"
-                 icon-ios="f7:question_circle" icon-md="f7:question_circle" icon-aurora="f7:question_circle"
-                 color="blue"
-                 :href="$store.state.websiteUrl + DocumentationLinks[transformation.type]" target="_blank" external />
-        <f7-link class="right details-link margin-left padding-right" ref="detailsLink" @click="detailsOpened = true" icon-f7="chevron_up" />
+        <f7-link
+          v-if="DocumentationLinks[transformation.type]"
+          icon-color="blue"
+          :text="$device.desktop ? 'Open Documentation' : 'Docs'"
+          tooltip="Open documentation"
+          icon-ios="f7:question_circle"
+          icon-md="f7:question_circle"
+          icon-aurora="f7:question_circle"
+          color="blue"
+          :href="$store.state.websiteUrl + DocumentationLinks[transformation.type]"
+          target="_blank"
+          external
+        />
+        <f7-link
+          class="right details-link margin-left padding-right"
+          ref="detailsLink"
+          @click="detailsOpened = true"
+          icon-f7="chevron_up"
+        />
       </span>
     </f7-toolbar>
-    <f7-icon v-if="!createMode && ready && (!isBlockly && !isEditable) || (blocklyCodePreview && isBlockly)" f7="lock" class="float-right margin" style="opacity:0.5; z-index: 4000; user-select: none;" size="50" color="gray"
-             :tooltip="(isBlockly) ? 'Cannot edit the code generated by Blockly' : 'This transformation is not editable because it has been provisioned from a file'" />
-    <editor v-if="!createMode && ready && (!isBlockly || blocklyCodePreview)" class="rule-script-editor" :mode="editorMode" :value="transformation.configuration.function" @input="onEditorInput" :read-only="isBlockly || !isEditable" :tern-autocompletion-hook="true" />
-    <blockly-editor ref="blocklyEditor" v-else-if="isBlockly" :blocks="transformation.configuration.blockSource" @change="dirty = true" />
+    <f7-icon
+      v-if="
+        (!createMode && ready && !isBlockly && !isEditable) || (blocklyCodePreview && isBlockly)
+      "
+      f7="lock"
+      class="float-right margin"
+      style="opacity: 0.5; z-index: 4000; user-select: none"
+      size="50"
+      color="gray"
+      :tooltip="
+        isBlockly
+          ? 'Cannot edit the code generated by Blockly'
+          : 'This transformation is not editable because it has been provisioned from a file'
+      "
+    />
+    <editor
+      v-if="!createMode && ready && (!isBlockly || blocklyCodePreview)"
+      class="rule-script-editor"
+      :mode="editorMode"
+      :value="transformation.configuration.function"
+      @input="onEditorInput"
+      :read-only="isBlockly || !isEditable"
+      :tern-autocompletion-hook="true"
+    />
+    <blockly-editor
+      ref="blocklyEditor"
+      v-else-if="isBlockly"
+      :blocks="transformation.configuration.blockSource"
+      @change="dirty = true"
+    />
     <!-- TODO: Enable Blockly after blocks have been adjusted
-    <f7-fab v-show="transformation.configuration && !transformation.configuration.function && transformation.configuration.mode === 'application/javascript' && !isBlockly" position="center-bottom" slot="fixed" color="blue" @click="convertToBlockly" text="Design with Blockly">
+    <f7-fab v-show="transformation.configuration && !transformation.configuration.function && transformation.configuration.mode === 'application/javascript' && !isBlockly" position="center-bottom" color="blue" @click="convertToBlockly" text="Design with Blockly">
       <f7-icon f7="ticket_fill" />
     </f7-fab>
     -->
 
-    <f7-sheet v-if="ready" ref="detailsSheet" class="transformation-details-sheet" :backdrop="false" :close-on-escape="true" :opened="detailsOpened" @sheet:closed="detailsOpened = false">
+    <f7-sheet
+      v-if="ready"
+      ref="detailsSheet"
+      class="transformation-details-sheet"
+      :backdrop="false"
+      :close-on-escape="true"
+      :opened="detailsOpened"
+      @sheet:closed="detailsOpened = false"
+    >
       <f7-page>
         <f7-toolbar tabbar bottom>
           <span class="margin-left">Transformation details</span>
@@ -62,7 +151,10 @@
             </f7-link>
           </div>
         </f7-toolbar>
-        <transformation-general-settings :createMode="createMode" :transformation="transformation" />
+        <transformation-general-settings
+          :createMode="createMode"
+          :transformation="transformation"
+        />
         <f7-block class="block-narrow">
           <f7-col>
             <f7-list v-if="isEditable">
@@ -71,7 +163,9 @@
               </f7-list-button>
             </f7-list>
             <p class="text-align-center">
-              Tip: Use <code>{{ itemStateTransformationCode }}</code> <clipboard-icon :value="itemStateTransformationCode" tooltip="Copy transformation" /> as pattern for Item state description metadata.
+              Tip: Use <code>{{ itemStateTransformationCode }}</code>
+              <clipboard-icon :value="itemStateTransformationCode" tooltip="Copy transformation" />
+              as pattern for Item state description metadata.
             </p>
           </f7-col>
         </f7-block>
@@ -89,24 +183,40 @@
 </style>
 
 <script>
-import cloneDeep from 'lodash/cloneDeep'
-import fastDeepEqual from 'fast-deep-equal/es6'
+import cloneDeep from 'lodash/cloneDeep';
+import fastDeepEqual from 'fast-deep-equal/es6';
+import { utils } from 'framework7';
+import { f7, theme } from 'framework7-vue';
+import { defineAsyncComponent } from 'vue';
 
-import DirtyMixin from '../dirty-mixin'
-import TransformationGeneralSettings from '@/pages/settings/transformations/transformation-general-settings'
-import { CodeSnippets, EditorModes, DocumentationLinks } from '@/assets/transformations.js'
-import ClipboardIcon from '@/components/util/clipboard-icon.vue'
+import DirtyMixin from '../dirty-mixin';
+import TransformationGeneralSettings from '@/pages/settings/transformations/transformation-general-settings';
+import { CodeSnippets, EditorModes, DocumentationLinks } from '@/assets/transformations.js';
+import ClipboardIcon from '@/components/util/clipboard-icon.vue';
 
 export default {
   mixins: [DirtyMixin],
   components: {
     ClipboardIcon,
     TransformationGeneralSettings,
-    'editor': () => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'),
-    'blockly-editor': () => import(/* webpackChunkName: "blockly-editor" */ '@/components/config/controls/blockly-editor.vue')
+    editor: defineAsyncComponent(
+      () =>
+        import(
+          /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
+        )
+    ),
+    'blockly-editor': defineAsyncComponent(
+      () =>
+        import(
+          /* webpackChunkName: "blockly-editor" */ '@/components/config/controls/blockly-editor.vue'
+        )
+    ),
   },
   props: ['transformationId', 'createMode'],
-  data () {
+  setup() {
+    return { theme };
+  },
+  data() {
     return {
       ready: false,
       loading: false,
@@ -117,199 +227,226 @@ export default {
       language: '',
       detailsOpened: false,
       editorMode: '',
-      blocklyCodePreview: false
-    }
+      blocklyCodePreview: false,
+    };
   },
   watch: {
     transformation: {
       handler: function () {
-        if (!this.loading) { // ignore changes during loading
-          this.dirty = !fastDeepEqual(this.transformation, this.savedTransformation)
+        if (!this.loading) {
+          // ignore changes during loading
+          this.dirty = !fastDeepEqual(this.transformation, this.savedTransformation);
         }
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   computed: {
-    isEditable () {
-      return this.transformation && this.transformation.editable !== false
+    isEditable() {
+      return this.transformation && this.transformation.editable !== false;
     },
-    isBlockly () {
+    isBlockly() {
       // TODO: Enable Blockly after blocks have been adjusted
       // return this.transformation.configuration && this.transformation.configuration.blockSource
-      return false
+      return false;
     },
-    itemStateTransformationCode () {
-      return `${this.transformation.type.toUpperCase()}(${this.transformation.uid}):%s`
-    }
+    itemStateTransformationCode() {
+      return `${this.transformation.type.toUpperCase()}(${this.transformation.uid}):%s`;
+    },
   },
   methods: {
-    onPageAfterIn () {
-      if (this.ready) return
+    onPageAfterIn() {
+      if (this.ready) return;
       if (this.createMode) {
-        this.initializeNewTransformation()
-        return
+        this.initializeNewTransformation();
+        return;
       }
       if (window) {
-        window.addEventListener('keydown', this.keyDown)
+        window.addEventListener('keydown', this.keyDown);
       }
-      this.load()
+      this.load();
     },
-    onPageBeforeOut () {
-      if (this.$refs.detailsSheet.f7Sheet) this.$refs.detailsSheet.f7Sheet.close()
+    onPageBeforeOut() {
+      if (this.$refs.detailsSheet.f7Sheet) this.$refs.detailsSheet.f7Sheet.close();
       if (window) {
-        window.removeEventListener('keydown', this.keyDown)
+        window.removeEventListener('keydown', this.keyDown);
       }
     },
-    initializeNewTransformation () {
+    initializeNewTransformation() {
       this.transformation = {
-        uid: this.$f7.utils.id(),
+        uid: utils.id(),
         label: '',
         type: '',
         configuration: {
-          function: ''
+          function: '',
         },
-        editable: true
-      }
-      this.savedTransformation = cloneDeep(this.transformation)
-      Promise.all([this.$oh.api.get('/rest/transformations/services'), this.$oh.api.get('/rest/config-descriptions/system:i18n')]).then((data) => {
-        this.$set(this, 'types', data[0])
-
-        this.$set(this, 'languages', data[1].parameters.find(p => p.name === 'language').options)
-      })
-      this.language = ''
-      this.ready = true
+        editable: true,
+      };
+      this.savedTransformation = cloneDeep(this.transformation);
+      Promise.all([
+        this.$oh.api.get('/rest/transformations/services'),
+        this.$oh.api.get('/rest/config-descriptions/system:i18n'),
+      ]).then(data => {
+        this.types = data[0];
+        this.languages = data[1].parameters.find(p => p.name === 'language').options;
+      });
+      this.language = '';
+      this.ready = true;
     },
-    createTransformation () {
+    createTransformation() {
       if (!this.transformation.uid) {
-        this.$f7.dialog.alert('Please give an ID for the transformation')
-        return
+        f7.dialog.alert('Please give an ID for the transformation');
+        return;
       }
       if (!this.transformation.type) {
-        this.$f7.dialog.alert('Please give the type of the transformation')
-        return
+        f7.dialog.alert('Please give the type of the transformation');
+        return;
       }
       // openHAB core expects lowercase, however the list of available transformation services is uppercase
-      this.transformation.type = this.transformation.type.toLowerCase()
+      this.transformation.type = this.transformation.type.toLowerCase();
       if (!this.transformation.label) {
-        this.$f7.dialog.alert('Please give a label for this transformation')
-        return
+        f7.dialog.alert('Please give a label for this transformation');
+        return;
       }
 
-      this.transformation.uid = 'config:' + this.transformation.type + ':' + this.transformation.uid
+      this.transformation.uid =
+        'config:' + this.transformation.type + ':' + this.transformation.uid;
       if (this.language) {
-        this.transformation.uid += ':' + this.language
+        this.transformation.uid += ':' + this.language;
       }
 
       // Insert code example if available
-      if (CodeSnippets[this.transformation.type]) this.transformation.configuration.function = CodeSnippets[this.transformation.type]
+      if (CodeSnippets[this.transformation.type])
+        this.transformation.configuration.function = CodeSnippets[this.transformation.type];
 
-      this.$oh.api.put('/rest/transformations/' + this.transformation.uid, this.transformation).then(() => {
-        this.dirty = false
-        this.$f7.toast.create({
-          text: 'Transformation created',
-          destroyOnClose: true,
-          closeTimeout: 2000
-        }).open()
-        this.$f7router.navigate(this.$f7route.url.replace('/add', '/' + this.transformation.uid), { reloadCurrent: true })
-      })
+      this.$oh.api
+        .put('/rest/transformations/' + this.transformation.uid, this.transformation)
+        .then(() => {
+          this.dirty = false;
+          f7.toast
+            .create({
+              text: 'Transformation created',
+              destroyOnClose: true,
+              closeTimeout: 2000,
+            })
+            .open();
+          this.$f7router.navigate(
+            this.$f7route.url.replace('/add', '/' + this.transformation.uid),
+            { reloadCurrent: true }
+          );
+        });
     },
-    load () {
-      if (this.loading) return
-      this.loading = true
+    load() {
+      if (this.loading) return;
+      this.loading = true;
 
-      this.$oh.api.get('/rest/transformations/' + this.transformationId).then((data) => {
-        this.$set(this, 'transformation', data)
-        this.savedTransformation = cloneDeep(this.transformation)
-        this.editorMode = EditorModes[this.transformation.type] || this.transformation.type
-        this.loading = false
-        this.ready = true
-      })
+      this.$oh.api.get('/rest/transformations/' + this.transformationId).then(data => {
+        this.transformation = data;
+        this.savedTransformation = cloneDeep(this.transformation);
+        this.editorMode = EditorModes[this.transformation.type] || this.transformation.type;
+        this.loading = false;
+        this.ready = true;
+      });
     },
-    save (noToast) {
-      if (!this.isEditable) return
+    save(noToast) {
+      if (!this.isEditable) return;
       if (this.isBlockly) {
         try {
-          this.transformation.configuration.blockSource = this.$refs.blocklyEditor.getBlocks()
-          this.transformation.configuration.function = this.$refs.blocklyEditor.getCode()
+          this.transformation.configuration.blockSource = this.$refs.blocklyEditor.getBlocks();
+          this.transformation.configuration.function = this.$refs.blocklyEditor.getCode();
         } catch (e) {
-          this.$f7.dialog.alert(e)
-          return Promise.reject(e)
+          f7.dialog.alert(e);
+          return Promise.reject(e);
         }
       }
-      return this.$oh.api.put('/rest/transformations/' + this.transformation.uid, this.transformation).then((data) => {
-        this.dirty = false
-        this.savedTransformation = cloneDeep(this.transformation)
-        if (!noToast) {
-          this.$f7.toast.create({
-            text: 'Transformation updated',
-            destroyOnClose: true,
-            closeTimeout: 2000
-          }).open()
-        }
-      }).catch((err) => {
-        this.$f7.toast.create({
-          text: 'Error while saving transformation configuration: ' + err,
-          destroyOnClose: true,
-          closeTimeout: 2000
-        }).open()
-      })
+      return this.$oh.api
+        .put('/rest/transformations/' + this.transformation.uid, this.transformation)
+        .then(data => {
+          this.dirty = false;
+          this.savedTransformation = cloneDeep(this.transformation);
+          if (!noToast) {
+            f7.toast
+              .create({
+                text: 'Transformation updated',
+                destroyOnClose: true,
+                closeTimeout: 2000,
+              })
+              .open();
+          }
+        })
+        .catch(err => {
+          f7.toast
+            .create({
+              text: 'Error while saving transformation configuration: ' + err,
+              destroyOnClose: true,
+              closeTimeout: 2000,
+            })
+            .open();
+        });
     },
-    deleteTransformation () {
-      this.$f7.dialog.confirm(
+    deleteTransformation() {
+      f7.dialog.confirm(
         `Are you sure you want to delete ${this.transformation.uid}?`,
         'Delete Transformation',
         () => {
           this.$oh.api.delete('/rest/transformations/' + this.transformation.uid).then(() => {
-            this.dirty = false
-            this.$f7router.back('/settings/transformations/', { force: true })
-          })
+            this.dirty = false;
+            this.$f7router.back('/settings/transformations/', {
+              force: true,
+            });
+          });
         }
-      )
+      );
     },
-    showBlocklyCode () {
+    showBlocklyCode() {
       try {
-        this.transformation.configuration.blockSource = this.$refs.blocklyEditor.getBlocks()
-        this.transformation.configuration.function = this.$refs.blocklyEditor.getCode()
-        if (this.isBlockly) this.blocklyCodePreview = true
+        this.transformation.configuration.blockSource = this.$refs.blocklyEditor.getBlocks();
+        this.transformation.configuration.function = this.$refs.blocklyEditor.getCode();
+        if (this.isBlockly) this.blocklyCodePreview = true;
       } catch (e) {
-        this.$f7.dialog.alert(e)
+        f7.dialog.alert(e);
       }
     },
-    convertToBlockly () {
-      if ((this.configuration && this.transformation.configuration.function) || this.isBlockly || this.transformation.configuration.mode !== 'application/javascript') return
-      this.$set(this.transformation.configuration, 'blockSource', '<xml xmlns="https://developers.google.com/blockly/xml"></xml>')
+    convertToBlockly() {
+      if (
+        (this.configuration && this.transformation.configuration.function) ||
+        this.isBlockly ||
+        this.transformation.configuration.mode !== 'application/javascript'
+      )
+        return;
+      this.transformation.configuration.blockSource =
+        '<xml xmlns="https://developers.google.com/blockly/xml"></xml>';
     },
-    onEditorInput (value) {
-      this.transformation.configuration.function = value
+    onEditorInput(value) {
+      this.transformation.configuration.function = value;
     },
-    keyDown (ev) {
+    keyDown(ev) {
       if ((ev.ctrlKey || ev.metaKey) && !(ev.altKey || ev.shiftKey)) {
         switch (ev.keyCode) {
           case 66:
             if (this.isBlockly) {
               if (this.blocklyCodePreview) {
-                this.blocklyCodePreview = false
+                this.blocklyCodePreview = false;
               } else {
-                this.showBlocklyCode()
+                this.showBlocklyCode();
               }
             } else {
-              this.convertToBlockly()
+              this.convertToBlockly();
             }
-            ev.stopPropagation()
-            ev.preventDefault()
-            break
+            ev.stopPropagation();
+            ev.preventDefault();
+            break;
           case 83:
-            this.save()
-            ev.stopPropagation()
-            ev.preventDefault()
-            break
+            this.save();
+            ev.stopPropagation();
+            ev.preventDefault();
+            break;
         }
       }
-    }
+    },
   },
-  created () {
-    this.DocumentationLinks = DocumentationLinks
-  }
-}
+  created() {
+    this.DocumentationLinks = DocumentationLinks;
+  },
+};
 </script>

@@ -1,42 +1,111 @@
 <template>
-  <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut" hide-bars-on-scroll :style="pageStyle" class="disable-user-select">
-    <f7-navbar v-if="!page || !page.config.hideNavbar" :back-link="(showBackButton) ? $t('page.navbar.back') : undefined" class="disable-user-select">
+  <f7-page
+    @page:afterin="onPageAfterIn"
+    @page:beforeout="onPageBeforeOut"
+    hide-bars-on-scroll
+    :style="pageStyle"
+    class="disable-user-select"
+  >
+    <f7-navbar
+      v-if="!page || !page.config.hideNavbar"
+      :back-link="showBackButton ? $t('page.navbar.back') : undefined"
+      class="disable-user-select"
+    >
       <f7-nav-left v-if="!showBackButton">
-        <f7-link icon-ios="f7:menu" icon-aurora="f7:menu" icon-md="material:menu" panel-open="left" />
+        <f7-link
+          icon-ios="f7:menu"
+          icon-aurora="f7:menu"
+          icon-md="material:menu"
+          panel-open="left"
+        />
       </f7-nav-left>
       <f7-nav-title>{{ pageLabel }}</f7-nav-title>
       <f7-nav-right>
         <f7-link v-if="isAdmin" icon-md="material:edit" @click="editPage" class="edit-page-button">
-          {{ $theme.md ? '' : $t('page.navbar.edit') }}
+          {{ theme.md ? '' : $t('page.navbar.edit') }}
         </f7-link>
-        <f7-link v-if="fullscreenIcon" class="fullscreen-icon-navbar" :icon-f7="fullscreenIcon" @click="toggleFullscreen" />
-        <div v-if="!showBackButton && !isAdmin && !fullscreenIcon" style="width: 44px; height: 44px;" />
+        <f7-link
+          v-if="fullscreenIcon"
+          class="fullscreen-icon-navbar"
+          :icon-f7="fullscreenIcon"
+          @click="toggleFullscreen"
+        />
+        <div
+          v-if="!showBackButton && !isAdmin && !fullscreenIcon"
+          style="width: 44px; height: 44px"
+        />
       </f7-nav-right>
     </f7-navbar>
     <template v-else>
-      <f7-link v-if="!page.config.hideSidebarIcon" class="sidebar-icon" icon-ios="f7:menu" icon-aurora="f7:menu" icon-md="material:menu" panel-open="left" />
-      <f7-link v-if="fullscreenIcon" class="fullscreen-icon" :icon-f7="fullscreenIcon" @click="toggleFullscreen" />
+      <f7-link
+        v-if="!page.config.hideSidebarIcon"
+        class="sidebar-icon"
+        icon-ios="f7:menu"
+        icon-aurora="f7:menu"
+        icon-md="material:menu"
+        panel-open="left"
+      />
+      <f7-link
+        v-if="fullscreenIcon"
+        class="fullscreen-icon"
+        :icon-f7="fullscreenIcon"
+        @click="toggleFullscreen"
+      />
     </template>
 
     <!-- Tabbed Pages -->
     <f7-toolbar tabbar labels bottom v-if="page && pageType === 'tabs' && visibleToCurrentUser">
-      <f7-link v-for="(tab, idx) in page.slots.default" :key="idx" tab-link @click="onTabChange(idx)" :tab-link-active="currentTab === idx">
-        <i v-if="tabEvaluateExpression(tab, idx, 'icon')" class="icon" :style="{ width: tabBarIconSize, height: tabBarIconSize }">
-          <oh-icon :icon="tabEvaluateExpression(tab, idx, 'icon')" :width="tabBarIconSize" :height="tabBarIconSize" />
-          <f7-badge v-if="tabEvaluateExpression(tab, idx, 'badge')" :color="tabEvaluateExpression(tab, idx, 'badgeColor')">{{ tabEvaluateExpression(tab, idx, 'badge') }}</f7-badge>
+      <f7-link
+        v-for="(tab, idx) in page.slots.default"
+        :key="idx"
+        tab-link
+        @click="onTabChange(idx)"
+        :tab-link-active="currentTab === idx"
+      >
+        <i
+          v-if="tabEvaluateExpression(tab, idx, 'icon')"
+          class="icon"
+          :style="{ width: tabBarIconSize, height: tabBarIconSize }"
+        >
+          <oh-icon
+            :icon="tabEvaluateExpression(tab, idx, 'icon')"
+            :width="tabBarIconSize"
+            :height="tabBarIconSize"
+          />
+          <f7-badge
+            v-if="tabEvaluateExpression(tab, idx, 'badge')"
+            :color="tabEvaluateExpression(tab, idx, 'badgeColor')"
+            >{{ tabEvaluateExpression(tab, idx, 'badge') }}</f7-badge
+          >
         </i>
         <span class="tabbar-label">{{ tabEvaluateExpression(tab, idx, 'title') }}</span>
       </f7-link>
     </f7-toolbar>
     <f7-tabs v-if="page && pageType === 'tabs' && visibleToCurrentUser">
       <f7-tab v-for="(tab, idx) in page.slots.default" :key="idx" :tab-active="currentTab === idx">
-        <component v-if="currentTab === idx" :is="tabComponent(tab)" :context="tabContext(tab)" @command="onCommand" />
+        <component
+          v-if="currentTab === idx"
+          :is="tabComponent(tab)"
+          :context="tabContext(tab)"
+          @command="onCommand"
+        />
       </f7-tab>
     </f7-tabs>
 
-    <component :is="page.component" v-else-if="page && visibleToCurrentUser" :context="context" @command="onCommand" @action="performAction($event.ev, $event.prefix, $event.config, $event.context)" />
+    <component
+      :is="page.component"
+      v-else-if="page && visibleToCurrentUser"
+      :context="context"
+      @command="onCommand"
+      @action="performAction($event.ev, $event.prefix, $event.config, $event.context)"
+    />
 
-    <empty-state-placeholder v-if="!visibleToCurrentUser" icon="multiply_circle_fill" title="page.unavailable.title" text="page.unavailable.text" />
+    <empty-state-placeholder
+      v-if="!visibleToCurrentUser"
+      icon="multiply_circle_fill"
+      title="page.unavailable.title"
+      text="page.unavailable.text"
+    />
   </f7-page>
 </template>
 
@@ -57,194 +126,230 @@
 </style>
 
 <script>
-import OhLayoutPage from '@/components/widgets/layout/oh-layout-page.vue'
-import WidgetExpressionMixin from '@/components/widgets/widget-expression-mixin'
-import { actionsMixin } from '@/components/widgets/widget-actions'
+import OhLayoutPage from '@/components/widgets/layout/oh-layout-page.vue';
+import WidgetExpressionMixin from '@/components/widgets/widget-expression-mixin';
+import { actionsMixin } from '@/components/widgets/widget-actions';
+import { f7, theme } from 'framework7-vue';
+import { defineAsyncComponent } from 'vue';
 
 export default {
   mixins: [WidgetExpressionMixin, actionsMixin],
   components: {
     'oh-layout-page': OhLayoutPage,
-    'empty-state-placeholder': () => import('@/components/empty-state-placeholder.vue'),
-    'oh-map-page': () => import(/* webpackChunkName: "map-page" */ '@/components/widgets/map/oh-map-page.vue'),
-    'oh-plan-page': () => import(/* webpackChunkName: "plan-page" */ '@/components/widgets/plan/oh-plan-page.vue'),
-    'oh-chart-page': () => import(/* webpackChunkName: "chart-page" */ '@/components/widgets/chart/oh-chart-page.vue'),
-    'oh-locations-tab': () => import('@/components/tabs/locations-tab.vue'),
-    'oh-equipment-tab': () => import('@/components/tabs/equipment-tab.vue'),
-    'oh-properties-tab': () => import('@/components/tabs/properties-tab.vue')
+    'empty-state-placeholder': defineAsyncComponent(
+      () => import('@/components/empty-state-placeholder.vue')
+    ),
+    'oh-map-page': defineAsyncComponent(
+      () => import(/* webpackChunkName: "map-page" */ '@/components/widgets/map/oh-map-page.vue')
+    ),
+    'oh-plan-page': defineAsyncComponent(
+      () => import(/* webpackChunkName: "plan-page" */ '@/components/widgets/plan/oh-plan-page.vue')
+    ),
+    'oh-chart-page': defineAsyncComponent(
+      () =>
+        import(/* webpackChunkName: "chart-page" */ '@/components/widgets/chart/oh-chart-page.vue')
+    ),
+    'oh-locations-tab': defineAsyncComponent(() => import('@/components/tabs/locations-tab.vue')),
+    'oh-equipment-tab': defineAsyncComponent(() => import('@/components/tabs/equipment-tab.vue')),
+    'oh-properties-tab': defineAsyncComponent(() => import('@/components/tabs/properties-tab.vue')),
   },
   props: ['uid', 'initialTab', 'deep', 'defineVars'],
-  data () {
+  setup() {
+    return { theme };
+  },
+  data() {
     return {
       currentTab: this.initialTab ? Number(this.initialTab) : 0,
       fullscreen: this.$fullscreen.getState(),
 
-      vars: {}
-    }
+      vars: {},
+    };
   },
   watch: {
-    pageType (newType, oldType) {
+    pageType(newType, oldType) {
       if (oldType === null && newType === 'tabs') {
-        this.onTabChange(this.currentTab)
+        this.onTabChange(this.currentTab);
       }
-    }
+    },
   },
   computed: {
-    pageStyle () {
-      if (!this.context) return null
-      const pageComponent = (this.pageType === 'tabs') ? this.tabContext(this.context.component.slots.default[this.currentTab]).component : this.context.component
-      if (!pageComponent || !pageComponent.config || !pageComponent.config.style) return null
-      return pageComponent.config.style
+    pageStyle() {
+      if (!this.context) return null;
+      const pageComponent =
+        this.pageType === 'tabs'
+          ? this.tabContext(this.context.component.slots.default[this.currentTab]).component
+          : this.context.component;
+      if (!pageComponent || !pageComponent.config || !pageComponent.config.style) return null;
+      return pageComponent.config.style;
     },
     // Resolve the f7 CSS variable because iconify's SVG element doesn't like css variables
-    tabBarIconSize () {
-      return window.getComputedStyle(document.documentElement).getPropertyValue('--f7-tabbar-icon-size')
+    tabBarIconSize() {
+      return window
+        .getComputedStyle(document.documentElement)
+        .getPropertyValue('--f7-tabbar-icon-size');
     },
-    context () {
+    context() {
       return {
         component: this.page,
-        vars: Object.assign((this.page && this.page.config && this.page.config.defineVars) ? this.page.config.defineVars : {}, this.defineVars),
-        store: this.$store.getters.trackedItems
-      }
+        vars: Object.assign(
+          this.page && this.page.config && this.page.config.defineVars
+            ? this.page.config.defineVars
+            : {},
+          this.defineVars
+        ),
+        store: this.$store.getters.trackedItems,
+      };
     },
-    page () {
-      return this.$store.getters.page(this.uid)
+    page() {
+      return this.$store.getters.page(this.uid);
     },
-    pageType () {
-      return this.getPageType(this.page)
+    pageType() {
+      return this.getPageType(this.page);
     },
-    pageLabel () {
-      return this.page?.config.label
+    pageLabel() {
+      return this.page?.config.label;
     },
-    isAdmin () {
-      return this.page && this.$store.getters.isAdmin
+    isAdmin() {
+      return this.page && this.$store.getters.isAdmin;
     },
-    visibleToCurrentUser () {
-      if (!this.page || !this.page.config || !this.page.config.visibleTo) return true
-      const user = this.$store.getters.user
-      if (!user) return false
-      if (user.roles && user.roles.some(r => this.page.config.visibleTo.indexOf('role:' + r) >= 0)) return true
-      if (this.page.config.visibleTo.indexOf('user:' + user.name) >= 0) return true
-      return false
+    visibleToCurrentUser() {
+      if (!this.page || !this.page.config || !this.page.config.visibleTo) return true;
+      const user = this.$store.getters.user;
+      if (!user) return false;
+      if (user.roles && user.roles.some(r => this.page.config.visibleTo.indexOf('role:' + r) >= 0))
+        return true;
+      if (this.page.config.visibleTo.indexOf('user:' + user.name) >= 0) return true;
+      return false;
     },
-    showBackButton () {
-      return this.deep && !this.page?.config.sidebar
+    showBackButton() {
+      return this.deep && !this.page?.config.sidebar;
     },
-    fullscreenIcon () {
+    fullscreenIcon() {
       if (this.$fullscreen.support && this.page?.config.showFullscreenIcon) {
-        return this.fullscreen ? 'rectangle_arrow_up_right_arrow_down_left_slash' : 'rectangle_arrow_up_right_arrow_down_left'
+        return this.fullscreen
+          ? 'rectangle_arrow_up_right_arrow_down_left_slash'
+          : 'rectangle_arrow_up_right_arrow_down_left';
       }
-      return null
-    }
+      return null;
+    },
   },
   methods: {
-    onPageAfterIn () {
-      this.$store.dispatch('startTrackingStates')
+    onPageAfterIn() {
+      this.$store.dispatch('startTrackingStates');
     },
-    onPageBeforeOut () {
-      this.$store.dispatch('stopTrackingStates')
+    onPageBeforeOut() {
+      this.$store.dispatch('stopTrackingStates');
     },
-    onTabChange (idx) {
-      this.currentTab = idx
-      this.$set(this, 'vars', {})
-      const url = '/page/' + this.uid + '/' + this.currentTab
-      this.$f7router.updateCurrentUrl(url)
-      this.$f7router.url = url
+    onTabChange(idx) {
+      this.currentTab = idx;
+      this.vars = {};
+      const url = '/page/' + this.uid + '/' + this.currentTab;
+      this.$f7router.updateCurrentUrl(url);
+      this.$f7router.url = url;
     },
-    onCommand (itemName, command) {
-      this.$store.dispatch('sendCommand', { itemName, command })
+    onCommand(itemName, command) {
+      this.$store.dispatch('sendCommand', { itemName, command });
     },
-    getPageType (page) {
-      if (!page) return null
+    getPageType(page) {
+      if (!page) return null;
       switch (page.component) {
         case 'oh-layout-page':
-          return 'layout'
+          return 'layout';
         case 'oh-map-page':
-          return 'map'
+          return 'map';
         case 'oh-tabs-page':
-          return 'tabs'
+          return 'tabs';
         case 'oh-plan-page':
-          return 'plan'
+          return 'plan';
         case 'oh-chart-page':
-          return 'chart'
+          return 'chart';
         default:
-          console.warn('Unknown page type!')
-          return 'unknown'
+          console.warn('Unknown page type!');
+          return 'unknown';
       }
     },
-    tabContext (tab) {
-      const page = tab.config.page ? this.$store.getters.page(tab.config.page.replace('page:', '')) : tab.component
+    tabContext(tab) {
+      const page = tab.config.page
+        ? this.$store.getters.page(tab.config.page.replace('page:', ''))
+        : tab.component;
       const context = {
         component: page,
         tab,
         vars: this.vars,
         props: tab.config.pageConfig,
-        store: this.$store.getters.trackedItems
-      }
+        store: this.$store.getters.trackedItems,
+      };
       // mock some slots so that it works with current homecard-grouping implementation
       if (tab.component === 'oh-locations-tab') {
-        context.slots = { locations: [tab] }
+        context.slots = { locations: [tab] };
       } else if (tab.component === 'oh-equipment-tab') {
-        context.slots = { equipment: [tab] }
+        context.slots = { equipment: [tab] };
       } else if (tab.component === 'oh-properties-tab') {
-        context.slots = { properties: [tab] }
+        context.slots = { properties: [tab] };
       }
-      return context
+      return context;
     },
-    tabComponent (tab) {
-      if (tab.component === 'oh-locations-tab' || tab.component === 'oh-equipment-tab' || tab.component === 'oh-properties-tab') {
-        return tab.component
+    tabComponent(tab) {
+      if (
+        tab.component === 'oh-locations-tab' ||
+        tab.component === 'oh-equipment-tab' ||
+        tab.component === 'oh-properties-tab'
+      ) {
+        return tab.component;
       }
 
-      const page = this.$store.getters.page(tab.config.page.replace('page:', ''))
-      return page.component
+      const page = this.$store.getters.page(tab.config.page.replace('page:', ''));
+      return page.component;
     },
-    tabEvaluateExpression (tab, idx, key) {
-      const ctx = this.tabContext(tab)
-      return this.evaluateExpression('tab-' + idx + '-' + key, tab.config[key], ctx, ctx.props)
+    tabEvaluateExpression(tab, idx, key) {
+      const ctx = this.tabContext(tab);
+      return this.evaluateExpression('tab-' + idx + '-' + key, tab.config[key], ctx, ctx.props);
     },
-    editPage () {
+    editPage() {
       if (this.pageType === 'tabs') {
-        const action = this.$f7.actions.create({
+        const action = f7.actions.create({
           buttons: [
             {
               text: 'Edit Tabbed Page',
               onClick: () => {
-                this.$f7router.navigate('/settings/pages/' + this.pageType + '/' + this.uid)
-              }
+                this.$f7router.navigate('/settings/pages/' + this.pageType + '/' + this.uid);
+              },
             },
             {
               text: 'Edit Current Tab',
               onClick: () => {
-                const tabPageUid = this.page.slots.default[this.currentTab].config.page.replace('page:', '')
-                const tabPage = this.$store.getters.page(tabPageUid)
-                const tabPageType = this.getPageType(tabPage)
-                this.$f7router.navigate('/settings/pages/' + tabPageType + '/' + tabPageUid)
-              }
-            }
+                const tabPageUid = this.page.slots.default[this.currentTab].config.page.replace(
+                  'page:',
+                  ''
+                );
+                const tabPage = this.$store.getters.page(tabPageUid);
+                const tabPageType = this.getPageType(tabPage);
+                this.$f7router.navigate('/settings/pages/' + tabPageType + '/' + tabPageUid);
+              },
+            },
           ],
-          targetEl: this.$el.querySelector('.edit-page-button')
-        })
-        action.open()
+          targetEl: this.$el.querySelector('.edit-page-button'),
+        });
+        action.open();
       } else {
-        this.$f7router.navigate('/settings/pages/' + this.pageType + '/' + this.uid)
+        this.$f7router.navigate('/settings/pages/' + this.pageType + '/' + this.uid);
       }
     },
-    toggleFullscreen () {
+    toggleFullscreen() {
       this.$fullscreen.toggle(document.body, {
         wrap: false,
-        callback: (fullscreen) => {
-          this.fullscreen = fullscreen
+        callback: fullscreen => {
+          this.fullscreen = fullscreen;
           if (fullscreen) {
-            this.$f7.panel.get('left').disableVisibleBreakpoint()
+            f7.panel.get('left').disableVisibleBreakpoint();
           } else {
             if (localStorage.getItem('openhab.ui:panel.visibleBreakpointDisabled') !== 'true') {
-              this.$f7.panel.get('left').enableVisibleBreakpoint()
+              f7.panel.get('left').enableVisibleBreakpoint();
             }
           }
-        }
-      })
-    }
-  }
-}
+        },
+      });
+    },
+  },
+};
 </script>

@@ -18,7 +18,8 @@
         <button
           helpUrl="configuration/blockly/rules-blockly-standard-ext.html#loops"
           text="Help"
-          callbackKey="ohBlocklyHelp" />
+          callbackKey="ohBlocklyHelp"
+        />
         <block type="controls_repeat_ext">
           <value name="TIMES">
             <shadow type="math_number">
@@ -53,7 +54,8 @@
         <button
           helpUrl="configuration/blockly/rules-blockly-standard-ext.html#math"
           text="Help"
-          callbackKey="ohBlocklyHelp" />
+          callbackKey="ohBlocklyHelp"
+        />
         <block type="math_number">
           <field name="NUM">123</field>
         </block>
@@ -197,7 +199,8 @@
         <button
           helpUrl="configuration/blockly/rules-blockly-standard-ext.html#text"
           text="Help"
-          callbackKey="ohBlocklyHelp" />
+          callbackKey="ohBlocklyHelp"
+        />
         <block type="text" />
         <block type="text_join">
           <mutation items="0" />
@@ -285,7 +288,8 @@
         <button
           helpUrl="configuration/blockly/rules-blockly-standard-ext.html#lists"
           text="Help"
-          callbackKey="ohBlocklyHelp" />
+          callbackKey="ohBlocklyHelp"
+        />
         <block type="lists_create_with">
           <mutation items="0" />
         </block>
@@ -362,7 +366,8 @@
         <button
           helpUrl="configuration/blockly/rules-blockly-standard-ext.html#colors"
           text="Help"
-          callbackKey="ohBlocklyHelp" />
+          callbackKey="ohBlocklyHelp"
+        />
         <block type="colour_picker" />
         <block type="colour_random" />
         <block type="colour_rgb">
@@ -417,12 +422,13 @@
         </block>
       </category>
 
-      <category name="openHAB" colour="0" :expanded="$f7.device.desktop">
+      <category name="openHAB" colour="0" :expanded="$device.desktop">
         <category name="Items &amp; Things">
           <button
             helpUrl="configuration/blockly/rules-blockly-items-things.html"
             text="Help"
-            callbackKey="ohBlocklyHelp" />
+            callbackKey="ohBlocklyHelp"
+          />
           <block type="oh_getitem_state">
             <value name="itemName">
               <shadow type="oh_item" />
@@ -535,7 +541,8 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-timers-and-delays.html"
             text="Help"
-            callbackKey="ohBlocklyHelp" />
+            callbackKey="ohBlocklyHelp"
+          />
           <block type="oh_sleep" />
           <sep gap="48" />
           <block type="oh_timer">
@@ -609,7 +616,8 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-voice-and-multimedia.html"
             text="Help"
-            callbackKey="ohBlocklyHelp" />
+            callbackKey="ohBlocklyHelp"
+          />
           <block type="oh_playmedia_sink">
             <value name="fileName">
               <shadow type="text">
@@ -669,7 +677,8 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-uom.html"
             text="Help"
-            callbackKey="ohBlocklyHelp" />
+            callbackKey="ohBlocklyHelp"
+          />
           <block type="oh_quantity">
             <value name="quantity">
               <shadow type="text">
@@ -720,7 +729,8 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-date-handling.html"
             text="Help"
-            callbackKey="ohBlocklyHelp" />
+            callbackKey="ohBlocklyHelp"
+          />
           <block type="oh_zdt_now" />
           <block type="oh_zdt_plusminus">
             <value name="offset">
@@ -827,9 +837,7 @@
           <block type="oh_dayoffset">
             <value name="offset">
               <shadow type="math_number">
-                <field name="NUM">
-                  0
-                </field>
+                <field name="NUM"> 0 </field>
               </shadow>
             </value>
           </block>
@@ -839,7 +847,8 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-ephemeris.html"
             text="Help"
-            callbackKey="ohBlocklyHelp" />
+            callbackKey="ohBlocklyHelp"
+          />
           <block type="oh_ephemeris_check">
             <value name="dayInfo">
               <shadow type="oh_dayoffset_today" />
@@ -863,7 +872,8 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-notifications.html"
             text="Help"
-            callbackKey="ohBlocklyHelp" />
+            callbackKey="ohBlocklyHelp"
+          />
           <block type="oh_sendCloudNotification">
             <value name="message">
               <shadow type="text">
@@ -937,7 +947,8 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-persistence.html"
             text="Help"
-            callbackKey="ohBlocklyHelp" />
+            callbackKey="ohBlocklyHelp"
+          />
           <block type="oh_zdt_plusminus">
             <value name="offset">
               <shadow type="math_number">
@@ -1023,7 +1034,8 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-value-storage.html"
             text="Help"
-            callbackKey="ohBlocklyHelp" />
+            callbackKey="ohBlocklyHelp"
+          />
           <block type="oh_store_value">
             <value name="value">
               <shadow type="text">
@@ -1055,7 +1067,8 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-http.html"
             text="Help"
-            callbackKey="ohBlocklyHelp" />
+            callbackKey="ohBlocklyHelp"
+          />
           <block type="oh_httprequest">
             <value name="url">
               <shadow type="text">
@@ -1068,7 +1081,8 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-run-and-process.html"
             text="Help"
-            callbackKey="ohBlocklyHelp" />
+            callbackKey="ohBlocklyHelp"
+          />
           <block type="oh_callscriptfile">
             <value name="scriptfile">
               <shadow type="text">
@@ -1130,7 +1144,8 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-logging.html"
             text="Help"
-            callbackKey="ohBlocklyHelp" />
+            callbackKey="ohBlocklyHelp"
+          />
           <block type="oh_log">
             <value name="message">
               <shadow type="text">
@@ -1150,10 +1165,18 @@
 
       <sep />
 
-      <category name="Typed Variables" colour="%{BKY_VARIABLES_HUE}" custom="CREATE_TYPED_VARIABLE" />
+      <category
+        name="Typed Variables"
+        colour="%{BKY_VARIABLES_HUE}"
+        custom="CREATE_TYPED_VARIABLE"
+      />
       <category name="Variables" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE" />
       <category name="Functions" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE" />
-      <category :name="libraryDefinitions ? 'This Library' : 'Libraries'" colour="gray" ref="libraryCategory" />
+      <category
+        :name="libraryDefinitions ? 'This Library' : 'Libraries'"
+        colour="gray"
+        ref="libraryCategory"
+      />
     </xml>
   </div>
 </template>
@@ -1188,34 +1211,32 @@ textarea.blocklyHtmlTextAreaInput
 </style>
 
 <script>
-import Blockly from 'blockly'
-import { WorkspaceSearch } from '@blockly/plugin-workspace-search'
-import { javascriptGenerator } from 'blockly/javascript.js'
-import DarkTheme from '@blockly/theme-dark'
-import { ZoomToFitControl } from '@blockly/zoom-to-fit'
-import { shadowBlockConversionChangeListener } from '@blockly/shadow-block-converter'
-import { Multiselect, MultiselectBlockDragger } from '@mit-app-inventor/blockly-plugin-workspace-multiselect'
-import { TypedVariableModal } from '@blockly/plugin-typed-variable-modal'
+import Blockly from 'blockly';
+import { WorkspaceSearch } from '@blockly/plugin-workspace-search';
+import { javascriptGenerator } from 'blockly/javascript.js';
+import DarkTheme from '@blockly/theme-dark';
+import { ZoomToFitControl } from '@blockly/zoom-to-fit';
+import { shadowBlockConversionChangeListener } from '@blockly/shadow-block-converter';
+import {
+  Multiselect,
+  MultiselectBlockDragger,
+} from '@mit-app-inventor/blockly-plugin-workspace-multiselect';
+import { TypedVariableModal } from '@blockly/plugin-typed-variable-modal';
 
-import Vue from 'vue'
+import Vue from 'vue';
+import { f7 } from 'framework7-vue';
 
-import defineOHBlocks from '@/assets/definitions/blockly'
-import { defineLibraryToolboxCategory } from '@/assets/definitions/blockly/libraries'
+import defineOHBlocks from '@/assets/definitions/blockly';
+import { defineLibraryToolboxCategory } from '@/assets/definitions/blockly/libraries';
+import { theme } from 'framework7-vue';
+import { themeOptionsStore } from '@/js/stores/theme-options';
 
-Vue.config.ignoredElements = [
-  'field',
-  'block',
-  'category',
-  'xml',
-  'mutation',
-  'value',
-  'sep'
-]
+Vue.config.ignoredElements = ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep'];
 
 export default {
   props: ['blocks', 'libraryDefinitions'],
   emits: ['mounted', 'ready', 'change'],
-  data () {
+  data() {
     return {
       blockLibraries: null,
       workspace: null,
@@ -1226,95 +1247,95 @@ export default {
       persistenceServices: [],
       transformationServices: [],
       loading: true,
-      ready: false
-    }
+      ready: false,
+      themeOptions: themeOptionsStore(),
+    };
   },
   computed: {
-    cssVars () {
+    cssVars() {
       return {
-        '--blockly-ws-search-bg-color': this.$f7.data.themeOptions.dark === 'dark' ? '#1e1e1e' : 'white',
-        '--blockly-ws-search-border-color': this.$f7.data.themeOptions.dark === 'dark' ? 'lightgrey' : 'grey',
-        '--blockly-ws-search-text-color': this.$f7.data.themeOptions.dark === 'dark' ? 'white' : 'black'
-      }
-    }
+        '--blockly-ws-search-bg-color': this.themeOptions.dark === 'dark' ? '#1e1e1e' : 'white',
+        '--blockly-ws-search-border-color':
+          this.themeOptions.dark === 'dark' ? 'lightgrey' : 'grey',
+        '--blockly-ws-search-text-color': this.themeOptions.dark === 'dark' ? 'white' : 'black',
+      };
+    },
   },
-  mounted () {
-    this.load()
-    this.$emit('mounted')
+  mounted() {
+    this.load();
+    this.$emit('mounted');
   },
   methods: {
-    load () {
+    load() {
       const dataPromises = [
         this.$oh.api.get('/rest/rules?summary=true'),
         this.$oh.api.get('/rest/audio/sinks'),
         this.$oh.api.get('/rest/voice/voices'),
-        this.libraryDefinitions ? Promise.resolve(this.libraryDefinitions) : this.$oh.api.get('/rest/ui/components/ui:blocks'),
+        this.libraryDefinitions
+          ? Promise.resolve(this.libraryDefinitions)
+          : this.$oh.api.get('/rest/ui/components/ui:blocks'),
         this.$oh.api.get('/rest/persistence'),
-        this.$oh.api.get('/rest/transformations/services')
-      ]
+        this.$oh.api.get('/rest/transformations/services'),
+      ];
       Promise.all(dataPromises)
-        .then((data) => {
+        .then(data => {
           // fetch rules
           const rules = data[0].sort((a, b) => {
-            const labelA = a.name
-            const labelB = b.name
-            return labelA.localeCompare(labelB)
-          })
-          this.rules = rules.filter(
-            (r) => !r.tags || r.tags.indexOf('Script') < 0
-          )
-          this.scripts = rules.filter(
-            (r) => r.tags && r.tags.indexOf('Script') >= 0
-          )
+            const labelA = a.name;
+            const labelB = b.name;
+            return labelA.localeCompare(labelB);
+          });
+          this.rules = rules.filter(r => !r.tags || r.tags.indexOf('Script') < 0);
+          this.scripts = rules.filter(r => r.tags && r.tags.indexOf('Script') >= 0);
 
           this.sinks = data[1].sort((a, b) => {
-            const labelA = a.label
-            const labelB = b.label
-            return labelA.localeCompare(labelB)
-          })
+            const labelA = a.label;
+            const labelB = b.label;
+            return labelA.localeCompare(labelB);
+          });
 
           this.voices = data[2].sort((a, b) => {
-            const labelA = a.label
-            const labelB = b.label
-            return labelA.localeCompare(labelB)
-          })
+            const labelA = a.label;
+            const labelB = b.label;
+            return labelA.localeCompare(labelB);
+          });
 
-          this.blockLibraries = data[3]
+          this.blockLibraries = data[3];
 
           this.persistenceServices = data[4].sort((a, b) => {
-            const labelA = a.label
-            const labelB = b.label
-            return labelA.localeCompare(labelB)
-          })
+            const labelA = a.label;
+            const labelB = b.label;
+            return labelA.localeCompare(labelB);
+          });
 
           this.transformationServices = data[5].sort((a, b) => {
-            const labelA = a
-            const labelB = b
-            return labelA.localeCompare(labelB)
-          })
+            const labelA = a;
+            const labelB = b;
+            return labelA.localeCompare(labelB);
+          });
 
-          this.initBlockly(this.blockLibraries)
+          this.initBlockly(this.blockLibraries);
         })
         .catch((err, status) => {
-          console.error('Error while retrieving Blockly data - ' + err + ':' + status)
-        })
+          console.error('Error while retrieving Blockly data - ' + err + ':' + status);
+        });
     },
-    initBlockly (libraryDefinitions) {
-      defineOHBlocks(this.$f7, libraryDefinitions, {
+    initBlockly(libraryDefinitions) {
+      defineOHBlocks(f7, libraryDefinitions, {
         sinks: this.sinks,
         voices: this.voices,
         persistenceServices: this.persistenceServices,
-        transformationServices: this.transformationServices
-      })
-      this.addLibraryToToolbox(libraryDefinitions || [])
+        transformationServices: this.transformationServices,
+      });
+      this.addLibraryToToolbox(libraryDefinitions || []);
 
       const options = {
         toolbox: this.$refs.toolbox,
         plugins: {
-          'blockDragger': MultiselectBlockDragger
+          blockDragger: MultiselectBlockDragger,
         },
         horizontalLayout: !this.$device.desktop,
-        theme: this.$f7.data.themeOptions.dark === 'dark' ? DarkTheme : undefined,
+        theme: this.themeOptions.dark === 'dark' ? DarkTheme : undefined,
         zoom: {
           controls: true,
           wheel: true,
@@ -1322,11 +1343,11 @@ export default {
           maxScale: 3,
           minScale: 0.3,
           scaleSpeed: 1.2,
-          pinch: true
+          pinch: true,
         },
         move: {
           drag: true,
-          wheel: true
+          wheel: true,
         },
         trashcan: false,
         showLabels: false,
@@ -1334,35 +1355,32 @@ export default {
         // Multi-select-options
         multiselectCopyPaste: {
           crossTab: true,
-          menu: true
+          menu: true,
         },
         multiselectIcon: {
-          hideIcon: true // hide it because it doesn't work in v0.1.11
+          hideIcon: true, // hide it because it doesn't work in v0.1.11
         },
         multiFieldUpdate: true,
 
-        renderer: this.getCurrentRenderer()
-      }
-      this.workspace = Blockly.inject(this.$refs.blocklyEditor, options)
-      this.workspace.addChangeListener(shadowBlockConversionChangeListener)
-      const workspaceSearch = new WorkspaceSearch(this.workspace)
-      workspaceSearch.init()
+        renderer: this.getCurrentRenderer(),
+      };
+      this.workspace = Blockly.inject(this.$refs.blocklyEditor, options);
+      this.workspace.addChangeListener(shadowBlockConversionChangeListener);
+      const workspaceSearch = new WorkspaceSearch(this.workspace);
+      workspaceSearch.init();
 
       const createFlyout = function (workspace) {
-        let xmlList = []
-        const button = document.createElement('button')
-        button.setAttribute('text', 'Create Typed Variable: Do not forget to choose the type!')
-        button.setAttribute('callbackKey', 'callbackName')
-        xmlList.push(button)
+        let xmlList = [];
+        const button = document.createElement('button');
+        button.setAttribute('text', 'Create Typed Variable: Do not forget to choose the type!');
+        button.setAttribute('callbackKey', 'callbackName');
+        xmlList.push(button);
 
-        const blockList = Blockly.VariablesDynamic.flyoutCategoryBlocks(workspace)
-        xmlList = xmlList.concat(blockList)
-        return xmlList
-      }
-      this.workspace.registerToolboxCategoryCallback(
-        'CREATE_TYPED_VARIABLE',
-        createFlyout
-      )
+        const blockList = Blockly.VariablesDynamic.flyoutCategoryBlocks(workspace);
+        xmlList = xmlList.concat(blockList);
+        return xmlList;
+      };
+      this.workspace.registerToolboxCategoryCallback('CREATE_TYPED_VARIABLE', createFlyout);
       const typedVarModal = new TypedVariableModal(this.workspace, 'callbackName', [
         ['Item name', 'oh_item'],
         ['Item object', 'oh_itemtype'],
@@ -1373,90 +1391,99 @@ export default {
         ['Boolean', 'Boolean'],
         ['Number', 'Number'],
         ['Dictionary', 'Dictionary'],
-        ['Colour', 'Colour']
-      ])
+        ['Colour', 'Colour'],
+      ]);
 
-      typedVarModal.init()
+      typedVarModal.init();
 
-      Blockly.utils.colour.setHsvSaturation(0.45) // default
-      Blockly.utils.colour.setHsvValue(0.65) // a little bit more contrast for the different colors
+      Blockly.utils.colour.setHsvSaturation(0.45); // default
+      Blockly.utils.colour.setHsvValue(0.65); // a little bit more contrast for the different colors
 
-      const zoomToFit = new ZoomToFitControl(this.workspace)
-      zoomToFit.init()
+      const zoomToFit = new ZoomToFitControl(this.workspace);
+      zoomToFit.init();
 
-      const multiselectPlugin = new Multiselect(this.workspace)
-      multiselectPlugin.init(options)
+      const multiselectPlugin = new Multiselect(this.workspace);
+      multiselectPlugin.init(options);
 
-      this.registerLibraryCallbacks(libraryDefinitions)
-      const xml = Blockly.utils.xml.textToDom(this.blocks)
-      Blockly.Xml.domToWorkspace(xml, this.workspace)
-      this.workspace.addChangeListener(this.onChange)
+      this.registerLibraryCallbacks(libraryDefinitions);
+      const xml = Blockly.utils.xml.textToDom(this.blocks);
+      Blockly.Xml.domToWorkspace(xml, this.workspace);
+      this.workspace.addChangeListener(this.onChange);
 
-      this.workspace.helpurlPrefix = (this.$store.state.runtimeInfo.buildString === 'Release Build') ? 'next' : 'www'
+      this.workspace.helpurlPrefix =
+        this.$store.state.runtimeInfo.buildString === 'Release Build' ? 'next' : 'www';
       this.workspace.registerButtonCallback('ohBlocklyHelp', function (button) {
-        window.open(`https://${button.targetWorkspace.helpurlPrefix}.openhab.org/docs/${button.info.helpurl}`, '_blank')
-      })
+        window.open(
+          `https://${button.targetWorkspace.helpurlPrefix}.openhab.org/docs/${button.info.helpurl}`,
+          '_blank'
+        );
+      });
       Blockly.Workspace.prototype.refresh = function () {
-        const xml = Blockly.Xml.workspaceToDom(this)
-        this.clear()
-        Blockly.Xml.domToWorkspace(xml, this)
-        this.refreshToolboxSelection()
-      }
+        const xml = Blockly.Xml.workspaceToDom(this);
+        this.clear();
+        Blockly.Xml.domToWorkspace(xml, this);
+        this.refreshToolboxSelection();
+      };
     },
-    addLibraryToToolbox (definitions) {
-      const library = this.$refs.libraryCategory
-      definitions.sort((a, b) => (a.config.name || a.uid).localeCompare(b.config.name || b.uid)).forEach((definition) => {
-        const category = document.createElement('category')
-        category.setAttribute('name', definition.config.name)
-        category.setAttribute('custom', 'LIBRARY_' + definition.uid)
-        library.appendChild(category)
-      })
+    addLibraryToToolbox(definitions) {
+      const library = this.$refs.libraryCategory;
+      definitions
+        .sort((a, b) => (a.config.name || a.uid).localeCompare(b.config.name || b.uid))
+        .forEach(definition => {
+          const category = document.createElement('category');
+          category.setAttribute('name', definition.config.name);
+          category.setAttribute('custom', 'LIBRARY_' + definition.uid);
+          library.appendChild(category);
+        });
     },
-    registerLibraryCallbacks (definitions) {
-      definitions.forEach((definition) => {
-        this.workspace.registerToolboxCategoryCallback('LIBRARY_' + definition.uid, defineLibraryToolboxCategory(definition, this.$f7))
-      })
+    registerLibraryCallbacks(definitions) {
+      definitions.forEach(definition => {
+        this.workspace.registerToolboxCategoryCallback(
+          'LIBRARY_' + definition.uid,
+          defineLibraryToolboxCategory(definition, this.$f7)
+        );
+      });
     },
-    showHideLabels (showLabels) {
-      this.workspace.showLabels = showLabels
-      this.workspace.refresh()
+    showHideLabels(showLabels) {
+      this.workspace.showLabels = showLabels;
+      this.workspace.refresh();
     },
-    getBlocks () {
-      const xml = Blockly.Xml.workspaceToDom(this.workspace)
-      return Blockly.Xml.domToText(xml)
+    getBlocks() {
+      const xml = Blockly.Xml.workspaceToDom(this.workspace);
+      return Blockly.Xml.domToText(xml);
     },
-    getCode () {
-      return javascriptGenerator.workspaceToCode(this.workspace)
+    getCode() {
+      return javascriptGenerator.workspaceToCode(this.workspace);
     },
-    getRenderers () {
-      const excludedRenderers = ['minimalist']
+    getRenderers() {
+      const excludedRenderers = ['minimalist'];
       const renderers = Object.keys(Blockly.registry.getAllItems('renderer'))
         .filter(r => !excludedRenderers.includes(r))
-        .sort()
-      return renderers
+        .sort();
+      return renderers;
     },
-    getCurrentRenderer () {
-      return this.$f7.data.themeOptions.blocklyRenderer
+    getCurrentRenderer() {
+      return this.themeOptions.blocklyRenderer;
     },
-    changeRenderer (newRenderer) {
-      this.$f7.data.themeOptions.blocklyRenderer = newRenderer
-      localStorage.setItem('openhab.ui:blockly.renderer', newRenderer)
+    changeRenderer(newRenderer) {
+      this.themeOptions.blocklyRenderer = newRenderer;
+      localStorage.setItem('openhab.ui:blockly.renderer', newRenderer);
 
-      const dom = Blockly.Xml.workspaceToDom(this.workspace)
-      this.workspace.dispose()
-      this.initBlockly(this.blockLibraries)
-      this.workspace.clear()
-      Blockly.Xml.domToWorkspace(dom, this.workspace)
-      this.workspace.refreshToolboxSelection()
+      const dom = Blockly.Xml.workspaceToDom(this.workspace);
+      this.workspace.dispose();
+      this.initBlockly(this.blockLibraries);
+      this.workspace.clear();
+      Blockly.Xml.domToWorkspace(dom, this.workspace);
+      this.workspace.refreshToolboxSelection();
     },
-    onChange (event) {
+    onChange(event) {
       if (event.type === Blockly.Events.FINISHED_LOADING) {
-        this.loading = false
-        this.$emit('ready')
+        this.loading = false;
+        this.$emit('ready');
       } else if (!this.loading && !event.isUiEvent) {
-        this.$emit('change')
+        this.$emit('change');
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

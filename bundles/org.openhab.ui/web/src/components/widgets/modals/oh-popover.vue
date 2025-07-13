@@ -1,6 +1,6 @@
 <template>
   <f7-popover :target="el" :style="modalStyle">
-    <component :is="componentType" :context="context" :class="{notready: !ready}" />
+    <component :is="componentType" :context="context" :class="{ notready: !ready }" />
   </f7-popover>
 </template>
 
@@ -10,9 +10,9 @@
 </style>
 
 <script>
-import modal from './modal-mixin'
+import modal from './modal-mixin';
 
 export default {
-  mixins: [modal]
-}
+  mixins: [modal],
+};
 </script>

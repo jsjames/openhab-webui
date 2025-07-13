@@ -17,12 +17,12 @@
 </style>
 
 <script>
-import { loadLocaleMessages } from '@/js/i18n'
+import { loadLocaleMessages } from '@/js/i18n';
 
 export default {
   props: ['icon', 'title', 'text'],
   i18n: {
-    messages: loadLocaleMessages(require.context('@/assets/i18n/empty-states'))
-  }
-}
+    messages: loadLocaleMessages('/src/assets/i18n/empty-states'),
+  },
+};
 </script>

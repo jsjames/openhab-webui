@@ -1,60 +1,64 @@
-import expr from 'jse-eval'
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import calendar from 'dayjs/plugin/calendar'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
-import isoWeek from 'dayjs/plugin/isoWeek'
-import isToday from 'dayjs/plugin/isToday'
-import isYesterday from 'dayjs/plugin/isYesterday'
-import isTomorrow from 'dayjs/plugin/isTomorrow'
-import store from '@/js/store'
+import expr from 'jse-eval';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import calendar from 'dayjs/plugin/calendar';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import isoWeek from 'dayjs/plugin/isoWeek';
+import isToday from 'dayjs/plugin/isToday';
+import isYesterday from 'dayjs/plugin/isYesterday';
+import isTomorrow from 'dayjs/plugin/isTomorrow';
+import store from '@/js/store';
+import { f7, theme } from 'framework7-vue';
+import { nextTick } from 'vue';
 
-import jsepRegex from '@jsep-plugin/regex'
-import jsepArrow from '@jsep-plugin/arrow'
-import jsepObject from '@jsep-plugin/object'
-import jsepTemplate from '@jsep-plugin/template'
-expr.jsep.plugins.register(jsepRegex, jsepArrow, jsepObject, jsepTemplate)
+import { themeOptionsStore } from '@/js/stores/theme-options';
 
-expr.addUnaryOp('@', (itemName) => {
-  if (itemName === undefined) return '-'
-  const item = store.getters.trackedItems[itemName]
-  return (item.displayState !== undefined) ? item.displayState : item.state
-})
-expr.addUnaryOp('@@', (itemName) => {
-  if (itemName === undefined) return '-'
-  return store.getters.trackedItems[itemName].state
-})
-expr.addUnaryOp('#', (itemName) => {
-  if (itemName === undefined) return undefined
-  return store.getters.trackedItems[itemName].numericState
-})
+import jsepRegex from '@jsep-plugin/regex';
+import jsepArrow from '@jsep-plugin/arrow';
+import jsepObject from '@jsep-plugin/object';
+import jsepTemplate from '@jsep-plugin/template';
+expr.jsep.plugins.register(jsepRegex, jsepArrow, jsepObject, jsepTemplate);
 
-dayjs.extend(relativeTime)
-dayjs.extend(calendar)
-dayjs.extend(localizedFormat)
-dayjs.extend(isoWeek)
-dayjs.extend(isToday)
-dayjs.extend(isYesterday)
-dayjs.extend(isTomorrow)
+expr.addUnaryOp('@', itemName => {
+  if (itemName === undefined) return '-';
+  const item = store.getters.trackedItems[itemName];
+  return item.displayState !== undefined ? item.displayState : item.state;
+});
+expr.addUnaryOp('@@', itemName => {
+  if (itemName === undefined) return '-';
+  return store.getters.trackedItems[itemName].state;
+});
+expr.addUnaryOp('#', itemName => {
+  if (itemName === undefined) return undefined;
+  return store.getters.trackedItems[itemName].numericState;
+});
+
+dayjs.extend(relativeTime);
+dayjs.extend(calendar);
+dayjs.extend(localizedFormat);
+dayjs.extend(isoWeek);
+dayjs.extend(isToday);
+dayjs.extend(isYesterday);
+dayjs.extend(isTomorrow);
 
 export default {
-  data () {
+  data() {
     return {
       exprAst: {},
-      recalculateScreenInfo: false
-    }
+      recalculateScreenInfo: false,
+    };
   },
   computed: {
-    screenInfo () {
-      const pageContent = document.querySelector('.page-current > .page-content')
-      const pageContentStyle = window.getComputedStyle(pageContent)
+    screenInfo() {
+      const pageContent = document.querySelector('.page-current > .page-content');
+      const pageContentStyle = window.getComputedStyle(pageContent);
 
       // recalculate screen info if clientHeight is not available yet
       if (this.recalculateScreenInfo === false && pageContent.clientHeight === 0) {
-        this.$nextTick(() => {
-          this.recalculateScreenInfo = true
-          this.recalculateScreenInfo = false
-        })
+        nextTick(() => {
+          this.recalculateScreenInfo = true;
+          this.recalculateScreenInfo = false;
+        });
       }
 
       return {
@@ -64,12 +68,18 @@ export default {
         availHeight: window.screen.availHeight,
         colorDepth: window.screen.colorDepth,
         pixelDepth: window.screen.pixelDepth,
-        viewAreaWidth: pageContent.clientWidth - parseFloat(pageContentStyle.paddingLeft) - parseFloat(pageContentStyle.paddingRight),
-        viewAreaHeight: pageContent.clientHeight - parseFloat(pageContentStyle.paddingTop) - parseFloat(pageContentStyle.paddingBottom),
-        appWidth: this.$f7.width,
-        appHeight: this.$f7.height
-      }
-    }
+        viewAreaWidth:
+          pageContent.clientWidth -
+          parseFloat(pageContentStyle.paddingLeft) -
+          parseFloat(pageContentStyle.paddingRight),
+        viewAreaHeight:
+          pageContent.clientHeight -
+          parseFloat(pageContentStyle.paddingTop) -
+          parseFloat(pageContentStyle.paddingBottom),
+        appWidth: f7.width,
+        appHeight: f7.height,
+      };
+    },
   },
   methods: {
     /**
@@ -82,15 +92,15 @@ export default {
      * @param {object} [props] the props to make available to the expression (defaults to <code>this.props</code>)
      * @returns {*} the result of the expression evaluation
      */
-    evaluateExpression (key, value, context, props) {
-      if (value === null) return null
-      const ctx = context || this.context
+    evaluateExpression(key, value, context, props) {
+      if (value === null) return null;
+      const ctx = context || this.context;
       if (typeof value === 'string' && value.startsWith('=')) {
         try {
           // we cache the parsed abstract tree to prevent it from being parsed again at runtime
           // in we're edit mode according to the context do not cache because the expression is subject to change
           if (!this.exprAst[key] || ctx.editmode) {
-            this.exprAst[key] = expr.parse(value.substring(1))
+            this.exprAst[key] = expr.parse(value.substring(1));
           }
           return expr.evaluate(this.exprAst[key], {
             items: ctx.store,
@@ -102,50 +112,55 @@ export default {
             loop: ctx.loop,
             Math,
             Number,
-            theme: this.$theme,
-            themeOptions: this.$f7.data.themeOptions,
+            theme: theme,
+            themeOptions: themeOptionsStore(),
             device: this.$device,
             screen: this.screenInfo,
             JSON,
             dayjs,
-            user: this.$store.getters.user
-          })
+            user: this.$store.getters.user,
+          });
         } catch (e) {
-          return e
+          return e;
         }
       } else if (typeof value === 'object' && !Array.isArray(value)) {
-        const evalObj = {}
+        const evalObj = {};
         for (const objKey in value) {
-          this.$set(evalObj, objKey, this.evaluateExpression(key + '.' + objKey, value[objKey], ctx, props || this.props))
+          evalObj[objKey] = this.evaluateExpression(
+            key + '.' + objKey,
+            value[objKey],
+            ctx,
+            props || this.props
+          );
         }
-        return evalObj
+        return evalObj;
       } else if (typeof value === 'object' && Array.isArray(value)) {
-        const evalArr = []
+        const evalArr = [];
         for (let i = 0; i < value.length; i++) {
-          this.$set(evalArr, i, this.evaluateExpression(key + '.' + i, value[i], ctx, props || this.props))
+          evalArr[i] = this.evaluateExpression(key + '.' + i, value[i], ctx, props || this.props);
         }
-        return evalArr
+        return evalArr;
       } else {
-        return value
+        return value;
       }
     },
-    getAllVars (context) {
-      const vars = {}
+    getAllVars(context) {
+      const vars = {};
       if (context.vars) {
         for (const varKey in context.vars) {
-          vars[varKey] = context.vars[varKey]
+          vars[varKey] = context.vars[varKey];
         }
       }
       if (context.varScope) {
-        const scopeIDs = context.varScope.split('-')
+        const scopeIDs = context.varScope.split('-');
         for (let scope_idx = 1; scope_idx < scopeIDs.length; scope_idx++) {
-          let scopeKey = scopeIDs.slice(0, scope_idx + 1).join('-')
+          let scopeKey = scopeIDs.slice(0, scope_idx + 1).join('-');
           for (const varKey in context.ctxVars[scopeKey]) {
-            vars[varKey] = context.ctxVars[scopeKey][varKey]
+            vars[varKey] = context.ctxVars[scopeKey][varKey];
           }
         }
       }
-      return vars
-    }
-  }
-}
+      return vars;
+    },
+  },
+};

@@ -12,27 +12,40 @@
     :key="mapKey"
     @update:bounds="ready = true"
     class="oh-plan-page-lmap"
-    :class="{ 'with-tabbar': context.tab,
-              'oh-plan-white-background': config.backgroundColor === 'white',
-              'oh-plan-black-background': config.backgroundColor === 'black',
-              'oh-plan-blackwhite-background': config.backgroundColor === 'blackwhite',
-              'oh-plan-dark-mode-invert': config.darkModeInvert,
-              'oh-plan-tooltip-black': config.tooltipColor === 'black',
-              'oh-plan-tooltip-blackwhite': config.tooltipColor === 'blackwhite',
+    :class="{
+      'with-tabbar': context.tab,
+      'oh-plan-white-background': config.backgroundColor === 'white',
+      'oh-plan-black-background': config.backgroundColor === 'black',
+      'oh-plan-blackwhite-background': config.backgroundColor === 'blackwhite',
+      'oh-plan-dark-mode-invert': config.darkModeInvert,
+      'oh-plan-tooltip-black': config.tooltipColor === 'black',
+      'oh-plan-tooltip-blackwhite': config.tooltipColor === 'blackwhite',
     }"
     @update:center="centerUpdate"
-    @update:zoom="zoomUpdate">
-    <l-image-overlay
-      :url="backgroundImageUrl"
-      :bounds="bounds" />
+    @update:zoom="zoomUpdate"
+  >
+    <l-image-overlay :url="backgroundImageUrl" :bounds="bounds" />
     <l-feature-group ref="featureGroup" v-if="context.component.slots && ready">
-      <component v-for="(marker, idx) in markers" :key="idx"
-                 :is="markerComponent(marker)" :context="childContext(marker)" @update="onMarkerUpdate" />
+      <component
+        v-for="(marker, idx) in markers"
+        :key="idx"
+        :is="markerComponent(marker)"
+        :context="childContext(marker)"
+        @update="onMarkerUpdate"
+      />
     </l-feature-group>
     <l-control v-if="context.editmode != null" position="topright">
       <f7-menu class="padding">
-        <f7-menu-item @click="context.editmode.addWidget(context.component, 'oh-plan-marker')" icon-f7="plus" text="Add Marker" />
-        <f7-menu-item v-if="context.clipboardtype" @click="context.editmode.pasteWidget(context.component)" icon-f7="square_on_square" />
+        <f7-menu-item
+          @click="context.editmode.addWidget(context.component, 'oh-plan-marker')"
+          icon-f7="plus"
+          text="Add Marker"
+        />
+        <f7-menu-item
+          v-if="context.clipboardtype"
+          @click="context.editmode.pasteWidget(context.component)"
+          icon-f7="square_on_square"
+        />
       </f7-menu>
     </l-control>
     <l-control v-if="context.editmode != null" position="bottomleft">
@@ -53,7 +66,7 @@
     background-color white
   &.oh-plan-black-background
     background-color black
-.theme-dark
+.dark
   .oh-plan-page-lmap
     &.oh-plan-blackwhite-background
       background-color black
@@ -84,26 +97,27 @@ dark-tooltip()
 .oh-plan-tooltip-black
   dark-tooltip()
 
-.theme-dark
+.dark
   .oh-plan-tooltip-blackwhite
     dark-tooltip()
 </style>
 
 <script>
-import mixin from '../widget-mixin'
-import { CRS, Icon } from 'leaflet'
-import { LMap, LImageOverlay, LFeatureGroup, LControl } from 'vue2-leaflet'
-import 'leaflet/dist/leaflet.css'
+import mixin from '../widget-mixin';
+import { CRS, Icon } from 'leaflet';
+import { LMap, LImageOverlay, LFeatureGroup, LControl } from 'vue2-leaflet';
+import 'leaflet/dist/leaflet.css';
+import { utils } from 'framework7';
 
-import OhPlanMarker from './oh-plan-marker.vue'
-import { OhPlanPageDefinition } from '@/assets/definitions/widgets/plan'
+import OhPlanMarker from './oh-plan-marker.vue';
+import { OhPlanPageDefinition } from '@/assets/definitions/widgets/plan';
 
-delete Icon.Default.prototype._getIconUrl
+delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
   iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
   iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png')
-})
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+});
 
 export default {
   mixins: [mixin],
@@ -112,10 +126,10 @@ export default {
     LImageOverlay,
     LControl,
     LFeatureGroup,
-    OhPlanMarker
+    OhPlanMarker,
   },
   widget: OhPlanPageDefinition,
-  data () {
+  data() {
     return {
       ready: false,
       currentZoom: 13,
@@ -124,77 +138,86 @@ export default {
       zoom: -0.5,
       crs: CRS.Simple,
       showMap: false,
-      mapKey: this.$f7.utils.id(),
-      markers: []
-    }
+      mapKey: utils.id(),
+      markers: [],
+    };
   },
   computed: {
-    bounds () {
-      const lat = this.config.imageHeight || 1000
-      const lng = this.config.imageWidth || 1000
-      return [[0, 0], [lat, lng]]
+    bounds() {
+      const lat = this.config.imageHeight || 1000;
+      const lng = this.config.imageWidth || 1000;
+      return [
+        [0, 0],
+        [lat, lng],
+      ];
     },
-    mapOptions () {
-      return Object.assign({
-        zoomSnap: 0.1,
-        tap: false
-      }, this.config.noZoomOrDrag ? {
-        dragging: false,
-        touchZoom: false,
-        doubleClickZoom: false,
-        scrollWheelZoom: false,
-        zoomControl: false
-      } : {})
-    }
+    mapOptions() {
+      return Object.assign(
+        {
+          zoomSnap: 0.1,
+          tap: false,
+        },
+        this.config.noZoomOrDrag
+          ? {
+              dragging: false,
+              touchZoom: false,
+              doubleClickZoom: false,
+              scrollWheelZoom: false,
+              zoomControl: false,
+            }
+          : {}
+      );
+    },
   },
   asyncComputed: {
-    backgroundImageUrl () {
-      return this.$oh.media.getImage(this.config.imageUrl)
-    }
+    backgroundImageUrl() {
+      return this.$oh.media.getImage(this.config.imageUrl);
+    },
   },
   watch: {
     'config.noZoomOrDrag': function (val) {
-      this.refreshMap()
+      this.refreshMap();
     },
-    backgroundImageUrl (val) {
-      this.showMap = true
-      this.refreshMap()
-    }
+    backgroundImageUrl(val) {
+      this.showMap = true;
+      this.refreshMap();
+    },
   },
   methods: {
-    zoomUpdate (zoom) {
-      this.currentZoom = zoom
-      const allMarkers = this.context.component.slots.default
-      const visibleMarkers = allMarkers.filter((e) => {
-        const zoomVisibilityMin = parseFloat(e.config.zoomVisibilityMin)
-        const zoomVisibilityMax = parseFloat(e.config.zoomVisibilityMax)
-        const isVisibleMin = isNaN(zoomVisibilityMin) || zoomVisibilityMin < this.currentZoom
-        const isVisibleMax = isNaN(zoomVisibilityMax) || zoomVisibilityMax > this.currentZoom
-        return this.context.editmode != null || (isVisibleMin && isVisibleMax)
-      })
+    zoomUpdate(zoom) {
+      this.currentZoom = zoom;
+      const allMarkers = this.context.component.slots.default;
+      const visibleMarkers = allMarkers.filter(e => {
+        const zoomVisibilityMin = parseFloat(e.config.zoomVisibilityMin);
+        const zoomVisibilityMax = parseFloat(e.config.zoomVisibilityMax);
+        const isVisibleMin = isNaN(zoomVisibilityMin) || zoomVisibilityMin < this.currentZoom;
+        const isVisibleMax = isNaN(zoomVisibilityMax) || zoomVisibilityMax > this.currentZoom;
+        return this.context.editmode != null || (isVisibleMin && isVisibleMax);
+      });
       // only update our markers if the list has changed to avoid unessesary rendering
-      if (visibleMarkers.length !== this.markers.length ||
-        visibleMarkers.every((e) => this.markers.indexOf(e) < 0)) {
-        this.markers = visibleMarkers
+      if (
+        visibleMarkers.length !== this.markers.length ||
+        visibleMarkers.every(e => this.markers.indexOf(e) < 0)
+      ) {
+        this.markers = visibleMarkers;
       }
     },
-    centerUpdate (center) {
-      this.currentCenter = center
+    centerUpdate(center) {
+      this.currentCenter = center;
     },
-    markerComponent (marker) {
-      return 'oh-plan-marker'
+    markerComponent(marker) {
+      return 'oh-plan-marker';
     },
-    onMarkerUpdate () {
+    onMarkerUpdate() {},
+    fitMapBounds() {
+      if (this.$refs.map) this.$refs.map.mapObject.fitBounds(this.bounds);
     },
-    fitMapBounds () {
-      if (this.$refs.map) this.$refs.map.mapObject.fitBounds(this.bounds)
+    refreshMap() {
+      this.mapKey = utils.id();
+      nextTick(() => {
+        this.fitMapBounds();
+      });
     },
-    refreshMap () {
-      this.mapKey = this.$f7.utils.id()
-      this.$nextTick(() => {
-        this.fitMapBounds()
-      })
-    }
-  }
-}
+  },
+};
 </script>

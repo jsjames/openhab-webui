@@ -1,5 +1,14 @@
 <template>
-  <l-circle ref="marker" v-if="center && radius" :key="markerKey" :lat-lng="center" :radius="radius" v-bind="markerConfig" @update:latLng="$emit('update', $event)" @click="performAction">
+  <l-circle
+    ref="marker"
+    v-if="center && radius"
+    :key="markerKey"
+    :lat-lng="center"
+    :radius="radius"
+    v-bind="markerConfig"
+    @update:lat-lng="$emit('update', $event)"
+    @click="performAction"
+  >
     <l-tooltip v-if="config.label">
       {{ config.label }}
     </l-tooltip>
@@ -7,60 +16,62 @@
 </template>
 
 <script>
-import { LCircle, LTooltip } from 'vue2-leaflet'
+import { LCircle, LTooltip } from 'vue2-leaflet';
 
-import mixin from '../widget-mixin'
-import { actionsMixin } from '../widget-actions'
-import { OhMapCircleMarkerDefinition } from '@/assets/definitions/widgets/map'
+import mixin from '../widget-mixin';
+import { actionsMixin } from '../widget-actions';
+import { OhMapCircleMarkerDefinition } from '@/assets/definitions/widgets/map';
+import { f7 } from 'framework7-vue';
 
 export default {
   mixins: [mixin, actionsMixin],
   components: {
     LCircle,
-    LTooltip
+    LTooltip,
   },
   widget: OhMapCircleMarkerDefinition,
-  data () {
+  emits: ['update'],
+  data() {
     return {
-      markerKey: this.$f7.utils.id()
-    }
+      markerKey: f7.utils.id(),
+    };
   },
   computed: {
-    center () {
+    center() {
       if (this.config.item) {
-        const itemState = this.context.store[this.config.item]
+        const itemState = this.context.store[this.config.item];
         if (itemState && itemState.state.indexOf(',') > 0) {
-          return itemState.state.split(',')
+          return itemState.state.split(',');
         }
       }
       if (this.config.location) {
-        return this.config.location.split(',')
+        return this.config.location.split(',');
       }
-      return null
+      return null;
     },
-    radius () {
+    radius() {
       if (this.config.radiusItem) {
-        const itemState = this.context.store[this.config.radiusItem]
+        const itemState = this.context.store[this.config.radiusItem];
         if (itemState && !isNaN(parseFloat(itemState.state))) {
-          return parseFloat(itemState.state)
+          return parseFloat(itemState.state);
         }
       }
       if (this.config.radius) {
-        return parseFloat(this.config.radius)
+        return parseFloat(this.config.radius);
       }
-      return null
+      return null;
     },
-    markerConfig () {
-      if (!this.config) return {}
-      let ret = {}
-      Object.assign(ret, this.config)
-      delete ret.latLng
-      delete ret.radius
-      return ret
-    }
+    markerConfig() {
+      if (!this.config) return {};
+      let ret = {};
+      Object.assign(ret, this.config);
+      delete ret.latLng;
+      delete ret.radius;
+      return ret;
+    },
   },
-  mounted () {
-    this.$emit('update', this.center, this.radius)
-  }
-}
+  mounted() {
+    this.$emit('update', this.center, this.radius);
+  },
+};
 </script>

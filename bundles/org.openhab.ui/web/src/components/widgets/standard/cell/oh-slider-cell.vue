@@ -1,16 +1,40 @@
 <template>
-  <oh-cell class="cell-expanded-thin" :context="context" :no-swipe-to-close="true" :style="{ '--oh-slider-cell-height': config.sliderHeight || '350px' }">
+  <oh-cell
+    class="cell-expanded-thin"
+    :context="context"
+    :no-swipe-to-close="true"
+    :style="{ '--oh-slider-cell-height': config.sliderHeight || '350px' }"
+  >
     <f7-row>
-      <f7-col width="100" class="cell-slider display-flex flex-direction-column justify-content-center">
+      <f7-col
+        width="100"
+        class="cell-slider display-flex flex-direction-column justify-content-center"
+      >
         <slot name="beforeSlider">
-          <div v-if="context.component.slots" class="margin-top display-flex flex-direction-column justify-content-center">
-            <generic-widget-component :context="childContext(slotComponent)" v-for="(slotComponent, idx) in context.component.slots.beforeSlider" :key="'beforeSlider-' + idx" @command="onCommand" />
+          <div
+            v-if="context.component.slots"
+            class="margin-top display-flex flex-direction-column justify-content-center"
+          >
+            <generic-widget-component
+              :context="childContext(slotComponent)"
+              v-for="(slotComponent, idx) in context.component.slots.beforeSlider"
+              :key="'beforeSlider-' + idx"
+              @command="onCommand"
+            />
           </div>
         </slot>
         <oh-slider class="slider-control" :context="sliderContext" />
-        <div class="after-slider" v-if="context.component.slots && context.component.slots.afterSlider">
+        <div
+          class="after-slider"
+          v-if="context.component.slots && context.component.slots.afterSlider"
+        >
           <slot name="afterSlider">
-            <generic-widget-component :context="childContext(slotComponent)" v-for="(slotComponent, idx) in context.component.slots.afterSlider" :key="'afterSlider-' + idx" @command="onCommand" />
+            <generic-widget-component
+              :context="childContext(slotComponent)"
+              v-for="(slotComponent, idx) in context.component.slots.afterSlider"
+              :key="'afterSlider-' + idx"
+              @command="onCommand"
+            />
           </slot>
         </div>
       </f7-col>
@@ -46,31 +70,31 @@
 </style>
 
 <script>
-import mixin from '../../widget-mixin'
-import { OhSliderCellDefinition } from '@/assets/definitions/widgets/standard/cells'
-import OhCell from './oh-cell.vue'
-import OhSlider from '../../system/oh-slider.vue'
+import mixin from '../../widget-mixin';
+import { OhSliderCellDefinition } from '@/assets/definitions/widgets/standard/cells';
+import OhCell from './oh-cell.vue';
+import OhSlider from '../../system/oh-slider.vue';
 
 export default {
   mixins: [mixin],
   components: {
     OhCell,
-    OhSlider
+    OhSlider,
   },
   widget: OhSliderCellDefinition,
   computed: {
-    sliderContext () {
+    sliderContext() {
       return Object.assign({}, this.context, {
         component: {
           component: 'oh-slider',
           config: Object.assign({}, this.context.component.config, {
             vertical: true,
             label: true,
-            scale: true
-          })
-        }
-      })
-    }
-  }
-}
+            scale: true,
+          }),
+        },
+      });
+    },
+  },
+};
 </script>

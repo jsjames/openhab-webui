@@ -3,13 +3,19 @@
     <f7-page>
       <f7-navbar>
         <f7-nav-left>
-          <f7-link icon-ios="f7:arrow_left" icon-md="material:arrow_back" icon-aurora="f7:arrow_left" popup-close />
+          <f7-link
+            icon-ios="f7:arrow_left"
+            icon-md="material:arrow_back"
+            icon-aurora="f7:arrow_left"
+            popup-close
+          />
         </f7-nav-left>
-        <f7-nav-title>
-          Configure cron strategy
-        </f7-nav-title>
+        <f7-nav-title> Configure cron strategy </f7-nav-title>
         <f7-nav-right>
-          <f7-link v-show="currentCronStrategy.name && currentCronStrategy.cronExpression" @click="updateModuleConfig">
+          <f7-link
+            v-show="currentCronStrategy.name && currentCronStrategy.cronExpression"
+            @click="updateModuleConfig"
+          >
             Done
           </f7-link>
         </f7-nav-right>
@@ -17,21 +23,31 @@
       <f7-block class="no-margin no-padding">
         <f7-col>
           <f7-list>
-            <f7-list-input ref="name" label="Name" type="text" placeholder="Required" :value="currentCronStrategy.name"
-                           @input="currentCronStrategy.name = $event.target.value"
-                           :disabled="!createMode"
-                           :info="(createMode) ? 'Note: cannot be changed after the creation' : ''"
-                           required validate pattern="[A-Za-z0-9_]+" error-message="Required. A-Z,a-z only" />
+            <f7-list-input
+              ref="name"
+              label="Name"
+              type="text"
+              placeholder="Required"
+              :value="currentCronStrategy.name"
+              @input="currentCronStrategy.name = $event.target.value"
+              :disabled="!createMode ? true : null"
+              :info="createMode ? 'Note: cannot be changed after the creation' : ''"
+              required
+              validate
+              pattern="[A-Za-z0-9_]+"
+              error-message="Required. A-Z,a-z only"
+            />
           </f7-list>
         </f7-col>
         <f7-col>
-          <f7-block-title medium class="padding-bottom">
-            Configuration
-          </f7-block-title>
+          <f7-block-title medium class="padding-bottom"> Configuration </f7-block-title>
           <f7-list>
-            <parameter-cronexpression ref="cronExpression" :configDescription="cronExpressionConfigDescription"
-                                      :value="currentCronStrategy.cronExpression"
-                                      @input="currentCronStrategy.cronExpression = $event" />
+            <parameter-cronexpression
+              ref="cronExpression"
+              :configDescription="cronExpressionConfigDescription"
+              :value="currentCronStrategy.cronExpression"
+              @input="currentCronStrategy.cronExpression = $event"
+            />
           </f7-list>
         </f7-col>
       </f7-block>
@@ -40,38 +56,42 @@
 </template>
 
 <script>
-import ParameterCronexpression from '@/components/config/controls/parameter-cronexpression.vue'
+import ParameterCronexpression from '@/components/config/controls/parameter-cronexpression.vue';
+import { f7 } from 'framework7-vue';
 
 export default {
   components: {
-    ParameterCronexpression
+    ParameterCronexpression,
   },
   props: ['cronStrategy'],
-  emits: ['cronStrategyConfigUpdate'],
-  data () {
+  emits: ['cron-strategy-config-update'],
+  data() {
     return {
       createMode: !this.cronStrategy,
       currentCronStrategy: this.cronStrategy || {
         name: null,
-        cronExpression: null
+        cronExpression: null,
       },
 
       cronExpressionConfigDescription: {
         label: 'Cron Expression',
         name: 'cronExpression',
-        required: true
-      }
-    }
+        required: true,
+      },
+    };
   },
   methods: {
-    updateModuleConfig () {
-      if (!this.$f7.input.validateInputs(this.$refs.name.$el) && !this.$f7.input.validateInputs(this.$refs.cronExpression.$el)) {
-        this.$f7.dialog.alert('Please review the configuration and correct validation errors')
-        return
+    updateModuleConfig() {
+      if (
+        !f7.input.validateInputs(this.$refs.name.$el) &&
+        !f7.input.validateInputs(this.$refs.cronExpression.$el)
+      ) {
+        f7.dialog.alert('Please review the configuration and correct validation errors');
+        return;
       }
-      this.$f7.emit('cronStrategyConfigUpdate', this.currentCronStrategy)
-      this.$refs.modulePopup.close()
-    }
-  }
-}
+      f7.emit('cron-strategy-config-update', this.currentCronStrategy);
+      this.$refs.modulePopup.close();
+    },
+  },
+};
 </script>

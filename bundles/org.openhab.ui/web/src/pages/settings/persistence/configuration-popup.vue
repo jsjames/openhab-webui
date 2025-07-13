@@ -3,11 +3,14 @@
     <f7-page>
       <f7-navbar>
         <f7-nav-left>
-          <f7-link icon-ios="f7:arrow_left" icon-md="material:arrow_back" icon-aurora="f7:arrow_left" popup-close />
+          <f7-link
+            icon-ios="f7:arrow_left"
+            icon-md="material:arrow_back"
+            icon-aurora="f7:arrow_left"
+            popup-close
+          />
         </f7-nav-left>
-        <f7-nav-title>
-          Configure strategies and filters for Item(s)
-        </f7-nav-title>
+        <f7-nav-title> Configure strategies and filters for Item(s) </f7-nav-title>
         <f7-nav-right>
           <f7-link v-show="currentConfiguration.items.length > 0" @click="updateModuleConfig">
             Done
@@ -16,50 +19,85 @@
       </f7-navbar>
       <f7-block class="no-margin no-padding">
         <f7-col>
-          <f7-block-title medium class="padding-bottom">
-            Items
-          </f7-block-title>
+          <f7-block-title medium class="padding-bottom"> Items </f7-block-title>
           <f7-list>
             <f7-list-item title="Persist all Items">
-              <f7-toggle slot="after" :checked="allItemsSelected" @toggle:change="allItemsSelected = $event" />
+              <template #after>
+                <f7-toggle
+                  :checked="allItemsSelected ? true : null"
+                  @toggle:change="allItemsSelected = $event"
+                />
+              </template>
             </f7-list-item>
           </f7-list>
           <f7-list>
-            <item-picker key="groups" title="Select groups" name="groupItems" multiple="true" filterType="Group"
-                         :disabled="allItemsSelected" :value="groupItems" @input="groupItems = $event" />
+            <item-picker
+              key="groups"
+              title="Select groups"
+              name="groupItems"
+              multiple="true"
+              filterType="Group"
+              :disabled="allItemsSelected ? true : null"
+              :value="groupItems"
+              @input="groupItems = $event"
+            />
             <f7-list-item>... whose members are to be persisted.</f7-list-item>
           </f7-list>
           <f7-list>
-            <item-picker key="items" title="Select Items" name="items" multiple="true"
-                         :disabled="allItemsSelected" :value="items" @input="items = $event" />
+            <item-picker
+              key="items"
+              title="Select Items"
+              name="items"
+              multiple="true"
+              :disabled="allItemsSelected ? true : null"
+              :value="items"
+              @input="items = $event"
+            />
             <f7-list-item>... to be persisted.</f7-list-item>
           </f7-list>
           <f7-list>
-            <item-picker key="exclude-groups" title="Select exclude groups" name="excludeGroupItems" multiple="true" filterType="Group"
-                         :disabled="!anySelected" :value="excludeGroupItems" @input="excludeGroupItems = $event" />
+            <item-picker
+              key="exclude-groups"
+              title="Select exclude groups"
+              name="excludeGroupItems"
+              multiple="true"
+              filterType="Group"
+              :disabled="!anySelected ? true : null"
+              :value="excludeGroupItems"
+              @input="excludeGroupItems = $event"
+            />
             <f7-list-item>... whose members are to be excluded from persistence.</f7-list-item>
           </f7-list>
           <f7-list>
-            <item-picker key="exclude-items" title="Select exclude Items" name="excludeItems" multiple="true"
-                         :disabled="!anySelected" :value="excludeItems" @input="excludeItems = $event" />
+            <item-picker
+              key="exclude-items"
+              title="Select exclude Items"
+              name="excludeItems"
+              multiple="true"
+              :disabled="!anySelected ? true : null"
+              :value="excludeItems"
+              @input="excludeItems = $event"
+            />
             <f7-list-item>... to be excluded from persistence.</f7-list-item>
           </f7-list>
         </f7-col>
         <f7-col>
-          <f7-block-title medium class="padding-bottom">
-            Strategies
-          </f7-block-title>
-          <strategy-picker title="Select strategies" name="strategies" :strategies="strategies"
-                           :value="currentConfiguration.strategies"
-                           @strategiesSelected="currentConfiguration.strategies = $event" />
+          <f7-block-title medium class="padding-bottom"> Strategies </f7-block-title>
+          <strategy-picker
+            title="Select strategies"
+            name="strategies"
+            :strategies="strategies"
+            :value="currentConfiguration.strategies"
+            @strategies-selected="currentConfiguration.strategies = $event"
+          />
         </f7-col>
         <f7-col>
-          <f7-block-title medium class="padding-bottom">
-            Filters
-          </f7-block-title>
-          <filter-picker :filters="filters"
-                         :value="currentConfiguration.filters"
-                         @filtersSelected="currentConfiguration.filters = $event" />
+          <f7-block-title medium class="padding-bottom"> Filters </f7-block-title>
+          <filter-picker
+            :filters="filters"
+            :value="currentConfiguration.filters"
+            @filters-selected="currentConfiguration.filters = $event"
+          />
         </f7-col>
       </f7-block>
     </f7-page>
@@ -67,85 +105,130 @@
 </template>
 
 <script>
-import ItemPicker from '@/components/config/controls/item-picker.vue'
-import StrategyPicker from '@/pages/settings/persistence/strategy-picker.vue'
-import FilterPicker from '@/pages/settings/persistence/filter-picker.vue'
+import ItemPicker from '@/components/config/controls/item-picker.vue';
+import StrategyPicker from '@/pages/settings/persistence/strategy-picker.vue';
+import FilterPicker from '@/pages/settings/persistence/filter-picker.vue';
+import { f7 } from 'framework7-vue';
 
 export default {
   components: { FilterPicker, StrategyPicker, ItemPicker },
   props: ['configuration', 'strategies', 'filters'],
-  emits: ['configurationUpdate'],
-  data () {
+  emits: ['configuration-update'],
+  data() {
     return {
       currentConfiguration: this.configuration || {
         items: [],
-        strategies: [
-          'everyChange'
-        ],
-        filters: []
-      }
-    }
+        strategies: ['everyChange'],
+        filters: [],
+      },
+    };
   },
   computed: {
     groupItems: {
-      get () {
-        return this.currentConfiguration.items.filter((i) => i.length > 1 && !i.startsWith('!') && i.endsWith('*')).map((i) => i.slice(0, -1))
+      get() {
+        return this.currentConfiguration.items
+          .filter(i => i.length > 1 && !i.startsWith('!') && i.endsWith('*'))
+          .map(i => i.slice(0, -1));
       },
-      set (newGroupItems) {
-        this.$set(this.currentConfiguration, 'items', this.itemConfig(this.allItemsSelected, newGroupItems.sort((a, b) => a.localeCompare(b)), this.items, this.excludeGroupItems, this.excludeItems))
-      }
+      set(newGroupItems) {
+        this.currentConfiguration.items = this.itemConfig(
+          this.allItemsSelected,
+          newGroupItems.sort((a, b) => a.localeCompare(b)),
+          this.items,
+          this.excludeGroupItems,
+          this.excludeItems
+        );
+      },
     },
     items: {
-      get () {
-        return this.currentConfiguration.items.filter((i) => !i.startsWith('!') && !i.endsWith('*'))
+      get() {
+        return this.currentConfiguration.items.filter(i => !i.startsWith('!') && !i.endsWith('*'));
       },
-      set (newItems) {
-        this.$set(this.currentConfiguration, 'items', this.itemConfig(this.allItemsSelected, this.groupItems, newItems.sort((a, b) => a.localeCompare(b)), this.excludeGroupItems, this.excludeItems))
-      }
+      set(newItems) {
+        this.currentConfiguration.items = this.itemConfig(
+          this.allItemsSelected,
+          this.groupItems,
+          newItems.sort((a, b) => a.localeCompare(b)),
+          this.excludeGroupItems,
+          this.excludeItems
+        );
+      },
     },
     excludeGroupItems: {
-      get () {
-        return this.currentConfiguration.items.filter((i) => i.startsWith('!') && i.endsWith('*')).map((i) => i.slice(1, -1))
+      get() {
+        return this.currentConfiguration.items
+          .filter(i => i.startsWith('!') && i.endsWith('*'))
+          .map(i => i.slice(1, -1));
       },
-      set (newExcludeGroupItems) {
-        this.$set(this.currentConfiguration, 'items', this.itemConfig(this.allItemsSelected, this.groupItems, this.items, newExcludeGroupItems.sort((a, b) => a.localeCompare(b)), this.excludeItems))
-      }
+      set(newExcludeGroupItems) {
+        this.currentConfiguration.items = this.itemConfig(
+          this.allItemsSelected,
+          this.groupItems,
+          this.items,
+          newExcludeGroupItems.sort((a, b) => a.localeCompare(b)),
+          this.excludeItems
+        );
+      },
     },
     excludeItems: {
-      get () {
-        return this.currentConfiguration.items.filter((i) => i.startsWith('!') && !i.endsWith('*')).map((i) => i.slice(1))
+      get() {
+        return this.currentConfiguration.items
+          .filter(i => i.startsWith('!') && !i.endsWith('*'))
+          .map(i => i.slice(1));
       },
-      set (newExcludeItems) {
-        this.$set(this.currentConfiguration, 'items', this.itemConfig(this.allItemsSelected, this.groupItems, this.items, this.excludeGroupItems, newExcludeItems.sort((a, b) => a.localeCompare(b))))
-      }
+      set(newExcludeItems) {
+        this.currentConfiguration.items = this.itemConfig(
+          this.allItemsSelected,
+          this.groupItems,
+          this.items,
+          this.excludeGroupItems,
+          newExcludeItems.sort((a, b) => a.localeCompare(b))
+        );
+      },
     },
     allItemsSelected: {
-      get () {
-        return this.currentConfiguration.items.filter((i) => i === '*').length > 0
+      get() {
+        return this.currentConfiguration.items.filter(i => i === '*').length > 0;
       },
-      set (newAllItemsSelected) {
-        this.$set(this.currentConfiguration, 'items', this.itemConfig(newAllItemsSelected, this.groupItems, this.items, this.excludeGroupItems, this.excludeItems))
-      }
+      set(newAllItemsSelected) {
+        this.currentConfiguration.items = this.itemConfig(
+          newAllItemsSelected,
+          this.groupItems,
+          this.items,
+          this.excludeGroupItems,
+          this.excludeItems
+        );
+      },
     },
     anySelected: {
-      get () {
-        return this.allItemsSelected || (this.groupItems.length > 0) || (this.items.length > 0)
-      }
-    }
+      get() {
+        return this.allItemsSelected || this.groupItems.length > 0 || this.items.length > 0;
+      },
+    },
   },
   methods: {
-    itemConfig (allItemsSelected, groupItems, items, excludeGroupItems, excludeItems) {
-      return (allItemsSelected ? ['*'] : []).concat(groupItems.map((i) => i + '*')).concat(items).concat(excludeGroupItems.map((i) => '!' + i + '*')).concat(excludeItems.map((i) => '!' + i))
+    itemConfig(allItemsSelected, groupItems, items, excludeGroupItems, excludeItems) {
+      return (allItemsSelected ? ['*'] : [])
+        .concat(groupItems.map(i => i + '*'))
+        .concat(items)
+        .concat(excludeGroupItems.map(i => '!' + i + '*'))
+        .concat(excludeItems.map(i => '!' + i));
     },
-    updateModuleConfig () {
+    updateModuleConfig() {
       if (!this.anySelected) {
-        this.$f7.dialog.alert('Please select Items')
-        return
+        f7.dialog.alert('Please select Items');
+        return;
       }
-      this.$set(this.currentConfiguration, 'items', this.itemConfig(this.allItemsSelected, this.allItemsSelected ? [] : this.groupItems, this.allItemsSelected ? [] : this.items, this.excludeGroupItems, this.excludeItems))
-      this.$f7.emit('configurationUpdate', this.currentConfiguration)
-      this.$refs.modulePopup.close()
-    }
-  }
-}
+      this.currentConfiguration.items = this.itemConfig(
+        this.allItemsSelected,
+        this.allItemsSelected ? [] : this.groupItems,
+        this.allItemsSelected ? [] : this.items,
+        this.excludeGroupItems,
+        this.excludeItems
+      );
+      f7.emit('configuration-update', this.currentConfiguration);
+      this.$refs.modulePopup.close();
+    },
+  },
+};
 </script>

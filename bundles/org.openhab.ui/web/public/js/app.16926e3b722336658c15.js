@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkopenhab=self.webpackChunkopenhab||[]).push([[6225],{96225:function(t,n,e){e.r(n),e.d(n,{default:function(){return l}});var o={props:["context"],components:{ModelTab:e(4193).A}},l=(0,e(14486).A)(o,(function(){return(0,this._self._c)("model-tab",{attrs:{type:"locations",page:this.context}})}),[],!1,null,null,null).exports}}]);

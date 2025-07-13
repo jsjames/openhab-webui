@@ -3,8 +3,9 @@
     ref="chart"
     class="oh-chart-page-chart"
     :class="{ 'with-tabbar': context.tab, 'with-toolbar': context.analyzer }"
-    :style="(this.$f7.data.themeOptions.dark === 'dark') ? 'background-color: black;' : 'background-color: white;'"
-    :context="this.context" />
+    :style="themeOptions.dark === 'dark' ? 'background-color: black;' : 'background-color: white;'"
+    :context="this.context"
+  />
 </template>
 
 <style lang="stylus">
@@ -36,30 +37,36 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin'
-import OhChart from '../system/oh-chart.vue'
-import { OhChartPageDefinition } from '@/assets/definitions/widgets/chart/page'
+import mixin from '../widget-mixin';
+import OhChart from '../system/oh-chart.vue';
+import { OhChartPageDefinition } from '@/assets/definitions/widgets/chart/page';
+import { themeOptionsStore } from '@/js/stores/theme-options';
 
 export default {
   mixins: [mixin],
   components: {
-    OhChart
+    OhChart,
   },
   widget: OhChartPageDefinition,
+  data() {
+    return {
+      themeOptions: themeOptionsStore(),
+    };
+  },
   methods: {
-    onOrientationChange () {
-      this.$refs.chart.forceRerender()
+    onOrientationChange() {
+      this.$refs.chart.forceRerender();
+    },
+  },
+  mounted() {
+    if (this.$device.ios) {
+      window.addEventListener('orientationchange', this.onOrientationChange);
     }
   },
-  mounted () {
+  beforeUnmount() {
     if (this.$device.ios) {
-      window.addEventListener('orientationchange', this.onOrientationChange)
+      window.removeEventListener('orientationchange', this.onOrientationChange);
     }
   },
-  beforeUnmount () {
-    if (this.$device.ios) {
-      window.removeEventListener('orientationchange', this.onOrientationChange)
-    }
-  }
-}
+};
 </script>

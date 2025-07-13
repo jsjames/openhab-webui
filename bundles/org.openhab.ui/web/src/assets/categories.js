@@ -197,5 +197,5 @@ export const Categories = [
   'woman_3',
   'woman_4',
   'woman_5',
-  'woman_6'
-]
+  'woman_6',
+];

@@ -1,10 +1,19 @@
 <template>
   <f7-list class="strategy-picker-container" v-if="strategies">
-    <f7-list-item :title="title" :smart-select="disabled !== true" :smart-select-params="smartSelectParams"
-                  ref="smartSelect" class="defaults-picker">
+    <f7-list-item
+      :title="title"
+      :smart-select="disabled !== true"
+      :smart-select-params="smartSelectParams"
+      ref="smartSelect"
+      class="defaults-picker"
+    >
       <select v-if="disabled !== true" :name="name" multiple @change="select">
-        <option v-for="s in strategies" :key="s" :value="s"
-                :selected="value.includes(s)">
+        <option
+          v-for="s in strategies"
+          :key="s"
+          :value="s"
+          :selected="value.includes(s) ? true : null"
+        >
           {{ s }}
         </option>
       </select>
@@ -28,23 +37,25 @@
 </style>
 
 <script>
+import { f7 } from 'framework7-vue';
+
 export default {
   props: ['title', 'name', 'strategies', 'value', 'disabled'],
-  emits: ['strategiesSelected'],
-  data () {
+  emits: ['strategies-selected'],
+  data() {
     return {
       smartSelectParams: {
-        view: this.$f7.view.main,
-        openIn: 'popup'
-      }
-    }
+        view: f7.view.main,
+        openIn: 'popup',
+      },
+    };
   },
   methods: {
-    select () {
-      this.$f7.input.validateInputs(this.$refs.smartSelect.$el)
-      const value = this.$refs.smartSelect.f7SmartSelect.getValue()
-      this.$emit('strategiesSelected', value)
-    }
-  }
-}
+    select() {
+      f7.input.validateInputs(this.$refs.smartSelect.$el);
+      const value = this.$refs.smartSelect.f7SmartSelect.getValue();
+      this.$emit('strategies-selected', value);
+    },
+  },
+};
 </script>

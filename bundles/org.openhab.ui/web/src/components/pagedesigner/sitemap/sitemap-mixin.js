@@ -1,11 +1,11 @@
 export default {
-  data () {
+  data() {
     return {
       items: [],
-      itemsReady: false
-    }
+      itemsReady: false,
+    };
   },
-  created () {
+  created() {
     this.WIDGET_TYPES = [
       { type: 'Sitemap', icon: 'slider_horizontal_below_rectangle' },
       { type: 'Text', icon: 'textformat' },
@@ -22,26 +22,64 @@ export default {
       { type: 'Chart', icon: 'chart_bar_square' },
       { type: 'Webview', label: 'Web View', icon: 'globe' },
       { type: 'Colorpicker', label: 'Color Picker', icon: 'drop' },
-      { type: 'Colortemperaturepicker', label: 'Color Temperature Picker', icon: 'thermometer' },
+      {
+        type: 'Colortemperaturepicker',
+        label: 'Color Temperature Picker',
+        icon: 'thermometer',
+      },
       { type: 'Mapview', label: 'Map View', icon: 'map' },
       { type: 'Image', icon: 'photo' },
-      { type: 'Video', icon: 'videocam' }
-    ]
-    this.LINKABLE_WIDGET_TYPES = ['Sitemap', 'Text', 'Frame', 'Group', 'Image', 'Buttongrid']
-    this.WIDGET_TYPES_REQUIRING_ITEM = ['Group', 'Chart', 'Switch', 'Mapview', 'Slider', 'Selection', 'Setpoint', 'Input', 'Colorpicker', 'Colortemperaturepicker', 'Default']
-    this.WIDGET_TYPES_SHOWING_VALUE = ['Text', 'Switch', 'Selection', 'Slider', 'Setpoint', 'Input', 'Default', 'Group']
+      { type: 'Video', icon: 'videocam' },
+    ];
+    this.LINKABLE_WIDGET_TYPES = ['Sitemap', 'Text', 'Frame', 'Group', 'Image', 'Buttongrid'];
+    this.WIDGET_TYPES_REQUIRING_ITEM = [
+      'Group',
+      'Chart',
+      'Switch',
+      'Mapview',
+      'Slider',
+      'Selection',
+      'Setpoint',
+      'Input',
+      'Colorpicker',
+      'Colortemperaturepicker',
+      'Default',
+    ];
+    this.WIDGET_TYPES_SHOWING_VALUE = [
+      'Text',
+      'Switch',
+      'Selection',
+      'Slider',
+      'Setpoint',
+      'Input',
+      'Default',
+      'Group',
+    ];
 
-    this.REGEX_PERIOD = /^((P(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?|\d*[YMWDh])-)?-?(P(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?|\d*[YMWDh])$/
-    this.REGEX_DECIMAL_PATTERN = /^(?:'[0#.,;E]?'|[^0#.,;E'])*((#[,#]*|0)[,0]*)(\.(0+#*|#+))?(?:E0+)?(?:';'|[^;])*(?:;(?:'[0#.,;E]?'|[^0#.,;E'])*((#[,#]*|0)[,0]*)(\.(0+#*|#+))?(?:E0+)?.*)?$/
-    this.REGEX_MAPPING = /^\s*("[^\n"]*"|\w+)\s*=\s*("[^\n"]*"|\w+)\s*(=\s*("[^\n"]*"|[\w:-]+))?$/u
-    this.REGEX_MAPPING_SWITCH = /^\s*("[^\n"]*"|\w+)\s*(:\s*("[^\n"]*"|\w+)\s*)?=\s*("[^\n"]*"|\w+)\s*(=\s*("[^\n"]*"|\w+))?$/u
-    this.REGEX_RULE_VISIBILITY = /^(\s*((\w+\s*)?(==|>=|<=|!=|>|<)\s*)?("[^\n"]*"|\w+)\s*AND)*\s*((\w+\s*)?(==|>=|<=|!=|>|<)\s*)?("[^\n"]*"|\w+)\s*$/u
-    this.REGEX_RULE = /^(((\s*((\w+\s*)?(==|>=|<=|!=|>|<)\s*)?("[^\n"]*"|\w+)\s*AND)*\s*((\w+\s*)?(==|>=|<=|!=|>|<)\s*)?("[^\n"]*"|\w+)\s*)?\s*=)?\s*("#?(\w|:|-)+"|#?(\w|:|-)+)$/u
+    this.REGEX_PERIOD =
+      /^((P(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?|\d*[YMWDh])-)?-?(P(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?|\d*[YMWDh])$/;
+    this.REGEX_DECIMAL_PATTERN =
+      /^(?:'[0#.,;E]?'|[^0#.,;E'])*((#[,#]*|0)[,0]*)(\.(0+#*|#+))?(?:E0+)?(?:';'|[^;])*(?:;(?:'[0#.,;E]?'|[^0#.,;E'])*((#[,#]*|0)[,0]*)(\.(0+#*|#+))?(?:E0+)?.*)?$/;
+    this.REGEX_MAPPING = /^\s*("[^\n"]*"|\w+)\s*=\s*("[^\n"]*"|\w+)\s*(=\s*("[^\n"]*"|[\w:-]+))?$/u;
+    this.REGEX_MAPPING_SWITCH =
+      /^\s*("[^\n"]*"|\w+)\s*(:\s*("[^\n"]*"|\w+)\s*)?=\s*("[^\n"]*"|\w+)\s*(=\s*("[^\n"]*"|\w+))?$/u;
+    this.REGEX_RULE_VISIBILITY =
+      /^(\s*((\w+\s*)?(==|>=|<=|!=|>|<)\s*)?("[^\n"]*"|\w+)\s*AND)*\s*((\w+\s*)?(==|>=|<=|!=|>|<)\s*)?("[^\n"]*"|\w+)\s*$/u;
+    this.REGEX_RULE =
+      /^(((\s*((\w+\s*)?(==|>=|<=|!=|>|<)\s*)?("[^\n"]*"|\w+)\s*AND)*\s*((\w+\s*)?(==|>=|<=|!=|>|<)\s*)?("[^\n"]*"|\w+)\s*)?\s*=)?\s*("#?(\w|:|-)+"|#?(\w|:|-)+)$/u;
 
     this.ADDITIONAL_CONTROLS = {
       Image: ['url', 'refresh'],
       Video: ['url', 'encoding'],
-      Chart: ['service', 'period', 'refresh', 'legend', 'forceAsItem', 'yAxisDecimalPattern', 'interpolation'],
+      Chart: [
+        'service',
+        'period',
+        'refresh',
+        'legend',
+        'forceAsItem',
+        'yAxisDecimalPattern',
+        'interpolation',
+      ],
       Webview: ['url', 'height'],
       Mapview: ['height'],
       Slider: ['switchEnabled', 'releaseOnly', 'minValue', 'maxValue', 'step'],
@@ -49,82 +87,94 @@ export default {
       Colortemperaturepicker: ['minValue', 'maxValue'],
       Input: ['inputHint'],
       Button: ['row', 'column', 'stateless', 'cmd', 'releaseCmd'],
-      Default: ['height']
-    }
+      Default: ['height'],
+    };
     this.ENCODING_DEFS = [
       { key: 'mjpeg', value: 'MJPEG Video' },
-      { key: 'HLS', value: 'HTTP Live Streaming' }
-    ]
+      { key: 'HLS', value: 'HTTP Live Streaming' },
+    ];
     this.INPUT_HINT_DEFS = [
       { key: 'text', value: 'Text' },
       { key: 'number', value: 'Number' },
       { key: 'date', value: 'Date' },
       { key: 'time', value: 'Time' },
-      { key: 'datetime', value: 'Date and Time' }
-    ]
+      { key: 'datetime', value: 'Date and Time' },
+    ];
     this.INTERPOLATION_DEFS = [
       { key: 'linear', value: 'Linear' },
-      { key: 'step', value: 'Step' }
-    ]
+      { key: 'step', value: 'Step' },
+    ];
 
     if (!this.itemsList) {
-      this.$oh.api.get('/rest/items?staticDataOnly=true').then((items) => {
-        this.items = items
-        this.itemsReady = true
-      })
+      this.$oh.api.get('/rest/items?staticDataOnly=true').then(items => {
+        this.items = items;
+        this.itemsReady = true;
+      });
     } else {
-      this.items = this.itemsList ?? []
-      this.itemsReady = true
+      this.items = this.itemsList ?? [];
+      this.itemsReady = true;
     }
   },
   methods: {
-    allowedWidgetTypes (parentWidget) {
-      let types = this.WIDGET_TYPES.filter(w => w.type !== 'Sitemap')
+    allowedWidgetTypes(parentWidget) {
+      let types = this.WIDGET_TYPES.filter(w => w.type !== 'Sitemap');
       // Button only allowed inside Buttongrid
-      if (parentWidget.component === 'Buttongrid') return types.filter(t => t.type === 'Button')
-      types = types.filter(t => t.type !== 'Button')
+      if (parentWidget.component === 'Buttongrid') return types.filter(t => t.type === 'Button');
+      types = types.filter(t => t.type !== 'Button');
       // No frames in frame
-      if (parentWidget.component === 'Frame') return types.filter(t => t.type !== 'Frame')
+      if (parentWidget.component === 'Frame') return types.filter(t => t.type !== 'Frame');
       // Linkable widget types only contain frames or none at all
       if (this.LINKABLE_WIDGET_TYPES.includes(parentWidget.component)) {
         if (parentWidget.slots?.widgets?.length > 0) {
           if (parentWidget.slots.widgets.find(w => w.component === 'Frame')) {
-            return types.filter(t => t.type === 'Frame')
+            return types.filter(t => t.type === 'Frame');
           } else {
-            return types.filter(t => t.type !== 'Frame')
+            return types.filter(t => t.type !== 'Frame');
           }
         }
       }
-      return types
+      return types;
     },
-    canAddChildren (widget) {
-      if (!widget) return false
+    canAddChildren(widget) {
+      if (!widget) return false;
       if (widget.component === 'Buttongrid') {
-        const buttons = widget.config.buttons
-        if (Array.isArray(buttons) && buttons.length) return false
+        const buttons = widget.config.buttons;
+        if (Array.isArray(buttons) && buttons.length) return false;
       }
-      return this.LINKABLE_WIDGET_TYPES.includes(widget.component)
+      return this.LINKABLE_WIDGET_TYPES.includes(widget.component);
     },
-    widgetTypeDef (component) {
-      const componentType = component ?? this.widget.component
-      return this.WIDGET_TYPES.find(w => w.type === componentType)
+    widgetTypeDef(component) {
+      const componentType = component ?? this.widget.component;
+      return this.WIDGET_TYPES.find(w => w.type === componentType);
     },
-    widgetTypeIcon (component) {
-      return this.widgetTypeDef(component).icon
+    widgetTypeIcon(component) {
+      return this.widgetTypeDef(component).icon;
     },
-    widgetTypeLabel (component) {
-      return this.widgetTypeDef(component).label ?? this.widgetTypeDef(component).type
+    widgetTypeLabel(component) {
+      return this.widgetTypeDef(component).label ?? this.widgetTypeDef(component).type;
     },
-    widgetConfigLabel () {
-      return this.widget.config.label ?? ((this.widget.component === 'Button') ? this.widget.config.cmd : '')
+    widgetConfigLabel() {
+      return (
+        this.widget.config.label ??
+        (this.widget.component === 'Button' ? this.widget.config.cmd : '')
+      );
     },
-    widgetItemLabel (includeItemName) {
-      const item = this.items.find(i => i.name === this.widget.config.item)
-      return (item?.label || this.widget.config.item) + (includeItemName && item ? ` (${item.name})` : '')
+    widgetItemLabel(includeItemName) {
+      const item = this.items.find(i => i.name === this.widget.config.item);
+      return (
+        (item?.label || this.widget.config.item) +
+        (includeItemName && item ? ` (${item.name})` : '')
+      );
     },
-    widgetConfigDescription (includeItemName) {
-      const buttonPosition = this.widget.component === 'Button' ? ` (${this.widget.config?.row ?? '-'},${this.widget.config?.column ?? '-'})` : ''
-      return (this.widget.config?.item ? ': ' + this.widgetItemLabel(includeItemName) : '') + buttonPosition
-    }
-  }
-}
+    widgetConfigDescription(includeItemName) {
+      const buttonPosition =
+        this.widget.component === 'Button'
+          ? ` (${this.widget.config?.row ?? '-'},${this.widget.config?.column ?? '-'})`
+          : '';
+      return (
+        (this.widget.config?.item ? ': ' + this.widgetItemLabel(includeItemName) : '') +
+        buttonPosition
+      );
+    },
+  },
+};

@@ -5,13 +5,36 @@
         {{ elements[0].separator }}
       </f7-block-title>
       <div class="model-cards-section" v-if="elements.length > 0">
-        <div v-for="(element, idx) in elements.filter((e) => !isCardExcluded(e))" :key="idx">
-          <location-card v-if="type === 'locations' && !element.separator && (element.equipment.length > 0 || element.properties.length > 0)" :key="element.key"
-                         type="location" :element="element" :context="cardContext(element)" :parent-location="parentLocationName(element.item)" :tab-context="tabContext(type)" />
-          <equipment-card v-if="type === 'equipment' && !element.separator" :key="element.key"
-                          type="equipment" :element="element" :context="cardContext(element)" :tab-context="tabContext(type)" />
-          <property-card v-if="type === 'properties' && !element.separator" :key="element.key"
-                         type="property" :element="element" :context="cardContext(element)" :tab-context="tabContext(type)" />
+        <div v-for="(element, idx) in elements.filter(e => !isCardExcluded(e))" :key="idx">
+          <location-card
+            v-if="
+              type === 'locations' &&
+              !element.separator &&
+              (element.equipment.length > 0 || element.properties.length > 0)
+            "
+            :key="element.key"
+            type="location"
+            :element="element"
+            :context="cardContext(element)"
+            :parent-location="parentLocationName(element.item)"
+            :tab-context="tabContext(type)"
+          />
+          <equipment-card
+            v-if="type === 'equipment' && !element.separator"
+            :key="element.key"
+            type="equipment"
+            :element="element"
+            :context="cardContext(element)"
+            :tab-context="tabContext(type)"
+          />
+          <property-card
+            v-if="type === 'properties' && !element.separator"
+            :key="element.key"
+            type="property"
+            :element="element"
+            :context="cardContext(element)"
+            :tab-context="tabContext(type)"
+          />
         </div>
       </div>
     </div>
@@ -71,64 +94,89 @@
   .card-expandable.card-opened .card-content::-webkit-scrollbar /* WebKit */
       width 0
       height 0
-
 </style>
 
 <script>
-import cardGroups from './homecards-grouping'
+import cardGroups from './homecards-grouping';
 
-import LocationCard from '../../components/cards/location-card.vue'
-import EquipmentCard from '../../components/cards/equipment-card.vue'
-import PropertyCard from '../../components/cards/property-card.vue'
-import { mapState } from 'vuex'
+import LocationCard from '../../components/cards/location-card.vue';
+import EquipmentCard from '../../components/cards/equipment-card.vue';
+import PropertyCard from '../../components/cards/property-card.vue';
+import { mapState } from 'vuex';
 
 export default {
   props: ['type', 'page'],
   components: {
     LocationCard,
     EquipmentCard,
-    PropertyCard
+    PropertyCard,
   },
   computed: mapState({
-    groups (state) {
-      return cardGroups(state.model.semanticModel, this.type, this.page)
-    }
+    groups(state) {
+      return cardGroups(state.model.semanticModel, this.type, this.page);
+    },
   }),
   methods: {
-    isCardExcluded (card) {
-      if (!card.key) return
-      const page = this.page
-      const type = this.type
-      const excludedCards = (page && page.slots && page.slots[type] && page.slots[type][0] && page.slots[type][0].config && page.slots[type][0].config.excludedCards) ? page.slots[type][0].config.excludedCards : []
-      const excludedIdx = excludedCards.indexOf(card.key)
-      return excludedIdx >= 0
+    isCardExcluded(card) {
+      if (!card.key) return;
+      const page = this.page;
+      const type = this.type;
+      const excludedCards =
+        page &&
+        page.slots &&
+        page.slots[type] &&
+        page.slots[type][0] &&
+        page.slots[type][0].config &&
+        page.slots[type][0].config.excludedCards
+          ? page.slots[type][0].config.excludedCards
+          : [];
+      const excludedIdx = excludedCards.indexOf(card.key);
+      return excludedIdx >= 0;
     },
-    cardContext (element) {
+    cardContext(element) {
       let context = {
         component: element.card || {
-          component: (this.type === 'locations') ? 'oh-location-card' : (this.type === 'equipment') ? 'oh-equipment-card' : 'oh-property-card',
-          config: {}
+          component:
+            this.type === 'locations'
+              ? 'oh-location-card'
+              : this.type === 'equipment'
+                ? 'oh-equipment-card'
+                : 'oh-property-card',
+          config: {},
         },
-        store: this.$store.getters.trackedItems
+        store: this.$store.getters.trackedItems,
+      };
+      const page = this.page;
+      const type = this.type;
+      if (
+        page &&
+        page.slots &&
+        page.slots[type] &&
+        page.slots[type][0] &&
+        page.slots[type][0].config &&
+        page.slots[type][0].config.badges
+      ) {
+        context.badgeOverrides = page.slots[type][0].config.badges;
       }
-      const page = this.page
-      const type = this.type
-      if (page && page.slots && page.slots[type] && page.slots[type][0] && page.slots[type][0].config && page.slots[type][0].config.badges) {
-        context.badgeOverrides = page.slots[type][0].config.badges
-      }
-      return context
+      return context;
     },
-    parentLocationName (item) {
-      return item.parent ? item.parent.label || item.parent.name : ''
+    parentLocationName(item) {
+      return item.parent ? item.parent.label || item.parent.name : '';
     },
-    tabContext (type) {
-      const page = this.page
-      if (page && page.slots && page.slots[type] && page.slots[type][0] && page.slots[type][0].config) {
-        return page.slots[type][0].config
+    tabContext(type) {
+      const page = this.page;
+      if (
+        page &&
+        page.slots &&
+        page.slots[type] &&
+        page.slots[type][0] &&
+        page.slots[type][0].config
+      ) {
+        return page.slots[type][0].config;
       } else {
-        return {}
+        return {};
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

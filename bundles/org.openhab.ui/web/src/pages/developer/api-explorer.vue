@@ -1,6 +1,11 @@
 <template>
   <f7-page name="apiexplorer" @page:afterin="onPageAfterIn">
-    <f7-navbar title="API Explorer" back-link="Developer Tools" back-link-url="/developer/" back-link-force />
+    <f7-navbar
+      title="API Explorer"
+      back-link="Developer Tools"
+      back-link-url="/developer/"
+      back-link-force
+    />
     <f7-block>
       <f7-col>
         <f7-card id="swaggerUi" />
@@ -102,25 +107,27 @@
   .model-title
     color var(--f7-text-color) !important
     font-size var(--f7-list-font-size) !important
-.theme-dark #swaggerUi
+.dark #swaggerUi
   .loading, .model-toggle, svg
     filter invert(1) opacity(0.5)
 </style>
 
 <script>
-import auth from '@/components/auth-mixin.js'
+import auth from '@/components/auth-mixin.js';
 
 export default {
   mixins: [auth],
   methods: {
-    onPageAfterIn () {
-      const swaggerCss = import(/* webpackChunkName: "swagger-css" */ 'swagger-ui-dist/swagger-ui.css')
-      const swaggerModule = import(/* webpackChunkName: "swagger" */'swagger-ui-dist')
-      const refreshToken = this.refreshAccessToken()
+    onPageAfterIn() {
+      const swaggerCss = import(
+        /* webpackChunkName: "swagger-css" */ 'swagger-ui-dist/swagger-ui.css'
+      );
+      const swaggerModule = import(/* webpackChunkName: "swagger" */ 'swagger-ui-dist');
+      const refreshToken = this.refreshAccessToken();
 
-      Promise.all([swaggerModule, swaggerCss, refreshToken]).then((results) => {
-        const SwaggerUI = results[0].SwaggerUIBundle
-        const tokenResponse = results[2]
+      Promise.all([swaggerModule, swaggerCss, refreshToken]).then(results => {
+        const SwaggerUI = results[0].SwaggerUIBundle;
+        const tokenResponse = results[2];
         SwaggerUI({
           url: '/rest/spec',
           dom_id: '#swaggerUi',
@@ -131,17 +138,17 @@ export default {
           filter: true,
           docExpansion: 'none',
           syntaxHighlight: false,
-          requestInterceptor: (req) => {
+          requestInterceptor: req => {
             if (document.cookie.indexOf('X-OPENHAB-AUTH-HEADER') >= 0) {
-              req.headers['X-OPENHAB-TOKEN'] = tokenResponse.access_token
+              req.headers['X-OPENHAB-TOKEN'] = tokenResponse.access_token;
             } else {
-              req.headers['Authorization'] = 'Bearer ' + tokenResponse.access_token
+              req.headers['Authorization'] = 'Bearer ' + tokenResponse.access_token;
             }
-            return req
-          }
-        })
-      })
-    }
-  }
-}
+            return req;
+          },
+        });
+      });
+    },
+  },
+};
 </script>

@@ -2,7 +2,11 @@
   <f7-block class="sitemap-code">
     <div class="row sitemap-parser resizable">
       <div class="col">
-        <editor :value="sitemapDsl" @input="updateSitemap" mode="application/vnd.openhab.sitemap+dsl" />
+        <editor
+          :value="sitemapDsl"
+          @input="updateSitemap"
+          mode="application/vnd.openhab.sitemap+dsl"
+        />
       </div>
       <span class="resize-handler" />
     </div>
@@ -47,43 +51,50 @@
 </style>
 
 <script>
-import { Parser, Grammar } from 'nearley'
-import grammar from '@/assets/sitemap-lexer.nearley'
-import dslUtil from './dslUtil'
+import { Parser, Grammar } from 'nearley';
+import grammar from '@/assets/sitemap-lexer.nearley';
+import dslUtil from './dslUtil';
+import { defineAsyncComponent } from 'vue';
 
 export default {
   components: {
-    'editor': () => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue')
+    editor: defineAsyncComponent(
+      () =>
+        import(
+          /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
+        )
+    ),
   },
   props: ['sitemap'],
-  data () {
+  emits: ['updated'],
+  data() {
     return {
-      sitemapDsl: ''
-    }
+      sitemapDsl: '',
+    };
   },
-  created () {
-    this.sitemapDsl = dslUtil.toDsl(this.sitemap)
+  created() {
+    this.sitemapDsl = dslUtil.toDsl(this.sitemap);
   },
   methods: {
-    updateSitemap (value) {
-      this.sitemapDsl = value
-      const parsed = this.parsedSitemap
+    updateSitemap(value) {
+      this.sitemapDsl = value;
+      const parsed = this.parsedSitemap;
       if (!parsed.error) {
-        this.$emit('updated', parsed)
+        this.$emit('updated', parsed);
       }
-    }
+    },
   },
   computed: {
-    parsedSitemap () {
+    parsedSitemap() {
       try {
-        const parser = new Parser(Grammar.fromCompiled(grammar))
-        parser.feed(this.sitemapDsl.trim().replace(/\t/g, ' '))
-        if (!parser.results.length) return { error: 'Unable to parse, check your input' }
-        return parser.results[0]
+        const parser = new Parser(Grammar.fromCompiled(grammar));
+        parser.feed(this.sitemapDsl.trim().replace(/\t/g, ' '));
+        if (!parser.results.length) return { error: 'Unable to parse, check your input' };
+        return parser.results[0];
       } catch (e) {
-        return { error: e }
+        return { error: e };
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

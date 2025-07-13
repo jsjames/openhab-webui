@@ -1,24 +1,46 @@
 <template>
-  <f7-page class="item-details-page" @page:beforein="onPageBeforeIn" @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut">
-    <f7-navbar :title="item.name" back-link="Back" no-shadow no-hairline class="item-details-navbar">
+  <f7-page
+    class="item-details-page"
+    @page:beforein="onPageBeforeIn"
+    @page:afterin="onPageAfterIn"
+    @page:beforeout="onPageBeforeOut"
+  >
+    <f7-navbar
+      :title="item.name"
+      back-link="Back"
+      no-shadow
+      no-hairline
+      class="item-details-navbar"
+    >
       <f7-nav-right v-if="ready">
         <f7-link v-if="item.editable" icon-md="material:edit" href="edit">
-          {{ $theme.md ? '' : 'Edit' }}
+          {{ theme.md ? '' : 'Edit' }}
         </f7-link>
-        <f7-link v-else icon-f7="lock_fill" tooltip="This Item is not editable through the UI" href="edit">
+        <f7-link
+          v-else
+          icon-f7="lock_fill"
+          tooltip="This Item is not editable through the UI"
+          href="edit"
+        >
           Details
         </f7-link>
       </f7-nav-right>
       <f7-subnavbar sliding class="item-header">
         <div class="item-icon" v-if="item.name">
-          <oh-icon v-if="item.category" :icon="item.category" :state="item.type === 'Image' ? null : (context.store[item.name].state || item.state)" height="60" width="60" />
+          <oh-icon
+            v-if="item.category"
+            :icon="item.category"
+            :state="item.type === 'Image' ? null : context.store[item.name].state || item.state"
+            height="60"
+            width="60"
+          />
           <span v-else>
             {{ item.label ? item.label[0] : item.name[0] }}
           </span>
         </div>
         <h2>{{ item.label }}</h2>
         <!-- <h4 v-show="item.label">{{item.name}}</h4> -->
-        <h5 v-show="item.type" style="margin-top: 10px; margin-bottom: 15px;">
+        <h5 v-show="item.type" style="margin-top: 10px; margin-bottom: 15px">
           <small>{{ getItemTypeLabel(item) }}</small>
         </h5>
       </f7-subnavbar>
@@ -33,8 +55,15 @@
         <f7-col>
           <f7-block-title>Non-Semantic Tags</f7-block-title>
           <f7-block strong class="tags-block">
+<<<<<<< HEAD
             <f7-chip v-for="tag in nonSemanticTags" :key="tag" :text="tag" media-bg-color="blue">
               <f7-icon slot="media" ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
+=======
+            <f7-chip v-for="tag in item.tags" :key="tag" :text="tag" media-bg-color="blue">
+              <template #media>
+                <f7-icon ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
+              </template>
+>>>>>>> WIP
             </f7-chip>
           </f7-block>
         </f7-col>
@@ -50,7 +79,8 @@
               :key="key"
               :link="groupLink(value)"
               :title="key"
-              :after="value" />
+              :after="value"
+            />
           </f7-list>
         </f7-col>
       </f7-row>
@@ -62,8 +92,14 @@
               <f7-list-item
                 v-for="group in nonSemanticGroupNames"
                 :key="group"
+<<<<<<< HEAD
                 :link="groupLink(group)"
                 :title="group" />
+=======
+                :link="'/settings/items/' + group"
+                :title="group"
+              />
+>>>>>>> WIP
             </f7-list>
           </f7-card>
         </f7-col>
@@ -89,10 +125,11 @@
       <f7-row>
         <f7-col>
           <f7-list>
-            <f7-list-button color="blue" @click="duplicateItem">
-              Duplicate Item
-            </f7-list-button>
-            <f7-list-button color="blue" @click="copyFileDefinitionToClipboard(ObjectType.ITEM, [item.name])">
+            <f7-list-button color="blue" @click="duplicateItem"> Duplicate Item </f7-list-button>
+            <f7-list-button
+              color="blue"
+              @click="copyFileDefinitionToClipboard(ObjectType.ITEM, [item.name])"
+            >
               Copy File Definition
             </f7-list-button>
             <f7-list-button v-if="item.editable" color="red" @click="deleteItem">
@@ -100,7 +137,8 @@
             </f7-list-button>
           </f7-list>
           <p class="developer-sidebar-tip text-align-center">
-            Tip: Use the developer sidebar (Shift+Alt+D) to <f7-link text="search for usages of this Item" @click="searchInSidebar" />
+            Tip: Use the developer sidebar (Shift+Alt+D) to
+            <f7-link text="search for usages of this Item" @click="searchInSidebar" />
           </p>
         </f7-col>
       </f7-row>
@@ -161,14 +199,15 @@
 </style>
 
 <script>
-import cloneDeep from 'lodash/cloneDeep'
+import cloneDeep from 'lodash/cloneDeep';
+import { f7, theme } from 'framework7-vue';
 
-import ItemStatePreview from '@/components/item/item-state-preview.vue'
-import LinkDetails from '@/components/model/link-details.vue'
-import GroupMembers from '@/components/item/group-members.vue'
-import MetadataMenu from '@/components/item/metadata/item-metadata-menu.vue'
-import ItemMixin from '@/components/item/item-mixin'
-import FileDefinition from '@/pages/settings/file-definition-mixin'
+import ItemStatePreview from '@/components/item/item-state-preview.vue';
+import LinkDetails from '@/components/model/link-details.vue';
+import GroupMembers from '@/components/item/group-members.vue';
+import MetadataMenu from '@/components/item/metadata/item-metadata-menu.vue';
+import ItemMixin from '@/components/item/item-mixin';
+import FileDefinition from '@/pages/settings/file-definition-mixin';
 
 export default {
   mixins: [ItemMixin, FileDefinition],
@@ -177,18 +216,22 @@ export default {
     LinkDetails,
     GroupMembers,
     ItemStatePreview,
-    MetadataMenu
+    MetadataMenu,
   },
-  data () {
+  setup() {
+    return { theme };
+  },
+  data() {
     return {
       item: {},
       links: [],
-      ready: false
-    }
+      ready: false,
+    };
   },
   computed: {
-    context () {
+    context() {
       return {
+<<<<<<< HEAD
         store: this.$store.getters.trackedItems
       }
     },
@@ -236,48 +279,57 @@ export default {
     nonSemanticTags () {
       return this.item?.tags?.filter((tag) => tag !== this.semanticTag(this.semanticValue) && tag !== this.semanticTag(this.semanticProperty))
     }
+=======
+        store: this.$store.getters.trackedItems,
+      };
+    },
+>>>>>>> WIP
   },
   methods: {
-    onPageBeforeIn () {
-      this.$store.dispatch('startTrackingStates')
-      this.load()
+    onPageBeforeIn() {
+      this.$store.dispatch('startTrackingStates');
+      this.load();
     },
-    onPageAfterIn () {
-      this.$oh.api.get('/rest/links?itemName=' + this.itemName).then((data) => {
-        this.links = data
-      })
+    onPageAfterIn() {
+      this.$oh.api.get('/rest/links?itemName=' + this.itemName).then(data => {
+        this.links = data;
+      });
     },
-    onPageBeforeOut () {
-      this.$store.dispatch('stopTrackingStates')
+    onPageBeforeOut() {
+      this.$store.dispatch('stopTrackingStates');
     },
-    load () {
-      this.$oh.api.get(`/rest/items/${this.itemName}?metadata=.+`).then((data) => {
-        this.item = data
-        this.ready = true
-        this.iconUrl = '/icon/' + this.item.category + '?format=svg'
-      })
+    load() {
+      this.$oh.api.get(`/rest/items/${this.itemName}?metadata=.+`).then(data => {
+        this.item = data;
+        this.ready = true;
+        this.iconUrl = '/icon/' + this.item.category + '?format=svg';
+      });
     },
-    duplicateItem () {
-      let itemClone = cloneDeep(this.item)
-      this.$f7router.navigate({
-        url: '/settings/items/duplicate'
-      }, {
-        props: {
-          itemCopy: itemClone
+    duplicateItem() {
+      let itemClone = cloneDeep(this.item);
+      this.$f7router.navigate(
+        {
+          url: '/settings/items/duplicate',
+        },
+        {
+          props: {
+            itemCopy: itemClone,
+          },
         }
-      })
+      );
     },
-    deleteItem () {
-      this.$f7.dialog.confirm(
+    deleteItem() {
+      f7.dialog.confirm(
         `Are you sure you want to delete ${this.item.label || this.item.name}?`,
         'Delete Item',
         () => {
           this.$oh.api.delete('/rest/items/' + this.item.name).then(() => {
-            this.$f7router.back('/settings/items/', { force: true })
-          })
+            this.$f7router.back('/settings/items/', { force: true });
+          });
         }
-      )
+      );
     },
+<<<<<<< HEAD
     searchInSidebar () {
       this.$f7.emit('selectDeveloperDock', { 'dock': 'tools', 'toolTab': 'pin', 'searchFor': this.item.name })
     },
@@ -298,4 +350,15 @@ export default {
     }
   }
 }
+=======
+    searchInSidebar() {
+      f7.emit('select-developer-dock', {
+        dock: 'tools',
+        toolTab: 'pin',
+        searchFor: this.item.name,
+      });
+    },
+  },
+};
+>>>>>>> WIP
 </script>

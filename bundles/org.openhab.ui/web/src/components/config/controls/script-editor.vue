@@ -1,5 +1,12 @@
 <template>
-  <codemirror :value="value" @input="onCmCodeChange" ref="cm" class="code-editor-fit" :options="cmOptions" @ready="onCmReady" />
+  <codemirror
+    :value="value"
+    @input="onCmCodeChange"
+    ref="cm"
+    class="code-editor-fit"
+    :options="cmOptions"
+    @ready="onCmReady"
+  />
 </template>
 
 <style lang="stylus">
@@ -40,53 +47,53 @@
 
 <script>
 // require component
-import { codemirror } from 'vue-codemirror'
-import _CodeMirror from 'codemirror'
+import { codemirror } from 'vue-codemirror';
+import _CodeMirror from 'codemirror';
 // require styles
-import 'codemirror/lib/codemirror.css'
+import 'codemirror/lib/codemirror.css';
 
 // language js
-import 'codemirror/mode/clike/clike.js'
-import 'codemirror/mode/groovy/groovy.js'
-import 'codemirror/mode/jinja2/jinja2.js'
-import 'codemirror/mode/javascript/javascript.js'
-import 'codemirror/mode/properties/properties.js'
-import 'codemirror/mode/python/python.js'
-import 'codemirror/mode/ruby/ruby.js'
-import 'codemirror/mode/shell/shell.js'
-import 'codemirror/mode/xml/xml.js'
-import 'codemirror/mode/yaml/yaml.js'
+import 'codemirror/mode/clike/clike.js';
+import 'codemirror/mode/groovy/groovy.js';
+import 'codemirror/mode/jinja2/jinja2.js';
+import 'codemirror/mode/javascript/javascript.js';
+import 'codemirror/mode/properties/properties.js';
+import 'codemirror/mode/python/python.js';
+import 'codemirror/mode/ruby/ruby.js';
+import 'codemirror/mode/shell/shell.js';
+import 'codemirror/mode/xml/xml.js';
+import 'codemirror/mode/yaml/yaml.js';
 
 // theme css
-import 'codemirror/theme/gruvbox-dark.css'
+import 'codemirror/theme/gruvbox-dark.css';
 
-import 'codemirror/addon/edit/matchbrackets.js'
-import 'codemirror/addon/edit/closebrackets.js'
+import 'codemirror/addon/edit/matchbrackets.js';
+import 'codemirror/addon/edit/closebrackets.js';
 
-import 'codemirror/addon/comment/comment.js'
+import 'codemirror/addon/comment/comment.js';
 
 // for autocomplete
-import 'codemirror/addon/hint/show-hint.js'
-import 'codemirror/addon/hint/show-hint.css'
-import 'codemirror/addon/hint/anyword-hint.js'
-import 'codemirror/addon/dialog/dialog.js'
-import 'codemirror/addon/dialog/dialog.css'
-import 'codemirror/addon/tern/tern.js'
-import 'codemirror/addon/tern/tern.css'
+import 'codemirror/addon/hint/show-hint.js';
+import 'codemirror/addon/hint/show-hint.css';
+import 'codemirror/addon/hint/anyword-hint.js';
+import 'codemirror/addon/dialog/dialog.js';
+import 'codemirror/addon/dialog/dialog.css';
+import 'codemirror/addon/tern/tern.js';
+import 'codemirror/addon/tern/tern.css';
 
 // for folding
-import 'codemirror/addon/fold/foldgutter.css'
-import 'codemirror/addon/fold/foldcode.js'
-import 'codemirror/addon/fold/foldgutter.js'
-import 'codemirror/addon/fold/indent-fold.js'
+import 'codemirror/addon/fold/foldgutter.css';
+import 'codemirror/addon/fold/foldcode.js';
+import 'codemirror/addon/fold/foldgutter.js';
+import 'codemirror/addon/fold/indent-fold.js';
 
 // for linting
-import 'codemirror/addon/lint/lint.js'
-import 'codemirror/addon/lint/lint.css'
-import YAML from 'yaml'
+import 'codemirror/addon/lint/lint.js';
+import 'codemirror/addon/lint/lint.css';
+import YAML from 'yaml';
 
-import tern from 'tern'
-import infer from 'tern/lib/infer'
+import tern from 'tern';
+import infer from 'tern/lib/infer';
 
 // import 'tern/lib/signal.js'
 // import * as Tern from 'tern/lib/tern.js'
@@ -95,15 +102,18 @@ import infer from 'tern/lib/infer'
 // import 'tern/lib/infer.js'
 // import 'tern/plugin/doc_comment.js'
 
-import EcmascriptDefs from 'tern/defs/ecmascript.json'
-import NashornDefs from '@/assets/nashorn-tern-defs.json'
-import OpenhabJsDefs from '@/assets/openhab-js-tern-defs.json'
+import EcmascriptDefs from 'tern/defs/ecmascript.json';
+import NashornDefs from '@/assets/nashorn-tern-defs.json';
+import OpenhabJsDefs from '@/assets/openhab-js-tern-defs.json';
 
-import componentsHint from '../editor/hint-components'
-import itemsHint from '../editor/hint-items'
-import rulesHint from '../editor/hint-rules'
-import thingsHint from '../editor/hint-things'
-import pythonHint from '../editor/hint-python'
+import componentsHint from '../editor/hint-components';
+import itemsHint from '../editor/hint-items';
+import rulesHint from '../editor/hint-rules';
+import thingsHint from '../editor/hint-things';
+import pythonHint from '../editor/hint-python';
+
+import openhab from '@/js/openhab';
+import { themeOptionsStore } from '@/js/stores/theme-options';
 
 // Adapted from https://github.com/lkcampbell/brackets-indent-guides (MIT)
 let indentGuidesOverlay = {
@@ -111,50 +121,52 @@ let indentGuidesOverlay = {
     let char = '',
       colNum = 0,
       spaceUnits = 0,
-      isTabStart = false
+      isTabStart = false;
 
-    char = stream.next()
-    colNum = stream.column()
+    char = stream.next();
+    colNum = stream.column();
 
     if (colNum === 0) {
-      return null
+      return null;
     }
 
     if (char === '\t') {
-      return 'lkcampbell-indent-guides'
+      return 'lkcampbell-indent-guides';
     }
 
     if (char !== ' ') {
-      stream.skipToEnd()
-      return null
+      stream.skipToEnd();
+      return null;
     }
 
-    spaceUnits = 2
-    isTabStart = !(colNum % spaceUnits)
+    spaceUnits = 2;
+    isTabStart = !(colNum % spaceUnits);
 
-    if ((char === ' ') && (isTabStart)) {
-      return 'lkcampbell-indent-guides'
+    if (char === ' ' && isTabStart) {
+      return 'lkcampbell-indent-guides';
     } else {
-      return null
+      return null;
     }
   },
-  flattenSpans: false
-}
+  flattenSpans: false,
+};
 
 export default {
   components: {
-    codemirror
+    codemirror,
   },
   props: ['value', 'mode', 'hintContext', 'ternAutocompletionHook', 'readOnly'],
-  data () {
+  emits: ['input'],
+  data() {
     return {
       code: this.value,
       itemsCache: [],
+      themeOptions: themeOptionsStore(),
       cmOptions: {
         // codemirror options
         tabSize: 4,
         mode: this.translateMode(this.mode),
-        theme: (this.$f7.data.themeOptions.dark === 'dark') ? 'gruvbox-dark' : 'default',
+        theme: themeOptionsStore().dark === 'dark' ? 'gruvbox-dark' : 'default',
         lineNumbers: true,
         line: true,
         readOnly: this.readOnly,
@@ -163,201 +175,242 @@ export default {
         viewportMargin: Infinity,
         foldGutter: true,
         lint: false,
-        gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers']
-      }
-    }
+        gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+      },
+    };
   },
-  beforeDestroy () {
+  beforeUnmount() {
     if (this.codemirror && this.codemirror.closeHint) {
-      this.codemirror.closeHint()
+      this.codemirror.closeHint();
     }
   },
   methods: {
-    translateMode (mode) {
+    translateMode(mode) {
       // Translations required for some special modes used in MainUI
       // See https://codemirror.net/5/mode/index.html for supported language names & MIME types
-      if (!mode) return mode
-      if (mode.indexOf('yaml') >= 0) return 'text/x-yaml'
-      if (mode === 'application/json' || mode === 'json') return 'application/json'
-      if (mode.startsWith('application/javascript') || mode === 'js') return 'text/javascript'
-      if (mode === 'application/vnd.openhab.dsl.rule') return 'text/x-java'
-      if (mode === 'application/x-groovy' || mode === 'groovy') return 'text/x-groovy'
+      if (!mode) return mode;
+      if (mode.indexOf('yaml') >= 0) return 'text/x-yaml';
+      if (mode === 'application/json' || mode === 'json') return 'application/json';
+      if (mode.startsWith('application/javascript') || mode === 'js') return 'text/javascript';
+      if (mode === 'application/vnd.openhab.dsl.rule') return 'text/x-java';
+      if (mode === 'application/x-groovy' || mode === 'groovy') return 'text/x-groovy';
       if (mode === 'application/x-python2' || mode === 'py2') {
         return {
           name: 'text/x-python',
-          version: 2
-        }
+          version: 2,
+        };
       }
-      if (mode === 'application/x-python' || mode === 'application/x-python3' || mode === 'py' || mode === 'py3') return 'text/x-python'
-      if (mode === 'application/x-ruby' || mode === 'rb') return 'text/x-ruby'
-      if (mode.indexOf('jinja') >= 0) return 'text/jinja2'
-      return mode
+      if (
+        mode === 'application/x-python' ||
+        mode === 'application/x-python3' ||
+        mode === 'py' ||
+        mode === 'py3'
+      )
+        return 'text/x-python';
+      if (mode === 'application/x-ruby' || mode === 'rb') return 'text/x-ruby';
+      if (mode.indexOf('jinja') >= 0) return 'text/jinja2';
+      return mode;
     },
-    ternComplete (file, query) {
-      let pos = tern.resolvePos(file, query.end)
-      let lit = infer.findExpressionAround(file.ast, null, pos, file.scope, 'Literal')
-      if (!lit || !lit.node) return
-      let call = infer.findExpressionAround(file.ast, null, lit.node.start - 2, file.scope)
-      if (!call || !call.node) return
-      if (call.node.type !== 'MemberExpression' || (!call.node.object && !call.node.property)) return
-      if ((call.node.object.name === 'events' && call.node.property.name === 'postUpdate') ||
-      (call.node.object.name === 'events' && call.node.property.name === 'sendCommand') ||
-      (call.node.object.name === 'itemRegistry' && call.node.property.name === 'getItem') ||
-      (call.node.object.name === 'ir' && call.node.property.name === 'getItem') ||
-      (call.node.object.name === 'items' && call.node.property.name === 'getItem')) {
-        console.debug('Completing item names!')
+    ternComplete(file, query) {
+      let pos = tern.resolvePos(file, query.end);
+      let lit = infer.findExpressionAround(file.ast, null, pos, file.scope, 'Literal');
+      if (!lit || !lit.node) return;
+      let call = infer.findExpressionAround(file.ast, null, lit.node.start - 2, file.scope);
+      if (!call || !call.node) return;
+      if (call.node.type !== 'MemberExpression' || (!call.node.object && !call.node.property))
+        return;
+      if (
+        (call.node.object.name === 'events' && call.node.property.name === 'postUpdate') ||
+        (call.node.object.name === 'events' && call.node.property.name === 'sendCommand') ||
+        (call.node.object.name === 'itemRegistry' && call.node.property.name === 'getItem') ||
+        (call.node.object.name === 'ir' && call.node.property.name === 'getItem') ||
+        (call.node.object.name === 'items' && call.node.property.name === 'getItem')
+      ) {
+        console.debug('Completing item names!');
 
-        let before = lit.node.value.slice(0, pos - lit.node.start - 1)
-        let matches = []
-        this.itemsCache.sort((a, b) => a.name.localeCompare(b.name)).forEach((item) => {
-          if (item.name.length > before.length && item.name.toLowerCase().indexOf(before.toLowerCase()) >= 0) {
-            if (query.types || query.docs || query.urls || query.origins) {
-              let rec = {
-                name: JSON.stringify(item.name),
-                displayName: item.name,
-                doc: (item.label ? item.label + ' ' : '') + '[' + item.type + ']'
+        let before = lit.node.value.slice(0, pos - lit.node.start - 1);
+        let matches = [];
+        this.itemsCache
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .forEach(item => {
+            if (
+              item.name.length > before.length &&
+              item.name.toLowerCase().indexOf(before.toLowerCase()) >= 0
+            ) {
+              if (query.types || query.docs || query.urls || query.origins) {
+                let rec = {
+                  name: JSON.stringify(item.name),
+                  displayName: item.name,
+                  doc: (item.label ? item.label + ' ' : '') + '[' + item.type + ']',
+                };
+                matches.push(rec);
+                if (query.types) rec.type = 'string';
+                if (query.origins) rec.origin = item.name;
               }
-              matches.push(rec)
-              if (query.types) rec.type = 'string'
-              if (query.origins) rec.origin = item.name
             }
-          }
-        })
+          });
 
         return {
           start: tern.outputPos(query, file, lit.node.start),
-          end: tern.outputPos(query, file, pos + (file.text.charAt(pos) === file.text.charAt(lit.node.start) ? 1 : 0)),
+          end: tern.outputPos(
+            query,
+            file,
+            pos + (file.text.charAt(pos) === file.text.charAt(lit.node.start) ? 1 : 0)
+          ),
           isProperty: false,
-          completions: matches
-        }
+          completions: matches,
+        };
       }
     },
-    onCmReady (cm) {
-      const self = this
-      let extraKeys = {}
+    onCmReady(cm) {
+      const self = this;
+      let extraKeys = {};
       if (this.mode && this.mode.indexOf('application/javascript') === 0) {
-        window.tern = tern
+        window.tern = tern;
         if (this.ternAutocompletionHook) {
           tern.registerPlugin('openhab-tern-hook', (server, options) => {
             server.mod.completeStrings = {
               maxLen: (options && options.maxLength) || 15,
-              seen: Object.create(null)
-            }
-            server.on('completion', this.ternComplete)
-          })
-          this.$oh.api.get('/rest/items?staticDataOnly=true').then((data) => { this.$set(this, 'itemsCache', data) })
+              seen: Object.create(null),
+            };
+            server.on('completion', this.ternComplete);
+          });
+          openhab.api.get('/rest/items?staticDataOnly=true').then(data => {
+            this.itemsCache = data;
+          });
         }
         const server = new _CodeMirror.TernServer({
-          defs: (this.mode.indexOf('version=ECMAScript-5.1') > 0) ? [EcmascriptDefs, NashornDefs] : [EcmascriptDefs, OpenhabJsDefs],
-          plugins: (this.ternAutocompletionHook) ? { 'openhab-tern-hook': {} } : undefined,
-          ecmaVersion: (this.mode.indexOf('version=ECMAScript-5.1') > 0) ? 5 : 6
-        })
+          defs:
+            this.mode.indexOf('version=ECMAScript-5.1') > 0
+              ? [EcmascriptDefs, NashornDefs]
+              : [EcmascriptDefs, OpenhabJsDefs],
+          plugins: this.ternAutocompletionHook ? { 'openhab-tern-hook': {} } : undefined,
+          ecmaVersion: this.mode.indexOf('version=ECMAScript-5.1') > 0 ? 5 : 6,
+        });
         extraKeys = {
-          'Ctrl-Space': function (cm) { server.complete(cm) },
-          'Ctrl-Q': function (cm) { server.showDocs(cm) },
-          '\'.\'': function (cm) {
-            setTimeout(function () { server.complete(cm) }, 100)
-            return _CodeMirror.Pass // tell CodeMirror we didn't handle the key
-          }
-        }
+          'Ctrl-Space': function (cm) {
+            server.complete(cm);
+          },
+          'Ctrl-Q': function (cm) {
+            server.showDocs(cm);
+          },
+          "'.'": function (cm) {
+            setTimeout(function () {
+              server.complete(cm);
+            }, 100);
+            return _CodeMirror.Pass; // tell CodeMirror we didn't handle the key
+          },
+        };
         cm.on('cursorActivity', function (cm) {
-          server.updateArgHints(cm)
-        })
+          server.updateArgHints(cm);
+        });
       } else {
         const autocomplete = function (cm) {
-          setTimeout(function () { _CodeMirror.commands.autocomplete(cm) }, 250)
-          return _CodeMirror.Pass // tell CodeMirror we didn't handle the key
-        }
+          setTimeout(function () {
+            _CodeMirror.commands.autocomplete(cm);
+          }, 250);
+          return _CodeMirror.Pass; // tell CodeMirror we didn't handle the key
+        };
         extraKeys = {
           'Ctrl-Space': 'autocomplete',
-          '\'.\'': autocomplete,
-          '\'=\'': autocomplete,
-          'Space': autocomplete,
-          '\'@\'': autocomplete
-        }
-        cm.state.$oh = this.$oh
-        cm.state.originalMode = this.mode
-        if (this.hintContext) cm.state.hintContext = Object.assign({}, this.hintContext)
+          "'.'": autocomplete,
+          "'='": autocomplete,
+          Space: autocomplete,
+          "'@'": autocomplete,
+        };
+        cm.state.$oh = this.$oh;
+        cm.state.originalMode = this.mode;
+        if (this.hintContext) cm.state.hintContext = Object.assign({}, this.hintContext);
         cm.setOption('hintOptions', {
           closeOnUnfocus: false,
           completeSingle: self.mode && self.mode.indexOf('yaml') > 0,
-          hint (cm, option) {
+          hint(cm, option) {
             if (self.mode && self.mode.indexOf('application/vnd.openhab.uicomponent') === 0) {
-              return componentsHint(cm, option, self.mode)
+              return componentsHint(cm, option, self.mode);
             } else if (self.mode === 'application/vnd.openhab.item+yaml') {
-              return itemsHint(cm, option, self.mode)
+              return itemsHint(cm, option, self.mode);
             } else if (self.mode === 'application/vnd.openhab.rule+yaml') {
-              return rulesHint(cm, option, self.mode)
+              return rulesHint(cm, option, self.mode);
             } else if (self.mode === 'application/vnd.openhab.thing+yaml') {
-              return thingsHint(cm, option, self.mode)
+              return thingsHint(cm, option, self.mode);
             } else if (self.mode === 'application/python') {
-              return pythonHint(cm, option, self.mode)
+              return pythonHint(cm, option, self.mode);
             } else {
-              return _CodeMirror.hint.anyword(cm, option, self.mode)
+              return _CodeMirror.hint.anyword(cm, option, self.mode);
             }
-          }
-        })
+          },
+        });
 
         _CodeMirror.registerHelper('lint', 'yaml', function (text) {
-          const found = []
-          const parsed = YAML.parseDocument(text)
+          const found = [];
+          const parsed = YAML.parseDocument(text);
           if (parsed.errors.length > 0) {
-            parsed.errors.forEach((e) => {
-              const message = e.message
+            parsed.errors.forEach(e => {
+              const message = e.message;
               found.push({
                 message,
-                from: (e.linePos[0]) ? { line: e.linePos[0].line - 1, ch: e.linePos[0].col - 1 } : undefined,
-                to: (e.linePos[1]) ? { line: e.linePos[1].line - 1, ch: e.linePos[1].col - 1 } : undefined
-              })
-            })
+                from: e.linePos[0]
+                  ? { line: e.linePos[0].line - 1, ch: e.linePos[0].col - 1 }
+                  : undefined,
+                to: e.linePos[1]
+                  ? { line: e.linePos[1].line - 1, ch: e.linePos[1].col - 1 }
+                  : undefined,
+              });
+            });
           }
 
-          return found
-        })
+          return found;
+        });
 
-        this.cmOptions.gutters.push('CodeMirror-lint-markers')
-        this.cmOptions.lint = true
+        this.cmOptions.gutters.push('CodeMirror-lint-markers');
+        this.cmOptions.lint = true;
       }
       extraKeys.Tab = function (cm) {
         if (cm.somethingSelected()) {
-          cm.indentSelection('add')
+          cm.indentSelection('add');
         } else {
-          cm.replaceSelection(cm.getOption('indentWithTabs') ? '\t'
-            : Array(cm.getOption('indentUnit') + 1).join(' '), 'end', '+input')
+          cm.replaceSelection(
+            cm.getOption('indentWithTabs') ? '\t' : Array(cm.getOption('indentUnit') + 1).join(' '),
+            'end',
+            '+input'
+          );
         }
-      }
-      extraKeys['Shift-Tab'] = 'indentLess'
-      extraKeys['Cmd-/'] = extraKeys['Ctrl-/'] = 'toggleComment'
-      extraKeys['Shift-Cmd-K'] = extraKeys['Shift-Ctrl-K'] = this.deleteCurrentLine
-      cm.setOption('extraKeys', extraKeys)
-      cm.addOverlay(indentGuidesOverlay)
-      cm.refresh()
+      };
+      extraKeys['Shift-Tab'] = 'indentLess';
+      extraKeys['Cmd-/'] = extraKeys['Ctrl-/'] = 'toggleComment';
+      extraKeys['Shift-Cmd-K'] = extraKeys['Shift-Ctrl-K'] = this.deleteCurrentLine;
+      cm.setOption('extraKeys', extraKeys);
+      cm.addOverlay(indentGuidesOverlay);
+      cm.refresh();
     },
-    onCmCodeChange (newCode) {
-      this.$emit('input', newCode)
+    onCmCodeChange(newCode) {
+      this.$emit('input', newCode);
     },
-    deleteCurrentLine (cm) {
+    deleteCurrentLine(cm) {
       if (cm.somethingSelected()) {
-        cm.replaceSelection('')
+        cm.replaceSelection('');
       } else {
-        const cursor = cm.getCursor()
+        const cursor = cm.getCursor();
         if (cursor.line === cm.lastLine() && cursor.line !== cm.firstLine()) {
-          const prevLine = cursor.line - 1
-          cm.replaceRange('', { line: prevLine, ch: cm.getLine(prevLine).length }, { line: cursor.line, ch: cm.getLine(cursor.line).length })
-          cm.setCursor({ line: prevLine, ch: 0 })
+          const prevLine = cursor.line - 1;
+          cm.replaceRange(
+            '',
+            { line: prevLine, ch: cm.getLine(prevLine).length },
+            { line: cursor.line, ch: cm.getLine(cursor.line).length }
+          );
+          cm.setCursor({ line: prevLine, ch: 0 });
         } else {
-          cm.replaceRange('', { line: cursor.line, ch: 0 }, { line: cursor.line + 1, ch: 0 })
-          cm.setCursor({ line: cursor.line, ch: 0 })
+          cm.replaceRange('', { line: cursor.line, ch: 0 }, { line: cursor.line + 1, ch: 0 });
+          cm.setCursor({ line: cursor.line, ch: 0 });
         }
       }
-    }
+    },
   },
   computed: {
-    codemirror () {
-      return this.$refs.cm.codemirror
-    }
+    codemirror() {
+      return this.$refs.cm.codemirror;
+    },
   },
-  mounted () {
-  }
-}
+  mounted() {},
+};
 </script>

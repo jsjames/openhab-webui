@@ -1,9 +1,14 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut">
-    <f7-navbar :title="(createMode ? 'Create Block Library' : 'Block Library: ' + blocks.uid) + dirtyIndicator" back-link="Back">
+    <f7-navbar
+      :title="
+        (createMode ? 'Create Block Library' : 'Block Library: ' + blocks.uid) + dirtyIndicator
+      "
+      back-link="Back"
+    >
       <f7-nav-right>
-        <f7-link @click="save()" v-if="$theme.md" icon-md="material:save" icon-only />
-        <f7-link @click="save()" v-if="!$theme.md">
+        <f7-link @click="save()" v-if="theme.md" icon-md="material:save" icon-only />
+        <f7-link @click="save()" v-if="!theme.md">
           Save<span v-if="$device.desktop">&nbsp;(Ctrl-S)</span>
         </f7-link>
       </f7-nav-right>
@@ -12,7 +17,13 @@
       <f7-link @click="previewOpened = true">
         Preview<span v-if="$device.desktop">&nbsp;(Ctrl-P)</span>
       </f7-link>
-      <f7-link icon-f7="uiwindow_split_2x1" @click="split = (split === 'horizontal') ? 'vertical' : 'horizontal'; blockKey = $f7.utils.id()" />
+      <f7-link
+        icon-f7="uiwindow_split_2x1"
+        @click="
+          split = split === 'horizontal' ? 'vertical' : 'horizontal';
+          blockKey = $f7.utils.id();
+        "
+      />
       <f7-link @click="refreshBlocks">
         Refresh<span v-if="$device.desktop">&nbsp;(Ctrl-R)</span>
       </f7-link>
@@ -20,7 +31,12 @@
     <f7-block :key="blockKey + '-h'" v-if="split === 'horizontal'" class="blocks-editor horizontal">
       <f7-row resizable>
         <f7-col style="min-width: 20px" class="blocks-code">
-          <editor class="blocks-component-editor" mode="application/vnd.openhab.uicomponent+yaml;type=blocks" :value="blocksDefinition" @input="onEditorInput" />
+          <editor
+            class="blocks-component-editor"
+            mode="application/vnd.openhab.uicomponent+yaml;type=blocks"
+            :value="blocksDefinition"
+            @input="onEditorInput"
+          />
         </f7-col>
       </f7-row>
       <f7-row v-if="ready" resizable>
@@ -33,36 +49,79 @@
     <f7-block v-else :key="blockKey + 'b'" class="blocks-editor vertical">
       <f7-row resizable>
         <f7-col resizable style="min-width: 20px" class="blocks-code">
-          <editor class="blocks-component-editor" mode="application/vnd.openhab.uicomponent+yaml;type=blocks" :value="blocksDefinition" @input="onEditorInput" />
+          <editor
+            class="blocks-component-editor"
+            mode="application/vnd.openhab.uicomponent+yaml;type=blocks"
+            :value="blocksDefinition"
+            @input="onEditorInput"
+          />
         </f7-col>
-        <f7-col v-if="ready" resizable style="min-width: 20px" class="block-preview-pane padding-right margin-bottom">
+        <f7-col
+          v-if="ready"
+          resizable
+          style="min-width: 20px"
+          class="block-preview-pane padding-right margin-bottom"
+        >
           <block-preview :blocks-definition="blocks" :key="previewKey" />
           <!-- <generic-widget-component :key="widgetKey" :context="context" @command="onCommand" /> -->
         </f7-col>
       </f7-row>
     </f7-block>
 
-    <f7-popup ref="previewPopup" close-on-escape class="block-editor-preview-popup" :opened="previewOpened" @popup:closed="previewClosed">
+    <f7-popup
+      ref="previewPopup"
+      close-on-escape
+      class="block-editor-preview-popup"
+      :opened="previewOpened"
+      @popup:closed="previewClosed"
+    >
       <f7-page v-if="previewOpened">
         <f7-navbar>
           <f7-nav-left>
-            <f7-link icon-ios="f7:arrow_left" icon-md="material:arrow_back" icon-aurora="f7:arrow_left" popup-close />
+            <f7-link
+              icon-ios="f7:arrow_left"
+              icon-md="material:arrow_back"
+              icon-aurora="f7:arrow_left"
+              popup-close
+            />
           </f7-nav-left>
           <f7-nav-title>Preview</f7-nav-title>
           <f7-nav-right>
-            <f7-link popup-close>
-              Done
-            </f7-link>
+            <f7-link popup-close> Done </f7-link>
           </f7-nav-right>
         </f7-navbar>
-        <blockly-editor ref="blocklyPreviewEditor" v-if="previewMode === 'blockly'" :blocks="previewBlockSource" :library-definitions="[blocks]" @change="dirty = true" />
-        <editor class="blocks-preview-code" v-else-if="previewMode === 'code'" mode="application/javascript" :value="previewGeneratedCode" :read-only="true" />
-        <f7-fab v-show="previewMode === 'blockly'" position="right-bottom" slot="fixed" color="blue" @click="togglePreviewMode('code')">
-          <f7-icon f7="doc_text" />
-        </f7-fab>
-        <f7-fab v-show="previewMode === 'code'" position="right-bottom" slot="fixed" color="blue" @click="togglePreviewMode('blockly')">
-          <f7-icon f7="ticket" />
-        </f7-fab>
+        <blockly-editor
+          ref="blocklyPreviewEditor"
+          v-if="previewMode === 'blockly'"
+          :blocks="previewBlockSource"
+          :library-definitions="[blocks]"
+          @change="dirty = true"
+        />
+        <editor
+          class="blocks-preview-code"
+          v-else-if="previewMode === 'code'"
+          mode="application/javascript"
+          :value="previewGeneratedCode"
+          :read-only="true"
+        />
+        <template #fixed>
+          <f7-fab
+            v-show="previewMode === 'blockly'"
+            position="right-bottom"
+            color="blue"
+            @click="togglePreviewMode('code')"
+          >
+            <f7-icon f7="doc_text" />
+          </f7-fab>
+          <f7-fab
+            v-show="previewMode === 'code'"
+            position="right-bottom"
+            color="blue"
+            @click="togglePreviewMode('blockly')"
+          >
+            <f7-icon f7="ticket" />
+          </f7-fab>
+        </template>
       </f7-page>
     </f7-popup>
   </f7-page>
@@ -101,23 +160,34 @@
 </style>
 
 <script>
-import YAML from 'yaml'
+import YAML from 'yaml';
 
-import BlocklyEditor from '@/components/config/controls/blockly-editor.vue'
-import BlockPreview from './block-preview.vue'
-import DirtyMixin from '@/pages/settings/dirty-mixin'
+import BlocklyEditor from '@/components/config/controls/blockly-editor.vue';
+import BlockPreview from './block-preview.vue';
+import DirtyMixin from '@/pages/settings/dirty-mixin';
+import { utils } from 'framework7';
+import { f7, theme } from 'framework7-vue';
+import { nextTick, defineAsyncComponent } from 'vue';
 
-const toStringOptions = { toStringDefaults: { lineWidth: 0 } }
+const toStringOptions = { toStringDefaults: { lineWidth: 0 } };
 
 export default {
   mixins: [DirtyMixin],
   components: {
-    'editor': () => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'),
+    editor: defineAsyncComponent(
+      () =>
+        import(
+          /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
+        )
+    ),
     BlocklyEditor, // 'blockly-editor': () => import(/* webpackChunkName: "blockly-editor" */ '@/components/config/controls/blockly-editor.vue'),
-    BlockPreview // 'block-preview': () => import(/* webpackChunkName: "blockly-editor" */ './block-preview.vue')
+    BlockPreview, // 'block-preview': () => import(/* webpackChunkName: "blockly-editor" */ './block-preview.vue')
   },
   props: ['uid', 'createMode'],
-  data () {
+  setup() {
+    return { theme };
+  },
+  data() {
     return {
       blocksDefinition: null,
       items: [],
@@ -127,215 +197,232 @@ export default {
       vars: {},
       previewBlockSource: '<xml xmlns="https://developers.google.com/blockly/xml"></xml>',
       previewCode: '',
-      blockKey: this.$f7.utils.id(),
-      previewKey: this.$f7.utils.id(),
+      blockKey: utils.id(),
+      previewKey: utils.id(),
       previewOpened: false,
       previewMode: 'blockly',
-      previewGeneratedCode: ''
-    }
+      previewGeneratedCode: '',
+    };
   },
   computed: {
-    blocks () {
+    blocks() {
       try {
-        if (!this.blocksDefinition) return {}
-        return YAML.parse(this.blocksDefinition, { prettyErrors: true, toStringOptions })
+        if (!this.blocksDefinition) return {};
+        return YAML.parse(this.blocksDefinition, {
+          prettyErrors: true,
+          toStringOptions,
+        });
       } catch (e) {
-        return { component: 'Error', config: { error: e.message } }
+        return { component: 'Error', config: { error: e.message } };
       }
-    }
+    },
   },
   methods: {
-    onPageAfterIn () {
+    onPageAfterIn() {
       if (window) {
-        window.addEventListener('keydown', this.keyDown)
+        window.addEventListener('keydown', this.keyDown);
       }
-      this.load()
+      this.load();
     },
-    onPageBeforeOut () {
+    onPageBeforeOut() {
       if (window) {
-        window.removeEventListener('keydown', this.keyDown)
+        window.removeEventListener('keydown', this.keyDown);
       }
     },
-    onEditorInput (value) {
-      this.blocksDefinition = value
+    onEditorInput(value) {
+      this.blocksDefinition = value;
       if (!this.loading) {
-        this.dirty = true
+        this.dirty = true;
       }
     },
-    refreshBlocks () {
-      this.previewKey = this.$f7.utils.id()
+    refreshBlocks() {
+      this.previewKey = utils.id();
     },
-    previewClosed () {
-      this.previewOpened = false
-      this.previewMode = 'blockly'
+    previewClosed() {
+      this.previewOpened = false;
+      this.previewMode = 'blockly';
     },
-    togglePreviewMode (mode) {
-      this.previewMode = mode
+    togglePreviewMode(mode) {
+      this.previewMode = mode;
       if (mode === 'code') {
-        this.previewBlockSource = this.$refs.blocklyPreviewEditor.getBlocks()
-        this.previewGeneratedCode = this.$refs.blocklyPreviewEditor.getCode()
+        this.previewBlockSource = this.$refs.blocklyPreviewEditor.getBlocks();
+        this.previewGeneratedCode = this.$refs.blocklyPreviewEditor.getCode();
       }
     },
-    keyDown (ev) {
+    keyDown(ev) {
       if ((ev.ctrlKey || ev.metaKey) && !(ev.altKey || ev.shiftKey)) {
         switch (ev.keyCode) {
           case 66:
             if (!this.previewOpened) {
-              this.previewOpened = true
+              this.previewOpened = true;
             } else {
-              this.togglePreviewMode(this.previewMode === 'blockly' ? 'code' : 'blockly')
+              this.togglePreviewMode(this.previewMode === 'blockly' ? 'code' : 'blockly');
             }
-            ev.stopPropagation()
-            ev.preventDefault()
-            break
+            ev.stopPropagation();
+            ev.preventDefault();
+            break;
           case 80:
             if (!this.previewOpened) {
-              this.previewOpened = true
+              this.previewOpened = true;
             } else {
-              this.previewOpened = false
-              this.previewClosed()
+              this.previewOpened = false;
+              this.previewClosed();
             }
-            ev.stopPropagation()
-            ev.preventDefault()
-            break
+            ev.stopPropagation();
+            ev.preventDefault();
+            break;
           case 82:
-            this.refreshBlocks()
-            ev.stopPropagation()
-            ev.preventDefault()
-            break
+            this.refreshBlocks();
+            ev.stopPropagation();
+            ev.preventDefault();
+            break;
           case 83:
-            this.save(!this.createMode)
-            ev.stopPropagation()
-            ev.preventDefault()
-            break
+            this.save(!this.createMode);
+            ev.stopPropagation();
+            ev.preventDefault();
+            break;
         }
       }
     },
-    load () {
-      if (this.loading) return
-      this.loading = true
+    load() {
+      if (this.loading) return;
+      this.loading = true;
       if (this.createMode) {
-        const uid = this.$f7.utils.id()
-        this.blocksDefinition = YAML.stringify({
-          uid: 'blocklibrary_' + uid,
-          tags: [],
-          component: 'BlockLibrary',
-          config: {
-            name: 'Block Library ' + uid
-          },
-          slots: {
-            blocks: [
-              {
-                component: 'BlockType',
-                config: {
-                  type: 'block1',
-                  message0: 'Do %1 with %2 and %3 then %4',
-                  args0: [
-                    {
-                      type: 'field_dropdown',
-                      name: 'OPTION1',
-                      options: [
-                        [
-                          'something',
-                          'option1'
+        const uid = utils.id();
+        this.blocksDefinition = YAML.stringify(
+          {
+            uid: 'blocklibrary_' + uid,
+            tags: [],
+            component: 'BlockLibrary',
+            config: {
+              name: 'Block Library ' + uid,
+            },
+            slots: {
+              blocks: [
+                {
+                  component: 'BlockType',
+                  config: {
+                    type: 'block1',
+                    message0: 'Do %1 with %2 and %3 then %4',
+                    args0: [
+                      {
+                        type: 'field_dropdown',
+                        name: 'OPTION1',
+                        options: [
+                          ['something', 'option1'],
+                          ['something else', 'option2'],
                         ],
-                        [
-                          'something else',
-                          'option2'
-                        ]
-                      ]
-                    },
-                    {
-                      type: 'field_input',
-                      name: 'TEXT1',
-                      text: 'some text'
-                    },
-                    {
-                      type: 'input_value',
-                      name: 'NAME'
-                    },
-                    {
-                      type: 'input_statement',
-                      name: 'NAME'
-                    }
-                  ],
-                  'previousStatement': null,
-                  'nextStatement': null,
-                  'colour': 90,
-                  'tooltip': '',
-                  'helpUrl': ''
+                      },
+                      {
+                        type: 'field_input',
+                        name: 'TEXT1',
+                        text: 'some text',
+                      },
+                      {
+                        type: 'input_value',
+                        name: 'NAME',
+                      },
+                      {
+                        type: 'input_statement',
+                        name: 'NAME',
+                      },
+                    ],
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 90,
+                    tooltip: '',
+                    helpUrl: '',
+                  },
+                  slots: {
+                    code: [
+                      {
+                        component: 'BlockCodeTemplate',
+                        config: {
+                          template:
+                            '/* Incomplete example skeleton, check out\n' +
+                            '   https://openhab.org/link/blocklib-tutorial\n' +
+                            '   to learn how to build block libraries */\n',
+                        },
+                      },
+                    ],
+                  },
                 },
-                slots: {
-                  code: [
-                    {
-                      component: 'BlockCodeTemplate',
-                      config: {
-                        template:
-                          '/* Incomplete example skeleton, check out\n' +
-                          '   https://openhab.org/link/blocklib-tutorial\n' +
-                          '   to learn how to build block libraries */\n'
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }, { toStringOptions })
-        this.$nextTick(() => {
-          this.loading = false
-          this.ready = true
-        })
+              ],
+            },
+          },
+          { toStringOptions }
+        );
+        nextTick(() => {
+          this.loading = false;
+          this.ready = true;
+        });
       } else {
-        this.$oh.api.get('/rest/ui/components/ui:blocks/' + this.uid).then((data) => {
-          this.$set(this, 'blocksDefinition', YAML.stringify(data, { toStringOptions }))
-          this.$nextTick(() => {
-            this.loading = false
-            this.ready = true
-          })
-        })
+        this.$oh.api.get('/rest/ui/components/ui:blocks/' + this.uid).then(data => {
+          this.blocksDefinition = YAML.stringify(data, { toStringOptions });
+          nextTick(() => {
+            this.loading = false;
+            this.ready = true;
+          });
+        });
       }
     },
-    save (stay) {
+    save(stay) {
       if (!this.blocks.uid) {
-        this.$f7.dialog.alert('Please give an ID to the block library')
-        return
+        f7.dialog.alert('Please give an ID to the block library');
+        return;
       }
       if (!this.createMode && this.uid !== this.blocks.uid) {
-        this.$f7.dialog.alert('You cannot change the ID of an existing block library. Duplicate it with the new ID then delete this one.')
-        return
+        f7.dialog.alert(
+          'You cannot change the ID of an existing block library. Duplicate it with the new ID then delete this one.'
+        );
+        return;
       }
 
-      const promise = (this.createMode)
-        ? this.$oh.api.postPlain('/rest/ui/components/ui:blocks', JSON.stringify(this.blocks), 'text/plain', 'application/json')
-        : this.$oh.api.put('/rest/ui/components/ui:blocks/' + this.blocks.uid, this.blocks)
-      promise.then((data) => {
-        this.dirty = false
-        if (this.createMode) {
-          this.$f7.toast.create({
-            text: 'Block library created',
-            destroyOnClose: true,
-            closeTimeout: 2000
-          }).open()
-          this.$f7router.navigate(this.$f7route.url.replace('/add', '/' + this.blocks.uid), { reloadCurrent: true })
-          this.load()
-        } else {
-          this.$f7.toast.create({
-            text: 'Block library updated',
-            destroyOnClose: true,
-            closeTimeout: 2000
-          }).open()
-        }
-        // this.$f7.emit('sidebarRefresh', null)
-        // if (!stay) this.$f7router.back()
-      }).catch((err) => {
-        this.$f7.toast.create({
-          text: 'Error while saving block library: ' + err,
-          destroyOnClose: true,
-          closeTimeout: 2000
-        }).open()
-      })
-    }
-  }
-}
+      const promise = this.createMode
+        ? this.$oh.api.postPlain(
+            '/rest/ui/components/ui:blocks',
+            JSON.stringify(this.blocks),
+            'text/plain',
+            'application/json'
+          )
+        : this.$oh.api.put('/rest/ui/components/ui:blocks/' + this.blocks.uid, this.blocks);
+      promise
+        .then(data => {
+          this.dirty = false;
+          if (this.createMode) {
+            f7.toast
+              .create({
+                text: 'Block library created',
+                destroyOnClose: true,
+                closeTimeout: 2000,
+              })
+              .open();
+            this.$f7router.navigate(this.$f7route.url.replace('/add', '/' + this.blocks.uid), {
+              reloadCurrent: true,
+            });
+            this.load();
+          } else {
+            f7.toast
+              .create({
+                text: 'Block library updated',
+                destroyOnClose: true,
+                closeTimeout: 2000,
+              })
+              .open();
+          }
+          // f7.emit('sidebar-refresh', null)
+          // if (!stay) this.$f7router.back()
+        })
+        .catch(err => {
+          f7.toast
+            .create({
+              text: 'Error while saving block library: ' + err,
+              destroyOnClose: true,
+              closeTimeout: 2000,
+            })
+            .open();
+        });
+    },
+  },
+};
 </script>

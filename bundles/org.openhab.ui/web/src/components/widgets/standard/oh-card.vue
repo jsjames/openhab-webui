@@ -1,12 +1,24 @@
 <template>
-  <f7-card :no-border="config.noBorder" :no-shadow="config.noShadow" :outline="config.outline" :style="config.style" :class="['oh-card', ...(Array.isArray(config.class) ? config.class : [])]">
+  <f7-card
+    :no-border="config.noBorder"
+    :no-shadow="config.noShadow"
+    :outline="config.outline"
+    :style="config.style"
+    :class="['oh-card', ...(Array.isArray(config.class) ? config.class : [])]"
+  >
     <slot name="header">
       <f7-card-header v-if="config.title" :style="config.headerStyle" :class="config.headerClass">
         <div>{{ config.title }}</div>
       </f7-card-header>
     </slot>
     <slot name="content-root">
-      <f7-card-content @click.native="performAction" @taphold.native="onTaphold($event)" @contextmenu.native="onContextMenu($event)" :style="{ ...contentStyle, ...config.contentStyle}" :class="computedContentClass">
+      <f7-card-content
+        @click="performAction"
+        @taphold="onTaphold($event)"
+        @contextmenu="onContextMenu($event)"
+        :style="{ ...contentStyle, ...config.contentStyle }"
+        :class="computedContentClass"
+      >
         <slot name="content" />
       </f7-card-content>
     </slot>
@@ -32,9 +44,9 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin'
-import { actionsMixin } from '@/components/widgets/widget-actions'
-import { OhCardDefinition } from '@/assets/definitions/widgets/standard/cards'
+import mixin from '../widget-mixin';
+import { actionsMixin } from '@/components/widgets/widget-actions';
+import { OhCardDefinition } from '@/assets/definitions/widgets/standard/cards';
 
 export default {
   mixins: [mixin, actionsMixin],
@@ -42,13 +54,13 @@ export default {
   props: ['context', 'contentStyle', 'contentClass'],
   slotProps: ['header', 'content', 'content-root', 'footer'],
   computed: {
-    computedContentClass () {
+    computedContentClass() {
       return [
         ...(this.hasAction ? ['card-link'] : []),
         ...(Array.isArray(this.contentClass) ? this.contentClass : ['padding']),
-        ...(Array.isArray(this.config.contentClass) ? this.config.contentClass : [])
-      ]
-    }
-  }
-}
+        ...(Array.isArray(this.config.contentClass) ? this.config.contentClass : []),
+      ];
+    },
+  },
+};
 </script>

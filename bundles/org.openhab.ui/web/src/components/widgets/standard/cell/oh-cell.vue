@@ -1,45 +1,112 @@
 <template>
-  <f7-card ref="card" :expandable="true" class="card-prevent-open oh-cell"
-           :swipeToClose="!(noSwipeToClose || config.swipeToClose === false)"
-           :backdrop="config.backdrop === undefined || config.backdrop"
-           :animate="(config.animate === false || $f7.data.themeOptions.expandableCardAnimation === 'disabled') ? false : undefined"
-           @card:open="cellOpen" @card:opened="cellOpened" @card:close="cellClose" @card:closed="cellClosed">
+  <f7-card
+    ref="card"
+    :expandable="true"
+    class="card-prevent-open oh-cell"
+    :swipeToClose="!(noSwipeToClose || config.swipeToClose === false)"
+    :backdrop="config.backdrop === undefined || config.backdrop"
+    :animate="
+      config.animate === false || themeOptions.expandableCardAnimation === 'disabled'
+        ? false
+        : undefined
+    "
+    @card:open="cellOpen"
+    @card:opened="cellOpened"
+    @card:close="cellClose"
+    @card:closed="cellClosed"
+  >
     <slot name="background">
       <div v-if="context.component.slots && context.component.slots.background">
-        <generic-widget-component :context="childContext(slotComponent)" v-for="(slotComponent, idx) in context.component.slots.background" :key="'background-' + idx" @command="onCommand" />
+        <generic-widget-component
+          :context="childContext(slotComponent)"
+          v-for="(slotComponent, idx) in context.component.slots.background"
+          :key="'background-' + idx"
+          @command="onCommand"
+        />
       </div>
-      <oh-trend v-else-if="config.trendItem" :key="'trend' + config.item" class="trend card-opened-fade-out" :width="($refs.card) ? $refs.card.$el.clientWidth : 0" :context="context" />
-      <div v-else class="cell-background" :class="[(config.color) ? 'bg-color-' + config.color : '', { 'on': isOn }, { 'card-opened-fade-out': !config.keepColorWhenOpened }]" />
+      <oh-trend
+        v-else-if="config.trendItem"
+        :key="'trend' + config.item"
+        class="trend card-opened-fade-out"
+        :width="$refs.card ? $refs.card.$el.clientWidth : 0"
+        :context="context"
+      />
+      <div
+        v-else
+        class="cell-background"
+        :class="[
+          config.color ? 'bg-color-' + config.color : '',
+          { on: isOn },
+          { 'card-opened-fade-out': !config.keepColorWhenOpened },
+        ]"
+      />
     </slot>
-    <f7-link v-show="!opened && hasExpandedControls && hasAction" icon-f7="ellipsis_vertical" icon-size="30" @click.native="openCell" class="float-right cell-open-button card-opened-fade-out no-ripple" />
+    <f7-link
+      v-show="!opened && hasExpandedControls && hasAction"
+      icon-f7="ellipsis_vertical"
+      icon-size="30"
+      @click="openCell"
+      class="float-right cell-open-button card-opened-fade-out no-ripple"
+    />
     <f7-card-content ref="cell" class="cell-contents">
       <f7-card-header class="cell-button card-opened-fade-out no-padding" v-show="!opened">
         <slot name="header">
           <f7-list media-list>
             <div v-if="context.component.slots && context.component.slots.header">
-              <generic-widget-component :context="childContext(slotComponent)" v-for="(slotComponent, idx) in context.component.slots.header" :key="'header-' + idx" @command="onCommand" />
+              <generic-widget-component
+                :context="childContext(slotComponent)"
+                v-for="(slotComponent, idx) in context.component.slots.header"
+                :key="'header-' + idx"
+                @command="onCommand"
+              />
             </div>
             <f7-list-item v-else media-item :subtitle="config.subtitle" :footer="config.footer">
-              <div slot="header" v-if="header" class="button-header display-flex">
-                <oh-icon class="header-icon" v-if="config.icon" :icon="config.icon" :color="config.iconColor" width="20" height="20" />
-                <span class="header-text">{{ header }}</span>
-                <f7-badge v-if="config.headerBadge" :color="config.headerBadgeColor">
-                  {{ config.headerBadge }}
-                </f7-badge>
-              </div>
-              <div slot="title" v-if="config.title" class="button-header display-flex">
-                <oh-icon class="header-icon" v-if="!header && config.icon" :icon="config.icon" :color="config.iconColor" width="20" height="20" />
-                <span class="header-text">{{ config.title }}</span>
-                <f7-badge v-if="config.headerBadge" :color="config.headerBadgeColor">
-                  {{ config.headerBadge }}
-                </f7-badge>
-              </div>
+              <template #header>
+                <div v-if="header" class="button-header display-flex">
+                  <oh-icon
+                    class="header-icon"
+                    v-if="config.icon"
+                    :icon="config.icon"
+                    :color="config.iconColor"
+                    width="20"
+                    height="20"
+                  />
+                  <span class="header-text">{{ header }}</span>
+                  <f7-badge v-if="config.headerBadge" :color="config.headerBadgeColor">
+                    {{ config.headerBadge }}
+                  </f7-badge>
+                </div>
+              </template>
+              <template #title>
+                <div v-if="config.title" class="button-header display-flex">
+                  <oh-icon
+                    class="header-icon"
+                    v-if="!header && config.icon"
+                    :icon="config.icon"
+                    :color="config.iconColor"
+                    width="20"
+                    height="20"
+                  />
+                  <span class="header-text">{{ config.title }}</span>
+                  <f7-badge v-if="config.headerBadge" :color="config.headerBadgeColor">
+                    {{ config.headerBadge }}
+                  </f7-badge>
+                </div>
+              </template>
             </f7-list-item>
           </f7-list>
         </slot>
       </f7-card-header>
-      <f7-link class="card-opened-fade-in cell-close-button float-right" icon-size="30" icon-f7="multiply_circle_fill" @click.native="closeCell" />
-      <f7-card-header v-if="opened" class="cell-expanded-header card-opened-fade-in display-flex flex-direction-column">
+      <f7-link
+        class="card-opened-fade-in cell-close-button float-right"
+        icon-size="30"
+        icon-f7="multiply_circle_fill"
+        @click="closeCell"
+      />
+      <f7-card-header
+        v-if="opened"
+        class="cell-expanded-header card-opened-fade-in display-flex flex-direction-column"
+      >
         <div class="text-align-center cell-expanded-title">
           {{ config.title }}
         </div>
@@ -50,10 +117,18 @@
           {{ config.footer }}
         </div>
       </f7-card-header>
-      <div v-if="opened" class="cell-expanded-contents card-opened-fade-in display-flex flex-direction-column align-items-center">
+      <div
+        v-if="opened"
+        class="cell-expanded-contents card-opened-fade-in display-flex flex-direction-column align-items-center"
+      >
         <slot>
           <div v-if="context.component.slots && context.component.slots.default">
-            <generic-widget-component :context="childContext(slotComponent)" v-for="(slotComponent, idx) in context.component.slots.default" :key="'default-' + idx" @command="onCommand" />
+            <generic-widget-component
+              :context="childContext(slotComponent)"
+              v-for="(slotComponent, idx) in context.component.slots.default"
+              :key="'default-' + idx"
+              @command="onCommand"
+            />
           </div>
         </slot>
       </div>
@@ -124,112 +199,135 @@
 </style>
 
 <script>
-import mixin from '../../widget-mixin'
-import { actionsMixin } from '../../widget-actions'
-import { OhCellDefinition } from '@/assets/definitions/widgets/standard/cells'
-import OhTrend from '../../system/oh-trend.vue'
+import mixin from '../../widget-mixin';
+import { actionsMixin } from '../../widget-actions';
+import { OhCellDefinition } from '@/assets/definitions/widgets/standard/cells';
+import OhTrend from '../../system/oh-trend.vue';
+import { Dom7, utils } from 'framework7';
+import { f7 } from 'framework7-vue';
+import { themeOptionsStore } from '@/js/stores/theme-options';
 
 export default {
   mixins: [mixin, actionsMixin],
   components: {
-    OhTrend
+    OhTrend,
   },
   widget: OhCellDefinition,
   props: ['noSwipeToClose', 'state'],
-  data () {
+  data() {
     return {
       transitioning: false,
       opened: false,
-      cardId: this.$f7.utils.id()
-    }
+      cardId: utils.id(),
+      themeOptions: themeOptionsStore(),
+    };
   },
-  mounted () {
-    this.$$(this.$refs.card.$el).on('click', this.click)
-    this.$$(this.$refs.card.$el).on('taphold', this.openCell)
-    this.$$(this.$refs.card.$el).on('contextmenu', this.openCell)
-    window.addEventListener('popstate', this.back)
+  mounted() {
+    Dom7(this.$refs.card.$el).on('click', this.click);
+    Dom7(this.$refs.card.$el).on('taphold', this.openCell);
+    Dom7(this.$refs.card.$el).on('contextmenu', this.openCell);
+    window.addEventListener('popstate', this.back);
   },
-  beforeDestroy () {
-    this.$$(this.$refs.card.$el).off('click')
-    this.$$(this.$refs.card.$el).off('taphold')
-    this.$$(this.$refs.card.$el).off('contextmenu')
-    window.removeEventListener('popstate', this.back)
+  beforeUnmount() {
+    Dom7(this.$refs.card.$el).off('click');
+    Dom7(this.$refs.card.$el).off('taphold');
+    Dom7(this.$refs.card.$el).off('contextmenu');
+    window.removeEventListener('popstate', this.back);
   },
   computed: {
-    header () {
-      if (this.config.header) return this.config.header
+    header() {
+      if (this.config.header) return this.config.header;
       if (this.config.item && this.config.stateAsHeader) {
-        if (this.state) return this.state
-        return this.context.store[this.config.item].displayState || this.context.store[this.config.item].state
+        if (this.state) return this.state;
+        return (
+          this.context.store[this.config.item].displayState ||
+          this.context.store[this.config.item].state
+        );
       }
-      return null
+      return null;
     },
-    hasExpandedControls () {
-      return this.config.expandable !== false && (this.context.component.component !== 'oh-cell' ||
-        (this.context.component.slots && this.context.component.slots.default && this.context.component.slots.default.length > 0))
+    hasExpandedControls() {
+      return (
+        this.config.expandable !== false &&
+        (this.context.component.component !== 'oh-cell' ||
+          (this.context.component.slots &&
+            this.context.component.slots.default &&
+            this.context.component.slots.default.length > 0))
+      );
     },
-    isOn () {
-      if (this.config.on !== undefined) return this.config.on
+    isOn() {
+      if (this.config.on !== undefined) return this.config.on;
       if (this.config.item) {
-        const itemState = this.context.store[this.config.item].state
-        if (itemState === 'ON') return true
-        if (itemState === 'OFF') return false
-        const stateParts = itemState.split(',')
+        const itemState = this.context.store[this.config.item].state;
+        if (itemState === 'ON') return true;
+        if (itemState === 'OFF') return false;
+        const stateParts = itemState.split(',');
         if (stateParts.length === 3) {
-          return (parseFloat(stateParts[2]) > 0)
+          return parseFloat(stateParts[2]) > 0;
         } else {
-          if (!isNaN(parseFloat(stateParts[0]))) return parseFloat(stateParts[2]) > 0
+          if (!isNaN(parseFloat(stateParts[0]))) return parseFloat(stateParts[2]) > 0;
         }
-        return stateParts[0]
+        return stateParts[0];
       }
-      return false
-    }
+      return false;
+    },
   },
   methods: {
-    click (evt) {
-      if (evt.target && evt.target.parentElement &&
-        (this.$$(evt.target.parentElement).hasClass('cell-open-button') ||
-        this.$$(evt.target.parentElement).hasClass('cell-close-button'))) {
-        return
+    click(evt) {
+      if (
+        evt.target &&
+        evt.target.parentElement &&
+        (Dom7(evt.target.parentElement).hasClass('cell-open-button') ||
+          Dom7(evt.target.parentElement).hasClass('cell-close-button'))
+      ) {
+        return;
       }
-      if (this.opened) return
+      if (this.opened) return;
       if (this.hasAction) {
-        this.performAction()
+        this.performAction();
       } else {
-        this.openCell()
+        this.openCell();
       }
-      return false
+      return false;
     },
-    openCell (evt) {
-      if (evt && evt.preventDefault) evt.preventDefault()
-      if (this.context.editmode) return false
-      if (!this.hasExpandedControls) return false
-      this.$f7.card.open(this.$refs.card.$el)
-      history.pushState({ cardId: this.cardId }, null, window.location.href.split('#cell=')[0] + '#' + this.$f7.utils.serializeObject({ cell: this.cardId }))
-      return false
+    openCell(evt) {
+      if (evt && evt.preventDefault) evt.preventDefault();
+      if (this.context.editmode) return false;
+      if (!this.hasExpandedControls) return false;
+      f7.card.open(this.$refs.card.$el);
+      history.pushState(
+        { cardId: this.cardId },
+        null,
+        window.location.href.split('#cell=')[0] +
+          '#' +
+          f7.utils.serializeObject({ cell: this.cardId })
+      );
+      return false;
     },
-    closeCell () {
-      if (this.context.editmode) return
-      setTimeout(() => { this.$f7.card.close(this.$refs.card.$el) }, 100)
+    closeCell() {
+      if (this.context.editmode) return;
+      setTimeout(() => {
+        f7.card.close(this.$refs.card.$el);
+      }, 100);
     },
-    cellOpen () {
-      this.transitioning = true
+    cellOpen() {
+      this.transitioning = true;
     },
-    cellOpened () {
-      this.transitioning = false
-      this.opened = true
+    cellOpened() {
+      this.transitioning = false;
+      this.opened = true;
     },
-    cellClose () {
-      if (history.state.cardId && history.state.cardId === this.cardId) history.back()
-      this.transitioning = true
-      this.opened = false
+    cellClose() {
+      if (history.state.cardId && history.state.cardId === this.cardId) history.back();
+      this.transitioning = true;
+      this.opened = false;
     },
-    cellClosed () {
-      this.transitioning = false
+    cellClosed() {
+      this.transitioning = false;
     },
-    back (evt) {
-      if (this.opened) this.closeCell()
-    }
-  }
-}
+    back(evt) {
+      if (this.opened) this.closeCell();
+    },
+  },
+};
 </script>
