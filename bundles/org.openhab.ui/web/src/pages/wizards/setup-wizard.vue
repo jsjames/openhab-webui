@@ -16,14 +16,13 @@
           <f7-list-item
             :title="$t('setupwizard.language')"
             smart-select
-            :smart-select-params="{openIn: 'popup', searchbar: true, closeOnSelect: true}">
+            :smart-select-params="{ openIn: 'popup', searchbar: true, closeOnSelect: true, }">
             <select name="language" @change="(evt) => language = evt.target.value">
-              <option value="" :selected="!language" />
-              <option
-                v-for="option in availableLanguages"
-                :key="option.value"
-                :value="option.value"
-                :selected="language === option.value">
+              <option value="" :selected="!language ? true : null" />
+              <option v-for="option in availableLanguages"
+                      :key="option.value"
+                      :value="option.value"
+                      :selected="language === option.value ? true : null">
                 {{ option.label }}
               </option>
             </select>
@@ -31,14 +30,13 @@
           <f7-list-item
             :title="$t('setupwizard.region')"
             smart-select
-            :smart-select-params="{openIn: 'popup', searchbar: true, closeOnSelect: true}">
-            <select name="region" @change="(evt) => region = evt.target.value">
-              <option value="" :selected="!region" />
-              <option
-                v-for="option in availableRegions"
-                :key="option.value"
-                :value="option.value"
-                :selected="region === option.value">
+            :smart-select-params="{ openIn: 'popup', searchbar: true, closeOnSelect: true }">
+            <select name="region" @change="(evt) => (region = evt.target.value)">
+              <option value="" :selected="!region ? true : null" />
+              <option v-for="option in availableRegions"
+                      :key="option.value"
+                      :value="option.value"
+                      :selected="region === option.value ? true : null">
                 {{ option.label }}
               </option>
             </select>
@@ -46,14 +44,13 @@
           <f7-list-item
             :title="$t('setupwizard.timezone')"
             smart-select
-            :smart-select-params="{openIn: 'popup', searchbar: true, virtualList: true, closeOnSelect: true, virtualListHeight: ($theme.aurora) ? 32 : undefined }">
+            :smart-select-params="{ openIn: 'popup', searchbar: true, virtualList: true, closeOnSelect: true, virtualListHeight: theme.aurora ? 32 : undefined, }">
             <select name="timezone" @change="(evt) => timezone = evt.target.value">
               <option value="" />
-              <option
-                v-for="option in availableTimezones"
-                :key="option.value"
-                :value="option.value"
-                :selected="timezone === option.value">
+              <option v-for="option in availableTimezones"
+                      :key="option.value"
+                      :value="option.value"
+                      :selected="timezone === option.value ? true : null">
                 {{ option.label }}
               </option>
             </select>
@@ -95,10 +92,12 @@
           {{ $t('setupwizard.location.header1') }}<br>{{ $t('setupwizard.location.header2') }}
         </f7-block>
         <f7-list>
-          <parameter-location :value="location"
-                              :config-description="{ label: $t('setupwizard.location.parameterLabel'), name: 'Location' }"
-                              @input="(value) => location = value"
-                              :placeholder="$t('setupwizard.location.placeholder')" />
+          <f7-list-group>
+            <parameter-location :value="location"
+                                :config-description="{ label: $t('setupwizard.location.parameterLabel'), name: 'Location' }"
+                                @input="value => location = value"
+                                :placeholder="$t('setupwizard.location.placeholder')" />
+          </f7-list-group>
         </f7-list>
         <f7-block class="padding">
           <f7-row>
@@ -111,7 +110,7 @@
             </f7-col>
           </f7-row>
           <f7-block-footer>
-            <small v-t="'setupwizard.location.footer'" />
+            <small>{{ $t('setupwizard.location.footer') }}</small>
           </f7-block-footer>
         </f7-block>
         <f7-block class="display-flex flex-direction-column padding" v-if="networksReady">
@@ -151,11 +150,13 @@
           {{ $t('setupwizard.network.header1') }} {{ $t('setupwizard.network.header2') }}
         </f7-block>
         <f7-list>
-          <parameter-options class="network"
-                             v-if="networksReady"
-                             :config-description="networkConfigDescription"
-                             :value="network"
-                             @input="(value) => changeNetwork(value)" />
+          <f7-list-group>
+            <parameter-options v-if="networksReady"
+                               class="network"
+                               :config-description="networkConfigDescription"
+                               :value="network"
+                               @input="value => changeNetwork(value)" />
+          </f7-list-group>
         </f7-list>
         <f7-block class="display-flex flex-direction-column padding">
           <div>
@@ -197,17 +198,17 @@
             <div class="display-flex justify-content-center margin-bottom">
               <f7-progressbar id="suggestions-progress-bar-persistence" :progress="0" />
             </div>
-            <div v-t="'setupwizard.addons.suggestionsWaitMessage'" />
+            <div>{{ $t('setupwizard.addons.suggestionsWaitMessage') }}</div>
           </f7-block>
           <addons-setup-wizard v-if="addonSuggestionsReady && recommendedAddonsByType('persistence').length"
                                :addons="recommendedAddonsByType('persistence')"
                                :preSelectedAddons="selectedAddons"
                                @update="updateAddonSelection(recommendedAddonsByType('persistence'), $event)" />
           <f7-block-footer class="margin-bottom">
-            <small v-t="'setupwizard.persistence.footer'" />
+            <small>{{ $t('setupwizard.persistence.footer') }}</small>
           </f7-block-footer>
           <div>
-            <f7-button v-if="addonSuggestionsReady && (selectedAddons.length > 0)"
+            <f7-button v-if="addonSuggestionsReady && selectedAddons.length > 0"
                        large
                        fill
                        color="blue"
@@ -239,18 +240,18 @@
           </f7-login-screen-title>
         </f7-block>
         <f7-block strong>
-          {{ $t('setupwizard.addons.header1') }}<br>{{ $t('setupwizard.addons.header2') }}<br>{{ $t('setupwizard.addons.header3') }}<br><br>
+          {{ $t('setupwizard.addons.header1') }}<br>{{ $t('setupwizard.addons.header2') }}<br>{{ $t('setupwizard.addons.header3') }} <br><br>
           <a class="text-color-blue external"
              target="_blank"
-             href="https://www.openhab.org/addons/"
-             v-t="'setupwizard.addons.browseAddonsOnWebsite'" />
+             href="https://www.openhab.org/addons/">
+            {{ $t('setupwizard.addons.browseAddonsOnWebsite') }}</a>
         </f7-block>
         <f7-block class="padding">
           <f7-block v-if="waitingForAddonSuggestions">
             <div class="display-flex justify-content-center margin-bottom">
               <f7-progressbar id="suggestions-progress-bar-addons" :progress="0" />
             </div>
-            <div v-t="'setupwizard.addons.suggestionsWaitMessage'" />
+            <div>{{ $t('setupwizard.addons.suggestionsWaitMessage') }}</div>
           </f7-block>
           <addons-setup-wizard v-if="addonSuggestionsReady && mainAddons.length"
                                :enableAddonSelection="true"
@@ -258,14 +259,14 @@
                                :preSelectedAddons="selectedAddons"
                                @update="updateAddonSelection(mainAddonSelection, $event)" />
           <f7-block-footer class="margin-bottom">
-            <small v-t="'setupwizard.addons.footer'" />
+            <small>{{ $t('setupwizard.addons.footer') }}</small>
           </f7-block-footer>
           <div>
-            <f7-button v-if="addonSuggestionsReady && (toInstallAddons.filter(a => (!preSelectedAddon(a) && !a.installed)).length > 0)"
+            <f7-button v-if="addonSuggestionsReady && toInstallAddons.filter(a => !preSelectedAddon(a) && !a.installed).length > 0"
                        large
                        fill
                        color="blue"
-                       :text="$tc('setupwizard.addons.installAddons', toInstallAddons.filter(a => (!preSelectedAddon(a) && !a.installed)).length)"
+                       :text="$t('setupwizard.addons.installAddons', toInstallAddons.filter(a => !preSelectedAddon(a) && !a.installed).length)"
                        @click="installAddons" />
             <f7-button large
                        color="blue"
@@ -293,7 +294,7 @@
             <div class="display-flex justify-content-center margin-bottom">
               <f7-preloader size="24" />
             </div>
-            <div v-t="'setupwizard.addons.waitMessage'" />
+            <div>{{ $t('setupwizard.addons.waitMessage') }}</div>
           </div>
         </f7-block>
       </f7-tab>
@@ -357,16 +358,27 @@
 </style>
 
 <script>
-import i18n from '@/components/i18n-mixin'
-import { loadLocaleMessages } from '@/js/i18n'
-import AddonsSetupWizard from '@/components/addons/addons-setup-wizard'
+import { nextTick, defineAsyncComponent } from 'vue'
+import { f7, theme } from 'framework7-vue'
+import i18n_mixin from '@/components/i18n-mixin'
+import { i18n, loadLocaleMessages } from '@/js/i18n'
+import AddonsSetupWizard from '@/components/addons/addons-setup-wizard.vue'
+
+import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
 
 export default {
-  mixins: [i18n],
+  mixins: [i18n_mixin],
   components: {
-    'parameter-location': () => import('@/components/config/controls/parameter-location.vue'),
-    'parameter-options': () => import('@/components/config/controls/parameter-options.vue'),
+    'parameter-location': defineAsyncComponent(
+      () => import('@/components/config/controls/parameter-location.vue')
+    ),
+    'parameter-options': defineAsyncComponent(
+      () => import('@/components/config/controls/parameter-options.vue')
+    ),
     AddonsSetupWizard
+  },
+  setup () {
+    return { theme }
   },
   data () {
     return {
@@ -401,7 +413,7 @@ export default {
     }
   },
   i18n: {
-    messages: loadLocaleMessages(require.context('@/assets/i18n/setup-wizard'))
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/setup-wizard/*.json'))
   },
   computed: {
     locale () {
@@ -414,22 +426,22 @@ export default {
      * @returns {*[]}
      */
     mainAddons () {
-      return this.addons.filter(a => !this.preSelectingAddonTypes.includes(a.type))
+      return this.addons.filter((a) => !this.preSelectingAddonTypes.includes(a.type))
     },
     /**
      * Add-ons that are currently selected in the main add-on selection step, with installed and pre-selected add-ons excluded.
      * @returns {*[]}
      */
     mainAddonSelection () {
-      const addons = this.selectedAddons.concat(this.toInstallAddons).filter(a => (!a.installed && !this.preSelectedAddon(a)))
+      const addons = this.selectedAddons.concat(this.toInstallAddons).filter((a) => (!a.installed && !this.preSelectedAddon(a)))
       return [...new Set(addons)]
     }
   },
   watch: {
     locale (val) {
-      this.$store.commit('setLocale', this.locale)
+      useRuntimeStore().locale = this.locale
       this.updateLocale()
-      this.$i18n.locale = val
+      i18n.global.locale = val
     }
   },
   methods: {
@@ -439,7 +451,7 @@ export default {
         region: this.region,
         timezone: this.timezone
       }).then(() => {
-        this.$f7.emit('localeChange')
+        f7.emit('localeChanged')
         this.$refs.location.show()
       })
     },
@@ -448,25 +460,33 @@ export default {
         navigator.geolocation.getCurrentPosition((position) => {
           this.location = position.coords.latitude + ',' + position.coords.longitude
         }, (error) => {
-          this.$f7.dialog.alert(
+          f7.dialog.alert(
             error.message,
-            this.$t('setupwizard.location.retrieveFromDevice.error')
+            this.t('setupwizard.location.retrieveFromDevice.error')
           )
         })
       } else {
-        this.$f7.dialog.alert(this.$t('setupwizard.location.retrieveFromDevice.notAvailable.message'), this.$t('setupwizard.location.retrieveFromDevice.notAvailable.title'))
+        f7.dialog.alert(
+          this.t('setupwizard.location.retrieveFromDevice.notAvailable.message'),
+          this.t('setupwizard.location.retrieveFromDevice.notAvailable.title')
+        )
       }
     },
     skipSetup () {
       const self = this
-      this.$f7.dialog.confirm(
-        this.$t('setupwizard.skipSetup.confirm.message'), this.$t('setupwizard.skipSetup.confirm.title'),
+      f7.dialog.confirm(
+        this.t('setupwizard.skipSetup.confirm.message'),
+        this.t('setupwizard.skipSetup.confirm.title'),
         () => {
-          self.$f7.panel.get('left').enableVisibleBreakpoint()
-          this.$nextTick(() => {
-            self.$f7.views.main.router.navigate('/', { transition: 'f7-circle', clearPreviousHistory: true })
+          self.f7.panel.get('left').enableVisibleBreakpoint()
+          nextTick(() => {
+            self.f7.views.main.router.navigate('/', {
+              transition: 'f7-circle',
+              clearPreviousHistory: true
+            })
           })
-        })
+        }
+      )
     },
     setLocation () {
       this.$oh.api.put('/rest/services/org.openhab.i18n/config', {
@@ -512,7 +532,7 @@ export default {
       if (this.addonSuggestionsReady) {
         this.updateAddonSelection([], this.recommendedAddonsByType('persistence'))
       } else {
-        this.$f7.once('addon-suggestions-ready', () => {
+        f7.once('addonSuggestionsReady', () => {
           this.updateAddonSelection([], this.recommendedAddonsByType('persistence'))
         })
       }
@@ -525,7 +545,7 @@ export default {
       if (this.addonSuggestionsReady) {
         this.updateAddonSelection(this.recommendedAddonsByType('persistence'), [])
       } else {
-        this.$f7.once('addon-suggestions-ready', () => {
+        f7.once('addonSuggestionsReady', () => {
           this.updateAddonSelection(this.recommendedAddonsByType('persistence'), [])
         })
       }
@@ -533,10 +553,10 @@ export default {
     },
     showAddons () {
       if (this.addonSuggestionsReady) {
-        this.updateAddonSelection([], this.selectedAddons.filter(a => !this.preSelectedAddon(a)))
+        this.updateAddonSelection([], this.selectedAddons.filter((a) => !this.preSelectedAddon(a)))
       } else {
-        this.$f7.once('addon-suggestions-ready', () => {
-          this.updateAddonSelection([], this.selectedAddons.filter(a => !this.preSelectedAddon(a)))
+        this.$f7.once('addonSuggestionsReady', () => {
+          this.updateAddonSelection([], this.selectedAddons.filter((a) => !this.preSelectedAddon(a)))
         })
       }
       this.$refs.addons.show()
@@ -556,8 +576,8 @@ export default {
         self.waitingTimeout = setTimeout(() => {
           const progressBefore = progress
           progress += 10
-          self.$f7.progressbar.set('#suggestions-progress-bar-persistence', progress)
-          self.$f7.progressbar.set('#suggestions-progress-bar-addons', progress)
+          self.f7.progressbar.set('#suggestions-progress-bar-persistence', progress)
+          self.f7.progressbar.set('#suggestions-progress-bar-addons', progress)
           if (progressBefore < 100) {
             loading()
           } else {
@@ -570,8 +590,8 @@ export default {
         // wait 10 seconds for suggestions to refresh after network scan
         this.networkChanged = false
         this.waitingForAddonSuggestions = true
-        this.$f7.progressbar.set('#suggestions-progress-bar-persistence', 0)
-        this.$f7.progressbar.set('#suggestions-progress-bar-addons', 0)
+        f7.progressbar.set('#suggestions-progress-bar-persistence', 0)
+        f7.progressbar.set('#suggestions-progress-bar-addons', 0)
         clearTimeout(this.waitingTimeout)
         loading()
       } else if (!this.waitingForAddonSuggestions) {
@@ -583,43 +603,43 @@ export default {
      *
      * Sets <code>this.addonSuggestionsReady</code> to <code>true</code> once addon-suggestions are ready.
      *
-     * @emits addon-suggestions-ready once add-on suggestions are ready
+     * @emits addonSuggestionsReady once add-on suggestions are ready
      */
     getSuggestions () {
       const self = this
       self.$oh.api.get('/rest/addons/suggestions').then((suggestions) => {
-        const suggestedAddons = suggestions.flatMap(s => s.id)
-        self.selectedAddons = self.addons.filter(a => (self.recommendedAddons.includes(a.uid) || suggestedAddons.includes(a.id)))
+        const suggestedAddons = suggestions.flatMap((s) => s.id)
+        self.selectedAddons = self.addons.filter((a) => (self.recommendedAddons.includes(a.uid) || suggestedAddons.includes(a.id)))
           .sort((a, b) => a.uid.toUpperCase().localeCompare(b.uid.toUpperCase()))
         self.addonSuggestionsReady = true
-        self.$f7.emit('addon-suggestions-ready')
+        self.f7.emit('addonSuggestionsReady')
       })
     },
     preSelectedAddon (addon) {
       return (this.preSelectingAddonTypes.includes(addon.type) || this.preSelectingAddons.includes(addon.uid))
     },
     recommendedAddonsByType (type) {
-      return this.addons.filter(a => ((a.type === type) && this.recommendedAddons.includes(a.uid)))
+      return this.addons.filter((a) => ((a.type === type) && this.recommendedAddons.includes(a.uid)))
     },
     updateAddonSelection (oldSelected, newSelected) {
-      console.debug('Updating add-on selection:', oldSelected.map(a => a.uid), newSelected.map(a => a.uid))
-      const addons = this.toInstallAddons.filter(a => !oldSelected.includes(a)).concat(newSelected)
-      this.$set(this, 'toInstallAddons', [...new Set(addons)])
-      console.log('Add-ons to install:', this.toInstallAddons.map(a => a.uid))
+      console.debug('Updating add-on selection:', oldSelected.map((a) => a.uid), newSelected.map((a) => a.uid))
+      const addons = this.toInstallAddons.filter((a) => !oldSelected.includes(a)).concat(newSelected)
+      this.toInstallAddons = [...new Set(addons)]
+      console.log('Add-ons to install:', this.toInstallAddons.map((a) => a.uid))
     },
     installAddons () {
       const self = this
       const checkInterval = 2 // check the add-ons statuses every 2 seconds
 
-      this.$set(this, 'toInstallAddons', this.toInstallAddons.filter(a => !a.installed))
+      this.toInstallAddons = this.toInstallAddons.filter((a) => !a.installed)
       this.installingAddons = true
       this.$refs.wait.show(false)
 
-      this.bindingInstalled = this.toInstallAddons.find(a => (a.type === 'binding'))
+      this.bindingInstalled = this.toInstallAddons.find((a) => a.type === 'binding')
       const addonsCount = this.toInstallAddons.length
       let progress = 0
 
-      const progressDialog = this.$f7.dialog.progress(this.$t('setupwizard.addons.installing'), progress)
+      const progressDialog = f7.dialog.progress(this.t('setupwizard.addons.installing'), progress)
 
       const checkAddonStatus = function (addon) {
         return new Promise((resolve, reject) => {
@@ -648,11 +668,11 @@ export default {
         }
 
         // install next add-on
-        progressDialog.setText(self.$t('setupwizard.addons.progress', { current: addonsCount - self.toInstallAddons.length + 1, total: addonsCount }))
+        progressDialog.setText(self.t('setupwizard.addons.progress', { current: addonsCount - self.toInstallAddons.length + 1, total: addonsCount }))
         progressDialog.setProgress(((addonsCount - self.toInstallAddons.length + 1) / addonsCount) * 100)
         const addon = self.toInstallAddons.shift()
         console.log('Installing add-on: ' + addon.uid)
-        progressDialog.setTitle(self.$t('setupwizard.addons.installingAddon', { addon: addon.label }))
+        progressDialog.setTitle(self.t('setupwizard.addons.installingAddon', { addon: addon.label }))
 
         self.$oh.api.post('/rest/addons/' + addon.uid + '/install', {}, 'text').then(() => {
           const checkTimer = setInterval(() => {
@@ -671,7 +691,7 @@ export default {
     },
     skipAddons () {
       this.updateAddonSelection(this.mainAddons, [])
-      if (this.toInstallAddons.filter(a => !a.installed).length) {
+      if (this.toInstallAddons.filter((a) => !a.installed).length) {
         this.installAddons()
         return
       }
@@ -681,19 +701,19 @@ export default {
       this.$refs.finish.show()
     },
     finish () {
-      this.$f7.panel.get('left').enableVisibleBreakpoint()
-      this.$nextTick(() => {
-        this.$f7.views.main.router.navigate('/', { transition: 'f7-circle', clearPreviousHistory: true })
-        if (this.$f7.width >= 1280) {
-          this.$f7.emit('selectDeveloperDock', { dock: 'help', helpTab: 'quick' })
+      f7.panel.get('left').enableVisibleBreakpoint()
+      nextTick(() => {
+        f7.views.main.router.navigate('/', { transition: 'f7-circle', clearPreviousHistory: true })
+        if (f7.width >= 1280) {
+          f7.emit('selectDeveloperDock', { dock: 'help', helpTab: 'quick' })
         }
       })
     },
     pageBeforeIn () {
-      this.$f7.panel.get('left').disableVisibleBreakpoint()
+      f7.panel.get('left').disableVisibleBreakpoint()
     },
     pageBeforeOut () {
-      this.$f7.panel.get('left').enableVisibleBreakpoint()
+      f7.panel.get('left').enableVisibleBreakpoint()
       // create the overview page to prevent this setup wizard from being launched again
       this.$oh.api.post('/rest/ui/components/ui:page', {
         uid: 'overview',
@@ -707,7 +727,7 @@ export default {
         }
       }).then(() => {
         // this will force the pages to be refreshed
-        this.$f7.emit('sidebarRefresh', null)
+        f7.emit('sidebarRefresh', null)
       })
     }
   },
@@ -722,9 +742,9 @@ export default {
 
     Promise.all(promises).then((data) => {
       // i18n config descriptions
-      this.availableLanguages = data[0].parameters.find(p => p.name === 'language').options
-      this.availableRegions = data[0].parameters.find(p => p.name === 'region').options
-      this.availableTimezones = data[0].parameters.find(p => p.name === 'timezone').options
+      this.availableLanguages = data[0].parameters.find((p) => p.name === 'language').options
+      this.availableRegions = data[0].parameters.find((p) => p.name === 'region').options
+      this.availableTimezones = data[0].parameters.find((p) => p.name === 'timezone').options
 
       if (Intl && Intl.DateTimeFormat().resolvedOptions()) {
         const intlOptions = Intl.DateTimeFormat().resolvedOptions()
@@ -746,7 +766,7 @@ export default {
       this.i18nReady = true
 
       // network config description & config
-      this.networkConfigDescription = data[2].parameters.find(p => p.name === 'primaryAddress')
+      this.networkConfigDescription = data[2].parameters.find((p) => p.name === 'primaryAddress')
       this.network = data[3].primaryAddress
       this.networksReady = true
 

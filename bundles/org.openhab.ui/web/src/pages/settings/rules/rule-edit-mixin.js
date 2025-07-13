@@ -1,3 +1,5 @@
+import { f7 } from 'framework7-vue'
+
 import YAML from 'yaml'
 
 export default {
@@ -44,13 +46,13 @@ export default {
       if (this.copyMode) return
       const enable = (this.rule.status.statusDetail === 'DISABLED')
       this.$oh.api.postPlain('/rest/rules/' + this.rule.uid + '/enable', enable.toString()).then((data) => {
-        this.$f7.toast.create({
+        f7.toast.create({
           text: (enable) ? 'Enabled' : 'Disabled',
           destroyOnClose: true,
           closeTimeout: 2000
         }).open()
       }).catch((err) => {
-        this.$f7.toast.create({
+        f7.toast.create({
           text: 'Error while disabling or enabling: ' + err,
           destroyOnClose: true,
           closeTimeout: 2000
@@ -90,7 +92,7 @@ export default {
       }
 
       if (swipeoutElement) {
-        this.$f7.swipeout.open(swipeoutElement)
+        f7.swipeout.open(swipeoutElement)
       }
     },
     startEventSource () {

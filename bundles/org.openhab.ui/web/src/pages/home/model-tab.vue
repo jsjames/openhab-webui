@@ -84,19 +84,23 @@
   .card-expandable.card-opened .card-content::-webkit-scrollbar /* WebKit */
       width 0
       height 0
-
 </style>
 
 <script>
-import cardGroups from './homecards-grouping'
+import { mapState } from 'vuex'
 
+import cardGroups from './homecards-grouping'
 import LocationCard from '../../components/cards/location-card.vue'
 import EquipmentCard from '../../components/cards/equipment-card.vue'
 import PropertyCard from '../../components/cards/property-card.vue'
-import { mapState } from 'vuex'
+
+import { useStatesStore } from '@/js/stores/useStatesStore'
 
 export default {
-  props: ['type', 'page'],
+  props: {
+    type: String,
+    page: Object
+  },
   components: {
     LocationCard,
     EquipmentCard,
@@ -122,7 +126,7 @@ export default {
           component: (this.type === 'locations') ? 'oh-location-card' : (this.type === 'equipment') ? 'oh-equipment-card' : 'oh-property-card',
           config: {}
         },
-        store: this.$store.getters.trackedItems
+        store: useStatesStore().trackedItems
       }
       const page = this.page
       const type = this.type

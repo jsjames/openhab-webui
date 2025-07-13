@@ -20,9 +20,13 @@
 import { loadLocaleMessages } from '@/js/i18n'
 
 export default {
-  props: ['icon', 'title', 'text'],
+  props: {
+    icon: String,
+    title: String,
+    text: String
+  },
   i18n: {
-    messages: loadLocaleMessages(require.context('@/assets/i18n/empty-states'))
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/empty-states/*.json'))
   }
 }
 </script>

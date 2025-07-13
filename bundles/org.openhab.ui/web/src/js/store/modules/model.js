@@ -1,13 +1,13 @@
 import api from '@/js/openhab/api'
 import { authorize } from '@/js/openhab/auth'
-import i18n from '@/js/i18n'
+import { i18n } from '@/js/i18n'
 import { compareItems } from '@/components/widgets/widget-order'
 
-function compareObjects (o1, o2) {
+function _compareObjects (o1, o2) {
   return compareItems(o1.item || o1, o2.item || o2)
 }
 
-function buildModelCard (type, source, key) {
+function _buildModelCard (type, source, key) {
   switch (type) {
     case 'location':
       let defaultLocationTitle = source.item.label || source.item.name
@@ -16,14 +16,14 @@ function buildModelCard (type, source, key) {
         defaultTitle: defaultLocationTitle
       })
     case 'equipment':
-      let defaultEquipmentTitle = i18n.t(key)
+      let defaultEquipmentTitle = i18n.global.t(key)
       return {
         key,
         defaultTitle: defaultEquipmentTitle,
         equipment: source
       }
     case 'property':
-      let defaultPropertyTitle = i18n.t(key)
+      let defaultPropertyTitle = i18n.global.t(key)
       return {
         key,
         defaultTitle: defaultPropertyTitle,
@@ -40,19 +40,23 @@ function buildPathInModel (item, items, filteredItems) {
   if (item.modelPath) return item.modelPath
   let parent = null
   if (item.metadata.semantics.config && item.metadata.semantics.config.hasLocation) {
-    parent = (items.find((i) => i.name === item.metadata.semantics.config.hasLocation))
+    parent = items.find((i) => i.name === item.metadata.semantics.config.hasLocation)
   } else if (item.metadata.semantics.config && item.metadata.semantics.config.isPointOf) {
-    parent = (items.find((i) => i.name === item.metadata.semantics.config.isPointOf))
+    parent = items.find((i) => i.name === item.metadata.semantics.config.isPointOf)
   } else if (item.metadata.semantics.config && item.metadata.semantics.config.isPartOf) {
-    parent = (items.find((i) => i.name === item.metadata.semantics.config.isPartOf))
+    parent = items.find((i) => i.name === item.metadata.semantics.config.isPartOf)
   }
   if (parent && parent.semanticLoopDetector) {
-    throw new Error(`A a loop has been detected in the semantic model: ${parent.name} is both descendant and parent of ${item.name}`)
+    throw new Error(
+      `A a loop has been detected in the semantic model: ${parent.name} is both descendant and parent of ${item.name}`
+    )
   }
-  item.parent = parent ? { name: parent.name, label: parent.label, metadata: parent.metadata } : null
+  item.parent = parent
+    ? { name: parent.name, label: parent.label, metadata: parent.metadata }
+    : null
 
   item.semanticLoopDetector = true
-  item.modelPath = parent ? [...(buildPathInModel(parent, items, filteredItems)), item.parent] : []
+  item.modelPath = parent ? [...buildPathInModel(parent, items, filteredItems), item.parent] : []
   delete item.semanticLoopDetector
   item.children = []
   item.locations = []
@@ -99,7 +103,7 @@ function sortModel (item) {
   item.equipment = item.equipment.sort(compareItems)
   item.equipmentOrPoints = item.equipmentOrPoints.sort(compareItems)
 
-  item.children.forEach(child => sortModel(child))
+  item.children.forEach((child) => sortModel(child))
 }
 
 const state = {
@@ -115,7 +119,9 @@ const getters = {
     if (state.semanticModel == null) {
       return null
     }
-    return state.semanticModel[type === 'location' ? 'locations' : type === 'equipment' ? 'equipment' : 'properties']?.find(e => e.key === key)
+    return state.semanticModel[
+      type === 'location' ? 'locations' : type === 'equipment' ? 'equipment' : 'properties'
+    ]?.find((e) => e.key === key)
   }
 }
 
@@ -131,7 +137,8 @@ const mutations = {
 const actions = {
   loadSemanticModel (context) {
     console.debug('Loading semantic model and building semantic homepages ...')
-    api.get('/rest/items?staticDataOnly=true&metadata=semantics,listWidget,widgetOrder')
+    api
+      .get('/rest/items?staticDataOnly=true&metadata=semantics,listWidget,widgetOrder')
       .then((data) => {
         const items = data
         let filteredItems = {
@@ -146,11 +153,12 @@ const actions = {
         })
 
         // Sort each semantic model item children arrays (start at top-level nodes)
-        data.filter((item) => item.modelPath && item.modelPath.length === 0)
+        data
+          .filter((item) => item.modelPath && item.modelPath.length === 0)
           .forEach((item) => sortModel(item))
 
         // get the location items
-        const locations = filteredItems.locations.sort(compareObjects).map((l) => {
+        const locations = filteredItems.locations.sort(_compareObjects).map((l) => {
           return {
             item: l,
             properties: l.points,
@@ -165,25 +173,35 @@ const actions = {
         })
 
         // get the equipment items
-        const equipment = filteredItems.equipment.sort(compareObjects).reduce((prev, item, i, properties) => {
-          const equipmentType = item.metadata.semantics.value.substring(item.metadata.semantics.value.lastIndexOf('_')).replace('_', '')
-          if (!prev[equipmentType]) prev[equipmentType] = []
-          prev[equipmentType].push(item)
-          return prev
-        }, {})
+        const equipment = filteredItems.equipment
+          .sort(_compareObjects)
+          .reduce((prev, item, i, properties) => {
+            const equipmentType = item.metadata.semantics.value
+              .substring(item.metadata.semantics.value.lastIndexOf('_'))
+              .replace('_', '')
+            if (!prev[equipmentType]) prev[equipmentType] = []
+            prev[equipmentType].push(item)
+            return prev
+          }, {})
 
         // get the property items
-        const properties = filteredItems.properties.sort(compareObjects).reduce((prev, item, i, properties) => {
-          const property = item.metadata.semantics.config.relatesTo.split('_')[1]
-          if (!prev[property]) prev[property] = []
-          prev[property].push(item)
-          return prev
-        }, {})
+        const properties = filteredItems.properties
+          .sort(_compareObjects)
+          .reduce((prev, item, i, properties) => {
+            const property = item.metadata.semantics.config.relatesTo.split('_')[1]
+            if (!prev[property]) prev[property] = []
+            prev[property].push(item)
+            return prev
+          }, {})
 
         const model = {}
-        model.locations = locations.map(l => buildModelCard('location', l, l.item.name))
-        model.equipment = Object.keys(equipment).sort((a, b) => i18n.t(a).localeCompare(i18n.t(b))).map(k => buildModelCard('equipment', equipment[k], k))
-        model.properties = Object.keys(properties).sort((a, b) => i18n.t(a).localeCompare(i18n.t(b))).map(k => buildModelCard('property', properties[k], k))
+        model.locations = locations.map((l) => _buildModelCard('location', l, l.item.name))
+        model.equipment = Object.keys(equipment)
+          .sort((a, b) => i18n.global.t(a).localeCompare(i18n.global.t(b)))
+          .map((k) => _buildModelCard('equipment', equipment[k], k))
+        model.properties = Object.keys(properties)
+          .sort((a, b) => i18n.global.t(a).localeCompare(i18n.global.t(b)))
+          .map((k) => _buildModelCard('property', properties[k], k))
 
         // console.log('model', model)
         context.commit('setSemanticModel', model)

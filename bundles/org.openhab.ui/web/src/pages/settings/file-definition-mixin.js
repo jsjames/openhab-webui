@@ -1,25 +1,27 @@
+import { f7 } from 'framework7-vue'
+
 function executeFileDefinitionCopy (vueInstance, objectType, objectTypeLabel, objectIds, copiedObjectsLabel, fileFormatLabel, mediaType) {
-  const progressDialog = vueInstance.$f7.dialog.progress(`Loading ${objectTypeLabel} ${fileFormatLabel} definition...`)
+  const progressDialog = f7.dialog.progress(`Loading ${objectTypeLabel} ${fileFormatLabel} definition...`)
 
   const path = `/rest/file-format/${objectType}s`
   const headers = { accept: mediaType }
   const data = JSON.stringify(objectIds)
-  vueInstance.$oh.api.postPlain(path, data, 'text', 'application/json', headers)
-    .then(definition => {
+  f7.$oh.api.postPlain(path, data, 'text', 'application/json', headers)
+    .then((definition) => {
       progressDialog.close()
       if (vueInstance.$clipboard(definition)) {
-        vueInstance.$f7.toast.create({
+        f7.toast.create({
           text: `${objectTypeLabel} ${fileFormatLabel} definition copied to clipboard:\n${copiedObjectsLabel}`,
           destroyOnClose: true,
           closeTimeout: 2000
         }).open()
       } else {
-        vueInstance.$f7.dialog.alert(`Error copying ${objectTypeLabel} ${fileFormatLabel} definition to the clipboard`, 'Error')
+        f7.dialog.alert(`Error copying ${objectTypeLabel} ${fileFormatLabel} definition to the clipboard`, 'Error')
       }
     })
-    .catch(error => {
+    .catch((error) => {
       progressDialog.close()
-      vueInstance.$f7.dialog.alert(`Error loading ${objectTypeLabel} ${fileFormatLabel} definition: ${error}`, 'Error')
+      f7.dialog.alert(`Error loading ${objectTypeLabel} ${fileFormatLabel} definition: ${error}`, 'Error')
     })
 }
 
@@ -52,7 +54,7 @@ export default {
         copiedObjectsLabel = `${objectIds.length} ${objectTypeLabel}`
       }
 
-      this.$f7.dialog
+      f7.dialog
         .create({
           title: `Copy ${objectTypeLabel} File Definition`,
           text: `Select the file format to copy ${copiedObjectsLabel} to clipboard`,

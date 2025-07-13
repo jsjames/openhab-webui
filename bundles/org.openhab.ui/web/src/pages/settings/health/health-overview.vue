@@ -30,7 +30,9 @@
             :after="orphanLinksCount > 0 ? undefined : orphanLinksCount"
             :badge-color="orphanLinksCount ? 'red' : 'blue'"
             :footer="objectsSubtitles.orphanLinks">
-            <f7-icon slot="media" f7="link" color="gray" />
+            <template #media>
+              <f7-icon f7="link" color="gray" />
+            </template>
           </f7-list-item>
           <f7-list-item
             media-item
@@ -40,7 +42,9 @@
             :after="semanticsProblemCount > 0 ? undefined : semanticsProblemCount"
             :badge-color="semanticsProblemCount ? 'red' : 'blue'"
             :footer="objectsSubtitles.semanticsProblems">
-            <f7-icon slot="media" f7="list_bullet_indent" color="gray" />
+            <template #media>
+              <f7-icon f7="list_bullet_indent" color="gray" />
+            </template>
           </f7-list-item>
         </f7-list>
       </f7-col>
@@ -49,6 +53,10 @@
 </template>
 
 <script>
+import { f7 } from 'framework7-vue'
+
+import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
+
 export default {
   data () {
     return {
@@ -60,13 +68,13 @@ export default {
       semanticsProblemCount: 0,
 
       expandedTypes: {
-        systemSettings: this.$f7.width >= 1450
+        systemSettings: f7.width >= 1450
       }
     }
   },
   computed: {
     apiEndpoints () {
-      return this.$store.state.apiEndpoints
+      return useRuntimeStore().apiEndpoints
     }
   },
   watch: {
@@ -77,12 +85,12 @@ export default {
   methods: {
     loadCounters () {
       if (!this.apiEndpoints) return
-      if (this.$store.getters.apiEndpoint('links')) {
+      if (useRuntimeStore().apiEndpoint('links')) {
         this.$oh.api.get('/rest/links/orphans').then((data) => {
           this.orphanLinksCount = data.length || 0
         })
       }
-      if (this.$store.getters.apiEndpoint('items')) {
+      if (useRuntimeStore().apiEndpoint('items')) {
         this.$oh.api.get('/rest/items/semantics/health').then((data) => {
           this.semanticsProblemCount = data.length || 0
         })

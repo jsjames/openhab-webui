@@ -32,9 +32,15 @@ export function filterPartialCompletions (cm, line, completions, property = 'tex
   const cursor = cm.getCursor()
   let lineBeforeCursor = line.substring(0, cursor.ch)
   if (remover) lineBeforeCursor = lineBeforeCursor.replace(remover, '')
-  const completionBeginPos = Math.max(lineBeforeCursor.lastIndexOf(' '), lineBeforeCursor.lastIndexOf('.'), lineBeforeCursor.lastIndexOf('@'))
+  const completionBeginPos = Math.max(
+    lineBeforeCursor.lastIndexOf(' '),
+    lineBeforeCursor.lastIndexOf('.'),
+    lineBeforeCursor.lastIndexOf('@')
+  )
   const partialCompletion = lineBeforeCursor.substring(completionBeginPos + 1)
-  return completions.filter((c) => c[property] && c[property].toLowerCase().indexOf(partialCompletion.toLowerCase()) >= 0)
+  return completions.filter(
+    (c) => c[property] && c[property].toLowerCase().indexOf(partialCompletion.toLowerCase()) >= 0
+  )
 }
 
 export function addTooltipHandlers (cm, ret, retriggerHint) {
@@ -47,8 +53,12 @@ export function addTooltipHandlers (cm, ret, retriggerHint) {
   if (!ret.to) ret.to = cursor
   ret.tooltip = true
 
-  CodeMirror.on(ret, 'close', function () { remove(tooltip) })
-  CodeMirror.on(ret, 'update', function () { remove(tooltip) })
+  CodeMirror.on(ret, 'close', function () {
+    remove(tooltip)
+  })
+  CodeMirror.on(ret, 'update', function () {
+    remove(tooltip)
+  })
   CodeMirror.on(ret, 'pick', function () {
     setTimeout(() => {
       cm.scrollIntoView(cm.getCursor())
@@ -59,8 +69,12 @@ export function addTooltipHandlers (cm, ret, retriggerHint) {
     remove(tooltip)
     let content = cur.description
     if (content) {
-      tooltip = makeTooltip(node.parentNode.getBoundingClientRect().right + window.pageXOffset,
-        node.getBoundingClientRect().top + window.pageYOffset, content, cm)
+      tooltip = makeTooltip(
+        node.parentNode.getBoundingClientRect().right + window.pageXOffset,
+        node.getBoundingClientRect().top + window.pageYOffset,
+        content,
+        cm
+      )
       tooltip.className += ' ' + cls + 'hint-doc'
     }
   })

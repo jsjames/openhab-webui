@@ -29,8 +29,8 @@
         <f7-block-title>&nbsp;Loading...</f7-block-title>
         <f7-list contacts-list class="col">
           <f7-list-group>
-            <f7-list-item media-item
-                          v-for="n in 10"
+            <f7-list-item v-for="n in 10"
+                          media-item
                           :key="n"
                           :class="`skeleton-text skeleton-effect-blink`"
                           title="Type of problem"
@@ -53,11 +53,12 @@
                         :title="semanticsProblem.reason"
                         :subtitle="'Item: ' + semanticsProblem.item + (semanticsProblem.semanticType ? ' (' + semanticsProblem.semanticType + ')' : '')"
                         :footer="semanticsProblem.explanation">
-            <f7-icon v-if="!semanticsProblem.editable"
-                     slot="after-title"
-                     f7="lock_fill"
-                     size="1rem"
-                     color="gray" />
+            <template #after-title>
+              <f7-icon v-if="!semanticsProblem.editable"
+                       f7="lock_fill"
+                       size="1rem"
+                       color="gray" />
+            </template>
           </f7-list-item>
         </f7-list>
       </f7-col>

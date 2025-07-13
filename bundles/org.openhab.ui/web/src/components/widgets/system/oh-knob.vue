@@ -1,14 +1,16 @@
 <template>
   <round-slider v-bind="resolvedConfig"
                 :value="computedValue"
-                :style="`stroke-dasharray: ${(config.dottedPath) ? config.dottedPath : 0}`"
+                :style="`stroke-dasharray: ${config.dottedPath ? config.dottedPath : 0}`"
                 mouseScrollAction="true"
                 @input="onChange"
-                @click.native.stop="sendCommandDebounced(value, true)"
-                @touchend.native.stop="sendCommandDebounced(value, true)" />
+                @click.stop="sendCommandDebounced(value, true)"
+                @touchend.stop="sendCommandDebounced(value, true)" />
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
+
 import mixin from '../widget-mixin'
 import slideMixin from './slide-mixin'
 import { OhKnobDefinition } from '@/assets/definitions/widgets/system'
@@ -17,7 +19,9 @@ export default {
   mixins: [mixin, slideMixin],
   components: {
     // See https://roundsliderui.com/document.html for docs
-    'RoundSlider': () => import(/* webpackChunkName: "vue-round-slider" */ 'vue-round-slider')
+    RoundSlider: defineAsyncComponent(
+      () => import(/* webpackChunkName: "vue-round-slider" */ 'vue-round-slider')
+    )
   },
   widget: OhKnobDefinition,
   computed: {
@@ -34,7 +38,9 @@ export default {
         pathColor: cfg.pathColor !== undefined ? cfg.pathColor : cfg.secondaryColor,
         tooltipColor: cfg.tooltipColor !== undefined ? cfg.tooltipColor : cfg.textColor,
         width: cfg.width !== undefined ? cfg.width : cfg.strokeWidth,
+        // eslint-disable-next-line no-constant-binary-expression (see https://github.com/openhab/openhab-webui/pull/1718)
         startAngle: !cfg.circleShape !== undefined ? (cfg.startAngle !== undefined ? cfg.startAngle : -50) : null,
+        // eslint-disable-next-line no-constant-binary-expression (see https://github.com/openhab/openhab-webui/pull/1718)
         endAngle: !cfg.circleShape !== undefined ? (cfg.endAngle !== undefined ? cfg.endAngle : -130) : null
       }
     }

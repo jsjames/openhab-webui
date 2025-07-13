@@ -8,9 +8,13 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
+
 export default {
   components: {
-    'analyzer': () => import(/* webpackChunkName: "analyzer" */ './analyzer.vue')
+    analyzer: defineAsyncComponent(
+      () => import(/* webpackChunkName: "analyzer" */ './analyzer.vue')
+    )
   }
 }
 </script>

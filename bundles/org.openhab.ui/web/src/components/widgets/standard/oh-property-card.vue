@@ -13,13 +13,20 @@ export default {
   mixins: [mixin],
   computed: {
     element () {
-      return this.$store.getters.semanticModelElement(this.config.item, 'property') ||
-        { defaultTitle: 'Property Card', item: { equipment: [], metadata: { semantics: { value: '' } } }, equipment: [], properties: [], points: [] }
+      return (
+        this.$store.getters.semanticModelElement(this.config.item, 'property') || {
+          defaultTitle: 'Property Card',
+          item: { equipment: [], metadata: { semantics: { value: '' } } },
+          equipment: [],
+          properties: [],
+          points: []
+        }
+      )
     }
   },
   widget: () => {
     const widget = OhPropertyCardParameters()
-    widget.props.parameters.find(p => p.name === 'item').options = store.state.semantics.Properties.map(p => { return { name: p, label: store.state.semantics.Labels[p] } })
+    widget.props.parameters.find((p) => p.name === 'item').options = store.state.semantics.Properties.map((p) => { return { name: p, label: store.state.semantics.Labels[p] } })
     return widget
   }
 }

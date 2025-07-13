@@ -1,6 +1,6 @@
 <template>
-  <trend :key="'trend' + config.item"
-         v-if="showTrend"
+  <trend v-if="showTrend"
+         :key="'trend' + config.item"
          :style="config.style"
          :width="trendWidth"
          class="trend"
@@ -9,6 +9,7 @@
          :gradientDirection="trendGradientDirection"
          :stroke-width="trendStrokeWidth"
          auto-draw
+         :viewWidth="width"
          smooth />
 </template>
 
@@ -16,9 +17,16 @@
 import mixin from '../widget-mixin'
 import { OhTrendDefinition } from '@/assets/definitions/widgets/system'
 
+import Trend from '@hotdogee/vue3-trend'
+
 export default {
   mixins: [mixin],
-  props: ['width'],
+  props: {
+    width: [ Number, String ]
+  },
+  components: {
+    Trend
+  },
   widget: OhTrendDefinition,
   data () {
     return {

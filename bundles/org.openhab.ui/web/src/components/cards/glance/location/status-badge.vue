@@ -56,10 +56,16 @@
 
 <script>
 import { findEquipment, allEquipmentPoints, findPoints } from '../glance-helpers'
-import expr from 'jse-eval'
+import { evaluate, parse } from 'jse-eval'
 
 export default {
-  props: ['element', 'type', 'badgeOverrides', 'invertColor', 'store'],
+  props: {
+    element: Object,
+    type: String,
+    badgeOverrides: Object,
+    invertColor: Boolean,
+    store: Object
+  },
   data () {
     return {
       badgeConfigs: {
@@ -214,7 +220,7 @@ export default {
     reduce () {
       const ast = this.overrideExpression()
       if (ast) {
-        return this.map.filter((state) => expr.evaluate(ast, { state, Number })).length
+        return this.map.filter((state) => evaluate(ast, { state, Number })).length
       }
       switch (this.type) {
         case 'blinds':
@@ -261,7 +267,7 @@ export default {
       if (this.badgeOverrides && !this.exprAst) {
         const override = this.badgeOverrides[this.type]
         if (override && override.expression) {
-          this.exprAst = expr.parse(override.expression)
+          this.exprAst = parse(override.expression)
         }
       }
       return this.exprAst

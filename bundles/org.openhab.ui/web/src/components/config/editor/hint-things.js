@@ -1,5 +1,9 @@
 import { lineIndent, findParent, findParentRoot, isConfig, isChannelsSection } from './yaml-utils'
-import { filterPartialCompletions, addTooltipHandlers, getClassNamesForParameter } from './hint-utils'
+import {
+  filterPartialCompletions,
+  addTooltipHandlers,
+  getClassNamesForParameter
+} from './hint-utils'
 
 function hintOptions (cm, line, parameter) {
   const cursor = cm.getCursor()
@@ -130,12 +134,14 @@ function hintChannelStructure (cm, line, parentLineNr) {
   const cursor = cm.getCursor()
   const thingType = cm.state.hintContext.thingType
   const bindingId = cm.state.hintContext.thingType.UID.split(':')[0]
-  const channelTypes = cm.state.hintContext.channelTypes.filter((c) => thingType.extensibleChannelTypeIds.map((t) => bindingId + ':' + t).indexOf(c.UID) >= 0)
+  const channelTypes = cm.state.hintContext.channelTypes.filter(
+    (c) => thingType.extensibleChannelTypeIds.map((t) => bindingId + ':' + t).indexOf(c.UID) >= 0
+  )
   let completions = channelTypes.map((c) => {
     return {
       text: buildChannelStructure(cm, c),
       displayText: `channel: ${c.UID}`,
-      description: `${c.label}${(c.description) ? '<br/><br />' + c.description : ''}`
+      description: `${c.label}${c.description ? '<br/><br />' + c.description : ''}`
     }
   })
   let ret = {

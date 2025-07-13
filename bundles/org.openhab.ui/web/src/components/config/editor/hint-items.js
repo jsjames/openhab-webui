@@ -39,20 +39,22 @@ function hintItemTypes (cm, line) {
 
 function hintItems (cm, line, onlyGroups) {
   if (!cm.state.$oh) return
-  const promise = (itemsCache) ? Promise.resolve(itemsCache) : cm.state.$oh.api.get('/rest/items')
+  const promise = itemsCache ? Promise.resolve(itemsCache) : cm.state.$oh.api.get('/rest/items')
   return promise.then((data) => {
     if (!itemsCache) itemsCache = data
     if (onlyGroups) {
       data = data.filter((item) => item.type === 'Group')
     }
     let ret = {
-      list: data.map((item) => {
-        return {
-          text: item.name,
-          displayText: item.name,
-          description: `${(item.label) ? item.label + ' ' : ''}(${item.type})<br />${item.state}`
-        }
-      }).sort((i1, i2) => i1.text.localeCompare(i2.text))
+      list: data
+        .map((item) => {
+          return {
+            text: item.name,
+            displayText: item.name,
+            description: `${item.label ? item.label + ' ' : ''}(${item.type})<br />${item.state}`
+          }
+        })
+        .sort((i1, i2) => i1.text.localeCompare(i2.text))
     }
     ret.list = filterPartialCompletions(cm, line, ret.list)
     addTooltipHandlers(cm, ret)

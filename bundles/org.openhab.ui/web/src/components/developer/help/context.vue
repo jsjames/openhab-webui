@@ -14,6 +14,9 @@
 </template>
 
 <script>
+import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
+import { mapStores } from 'pinia'
+
 const renderer = {
   list (body, ordered, start) {
     return `<ul style="padding-left: 20px">${body}</ul>`
@@ -21,7 +24,9 @@ const renderer = {
 }
 
 export default {
-  props: ['path'],
+  props: {
+    path: String
+  },
   data () {
     return {
       ready: false,
@@ -31,13 +36,14 @@ export default {
   },
   computed: {
     localUrl () {
-      if (!this.$store.state.pagePath.endsWith('/')) return '/'
-      return this.$store.state.pagePath
+      if (!useRuntimeStore().pagePath.endsWith('/')) return '/'
+      return useRuntimeStore().pagePath
     },
     documentationLink () {
       if (this.path.endsWith('index')) return `${this.$store.state.websiteUrl}/docs/mainui${this.path.replace('index', '')}`
       return `${this.$store.state.websiteUrl}/docs/mainui${this.path}`
-    }
+    },
+    ...mapStores(useRuntimeStore)
   },
   watch: {
     path () {
@@ -57,7 +63,7 @@ export default {
         return
       }
       console.debug('Sidebar Help: Docs not found in cache, loading from GitHub ...')
-      fetch(this.$store.state.docSrcUrl + '/mainui' + this.path + '.md').then((response) => {
+      fetch(useRuntimeStore().docSrcUrl + '/mainui' + this.path + '.md').then((response) => {
         if (response.status === 404) {
           this.parsedDocs = '<p>Failed to load docs. It seems they are missing.</p><p>Please <a class="external" target="_blank" href="https://github.com/openhab/openhab-docs/issues/new">report this on the openHAB docs repo</a>.</p>'
           this.ready = true

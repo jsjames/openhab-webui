@@ -2,32 +2,34 @@
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut" @page:afterout="onPageAfterOut">
     <f7-navbar :title="'Semantic Tags' + dirtyIndicator" back-link="Back" no-hairline>
       <f7-nav-right>
-        <f7-link @click="save()"
-                 v-if="$theme.md"
+        <f7-link v-if="theme.md"
+                 @click="save()"
                  icon-md="material:save"
                  icon-only />
-        <f7-link @click="save()" v-if="!$theme.md">
+        <f7-link v-if="!theme.md" @click="save()">
           Save<span v-if="$device.desktop">&nbsp;(Ctrl-S)</span>
         </f7-link>
       </f7-nav-right>
     </f7-navbar>
     <f7-toolbar tabbar position="top">
-      <f7-link @click="switchTab('tree')" :tab-link-active="currentTab === 'tree'" class="tab-link">
+      <f7-link @click="switchTab('tree')" :tab-link-active="currentTab === 'tree'" tab-link="#tree">
         Design
       </f7-link>
-      <f7-link @click="switchTab('code')" :tab-link-active="currentTab === 'code'" class="tab-link">
+      <f7-link @click="switchTab('code')" :tab-link-active="currentTab === 'code'" tab-link="#code">
         Code
       </f7-link>
     </f7-toolbar>
     <f7-toolbar bottom class="toolbar-details" v-if="currentTab === 'tree'">
-      <f7-link :disabled="selectedTag != null" class="left" @click="selectTag(null)">
+      <f7-link :disabled="selectedTag != null ? true : null" class="left" @click="selectTag(null)">
         Clear
       </f7-link>
       <div class="padding-left padding-right text-align-center" style="font-size: 12px">
         <div>
           <f7-checkbox :checked="showNames" @change="toggleShowNames" />
           <label @click="toggleShowNames" class="advanced-label">Show tag names</label>
-          <f7-checkbox style="margin-left: 5px" :checked="showSynonyms" @change="toggleShowSynonyms" />
+          <f7-checkbox style="margin-left: 5px"
+                       :checked="showSynonyms"
+                       @change="toggleShowSynonyms" />
           <label @click="toggleShowSynonyms" class="advanced-label">Show synonyms</label>
         </div>
       </div>
@@ -44,16 +46,20 @@
           <f7-preloader />
           <div>Loading...</div>
         </f7-block>
-        <f7-block v-else class="semantics-tree-wrapper no-margin-top" :class="{ 'sheet-opened' : detailsOpened }">
+        <f7-block v-else
+                  class="semantics-tree-wrapper no-margin-top"
+                  :class="{ 'sheet-opened' : detailsOpened }">
           <f7-row v-if="currentTab === 'tree'">
             <!-- do not set column width as usual, instead use custom CSS because of https://github.com/openhab/openhab-webui/issues/2574 -->
             <f7-col>
-              <f7-subnavbar v-show="semanticTags.length" :inner="false" style="position: sticky; top: 0px">
+              <f7-subnavbar v-show="semanticTags.length"
+                            :inner="false"
+                            style="position: sticky; top: 0px">
                 <f7-searchbar style="width: 100%"
                               search-container=".semantics-treeview"
                               search-item=".treeview-item"
                               search-in=".treeview-item-label"
-                              :disable-button="!$theme.aurora"
+                              :disable-button="!theme.aurora"
                               @input="showFiltered($event.target.value)" />
                 <div class="expand-button">
                   <f7-button v-if="!expanded"
@@ -72,7 +78,7 @@
               <f7-block v-show="semanticTags.length"
                         class="semantics-tree"
                         no-gap
-                        @click.native="clearSelection">
+                        @click="clearSelection">
                 <semantics-treeview :semanticTags="semanticTags"
                                     :expandedTags="expandedTags"
                                     @selected="selectTag"
@@ -94,7 +100,7 @@
                     <f7-list class="tag-detail" inline-labels>
                       <f7-list-input label="Name"
                                      :value="selectedTag.name"
-                                     :disabled="!selectedTag.editable"
+                                     :disabled="!selectedTag.editable ? true : null"
                                      :clear-button="selectedTag.editable"
                                      placeholder="name"
                                      required
@@ -104,7 +110,7 @@
                                      @input="updateName($event)" />
                       <f7-list-input label="Label"
                                      :value="selectedTag.label"
-                                     :disabled="!selectedTag.editable"
+                                     :disabled="!selectedTag.editable ? true : null"
                                      :clear-button="selectedTag.editable"
                                      placeholder="label"
                                      required
@@ -113,7 +119,7 @@
                                      :value="selectedTag.description"
                                      type="textarea"
                                      resizable
-                                     :disabled="!selectedTag.editable"
+                                     :disabled="!selectedTag.editable ? true : null"
                                      :clear-button="selectedTag.editable"
                                      placeholder="description"
                                      @input="($event) => selectedTag.description = $event.target.value" />
@@ -151,7 +157,9 @@
                 <f7-card>
                   <f7-card-content>
                     <f7-list>
-                      <f7-list-button color="blue" :title="`Insert ${semanticType(selectedTag.name)} Child Tag in ${selectedTag.name}`" @click="addTag()" />
+                      <f7-list-button color="blue"
+                                      :title="`Insert ${semanticType(selectedTag.name)} Child Tag in ${selectedTag.name}`"
+                                      @click="addTag()" />
                     </f7-list>
                   </f7-card-content>
                 </f7-card>
@@ -169,15 +177,16 @@
       </f7-tab>
     </f7-tabs>
 
-    <f7-fab v-if="currentTab === 'tree'"
-            class="add-to-semantics-fab"
-            position="right-center"
-            slot="fixed"
-            color="blue"
-            @click="addTag()">
-      <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
-      <f7-icon ios="f7:multiply" md="material:close" aurora="f7:multiply" />
-    </f7-fab>
+    <template #fixed>
+      <f7-fab v-if="currentTab === 'tree'"
+              class="add-to-semantics-fab"
+              position="right-center"
+              color="blue"
+              @click="addTag()">
+        <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
+        <f7-icon ios="f7:multiply" md="material:close" aurora="f7:multiply" />
+      </f7-fab>
+    </template>
     <f7-sheet v-if="currentTab === 'tree'"
               class="semantics-details-sheet"
               ref="details-sheet"
@@ -203,7 +212,7 @@
           <f7-list class="tag-detail" inline-labels>
             <f7-list-input label="Name"
                            :value="selectedTag.name"
-                           :disabled="!selectedTag.editable"
+                           :disabled="!selectedTag.editable ? true : null"
                            :clear-button="selectedTag.editable"
                            placeholder="name"
                            validate
@@ -212,7 +221,7 @@
                            @input="updateName($event)" />
             <f7-list-input label="Label"
                            :value="selectedTag.label"
-                           :disabled="!selectedTag.editable"
+                           :disabled="!selectedTag.editable ? true : null"
                            :clear-button="selectedTag.editable"
                            placeholder="label"
                            @input="($event) => selectedTag.label = $event.target.value" />
@@ -220,7 +229,7 @@
                            :value="selectedTag.description"
                            type="textarea"
                            resizable
-                           :disabled="!selectedTag.editable"
+                           :disabled="!selectedTag.editable ? true : null"
                            :clear-button="selectedTag.editable"
                            placeholder="description"
                            @input="($event) => selectedTag.description = $event.target.value" />
@@ -234,16 +243,15 @@
             <f7-list-input v-for="(synonym, index) in selectedTag.synonyms"
                            :key="index"
                            :value="synonym"
-                           :disabled="!selectedTag.editable"
+                           :disabled="!selectedTag.editable ? true : null"
                            :clear-button="selectedTag.editable"
                            placeholder="synonym"
                            @change="updateSynonyms($event, index)" />
             <f7-list-input :value="newSynonym"
-                           :disabled="!selectedTag.editable"
+                           :disabled="!selectedTag.editable ? true : null"
                            :clear-button="selectedTag.editable"
                            placeholder="synonym"
-                           @input="newSynonym = $event.target.value"
-                           @change="addSynonym($event)" />
+                           @change="addSynonyms($event)" />
           </f7-list>
         </f7-block>
       </f7-page>
@@ -340,12 +348,16 @@
 </style>
 
 <script>
+import { f7 } from 'framework7-vue'
+
 import YAML from 'yaml'
 import fastDeepEqual from 'fast-deep-equal/es6'
 
 import SemanticsTreeview from '@/components/tags/semantics-treeview.vue'
 import TagMixin from '@/components/tags/tag-mixin'
 import DirtyMixin from '@/pages/settings/dirty-mixin'
+
+import { useSemanticsStore } from '@/js/stores/useSemanticsStore'
 
 export default {
   mixins: [DirtyMixin, TagMixin],
@@ -420,7 +432,7 @@ export default {
     switchTab (tab) {
       if (this.currentTab === tab) return
       // avoid error with existing details sheet when switching tabs
-      const sheet = this.$refs['details-sheet']?.f7Sheet
+      const sheet = this.$refs['details-sheet']?.$el.f7Modal
       if (sheet?.opened) {
         sheet.close()
       }
@@ -432,7 +444,7 @@ export default {
         this.editingTagsYaml = this.editableSemanticTagsYaml
       } else {
         if (!this.fromYaml()) {
-          this.$f7.dialog.alert('Error parsing YAML')
+          f7.dialog.alert('Error parsing YAML')
           return
         }
         this.currentTab = tab
@@ -449,18 +461,18 @@ export default {
       if (this.loading) return
       this.loading = true
 
-      const tags = this.semanticClasses.Tags.map((t) => {
+      const tags = useSemanticsStore().Tags.map((t) => {
         return {
           uid: t.uid,
           name: t.name,
-          label: this.semanticClasses.Labels[t.name],
+          label: useSemanticsStore().Labels[t.name],
           description: t.description,
-          synonyms: [...this.semanticClasses.Synonyms[t.name]] || [], // clone the array to avoid modifying the original one
+          synonyms: useSemanticsStore().Synonyms[t.name],
           editable: t.editable,
           parent: t.parent
         }
       })
-      this.$set(this, 'semanticTags', tags)
+      this.semanticTags = tags
       this.$nextTick(() => {
         this.dirty = false
         this.loading = false
@@ -472,24 +484,24 @@ export default {
 
       if (this.currentTab === 'code') {
         if (!this.fromYaml()) {
-          this.$f7.dialog.alert('Error parsing YAML, cannot save')
+          f7.dialog.alert('Error parsing YAML, cannot save')
           return
         }
       }
 
       const editableTags = this.semanticTags.filter((t) => t.editable)
-      const addedTags = editableTags.filter((t) => !this.semanticClasses.Tags.find((c) => c.uid === t.uid))
-      const modifiedTags = editableTags.filter((t) => this.semanticClasses.Tags.find((c) => (c.uid === t.uid) && !fastDeepEqual(c, t)))
-      const removedTags = this.semanticClasses.Tags.filter((c) => !this.semanticTags.find((t) => t.uid === c.uid))
+      const addedTags = editableTags.filter((t) => !useSemanticsStore().Tags.find((c) => c.uid === t.uid))
+      const modifiedTags = editableTags.filter((t) => useSemanticsStore().Tags.find((c) => (c.uid === t.uid) && !fastDeepEqual(c, t)))
+      const removedTags = useSemanticsStore().Tags.filter((c) => !this.semanticTags.find((t) => t.uid === c.uid))
       console.debug('Added: ', addedTags, 'Removed: ', removedTags, 'Modified: ', modifiedTags)
 
       if (addedTags.some((t) => {
         if ((!t.name || !t.label) || modifiedTags.some((t) => !t.name || !t.label)) {
-          this.$f7.dialog.alert(`${t.name}: Tag name and label required`)
+          f7.dialog.alert(`${t.name}: Tag name and label required`)
           return true
         }
-        if (this.semanticClasses.Tags.find((c) => c.name === t.name) && !removedTags.find((r) => r.name === t.name)) {
-          this.$f7.dialog.alert(`${t.name}: Tag names must be unique`)
+        if (useSemanticsStore().Tags.find((c) => c.name === t.name) && !removedTags.find((r) => r.name === t.name)) {
+          f7.dialog.alert(`${t.name}: Tag names must be unique`)
           return true
         }
         return false
@@ -521,11 +533,11 @@ export default {
           console.debug('Successfully changed tags')
         }
         this.dirty = false
-        this.$store.dispatch('loadSemantics').then(() => {
+        useSemanticsStore().loadSemantics().then(() => {
           this.load()
         })
       } catch (error) {
-        this.$f7.dialog.alert('Error saving: ' + error)
+        f7.dialog.alert('Error saving: ' + error)
       }
     },
     toggleShowNames () {
@@ -537,14 +549,14 @@ export default {
     toggleExpanded () {
       this.expanded = !this.expanded
       this.semanticTags.forEach((t) => {
-        this.$set(this.expandedTags, t.uid, this.expanded)
+        this.expandedTags[t.uid] = this.expanded
       })
       this.expandToSelection()
     },
     expandToSelection () {
       this.selectedTag?.parent?.split('_').reduce((prev, p) => {
         const parent = (prev ? (prev + '_') : '') + p
-        this.$set(this.expandedTags, parent, true)
+        this.expandedTags[parent] = true
         return parent
       }, '')
     },
@@ -599,7 +611,7 @@ export default {
       }
       this.semanticTags.splice(this.semanticTags.length, 0, tag)
       this.selectTag(tag)
-      this.$set(this.expandedTags, tag.parent, true)
+      this.expandedTags[tag.parent] = true
       this.detailsTab = 'tag'
     },
     removeTag () {
@@ -665,7 +677,7 @@ export default {
         console.warn('Error parsing YAML')
         return false
       }
-      this.$set(this, 'semanticTags', tags)
+      this.semanticTags = tags
       return true
     }
   }

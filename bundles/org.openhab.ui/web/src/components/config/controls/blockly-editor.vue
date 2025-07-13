@@ -417,7 +417,7 @@
         </block>
       </category>
 
-      <category name="openHAB" colour="0" :expanded="$f7.device.desktop">
+      <category name="openHAB" colour="0" :expanded="$device.desktop">
         <category name="Items &amp; Things">
           <button
             helpUrl="configuration/blockly/rules-blockly-items-things.html"
@@ -827,9 +827,7 @@
           <block type="oh_dayoffset">
             <value name="offset">
               <shadow type="math_number">
-                <field name="NUM">
-                  0
-                </field>
+                <field name="NUM"> 0 </field>
               </shadow>
             </value>
           </block>
@@ -1197,23 +1195,21 @@ import { shadowBlockConversionChangeListener } from '@blockly/shadow-block-conve
 import { Multiselect, MultiselectBlockDragger } from '@mit-app-inventor/blockly-plugin-workspace-multiselect'
 import { TypedVariableModal } from '@blockly/plugin-typed-variable-modal'
 
-import Vue from 'vue'
+import { f7, theme } from 'framework7-vue'
 
 import defineOHBlocks from '@/assets/definitions/blockly'
 import { defineLibraryToolboxCategory } from '@/assets/definitions/blockly/libraries'
+import { useUIOptionsStore } from '@/js/stores/useUIOptionsStore'
+import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
+import { mapStores } from 'pinia'
 
-Vue.config.ignoredElements = [
-  'field',
-  'block',
-  'category',
-  'xml',
-  'mutation',
-  'value',
-  'sep'
-]
+// Vue is configured to treat these elements as custom elements: ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep']
 
 export default {
-  props: ['blocks', 'libraryDefinitions'],
+  props: {
+    blocks: String,
+    libraryDefinitions: Array
+  },
   emits: ['mounted', 'ready', 'change'],
   data () {
     return {
@@ -1232,11 +1228,12 @@ export default {
   computed: {
     cssVars () {
       return {
-        '--blockly-ws-search-bg-color': this.$f7.data.themeOptions.dark === 'dark' ? '#1e1e1e' : 'white',
-        '--blockly-ws-search-border-color': this.$f7.data.themeOptions.dark === 'dark' ? 'lightgrey' : 'grey',
-        '--blockly-ws-search-text-color': this.$f7.data.themeOptions.dark === 'dark' ? 'white' : 'black'
+        '--blockly-ws-search-bg-color': useUIOptionsStore().getDarkMode() === 'dark' ? '#1e1e1e' : 'white',
+        '--blockly-ws-search-border-color': useUIOptionsStore().getDarkMode() === 'dark' ? 'lightgrey' : 'grey',
+        '--blockly-ws-search-text-color': useUIOptionsStore().getDarkMode() === 'dark' ? 'white' : 'black'
       }
-    }
+    },
+    ...mapStores(useUIOptionsStore)
   },
   mounted () {
     this.load()
@@ -1300,7 +1297,7 @@ export default {
         })
     },
     initBlockly (libraryDefinitions) {
-      defineOHBlocks(this.$f7, libraryDefinitions, {
+      defineOHBlocks(f7, libraryDefinitions, {
         sinks: this.sinks,
         voices: this.voices,
         persistenceServices: this.persistenceServices,
@@ -1314,7 +1311,7 @@ export default {
           'blockDragger': MultiselectBlockDragger
         },
         horizontalLayout: !this.$device.desktop,
-        theme: this.$f7.data.themeOptions.dark === 'dark' ? DarkTheme : undefined,
+        theme: this.uiOptionsStore.getDarkMode() === 'dark' ? DarkTheme : undefined,
         zoom: {
           controls: true,
           wheel: true,
@@ -1392,7 +1389,7 @@ export default {
       Blockly.Xml.domToWorkspace(xml, this.workspace)
       this.workspace.addChangeListener(this.onChange)
 
-      this.workspace.helpurlPrefix = (this.$store.state.runtimeInfo.buildString === 'Release Build') ? 'next' : 'www'
+      this.workspace.helpurlPrefix = useRuntimeStore().runtimeInfo.buildString === 'Release Build' ? 'next' : 'www'
       this.workspace.registerButtonCallback('ohBlocklyHelp', function (button) {
         window.open(`https://${button.targetWorkspace.helpurlPrefix}.openhab.org/docs/${button.info.helpurl}`, '_blank')
       })
@@ -1414,7 +1411,7 @@ export default {
     },
     registerLibraryCallbacks (definitions) {
       definitions.forEach((definition) => {
-        this.workspace.registerToolboxCategoryCallback('LIBRARY_' + definition.uid, defineLibraryToolboxCategory(definition, this.$f7))
+        this.workspace.registerToolboxCategoryCallback('LIBRARY_' + definition.uid, defineLibraryToolboxCategory(definition, f7))
       })
     },
     showHideLabels (showLabels) {
@@ -1431,16 +1428,15 @@ export default {
     getRenderers () {
       const excludedRenderers = ['minimalist']
       const renderers = Object.keys(Blockly.registry.getAllItems('renderer'))
-        .filter(r => !excludedRenderers.includes(r))
+        .filter((r) => !excludedRenderers.includes(r))
         .sort()
       return renderers
     },
     getCurrentRenderer () {
-      return this.$f7.data.themeOptions.blocklyRenderer
+      return this.uiOptionsStore.blocklyRenderer
     },
     changeRenderer (newRenderer) {
-      this.$f7.data.themeOptions.blocklyRenderer = newRenderer
-      localStorage.setItem('openhab.ui:blockly.renderer', newRenderer)
+      this.uiOptionsStore.blocklyRenderer = newRenderer
 
       const dom = Blockly.Xml.workspaceToDom(this.workspace)
       this.workspace.dispose()

@@ -7,7 +7,7 @@
       <f7-nav-right>
         <f7-link icon-md="material:done_all"
                  @click="toggleCheck()"
-                 :text="($theme.ios) ? ((showCheckboxes) ? 'Done' : 'Select') : ''" />
+                 :text="theme.ios ? (showCheckboxes ? 'Done' : 'Select') : ''" />
       </f7-nav-right>
       <!-- <f7-nav-right>
         <f7-link
@@ -32,7 +32,7 @@
           :init="initSearchbar"
           search-container=".contacts-list"
           search-in=".item-title"
-          :disable-button="!$theme.aurora" />
+          :disable-button="!theme.aurora" />
       </f7-subnavbar>
     </f7-navbar>
     <f7-toolbar class="contextual-toolbar" v-if="showCheckboxes" bottom-ios>
@@ -74,8 +74,8 @@
                         :key="item.name"
                         media-item
                         :link="showCheckboxes ? null : item.name"
-                        :title="(item.label) ? item.label : item.name"
-                        :subtitle="(item.label) ? item.name : ''"
+                        :title="item.label ? item.label : item.name"
+                        :subtitle="item.label ? item.name : ''"
                         :after="item.type" />
         </f7-list-group>
       </f7-list>
@@ -87,18 +87,22 @@
         </f7-block>
       </f7-col>
     </f7-block>-->
-    <f7-fab position="right-bottom"
-            slot="fixed"
-            color="blue"
-            href="add">
-      <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
-      <f7-icon ios="f7:close" md="material:close" aurora="f7:close" />
-    </f7-fab>
+    <template #fixed>
+      <f7-fab position="right-bottom" color="blue" href="add">
+        <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
+        <f7-icon ios="f7:close" md="material:close" aurora="f7:close" />
+      </f7-fab>
+    </template>
   </f7-page>
 </template>
 
 <script>
+import { theme } from 'framework7-vue'
+
 export default {
+  setup () {
+    return { theme }
+  },
   data () {
     return {
       loading: false,
@@ -112,7 +116,7 @@ export default {
     }
   },
   mounted () {
-    // this.$f7.preloader.show()
+    // f7.preloader.show()
     this.loading = true
     this.$oh.api.get('/rest/items').then((data) => {
       this.items = data.sort((a, b) => {
@@ -130,7 +134,7 @@ export default {
         return prev
       }, {})
       this.loading = false
-      // this.$f7.preloader.hide()
+      // f7.preloader.hide()
       setTimeout(() => {
         this.initSearchbar = true
         this.$refs.listIndex.update()
@@ -158,6 +162,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>

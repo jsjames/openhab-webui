@@ -1,8 +1,7 @@
 import { lineIndent, findParent, isConfig, isComponent, isSlots, findComponentType } from './yaml-utils'
 import { cls, filterPartialCompletions, addTooltipHandlers, getClassNamesForParameter } from './hint-utils'
 
-import Vue from 'vue'
-import * as f7vue from 'framework7-vue'
+import { f7 } from 'framework7-vue'
 
 import * as SystemWidgets from '@/components/widgets/system'
 import * as StandardWidgets from '@/components/widgets/standard'
@@ -13,14 +12,18 @@ import * as PlanWidgets from '@/components/widgets/plan'
 import * as MapWidgets from '@/components/widgets/map'
 import { OhChartPageDefinition } from '@/assets/definitions/widgets/chart/page'
 import ChartWidgetsDefinitions from '@/assets/definitions/widgets/chart/index'
-import { OhLocationCardParameters, OhEquipmentCardParameters, OhPropertyCardParameters } from '@/assets/definitions/widgets/home'
+import {
+  OhLocationCardParameters,
+  OhEquipmentCardParameters,
+  OhPropertyCardParameters
+} from '@/assets/definitions/widgets/home'
 import { BlockLibrariesComponentDefinitions } from '@/assets/definitions/blockly/libraries-components'
 
 let itemsCache = null
 
 function getWidgetDefinitions (cm) {
   const mode = cm.state.originalMode
-  const componentType = (mode.indexOf(';type=') > 0) ? mode.split('=')[1] : undefined
+  const componentType = mode.indexOf(';type=') > 0 ? mode.split('=')[1] : undefined
   switch (componentType) {
     case 'chart':
       return [
@@ -30,17 +33,30 @@ function getWidgetDefinitions (cm) {
         })
       ]
     case 'plan':
-      return Object.values(PlanWidgets).map((c) => c.widget()).sort((c1, c2) => c1.name.localeCompare(c2.name))
+      return Object.values(PlanWidgets)
+        .map((c) => c.widget())
+        .sort((c1, c2) => c1.name.localeCompare(c2.name))
     case 'map':
-      return Object.values(MapWidgets).map((c) => c.widget()).sort((c1, c2) => c1.name.localeCompare(c2.name))
+      return Object.values(MapWidgets)
+        .map((c) => c.widget())
+        .sort((c1, c2) => c1.name.localeCompare(c2.name))
     case 'blocks':
-      return Object.values(BlockLibrariesComponentDefinitions).map((c) => c()).sort((c1, c2) => c1.name.localeCompare(c2.name))
+      return Object.values(BlockLibrariesComponentDefinitions)
+        .map((c) => c())
+        .sort((c1, c2) => c1.name.localeCompare(c2.name))
     default:
-      const ohComponents = Object.values({ ...SystemWidgets, ...LayoutWidgets, ...StandardWidgets, ...StandardListWidgets, ...StandardCellWidgets })
-        .filter((w) => w.widget && typeof w.widget === 'function')
+      const ohComponents = Object.values({
+        ...SystemWidgets,
+        ...LayoutWidgets,
+        ...StandardWidgets,
+        ...StandardListWidgets,
+        ...StandardCellWidgets
+      }).filter((w) => w.widget && typeof w.widget === 'function')
       const f7Components = Object.values(f7vue).filter((m) => m.name && m.name.indexOf('f7-') === 0)
       return [
-        ...(componentType === 'home') ? [OhLocationCardParameters(), OhEquipmentCardParameters(), OhPropertyCardParameters()] : [],
+        ...(componentType === 'home'
+          ? [OhLocationCardParameters(), OhEquipmentCardParameters(), OhPropertyCardParameters()]
+          : []),
         ...ohComponents.map((c) => c.widget()).sort((c1, c2) => c1.name.localeCompare(c2.name)),
         ...f7Components.sort((c1, c2) => c1.name.localeCompare(c2.name)),
         ...Object.keys(ChartWidgetsDefinitions).map((name) => {
@@ -52,17 +68,25 @@ function getWidgetDefinitions (cm) {
 
 function hintItems (cm, line, replaceAfterColon, addStatePropertySuffix, addQuotes) {
   const cursor = cm.getCursor()
-  const promise = (itemsCache) ? Promise.resolve(itemsCache) : cm.state.$oh.api.get('/rest/items?staticDataOnly=true')
+  const promise = itemsCache
+    ? Promise.resolve(itemsCache)
+    : cm.state.$oh.api.get('/rest/items?staticDataOnly=true')
   return promise.then((data) => {
     if (!itemsCache) itemsCache = data
     let ret = {
-      list: data.map((item) => {
-        return {
-          text: (addQuotes ? '\'' : '') + item.name + ((addStatePropertySuffix ? '.state' : '')) + (addQuotes ? '\'' : ''),
-          displayText: item.name,
-          description: `${(item.label) ? item.label + ' ' : ''}(${item.type})<br />${item.state}`
-        }
-      }).sort((i1, i2) => i1.text.localeCompare(i2.text))
+      list: data
+        .map((item) => {
+          return {
+            text:
+              (addQuotes ? '\'' : '') +
+              item.name +
+              (addStatePropertySuffix ? '.state' : '') +
+              (addQuotes ? '\'' : ''),
+            displayText: item.name,
+            description: `${item.label ? item.label + ' ' : ''}(${item.type})<br />${item.state}`
+          }
+        })
+        .sort((i1, i2) => i1.text.localeCompare(i2.text))
     }
     ret.list = filterPartialCompletions(cm, line, ret.list)
     if (replaceAfterColon) {
@@ -103,22 +127,86 @@ function hintExpression (cm, line) {
   if (line[cursor.ch - 1] === ' ' || line[cursor.ch - 1] === '=') {
     return {
       list: [
-        { text: 'items.', displayText: 'items', description: 'Access to item states' },
-        { text: 'props.', displayText: 'props', description: 'Access to the props of the parent root component' },
-        { text: 'config.', displayText: 'config', description: 'Access to the configuration of the current component' },
-        { text: 'vars.', displayText: 'vars', description: 'Access to context vars' },
-        { text: 'fn.', displayText: 'fn', description: 'Access to oh-context functions' },
-        { text: 'const.', displayText: 'const', description: 'Access to oh-context constants' },
-        { text: 'loop.', displayText: 'loop', description: 'Access to oh-repeater loop variables' },
-        { text: 'JSON.', displayText: 'JSON', description: 'Access to the JSON object functions' },
-        { text: 'Math.', displayText: 'Math', description: 'Access to the Math object functions' },
-        { text: 'Number.', displayText: 'Number', description: 'Access to the Number object functions' },
-        { text: 'theme', displayText: 'theme', description: 'The current theme: aurora, ios, or md' },
-        { text: 'themeOptions', displayText: 'themeOptions', description: 'Object with current theme options' },
-        { text: 'device', displayText: 'device', description: 'Object with information about the current device & browser' },
-        { text: 'user', displayText: 'user', description: 'Access the username and roles of the logged in user' },
-        { text: 'screen', displayText: 'screen', description: 'Object with information about the screen and available view area' },
-        { text: 'dayjs', displayText: 'dayjs', description: 'Access to the Day.js object for date manipulation & formatting' }
+        {
+          text: 'items.',
+          displayText: 'items',
+          description: 'Access to item states'
+        },
+        {
+          text: 'props.',
+          displayText: 'props',
+          description: 'Access to the props of the parent root component'
+        },
+        {
+          text: 'config.',
+          displayText: 'config',
+          description: 'Access to the configuration of the current component'
+        },
+        {
+          text: 'vars.',
+          displayText: 'vars',
+          description: 'Access to context vars'
+        },
+        {
+          text: 'fn.',
+          displayText: 'fn',
+          description: 'Access to oh-context functions'
+        },
+        {
+          text: 'const.',
+          displayText: 'const',
+          description: 'Access to oh-context constants'
+        },
+        {
+          text: 'loop.',
+          displayText: 'loop',
+          description: 'Access to oh-repeater loop variables'
+        },
+        {
+          text: 'JSON.',
+          displayText: 'JSON',
+          description: 'Access to the JSON object functions'
+        },
+        {
+          text: 'Math.',
+          displayText: 'Math',
+          description: 'Access to the Math object functions'
+        },
+        {
+          text: 'Number.',
+          displayText: 'Number',
+          description: 'Access to the Number object functions'
+        },
+        {
+          text: 'theme',
+          displayText: 'theme',
+          description: 'The current theme: aurora, ios, or md'
+        },
+        {
+          text: 'themeOptions',
+          displayText: 'themeOptions',
+          description: 'Object with current theme options'
+        },
+        {
+          text: 'device',
+          displayText: 'device',
+          description: 'Object with information about the current device & browser'
+        },
+        {
+          text: 'user',
+          displayText: 'user',
+          description: 'Access the username and roles of the logged in user'
+        },
+        {
+          text: 'screen',
+          displayText: 'screen',
+          description: 'Object with information about the screen and available view area'
+        },
+        {
+          text: 'dayjs',
+          displayText: 'dayjs',
+          description: 'Access to the Day.js object for date manipulation & formatting'
+        }
       ]
     }
   } else {
@@ -135,12 +223,11 @@ function hintExpression (cm, line) {
 
 function f7ComponentParameters (componentName) {
   console.debug(f7vue)
-  const Component = Vue.options.components[componentName]
+  //TODO-V3 const Component = Vue.options.components[componentName]
   if (!Component) return []
   let f7vueComponent
 
   for (const m in f7vue) {
-    // eslint-disable-next-line import/namespace
     if (f7vue[m].name === componentName) f7vueComponent = f7vue[m]
   }
   console.debug(f7vueComponent)
@@ -149,12 +236,21 @@ function f7ComponentParameters (componentName) {
   const instance = new Component()
   for (const propName in f7vueComponent.props) {
     const prop = f7vueComponent.props[propName]
-    const propType = (Array.isArray(prop.type)) ? prop.type.map((t) => t.name).join(' | ') : prop.type.name
-    const paramType = (propType === 'String') ? 'TEXT' : (propType === 'Number') ? 'INTEGER' : (propType === 'Boolean') ? 'BOOLEAN' : 'UNKNOWN'
+    const propType = Array.isArray(prop.type)
+      ? prop.type.map((t) => t.name).join(' | ')
+      : prop.type.name
+    const paramType =
+      propType === 'String'
+        ? 'TEXT'
+        : propType === 'Number'
+          ? 'INTEGER'
+          : propType === 'Boolean'
+            ? 'BOOLEAN'
+            : 'UNKNOWN'
     params.push({
       name: propName,
       label: propName,
-      description: `${propType}<br />${(instance.props[propName] !== undefined) ? `Default value: ${JSON.stringify(instance.props[propName])}` : ''}<br /><br />See ${componentName} docs`,
+      description: `${propType}<br />${instance.props[propName] !== undefined ? `Default value: ${JSON.stringify(instance.props[propName])}` : ''}<br /><br />See ${componentName} docs`,
       type: paramType
     })
   }
@@ -171,11 +267,17 @@ function hintConfig (cm, line, parentLineNr) {
   const colonPos = line.indexOf(':')
   const afterColon = colonPos > 0 && cursor.ch > colonPos
   const widgetDefinition = getWidgetDefinitions(cm).find((d) => d.name === componentType)
-  let parameters = (componentType.indexOf('f7-') === 0) ? f7ComponentParameters(componentType)
-    : (widgetDefinition && widgetDefinition.props) ? widgetDefinition.props.parameters : []
+  let parameters =
+    componentType.indexOf('f7-') === 0
+      ? f7ComponentParameters(componentType)
+      : widgetDefinition && widgetDefinition.props
+        ? widgetDefinition.props.parameters
+        : []
   if (componentType.indexOf('oh-') === 0) {
     // try our luck and find a matching underlying f7-vue component...
-    const f7parameters = f7ComponentParameters(componentType.replace('oh-', 'f7-').replace('-card', ''))
+    const f7parameters = f7ComponentParameters(
+      componentType.replace('oh-', 'f7-').replace('-card', '')
+    )
     if (f7parameters.length) {
       parameters.push(...f7parameters.filter((p) => !parameters.find((p2) => p2.name === p.name)))
     }
@@ -223,7 +325,7 @@ function hintConfig (cm, line, parentLineNr) {
 
 function hintComponentStructure (cm, line, parentLineNr) {
   const cursor = cm.getCursor()
-  const indent = (parentLineNr !== undefined) ? lineIndent(cm, parentLineNr) : -2
+  const indent = parentLineNr !== undefined ? lineIndent(cm, parentLineNr) : -2
   let ret = {
     list: [
       {
@@ -235,9 +337,13 @@ function hintComponentStructure (cm, line, parentLineNr) {
         displayText: 'slots'
       },
       {
-        text: ' '.repeat(indent + 2) + 'slots:\n' +
-          ' '.repeat(indent + 4) + 'default:\n' +
-          ' '.repeat(indent + 6) + '- component: ',
+        text:
+          ' '.repeat(indent + 2) +
+          'slots:\n' +
+          ' '.repeat(indent + 4) +
+          'default:\n' +
+          ' '.repeat(indent + 6) +
+          '- component: ',
         displayText: 'default slot'
       }
     ]
@@ -254,9 +360,11 @@ function hintSlots (cm, line, parentLineNr) {
   const definitions = getWidgetDefinitions(cm)
   let completions = definitions.map((c) => {
     return {
-      text: ' '.repeat(indent + 2) + `- component: ${c.name}\n` +
-// ' '.repeat(indent + 4) + 'config:\n' +
-' '.repeat(indent + 4),
+      text:
+        ' '.repeat(indent + 2) +
+        `- component: ${c.name}\n` +
+        // ' '.repeat(indent + 4) + 'config:\n' +
+        ' '.repeat(indent + 4),
       displayText: c.name,
       componentName: c.name,
       className: `${cls}completion ${cls}completion-unknown`,
