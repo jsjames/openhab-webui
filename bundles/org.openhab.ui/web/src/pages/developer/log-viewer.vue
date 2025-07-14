@@ -652,7 +652,7 @@ export default {
       if (this.filterText == null) {
         this.filterText = '';
       } else {
-        this.$refs.searchbar.f7Searchbar.query = this.filterText;
+        this.$refs.searchbar.$el.f7Searchbar.query = this.filterText;
       }
       this.filterTextLowerCase = this.filterText.trim().toLocaleLowerCase();
 

@@ -11,7 +11,11 @@ import DirtyMixin from '../dirty-mixin';
 
 export default {
   mixins: [DirtyMixin],
-  props: ['pageCopy'],
+  props: {
+    pageCopy: Object,
+    f7router: Object,
+    f7route: Object,
+  },
   data() {
     return {
       pageReady: false,
@@ -182,7 +186,7 @@ export default {
                 closeTimeout: 2000,
               })
               .open();
-            this.$f7router.navigate(this.$f7route.url.replace('/add', '/' + this.page.uid), {
+            this.f7router.navigate(this.f7route.url.replace('/add', '/' + this.page.uid), {
               reloadCurrent: true,
             });
             this.load();
@@ -196,7 +200,7 @@ export default {
               .open();
           }
           f7.emit('sidebar-refresh', null);
-          // if (!stay) this.$f7router.back()
+          // if (!stay) this.f7router.back()
         })
         .catch(err => {
           f7.toast
@@ -263,7 +267,7 @@ export default {
         componentType: this.type,
       };
 
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'configure-widget',
           route: {
@@ -293,7 +297,7 @@ export default {
         component: WidgetCodePopup,
       };
 
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'widget-code',
           route: {
@@ -303,7 +307,7 @@ export default {
         },
         {
           props: {
-            componentType: this.$f7router.currentRoute.params.type,
+            componentType: this.f7router.currentRoute.params.type,
             component: this.currentComponent,
           },
         }

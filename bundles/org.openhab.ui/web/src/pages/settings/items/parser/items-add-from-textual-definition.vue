@@ -182,7 +182,10 @@ export default {
         )
     ),
   },
-  props: ['textualDefinition'],
+  props: {
+    textualDefinition: String,
+    f7router: Object,
+  },
   setup() {
     return { theme };
   },
@@ -312,7 +315,7 @@ export default {
                 })
                 .open();
               dialog.close();
-              this.$f7router.back();
+              this.f7router.back();
             })
             .catch(err => {
               dialog.close();

@@ -268,7 +268,11 @@ export default {
     OhLayoutPage,
     PageSettings,
   },
-  props: ['createMode', 'uid'],
+  props: {
+    createMode: Boolean,
+    uid: String,
+    f7router: Object,
+  },
   setup() {
     return { theme };
   },
@@ -290,7 +294,7 @@ export default {
       detailsOpened: false,
       modelPickerAllowMultiple: true,
       modelPickerOpened: false,
-      fullscreen: this.$fullscreen.getState(),
+      fullscreen: this.$fullscreen.isFullscreen,
     };
   },
   created() {
@@ -330,7 +334,7 @@ export default {
             component: ModelPickerPopup,
           };
 
-          this.$f7router.navigate(
+          this.f7router.navigate(
             {
               url: 'pick-from-model',
               route: {

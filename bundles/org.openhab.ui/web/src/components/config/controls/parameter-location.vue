@@ -28,7 +28,12 @@ import LocationPickerPopup from './location-picker-popup.vue';
 import { f7, theme } from 'framework7-vue';
 
 export default {
-  props: ['configDescription', 'value', 'placeholder'],
+  props: {
+    configDescription: String,
+    value: Object,
+    placeholder: String,
+    f7router: Object,
+  },
   emits: ['input'],
   setup: () => {
     return { theme };
@@ -42,7 +47,7 @@ export default {
         component: LocationPickerPopup,
       };
 
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'pick-location',
           route: {

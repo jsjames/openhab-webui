@@ -137,7 +137,7 @@ export default {
       colNum: Number,
       screenWidth: Number,
       screenHeight: Number,
-      fullscreen: this.$fullscreen.getState(),
+      fullscreen: this.$fullscreen.isFullscreen,
       navbarHidden: false,
       style: {
         width: Number,

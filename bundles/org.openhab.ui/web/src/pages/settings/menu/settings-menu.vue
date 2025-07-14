@@ -393,12 +393,10 @@ export default {
                 ].includes(a.contentType)
             )
             .sort((s1, s2) => this.sortByLabel(s1, s2));
-          console.log('addonsInstalled', this.addonsInstalled);
           this.persistenceAddonsInstalled = this.addonsInstalled.filter(
             a => a.installed && a.type === 'persistence'
           );
           this.addonsLoaded = true;
-          console.log('addonsLoaded', this.addonsLoaded);
         });
       }
     },

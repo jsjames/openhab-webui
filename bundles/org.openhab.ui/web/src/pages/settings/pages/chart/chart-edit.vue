@@ -155,7 +155,11 @@ export default {
     ChartDesigner,
     ConfigSheet,
   },
-  props: ['createMode', 'uid'],
+  props: {
+    createMode: Boolean,
+    uid: String,
+    f7router: Object,
+  },
   setup() {
     return { theme };
   },
@@ -232,7 +236,7 @@ export default {
         component: WidgetSlotConfigPopup,
       };
 
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'configure-slot',
           route: {

@@ -212,7 +212,12 @@ export default {
         )
     ),
   },
-  props: ['transformationId', 'createMode'],
+  props: {
+    transformationId: String,
+    createMode: Boolean,
+    f7router: Object,
+    f7route: Object,
+  },
   setup() {
     return { theme };
   },
@@ -330,10 +335,9 @@ export default {
               closeTimeout: 2000,
             })
             .open();
-          this.$f7router.navigate(
-            this.$f7route.url.replace('/add', '/' + this.transformation.uid),
-            { reloadCurrent: true }
-          );
+          this.f7router.navigate(this.f7route.url.replace('/add', '/' + this.transformation.uid), {
+            reloadCurrent: true,
+          });
         });
     },
     load() {
@@ -391,7 +395,7 @@ export default {
         () => {
           this.$oh.api.delete('/rest/transformations/' + this.transformation.uid).then(() => {
             this.dirty = false;
-            this.$f7router.back('/settings/transformations/', {
+            this.f7router.back('/settings/transformations/', {
               force: true,
             });
           });

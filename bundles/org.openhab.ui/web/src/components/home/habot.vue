@@ -140,6 +140,9 @@ import SpeechButton from './speech-button.vue';
 import { loadLocaleMessages } from '@/js/i18n';
 
 export default {
+  props: {
+    f7router: Object,
+  },
   components: {
     SpeechButton,
   },
@@ -296,7 +299,7 @@ export default {
         // there's a chart to display - image widgets are not implemented yet so simply open the analyzer
         const items = habotCard.slots.media[0].config.items.join(',');
         const period = habotCard.slots.media[0].config.period;
-        this.$f7router.navigate(`/analyzer/?items=${items}&period=${period}`);
+        this.f7router.navigate(`/analyzer/?items=${items}&period=${period}`);
         this.card = {
           component: 'f7-card',
           config: {

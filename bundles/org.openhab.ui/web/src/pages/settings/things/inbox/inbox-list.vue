@@ -76,7 +76,7 @@
           &nbsp;Approve
         </f7-button>
         <!-- buttons for wider screen -->
-        <template v-if="$f7.width >= 500">
+        <template v-if="f7.width >= 500">
           <f7-button
             @click="copyFileDefinitionToClipboard(ObjectType.THING, selectedItems)"
             color="blue"
@@ -179,7 +179,7 @@
             </template>
           </span>
           <div
-            v-if="!$device.desktop && $f7.width < 1024"
+            v-if="!$device.desktop && f7.width < 1024"
             style="text-align: right; color: var(--f7-block-text-color); font-weight: normal"
             class="float-right"
           >
@@ -304,6 +304,7 @@ export default {
   },
   data() {
     return {
+      f7,
       ready: false,
       loading: false,
       initSearchbar: false,
@@ -385,7 +386,7 @@ export default {
           this.$refs.listIndex.update();
           nextTick(() => {
             if (this.$device.desktop && this.$refs.searchbar) {
-              this.$refs.searchbar.f7Searchbar.$inputEl[0].focus();
+              this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
             }
           });
         });
@@ -653,7 +654,7 @@ export default {
           this.selectedItems = [];
           dialog.close();
           if (navigateToThingsPage) {
-            this.$f7router.navigate('/settings/things/', {
+            this.f7router.navigate('/settings/things/', {
               props: {
                 searchFor,
               },

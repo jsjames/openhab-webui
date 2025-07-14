@@ -156,7 +156,13 @@ export default {
     Item,
     ItemStatePreview,
   },
-  props: ['thing', 'channel', 'item', 'source'],
+  props: {
+    thing: Object,
+    channel: Object,
+    item: Object,
+    source: String,
+    f7router: Object,
+  },
   setup() {
     return { theme };
   },
@@ -236,10 +242,10 @@ export default {
     goBackWithDirtyCheck() {
       if (this.dirty) {
         this.confirmLeaveWithoutSaving(() => {
-          this.$f7router.back();
+          this.f7router.back();
         });
       } else {
-        this.$f7router.back();
+        this.f7router.back();
       }
     },
     onProfileTypeChange(profileTypeUid) {
@@ -285,7 +291,7 @@ export default {
                   closeTimeout: 2000,
                 })
                 .open();
-              this.$f7router.back();
+              this.f7router.back();
             })
             .catch(err => {
               f7.toast
@@ -331,7 +337,7 @@ export default {
                     })
                     .open();
                 });
-              this.$f7router.back();
+              this.f7router.back();
             })
             .catch(err => {
               f7.toast
@@ -373,7 +379,7 @@ export default {
                   closeTimeout: 2000,
                 })
                 .open();
-              this.$f7router.back();
+              this.f7router.back();
             });
         })
         .catch(err => {

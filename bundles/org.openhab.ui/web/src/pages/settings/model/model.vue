@@ -46,7 +46,7 @@
     </f7-navbar>
 
     <!-- Toolbar -->
-    <f7-toolbar bottom class="toolbar-details" v-if="$f7.width >= 500">
+    <f7-toolbar bottom class="toolbar-details" v-if="f7.width >= 500">
       <f7-link
         :disabled="selectedItem != null ? true : null"
         class="left"
@@ -415,6 +415,9 @@ import LinkDetails from '@/components/model/link-details.vue';
 import ModelMixin from '@/pages/settings/model/model-mixin';
 
 export default {
+  props: {
+    f7router: Object,
+  },
   mixins: [ModelMixin],
   components: {
     'empty-state-placeholder': defineAsyncComponent(
@@ -433,6 +436,7 @@ export default {
   data() {
     if (!f7.data.model) f7.data.model = {};
     return {
+      f7,
       includeItemName: f7.data.model.includeItemName || false,
       includeItemTags: f7.data.model.includeItemTags || false,
       expanded: f7.data.model.expanded || false,
@@ -477,7 +481,7 @@ export default {
       this.detailsOpened = false;
       this.$store.dispatch('stopTrackingStates');
       this.stopEventSource();
-      f7.data.lastModelSearchQuery = this.$refs.searchbar?.f7Searchbar.query;
+      f7.data.lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     modelItem(item) {
       const modelItem = {
@@ -506,16 +510,16 @@ export default {
     },
     load() {
       if (this.initSearchbar)
-        f7.data.lastModelSearchQuery = this.$refs.searchbar?.f7Searchbar.query;
+        f7.data.lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
       this.initSearchbar = false;
 
       this.loadModel().then(() => {
         this.initSearchbar = true;
         nextTick(() => {
           if (this.$device.desktop && this.$refs.searchbar) {
-            this.$refs.searchbar.f7Searchbar.$inputEl[0].focus();
+            this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
           }
-          this.$refs.searchbar?.f7Searchbar.search(f7.data.lastModelSearchQuery || '');
+          this.$refs.searchbar?.$el.f7Searchbar.search(f7.data.lastModelSearchQuery || '');
           this.restoreExpanded();
         });
         if (!this.eventSource) this.startEventSource();
@@ -645,7 +649,7 @@ export default {
       this.load();
     },
     addFromThing(createEquipment) {
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'add-thing',
           route: {
@@ -666,7 +670,7 @@ export default {
       );
     },
     addFromLocationTemplate() {
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'add-template',
           route: {

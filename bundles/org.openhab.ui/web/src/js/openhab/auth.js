@@ -144,10 +144,10 @@ export function isAdmin() {
 
 export function enforceAdminForRoute(context) {
   if (!isAdmin()) {
-    context.props.reject();
+    context.reject();
     authorize();
   } else {
-    context.props.resolve();
+    context.resolve();
   }
 }
 

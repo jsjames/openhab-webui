@@ -3,6 +3,9 @@ import FileDefinition from '@/pages/settings/file-definition-mixin';
 import { f7 } from 'framework7-vue';
 
 export default {
+  props: {
+    f7router: Object,
+  },
   mixins: [ThingMixin, FileDefinition],
   methods: {
     /**
@@ -60,7 +63,7 @@ export default {
               dialog.close();
               this.approveEntry(entry, label, newThingId)
                 .then(() => {
-                  if (redirect) this.$f7router.navigate('/settings/things/' + newThingUID);
+                  if (redirect) this.f7router.navigate('/settings/things/' + newThingUID);
                   else loadFn();
                 })
                 .catch(() => loadFn());

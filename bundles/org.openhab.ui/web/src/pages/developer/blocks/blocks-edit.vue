@@ -21,7 +21,7 @@
         icon-f7="uiwindow_split_2x1"
         @click="
           split = split === 'horizontal' ? 'vertical' : 'horizontal';
-          blockKey = $f7.utils.id();
+          blockKey = utils.id();
         "
       />
       <f7-link @click="refreshBlocks">
@@ -183,12 +183,18 @@ export default {
     BlocklyEditor, // 'blockly-editor': () => import(/* webpackChunkName: "blockly-editor" */ '@/components/config/controls/blockly-editor.vue'),
     BlockPreview, // 'block-preview': () => import(/* webpackChunkName: "blockly-editor" */ './block-preview.vue')
   },
-  props: ['uid', 'createMode'],
+  props: {
+    uid: String,
+    createMode: Boolean,
+    f7router: Object,
+    f7route: Object,
+  },
   setup() {
     return { theme };
   },
   data() {
     return {
+      utils,
       blocksDefinition: null,
       items: [],
       ready: false,
@@ -397,7 +403,7 @@ export default {
                 closeTimeout: 2000,
               })
               .open();
-            this.$f7router.navigate(this.$f7route.url.replace('/add', '/' + this.blocks.uid), {
+            this.f7router.navigate(this.f7route.url.replace('/add', '/' + this.blocks.uid), {
               reloadCurrent: true,
             });
             this.load();
@@ -411,7 +417,7 @@ export default {
               .open();
           }
           // f7.emit('sidebar-refresh', null)
-          // if (!stay) this.$f7router.back()
+          // if (!stay) this.f7router.back()
         })
         .catch(err => {
           f7.toast

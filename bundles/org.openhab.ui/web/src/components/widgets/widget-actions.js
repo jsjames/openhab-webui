@@ -369,8 +369,8 @@ export const actionsMixin = {
                     photos: resolvedPhotos,
                   });
                   // automatically select the dark theme if not specified
-                  //TODO if (!photoBrowserParams.theme && self.$f7.darkTheme) photoBrowserParams.theme = 'dark'
-                  self.$f7.photoBrowser.create(photoBrowserParams).open();
+                  //TODO if (!photoBrowserParams.theme && self.f7.darkTheme) photoBrowserParams.theme = 'dark'
+                  self.f7.photoBrowser.create(photoBrowserParams).open();
                 });
               }
               break;
@@ -378,7 +378,6 @@ export const actionsMixin = {
               const actionGroupItem = actionConfig[prefix + 'actionGroupPopupItem'];
               console.log(`Opening ${actionGroupItem} details in popup`);
               let groupPopupRoute = {
-                name: 'group-popup',
                 url: '/group/' + actionGroupItem,
                 route: {
                   popup: {

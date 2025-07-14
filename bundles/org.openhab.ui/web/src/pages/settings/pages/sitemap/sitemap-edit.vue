@@ -543,7 +543,13 @@ export default {
     AttributeDetails,
     SitemapTreeviewItem,
   },
-  props: ['createMode', 'uid', 'itemsList'],
+  props: {
+    createMode: Boolean,
+    uid: String,
+    itemsList: Array,
+    f7router: Object,
+    f7route: Object,
+  },
   setup() {
     return { theme };
   },
@@ -719,7 +725,7 @@ export default {
               })
               .open();
             this.load();
-            this.$f7router.navigate(this.$f7route.url.replace('/add', '/' + sitemap.uid), {
+            this.f7router.navigate(this.f7route.url.replace('/add', '/' + sitemap.uid), {
               reloadCurrent: true,
             });
           } else {
@@ -734,7 +740,7 @@ export default {
             this.setParents(sitemap);
           }
           f7.emit('sidebar-refresh', null);
-          // if (!stay) this.$f7router.back()
+          // if (!stay) this.f7router.back()
         })
         .catch(err => {
           f7.toast

@@ -35,7 +35,10 @@ export default {
   components: {
     ConfigSheet,
   },
-  props: ['serviceId'],
+  props: {
+    serviceId: String,
+    f7router: Object,
+  },
   setup() {
     return { theme };
   },
@@ -74,7 +77,7 @@ export default {
       }
       this.savedConfig = cloneDeep(this.config);
       this.dirty = false;
-      this.$f7router.back();
+      this.f7router.back();
     },
     onPageAfterIn() {
       if (window) {

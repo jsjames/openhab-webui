@@ -466,7 +466,10 @@ export default {
         )
     ),
   },
-  props: ['serviceId'],
+  props: {
+    serviceId: String,
+    f7router: Object,
+  },
   setup() {
     return { theme };
   },
@@ -637,7 +640,7 @@ export default {
         () => {
           this.$oh.api.delete('/rest/persistence/' + this.serviceId).then(() => {
             this.dirty = false;
-            this.$f7router.back({ force: true });
+            this.f7router.back({ force: true });
           });
         }
       );
@@ -663,7 +666,7 @@ export default {
       const popup = {
         component: ConfigurationPopup,
       };
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'configuration-config',
           route: {
@@ -699,7 +702,7 @@ export default {
       const popup = {
         component: CronStrategyPopup,
       };
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'cron-strategy-config',
           route: {
@@ -743,7 +746,7 @@ export default {
       const popup = {
         component: FilterPopup,
       };
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'filter-config',
           route: {

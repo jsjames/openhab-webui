@@ -172,7 +172,12 @@ export default {
     ItemForm,
     ItemPicker,
   },
-  props: ['parent', 'createEquipment', 'thingId'],
+  props: {
+    parent: Object,
+    createEquipment: Boolean,
+    thingId: String,
+    f7router: Object, // Added for navigation
+  },
   setup() {
     return { theme };
   },
@@ -230,7 +235,7 @@ export default {
           parentGroupsForPoints
         );
 
-        this.$f7router.navigate('/settings/items/add-from-textual-definition', {
+        this.f7router.navigate('/settings/items/add-from-textual-definition', {
           props: {
             textualDefinition: itemsDefinition,
           },
@@ -372,7 +377,7 @@ export default {
                     })
                     .open();
                   dialog.close();
-                  this.$f7router.back();
+                  this.f7router.back();
                 })
                 .catch(err => {
                   dialog.close();
@@ -400,7 +405,7 @@ export default {
         component: ModelPickerPopup,
       };
 
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'pick-from-model',
           route: {

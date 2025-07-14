@@ -181,7 +181,7 @@
 
     <f7-block v-if="ready && !items.length" class="block-narrow">
       <empty-state-placeholder icon="square_on_circle" title="items.title" text="items.text" />
-      <f7-row v-if="$f7.width < 1280" class="display-flex justify-content-center">
+      <f7-row v-if="f7.width < 1280" class="display-flex justify-content-center">
         <f7-button
           large
           fill
@@ -226,9 +226,15 @@ import FileDefinition from '@/pages/settings/file-definition-mixin';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
+import { useUIOptionsStore } from '@/js/stores/ui-options';
+
+const uiOptionsStore = useUIOptionsStore();
 
 export default {
   mixins: [ItemMixin, FileDefinition],
+  props: {
+    f7router: Object,
+  },
   components: {
     'empty-state-placeholder': defineAsyncComponent(
       () => import('@/components/empty-state-placeholder.vue')
@@ -239,6 +245,7 @@ export default {
   },
   data() {
     return {
+      f7,
       ready: false,
       initSearchbar: false,
       loading: false,
@@ -264,13 +271,14 @@ export default {
     },
     onPageBeforeOut(event) {
       this.stopEventSource();
-      f7.data.lastItemSearchQuery = this.$refs.searchbar?.f7Searchbar.query;
+      uiOptionsStore.lastItemSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load() {
       if (this.loading) return;
       this.loading = true;
 
-      if (this.initSearchbar) f7.data.lastItemSearchQuery = this.$refs.searchbar?.f7Searchbar.query;
+      if (this.initSearchbar)
+        uiOptionsStore.lastItemSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
       this.initSearchbar = false;
 
       this.$oh.api.get('/rest/items?metadata=semantics').then(data => {
@@ -279,7 +287,7 @@ export default {
           const labelB = b.label || b.name;
           return labelA.localeCompare(labelB);
         });
-        this.$refs.itemsList.f7VirtualList.replaceAllItems(this.items);
+        this.$refs.itemsList.$el.f7VirtualList.replaceAllItems(this.items);
         this.initSearchbar = true;
         this.loading = false;
 
@@ -288,9 +296,9 @@ export default {
 
         nextTick(() => {
           if (this.$device.desktop) {
-            this.$refs.searchbar?.f7Searchbar.$inputEl[0].focus();
+            this.$refs.searchbar?.$el.f7Searchbar.$el.focus();
           }
-          this.$refs.searchbar?.f7Searchbar.search(f7.data.lastItemSearchQuery || '');
+          this.$refs.searchbar?.$el.f7Searchbar.search(uiOptionsStore.lastItemSearchQuery || '');
         });
       });
     },
@@ -316,11 +324,11 @@ export default {
     },
     filterSelectedItems(event) {
       this.searchQuery = event?.query;
-      if (!this.$refs.itemsList.f7VirtualList.filteredItems) {
+      if (!this.$refs.itemsList.$el.f7VirtualList.filteredItems) {
         return;
       }
       this.selectedItems = this.selectedItems.filter(i =>
-        this.$refs.itemsList.f7VirtualList.filteredItems.find(item => item.name === i)
+        this.$refs.itemsList.$el.f7VirtualList.filteredItems.find(item => item.name === i)
       );
     },
     searchAll(query, items) {
@@ -371,7 +379,7 @@ export default {
       if (this.showCheckboxes) {
         this.toggleItemCheck(event, item.name, item);
       } else {
-        this.$f7router.navigate(item.name);
+        this.f7router.navigate(item.name);
       }
     },
     ctrlClick(event, item) {
@@ -389,8 +397,8 @@ export default {
     selectDeselectAll() {
       if (this.allSelected) {
         this.selectedItems = [];
-      } else if (this.$refs.itemsList.f7VirtualList.filteredItems?.length > 0) {
-        this.selectedItems = this.$refs.itemsList.f7VirtualList.filteredItems.map(i => i.name);
+      } else if (this.$refs.itemsList.$el.f7VirtualList.filteredItems?.length > 0) {
+        this.selectedItems = this.$refs.itemsList.$el.f7VirtualList.filteredItems.map(i => i.name);
       } else {
         this.selectedItems = this.items.map(i => i.name);
       }
@@ -449,7 +457,7 @@ export default {
     },
     filteredItemsCount() {
       if (this.searchQuery) {
-        return this.$refs.itemsList.f7VirtualList.filteredItems.length;
+        return this.$refs.itemsList.$el.f7VirtualList.filteredItems.length;
       }
       return this.items.length;
     },

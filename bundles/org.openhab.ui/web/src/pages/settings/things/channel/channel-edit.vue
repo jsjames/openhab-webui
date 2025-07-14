@@ -43,14 +43,22 @@
 <script>
 import ChannelGeneralSettings from '@/pages/settings/things/channel/channel-general-settings.vue';
 import ConfigSheet from '@/components/config/config-sheet.vue';
-import { theme } from 'framework7-vue';
+import { f7, theme } from 'framework7-vue';
 
 export default {
   components: {
     ChannelGeneralSettings,
     ConfigSheet,
   },
-  props: ['thing', 'thingType', 'channel', 'channelType', 'channelId'],
+  props: {
+    thing: Object,
+    thingType: Object,
+    channel: Object,
+    channelType: Object,
+    channelId: String,
+    f7router: Object,
+    f7route: Object,
+  },
   setup() {
     return { theme };
   },
@@ -81,8 +89,8 @@ export default {
       let finalChannel = Object.assign({}, this.channel, {
         configuration: this.config,
       });
-      this.$f7route.route.context.finalChannel = finalChannel;
-      this.$f7router.back();
+      this.f7route.route.context.finalChannel = finalChannel;
+      this.f7router.back();
       // this.$emit('channelAddComplete', finalChannel)
       // f7.view.main.emit('complete', finalChannel)
     },

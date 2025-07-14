@@ -67,7 +67,7 @@
           icon-md="material:exit_to_app"
           :tooltip="$t('home.otherApps')"
           panel-open="right"
-          @click="$store.state.developerDock ? $f7.emit('toggle-developer-dock') : ''"
+          @click="$store.state.developerDock ? f7.emit('toggle-developer-dock') : ''"
         />
       </f7-nav-right>
     </f7-navbar>
@@ -228,6 +228,7 @@ export default {
   },
   data() {
     return {
+      f7,
       showSetup: true,
       showTasks: true,
       showCards: false,
@@ -320,9 +321,8 @@ export default {
   },
   methods: {
     onPageBeforeIn() {
-      const { f7route, f7router } = this.$props;
-      f7router.updateCurrentUrl('/' + this.currentTab);
-      f7router.url = '/' + this.currentTab;
+      this.f7router.updateCurrentUrl('/' + this.currentTab);
+      this.f7router.url = '/' + this.currentTab;
       this.overviewPageKey = utils.id();
     },
     onPageAfterIn() {
@@ -347,8 +347,8 @@ export default {
     },
     switchTab(tab) {
       this.currentTab = tab;
-      this.$f7router.updateCurrentUrl('/' + this.currentTab);
-      this.$f7router.url = '/' + this.currentTab;
+      this.f7router.updateCurrentUrl('/' + this.currentTab);
+      this.f7router.url = '/' + this.currentTab;
     },
     tabVisible(tab) {
       if (!this.tabsVisible) return false;

@@ -84,7 +84,11 @@ import ThingMixin from '@/components/thing/thing-mixin';
 
 export default {
   mixins: [ThingMixin],
-  props: ['thingTypeId', 'thingCopy'],
+  props: {
+    thingTypeId: String,
+    thingCopy: Object,
+    f7router: Object,
+  },
   components: {
     ConfigSheet,
     ThingGeneralSettings,
@@ -188,7 +192,7 @@ export default {
               closeTimeout: 2000,
             })
             .open();
-          this.$f7router.navigate('/settings/things/' + this.thing.UID);
+          this.f7router.navigate('/settings/things/' + this.thing.UID);
         })
         .catch(error => {
           f7.dialog.alert('Error creating Thing: ' + error);

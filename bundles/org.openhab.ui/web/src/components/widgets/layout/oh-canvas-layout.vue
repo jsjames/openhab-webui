@@ -222,7 +222,7 @@ export default {
       layout: [],
       screenWidth: Number,
       screenHeight: Number,
-      fullscreen: this.$fullscreen.getState(),
+      fullscreen: this.$fullscreen.isFullscreen,
       navbarHidden: false,
       style: {
         width: Number,
@@ -247,6 +247,7 @@ export default {
     },
   },
   created() {
+    console.log('oh-canvas-layout created');
     if (this.config.layoutType === 'fixed' && this.config.fixedType === 'canvas') {
       this.style.width = this.screenWidth = this.config.screenWidth || 1280;
       this.style.height = this.screenHeight = this.config.screenHeight || 720;
@@ -258,7 +259,7 @@ export default {
         window.addEventListener('resize', this.setDimensions);
       }
     }
-    this.$fullscreen.support = true;
+    this.$fullscreen.isEnabled = true;
     this.canvasLayoutStyle();
     this.computeLayout();
   },

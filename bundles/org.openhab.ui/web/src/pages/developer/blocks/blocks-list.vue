@@ -141,6 +141,9 @@ import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 
 export default {
+  props: {
+    f7router: Object,
+  },
   setup() {
     return { theme };
   },
@@ -174,7 +177,7 @@ export default {
           this.initSearchbar = true;
           nextTick(() => {
             if (this.$device.desktop && this.$refs.searchbar) {
-              this.$refs.searchbar.f7Searchbar.$inputEl[0].focus();
+              this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
             }
           });
         });
@@ -190,7 +193,7 @@ export default {
       if (this.showCheckboxes) {
         this.toggleItemCheck(event, item.uid, item);
       } else {
-        this.$f7router.navigate(item.uid, { animate: false });
+        this.f7router.navigate(item.uid, { animate: false });
       }
     },
     ctrlClick(event, item) {

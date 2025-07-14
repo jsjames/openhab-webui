@@ -141,7 +141,10 @@ function compareModelItems(o1, o2) {
 }
 
 export default {
-  props: ['itemList'],
+  props: {
+    itemList: Array,
+    f7router: Object,
+  },
   components: {
     ModelTreeview,
   },
@@ -624,7 +627,7 @@ export default {
             })
             .open();
           dialog.close();
-          this.$f7router.back();
+          this.f7router.back();
         });
     },
     onPrefixInput(event) {

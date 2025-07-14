@@ -149,14 +149,14 @@ export default {
     },
     onPageBeforeOut() {
       this.stopEventSource();
-      f7.data.lastScheduleSearchQuery = this.$refs.searchbar?.f7Searchbar.query;
+      f7.data.lastScheduleSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load() {
       if (this.loading) return;
       this.loading = true;
 
       if (this.initSearchbar)
-        f7.data.lastScheduleSearchQuery = this.$refs.searchbar?.f7Searchbar.query;
+        f7.data.lastScheduleSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
       this.initSearchbar = false;
 
       let occurrences = [];
@@ -211,9 +211,9 @@ export default {
 
           nextTick(() => {
             if (this.$device.desktop && this.$refs.searchbar) {
-              this.$refs.searchbar.f7Searchbar.$inputEl[0].focus();
+              this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
             }
-            this.$refs.searchbar?.f7Searchbar.search(f7.data.lastScheduleSearchQuery || '');
+            this.$refs.searchbar?.$el.f7Searchbar.search(f7.data.lastScheduleSearchQuery || '');
           });
         })
         .catch((err, status) => {

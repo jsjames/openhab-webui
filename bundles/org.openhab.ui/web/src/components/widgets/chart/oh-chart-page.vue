@@ -40,7 +40,6 @@
 import mixin from '../widget-mixin';
 import OhChart from '../system/oh-chart.vue';
 import { OhChartPageDefinition } from '@/assets/definitions/widgets/chart/page';
-import { themeOptionsStore } from '@/js/stores/theme-options';
 
 export default {
   mixins: [mixin],
@@ -48,11 +47,6 @@ export default {
     OhChart,
   },
   widget: OhChartPageDefinition,
-  data() {
-    return {
-      themeOptions: themeOptionsStore(),
-    };
-  },
   methods: {
     onOrientationChange() {
       this.$refs.chart.forceRerender();

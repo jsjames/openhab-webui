@@ -85,7 +85,10 @@ export default {
   components: {
     ConfigSheet,
   },
-  props: ['addonId'],
+  props: {
+    addonId: String,
+    f7router: Object,
+  },
   setup() {
     return { theme };
   },
@@ -171,7 +174,7 @@ export default {
           .open();
       });
       this.dirty = false;
-      this.$f7router.back();
+      this.f7router.back();
     },
     onPageAfterIn() {
       if (window) {

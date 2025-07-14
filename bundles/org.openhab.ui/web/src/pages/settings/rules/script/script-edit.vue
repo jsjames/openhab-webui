@@ -388,7 +388,14 @@ export default {
         )
     ),
   },
-  props: ['ruleId', 'moduleId', 'createMode', 'ruleCopy'],
+  props: {
+    ruleId: String,
+    moduleId: String,
+    createMode: Boolean,
+    ruleCopy: Object,
+    f7router: Object,
+    f7route: Object,
+  },
   setup() {
     return { theme };
   },
@@ -621,8 +628,8 @@ export default {
               closeTimeout: 2000,
             })
             .open();
-          this.$f7router.navigate(
-            this.$f7route.url.replace(/(\/add)|(\/duplicate)/, '/' + this.rule.uid),
+          this.f7router.navigate(
+            this.f7route.url.replace(/(\/add)|(\/duplicate)/, '/' + this.rule.uid),
             { reloadCurrent: true }
           );
         });
@@ -866,7 +873,7 @@ export default {
     },
     duplicateRule() {
       let ruleClone = cloneDeep(this.rule);
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: '/settings/scripts/duplicate',
         },
@@ -884,7 +891,7 @@ export default {
         () => {
           this.$oh.api.delete('/rest/rules/' + this.rule.uid).then(() => {
             this.dirty = false;
-            this.$f7router.back('/settings/scripts/', { force: true });
+            this.f7router.back('/settings/scripts/', { force: true });
           });
         }
       );

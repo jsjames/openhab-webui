@@ -486,7 +486,7 @@ import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 import ChartTime from './chart-time';
 import ChartAggregate from './chart-aggregate';
 import ChartCalendar from './chart-calendar';
-import { utils } from '@/js/utils';
+import { utils } from 'framework7';
 import { f7, theme } from 'framework7-vue';
 import { nextTick, defineAsyncComponent } from 'vue';
 
@@ -501,11 +501,15 @@ export default {
     ItemPicker,
     EmptyStatePlaceholder,
   },
+  props: {
+    f7route: Object,
+  },
   setup() {
     return { theme };
   },
   data() {
     return {
+      f7,
       showChart: false,
       invalidConfiguration: false,
       itemNames: [],
@@ -585,18 +589,17 @@ export default {
       this.controlsOpened = false;
     },
     initChart() {
-      if (this.$f7route.query.period) this.period = this.$f7route.query.period;
-      if (this.$f7route.query.items === '') {
+      if (this.f7route.query.period) this.period = this.f7route.query.period;
+      if (this.f7route.query.items === '') {
         this.invalidConfiguration = true;
         return;
       }
-      this.updateItems(this.$f7route.query.items.split(',')).then(() => {
-        if (this.$f7route.query.chartType) this.changeChartType(this.$f7route.query.chartType);
-        if (this.$f7route.query.coordSystem)
-          this.changeCoordSystem(this.$f7route.query.coordSystem);
-        if (this.$f7route.query.aggregation) {
+      this.updateItems(this.f7route.query.items.split(',')).then(() => {
+        if (this.f7route.query.chartType) this.changeChartType(this.f7route.query.chartType);
+        if (this.f7route.query.coordSystem) this.changeCoordSystem(this.f7route.query.coordSystem);
+        if (this.f7route.query.aggregation) {
           for (const options in this.seriesOptions) {
-            this.seriesOptions[options].aggregation = this.$f7route.query.aggregation;
+            this.seriesOptions[options].aggregation = this.f7route.query.aggregation;
           }
         }
       });
@@ -830,11 +833,11 @@ export default {
         this.$t('analyzer.dialogs.save.title'),
         uid => {
           if (!uid.match(/^[A-Za-z0-9_]+$/)) {
-            self.$f7.dialog.alert(this.$t('analyzer.dialogs.save.invalid'));
+            self.f7.dialog.alert(this.$t('analyzer.dialogs.save.invalid'));
             return;
           }
           if (self.$store.getters.page(uid)) {
-            self.$f7.dialog.confirm(
+            self.f7.dialog.confirm(
               this.$t('analyzer.dialogs.save.replace.message', { uid }),
               this.$t('analyzer.dialogs.save.replace.title'),
               () => {

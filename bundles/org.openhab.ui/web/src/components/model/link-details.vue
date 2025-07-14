@@ -41,7 +41,11 @@ import { f7 } from 'framework7-vue';
 
 export default {
   mixins: [ThingStatus],
-  props: ['item', 'links'],
+  props: {
+    item: Object,
+    links: Array,
+    f7router: Object,
+  },
   data() {
     return {
       currentItemName: null,
@@ -111,7 +115,7 @@ export default {
       });
     },
     addLink() {
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'links/new',
           route: {
@@ -158,7 +162,7 @@ export default {
         return;
       }
 
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'links/edit/' + link.channel.uid,
           route: {

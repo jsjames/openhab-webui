@@ -72,7 +72,7 @@
 
 <script>
 import mixin from '../widget-mixin';
-import { LMarker, LTooltip, LIcon, LPopup } from 'vue2-leaflet';
+import { LMarker, LTooltip, LIcon, LPopup } from '@vue-leaflet/vue-leaflet';
 import { actionsMixin } from '../widget-actions';
 import { OhPlanMarkerDefinition } from '@/assets/definitions/widgets/plan';
 import { f7 } from 'framework7-vue';

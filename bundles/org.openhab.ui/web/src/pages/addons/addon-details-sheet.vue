@@ -125,6 +125,7 @@
 
 <script>
 import AddonInfoTable from '@/components/addons/addon-info-table.vue';
+import { f7 } from 'framework7-vue';
 
 export default {
   props: ['addonId', 'serviceId', 'opened', 'noDetails'],
@@ -147,7 +148,7 @@ export default {
           this.bindingInfo = {};
           return;
         }
-        self.$f7.preloader.show();
+        self.f7.preloader.show();
         this.$oh.api
           .get(
             '/rest/addons/' + this.addonId + (this.serviceId ? '?serviceId=' + this.serviceId : '')
@@ -155,7 +156,7 @@ export default {
           .then(data => {
             this.addon = data;
 
-            self.$f7.preloader.hide();
+            self.f7.preloader.hide();
             setTimeout(() => {
               if (!this.noDetails) self.$refs.sheet.f7Sheet.setSwipeStep();
               self.$refs.sheet.f7Sheet.open();

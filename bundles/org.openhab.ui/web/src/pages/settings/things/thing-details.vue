@@ -487,7 +487,10 @@ export default {
         )
     ),
   },
-  props: ['thingId'],
+  props: {
+    thingId: String,
+    f7router: Object,
+  },
   setup() {
     return { theme };
   },
@@ -806,7 +809,7 @@ export default {
       const popup = {
         component: ThingActionPopup,
       };
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'thing-action',
           route: {
@@ -852,7 +855,7 @@ export default {
       const popup = {
         component: ZWaveNetworkPopup,
       };
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'zwave-network',
           route: {
@@ -869,7 +872,7 @@ export default {
     },
     duplicateThing() {
       let thingClone = cloneDeep(this.thing);
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: '/settings/things/duplicate',
         },
@@ -893,12 +896,12 @@ export default {
       f7.dialog.confirm(message, 'Delete Thing', () => {
         this.$oh.api.delete(url).then(() => {
           this.dirty = this.configDirty = this.thingDirty = false;
-          this.$f7router.back('/settings/things/', { force: true });
+          this.f7router.back('/settings/things/', { force: true });
         });
       });
     },
     installBinding() {
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: '/addons/binding/',
         },
@@ -950,7 +953,7 @@ export default {
     },
     addChannel() {
       const self = this;
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'channels/new',
           route: {
@@ -983,7 +986,7 @@ export default {
       );
     },
     addToModel(createEquipment) {
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'add-to-model',
           route: {
@@ -1086,7 +1089,7 @@ export default {
                       closeTimeout: 2000,
                     })
                     .open();
-                  this.$f7router.back('/settings/things/', { force: true });
+                  this.f7router.back('/settings/things/', { force: true });
                   break;
                 case 'updated':
                   console.log('Thing updated according to SSE, reloading');

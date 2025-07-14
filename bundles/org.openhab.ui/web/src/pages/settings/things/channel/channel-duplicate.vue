@@ -40,7 +40,14 @@ export default {
     ChannelGeneralSettings,
     ConfigSheet,
   },
-  props: ['thing', 'channel', 'channelType', 'channelId'],
+  props: {
+    thing: Object,
+    channel: Object,
+    channelType: Object,
+    channelId: String,
+    f7router: Object,
+    f7route: Object,
+  },
   setup() {
     return { theme };
   },
@@ -94,9 +101,9 @@ export default {
         defaultTags: this.channel.defaultTags,
         configuration: this.config,
       });
-      this.$f7route.route.context.finalChannel = finalChannel;
-      // this.$f7router.emit('complete', finalChannel)
-      this.$f7router.back();
+      this.f7route.route.context.finalChannel = finalChannel;
+      // this.f7router.emit('complete', finalChannel)
+      this.f7router.back();
     },
   },
 };

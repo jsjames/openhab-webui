@@ -140,6 +140,9 @@ import ringFile from './oh-sipclient-ringtone.mp3';
 import ringBackFile from './oh-sipclient-ringback.mp3';
 
 export default {
+  props: {
+    f7router: Object,
+  },
   data() {
     return {
       connected: false,
@@ -402,7 +405,7 @@ export default {
     localSettingsPopup() {
       console.info(this.LOGGER_PREFIX + ': Opening local settings popup.');
       const popup = { component: WidgetConfigPopup };
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'local-sip-settings',
           route: { path: 'local-sip-settings', popup },

@@ -78,7 +78,7 @@
 import mixin from '../widget-mixin';
 import { actionsMixin } from '../widget-actions';
 import OhCard from '@/components/widgets/standard/oh-card.vue';
-// TODO import OhTrend from '../system/oh-trend'
+import OhTrend from '@/components/widgets/system/oh-trend.vue';
 import { OhLabelCardDefinition } from '@/assets/definitions/widgets/standard/cards';
 
 export default {

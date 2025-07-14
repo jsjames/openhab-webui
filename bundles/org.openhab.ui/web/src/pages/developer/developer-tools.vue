@@ -110,7 +110,7 @@
                   footer="Show a panel with various tools and help"
                   link=""
                   no-chevron
-                  @click="$f7.emit('toggle-developer-dock')"
+                  @click="f7.emit('toggle-developer-dock')"
                 >
                   <template #media>
                     <f7-icon f7="wrench" color="gray" />
@@ -259,12 +259,14 @@
 
 <script>
 import FileDefinition from '@/pages/settings/file-definition-mixin';
+import { f7 } from 'framework7-vue';
 
 export default {
   mixins: [FileDefinition],
   components: {},
   data() {
     return {
+      f7,
       currentTab: 'menu',
       sseClient: null,
       sseEvents: [],

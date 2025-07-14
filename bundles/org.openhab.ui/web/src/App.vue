@@ -356,18 +356,18 @@
               >
                 <em>{{ $t('sidebar.tip.signIn') }}<br /><f7-icon f7="arrow_down" size="20" /></em>
               </div>
-              <a class="button" @click="authorize()">Admin</a>
-              <!--
-              <f7-button
-                @click="authorize()"
-                v-if="!loggedIn"
-                icon-f7="lock_shield_fill"
-                large
-                color="gray"
-                icon-size="43"
-                :tooltip="$t('sidebar.unlockAdmin')"
-              />
-              -->
+              <!-- TODO - @click in the f7-button is not getting bound, so surrounded with div -->
+              <div @click="authorize">
+                <f7-button
+                  @click="authorize"
+                  v-if="!loggedIn"
+                  icon-f7="lock_shield_fill"
+                  large
+                  color="gray"
+                  icon-size="43"
+                  :tooltip="$t('sidebar.unlockAdmin')"
+                />
+              </div>
             </div>
             <f7-list v-if="$store.getters.user" media-list>
               <f7-list-item

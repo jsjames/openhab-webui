@@ -4,7 +4,7 @@
       v-if="model.item.created !== false"
       :item="model.item"
       :context="context"
-      :key="$f7.utils.id()"
+      :key="utils.id()"
     />
 
     <f7-block-title>Item</f7-block-title>
@@ -33,6 +33,8 @@ import ItemDetails from '@/components/model/item-details.vue';
 import MetadataMenu from '@/components/item/metadata/item-metadata-menu.vue';
 import LinkDetails from '@/components/model/link-details.vue';
 
+import { utils } from 'framework7';
+
 export default {
   props: ['model', 'links', 'items', 'context'],
   components: {
@@ -42,6 +44,11 @@ export default {
     LinkDetails,
   },
   emits: ['item-updated', 'item-created', 'item-removed', 'cancel-create'],
+  data() {
+    return {
+      utils,
+    };
+  },
   methods: {},
 };
 </script>

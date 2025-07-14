@@ -82,7 +82,6 @@
     "grid-layout-plus": "^1.1.0",
     "jse-eval": "^1.5.2",
     "jssip": "^3.10.1",
-    "leaflet": "^1.9.4",
     "leaflet-providers": "^2.0.0",
     "lodash": "^4.17.21",
     "marked": "^16.0.0",
@@ -121,6 +120,7 @@
     "@types/jest": "^27.0.0",
     "@typescript-eslint/eslint-plugin": "^8.35.1",
     "@typescript-eslint/parser": "^8.35.1",
+    "@vue-leaflet/vue-leaflet": "^0.10.1",
     "@vue/compiler-sfc": "3.5.17",
     "@vue/eslint-config-standard": "^9.0.1",
     "@vue/test-utils": "^2.0.0",
@@ -146,6 +146,7 @@
     "jest-serializer-vue": "^3.1.0",
     "jest-transform-nearley": "^2.0.0",
     "jest-transform-stub": "^2.0.0",
+    "leaflet": "^1.9.4",
     "mini-css-extract-plugin": "^2.9.0",
     "nearley-loader": "^2.0.0",
     "npm": "^11.4.2",
@@ -167,11 +168,12 @@
   },
   "prettier": {
     "singleQuote": true,
-    "semi": true,
-    "trailingComma": "es5",
+    "semi": false,
+    "trailingComma": "none",
     "tabWidth": 2,
     "printWidth": 100,
     "arrowParens": "avoid",
-    "endOfLine": "lf"
+    "endOfLine": "lf",
+    "embeddedLanguageFormatting": "off"
   }
 }

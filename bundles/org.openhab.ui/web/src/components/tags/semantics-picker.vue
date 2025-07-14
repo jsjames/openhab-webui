@@ -6,7 +6,7 @@
       :disabled="!editable ? true : null"
       @click="openPopup('class')"
       class="aligned-smart-select"
-      :link="editable ? true : null"
+      :link="editable"
     />
     <f7-list-item
       v-if="currentSemanticType === 'Point'"
@@ -45,6 +45,8 @@
 <script>
 import TagMixin from '@/components/tags/tag-mixin';
 import SemanticsPickerPopup from '@/components/tags/semantics-picker-popup.vue';
+import { nextTick } from 'vue';
+import { f7 } from 'framework7-vue';
 
 export default {
   mixins: [TagMixin],
@@ -54,6 +56,7 @@ export default {
   },
   data() {
     return {
+      f7,
       semanticClass: '',
       semanticProperty: '',
       popupType: null,

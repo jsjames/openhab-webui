@@ -4,6 +4,9 @@ import { actionGroup, actionParams } from '@/assets/definitions/widgets/actions'
 import { f7 } from 'framework7-vue';
 
 export default {
+  props: {
+    f7router: Object,
+  },
   emits: ['action'],
   data() {
     return {
@@ -59,7 +62,7 @@ export default {
         actionCommandAlt: 'OFF',
       };
       const popup = { component: WidgetConfigPopup };
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'on-svg-click-settings',
           route: { path: 'on-svg-click-settings', popup },

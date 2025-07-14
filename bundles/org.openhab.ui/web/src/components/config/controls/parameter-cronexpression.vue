@@ -31,7 +31,11 @@ import cronstrue from 'cronstrue';
 import { f7, theme } from 'framework7-vue';
 
 export default {
-  props: ['configDescription', 'value'],
+  props: {
+    configDescription: String,
+    value: Object,
+    f7router: Object,
+  },
   emits: ['input'],
   data() {
     return {};
@@ -48,7 +52,7 @@ export default {
           component: c.default,
         };
 
-        this.$f7router.navigate(
+        this.f7router.navigate(
           {
             url: 'cron-edit',
             route: {

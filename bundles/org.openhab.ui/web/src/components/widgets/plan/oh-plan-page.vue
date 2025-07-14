@@ -105,7 +105,7 @@ dark-tooltip()
 <script>
 import mixin from '../widget-mixin';
 import { CRS, Icon } from 'leaflet';
-import { LMap, LImageOverlay, LFeatureGroup, LControl } from 'vue2-leaflet';
+import { LMap, LImageOverlay, LFeatureGroup, LControl } from '@vue-leaflet/vue-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { utils } from 'framework7';
 
@@ -114,9 +114,9 @@ import { OhPlanPageDefinition } from '@/assets/definitions/widgets/plan';
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+  iconRetinaUrl: import('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: import('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: import('leaflet/dist/images/marker-shadow.png'),
 });
 
 export default {

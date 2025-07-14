@@ -118,7 +118,7 @@
               ref="ruleModuleTypeSmartSelect"
               smart-select
               :smart-select-params="{
-                view: $f7.views.main,
+                view: f7.views.main,
                 openIn: 'popup',
                 closeOnSelect: true,
               }"
@@ -200,6 +200,7 @@ export default {
   emits: ['module-update', 'edit-new-script'],
   data() {
     return {
+      f7,
       currentRuleModuleType: this.ruleModuleType,
       advancedTypePicker: false,
     };

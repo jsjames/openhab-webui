@@ -58,7 +58,7 @@
       </f7-subnavbar>
 
       <!-- Toolbar -->
-      <f7-toolbar v-if="$f7.width >= 500" bottom class="toolbar-details">
+      <f7-toolbar v-if="f7.width >= 500" bottom class="toolbar-details">
         <f7-link
           v-if="!multiple"
           :disabled="selectedItem != null ? true : null"
@@ -176,6 +176,7 @@ export default {
   data() {
     if (!f7.data.modelPicker) f7.data.modelPicker = {};
     return {
+      f7,
       initSearchbar: false,
       includeItemName: f7.data.modelPicker.includeItemName || false,
       includeItemTags: f7.data.modelPicker.includeItemTags || false,

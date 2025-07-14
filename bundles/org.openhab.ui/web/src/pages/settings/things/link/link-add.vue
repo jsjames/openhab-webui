@@ -219,7 +219,13 @@ export default {
     ChannelList,
     ItemForm,
   },
-  props: ['thing', 'channel', 'channelType', 'item'],
+  props: {
+    thing: String,
+    channel: String,
+    channelType: String,
+    item: String,
+    f7router: Object,
+  },
   setup() {
     return { theme };
   },
@@ -427,7 +433,7 @@ export default {
                   closeTimeout: 2000,
                 })
                 .open();
-              this.$f7router.back();
+              this.f7router.back();
             });
         });
       } else {
@@ -441,7 +447,7 @@ export default {
                 closeTimeout: 2000,
               })
               .open();
-            this.$f7router.back();
+            this.f7router.back();
           });
       }
     },

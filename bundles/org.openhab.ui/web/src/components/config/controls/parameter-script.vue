@@ -14,7 +14,12 @@ import ScriptEditorPopup from './script-editor-popup.vue';
 import { f7 } from 'framework7-vue';
 
 export default {
-  props: ['configDescription', 'configuration', 'value'],
+  props: {
+    configDescription: String,
+    configuration: Object,
+    value: String,
+    f7router: Object,
+  },
   emits: ['input'],
   data() {
     return {};
@@ -30,7 +35,7 @@ export default {
         component: ScriptEditorPopup,
       };
 
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'script-edit',
           route: {

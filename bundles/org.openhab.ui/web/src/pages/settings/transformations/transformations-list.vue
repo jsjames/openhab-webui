@@ -154,7 +154,7 @@
         title="transformations.title"
         text="transformations.text"
       />
-      <f7-row v-if="$f7.width < 1280" class="display-flex justify-content-center">
+      <f7-row v-if="f7.width < 1280" class="display-flex justify-content-center">
         <f7-button
           large
           fill
@@ -189,6 +189,9 @@ import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
 
 export default {
+  props: {
+    f7router: Object,
+  },
   components: {
     'empty-state-placeholder': defineAsyncComponent(
       () => import('@/components/empty-state-placeholder.vue')
@@ -200,6 +203,7 @@ export default {
   },
   data() {
     return {
+      f7,
       ready: false,
       loading: false,
       transformations: [],
@@ -263,7 +267,7 @@ export default {
           this.initSearchbar = true;
           if (this.$refs.listIndex) this.$refs.listIndex.update();
           if (this.$device.desktop && this.$refs.searchbar)
-            this.$refs.searchbar.f7Searchbar.$inputEl[0].focus();
+            this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
         });
       });
     },
@@ -289,7 +293,7 @@ export default {
       if (this.showCheckboxes) {
         this.toggleTransformationCheck(event, transformation.uid, transformation);
       } else {
-        this.$f7router.navigate(transformation.uid);
+        this.f7router.navigate(transformation.uid);
       }
     },
     ctrlClick(event, transformation) {

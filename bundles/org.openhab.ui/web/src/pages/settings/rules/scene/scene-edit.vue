@@ -336,7 +336,13 @@ export default {
         )
     ),
   },
-  props: ['ruleId', 'createMode', 'ruleCopy'],
+  props: {
+    ruleId: String,
+    createMode: Boolean,
+    ruleCopy: Object,
+    f7router: Object,
+    f7route: Object,
+  },
   setup() {
     return { theme };
   },
@@ -464,7 +470,7 @@ export default {
                 closeTimeout: 2000,
               })
               .open();
-            this.$f7router.navigate(this.$f7route.url.replace('/add', '/' + this.rule.uid), {
+            this.f7router.navigate(this.f7route.url.replace('/add', '/' + this.rule.uid), {
               reloadCurrent: true,
             });
             this.load();
@@ -526,7 +532,7 @@ export default {
     },
     duplicateRule() {
       let ruleClone = cloneDeep(this.rule);
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: '/settings/scenes/duplicate',
         },
@@ -544,7 +550,7 @@ export default {
         () => {
           this.$oh.api.delete('/rest/rules/' + this.rule.uid).then(() => {
             this.dirty = false;
-            this.$f7router.back('/settings/scenes/', { force: true });
+            this.f7router.back('/settings/scenes/', { force: true });
           });
         }
       );
@@ -567,7 +573,7 @@ export default {
         component: SceneConfigureItemPopup,
       };
 
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'item-config',
           route: {

@@ -227,7 +227,7 @@
         v-if="thingEventType === 'statusUpdated'"
         title="to"
         smart-select
-        :smart-select-params="{ view: $f7.view.main, openIn: 'popover' }"
+        :smart-select-params="{ view: f7.view.main, openIn: 'popover' }"
       >
         <select
           name="thingStatus"
@@ -251,7 +251,7 @@
         v-if="thingEventType === 'statusChanged'"
         title="from"
         smart-select
-        :smart-select-params="{ view: $f7.view.main, openIn: 'popover' }"
+        :smart-select-params="{ view: f7.view.main, openIn: 'popover' }"
       >
         <select
           name="thingStatus"
@@ -276,7 +276,7 @@
         v-if="thingEventType === 'statusChanged'"
         title="to"
         smart-select
-        :smart-select-params="{ view: $f7.view.main, openIn: 'popover' }"
+        :smart-select-params="{ view: f7.view.main, openIn: 'popover' }"
       >
         <select
           name="thingStatus"
@@ -390,6 +390,7 @@ import ItemPicker from '@/components/config/controls/item-picker.vue';
 import ThingPicker from '@/components/config/controls/thing-picker.vue';
 import TriggerChannelPicker from '@/components/config/controls/triggerchannel-picker.vue';
 import ConfigSheet from '@/components/config/config-sheet.vue';
+import { f7 } from 'framework7-vue';
 
 export default {
   mixins: [ModuleWizard],
@@ -403,6 +404,7 @@ export default {
   emits: ['show-advanced', 'type-select'],
   data() {
     return {
+      f7,
       category: '',
       itemEventType: 'command',
       thingEventType: 'triggerChannelFired',

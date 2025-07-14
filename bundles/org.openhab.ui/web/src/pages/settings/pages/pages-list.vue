@@ -217,8 +217,14 @@
 <script>
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
+import { useUIOptionsStore } from '@/js/stores/ui-options';
+
+const uiOptionsStore = useUIOptionsStore();
 
 export default {
+  props: {
+    f7router: Object,
+  },
   setup() {
     return { theme };
   },
@@ -319,14 +325,14 @@ export default {
       this.load();
     },
     onPageBeforeOut() {
-      f7.data.lastPagesSearchQuery = this.$refs.searchbar?.f7Searchbar.query;
+      uiOptionsStore.lastPagesSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load() {
       if (this.loading) return;
       this.loading = true;
 
       if (this.initSearchbar)
-        f7.data.lastPagesSearchQuery = this.$refs.searchbar?.f7Searchbar.query;
+        uiOptionsStore.lastPagesSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
       this.initSearchbar = false;
 
       this.selectedItems = [];
@@ -348,9 +354,9 @@ export default {
         nextTick(() => {
           if (this.$refs.listIndex) this.$refs.listIndex.update();
           if (this.$device.desktop && this.$refs.searchbar) {
-            this.$refs.searchbar.f7Searchbar.$inputEl[0].focus();
+            this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
           }
-          this.$refs.searchbar?.f7Searchbar.search(f7.data.lastPagesSearchQuery || '');
+          this.$refs.searchbar?.$el.f7Searchbar.search(uiOptionsStore.lastPagesSearchQuery || '');
         });
       });
     },
@@ -376,7 +382,7 @@ export default {
       if (this.showCheckboxes) {
         this.toggleItemCheck(event, item.uid, item);
       } else {
-        this.$f7router.navigate(this.getPageType(item).type + '/' + item.uid);
+        this.f7router.navigate(this.getPageType(item).type + '/' + item.uid);
       }
     },
     ctrlClick(event, item) {

@@ -17,7 +17,7 @@
         <developer-dock-icon />
       </f7-nav-right>
     </f7-navbar>
-    <f7-toolbar v-show="$f7.width < 1024 || !leftPanelOpened" tabbar bottom>
+    <f7-toolbar v-show="f7.width < 1024 || !leftPanelOpened" tabbar bottom>
       <f7-link
         tab-link
         :tab-link-active="$store.state.pagePath === '/addons/'"
@@ -101,7 +101,7 @@
     <!-- Search Results -->
     <div v-if="searchResults">
       <f7-block v-if="searchResults.length === 0">
-        '{{ this.$refs.storeSearchbar.f7Searchbar.query }}' not found in
+        '{{ this.$refs.storeSearchbar.$el.f7Searchbar.query }}' not found in
         {{ currentTab === 'main' ? 'any' : currentTab }} add-ons
         <div class="flex-shrink-0 if-aurora display-flex justify-content-center">
           <f7-button color="blue" fill raised @click="clearSearch"> Clear Search </f7-button>
@@ -384,7 +384,10 @@ import { nextTick } from 'vue';
 
 export default {
   mixins: [AddonStoreMixin],
-  props: ['searchFor'],
+  props: {
+    searchFor: String,
+    f7router: Object,
+  },
   components: {
     AddonsSection,
   },
@@ -393,6 +396,7 @@ export default {
   },
   data() {
     return {
+      f7,
       leftPanelOpened: false,
       currentTab: 'main',
       services: null,
@@ -466,7 +470,7 @@ export default {
     load() {
       if (this.searchFor) {
         // Show this in the searchbar while the page is loading
-        this.$refs.storeSearchbar.f7Searchbar.$inputEl.val(this.searchFor);
+        this.$refs.storeSearchbar.$el.f7Searchbar.$inputEl.val(this.searchFor);
       }
       this.updateLeftPanelVisibility();
       f7.panel.get('left').on('opened closed', this.updateLeftPanelVisibility);
@@ -508,8 +512,8 @@ export default {
       this.currentTab = tab.id;
 
       const section = tab.id === 'main' ? '' : tab.id + '/';
-      this.$f7router.updateCurrentUrl('/addons/' + section);
-      this.$f7router.url = '/' + this.currentTab;
+      this.f7router.updateCurrentUrl('/addons/' + section);
+      this.f7router.url = '/' + this.currentTab;
 
       this.clearSearch();
 
@@ -545,12 +549,12 @@ export default {
       }, 100);
     },
     clearSearch(searchbar, previousQuery) {
-      this.$refs.storeSearchbar.f7Searchbar.$inputEl.val('');
+      this.$refs.storeSearchbar.$el.f7Searchbar.$inputEl.val('');
       this.query = null;
       this.searchResults = null;
       if (this.$device.desktop) {
         nextTick(() => {
-          this.$refs.storeSearchbar.f7Searchbar.$inputEl.focus();
+          this.$refs.storeSearchbar.$el.f7Searchbar.$inputEl.focus();
         });
       }
     },

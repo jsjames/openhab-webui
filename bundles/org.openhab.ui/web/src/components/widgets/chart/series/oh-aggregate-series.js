@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import IsoWeek from 'dayjs/plugin/isoWeek';
 dayjs.extend(IsoWeek);
 import aggregate from './aggregators';

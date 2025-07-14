@@ -130,7 +130,11 @@ import DirtyMixin from '../../dirty-mixin';
 
 export default {
   mixins: [DirtyMixin],
-  props: ['itemName', 'namespace'],
+  props: {
+    itemName: String,
+    namespace: String,
+    f7router: Object,
+  },
   components: {
     editor: defineAsyncComponent(
       () =>
@@ -265,7 +269,7 @@ export default {
           }
           this.savedMetadata = cloneDeep(this.metadata);
           this.dirty = false;
-          this.$f7router.back();
+          this.f7router.back();
         })
         .catch(err => {
           f7.toast
@@ -298,7 +302,7 @@ export default {
                 })
                 .open();
               this.dirty = false;
-              this.$f7router.back();
+              this.f7router.back();
             })
             .catch(err => {
               f7.toast

@@ -61,11 +61,7 @@
               fill
               @click="save"
             />
-            <f7-button
-              :text="editable ? 'Cancel' : 'Back'"
-              color="blue"
-              @click="$f7router.back()"
-            />
+            <f7-button :text="editable ? 'Cancel' : 'Back'" color="blue" @click="f7router.back()" />
           </div>
         </f7-block>
       </f7-tab>
@@ -130,7 +126,12 @@ import ItemMixin from '@/components/item/item-mixin';
 
 export default {
   mixins: [DirtyMixin, ItemMixin],
-  props: ['itemName', 'createMode', 'itemCopy'],
+  props: {
+    itemName: String,
+    createMode: Boolean,
+    itemCopy: Object,
+    f7router: Object,
+  },
   components: {
     ItemForm,
     editor: defineAsyncComponent(
@@ -309,9 +310,9 @@ export default {
 
           this.dirty = false;
           if (this.createMode) {
-            this.$f7router.navigate('/settings/items/' + this.item.name);
+            this.f7router.navigate('/settings/items/' + this.item.name);
           } else {
-            this.$f7router.back();
+            this.f7router.back();
           }
         })
         .catch(err => {

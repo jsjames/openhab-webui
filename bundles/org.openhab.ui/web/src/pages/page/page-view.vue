@@ -153,14 +153,20 @@ export default {
     'oh-equipment-tab': defineAsyncComponent(() => import('@/components/tabs/equipment-tab.vue')),
     'oh-properties-tab': defineAsyncComponent(() => import('@/components/tabs/properties-tab.vue')),
   },
-  props: ['uid', 'initialTab', 'deep', 'defineVars'],
+  props: {
+    uid: String,
+    initialTab: Number,
+    deep: Boolean,
+    defineVars: Object,
+    f7router: Object,
+  },
   setup() {
     return { theme };
   },
   data() {
     return {
       currentTab: this.initialTab ? Number(this.initialTab) : 0,
-      fullscreen: this.$fullscreen.getState(),
+      fullscreen: this.$fullscreen.isFullscreen,
 
       vars: {},
     };
@@ -225,7 +231,7 @@ export default {
       return this.deep && !this.page?.config.sidebar;
     },
     fullscreenIcon() {
-      if (this.$fullscreen.support && this.page?.config.showFullscreenIcon) {
+      if (this.$fullscreen.isEnabled && this.page?.config.showFullscreenIcon) {
         return this.fullscreen
           ? 'rectangle_arrow_up_right_arrow_down_left_slash'
           : 'rectangle_arrow_up_right_arrow_down_left';
@@ -244,8 +250,8 @@ export default {
       this.currentTab = idx;
       this.vars = {};
       const url = '/page/' + this.uid + '/' + this.currentTab;
-      this.$f7router.updateCurrentUrl(url);
-      this.$f7router.url = url;
+      this.f7router.updateCurrentUrl(url);
+      this.f7router.url = url;
     },
     onCommand(itemName, command) {
       this.$store.dispatch('sendCommand', { itemName, command });
@@ -312,7 +318,7 @@ export default {
             {
               text: 'Edit Tabbed Page',
               onClick: () => {
-                this.$f7router.navigate('/settings/pages/' + this.pageType + '/' + this.uid);
+                this.f7router.navigate('/settings/pages/' + this.pageType + '/' + this.uid);
               },
             },
             {
@@ -324,7 +330,7 @@ export default {
                 );
                 const tabPage = this.$store.getters.page(tabPageUid);
                 const tabPageType = this.getPageType(tabPage);
-                this.$f7router.navigate('/settings/pages/' + tabPageType + '/' + tabPageUid);
+                this.f7router.navigate('/settings/pages/' + tabPageType + '/' + tabPageUid);
               },
             },
           ],
@@ -332,7 +338,7 @@ export default {
         });
         action.open();
       } else {
-        this.$f7router.navigate('/settings/pages/' + this.pageType + '/' + this.uid);
+        this.f7router.navigate('/settings/pages/' + this.pageType + '/' + this.uid);
       }
     },
     toggleFullscreen() {

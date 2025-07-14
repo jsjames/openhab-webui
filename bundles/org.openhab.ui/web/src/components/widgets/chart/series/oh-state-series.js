@@ -129,6 +129,7 @@ export default {
       series.tooltip = { show: true };
     }
 
+    console.log(series);
     return series;
   },
 };

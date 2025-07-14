@@ -506,7 +506,15 @@ export default {
         )
     ),
   },
-  props: ['ruleId', 'createMode', 'ruleCopy', 'stubMode', 'schedule'],
+  props: {
+    ruleId: String,
+    createMode: Boolean,
+    ruleCopy: Object,
+    stubMode: Boolean,
+    schedule: Object,
+    f7router: Object,
+    f7route: Object,
+  },
   setup() {
     return { theme };
   },
@@ -635,7 +643,7 @@ export default {
                 closeTimeout: 4000,
               })
               .open();
-            this.$f7router.back();
+            this.f7router.back();
           }
           const ruleStub = this.ruleCopy;
           ruleStub.triggers = [];
@@ -654,7 +662,7 @@ export default {
                   closeTimeout: 4000,
                 })
                 .open();
-              this.$f7router.back();
+              this.f7router.back();
             }
             this.currentTemplate = template;
             loadingFinished();
@@ -711,8 +719,8 @@ export default {
                 closeTimeout: 2000,
               })
               .open();
-            this.$f7router.navigate(
-              this.$f7route.url
+            this.f7router.navigate(
+              this.f7route.url
                 .replace('/add', '/' + this.rule.uid)
                 .replace('/duplicate', '/' + this.rule.uid)
                 .replace('/schedule/', '/rules/'),
@@ -727,8 +735,8 @@ export default {
                 closeTimeout: 2000,
               })
               .open();
-            this.$f7router.navigate(
-              this.$f7route.url
+            this.f7router.navigate(
+              this.f7route.url
                 .replace('/stub', '/' + this.rule.uid)
                 .replace('/schedule/', '/rules/'),
               { reloadCurrent: true }
@@ -746,7 +754,7 @@ export default {
             }
             this.savedRule = cloneDeep(this.rule);
           }
-          // if (!stay) this.$f7router.back()
+          // if (!stay) this.f7router.back()
         })
         .catch(err => {
           f7.toast
@@ -762,7 +770,7 @@ export default {
       let ruleClone = cloneDeep(this.rule);
       ruleClone.name = (ruleClone.name || '') + ' copy';
       ruleClone.editable = true;
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: '/settings/rules/duplicate',
         },
@@ -801,7 +809,7 @@ export default {
     },
     createStub() {
       let ruleClone = cloneDeep(this.rule);
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: '/settings/rules/stub',
         },
@@ -850,7 +858,7 @@ export default {
       f7.dialog.confirm(`Are you sure you want to delete ${this.rule.name}?`, 'Delete Rule', () => {
         this.$oh.api.delete('/rest/rules/' + this.rule.uid).then(() => {
           this.dirty = false;
-          this.$f7router.back('/settings/rules/', { force: true });
+          this.f7router.back('/settings/rules/', { force: true });
         });
       });
     },
@@ -923,7 +931,7 @@ export default {
       const popup = {
         component: RuleModulePopup,
       };
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'module-config',
           route: {
@@ -992,7 +1000,7 @@ export default {
       const popup = {
         component: RuleModulePopup,
       };
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'module-config',
           route: {
@@ -1038,10 +1046,9 @@ export default {
     saveAndEditNewScript(updatedModule) {
       this.saveModule(updatedModule);
       this.save().then(() => {
-        this.$f7router.navigate(
-          '/settings/rules/' + this.rule.uid + '/script/' + updatedModule.id,
-          { transition: theme.aurora ? 'f7-cover-v' : '' }
-        );
+        this.f7router.navigate('/settings/rules/' + this.rule.uid + '/script/' + updatedModule.id, {
+          transition: theme.aurora ? 'f7-cover-v' : '',
+        });
       });
     },
     moduleConfigClosed() {
@@ -1057,8 +1064,8 @@ export default {
       const updatePromise =
         (this.rule.editable || this.createMode) && this.dirty ? this.save() : Promise.resolve();
       updatePromise.then(() => {
-        this.$f7router.navigate('/settings/rules/' + this.rule.uid + '/script/' + mod.id, {
-          transition: this.$theme.aurora ? 'f7-cover-v' : '',
+        this.f7router.navigate('/settings/rules/' + this.rule.uid + '/script/' + mod.id, {
+          transition: theme.aurora ? 'f7-cover-v' : '',
         });
       });
     },

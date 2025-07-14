@@ -172,7 +172,7 @@
         text="scenes.text"
       />
       <empty-state-placeholder v-else icon="wand_stars" title="rules.title" text="rules.text" />
-      <f7-row v-if="$f7.width < 1280" class="display-flex justify-content-center">
+      <f7-row v-if="f7.width < 1280" class="display-flex justify-content-center">
         <f7-button
           large
           fill
@@ -331,7 +331,11 @@ import RuleStatus from '@/components/rule/rule-status-mixin';
 
 export default {
   mixins: [RuleStatus],
-  props: ['showScripts', 'showScenes'],
+  props: {
+    showScripts: Boolean,
+    showScenes: Boolean,
+    f7router: Object,
+  },
   components: {
     'empty-state-placeholder': defineAsyncComponent(
       () => import('@/components/empty-state-placeholder.vue')
@@ -342,6 +346,7 @@ export default {
   },
   data() {
     return {
+      f7,
       ready: false,
       initSearchbar: false,
       loading: false,
@@ -469,14 +474,14 @@ export default {
     },
     onPageBeforeOut() {
       this.stopEventSource();
-      f7.data[`last${this.type}SearchQuery`] = this.$refs.searchbar?.f7Searchbar.query;
+      f7.data[`last${this.type}SearchQuery`] = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load() {
       if (this.loading) return;
       this.loading = true;
 
       if (this.initSearchbar)
-        f7.data[`last${this.type}SearchQuery`] = this.$refs.searchbar?.f7Searchbar.query;
+        f7.data[`last${this.type}SearchQuery`] = this.$refs.searchbar?.$el.f7Searchbar.query;
       this.initSearchbar = false;
 
       this.selectedItems = [];
@@ -542,9 +547,11 @@ export default {
           nextTick(() => {
             if (this.$refs.listIndex) this.$refs.listIndex.update();
             if (this.$device.desktop && this.$refs.searchbar) {
-              this.$refs.searchbar.f7Searchbar.$inputEl[0].focus();
+              this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
             }
-            this.$refs.searchbar?.f7Searchbar.search(f7.data[`last${this.type}SearchQuery`] || '');
+            this.$refs.searchbar?.$el.f7Searchbar.search(
+              f7.data[`last${this.type}SearchQuery`] || ''
+            );
           });
 
           if (!this.eventSource) this.startEventSource();
@@ -606,7 +613,7 @@ export default {
       if (this.showCheckboxes) {
         this.toggleItemCheck(event, item.uid, item);
       } else {
-        this.$f7router.navigate(item.uid);
+        this.f7router.navigate(item.uid);
       }
     },
     ctrlClick(event, item) {
@@ -757,7 +764,7 @@ export default {
         this.$oh.api
           .get('/rest/rules/' + rules[0].uid)
           .then(rule => {
-            this.$f7router.navigate(
+            this.f7router.navigate(
               {
                 url: '/settings/rules/stub',
               },

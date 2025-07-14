@@ -1,6 +1,6 @@
 import './js/compatibility';
 import './js/logging';
-import './monkeypatch';
+// import './monkeypatch';
 
 // Import Vue
 import { createApp } from 'vue';
@@ -69,8 +69,7 @@ await loadLocaleMessages('/src/assets/i18n/common');
 // Vue.use(Trend)
 
 // Import Fullscreen Plugin
-//TODO import fullscreen from 'vue-fullscreen'
-// Vue.use(fullscreen)
+import fullscreen from 'vue-fullscreen';
 
 // Import clipboard plugin
 import VueClipboard from 'vue3-clipboard';
@@ -88,6 +87,7 @@ app.use(i18n);
 app.use(store);
 app.use(pinia);
 app.use(AsyncComputed);
+app.use(fullscreen);
 // app.use(Vue3Masonry)
 app.use(VueClipboard, {
   autoSetContainer: true, // add this line to enable auto setting container

@@ -118,7 +118,11 @@ export default {
   components: {
     TagInput,
   },
-  props: ['page', 'createMode'],
+  props: {
+    page: Object,
+    createMode: Boolean,
+    f7router: Object,
+  },
   data() {
     return {};
   },
@@ -148,7 +152,7 @@ export default {
       const pageClone = cloneDeep(this.page);
       const pageType = pageClone.component.replace(/^oh-|-page$/g, '');
       pageClone.uid = pageClone.uid + '_copy';
-      this.$f7router.navigate(`/settings/pages/${pageType}/add`, {
+      this.f7router.navigate(`/settings/pages/${pageType}/add`, {
         props: { createMode: true, pageCopy: pageClone },
       });
     },
@@ -164,7 +168,7 @@ export default {
                 closeTimeout: 2000,
               })
               .open();
-            this.$f7router.back('/settings/pages/', { force: true });
+            this.f7router.back('/settings/pages/', { force: true });
           })
           .catch(err => {
             console.error(err);

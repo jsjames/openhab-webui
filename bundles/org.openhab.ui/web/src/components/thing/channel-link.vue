@@ -123,7 +123,16 @@ import ItemMixin from '@/components/item/item-mixin';
 
 export default {
   mixins: [ItemMixin],
-  props: ['channelType', 'channelId', 'channel', 'thing', 'opened', 'extensible', 'context'],
+  props: {
+    channelType: Object,
+    channelId: String,
+    channel: Object,
+    thing: Object,
+    opened: Boolean,
+    extensible: Boolean,
+    context: Object,
+    f7router: Object,
+  },
   emits: ['channel-updated'],
   data() {
     return {
@@ -162,7 +171,7 @@ export default {
       }
     },
     addLink() {
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'links/new',
           route: {
@@ -181,7 +190,7 @@ export default {
     },
     configureLink(link) {
       const path = 'links/' + link.itemName + '/' + this.channelId;
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: path,
           route: {
@@ -207,7 +216,7 @@ export default {
     configureChannel() {
       const self = this;
       const path = 'channels/' + this.channelId + '/edit';
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: path,
           route: {
@@ -245,7 +254,7 @@ export default {
     duplicateChannel() {
       const self = this;
       const path = 'channels/' + this.channelId + '/edit';
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: path,
           route: {

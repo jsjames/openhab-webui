@@ -60,7 +60,7 @@
                 <!-- Render result as a list item, works without action output definition from REST -->
                 <f7-list-item
                   v-if="key === 'result'"
-                  :key="key"
+                  :key="key + '-list-item'"
                   :floating-label="theme.md"
                   :title="action.outputs.find(o => o.name === key)?.label || 'Result'"
                   :footer="action.outputs.find(o => o.name === key)?.description"
@@ -77,7 +77,7 @@
                   v-else-if="
                     key === 'qrCode' || action.outputs.find(o => o.name === key)?.type === 'qrCode'
                   "
-                  :key="key"
+                  :key="key + '-qr-code-item'"
                   :floating-label="theme.md"
                   :title="action.outputs.find(o => o.name === key)?.label || 'QR Code'"
                   :footer="action.outputs.find(o => o.name === key)?.description"
@@ -89,7 +89,7 @@
                 <!-- Render other keys as list items with the label defined by the action output definition from REST or the key as label -->
                 <f7-list-item
                   v-else
-                  :key="key"
+                  :key="key + '-other-item'"
                   :floating-label="theme.md"
                   :title="action.outputs.find(o => o.name === key)?.label || key"
                   :footer="action.outputs.find(o => o.name === key)?.description"

@@ -42,7 +42,10 @@ import MetadataNamespaces from '@/assets/definitions/metadata/namespaces.js';
 import { f7 } from 'framework7-vue';
 
 export default {
-  props: ['item'],
+  props: {
+    item: Object,
+    f7router: Object,
+  },
   data() {
     return {
       metadataNamespaces: MetadataNamespaces,
@@ -118,7 +121,7 @@ export default {
                   text: n.label,
                   color: 'blue',
                   onClick: () => {
-                    this.$f7router.navigate(
+                    this.f7router.navigate(
                       '/settings/items/' + this.item.name + '/metadata/' + n.name
                     );
                   },

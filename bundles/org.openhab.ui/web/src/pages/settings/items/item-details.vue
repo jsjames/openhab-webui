@@ -211,7 +211,10 @@ import FileDefinition from '@/pages/settings/file-definition-mixin';
 
 export default {
   mixins: [ItemMixin, FileDefinition],
-  props: ['itemName'],
+  props: {
+    itemName: String,
+    f7router: Object,
+  },
   components: {
     LinkDetails,
     GroupMembers,
@@ -307,7 +310,7 @@ export default {
     },
     duplicateItem() {
       let itemClone = cloneDeep(this.item);
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: '/settings/items/duplicate',
         },
@@ -324,7 +327,7 @@ export default {
         'Delete Item',
         () => {
           this.$oh.api.delete('/rest/items/' + this.item.name).then(() => {
-            this.$f7router.back('/settings/items/', { force: true });
+            this.f7router.back('/settings/items/', { force: true });
           });
         }
       );

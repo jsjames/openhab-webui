@@ -909,7 +909,7 @@ export default {
     this.startEventSource();
     nextTick(() => {
       if (this.$device.desktop && this.$refs.searchbar) {
-        this.$refs.searchbar.f7Searchbar.$inputEl.focus();
+        this.$refs.searchbar.$el.f7Searchbar.$inputEl.focus();
         if (this.searchFor) this.$refs.searchbar.search(this.searchFor);
       }
     });
@@ -1469,7 +1469,7 @@ export default {
               on: {
                 change(value) {
                   if (!value.length) return;
-                  self.$f7.views.main.router.navigate(
+                  self.f7.views.main.router.navigate(
                     '/settings/things/add/' + value[0].UID.split(':')[0] + '/' + value[0].UID,
                     { animate: false }
                   );

@@ -105,7 +105,7 @@ export default {
         this.ready = true;
         nextTick(() => {
           if (this.$device.desktop && this.$refs.searchbar) {
-            this.$refs.searchbar.f7Searchbar.$inputEl[0].focus();
+            this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
           }
         });
       });

@@ -36,7 +36,7 @@
 <style></style>
 
 <script>
-import Item from './item';
+import Item from './item.vue';
 import ItemPicker from '@/components/config/controls/item-picker.vue';
 import { f7 } from 'framework7-vue';
 
@@ -103,8 +103,8 @@ export default {
 
           Promise.all(promises)
             .then(d => {
-              vm.$emit('updated');
-              vm.$f7.toast
+              f7.$emit('updated');
+              f7.toast
                 .create({
                   text: 'Member list updated',
                   destroyOnClose: true,
@@ -114,7 +114,7 @@ export default {
               this.editMembers = false;
             })
             .catch(err => {
-              vm.$f7.dialog.alert('Error while updating the member list: ' + err);
+              f7.dialog.alert('Error while updating the member list: ' + err);
             });
         }
       );

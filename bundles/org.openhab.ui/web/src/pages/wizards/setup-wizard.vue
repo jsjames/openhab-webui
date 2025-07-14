@@ -573,9 +573,9 @@ export default {
         this.t('setupwizard.skipSetup.confirm.message'),
         this.t('setupwizard.skipSetup.confirm.title'),
         () => {
-          self.$f7.panel.get('left').enableVisibleBreakpoint();
+          self.f7.panel.get('left').enableVisibleBreakpoint();
           nextTick(() => {
-            self.$f7.views.main.router.navigate('/', {
+            self.f7.views.main.router.navigate('/', {
               transition: 'f7-circle',
               clearPreviousHistory: true,
             });
@@ -681,8 +681,8 @@ export default {
         self.waitingTimeout = setTimeout(() => {
           const progressBefore = progress;
           progress += 10;
-          self.$f7.progressbar.set('#suggestions-progress-bar-persistence', progress);
-          self.$f7.progressbar.set('#suggestions-progress-bar-addons', progress);
+          self.f7.progressbar.set('#suggestions-progress-bar-persistence', progress);
+          self.f7.progressbar.set('#suggestions-progress-bar-addons', progress);
           if (progressBefore < 100) {
             loading();
           } else {
@@ -718,7 +718,7 @@ export default {
           .filter(a => self.recommendedAddons.includes(a.uid) || suggestedAddons.includes(a.id))
           .sort((a, b) => a.uid.toUpperCase().localeCompare(b.uid.toUpperCase()));
         self.addonSuggestionsReady = true;
-        self.$f7.emit('addon-suggestions-ready');
+        self.f7.emit('addon-suggestions-ready');
       });
     },
     preSelectedAddon(addon) {

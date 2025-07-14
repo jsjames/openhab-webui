@@ -137,7 +137,7 @@
           </span>
           <template v-if="groupBy === 'location'">
             <div
-              v-if="!$device.desktop && $f7.width < 1024"
+              v-if="!$device.desktop && f7.width < 1024"
               style="text-align: right; color: var(--f7-block-text-color); font-weight: normal"
               class="float-right"
             >
@@ -246,7 +246,7 @@
 
     <f7-block v-if="ready && !things.length" class="block-narrow">
       <empty-state-placeholder icon="lightbulb" title="things.title" text="things.text" />
-      <f7-row v-if="$f7.width < 1280" class="display-flex justify-content-center">
+      <f7-row v-if="f7.width < 1280" class="display-flex justify-content-center">
         <f7-button
           large
           fill
@@ -291,10 +291,17 @@ import FileDefinition from '@/pages/settings/file-definition-mixin';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
+import { useUIOptionsStore } from '../../../js/stores/ui-options';
+
+const uiOptionsStore = useUIOptionsStore();
 
 export default {
   mixins: [ThingStatus, FileDefinition],
-  props: ['searchFor'],
+  props: {
+    searchFor: String,
+    f7route: Object,
+    f7router: Object,
+  },
   components: {
     'empty-state-placeholder': defineAsyncComponent(
       () => import('@/components/empty-state-placeholder.vue')
@@ -306,6 +313,7 @@ export default {
   },
   data() {
     return {
+      f7,
       ready: false,
       initSeachbar: false,
       loading: false,
@@ -405,18 +413,17 @@ export default {
     },
     onPageBeforeOut() {
       this.stopEventSource();
-      f7.data.lastThingsSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+      uiOptionsStore.lastThingsSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load() {
       if (this.loading) return;
       this.loading = true;
 
-      if (this.initSeachbar)
-        f7.data.lastThingsSearchQuery = this.$refs.searchbar?.f7Searchbar.query;
+      if (this.initSeachbar) uiOptionsStore.lastThingsSearchQuery = this.$refs.searchbar?.query;
       this.initSeachbar = false;
 
       if (this.searchFor) {
-        this.$refs.searchbar?.f7Searchbar.$inputEl.val(this.searchFor);
+        this.$refs.searchbar?.$inputEl.val(this.searchFor);
       }
 
       this.$oh.api.get('/rest/things?summary=true').then(data => {
@@ -428,10 +435,10 @@ export default {
         nextTick(() => {
           if (this.$refs.listIndex) this.$refs.listIndex.update();
           if (this.$device.desktop && this.$refs.searchbar) {
-            this.$refs.searchbar.f7Searchbar.$inputEl[0].focus();
+            this.$refs.searchbar.$el.focus();
           }
-          this.$refs.searchbar?.f7Searchbar.search(
-            this.searchFor || f7.data.lastThingsSearchQuery || ''
+          this.$refs.searchbar?.search(
+            this.searchFor || uiOptionsStore.lastThingsSearchQuery || ''
           );
         });
         if (!this.eventSource) this.startEventSource();
@@ -505,7 +512,7 @@ export default {
       if (this.showCheckboxes) {
         this.toggleItemCheck(event, item.UID, item);
       } else {
-        this.$f7router.navigate(item.UID);
+        this.f7router.navigate(item.UID);
       }
     },
     ctrlClick(event, item) {

@@ -9,7 +9,13 @@ import PropsEditorPopup from './props-editor-popup.vue';
 import { f7 } from 'framework7-vue';
 
 export default {
-  props: ['configDescription', 'value', 'parameters', 'configuration'],
+  props: {
+    configDescription: String,
+    value: Object,
+    parameters: Array,
+    configuration: Object,
+    f7router: Object,
+  },
   emits: ['input'],
   data() {
     return {
@@ -63,7 +69,7 @@ export default {
         component: PropsEditorPopup,
       };
 
-      this.$f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'configure-props',
           route: {
