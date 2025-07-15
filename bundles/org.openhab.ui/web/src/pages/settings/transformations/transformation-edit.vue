@@ -190,7 +190,7 @@ import { f7, theme } from 'framework7-vue';
 import { defineAsyncComponent } from 'vue';
 
 import DirtyMixin from '../dirty-mixin';
-import TransformationGeneralSettings from '@/pages/settings/transformations/transformation-general-settings';
+import TransformationGeneralSettings from '@/pages/settings/transformations/transformation-general-settings.vue';
 import { CodeSnippets, EditorModes, DocumentationLinks } from '@/assets/transformations.js';
 import ClipboardIcon from '@/components/util/clipboard-icon.vue';
 

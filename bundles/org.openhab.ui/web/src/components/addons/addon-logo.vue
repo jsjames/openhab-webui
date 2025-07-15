@@ -30,6 +30,7 @@
 
 <script>
 import { AddonIcons } from '@/assets/addon-store';
+import Dom7 from 'dom7';
 
 export default {
   props: ['addon', 'size', 'lazy'],

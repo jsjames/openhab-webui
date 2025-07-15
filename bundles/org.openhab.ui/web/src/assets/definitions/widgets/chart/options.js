@@ -4,8 +4,8 @@ export const dimensionTypeOptions = [
   { value: 'isoWeekday', label: 'Day of Week (starting on Monday)' },
   { value: 'weekday', label: 'Day of Week (starting on Sunday)' },
   { value: 'date', label: 'Day of Month' },
-  { value: 'month', label: 'Month of Year' },
-];
+  { value: 'month', label: 'Month of Year' }
+]
 
 export const aggregationTypeOptions = [
   { value: 'average', label: 'Average' },
@@ -15,5 +15,5 @@ export const aggregationTypeOptions = [
   { value: 'first', label: 'First (earliest)' },
   { value: 'last', label: 'Last (latest)' },
   { value: 'diff_first', label: 'Difference of firsts' },
-  { value: 'diff_last', label: 'Difference of lasts' },
-];
+  { value: 'diff_last', label: 'Difference of lasts' }
+]

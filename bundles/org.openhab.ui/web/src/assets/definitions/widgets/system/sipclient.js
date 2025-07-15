@@ -1,4 +1,4 @@
-import { pt, pn, pb, pi } from '../helpers.js';
+import { pt, pn, pb, pi } from '../helpers.js'
 
 export default () => [
   pn('iconSize', 'Icon Size', 'Size of the icon(s) in px'),
@@ -57,5 +57,5 @@ export default () => [
     'enableSIPDebug',
     'Enable SIP Debug',
     'Enable SIP debugging to the browser console (dev tools)'
-  ).a(),
-];
+  ).a()
+]

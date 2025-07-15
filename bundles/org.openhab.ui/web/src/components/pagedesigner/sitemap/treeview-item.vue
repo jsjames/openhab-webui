@@ -62,7 +62,7 @@
 
 <script>
 import SitemapMixin from '@/components/pagedesigner/sitemap/sitemap-mixin';
-import Draggable from 'vuedraggable';
+import { VueDraggableNext as Draggable } from 'vue-draggable-next';
 
 export default {
   name: 'sitemap-treeview-item',

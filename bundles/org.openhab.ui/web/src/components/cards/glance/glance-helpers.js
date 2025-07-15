@@ -11,7 +11,7 @@ export function isChildOf(semanticValue, potentialSemanticParent) {
       ? false
       : semanticValue.length === potentialSemanticParent.length
         ? true
-        : semanticValue.charAt(potentialSemanticParent.length) === '_';
+        : semanticValue.charAt(potentialSemanticParent.length) === '_'
 }
 
 /**
@@ -25,7 +25,7 @@ export function findEquipment(arr, value, partial) {
     partial
       ? isChildOf(e.item.metadata.semantics.value, value)
       : e.item.metadata.semantics.value === value
-  );
+  )
 }
 
 /**
@@ -33,7 +33,7 @@ export function findEquipment(arr, value, partial) {
  * @param {Array} equipment the equipment collection
  */
 export function allEquipmentPoints(equipment) {
-  return equipment.map(e => e.points || []).flat();
+  return equipment.map(e => e.points || []).flat()
 }
 
 /**
@@ -47,11 +47,11 @@ export function allEquipmentPoints(equipment) {
 export function findPoints(arr, value, partial, property, children) {
   const points = arr.filter(p =>
     partial ? isChildOf(p.metadata.semantics.value, value) : p.metadata.semantics.value === value
-  );
-  if (!property) return points;
+  )
+  if (!property) return points
   return points.filter(p =>
     children
       ? isChildOf(p.metadata.semantics.config.relatesTo, property)
       : p.metadata.semantics.config.relatesTo === property
-  );
+  )
 }

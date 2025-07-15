@@ -9,7 +9,7 @@
 
 <script>
 import mixin from '../widget-mixin';
-import { LMarker, LTooltip, LIcon } from 'vue2-leaflet';
+import { LMarker, LTooltip, LIcon } from '@vue-leaflet/vue-leaflet';
 import { actionsMixin } from '../widget-actions';
 import { OhMapMarkerDefinition } from '@/assets/definitions/widgets/map';
 import { utils } from 'framework7';

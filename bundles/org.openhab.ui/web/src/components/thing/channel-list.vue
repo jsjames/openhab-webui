@@ -163,7 +163,6 @@ import ItemForm from '@/components/item/item-form.vue';
 import ItemPicker from '@/components/config/controls/item-picker.vue';
 
 import uomMixin from '@/components/item/uom-mixin';
-import Dom7 from 'dom7';
 
 import cloneDeep from 'lodash/cloneDeep';
 

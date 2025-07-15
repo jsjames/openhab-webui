@@ -1,5 +1,5 @@
 // Block libraries components definitions, for hinting in the editor
-import { WidgetDefinition, pt, pb, pn } from '../widgets/helpers.js';
+import { WidgetDefinition, pt, pb, pn } from '../widgets/helpers.js'
 
 export const BlockLibrariesComponentDefinitions = {
   BlockLibraryDefinition: () =>
@@ -12,7 +12,7 @@ export const BlockLibrariesComponentDefinitions = {
         'name',
         'Name',
         'The display name of the block library (used as the category label in the toolbox).'
-      ),
+      )
     ]),
 
   BlockTypeDefinition: () =>
@@ -63,7 +63,7 @@ export const BlockLibrariesComponentDefinitions = {
         'Tooltip',
         'What appears in the tooltip shown when the user hovers over the block.'
       ),
-      pt('helpUrl', 'Help URL', 'A help URL relevant for this block.'),
+      pt('helpUrl', 'Help URL', 'A help URL relevant for this block.')
     ]),
 
   BlockCodeTemplateDefinition: () =>
@@ -72,7 +72,7 @@ export const BlockLibrariesComponentDefinitions = {
       'Block Code Template',
       'Defines the templated code for the parent BlockType.  Can use placeholders like: <ul><li><code>{{field:fieldName}}</code></li><li>{{input:inputName[:order]}}</li><li>{{temp_name:varName[:realm]}}</li><li>{{utility:utilityName}}</li><li>{{statements:statementsName}}</li></ul>'
     ).params([
-      pt('template', 'Template', 'The template for the generated code of the parent block type.'),
+      pt('template', 'Template', 'The template for the generated code of the parent block type.')
     ]),
 
   PresetInputDefinition: () =>
@@ -88,7 +88,7 @@ export const BlockLibrariesComponentDefinitions = {
       ),
       pt('type', 'Type', 'The block type to use for this preset.'),
       pt('fields', 'Type', 'A map of fields values for the preset block type.'),
-      pb('shadow', 'Shadow', 'Whether this is a shadow input or not.'),
+      pb('shadow', 'Shadow', 'Whether this is a shadow input or not.')
     ]),
 
   PresetFieldDefinition: () =>
@@ -102,7 +102,7 @@ export const BlockLibrariesComponentDefinitions = {
         'Name',
         'The name of the field in the parent block type this preset input is for.'
       ),
-      pt('value', 'Value', 'The value to set as a preset for this field.'),
+      pt('value', 'Value', 'The value to set as a preset for this field.')
     ]),
 
   BlockAssemblyDefinition: () =>
@@ -115,7 +115,7 @@ export const BlockLibrariesComponentDefinitions = {
         'blockXml',
         'Block Assembly XML',
         'The XML to generate the block assembly. Use the XML syntax described in  <a target="_blank" class="external" href="https://developers.google.com/blockly/guides/configure/web/toolbox#preset_blocks">the Blockly docs</a>.'
-      ),
+      )
     ]),
 
   SeparatorDefinition: () =>
@@ -140,7 +140,7 @@ export const BlockLibrariesComponentDefinitions = {
         'code',
         'Code',
         'The code of the function. Use {{name}} to replace with the actual name, and {{utilityName}} to inject and use the name of another utility.'
-      ),
+      )
     ]),
 
   UtilityJavaType: () =>
@@ -154,7 +154,7 @@ export const BlockLibrariesComponentDefinitions = {
         'Name',
         'The desired name of the variable. Can be something else if there is a name collision, for instance an user variable with the same name.'
       ),
-      pt('javaClass', 'Java Class', 'The desired Java class.'),
+      pt('javaClass', 'Java Class', 'The desired Java class.')
     ]),
 
   UtilityFrameworkService: () =>
@@ -168,6 +168,6 @@ export const BlockLibrariesComponentDefinitions = {
         'Name',
         'The desired name of the variable. Can be something else if there is a name collision, for instance an user variable with the same name.'
       ),
-      pt('serviceClass', 'Service Class', 'The class of the desired framework service.'),
-    ]),
-};
+      pt('serviceClass', 'Service Class', 'The class of the desired framework service.')
+    ])
+}

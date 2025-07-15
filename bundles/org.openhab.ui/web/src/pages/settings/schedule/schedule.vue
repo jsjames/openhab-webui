@@ -120,6 +120,10 @@ import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
 
+import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
+
+const lastSearchQueryStore = useLastSearchQueryStore();
+
 export default {
   components: {
     'empty-state-placeholder': defineAsyncComponent(
@@ -149,14 +153,14 @@ export default {
     },
     onPageBeforeOut() {
       this.stopEventSource();
-      f7.data.lastScheduleSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+      lastSearchQueryStore.lastScheduleSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load() {
       if (this.loading) return;
       this.loading = true;
 
       if (this.initSearchbar)
-        f7.data.lastScheduleSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+        lastSearchQueryStore.lastScheduleSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
       this.initSearchbar = false;
 
       let occurrences = [];
@@ -213,7 +217,7 @@ export default {
             if (this.$device.desktop && this.$refs.searchbar) {
               this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
             }
-            this.$refs.searchbar?.$el.f7Searchbar.search(f7.data.lastScheduleSearchQuery || '');
+            this.$refs.searchbar?.$el.f7Searchbar.search(lastSearchQueryStore.lastScheduleSearchQuery || '');
           });
         })
         .catch((err, status) => {

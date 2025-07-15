@@ -1,18 +1,18 @@
-import attributes from './deviceattributes.js';
-import p from './parameters.js';
+import attributes from './deviceattributes.js'
+import p from './parameters.js'
 
-const genericAttributes = ['Mode', 'RangeValue', 'ToggleState'];
-const genericDeviceAttributes = ['PowerState', ...genericAttributes];
-const networkDeviceAttributes = ['NetworkAccess', ...genericDeviceAttributes];
-const mobileDeviceAttributes = ['BatteryLevel', ...networkDeviceAttributes];
-const sensorAttributes = ['BatteryLevel', ...genericAttributes];
+const genericAttributes = ['Mode', 'RangeValue', 'ToggleState']
+const genericDeviceAttributes = ['PowerState', ...genericAttributes]
+const networkDeviceAttributes = ['NetworkAccess', ...genericDeviceAttributes]
+const mobileDeviceAttributes = ['BatteryLevel', ...networkDeviceAttributes]
+const sensorAttributes = ['BatteryLevel', ...genericAttributes]
 
-const cameraAttributes = ['CameraStream', 'BatteryLevel', ...genericDeviceAttributes];
-const doorAttributes = ['OpenState', 'TargetOpenState', 'CurrentOpenState', ...genericAttributes];
-const blindAttributes = ['PositionState', 'TiltAngle', ...doorAttributes];
-const fanAttributes = ['FanDirection', 'FanOscillate', 'FanSpeed', ...genericDeviceAttributes];
-const lightAttributes = ['Brightness', 'Color', 'ColorTemperature', ...genericDeviceAttributes];
-const switchAttributes = ['PowerLevel', 'Percentage', ...genericDeviceAttributes];
+const cameraAttributes = ['CameraStream', 'BatteryLevel', ...genericDeviceAttributes]
+const doorAttributes = ['OpenState', 'TargetOpenState', 'CurrentOpenState', ...genericAttributes]
+const blindAttributes = ['PositionState', 'TiltAngle', ...doorAttributes]
+const fanAttributes = ['FanDirection', 'FanOscillate', 'FanSpeed', ...genericDeviceAttributes]
+const lightAttributes = ['Brightness', 'Color', 'ColorTemperature', ...genericDeviceAttributes]
+const switchAttributes = ['PowerLevel', 'Percentage', ...genericDeviceAttributes]
 
 const entertainmentAttributes = [
   'VolumeLevel',
@@ -29,8 +29,8 @@ const entertainmentAttributes = [
   'EqualizerMidrange',
   'EqualizerTreble',
   'EqualizerMode',
-  ...genericDeviceAttributes,
-];
+  ...genericDeviceAttributes
+]
 const securityAttributes = [
   'ArmState',
   'BurglaryAlarm',
@@ -41,8 +41,8 @@ const securityAttributes = [
   'ReadyAlert',
   'TroubleAlert',
   'ZonesAlert',
-  ...genericAttributes,
-];
+  ...genericAttributes
+]
 const thermostatAttributes = [
   'TargetTemperature',
   'CoolingSetpoint',
@@ -55,43 +55,43 @@ const thermostatAttributes = [
   'CurrentTemperature',
   'CurrentHumidity',
   'BatteryLevel',
-  ...genericAttributes,
-];
+  ...genericAttributes
+]
 
 const blindParameters = (_, item) => {
-  const attributes = ['PositionState', 'TiltAngle'];
+  const attributes = ['PositionState', 'TiltAngle']
   const metadata = item.members
     .map(mbr => mbr.metadata?.alexa?.value)
     .filter(Boolean)
-    .join(',');
-  return attributes.every(attr => metadata.includes(attr)) ? [p.primaryControl()] : [];
-};
+    .join(',')
+  return attributes.every(attr => metadata.includes(attr)) ? [p.primaryControl()] : []
+}
 
 export const defaultParameters = (itemType, item) => {
   return itemType === 'Group' || !item.groups.length
     ? [p.deviceName(item.label), p.deviceDescription(`${itemType} ${item.name}`)]
-    : [];
-};
+    : []
+}
 
 export default {
   Activity: {
     defaultAttributes: ['Scene'],
-    supportsGroup: false,
+    supportsGroup: false
   },
   AirConditioner: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: ['TargetTemperature', 'CurrentTemperature', ...fanAttributes],
+    supportedAttributes: ['TargetTemperature', 'CurrentTemperature', ...fanAttributes]
   },
   AirFreshener: {
     defaultAttributes: ['PowerState', 'FanSpeed'],
-    supportedAttributes: fanAttributes,
+    supportedAttributes: fanAttributes
   },
   AirPurifier: {
     defaultAttributes: ['PowerState', 'FanSpeed'],
-    supportedAttributes: fanAttributes,
+    supportedAttributes: fanAttributes
   },
   AirQualityMonitor: {
-    supportedAttributes: ['CurrentTemperature', 'CurrentHumidity', ...sensorAttributes],
+    supportedAttributes: ['CurrentTemperature', 'CurrentHumidity', ...sensorAttributes]
   },
   Automobile: {
     supportedAttributes: [
@@ -101,8 +101,8 @@ export default {
       'PowerState',
       'TargetTemperature',
       'CurrentTemperature',
-      ...genericAttributes,
-    ],
+      ...genericAttributes
+    ]
   },
   AutomobileAccessory: {
     supportedAttributes: [
@@ -110,91 +110,91 @@ export default {
       'CameraStream',
       'FanSpeed',
       'PowerState',
-      ...genericAttributes,
-    ],
+      ...genericAttributes
+    ]
   },
   Awning: {
     defaultAttributes: ['PositionState', 'OpenState'],
     supportedAttributes: blindAttributes,
-    groupParameters: blindParameters,
+    groupParameters: blindParameters
   },
   Blind: {
     defaultAttributes: ['PositionState', 'OpenState'],
     supportedAttributes: blindAttributes,
-    groupParameters: blindParameters,
+    groupParameters: blindParameters
   },
   BluetoothSpeaker: {
     defaultAttributes: ['PowerState', 'VolumeLevel'],
-    supportedAttributes: ['BatteryLevel', ...entertainmentAttributes],
+    supportedAttributes: ['BatteryLevel', ...entertainmentAttributes]
   },
   Camera: {
     defaultAttributes: ['PowerState', 'CameraStream'],
-    supportedAttributes: cameraAttributes,
+    supportedAttributes: cameraAttributes
   },
   ChristmasTree: {
     defaultAttributes: ['PowerState', 'Brightness', 'Color'],
-    supportedAttributes: lightAttributes,
+    supportedAttributes: lightAttributes
   },
   CoffeeMaker: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   Computer: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: networkDeviceAttributes,
+    supportedAttributes: networkDeviceAttributes
   },
   ContactSensor: {
     defaultAttributes: ['ContactDetectionState'],
-    supportedAttributes: ['ContactDetectionState', ...sensorAttributes],
+    supportedAttributes: ['ContactDetectionState', ...sensorAttributes]
   },
   Curtain: {
     defaultAttributes: ['PositionState', 'OpenState'],
     supportedAttributes: blindAttributes,
-    groupParameters: blindParameters,
+    groupParameters: blindParameters
   },
   Dishwasher: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   Door: {
     defaultAttributes: ['OpenState'],
-    supportedAttributes: doorAttributes,
+    supportedAttributes: doorAttributes
   },
   Doorbell: {
     defaultAttributes: ['PowerState', 'CameraStream'],
-    supportedAttributes: cameraAttributes,
+    supportedAttributes: cameraAttributes
   },
   Dryer: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   Fan: {
     defaultAttributes: ['PowerState', 'FanSpeed'],
-    supportedAttributes: fanAttributes,
+    supportedAttributes: fanAttributes
   },
   GameConsole: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: networkDeviceAttributes,
+    supportedAttributes: networkDeviceAttributes
   },
   GarageDoor: {
     defaultAttributes: ['OpenState'],
-    supportedAttributes: ['ObstacleAlert', ...doorAttributes],
+    supportedAttributes: ['ObstacleAlert', ...doorAttributes]
   },
   Headphones: {
     defaultAttributes: ['PowerState', 'VolumeLevel'],
-    supportedAttributes: ['BatteryLevel', ...entertainmentAttributes],
+    supportedAttributes: ['BatteryLevel', ...entertainmentAttributes]
   },
   Hub: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   Laptop: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: mobileDeviceAttributes,
+    supportedAttributes: mobileDeviceAttributes
   },
   Light: {
     defaultAttributes: ['PowerState', 'Brightness', 'Color'],
-    supportedAttributes: lightAttributes,
+    supportedAttributes: lightAttributes
   },
   Lock: {
     defaultAttributes: ['LockState'],
@@ -203,129 +203,129 @@ export default {
       'TargetLockState',
       'CurrentLockState',
       'BatteryLevel',
-      ...genericAttributes,
-    ],
+      ...genericAttributes
+    ]
   },
   Microwave: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   MobilePhone: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: mobileDeviceAttributes,
+    supportedAttributes: mobileDeviceAttributes
   },
   MotionSensor: {
     defaultAttributes: ['MotionDetectionState'],
-    supportedAttributes: ['MotionDetectionState', ...sensorAttributes],
+    supportedAttributes: ['MotionDetectionState', ...sensorAttributes]
   },
   MusicSystem: {
     defaultAttributes: ['PowerState', 'Playback'],
-    supportedAttributes: entertainmentAttributes,
+    supportedAttributes: entertainmentAttributes
   },
   NetworkHardware: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   Outlet: {
     defaultAttributes: ['PowerState', 'PowerLevel', 'Percentage'],
-    supportedAttributes: switchAttributes,
+    supportedAttributes: switchAttributes
   },
   Oven: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   Phone: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   Printer: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   Remote: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   Router: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   Scene: {
     defaultAttributes: ['Scene'],
-    supportsGroup: false,
+    supportsGroup: false
   },
   Screen: {
     defaultAttributes: ['PowerState', 'Channel'],
-    supportedAttributes: entertainmentAttributes,
+    supportedAttributes: entertainmentAttributes
   },
   SecurityPanel: {
     defaultAttributes: ['ArmState'],
-    supportedAttributes: securityAttributes,
+    supportedAttributes: securityAttributes
   },
   SecuritySystem: {
     defaultAttributes: ['ArmState'],
-    supportedAttributes: securityAttributes,
+    supportedAttributes: securityAttributes
   },
   Shade: {
     defaultAttributes: ['PositionState', 'OpenState'],
     supportedAttributes: blindAttributes,
-    groupParameters: blindParameters,
+    groupParameters: blindParameters
   },
   Shutter: {
     defaultAttributes: ['PositionState', 'OpenState'],
     supportedAttributes: blindAttributes,
-    groupParameters: blindParameters,
+    groupParameters: blindParameters
   },
   SlowCooker: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   Speaker: {
     defaultAttributes: ['PowerState', 'VolumeLevel'],
-    supportedAttributes: entertainmentAttributes,
+    supportedAttributes: entertainmentAttributes
   },
   StreamingDevice: {
     defaultAttributes: ['PowerState', 'Playback'],
-    supportedAttributes: entertainmentAttributes,
+    supportedAttributes: entertainmentAttributes
   },
   Switch: {
     defaultAttributes: ['PowerState', 'PowerLevel', 'Percentage'],
-    supportedAttributes: switchAttributes,
+    supportedAttributes: switchAttributes
   },
   Tablet: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: mobileDeviceAttributes,
+    supportedAttributes: mobileDeviceAttributes
   },
   Television: {
     defaultAttributes: ['PowerState', 'Channel'],
-    supportedAttributes: entertainmentAttributes,
+    supportedAttributes: entertainmentAttributes
   },
   TemperatureSensor: {
     defaultAttributes: ['CurrentTemperature'],
-    supportedAttributes: ['CurrentTemperature', ...sensorAttributes],
+    supportedAttributes: ['CurrentTemperature', ...sensorAttributes]
   },
   Thermostat: {
     defaultAttributes: ['HeatingCoolingMode'],
     supportedAttributes: thermostatAttributes,
-    groupParameters: (_, item) => [p.scale(item, true)],
+    groupParameters: (_, item) => [p.scale(item, true)]
   },
   VacuumCleaner: {
     defaultAttributes: ['PowerState', 'VacuumMode'],
-    supportedAttributes: ['VacuumMode', 'FanSpeed', 'BatteryLevel', ...genericDeviceAttributes],
+    supportedAttributes: ['VacuumMode', 'FanSpeed', 'BatteryLevel', ...genericDeviceAttributes]
   },
   Washer: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: genericDeviceAttributes,
+    supportedAttributes: genericDeviceAttributes
   },
   WaterHeater: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: ['TargetTemperature', 'CurrentTemperature', ...genericDeviceAttributes],
+    supportedAttributes: ['TargetTemperature', 'CurrentTemperature', ...genericDeviceAttributes]
   },
   Wearable: {
     defaultAttributes: ['PowerState'],
-    supportedAttributes: mobileDeviceAttributes,
+    supportedAttributes: mobileDeviceAttributes
   },
   Other: {
-    supportedAttributes: Object.keys(attributes).filter(attr => attr !== 'Scene'),
-  },
-};
+    supportedAttributes: Object.keys(attributes).filter(attr => attr !== 'Scene')
+  }
+}

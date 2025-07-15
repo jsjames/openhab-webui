@@ -1,4 +1,4 @@
-import { pt, pi } from '../helpers.js';
+import { pt, pi } from '../helpers.js'
 
 export default () => [
   pi('item', 'Item', 'Item to control'),
@@ -14,9 +14,9 @@ export default () => [
       { value: 'rgb-bars', label: 'RGB bars' },
       { value: 'palette', label: 'Palette' },
       { value: 'current-color', label: 'Current color' },
-      { value: 'initial-current-colors', label: 'Initial current colors' },
+      { value: 'initial-current-colors', label: 'Initial current colors' }
     ],
     true,
     true
-  ),
-];
+  )
+]

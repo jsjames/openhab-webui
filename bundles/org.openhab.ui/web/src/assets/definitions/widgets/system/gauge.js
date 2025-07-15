@@ -1,4 +1,4 @@
-import { pi, pn, po, pt } from '../helpers.js';
+import { pi, pn, po, pt } from '../helpers.js'
 
 export default () => [
   pi('item', 'Item', 'Item to control'),
@@ -6,7 +6,7 @@ export default () => [
   pn('max', 'Max', 'Maximum value (default 100)'),
   po('type', 'Type', 'Type of the gauge', [
     { value: 'circle', label: 'Circle' },
-    { value: 'semicircle', label: 'Semicircle' },
+    { value: 'semicircle', label: 'Semicircle' }
   ]),
   pt(
     'value',
@@ -33,5 +33,5 @@ export default () => [
   pt('labelText', 'Label Text', 'Label text, displayed below the value (optional)'),
   pt('labelTextColor', 'Label Text Color', 'Label text color'),
   pt('labelFontSize', 'Label Font Size', 'Label text font size'),
-  pt('labelFontWeight', 'Label Font Weight', 'Label text font weight'),
-];
+  pt('labelFontWeight', 'Label Font Weight', 'Label text font weight')
+]

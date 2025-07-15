@@ -1,4 +1,4 @@
-import { javascriptGenerator } from 'blockly/javascript.js';
+import { javascriptGenerator } from 'blockly/javascript.js'
 
 /*
  * Function allowing to call classes within the OSGi container
@@ -10,12 +10,12 @@ export function addOSGiService(serviceName, serviceClass) {
     "  var bundleContext = Java.type('org.osgi.framework.FrameworkUtil').getBundle(scriptExtension.class).getBundleContext();",
     '  var serviceReference = bundleContext.getServiceReference(serviceClass);',
     '  return bundleContext.getService(serviceReference);',
-    '}',
-  ]);
+    '}'
+  ])
 
   return javascriptGenerator.provideFunction_(serviceName, [
-    `var ${javascriptGenerator.FUNCTION_NAME_PLACEHOLDER_} = ${addServiceName}('${serviceClass}');`,
-  ]);
+    `var ${javascriptGenerator.FUNCTION_NAME_PLACEHOLDER_} = ${addServiceName}('${serviceClass}');`
+  ])
 }
 
 export function addDateComparisonSupport() {
@@ -57,9 +57,9 @@ export function addDateComparisonSupport() {
     "    case 'afterEqual':",
     '      return zdt1.isAfter(zdt2) || zdt1.equals(zdt2);',
     '  }',
-    '}',
-  ]);
-  return graalZdtCompare;
+    '}'
+  ])
+  return graalZdtCompare
 }
 
 export function addGetItemMetaConfigValue() {
@@ -74,8 +74,8 @@ export function addGetItemMetaConfigValue() {
     '    value = value[property];',
     '  });',
     '  return value;',
-    '}',
-  ]);
+    '}'
+  ])
 }
 
 /**
@@ -87,19 +87,19 @@ export function addGetItemMetaConfigValue() {
  */
 export function blockGetCheckedInputType(block, inputName) {
   // Get the input type checks for this block
-  const thisBlock = block.getInput(inputName).connection.getCheck();
+  const thisBlock = block.getInput(inputName).connection.getCheck()
   // Get the output type checks for the connected block
   const connectedBlock = block
     .getInput(inputName)
     .connection.targetBlock()
-    ?.outputConnection.getCheck();
+    ?.outputConnection.getCheck()
   // Skip if no checks are available
-  if (!thisBlock || !connectedBlock) return '';
+  if (!thisBlock || !connectedBlock) return ''
   // Find any intersection in the checklist
   for (let i = 0; i < thisBlock.length; i++) {
     if (connectedBlock.indexOf(thisBlock[i]) !== -1) {
-      return thisBlock[i];
+      return thisBlock[i]
     }
   }
-  return '';
+  return ''
 }

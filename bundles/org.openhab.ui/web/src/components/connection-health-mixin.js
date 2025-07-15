@@ -1,5 +1,5 @@
-import reloadMixin from './reload-mixin';
-import { f7, f7ready } from 'framework7-vue';
+import reloadMixin from './reload-mixin'
+import { f7, f7ready } from 'framework7-vue'
 
 export default {
   mixins: [reloadMixin],
@@ -9,8 +9,8 @@ export default {
       communicationFailureToast: null,
       communicationFailureTimeoutId: null,
       // For the communication failure page
-      communicationFailureMsg: null,
-    };
+      communicationFailureMsg: null
+    }
   },
   methods: {
     /**
@@ -29,17 +29,17 @@ export default {
         closeTimeout: autoClose ? 5000 : undefined,
         cssClass: 'failure-toast button-outline',
         position: 'bottom',
-        horizontalPosition: 'center',
-      });
+        horizontalPosition: 'center'
+      })
       toast.on('closeButtonClick', () => {
-        this.reload();
-      });
-      toast.open();
-      return toast;
-    },
+        this.reload()
+      })
+      toast.open()
+      return toast
+    }
   },
   created() {
-    this.checkPurgeServiceWorkerAndCachesAvailable();
+    this.checkPurgeServiceWorkerAndCachesAvailable()
   },
   mounted() {
     f7ready(f7 => {
@@ -50,53 +50,53 @@ export default {
               if (mutation.payload === false) {
                 if (this.communicationFailureToast === null) {
                   this.communicationFailureTimeoutId = setTimeout(() => {
-                    if (this.communicationFailureToast !== null) return;
+                    if (this.communicationFailureToast !== null) return
                     this.communicationFailureToast = this.displayFailureToast(
                       this.$t('error.communicationFailure'),
                       true,
                       false
-                    );
-                    this.communicationFailureTimeoutId = null;
-                  }, 1000);
+                    )
+                    this.communicationFailureTimeoutId = null
+                  }, 1000)
                 }
               } else if (mutation.payload === true) {
                 if (this.communicationFailureTimeoutId !== null)
-                  clearTimeout(this.communicationFailureTimeoutId);
+                  clearTimeout(this.communicationFailureTimeoutId)
                 if (this.communicationFailureToast !== null) {
-                  this.communicationFailureToast.close();
-                  this.communicationFailureToast = null;
+                  this.communicationFailureToast.close()
+                  this.communicationFailureToast = null
                 }
               }
             }
           }
         }
-      });
+      })
 
       this.$store.subscribeAction({
         error: (action, state, error) => {
           if (action.type === 'sendCommand') {
-            let reloadButton = true;
-            let msg = this.$t('error.communicationFailure');
+            let reloadButton = true
+            let msg = this.$t('error.communicationFailure')
             switch (error) {
               case 404:
               case 'Not Found':
-                msg = this.$t('error.itemNotFound').replace('%s', action.payload.itemName);
-                reloadButton = false;
-                return this.displayFailureToast(msg, reloadButton);
+                msg = this.$t('error.itemNotFound').replace('%s', action.payload.itemName)
+                reloadButton = false
+                return this.displayFailureToast(msg, reloadButton)
             }
             if (this.communicationFailureToast === null) {
               this.communicationFailureToast = this.displayFailureToast(
                 this.$t('error.communicationFailure'),
                 true,
                 true
-              );
+              )
               this.communicationFailureToast.on('closed', () => {
-                this.communicationFailureToast = null;
-              });
+                this.communicationFailureToast = null
+              })
             }
           }
-        },
-      });
-    });
-  },
-};
+        }
+      })
+    })
+  }
+}

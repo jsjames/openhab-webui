@@ -1,4 +1,4 @@
-import { pt, pb, pi, pn } from '../helpers.js';
+import { pt, pb, pi, pn } from '../helpers.js'
 
 export default () => [
   pt(
@@ -15,5 +15,5 @@ export default () => [
     'variables',
     'Widget Variables',
     'Object with key:variable default value pairs. Variables are available to expressions in all child components via the <code>vars</code> object and take precedence over variables with the same name from higher contexts.<br />Variables are evaluated once before the widget is displayed the first time . Their values can only be changed by other component variable actions (e.g. <a class="external text-color-blue" target="_blank" href="https://www.openhab.org/docs/ui/components/oh-button.html#action-variable">oh-button</a>)'
-  ),
-];
+  )
+]

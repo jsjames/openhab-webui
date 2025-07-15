@@ -1,8 +1,8 @@
 // Standard visibility settings
 
-import { pg, pt } from './helpers.js';
+import { pg, pt } from './helpers.js'
 
-export const VisibilityGroup = () => pg('visibility', 'Visibility Options');
+export const VisibilityGroup = () => pg('visibility', 'Visibility Options')
 
 export const VisibilityParameters = () => [
   pt(
@@ -20,9 +20,9 @@ export const VisibilityParameters = () => [
     .o(
       [
         { value: 'role:administrator', label: 'Administrators' },
-        { value: 'role:user', label: 'Users' },
+        { value: 'role:user', label: 'Users' }
       ],
       true,
       true
-    ), // limit to options because we don't have a working control for autocompleting a multiple text param
-];
+    ) // limit to options because we don't have a working control for autocompleting a multiple text param
+]

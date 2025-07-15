@@ -1,5 +1,5 @@
-import Framework7 from 'framework7';
-import { getAccessToken } from './auth';
+import Framework7 from 'framework7'
+import { getAccessToken } from './auth'
 
 /**
  * Build a heartbeat message for the given WebSocket client id.
@@ -11,12 +11,12 @@ function heartbeatMessage(id) {
     type: 'WebSocketEvent',
     topic: 'openhab/websocket/heartbeat',
     payload: 'PING',
-    source: id,
-  });
+    source: id
+  })
 }
 
 function arrayToSerialisedString(arr) {
-  return '[' + arr.map(e => '"' + e + '"').join(',') + ']';
+  return '[' + arr.map(e => '"' + e + '"').join(',') + ']'
 }
 
 /**
@@ -31,8 +31,8 @@ function eventSourceFilterMessage(id, sources) {
     type: 'WebSocketEvent',
     topic: 'openhab/websocket/filter/source',
     payload: arrayToSerialisedString(sources),
-    source: id,
-  });
+    source: id
+  })
 }
 
 /**
@@ -47,8 +47,8 @@ function eventTypeFilterMessage(id, types) {
     type: 'WebSocketEvent',
     topic: 'openhab/websocket/filter/type',
     payload: arrayToSerialisedString(types),
-    source: id,
-  });
+    source: id
+  })
 }
 
 /**
@@ -63,11 +63,11 @@ function eventTopicFilterMesssage(id, topics) {
     type: 'WebSocketEvent',
     topic: 'openhab/websocket/filter/topic',
     payload: arrayToSerialisedString(topics),
-    source: id,
-  });
+    source: id
+  })
 }
 
-const openWSConnections = [];
+const openWSConnections = []
 
 function newWSConnection(
   path,
@@ -77,61 +77,61 @@ function newWSConnection(
   heartbeatCallback,
   heartbeatInterval
 ) {
-  const encodedToken = btoa(getAccessToken()).replace(/=*$/, '');
+  const encodedToken = btoa(getAccessToken()).replace(/=*$/, '')
   // Create a new WebSocket connection
   const socket = new WebSocket(path, [
     `org.openhab.ws.accessToken.base64.${encodedToken}`,
-    'org.openhab.ws.protocol.default',
-  ]);
+    'org.openhab.ws.protocol.default'
+  ])
 
-  socket.id = 'ui-' + Framework7.utils.id();
+  socket.id = 'ui-' + Framework7.utils.id()
 
   // Handle WebSocket connection opened
   socket.onopen = event => {
-    socket.setKeepalive(heartbeatInterval);
-    if (readyCallback) readyCallback(event);
-  };
+    socket.setKeepalive(heartbeatInterval)
+    if (readyCallback) readyCallback(event)
+  }
 
   // Handle WebSocket message received
   socket.onmessage = event => {
-    let evt = event.data;
+    let evt = event.data
     try {
-      evt = JSON.parse(event.data);
+      evt = JSON.parse(event.data)
     } catch (e) {
-      console.error('Error while parsing message', e);
+      console.error('Error while parsing message', e)
     }
-    messageCallback(evt);
-  };
+    messageCallback(evt)
+  }
 
   // Handle WebSocket error
   socket.onerror = event => {
-    console.error('WebSocket error', event);
+    console.error('WebSocket error', event)
     if (errorCallback) {
-      errorCallback(event);
+      errorCallback(event)
     }
-  };
+  }
 
   // WebSocket keep alive
   socket.setKeepalive = seconds => {
-    if (!heartbeatCallback) return;
-    console.debug('Setting keepalive interval seconds', seconds);
-    socket.clearKeepalive();
+    if (!heartbeatCallback) return
+    console.debug('Setting keepalive interval seconds', seconds)
+    socket.clearKeepalive()
     socket.keepaliveTimer = setInterval(() => {
-      heartbeatCallback();
-    }, seconds * 1000);
-  };
+      heartbeatCallback()
+    }, seconds * 1000)
+  }
 
   socket.clearKeepalive = () => {
-    if (socket.keepaliveTimer) clearInterval(socket.keepaliveTimer);
-    delete socket.keepaliveTimer;
-  };
+    if (socket.keepaliveTimer) clearInterval(socket.keepaliveTimer)
+    delete socket.keepaliveTimer
+  }
 
   // Add the new WebSocket connection to the list
-  openWSConnections.push(socket);
-  console.debug(`new WS connection: ${socket.url}, ${openWSConnections.length} open connections`);
-  console.debug(openWSConnections);
+  openWSConnections.push(socket)
+  console.debug(`new WS connection: ${socket.url}, ${openWSConnections.length} open connections`)
+  console.debug(openWSConnections)
 
-  return socket;
+  return socket
 }
 
 export default {
@@ -162,7 +162,7 @@ export default {
       errorCallback,
       heartbeatCallback,
       heartbeatInterval
-    );
+    )
   },
   /**
    * Connect to the event WebSocket, which provides direct access to the EventBus.
@@ -175,23 +175,23 @@ export default {
    * @return {WebSocket}
    */
   events(topics, messageCallback, readyCallback, errorCallback) {
-    let socket;
+    let socket
 
     const extendedMessageCallback = event => {
-      if (event.type === 'WebSocketEvent') return;
-      messageCallback(event);
-    };
+      if (event.type === 'WebSocketEvent') return
+      messageCallback(event)
+    }
 
     const extendedReadyCallback = event => {
-      socket.send(eventSourceFilterMessage(socket.id, [socket.id]));
+      socket.send(eventSourceFilterMessage(socket.id, [socket.id]))
       if (Array.isArray(topics) && topics.length > 0)
-        socket.send(eventTopicFilterMesssage(socket.id, topics));
-      if (readyCallback) readyCallback(event);
-    };
+        socket.send(eventTopicFilterMesssage(socket.id, topics))
+      if (readyCallback) readyCallback(event)
+    }
 
     const heartbeatCallback = () => {
-      socket.send(heartbeatMessage(socket.id));
-    };
+      socket.send(heartbeatMessage(socket.id))
+    }
 
     socket = this.connect(
       '/ws/events',
@@ -199,8 +199,8 @@ export default {
       heartbeatCallback,
       extendedReadyCallback,
       errorCallback
-    );
-    return socket;
+    )
+    return socket
   },
   /**
    * Close the given WebSocket connection.
@@ -209,20 +209,20 @@ export default {
    * @param {fn} [callback=null] callback to execute on connection close
    */
   close(socket, callback = null) {
-    if (!socket) return;
+    if (!socket) return
     if (openWSConnections.indexOf(socket) >= 0) {
-      openWSConnections.splice(openWSConnections.indexOf(socket), 1);
+      openWSConnections.splice(openWSConnections.indexOf(socket), 1)
     }
     console.debug(
       `WS connection closed: ${socket.url}, ${openWSConnections.length} open connections`
-    );
-    console.debug(openWSConnections);
+    )
+    console.debug(openWSConnections)
     socket.onclose = event => {
       if (callback) {
-        callback(event);
+        callback(event)
       }
-    };
-    socket.clearKeepalive();
-    socket.close();
-  },
-};
+    }
+    socket.clearKeepalive()
+    socket.close()
+  }
+}

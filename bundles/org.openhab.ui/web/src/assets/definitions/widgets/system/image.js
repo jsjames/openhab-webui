@@ -1,4 +1,4 @@
-import { pi, pt, pb, pn } from '../helpers.js';
+import { pi, pt, pb, pn } from '../helpers.js'
 
 export default () => [
   pi('item', 'Item', 'Image item to show - preferred if the image changes'),
@@ -9,5 +9,5 @@ export default () => [
     'Lazy Load Fade-in',
     'Transition the image with a fade-in effect after it has loaded'
   ),
-  pn('refreshInterval', 'Refresh Interval', 'Refresh interval in milliseconds'),
-];
+  pn('refreshInterval', 'Refresh Interval', 'Refresh interval in milliseconds')
+]

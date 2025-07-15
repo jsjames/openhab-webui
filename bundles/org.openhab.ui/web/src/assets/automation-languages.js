@@ -2,32 +2,32 @@ export default {
   'application/vnd.openhab.dsl.rule': {
     name: 'Rules DSL',
     commentChar: '//',
-    documentationLink: '/docs/configuration/rules-dsl.html',
+    documentationLink: '/docs/configuration/rules-dsl.html'
   },
   'application/javascript': {
     name: 'JavaScript Scripting',
     commentChar: '//',
-    documentationLink: '/link/jsscripting-script',
+    documentationLink: '/link/jsscripting-script'
   },
   'application/javascript;version=ECMAScript-5.1': {
     name: 'JavaScript Scripting (Nashorn)',
-    commentChar: '//',
+    commentChar: '//'
   },
   'application/x-groovy': {
     name: 'Groovy Scripting',
-    commentChar: '//',
+    commentChar: '//'
   },
   'application/x-python': {
     name: 'Jython Scripting',
-    commentChar: '#',
+    commentChar: '#'
   },
   'application/x-ruby': {
     name: 'JRuby Scripting',
     commentChar: '#',
-    documentationLink: '/link/jrubyscripting-script',
+    documentationLink: '/link/jrubyscripting-script'
   },
   'application/x-python3': {
     name: 'Python Scripting',
-    commentChar: '#',
-  },
-};
+    commentChar: '#'
+  }
+}

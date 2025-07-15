@@ -1,4 +1,4 @@
-import { f7 } from 'framework7-vue';
+import { f7 } from 'framework7-vue'
 
 function executeFileDefinitionCopy(
   vueInstance,
@@ -11,37 +11,37 @@ function executeFileDefinitionCopy(
 ) {
   const progressDialog = vueInstance.$f7.dialog.progress(
     `Loading ${objectTypeLabel} ${fileFormatLabel} definition...`
-  );
+  )
 
-  const path = `/rest/file-format/${objectType}s`;
-  const headers = { accept: mediaType };
-  const data = JSON.stringify(objectIds);
+  const path = `/rest/file-format/${objectType}s`
+  const headers = { accept: mediaType }
+  const data = JSON.stringify(objectIds)
   vueInstance.$oh.api
     .postPlain(path, data, 'text', 'application/json', headers)
     .then(definition => {
-      progressDialog.close();
+      progressDialog.close()
       if (vueInstance.$clipboard(definition)) {
         vueInstance.$f7.toast
           .create({
             text: `${objectTypeLabel} ${fileFormatLabel} definition copied to clipboard:\n${copiedObjectsLabel}`,
             destroyOnClose: true,
-            closeTimeout: 2000,
+            closeTimeout: 2000
           })
-          .open();
+          .open()
       } else {
         vueInstance.$f7.dialog.alert(
           `Error copying ${objectTypeLabel} ${fileFormatLabel} definition to the clipboard`,
           'Error'
-        );
+        )
       }
     })
     .catch(error => {
-      progressDialog.close();
+      progressDialog.close()
       vueInstance.$f7.dialog.alert(
         `Error loading ${objectTypeLabel} ${fileFormatLabel} definition: ${error}`,
         'Error'
-      );
-    });
+      )
+    })
 }
 
 export default {
@@ -49,8 +49,8 @@ export default {
     // Define the ObjectType enum to be used when calling the copyFileDefinitionToClipboard method
     this.ObjectType = Object.freeze({
       THING: 'thing',
-      ITEM: 'item',
-    });
+      ITEM: 'item'
+    })
   },
   methods: {
     /**
@@ -62,15 +62,15 @@ export default {
      *                            When `null`, all objects of the given type will be copied.
      */
     copyFileDefinitionToClipboard(objectType, objectIds = null) {
-      const objectTypeLabel = objectType.charAt(0).toUpperCase() + objectType.slice(1) + 's';
+      const objectTypeLabel = objectType.charAt(0).toUpperCase() + objectType.slice(1) + 's'
 
-      let copiedObjectsLabel = null;
+      let copiedObjectsLabel = null
       if (objectIds === null) {
-        copiedObjectsLabel = `All ${objectTypeLabel}`;
+        copiedObjectsLabel = `All ${objectTypeLabel}`
       } else if (objectIds.length === 1) {
-        copiedObjectsLabel = '<b>' + objectIds[0] + '</b>';
+        copiedObjectsLabel = '<b>' + objectIds[0] + '</b>'
       } else {
-        copiedObjectsLabel = `${objectIds.length} ${objectTypeLabel}`;
+        copiedObjectsLabel = `${objectIds.length} ${objectTypeLabel}`
       }
 
       f7.dialog
@@ -80,7 +80,7 @@ export default {
           buttons: [
             {
               text: 'Cancel',
-              color: 'gray',
+              color: 'gray'
             },
             {
               text: 'DSL',
@@ -94,7 +94,7 @@ export default {
                   copiedObjectsLabel,
                   'DSL',
                   `text/vnd.openhab.dsl.${objectType}`
-                ),
+                )
             },
             {
               text: 'YAML',
@@ -108,11 +108,11 @@ export default {
                   copiedObjectsLabel,
                   'YAML',
                   'application/yaml'
-                ),
-            },
-          ],
+                )
+            }
+          ]
         })
-        .open();
-    },
-  },
-};
+        .open()
+    }
+  }
+}

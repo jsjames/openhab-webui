@@ -1,18 +1,18 @@
-import WidgetConfigPopup from '@/components/pagedesigner/widget-config-popup.vue';
-import { pb, pg, pi, pt, WidgetDefinition } from '@/assets/definitions/widgets/helpers';
-import { actionGroup, actionParams } from '@/assets/definitions/widgets/actions';
-import { f7 } from 'framework7-vue';
+import WidgetConfigPopup from '@/components/pagedesigner/widget-config-popup.vue'
+import { pb, pg, pi, pt, WidgetDefinition } from '@/assets/definitions/widgets/helpers'
+import { actionGroup, actionParams } from '@/assets/definitions/widgets/actions'
+import { f7 } from 'framework7-vue'
 
 export default {
   props: {
-    f7router: Object,
+    f7router: Object
   },
   emits: ['action'],
   data() {
     return {
       embeddedSvgReady: false,
-      embeddedSvgStateTrackingUnsubscribes: [],
-    };
+      embeddedSvgStateTrackingUnsubscribes: []
+    }
   },
   methods: {
     /**
@@ -24,7 +24,7 @@ export default {
       // Load the real SVG content, in editmode we add a random number to the URL to prevent caching
       const svgUrl = this.context.editmode
         ? this.config.imageUrl + `?rnd=${Math.random()}`
-        : this.config.imageUrl;
+        : this.config.imageUrl
       return fetch(svgUrl)
         .then(response => {
           if (response.status !== 200) {
@@ -32,23 +32,23 @@ export default {
               new Error(
                 `Failed to load from ${this.config.imageUrl}. Status: ${response.status} (${response.statusText})`
               )
-            );
+            )
           } else if (response.headers.get('Content-Type') !== 'image/svg+xml') {
-            return Promise.reject(new Error(`${this.config.imageUrl} is not an SVG file`));
+            return Promise.reject(new Error(`${this.config.imageUrl} is not an SVG file`))
           } else {
-            return response.text();
+            return response.text()
           }
         })
         .then(svgCode => {
-          this.$refs.canvasBackground.innerHTML = svgCode;
-          const svgEl = this.$refs.canvasBackground.querySelector('svg');
-          svgEl.classList.add('oh-canvas-background', 'disable-user-drag');
-          return Promise.resolve();
+          this.$refs.canvasBackground.innerHTML = svgCode
+          const svgEl = this.$refs.canvasBackground.querySelector('svg')
+          svgEl.classList.add('oh-canvas-background', 'disable-user-drag')
+          return Promise.resolve()
         })
         .catch(error => {
-          console.error('Error embedding SVG:', error);
-          return Promise.reject(error);
-        });
+          console.error('Error embedding SVG:', error)
+          return Promise.reject(error)
+        })
     },
     /**
      * Opens the config popup for an embedded SVG element.
@@ -59,13 +59,13 @@ export default {
       const defaultActionConfig = {
         action: 'toggle',
         actionCommand: 'ON',
-        actionCommandAlt: 'OFF',
-      };
-      const popup = { component: WidgetConfigPopup };
+        actionCommandAlt: 'OFF'
+      }
+      const popup = { component: WidgetConfigPopup }
       this.f7router.navigate(
         {
           url: 'on-svg-click-settings',
-          route: { path: 'on-svg-click-settings', popup },
+          route: { path: 'on-svg-click-settings', popup }
         },
         {
           props: {
@@ -125,25 +125,25 @@ export default {
                     'useDisplayState',
                     'Use displayState as Text',
                     'Use the formatted state value to write into tspan'
-                  ).a(),
+                  ).a()
                 ]
               )
               .paramGroup(actionGroup(), actionParams()),
             component: {
               config: this.config.embeddedSvgActions
                 ? this.context.component.config.embeddedSvgActions[id] || defaultActionConfig
-                : defaultActionConfig,
-            },
-          },
+                : defaultActionConfig
+            }
+          }
         }
-      );
+      )
       const updateWidgetConfig = config => {
-        f7.emit('svg-onclick-config-update', { id, config });
-      };
-      f7.on('widget-config.update', updateWidgetConfig);
+        f7.emit('svg-onclick-config-update', { id, config })
+      }
+      f7.on('widget-config.update', updateWidgetConfig)
       f7.once('widget-config.closed', () => {
-        f7.off('widget-config.update', updateWidgetConfig);
-      });
+        f7.off('widget-config.update', updateWidgetConfig)
+      })
     },
     /**
      * Setups the state tracking for the Items linked to embedded SVG elements.
@@ -152,19 +152,19 @@ export default {
      * Remember to unsubscribe from the mutations using {@link unsubscribeEmbeddedSvgStateTracking} when the component is destroyed.
      */
     setupEmbeddedSvgStateTracking() {
-      if (!this.config.embeddedSvgActions) return;
+      if (!this.config.embeddedSvgActions) return
 
-      const svg = this.$refs.canvasBackground.querySelector('svg');
-      const subElements = svg.querySelectorAll('[openhab]');
+      const svg = this.$refs.canvasBackground.querySelector('svg')
+      const subElements = svg.querySelectorAll('[openhab]')
 
       for (const subElement of subElements) {
-        const stateItems = this.config.embeddedSvgActions[subElement.id]?.stateItems;
-        const actionItem = this.config.embeddedSvgActions[subElement.id]?.actionItem;
-        const items = stateItems || (actionItem ? [actionItem] : []);
-        if (items.length === 0) continue;
+        const stateItems = this.config.embeddedSvgActions[subElement.id]?.stateItems
+        const actionItem = this.config.embeddedSvgActions[subElement.id]?.actionItem
+        const items = stateItems || (actionItem ? [actionItem] : [])
+        if (items.length === 0) continue
         for (const item of items) {
           if (!this.$store.getters.isItemTracked(item))
-            this.$store.commit('addToTrackingList', item);
+            this.$store.commit('addToTrackingList', item)
           const unsubscribe = this.$store.subscribe((mutation, state) => {
             if (mutation.type === 'setItemState' && mutation.payload.itemName === item) {
               this.applyStateToSvgElement(
@@ -172,58 +172,58 @@ export default {
                 state.states.itemStates[item],
                 this.config.embeddedSvgActions[subElement.id],
                 subElement
-              );
+              )
             }
-          });
-          this.embeddedSvgStateTrackingUnsubscribes.push(unsubscribe);
+          })
+          this.embeddedSvgStateTrackingUnsubscribes.push(unsubscribe)
         }
       }
 
-      this.$store.dispatch('updateTrackingList');
-      console.info('Successfully setup embedded SVG state tracking.');
+      this.$store.dispatch('updateTrackingList')
+      console.info('Successfully setup embedded SVG state tracking.')
     },
     /**
      * Unsubscribes from the state tracking for the Items linked to embedded SVG elements.
      */
     unsubscribeEmbeddedSvgStateTracking() {
       for (const unsubscribe of this.embeddedSvgStateTrackingUnsubscribes) {
-        unsubscribe();
+        unsubscribe()
       }
-      console.info('Unsubscribed from embedded SVG state tracking.');
+      console.info('Unsubscribed from embedded SVG state tracking.')
     },
     /**
      * Subscribes to the mouseover and click events for the embedded SVG elements with the `openhab` attribute.
      */
     subscribeEmbeddedSvgListeners() {
-      const svg = this.$refs.canvasBackground.querySelector('svg');
-      const subElements = svg.querySelectorAll('[openhab]');
+      const svg = this.$refs.canvasBackground.querySelector('svg')
+      const subElements = svg.querySelectorAll('[openhab]')
 
       for (const subElement of subElements) {
-        subElement.setAttribute('cursor', 'pointer');
+        subElement.setAttribute('cursor', 'pointer')
         subElement.addEventListener('mouseover', () => {
-          this.svgOnMouseOver(subElement);
-        });
+          this.svgOnMouseOver(subElement)
+        })
 
         subElement.addEventListener('click', () => {
-          return this.svgOnClick(subElement);
-        });
+          return this.svgOnClick(subElement)
+        })
       }
     },
     /**
      * Unsubscribes from the mouseover and click events for the embedded SVG elements with the `openhab` attribute.
      */
     unsubscribeEmbeddedSvgListeners() {
-      const svg = this.$refs.canvasBackground.querySelector('svg');
-      const subElements = svg.querySelectorAll('[openhab]');
+      const svg = this.$refs.canvasBackground.querySelector('svg')
+      const subElements = svg.querySelectorAll('[openhab]')
 
       for (const subElement of subElements) {
         subElement.removeEventListener('mouseover', () => {
-          this.svgOnMouseOver(subElement);
-        });
+          this.svgOnMouseOver(subElement)
+        })
 
         subElement.removeEventListener('click', () => {
-          return this.svgOnClick(subElement);
-        });
+          return this.svgOnClick(subElement)
+        })
       }
     },
     /**
@@ -237,47 +237,47 @@ export default {
     svgOnMouseOver(el) {
       function flashElement(el, fillColor) {
         if (el && !el.flashing) {
-          const attributeName = el.style.fill !== 'none' ? 'fill' : 'stroke';
-          const oldFill = el.style.getPropertyValue(attributeName);
-          const oldOpacity = el.style.opacity;
-          el.style.setProperty(attributeName, fillColor);
-          el.style.opacity = 1;
-          el.flashing = true;
+          const attributeName = el.style.fill !== 'none' ? 'fill' : 'stroke'
+          const oldFill = el.style.getPropertyValue(attributeName)
+          const oldOpacity = el.style.opacity
+          el.style.setProperty(attributeName, fillColor)
+          el.style.opacity = 1
+          el.flashing = true
           setTimeout(() => {
-            el.style.setProperty(attributeName, oldFill);
-            el.style.opacity = oldOpacity;
-            el.flashing = false;
-          }, 200);
+            el.style.setProperty(attributeName, oldFill)
+            el.style.opacity = oldOpacity
+            el.flashing = false
+          }, 200)
         }
       }
 
       if (this.context.editmode || (!this.context.editmode && this.config.embedSvgFlashing)) {
-        const tagName = el.tagName;
+        const tagName = el.tagName
         // fill green if item config is available, red if config is still missing
         const fillColor =
           this.config.embeddedSvgActions && this.config.embeddedSvgActions[el.id]
             ? 'rgb(0, 255, 0)'
-            : 'rgb(255, 0, 0)';
+            : 'rgb(255, 0, 0)'
         if (tagName !== 'g' && !el.flashing) {
           // sometimes instead of fill, stroke colors are used, so if fill = none, then we use stroke instead
-          const attributeName = el.style.fill !== 'none' ? 'fill' : 'stroke';
-          const oldFill = el.style.getPropertyValue(attributeName);
-          el.style.setProperty(attributeName, fillColor);
-          el.flashing = true;
+          const attributeName = el.style.fill !== 'none' ? 'fill' : 'stroke'
+          const oldFill = el.style.getPropertyValue(attributeName)
+          el.style.setProperty(attributeName, fillColor)
+          el.flashing = true
           setTimeout(() => {
-            el.flashing = false;
-            el.style.setProperty(attributeName, oldFill);
-          }, 200);
+            el.flashing = false
+            el.style.setProperty(attributeName, oldFill)
+          }, 200)
         } else {
           // groups cannot be filled, so we need to fill special element marked as "flash"
-          const elementToFlash = el.querySelector('[flash]');
+          const elementToFlash = el.querySelector('[flash]')
           if (elementToFlash) {
-            flashElement(elementToFlash, fillColor);
+            flashElement(elementToFlash, fillColor)
           } else {
             // let's try flashing all path elements in the group
-            const flashElements = el.querySelectorAll('path');
+            const flashElements = el.querySelectorAll('path')
             for (const path of flashElements) {
-              flashElement(path, fillColor);
+              flashElement(path, fillColor)
             }
           }
         }
@@ -293,13 +293,13 @@ export default {
      */
     svgOnClick(el) {
       // if state = ON, use fill or flash file to highlight element (see mouseover)
-      console.log(`Element ${el.id} with openhab attribute clicked!`);
+      console.log(`Element ${el.id} with openhab attribute clicked!`)
 
       if (this.context.editmode) {
-        this.openSvgSettingsPopup(el.id);
+        this.openSvgSettingsPopup(el.id)
       } else {
         if (this.config.embeddedSvgActions && this.config.embeddedSvgActions[el.id]) {
-          this.performAction(null, null, this.config.embeddedSvgActions[el.id], this.context);
+          this.performAction(null, null, this.config.embeddedSvgActions[el.id], this.context)
         }
       }
     },
@@ -311,26 +311,26 @@ export default {
         f7.toast
           .create({
             text: 'SVG embedding has not been properly configured. Ensure that the Image URL points to an SVG file.',
-            closeTimeout: 2000,
+            closeTimeout: 2000
           })
-          .open();
-        return;
+          .open()
+        return
       }
-      const svg = this.$refs.canvasBackground.querySelector('svg');
-      const subElements = svg.querySelectorAll('[openhab]');
+      const svg = this.$refs.canvasBackground.querySelector('svg')
+      const subElements = svg.querySelectorAll('[openhab]')
 
       if (subElements.length === 0) {
         f7.toast
           .create({
             text: 'No SVG elements with an "openhab" attribute found.',
-            closeTimeout: 2000,
+            closeTimeout: 2000
           })
-          .open();
-        return;
+          .open()
+        return
       }
 
       for (const subElement of subElements) {
-        this.svgOnMouseOver(subElement);
+        this.svgOnMouseOver(subElement)
       }
     },
     /**
@@ -345,22 +345,22 @@ export default {
     toRGBStyle: function (color) {
       if (color) {
         if (color?.trim().startsWith('#')) {
-          return color;
+          return color
         } else {
-          const rgbNumbers = color.split(',');
+          const rgbNumbers = color.split(',')
           if (rgbNumbers.length !== 3) {
-            console.info(`invalid rgb values in configured color: ${color}`);
-            return '#FF0000'; // not valid returns red
+            console.info(`invalid rgb values in configured color: ${color}`)
+            return '#FF0000' // not valid returns red
           }
           const rgb = this.$oh.utils.hsbToRgb(
             rgbNumbers[0],
             rgbNumbers[1] / 100,
             rgbNumbers[2] / 100
-          );
-          return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+          )
+          return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`
         }
       } else {
-        return undefined;
+        return undefined
       }
     },
     /*
@@ -410,108 +410,108 @@ export default {
      * @param {string} svgElement the svg element that has been configured to represent the state
      */
     applyStateToSvgElement(item, stateObj, svgElementConfig, svgElement) {
-      let state = svgElementConfig.useDisplayState ? stateObj.displayState : stateObj.state;
-      const stateType = stateObj.type;
-      const stateOnSubstitute = svgElementConfig.stateOnSubstitute;
+      let state = svgElementConfig.useDisplayState ? stateObj.displayState : stateObj.state
+      const stateType = stateObj.type
+      const stateOnSubstitute = svgElementConfig.stateOnSubstitute
       if (stateOnSubstitute && stateType === 'String') {
-        state = state === stateOnSubstitute ? 'ON' : 'OFF';
+        state = state === stateOnSubstitute ? 'ON' : 'OFF'
       }
 
-      console.info(`Update ${svgElement.id} due to ${item} changing to ${state} ${stateType}`);
-      const tagName = svgElement.tagName;
-      const stateOnColorRgbStyle = this.toRGBStyle(svgElementConfig.stateOnColor);
-      const stateOffColorRgbStyle = this.toRGBStyle(svgElementConfig.stateOffColor);
+      console.info(`Update ${svgElement.id} due to ${item} changing to ${state} ${stateType}`)
+      const tagName = svgElement.tagName
+      const stateOnColorRgbStyle = this.toRGBStyle(svgElementConfig.stateOnColor)
+      const stateOffColorRgbStyle = this.toRGBStyle(svgElementConfig.stateOffColor)
 
       if (tagName === 'tspan') {
-        svgElement.innerHTML = state;
+        svgElement.innerHTML = state
       }
 
       function processState(useProxy, element) {
         if (state === 'ON' || stateType === 'HSB') {
           if (useProxy && svgElementConfig.stateAsOpacity) {
             // we use the flash element
-            let opacity = state === 'ON' ? 1 : 0;
-            opacity = svgElementConfig.invertStateOpacity ? 1 - opacity : opacity;
+            let opacity = state === 'ON' ? 1 : 0
+            opacity = svgElementConfig.invertStateOpacity ? 1 - opacity : opacity
             opacity =
               opacity < svgElementConfig.stateMinOpacity
                 ? svgElementConfig.stateMinOpacity
-                : opacity;
-            element.style.opacity = opacity;
+                : opacity
+            element.style.opacity = opacity
           } else {
-            element.oldFill = element.style.fill;
-            element.style.fill = stateOnColorRgbStyle;
+            element.oldFill = element.style.fill
+            element.style.fill = stateOnColorRgbStyle
           }
           if (svgElementConfig.stateOnAsStyleClass) {
             if (svgElementConfig.stateOffAsStyleClass) {
               // if offStates are provided add OffStates
-              let offStatesArray = svgElementConfig.stateOffAsStyleClass.split(',');
+              let offStatesArray = svgElementConfig.stateOffAsStyleClass.split(',')
               for (const offState of offStatesArray) {
-                const elementClassInfo = offState.split(':');
-                const offStateElement = document.getElementById(elementClassInfo[0].trim());
+                const elementClassInfo = offState.split(':')
+                const offStateElement = document.getElementById(elementClassInfo[0].trim())
                 if (offStateElement) {
-                  offStateElement.classList.remove(elementClassInfo[1].trim());
+                  offStateElement.classList.remove(elementClassInfo[1].trim())
                 } else {
                   console.warn(
                     `Target element ${elementClassInfo[0].trim()} not found. Please check style stateOffAsStyleClass expression of ${element.id}`
-                  );
+                  )
                 }
               }
             }
-            let onStatesArray = svgElementConfig.stateOnAsStyleClass.split(',');
+            let onStatesArray = svgElementConfig.stateOnAsStyleClass.split(',')
             for (const onState of onStatesArray) {
-              const elementClassInfo = onState.split(':');
-              const onStateElement = document.getElementById(elementClassInfo[0].trim());
+              const elementClassInfo = onState.split(':')
+              const onStateElement = document.getElementById(elementClassInfo[0].trim())
               if (onStateElement) {
-                onStateElement.classList.add(elementClassInfo[1].trim());
+                onStateElement.classList.add(elementClassInfo[1].trim())
               } else {
                 console.warn(
                   `Target element ${elementClassInfo[0].trim()} not found. Please check style stateOnAsStyleClass expression of ${element.id}`
-                );
+                )
               }
             }
           }
         } else if (state === 'OFF') {
           const updateColor =
             stateOffColorRgbStyle ||
-            (element?.oldFill !== 'undefined' ? element?.oldFill : 'undefined');
+            (element?.oldFill !== 'undefined' ? element?.oldFill : 'undefined')
           if (updateColor !== 'undefined') {
-            element.style.fill = updateColor;
+            element.style.fill = updateColor
           }
           if (svgElementConfig.stateAsOpacity) {
             // we use the flash element
-            let opacity = svgElementConfig.invertStateOpacity ? 1 : 0;
+            let opacity = svgElementConfig.invertStateOpacity ? 1 : 0
             opacity =
               opacity < svgElementConfig.stateMinOpacity
                 ? svgElementConfig.stateMinOpacity
-                : opacity;
-            element.style.opacity = opacity;
+                : opacity
+            element.style.opacity = opacity
           }
           if (svgElementConfig.stateOnAsStyleClass) {
             // remove OnState-Styles first
-            let onStatesArray = svgElementConfig.stateOnAsStyleClass.split(',');
+            let onStatesArray = svgElementConfig.stateOnAsStyleClass.split(',')
             for (const onState of onStatesArray) {
-              const elementClassInfo = onState.split(':');
-              const onStateElement = document.getElementById(elementClassInfo[0].trim());
+              const elementClassInfo = onState.split(':')
+              const onStateElement = document.getElementById(elementClassInfo[0].trim())
               if (onStateElement) {
-                onStateElement.classList.remove(elementClassInfo[1].trim());
+                onStateElement.classList.remove(elementClassInfo[1].trim())
               } else {
                 console.warn(
                   `Target element ${elementClassInfo[0].trim()} not found. Please check style stateOnAsStyleClass expression of ${element.id}`
-                );
+                )
               }
             }
             if (svgElementConfig.stateOffAsStyleClass) {
               // if offStates are provided add OffStates
-              let offStatesArray = svgElementConfig.stateOffAsStyleClass.split(',');
+              let offStatesArray = svgElementConfig.stateOffAsStyleClass.split(',')
               for (const offState of offStatesArray) {
-                const elementClassInfo = offState.split(':');
-                const offStateElement = document.getElementById(elementClassInfo[0].trim());
+                const elementClassInfo = offState.split(':')
+                const offStateElement = document.getElementById(elementClassInfo[0].trim())
                 if (offStateElement) {
-                  offStateElement.classList.add(elementClassInfo[1].trim());
+                  offStateElement.classList.add(elementClassInfo[1].trim())
                 } else {
                   console.warn(
                     `Target element ${elementClassInfo[0].trim()} not found. Please check style stateOffAsStyleClass expression of ${element.id}`
-                  );
+                  )
                 }
               }
             }
@@ -521,22 +521,22 @@ export default {
           if (svgElementConfig.stateAsOpacity && state) {
             // meant to be used as opacity
             // we expect that number between 0 - 100
-            let opacity;
+            let opacity
             if (stateType === 'OpenClosed') {
-              opacity = state === 'OPEN' ? 1 : 0;
+              opacity = state === 'OPEN' ? 1 : 0
             } else if (stateType === 'Percent' && !isNaN(state)) {
-              opacity = parseFloat(state) / 100.0;
+              opacity = parseFloat(state) / 100.0
             }
-            opacity = svgElementConfig.invertStateOpacity ? 1 - opacity : opacity;
+            opacity = svgElementConfig.invertStateOpacity ? 1 - opacity : opacity
             opacity =
               opacity < svgElementConfig.stateMinOpacity
                 ? svgElementConfig.stateMinOpacity
-                : opacity;
-            element.style.opacity = opacity;
+                : opacity
+            element.style.opacity = opacity
           } else if (state) {
             // treat it as color use the colorOnState that may be computed based on that
             if (stateOnColorRgbStyle) {
-              element.style.fill = stateOnColorRgbStyle;
+              element.style.fill = stateOnColorRgbStyle
             }
           }
         }
@@ -549,18 +549,18 @@ export default {
         case 'HSB':
         case 'OnOff':
         case 'String':
-          const useProxy = tagName === 'g' && svgElementConfig.useProxyElementForState; // if proxy should be used and element is of type group
-          const element = useProxy ? svgElement.querySelector('[flash]') : svgElement;
+          const useProxy = tagName === 'g' && svgElementConfig.useProxyElementForState // if proxy should be used and element is of type group
+          const element = useProxy ? svgElement.querySelector('[flash]') : svgElement
           if (element) {
-            processState(useProxy, element);
+            processState(useProxy, element)
           } else {
             // let's try processing all paths within the group instead
-            const pathElements = svgElement.querySelectorAll('path');
+            const pathElements = svgElement.querySelectorAll('path')
             for (const path of pathElements) {
-              processState(useProxy, path);
+              processState(useProxy, path)
             }
           }
-          break;
+          break
       }
     },
     /**
@@ -573,7 +573,7 @@ export default {
      * @param context
      */
     performAction(evt, prefix, config, context) {
-      this.$emit('action', { evt, prefix, config, context });
-    },
-  },
-};
+      this.$emit('action', { evt, prefix, config, context })
+    }
+  }
+}

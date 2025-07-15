@@ -134,7 +134,7 @@ use([
 
 const ECHARTS_LOCALE = i18n.global.locale.split('-')[0].toUpperCase();
 
-//TODO  import(`./node_modules/echarts/i18n/lang${ECHARTS_LOCALE}-obj.js` /* @vite-ignore */)
+//TODO-V3  import(`./node_modules/echarts/i18n/lang${ECHARTS_LOCALE}-obj.js` /* @vite-ignore */)
 import('echarts/i18n/langEN-obj.js' /* @vite-ignore */)
   .then(lang => {
     console.info(`Registering ECharts locale ${ECHARTS_LOCALE}`);

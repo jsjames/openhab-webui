@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO fragment-->
   <div v-if="context.component.slots && context.component.slots.default">
     <generic-widget-component
       v-for="(slotComponent, idx) in context.component.slots.default"

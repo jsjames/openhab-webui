@@ -1,49 +1,49 @@
 // import Framework7 from 'framework7/framework7-lite.esm.bundle.js'
-import Framework7 from 'framework7/lite-bundle';
-import store from '@/js/store';
+import Framework7 from 'framework7/lite-bundle'
+import store from '@/js/store'
 
 /**
  * The current access token
  */
-let accessToken = null;
+let accessToken = null
 
 /**
  * The access token should be passed in the X-OPENHAB-TOKEN header instead of Authorization: Bearer
  */
-let tokenInCustomHeader = false;
+let tokenInCustomHeader = false
 
 /**
  * The PasswordCredential to authenticate to a reverse proxy service like openHAB Cloud
  */
-let basicCredentials = null;
+let basicCredentials = null
 
 /**
  * The token is required for all requests, including SSE
  */
-let requireToken;
+let requireToken
 
 export function getAccessToken() {
-  return accessToken;
+  return accessToken
 }
 export function getTokenInCustomHeader() {
-  return tokenInCustomHeader;
+  return tokenInCustomHeader
 }
 export function getBasicCredentials() {
-  return basicCredentials;
+  return basicCredentials
 }
 export function getRequireToken() {
-  return requireToken;
+  return requireToken
 }
 
-if (document.cookie.indexOf('X-OPENHAB-AUTH-HEADER') >= 0) tokenInCustomHeader = true;
+if (document.cookie.indexOf('X-OPENHAB-AUTH-HEADER') >= 0) tokenInCustomHeader = true
 
 export async function authorize(setup) {
   import('pkce-challenge').then(PkceChallenge => {
-    const pkceChallenge = PkceChallenge.default();
-    const authState = (setup ? 'setup-' : '') + Framework7.utils.id();
+    const pkceChallenge = PkceChallenge.default()
+    const authState = (setup ? 'setup-' : '') + Framework7.utils.id()
 
-    sessionStorage.setItem('openhab.ui:codeVerifier', pkceChallenge.code_verifier);
-    sessionStorage.setItem('openhab.ui:authState', authState);
+    sessionStorage.setItem('openhab.ui:codeVerifier', pkceChallenge.code_verifier)
+    sessionStorage.setItem('openhab.ui:authState', authState)
 
     window.location =
       '/auth' +
@@ -57,22 +57,22 @@ export async function authorize(setup) {
       '&code_challenge=' +
       encodeURIComponent(pkceChallenge.code_challenge) +
       '&state=' +
-      authState;
-  });
+      authState
+  })
 }
 
 export function setBasicCredentials(username, password) {
   if (username && password) {
-    console.log('Using passed credentials');
-    basicCredentials = { id: username, password };
-    tokenInCustomHeader = true;
-    return Promise.resolve();
+    console.log('Using passed credentials')
+    basicCredentials = { id: username, password }
+    tokenInCustomHeader = true
+    return Promise.resolve()
   } else if (window.OHApp && window.OHApp.getBasicCredentialsUsername) {
-    const usernameFromApp = window.OHApp.getBasicCredentialsUsername();
-    const passwordFromApp = window.OHApp.getBasicCredentialsPassword();
-    basicCredentials = { id: usernameFromApp, password: passwordFromApp };
-    tokenInCustomHeader = true;
-    return Promise.resolve();
+    const usernameFromApp = window.OHApp.getBasicCredentialsUsername()
+    const passwordFromApp = window.OHApp.getBasicCredentialsPassword()
+    basicCredentials = { id: usernameFromApp, password: passwordFromApp }
+    tokenInCustomHeader = true
+    return Promise.resolve()
   } else if (
     navigator.credentials &&
     navigator.credentials.preventSilentAccess &&
@@ -80,20 +80,20 @@ export function setBasicCredentials(username, password) {
   ) {
     return navigator.credentials.get({ password: true }).then(creds => {
       if (creds) {
-        console.log('Using stored Basic credentials to sign in to a reverse proxy service');
-        basicCredentials = { id: creds.id, password: creds.password };
-        tokenInCustomHeader = true;
+        console.log('Using stored Basic credentials to sign in to a reverse proxy service')
+        basicCredentials = { id: creds.id, password: creds.password }
+        tokenInCustomHeader = true
       }
-      return Promise.resolve();
-    });
+      return Promise.resolve()
+    })
   } else {
-    return Promise.resolve();
+    return Promise.resolve()
   }
 }
 
 export function clearBasicCredentials() {
-  basicCredentials = null;
-  tokenInCustomHeader = document.cookie.indexOf('X-OPENHAB-AUTH-HEADER') >= 0;
+  basicCredentials = null
+  tokenInCustomHeader = document.cookie.indexOf('X-OPENHAB-AUTH-HEADER') >= 0
 }
 
 export function storeBasicCredentials() {
@@ -103,56 +103,56 @@ export function storeBasicCredentials() {
     navigator.credentials.preventSilentAccess &&
     window.PasswordCredential
   ) {
-    navigator.credentials.store(new window.PasswordCredential(basicCredentials));
+    navigator.credentials.store(new window.PasswordCredential(basicCredentials))
   }
 }
 
 export function setAccessToken(token, api) {
-  if (!token || !api) return Promise.resolve();
+  if (!token || !api) return Promise.resolve()
   if (requireToken === undefined) {
     // determine whether the token is required for user operations
     return api
       .get('/rest/sitemaps')
       .then(resp => {
-        accessToken = token;
-        requireToken = false;
-        return Promise.resolve();
+        accessToken = token
+        requireToken = false
+        return Promise.resolve()
       })
       .catch(err => {
-        if (err === 'Unauthorized' || err === 401) requireToken = true;
-        accessToken = token;
-        return Promise.resolve();
-      });
+        if (err === 'Unauthorized' || err === 401) requireToken = true
+        accessToken = token
+        return Promise.resolve()
+      })
   } else {
-    accessToken = token;
-    return Promise.resolve();
+    accessToken = token
+    return Promise.resolve()
   }
 }
 
 export function clearAccessToken() {
-  accessToken = null;
+  accessToken = null
 }
 
 export function isLoggedIn() {
-  return store.getters.user !== null;
+  return store.getters.user !== null
 }
 
 export function isAdmin() {
-  const user = store.getters.user;
-  return user && user.roles && user.roles.indexOf('administrator') >= 0;
+  const user = store.getters.user
+  return user && user.roles && user.roles.indexOf('administrator') >= 0
 }
 
 export function enforceAdminForRoute(context) {
   if (!isAdmin()) {
-    context.reject();
-    authorize();
+    context.reject()
+    authorize()
   } else {
-    context.resolve();
+    context.resolve()
   }
 }
 
 export default {
   setAccessToken,
   clearAccessToken,
-  setBasicCredentials,
-};
+  setBasicCredentials
+}

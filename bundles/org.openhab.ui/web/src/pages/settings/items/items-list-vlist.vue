@@ -189,7 +189,7 @@
           external
           :href="`${$store.state.websiteUrl}/link/items`"
           target="_blank"
-          t="'home.overview.button.documentation'"
+          :text="$t('home.overview.button.documentation')"
         />
       </f7-row>
     </f7-block>
@@ -226,9 +226,9 @@ import FileDefinition from '@/pages/settings/file-definition-mixin';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
-import { useUIOptionsStore } from '@/js/stores/ui-options';
+import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
 
-const uiOptionsStore = useUIOptionsStore();
+const lastSearchQueryStore = useLastSearchQueryStore();
 
 export default {
   mixins: [ItemMixin, FileDefinition],
@@ -271,14 +271,14 @@ export default {
     },
     onPageBeforeOut(event) {
       this.stopEventSource();
-      uiOptionsStore.lastItemSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+      lastSearchQueryStore.lastItemSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load() {
       if (this.loading) return;
       this.loading = true;
 
       if (this.initSearchbar)
-        uiOptionsStore.lastItemSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+        lastSearchQueryStore.lastItemSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
       this.initSearchbar = false;
 
       this.$oh.api.get('/rest/items?metadata=semantics').then(data => {
@@ -298,7 +298,7 @@ export default {
           if (this.$device.desktop) {
             this.$refs.searchbar?.$el.f7Searchbar.$el.focus();
           }
-          this.$refs.searchbar?.$el.f7Searchbar.search(uiOptionsStore.lastItemSearchQuery || '');
+          this.$refs.searchbar?.$el.f7Searchbar.search(lastSearchQueryStore.lastItemSearchQuery || '');
         });
       });
     },

@@ -22,10 +22,8 @@
             v-if="ready && ((multiple && checkedItems.length > 0) || selectedItem || allowEmpty)"
             @click="pickItems"
           >
-            {{ actionLabel || 'Pick'
-            }}<span v-if="multiple && checkedItems.length > 0"
-              >&nbsp;{{ checkedItems.length }}</span
-            >
+            {{ actionLabel || 'Pick' }}
+            <span v-if="multiple && checkedItems.length > 0">&nbsp;{{ checkedItems.length }}</span>
           </f7-link>
         </f7-nav-right>
       </f7-navbar>
@@ -154,6 +152,10 @@ import ModelMixin from '@/pages/settings/model/model-mixin';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 
+import { useModelPickerStore } from '@/js/stores/model-picker';
+
+const modelPickerStore = useModelPickerStore();
+
 export default {
   mixins: [ModelMixin],
   props: [
@@ -174,13 +176,12 @@ export default {
     return { theme };
   },
   data() {
-    if (!f7.data.modelPicker) f7.data.modelPicker = {};
     return {
       f7,
       initSearchbar: false,
-      includeItemName: f7.data.modelPicker.includeItemName || false,
-      includeItemTags: f7.data.modelPicker.includeItemTags || false,
-      expanded: f7.data.modelPicker.expanded || false,
+      includeItemName: modelPickerStore.includeItemName || false,
+      includeItemTags: modelPickerStore.includeItemTags || false,
+      expanded: modelPickerStore.expanded || false,
       doubleClickStarted: null,
       doubleClickItem: null,
       checkedItems: [],
@@ -303,17 +304,17 @@ export default {
     },
     toggleItemName() {
       this.includeItemName = !this.includeItemName;
-      f7.data.modelPicker.includeItemName = this.includeItemName;
+      modelPickerStore.includeItemName = this.includeItemName;
       this.load();
     },
     toggleItemTags() {
       this.includeItemTags = !this.includeItemTags;
-      f7.data.modelPicker.includeItemTags = this.includeItemTags;
+      modelPickerStore.includeItemTags = this.includeItemTags;
       this.load();
     },
     toggleExpanded() {
       this.expanded = !this.expanded;
-      f7.data.modelPicker.expanded = this.expanded;
+      modelPickerStore.expanded = this.expanded;
       this.applyExpandedOption();
     },
   },

@@ -1,4 +1,4 @@
-import { pt, pb, pn } from '../helpers.js';
+import { pt, pb, pn } from '../helpers.js'
 
 export default () => [
   pt('text', 'Text', 'Button label'),
@@ -17,5 +17,5 @@ export default () => [
   pt('iconMaterial', 'Icon', 'Material design icon to display'),
   pt('iconColor', 'Icon Color', 'Not applicable to openHAB icons'),
   pn('iconSize', 'Icon Size', 'Size of the icon in px'),
-  pt('tooltip', 'Tooltip', 'Button tooltip text to show on button hover/press').a(),
-];
+  pt('tooltip', 'Tooltip', 'Button tooltip text to show on button hover/press').a()
+]

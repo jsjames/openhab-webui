@@ -1,4 +1,4 @@
-import { pi, pb, pt, pd } from '../helpers.js';
+import { pi, pb, pt, pd } from '../helpers.js'
 
 export default () => [
   pt('name', 'Name', 'Input name'),
@@ -43,5 +43,5 @@ export default () => [
     'variableKey',
     'Variable Key',
     'Consider the variable value is an object and set the corresponding deep property within that object using a key syntax. Examples: <code>user.name</code>, <code>user[0].address[1].street</code>, <code>[0]</code>, <code>[0].label</code>. The inner property and its parent hierarchy will be created if missing.'
-  ).a(),
-];
+  ).a()
+]

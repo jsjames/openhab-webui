@@ -114,6 +114,8 @@
 import CardMixin from './card-mixin';
 import { f7, theme } from 'framework7-vue';
 
+import { themeOptionsStore } from '@/js/stores/theme-options';
+
 export default {
   mixins: [CardMixin],
   props: ['headerHeight'],

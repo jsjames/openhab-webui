@@ -121,10 +121,10 @@
       ref="listIndex"
       v-if="$refs.rulesList"
       v-show="!$device.desktop"
-      :listEl="$refs.rulesList ? Dom7($refs.rulesList.$el) : undefined"
       :scroll-list="true"
       :label="true"
     />
+    <!--TODO-V3 part of above :listEl="$refs.rulesList ? Dom7($refs.rulesList.$el) : undefined" -->
 
     <f7-list class="searchbar-not-found">
       <f7-list-item title="Nothing found" />
@@ -180,7 +180,7 @@
           external
           :href="`${$store.state.websiteUrl}/link/${type.toLowerCase()}`"
           target="_blank"
-          t="'home.overview.button.documentation'"
+          :text="$t('home.overview.button.documentation')"
         />
       </f7-row>
     </f7-block>
@@ -218,6 +218,7 @@
                 >
                   <template #media>
                     <f7-icon
+                      slot="media"
                       v-if="isTagSelected(tag)"
                       ios="f7:checkmark_circle_fill"
                       md="material:check_circle"
@@ -299,12 +300,16 @@
       </f7-col>
     </f7-block>
 
-    <template #fixed>
-      <f7-fab v-show="ready && !showCheckboxes" position="right-bottom" color="blue" href="add">
-        <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
-        <f7-icon ios="f7:close" md="material:close" aurora="f7:close" />
-      </f7-fab>
-    </template>
+    <f7-fab
+      slot="fixed"
+      v-show="ready && !showCheckboxes"
+      position="right-bottom"
+      color="blue"
+      href="add"
+    >
+      <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
+      <f7-icon ios="f7:close" md="material:close" aurora="f7:close" />
+    </f7-fab>
   </f7-page>
 </template>
 
@@ -328,6 +333,11 @@ import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
 import debounce from 'debounce';
 import RuleStatus from '@/components/rule/rule-status-mixin';
+
+import { Dom7 } from 'framework7';
+
+import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
+const lastSearchQueryStore = useLastSearchQueryStore();
 
 export default {
   mixins: [RuleStatus],
@@ -474,14 +484,14 @@ export default {
     },
     onPageBeforeOut() {
       this.stopEventSource();
-      f7.data[`last${this.type}SearchQuery`] = this.$refs.searchbar?.$el.f7Searchbar.query;
+      lastSearchQueryStore.lastRulesSearchQuery[this.type] = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load() {
       if (this.loading) return;
       this.loading = true;
 
       if (this.initSearchbar)
-        f7.data[`last${this.type}SearchQuery`] = this.$refs.searchbar?.$el.f7Searchbar.query;
+        lastSearchQueryStore.lastRulesSearchQuery[this.type] = this.$refs.searchbar?.$el.f7Searchbar.query;
       this.initSearchbar = false;
 
       this.selectedItems = [];
@@ -550,7 +560,7 @@ export default {
               this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
             }
             this.$refs.searchbar?.$el.f7Searchbar.search(
-              f7.data[`last${this.type}SearchQuery`] || ''
+              lastSearchQueryStore.lastRulesSearchQuery[this.type] || ''
             );
           });
 

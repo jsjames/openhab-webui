@@ -9,8 +9,8 @@
           : 'hidden',
     }"
     :class="{
-      dark: themeOptions.dark === 'dark' ? true : null,
-      'theme-filled': themeOptions.bars === 'filled',
+      'theme-dark': themeOptionsStore.dark === 'dark',
+      'theme-filled': themeOptionsStore.bars === 'filled',
     }"
   >
     <!-- Left Panel -->
@@ -25,7 +25,7 @@
         <f7-link href="/overview" class="openhab-logo no-ripple" panel-close>
           <div class="logo-inner">
             <img
-              v-if="themeOptions.dark === 'dark'"
+              v-if="themeOptionsStore.dark === 'dark'"
               src="/images/openhab-logo-white.svg"
               type="image/svg+xml"
               width="196px"
@@ -54,7 +54,10 @@
             </template>
           </f7-list-item>
         </f7-list>
-        <f7-block-title v-if="$store.getters.isAdmin" t="'sidebar.administration'" />
+        <f7-block-title
+          v-if="$store.getters.isAdmin"
+          >{{  $t('sidebar.administration') }}</f7-block-title
+        >
         <!-- Settings -->
         <f7-list class="admin-links" v-if="$store.getters.isAdmin">
           <f7-list-item
@@ -356,18 +359,15 @@
               >
                 <em>{{ $t('sidebar.tip.signIn') }}<br /><f7-icon f7="arrow_down" size="20" /></em>
               </div>
-              <!-- TODO - @click in the f7-button is not getting bound, so surrounded with div -->
-              <div @click="authorize">
-                <f7-button
-                  @click="authorize"
-                  v-if="!loggedIn"
-                  icon-f7="lock_shield_fill"
-                  large
-                  color="gray"
-                  icon-size="43"
-                  :tooltip="$t('sidebar.unlockAdmin')"
-                />
-              </div>
+              <f7-button
+                @click="authorize"
+                v-if="!loggedIn"
+                icon-f7="lock_shield_fill"
+                large
+                color="gray"
+                icon-size="43"
+                :tooltip="$t('sidebar.unlockAdmin')"
+              />
             </div>
             <f7-list v-if="$store.getters.user" media-list>
               <f7-list-item
@@ -442,7 +442,7 @@
       class="safe-areas"
       url="/"
       :master-detail-breakpoint="960"
-      :animate="themeOptions.pageTransitionAnimation !== 'disabled'"
+      :animate="themeOptionsStore.pageTransitionAnimation !== 'disabled'"
     />
   </f7-app>
 </template>
@@ -513,7 +513,7 @@
     .breakpoint-pin
       opacity 0.75
 
-.dark
+.theme-dark
   .panel-left
     .page
       background #232323 !important
@@ -541,6 +541,7 @@ import Framework7, { Dom7 } from 'framework7/lite-bundle';
 import { f7, f7ready, theme } from 'framework7-vue';
 import { reactive, provide } from 'vue';
 import { defineAsyncComponent } from 'vue';
+import { mapStores } from 'pinia';
 
 import buildInfo from '@/assets/build-info';
 
@@ -587,7 +588,6 @@ export default {
     return {
       init: false,
       ready: false,
-      themeOptions: themeOptionsStore(),
 
       // Framework7 Parameters
       f7params: {
@@ -598,7 +598,7 @@ export default {
         // theme: (document.documentURI && document.documentURI.indexOf('?theme=ios') > 0) ? 'ios'
         //   : (document.documentURI && document.documentURI.indexOf('?theme=md') > 0) ? 'md'
         //     : 'auto', // Automatic theme detection
-        autoDarkMode: !localStorage.getItem('openhab.ui:theme.dark'),
+        autoDarkTheme: !localStorage.getItem('openhab.ui:theme.dark'),
         // App routes
         routes,
         view: {
@@ -682,11 +682,12 @@ export default {
             return { $key: b, [b]: a };
           },
           { $end: true }
-        );
+        )
     },
     serverDisplayUrl() {
       return window.location.origin;
     },
+    ...mapStores(themeOptionsStore),
   },
   watch: {
     '$store.state.states.sseConnected': {
@@ -702,9 +703,6 @@ export default {
     },
   },
   methods: {
-    onButtonClick() {
-      console.log('button clicked');
-    },
     loadData(useCredentials) {
       const useCredentialsPromise = useCredentials ? this.setBasicCredentials() : Promise.resolve();
       return useCredentialsPromise
@@ -872,33 +870,33 @@ export default {
       }
     },
     updateThemeOptions() {
-      this.themeOptions.dark =
+      this.themeOptionsStore.dark =
         localStorage.getItem('openhab.ui:theme.dark') ||
         (window.OHApp && window.OHApp.preferDarkMode
           ? window.OHApp.preferDarkMode().toString()
           : f7.darkTheme
             ? 'dark'
             : 'light');
-      this.themeOptions.bars = localStorage.getItem('openhab.ui:theme.bars') || 'light';
-      this.themeOptions.homeNavbar =
+      this.themeOptionsStore.bars = localStorage.getItem('openhab.ui:theme.bars') || 'light';
+      this.themeOptionsStore.homeNavbar =
         localStorage.getItem('openhab.ui:theme.home.navbar') || 'default';
-      this.themeOptions.homeBackground =
+      this.themeOptionsStore.homeBackground =
         localStorage.getItem('openhab.ui:theme.home.background') || 'default';
-      this.themeOptions.expandableCardAnimation =
+      this.themeOptionsStore.expandableCardAnimation =
         localStorage.getItem('openhab.ui:theme.home.cardanimation') || 'default';
-      if (this.themeOptions.dark === 'dark') {
-        Dom7('html').addClass('dark');
+      if (this.themeOptionsStore.dark === 'dark') {
+        Dom7('html').addClass('theme-dark');
       } else {
-        Dom7('html').removeClass('dark');
+        Dom7('html').removeClass('theme-dark');
       }
-      if (this.themeOptions.pageTransitionAnimation === 'disabled') {
+      if (this.themeOptionsStore.pageTransitionAnimation === 'disabled') {
         Dom7('html').addClass('no-page-transitions');
       }
       if (localStorage.getItem('openhab.ui:panel.visibleBreakpointDisabled') === 'true') {
         this.visibleBreakpointDisabled = true;
         // nextTick(() => f7.panel.get("left").disableVisibleBreakpoint());
       }
-      this.themeOptions.blocklyRenderer = localStorage.getItem('openhab.ui:blockly.renderer');
+      this.themeOptionsStore.blocklyRenderer = localStorage.getItem('openhab.ui:blockly.renderer');
     },
     toggleDeveloperDock() {
       if (!this.$store.getters.isAdmin) return;
@@ -955,7 +953,10 @@ export default {
     },
     updateTitle() {
       const title = [this.f7params.name]; // ['openHAB']
-      // TODO const navbarTitle = () => this.$refs(".page-current .navbar .title")?.[0]?.textContent;
+      const navbarTitle = () => {
+        const navbar = this.$refs['navbar'];
+        return navbar && navbar[0] ? navbar[0].textContent : '';
+      };
 
       // Some special cases where the title should be different
       if (this.currentPath.page) {
@@ -999,7 +1000,7 @@ export default {
           title.unshift(path?.$key);
         }
 
-        /* TODO
+        /* TODO-V3
         let currentSection = this.$refs(".currentsection .item-title")?.[0] ?.textContent;
         if (this.currentPath.settings?.transformations) {
           currentSection = "Transformations";
@@ -1017,7 +1018,7 @@ export default {
     this.AddonTitles = AddonTitles;
 
     // special treatment for this option because it's needed to configure the app initialization
-    this.themeOptions.pageTransitionAnimation =
+    this.themeOptionsStore.pageTransitionAnimation =
       localStorage.getItem('openhab.ui:theme.pagetransition') || 'default';
 
     // load 2-way communication for native wrappers
@@ -1112,7 +1113,7 @@ export default {
         this.loadData();
       });
 
-      f7.on('darkModeChange', () => {
+      f7.on('darkThemeChange', () => {
         this.updateThemeOptions();
       });
 

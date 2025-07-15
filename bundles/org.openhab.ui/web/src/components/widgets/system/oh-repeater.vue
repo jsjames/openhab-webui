@@ -7,7 +7,6 @@
       @command="onCommand"
     />
   </ul>
-  <!-- TODO fragment-->
   <div v-else-if="config.fragment">
     <generic-widget-component
       :context="ctx"

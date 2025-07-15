@@ -1,4 +1,4 @@
-export const PredefinedStrategies = ['everyChange', 'everyUpdate', 'restoreOnStartup', 'forecast'];
+export const PredefinedStrategies = ['everyChange', 'everyUpdate', 'restoreOnStartup', 'forecast']
 
 const filterInvertedParameter = {
   advanced: false,
@@ -7,8 +7,8 @@ const filterInvertedParameter = {
   label: 'Inverted',
   name: 'inverted',
   required: false,
-  type: 'BOOLEAN',
-};
+  type: 'BOOLEAN'
+}
 
 /**
  * Filter configuration is completely based on these definitions.
@@ -27,7 +27,7 @@ export const FilterTypes = [
         label: 'Value',
         name: 'value',
         required: true,
-        type: 'DECIMAL',
+        type: 'DECIMAL'
       },
       {
         advanced: false,
@@ -35,7 +35,7 @@ export const FilterTypes = [
         label: 'Relative',
         name: 'relative',
         required: false,
-        type: 'BOOLEAN',
+        type: 'BOOLEAN'
       },
       {
         advanced: false,
@@ -43,10 +43,10 @@ export const FilterTypes = [
         label: 'Unit',
         name: 'unit',
         required: false,
-        type: 'TEXT',
-      },
+        type: 'TEXT'
+      }
     ],
-    footerFn: f => (f.relative ? f.value + ' %' : f.unit ? f.value + ' ' + f.unit : f.value),
+    footerFn: f => (f.relative ? f.value + ' %' : f.unit ? f.value + ' ' + f.unit : f.value)
   },
   {
     name: 'timeFilters',
@@ -58,7 +58,7 @@ export const FilterTypes = [
         label: 'Value',
         name: 'value',
         required: true,
-        type: 'DECIMAL',
+        type: 'DECIMAL'
       },
       {
         advanced: false,
@@ -71,13 +71,13 @@ export const FilterTypes = [
           { label: 'seconds', value: 's' },
           { label: 'minutes', value: 'm' },
           { label: 'hours', value: 'h' },
-          { label: 'days', value: 'd' },
+          { label: 'days', value: 'd' }
         ],
         required: false,
-        type: 'TEXT',
-      },
+        type: 'TEXT'
+      }
     ],
-    footerFn: f => f.value + ' ' + (f.unit || 's'),
+    footerFn: f => f.value + ' ' + (f.unit || 's')
   },
   {
     name: 'equalsFilters',
@@ -90,11 +90,11 @@ export const FilterTypes = [
         label: 'Values',
         name: 'values',
         required: true,
-        type: '',
+        type: ''
       },
-      filterInvertedParameter,
+      filterInvertedParameter
     ],
-    footerFn: f => (f.inverted === true ? 'not ' : '') + 'equals ' + f.values.join(', '),
+    footerFn: f => (f.inverted === true ? 'not ' : '') + 'equals ' + f.values.join(', ')
   },
   {
     name: 'includeFilters',
@@ -106,7 +106,7 @@ export const FilterTypes = [
         label: 'Lower Bound',
         name: 'lower',
         required: true,
-        type: 'DECIMAL',
+        type: 'DECIMAL'
       },
       {
         advanced: false,
@@ -114,7 +114,7 @@ export const FilterTypes = [
         label: 'Upper Bound',
         name: 'upper',
         required: true,
-        type: 'DECIMAL',
+        type: 'DECIMAL'
       },
       {
         advanced: false,
@@ -122,15 +122,15 @@ export const FilterTypes = [
         label: 'Unit',
         name: 'unit',
         required: false,
-        type: 'TEXT',
+        type: 'TEXT'
       },
-      filterInvertedParameter,
+      filterInvertedParameter
     ],
     footerFn: f =>
       (f.inverted === true ? ']' : '[') +
       f.lower +
       ';' +
       f.upper +
-      (f.inverted === true ? '[' : ']' + (f.unit ? ' ' + f.unit : '')),
-  },
-];
+      (f.inverted === true ? '[' : ']' + (f.unit ? ' ' + f.unit : ''))
+  }
+]

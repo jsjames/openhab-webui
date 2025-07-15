@@ -217,9 +217,9 @@
 <script>
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
-import { useUIOptionsStore } from '@/js/stores/ui-options';
+import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
 
-const uiOptionsStore = useUIOptionsStore();
+const lastSearchQueryStore = useLastSearchQueryStore();
 
 export default {
   props: {
@@ -325,14 +325,14 @@ export default {
       this.load();
     },
     onPageBeforeOut() {
-      uiOptionsStore.lastPagesSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+      lastSearchQueryStore.lastPagesSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load() {
       if (this.loading) return;
       this.loading = true;
 
       if (this.initSearchbar)
-        uiOptionsStore.lastPagesSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+        lastSearchQueryStore.lastPagesSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
       this.initSearchbar = false;
 
       this.selectedItems = [];
@@ -356,7 +356,7 @@ export default {
           if (this.$device.desktop && this.$refs.searchbar) {
             this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
           }
-          this.$refs.searchbar?.$el.f7Searchbar.search(uiOptionsStore.lastPagesSearchQuery || '');
+          this.$refs.searchbar?.$el.f7Searchbar.search(lastSearchQueryStore.lastPagesSearchQuery || '');
         });
       });
     },

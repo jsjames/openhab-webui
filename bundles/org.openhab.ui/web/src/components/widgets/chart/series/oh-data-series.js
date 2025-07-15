@@ -1,11 +1,11 @@
-import ComponentId from '../../component-id';
+import ComponentId from '../../component-id'
 
 export default {
   neededItems() {
-    return [];
+    return []
   },
   get(component, points, startTime, endTime, chart) {
-    if (!component.config || typeof component.config !== 'object') return {};
-    return chart.evaluateExpression(ComponentId.get(component), component.config);
-  },
-};
+    if (!component.config || typeof component.config !== 'object') return {}
+    return chart.evaluateExpression(ComponentId.get(component), component.config)
+  }
+}

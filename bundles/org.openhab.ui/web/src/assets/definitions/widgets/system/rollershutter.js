@@ -1,4 +1,4 @@
-import { pt, pi, pb } from '../helpers.js';
+import { pt, pi, pb } from '../helpers.js'
 
 export default () => [
   pi('item', 'Item', 'Rollershutter item to control'),
@@ -26,9 +26,9 @@ export default () => [
       'arrow_{dir}_square',
       'arrow_{dir}_square_fill',
       'arrow_{dir}_to_line',
-      'arrow_{dir}_to_line_alt',
+      'arrow_{dir}_to_line_alt'
     ].map(o => {
-      return { value: o, label: o };
+      return { value: o, label: o }
     })
   ),
   pt('stopIconStyle', 'Stop Icon Style', 'Icons to use for the STOP button').o(
@@ -40,14 +40,14 @@ export default () => [
       'multiply',
       'multiply_fill',
       'multiply_circle',
-      'multiply_circle_fill',
+      'multiply_circle_fill'
     ].map(o => {
-      return { value: o, label: o };
+      return { value: o, label: o }
     })
   ),
   pb(
     'stateInCenter',
     'State in Center',
     'Display state value inside the STOP button instead of icon'
-  ),
-];
+  )
+]

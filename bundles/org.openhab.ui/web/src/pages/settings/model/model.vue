@@ -405,7 +405,9 @@ import AddFromThing from './add-from-thing.vue';
 import AddFromTemplate from './add-from-template.vue';
 import { utils } from 'framework7';
 import { f7, theme } from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
+import { nextTick, defineAsyncComponent } from 'vue';
+
+import { useModelStore } from '@/js/stores/models';
 
 import ItemStatePreview from '@/components/item/item-state-preview.vue';
 import ItemDetails from '@/components/model/item-details.vue';
@@ -413,6 +415,8 @@ import MetadataMenu from '@/components/item/metadata/item-metadata-menu.vue';
 import LinkDetails from '@/components/model/link-details.vue';
 
 import ModelMixin from '@/pages/settings/model/model-mixin';
+
+const modelStore = useModelStore();
 
 export default {
   props: {
@@ -434,12 +438,11 @@ export default {
     return { theme };
   },
   data() {
-    if (!f7.data.model) f7.data.model = {};
     return {
       f7,
-      includeItemName: f7.data.model.includeItemName || false,
-      includeItemTags: f7.data.model.includeItemTags || false,
-      expanded: f7.data.model.expanded || false,
+      includeItemName: modelStore.state.includeItemName || false,
+      includeItemTags: modelStore.state.includeItemTags || false,
+      expanded: modelStore.state.expanded || false,
       newItem: null,
       newItemParent: null,
       initSearchbar: false,
@@ -481,7 +484,7 @@ export default {
       this.detailsOpened = false;
       this.$store.dispatch('stopTrackingStates');
       this.stopEventSource();
-      f7.data.lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+      modelStore.lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     modelItem(item) {
       const modelItem = {
@@ -510,7 +513,7 @@ export default {
     },
     load() {
       if (this.initSearchbar)
-        f7.data.lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+        modelStore.lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
       this.initSearchbar = false;
 
       this.loadModel().then(() => {
@@ -519,7 +522,7 @@ export default {
           if (this.$device.desktop && this.$refs.searchbar) {
             this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
           }
-          this.$refs.searchbar?.$el.f7Searchbar.search(f7.data.lastModelSearchQuery || '');
+          this.$refs.searchbar?.$el.f7Searchbar.search(modelStore.lastModelSearchQuery || '');
           this.restoreExpanded();
         });
         if (!this.eventSource) this.startEventSource();
@@ -580,17 +583,17 @@ export default {
     },
     toggleItemName() {
       this.includeItemName = !this.includeItemName;
-      f7.data.model.includeItemName = this.includeItemName;
+      modelStore.includeItemName = this.includeItemName;
       this.load();
     },
     toggleItemTags() {
       this.includeItemTags = !this.includeItemTags;
-      f7.data.model.includeItemTags = this.includeItemTags;
+      modelStore.includeItemTags = this.includeItemTags;
       this.load();
     },
     toggleExpanded() {
       this.expanded = !this.expanded;
-      f7.data.model.expanded = this.expanded;
+      modelStore.expanded = this.expanded;
       this.applyExpandedOption();
     },
     addSemanticItem(semanticType) {

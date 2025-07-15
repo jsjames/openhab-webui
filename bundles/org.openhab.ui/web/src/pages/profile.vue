@@ -44,8 +44,11 @@
     <f7-block class="block-narrow">
       <f7-row>
         <f7-col>
-          <f7-block-title t="'profile.sessions'" />
-          <f7-block-footer class="padding-horizontal" t="'profile.sessions.header'" />
+          <f7-block-title>{{ $t('profile.sessions') }}</f7-block-title>
+          <f7-block-footer
+            class="padding-horizontal"
+            >{{ $t('profile.sessions.header') }}</f7-block-footer
+          >
           <f7-card>
             <f7-list media-list swipeout>
               <f7-list-item
@@ -99,8 +102,11 @@
     <f7-block class="block-narrow margin-bottom padding-bottom">
       <f7-row>
         <f7-col>
-          <f7-block-title t="'profile.apiTokens'" />
-          <f7-block-footer class="padding-horizontal" t="'profile.apiTokens.header'" />
+          <f7-block-title>{{ $t('profile.apiTokens') }}</f7-block-title>
+          <f7-block-footer
+            class="padding-horizontal"
+            >{{ $t('profile.apiTokens.header') }}</f7-block-footer
+          >
           <f7-card>
             <f7-list media-list swipeout>
               <f7-list-item

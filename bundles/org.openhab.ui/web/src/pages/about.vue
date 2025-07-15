@@ -31,7 +31,7 @@
                 external
                 target="_blank"
                 href="https://www.openhab.org/"
-                t="'about.homePage'"
+                :text="$t('about.homePage')"
               />
             </p>
             <p>
@@ -39,7 +39,7 @@
                 external
                 target="_blank"
                 href="https://www.openhab.org/docs/"
-                t="'about.documentation'"
+                :text="$t('about.documentation')"
               />
             </p>
             <p>
@@ -47,7 +47,7 @@
                 external
                 target="_blank"
                 href="https://community.openhab.org/"
-                t="'about.communityForum'"
+                :text="$t('about.communityForum')"
               />
             </p>
           </f7-block>
@@ -113,15 +113,17 @@
         </f7-col>
       </f7-row>
 
-      <f7-block-title><h4 t="'about.appearanceOptions'" /></f7-block-title>
+      <f7-block-title
+        ><h4>{{ $t('about.appearanceOptions') }}</h4></f7-block-title
+      >
       <theme-switcher />
 
       <f7-block-title>
-        <h4 t="'about.reload'">Reload</h4>
+        <h4>{{ $t('about.reload') }}</h4>
       </f7-block-title>
       <f7-col v-if="showCachePurgeOption">
-        <p class="padding-horizontal" t="'about.reload.purgeExplanation1'" />
-        <p class="padding-horizontal" t="'about.reload.purgeExplanation2'" />
+        <p class="padding-horizontal">{{ $t('about.reload.purgeExplanation1') }}</p>
+        <p class="padding-horizontal">{{ $t('about.reload.purgeExplanation2') }}</p>
       </f7-col>
       <f7-col>
         <f7-list>
@@ -145,10 +147,10 @@
     >
       <f7-navbar>
         <div class="left">
-          <f7-link @click="copyTextualSystemInfo" t="'dialogs.copy'" />
+          <f7-link @click="copyTextualSystemInfo" :text="$t('dialogs.copy')" />
         </div>
         <div class="right">
-          <f7-link popup-close t="'dialogs.close'" />
+          <f7-link popup-close :text="$t('dialogs.close')" />
         </div>
       </f7-navbar>
       <!-- <pre class="textual-definition" v-html="textualDefinition"></pre> -->

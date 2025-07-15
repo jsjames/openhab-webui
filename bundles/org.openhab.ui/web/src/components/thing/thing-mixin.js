@@ -11,11 +11,11 @@ export default {
      */
     validateThingUID(uid, id) {
       if (!/^[A-Za-z0-9_][A-Za-z0-9_-]*$/.test(id)) {
-        return 'Required. Must not start with a dash. A-Z,a-z,0-9,_,- only';
+        return 'Required. Must not start with a dash. A-Z,a-z,0-9,_,- only'
       } else if (this.things && this.things.some(thing => thing.UID === uid)) {
-        return `A Thing with '${uid}' UID already exists`;
+        return `A Thing with '${uid}' UID already exists`
       }
-      return '';
-    },
-  },
-};
+      return ''
+    }
+  }
+}

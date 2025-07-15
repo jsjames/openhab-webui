@@ -115,7 +115,7 @@
                 external
                 target="_blank"
                 href="https://www.openhab.org/"
-                t="'about.homePage'"
+                :text="$t('about.homePage')"
               />
             </li>
             <li>
@@ -123,7 +123,7 @@
                 external
                 target="_blank"
                 :href="`${$store.state.websiteUrl}/link/docs`"
-                t="'about.documentation'"
+                :text="$t('about.documentation')"
               />
             </li>
             <li>
@@ -131,7 +131,7 @@
                 external
                 :href="`${$store.state.websiteUrl}/link/tutorial`"
                 target="_blank"
-                t="'home.overview.button.tutorial'"
+                :text="$t('home.overview.button.tutorial')"
               />
             </li>
             <li>
@@ -139,7 +139,7 @@
                 external
                 target="_blank"
                 href="https://community.openhab.org/"
-                t="'about.communityForum'"
+                :text="$t('about.communityForum')"
               />
             </li>
           </ul>
@@ -168,7 +168,7 @@
     overflow-x hidden
 .md .help-sidebar-content
   margin-top 0
-.dark
+.theme-dark
   .help-sidebar
     &.page
       background #232323 !important
@@ -198,8 +198,8 @@ export default {
   data() {
     return {
       addons: [],
-      faqs: require('@/assets/definitions/help/help-faq-defs.json'),
-      qstart: require('@/assets/definitions/help/help-qstart-defs.json'),
+      faqs: import('@/assets/definitions/help/help-faq-defs.json'),
+      qstart: import('@/assets/definitions/help/help-qstart-defs.json'),
     };
   },
   created() {

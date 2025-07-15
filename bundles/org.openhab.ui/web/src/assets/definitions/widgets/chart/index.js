@@ -1,23 +1,23 @@
 // definitions for the chart widgets
 // TODO: migrate to WidgetDefinition
 
-import { actionGroup, actionParams } from '../actions.js';
-import { pg, pb, pt, pn, pi } from '../helpers.js';
-import { aggregationTypeOptions, dimensionTypeOptions } from './options.js';
+import { actionGroup, actionParams } from '../actions.js'
+import { pg, pb, pt, pn, pi } from '../helpers.js'
+import { aggregationTypeOptions, dimensionTypeOptions } from './options.js'
 
 const positionGroup = pg(
   'position',
   'Position',
   'Each parameter accepts pixel values or percentages. Additionally, top accepts "top", "middle" and "bottom" to align the component vertically, and left accepts "left", "center" and "right" to align the component horizontally'
-);
+)
 
 const componentRelationsGroup = pg(
   'componentRelations',
   'Axis and Coordinate System Assignments',
   ''
-);
+)
 
-const nameDisplayGroup = pg('nameDisplay', 'Name Display', '');
+const nameDisplayGroup = pg('nameDisplay', 'Name Display', '')
 
 const positionParameters = [
   { name: 'top', type: 'TEXT', label: 'Top', groupName: 'position' },
@@ -25,22 +25,22 @@ const positionParameters = [
   { name: 'left', type: 'TEXT', label: 'Left', groupName: 'position' },
   { name: 'right', type: 'TEXT', label: 'Right', groupName: 'position' },
   { name: 'width', type: 'TEXT', label: 'Width', groupName: 'position' },
-  { name: 'height', type: 'TEXT', label: 'Height', groupName: 'position' },
-];
+  { name: 'height', type: 'TEXT', label: 'Height', groupName: 'position' }
+]
 
 const orientParameter = pt('orient', 'Orientation', '').o(
   [
     { value: 'horizontal', label: 'Horizontal' },
-    { value: 'vertical', label: 'Vertical' },
+    { value: 'vertical', label: 'Vertical' }
   ],
   true
-);
+)
 
-const showParameter = pb('show', 'Show', 'Whether to show or not this component');
+const showParameter = pb('show', 'Show', 'Whether to show or not this component')
 
-const nameParameter = pt('name', 'Name', 'A name which will appear on tooltips and labels');
+const nameParameter = pt('name', 'Name', 'A name which will appear on tooltips and labels')
 
-const itemParameter = pi('item', 'Item', 'The item whose persisted data to display');
+const itemParameter = pi('item', 'Item', 'The item whose persisted data to display')
 
 const nameLocationParameter = pt('nameLocation', 'Name Location', 'Location of axis name')
   .g('nameDisplay')
@@ -48,26 +48,26 @@ const nameLocationParameter = pt('nameLocation', 'Name Location', 'Location of a
     [
       { value: 'start', label: 'Start' },
       { value: 'center', label: 'Center' },
-      { value: 'end', label: 'End (default)' },
+      { value: 'end', label: 'End (default)' }
     ],
     true
-  );
+  )
 
 const nameGapParameter = pn('nameGap', 'Name Gap', 'Gap between axis name and axis line.').g(
   'nameDisplay'
-);
+)
 
 const nameRotateParameter = pt('nameRotate', 'Name Rotate', 'Rotation of axis name').g(
   'nameDisplay'
-);
+)
 
-const minParameter = pt('min', 'Min', 'Minimum boundary');
+const minParameter = pt('min', 'Min', 'Minimum boundary')
 
-const maxParameter = pt('max', 'Max', 'Maximum boundary');
+const maxParameter = pt('max', 'Max', 'Maximum boundary')
 
 const gridIndexParameter = pn('gridIndex', 'Grid Index', 'The index of the grid for this axis')
   .c('chartGrid')
-  .g('componentRelations');
+  .g('componentRelations')
 
 const calendarIndexParameter = pn(
   'calendarIndex',
@@ -75,7 +75,7 @@ const calendarIndexParameter = pn(
   'The index of the calendar for this series'
 )
   .c('chartCalendar')
-  .g('componentRelations');
+  .g('componentRelations')
 
 const xAxisIndexParameter = pn(
   'xAxisIndex',
@@ -83,7 +83,7 @@ const xAxisIndexParameter = pn(
   'The index of the X axis for this series'
 )
   .c('xAxis')
-  .g('componentRelations');
+  .g('componentRelations')
 
 const yAxisIndexParameter = pn(
   'yAxisIndex',
@@ -91,7 +91,7 @@ const yAxisIndexParameter = pn(
   'The index of the Y axis for this series'
 )
   .c('yAxis')
-  .g('componentRelations');
+  .g('componentRelations')
 
 const persistenceServiceParameter = pt(
   'service',
@@ -99,25 +99,25 @@ const persistenceServiceParameter = pt(
   'The identifier of the persistence service to retrieve the data from. Leave blank to the use the default.'
 )
   .c('persistenceService')
-  .a();
+  .a()
 
 const boundaryParameter = pb(
   'noBoundary',
   "Don't Include Boundary",
   'Do not get one value before and after the requested period and move them to the start and end of the period'
-).a();
+).a()
 
 const itemStateParameter = pb(
   'noItemState',
   "Don't Include Item State",
   'Do not add the current Item state into the requested period (the item state will be before or at the end time)'
-).a();
+).a()
 
 const offsetAmountParameter = pn(
   'offsetAmount',
   'Offset Amount',
   'Offset to <em>subtract</em> from the displayed period, use if you want to do period comparisons (see also Offset Unit).'
-).a();
+).a()
 
 const offsetUnitParameter = pt(
   'offsetUnit',
@@ -133,19 +133,19 @@ const offsetUnitParameter = pt(
       { value: 'day', label: 'Day' },
       { value: 'week', label: 'Week' },
       { value: 'month', label: 'Month' },
-      { value: 'year', label: 'Year' },
+      { value: 'year', label: 'Year' }
     ],
     true
-  );
+  )
 
 const axisNameParameters = [
   nameParameter,
   nameLocationParameter,
   nameGapParameter,
-  nameRotateParameter,
-];
+  nameRotateParameter
+]
 
-const dateAxisParameters = [...axisNameParameters, gridIndexParameter];
+const dateAxisParameters = [...axisNameParameters, gridIndexParameter]
 
 const seriesParameters = [
   nameParameter,
@@ -154,8 +154,8 @@ const seriesParameters = [
   boundaryParameter,
   itemStateParameter,
   offsetAmountParameter,
-  offsetUnitParameter,
-];
+  offsetUnitParameter
+]
 
 const seriesTypesLabels = {
   line: 'Line',
@@ -163,8 +163,8 @@ const seriesTypesLabels = {
   gauge: 'Gauge',
   heatmap: 'Heatmap',
   pie: 'Pie',
-  scatter: 'Scatter',
-};
+  scatter: 'Scatter'
+}
 
 const seriesTypeParameter = (...types) => {
   return {
@@ -175,16 +175,16 @@ const seriesTypeParameter = (...types) => {
       'The type of the series.<br/><em>Note: <code>heatmap</code> needs a configured visual map or uses the default and is not supported for time series!</em>',
     limitToOptions: true,
     options: types.map(o => {
-      return { value: o, label: seriesTypesLabels[o] };
-    }),
-  };
-};
+      return { value: o, label: seriesTypesLabels[o] }
+    })
+  }
+}
 
 const aggregationFunctionParameter = pt(
   'aggregationFunction',
   'Aggregation Function',
   'How to reduce the data points in a same aggregation cluster to a single value. If not specified, the average function will be used.'
-).o(aggregationTypeOptions, true);
+).o(aggregationTypeOptions, true)
 
 export default {
   'oh-chart-grid': {
@@ -197,17 +197,17 @@ export default {
         {
           name: 'show',
           type: 'BOOLEAN',
-          label: 'Show',
+          label: 'Show'
         },
         {
           name: 'containLabel',
           type: 'BOOLEAN',
           label: 'Contain label',
           description: 'Whether the grid region contains the axis tick labels',
-          docLink: 'https://echarts.apache.org/en/option.html#grid.containLabel',
-        },
-      ],
-    },
+          docLink: 'https://echarts.apache.org/en/option.html#grid.containLabel'
+        }
+      ]
+    }
   },
 
   'oh-category-axis': {
@@ -230,8 +230,8 @@ export default {
             { value: 'week', label: 'Days of week' },
             { value: 'month', label: 'Days of month' },
             { value: 'year', label: 'Months of year' },
-            { value: 'values', label: 'Values' },
-          ],
+            { value: 'values', label: 'Values' }
+          ]
         },
         {
           name: 'weekdayFormat',
@@ -243,11 +243,11 @@ export default {
           options: [
             { value: 'default', label: 'Long (default)' },
             { value: 'short', label: 'Short' },
-            { value: 'min', label: 'Minimal' },
+            { value: 'min', label: 'Minimal' }
           ],
           visible: (value, configuration, configDescription, parameters) => {
-            return configuration.categoryType === 'week';
-          },
+            return configuration.categoryType === 'week'
+          }
         },
         {
           name: 'startonSunday',
@@ -255,8 +255,8 @@ export default {
           type: 'BOOLEAN',
           description: 'Check to start the week on Sundays instead of Mondays',
           visible: (value, configuration, configDescription, parameters) => {
-            return configuration.categoryType === 'week';
-          },
+            return configuration.categoryType === 'week'
+          }
         },
         {
           name: 'monthFormat',
@@ -267,11 +267,11 @@ export default {
           limitToOptions: true,
           options: [
             { value: 'default', label: 'Long (default)' },
-            { value: 'short', label: 'Short' },
+            { value: 'short', label: 'Short' }
           ],
           visible: (value, configuration, configDescription, parameters) => {
-            return configuration.categoryType === 'year';
-          },
+            return configuration.categoryType === 'year'
+          }
         },
         {
           name: 'data',
@@ -280,12 +280,12 @@ export default {
           description: 'Category values to display',
           multiple: true,
           visible: (value, configuration, configDescription, parameters) => {
-            return configuration.categoryType === 'values';
-          },
+            return configuration.categoryType === 'values'
+          }
         },
-        gridIndexParameter,
-      ],
-    },
+        gridIndexParameter
+      ]
+    }
   },
 
   'oh-value-axis': {
@@ -302,11 +302,11 @@ export default {
           label: 'Do Not Force Scale to Include Zero',
           type: 'BOOLEAN',
           description:
-            'If checked the scale will not necessarily include the origin (has no effect if min or max are set explicitely)',
+            'If checked the scale will not necessarily include the origin (has no effect if min or max are set explicitely)'
         },
-        gridIndexParameter,
-      ],
-    },
+        gridIndexParameter
+      ]
+    }
   },
 
   'oh-time-axis': {
@@ -314,8 +314,8 @@ export default {
     docLink: 'https://echarts.apache.org/en/option.html#xAxis',
     props: {
       parameterGroups: [nameDisplayGroup, componentRelationsGroup],
-      parameters: [...axisNameParameters, gridIndexParameter],
-    },
+      parameters: [...axisNameParameters, gridIndexParameter]
+    }
   },
 
   'oh-calendar-axis': {
@@ -323,8 +323,8 @@ export default {
     docLink: 'https://echarts.apache.org/en/option.html#calendar',
     props: {
       parameterGroups: [nameDisplayGroup, componentRelationsGroup, actionGroup()],
-      parameters: [...positionParameters, orientParameter, gridIndexParameter, ...actionParams()],
-    },
+      parameters: [...positionParameters, orientParameter, gridIndexParameter, ...actionParams()]
+    }
   },
 
   'oh-data-series': {
@@ -334,9 +334,9 @@ export default {
       parameterGroups: [actionGroup()],
       parameters: [
         seriesTypeParameter('line', 'bar', 'heatmap', 'scatter', 'gauge', 'pie'),
-        ...actionParams(),
-      ],
-    },
+        ...actionParams()
+      ]
+    }
   },
 
   'oh-time-series': {
@@ -349,9 +349,9 @@ export default {
         seriesTypeParameter('line', 'bar', 'heatmap', 'scatter'),
         xAxisIndexParameter,
         yAxisIndexParameter,
-        ...actionParams(),
-      ],
-    },
+        ...actionParams()
+      ]
+    }
   },
 
   'oh-state-series': {
@@ -365,19 +365,19 @@ export default {
           label: 'Y Value',
           type: 'DECIMAL',
           description:
-            'The position the state timeline should appear on the Y axis (in graph coordinates). If Y axis is a category axis, this should be the index of the category',
+            'The position the state timeline should appear on the Y axis (in graph coordinates). If Y axis is a category axis, this should be the index of the category'
         },
         {
           name: 'yHeight',
           label: 'Y Height',
           type: 'DECIMAL',
-          description: 'The height the state timeline bar in graph coordinates (default is 0.6)',
+          description: 'The height the state timeline bar in graph coordinates (default is 0.6)'
         },
         xAxisIndexParameter,
         yAxisIndexParameter,
-        ...actionParams(),
-      ],
-    },
+        ...actionParams()
+      ]
+    }
   },
 
   'oh-aggregate-series': {
@@ -395,7 +395,7 @@ export default {
           description:
             'The largest data point cluster size.<br />It should be consistent with the chart type, and match the type of a category axis where this series will appear.',
           limitToOptions: true,
-          options: dimensionTypeOptions,
+          options: dimensionTypeOptions
         },
         {
           name: 'dimension2',
@@ -404,21 +404,21 @@ export default {
           description:
             'The smallest data point cluster size.<br />Set only when you have 2 category axes (for instance day of the week and hour of the day), and make sure to match the type of the 2nd axis.',
           limitToOptions: true,
-          options: dimensionTypeOptions,
+          options: dimensionTypeOptions
         },
         {
           name: 'transpose',
           label: 'Transpose',
           type: 'BOOLEAN',
           description:
-            'Enable when the first dimension should be mapped to the Y axis instead of the X axis',
+            'Enable when the first dimension should be mapped to the Y axis instead of the X axis'
         },
         aggregationFunctionParameter,
         xAxisIndexParameter,
         yAxisIndexParameter,
-        ...actionParams(),
-      ],
-    },
+        ...actionParams()
+      ]
+    }
   },
 
   'oh-calendar-series': {
@@ -431,9 +431,9 @@ export default {
         seriesTypeParameter('heatmap', 'scatter'),
         aggregationFunctionParameter,
         calendarIndexParameter,
-        ...actionParams(),
-      ],
-    },
+        ...actionParams()
+      ]
+    }
   },
 
   'oh-chart-tooltip': {
@@ -448,10 +448,10 @@ export default {
           name: 'confine',
           label: 'Confine',
           type: 'BOOLEAN',
-          description: 'Keep the tooltip within the chart bounds',
-        },
-      ],
-    },
+          description: 'Keep the tooltip within the chart bounds'
+        }
+      ]
+    }
   },
 
   'oh-chart-visualmap': {
@@ -463,13 +463,13 @@ export default {
           name: 'boundariesGroup',
           label: 'Boundaries',
           description:
-            'Values considered in range for this visual map (by default [0, 200])<br/><strong>These cannot be determined from the series and have to be defined manually!</strong>',
+            'Values considered in range for this visual map (by default [0, 200])<br/><strong>These cannot be determined from the series and have to be defined manually!</strong>'
         },
         {
           name: 'appearanceGroup',
-          label: 'Appearance',
+          label: 'Appearance'
         },
-        positionGroup,
+        positionGroup
       ],
       parameters: [
         showParameter,
@@ -484,8 +484,8 @@ export default {
           groupName: 'appearanceGroup',
           options: [
             { value: 'continuous', label: 'Continuous' },
-            { value: 'piecewise', label: 'Piecewise' },
-          ],
+            { value: 'piecewise', label: 'Piecewise' }
+          ]
         },
         Object.assign({}, orientParameter, { groupName: 'appearanceGroup' }),
         {
@@ -495,8 +495,8 @@ export default {
           groupName: 'appearanceGroup',
           description: 'Show handles to filter data in continuous mode',
           visible: (value, configuration, configDescription, parameters) => {
-            return configuration.type !== 'piecewise';
-          },
+            return configuration.type !== 'piecewise'
+          }
         },
         {
           name: 'pieces',
@@ -505,8 +505,8 @@ export default {
           groupName: 'appearanceGroup',
           description: 'Number of pieces in piecewise mode',
           visible: (value, configuration, configDescription, parameters) => {
-            return configuration.type === 'piecewise';
-          },
+            return configuration.type === 'piecewise'
+          }
         },
         {
           name: 'presetPalette',
@@ -519,12 +519,12 @@ export default {
           options: [
             { value: 'greenred', label: 'Green-Yellow-Red' },
             { value: 'whiteblue', label: 'White-Blue' },
-            { value: 'bluered', label: 'Blue-red' },
-          ],
+            { value: 'bluered', label: 'Blue-red' }
+          ]
         },
-        ...positionParameters,
-      ],
-    },
+        ...positionParameters
+      ]
+    }
   },
 
   'oh-chart-datazoom': {
@@ -533,8 +533,8 @@ export default {
     props: {
       parameterGroups: [
         Object.assign({}, positionGroup, {
-          description: 'Applicable only to slider types',
-        }),
+          description: 'Applicable only to slider types'
+        })
       ],
       parameters: [
         {
@@ -547,29 +547,29 @@ export default {
           limitToOptions: true,
           options: [
             { value: 'slider', label: 'Slider' },
-            { value: 'inside', label: 'Inside' },
-          ],
+            { value: 'inside', label: 'Inside' }
+          ]
         },
         Object.assign({}, showParameter, {
           visible: (value, configuration, configDescription, parameters) => {
-            return configuration.type === 'slider';
-          },
+            return configuration.type === 'slider'
+          }
         }),
         Object.assign({}, orientParameter, {
           visible: (value, configuration, configDescription, parameters) => {
-            return configuration.type === 'slider';
-          },
+            return configuration.type === 'slider'
+          }
         }),
         ...positionParameters.map(o => {
           return Object.assign({}, o, {
             groupName: null,
             visible: (value, configuration, configDescription, parameters) => {
-              return configuration.type === 'slider';
-            },
-          });
-        }),
-      ],
-    },
+              return configuration.type === 'slider'
+            }
+          })
+        })
+      ]
+    }
   },
 
   'oh-chart-legend': {
@@ -577,8 +577,8 @@ export default {
     docLink: 'https://echarts.apache.org/en/option.html#legend',
     props: {
       parameterGroups: [positionGroup],
-      parameters: [showParameter, orientParameter, ...positionParameters],
-    },
+      parameters: [showParameter, orientParameter, ...positionParameters]
+    }
   },
 
   'oh-chart-title': {
@@ -591,16 +591,16 @@ export default {
         {
           name: 'text',
           type: 'TEXT',
-          label: 'Title',
+          label: 'Title'
         },
         {
           name: 'subtext',
           type: 'TEXT',
-          label: 'Subtitle',
+          label: 'Subtitle'
         },
-        ...positionParameters,
-      ],
-    },
+        ...positionParameters
+      ]
+    }
   },
 
   'oh-chart-toolbox': {
@@ -622,11 +622,11 @@ export default {
             { value: 'restore', label: 'Restore' },
             { value: 'dataView', label: 'Data Table' },
             { value: 'dataZoom', label: 'Drag Range to Zoom' },
-            { value: 'magicType', label: 'Change Chart Type' },
-          ],
+            { value: 'magicType', label: 'Change Chart Type' }
+          ]
         },
-        ...positionParameters,
-      ],
-    },
-  },
-};
+        ...positionParameters
+      ]
+    }
+  }
+}

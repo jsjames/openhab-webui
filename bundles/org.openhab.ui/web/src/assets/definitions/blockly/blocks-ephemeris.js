@@ -6,8 +6,8 @@
  * See usage discussion here: https://community.openhab.org/t/wip-ephemeris-documentation/84536
  * supports jsscripting
  */
-import Blockly from 'blockly';
-import { javascriptGenerator } from 'blockly/javascript.js';
+import Blockly from 'blockly'
+import { javascriptGenerator } from 'blockly/javascript.js'
 
 export default function (f7) {
   /*
@@ -20,26 +20,26 @@ export default function (f7) {
    */
   Blockly.Blocks['oh_ephemeris_check'] = {
     init: function () {
-      this.appendValueInput('dayInfo').setCheck(['DayOffset', 'ZonedDateTime']);
+      this.appendValueInput('dayInfo').setCheck(['DayOffset', 'ZonedDateTime'])
       this.appendDummyInput()
         .appendField('is')
         .appendField(
           new Blockly.FieldDropdown([
             ['a holiday', 'holiday'],
             ['the weekend', 'weekend'],
-            ['a weekday', 'weekday'],
+            ['a weekday', 'weekday']
           ]),
           'checkType'
-        );
-      this.setColour(0);
-      this.setInputsInline(true);
-      this.setTooltip('checks if the given day is a holiday, weekend or weekday');
-      this.setOutput(true, null);
+        )
+      this.setColour(0)
+      this.setInputsInline(true)
+      this.setTooltip('checks if the given day is a holiday, weekend or weekday')
+      this.setOutput(true, null)
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-ephemeris.html#holiday-weekend-or-weekday-check'
-      );
-    },
-  };
+      )
+    }
+  }
 
   /*
    * Checks if the provided day is a bank holiday, weekend or weekday
@@ -50,23 +50,23 @@ export default function (f7) {
       block,
       'dayInfo',
       javascriptGenerator.ORDER_NONE
-    );
-    const checkType = block.getFieldValue('checkType');
-    let code = '';
+    )
+    const checkType = block.getFieldValue('checkType')
+    let code = ''
 
     switch (checkType) {
       case 'weekend':
-        code += `actions.Ephemeris.isWeekend(${dayInfo})`;
-        break;
+        code += `actions.Ephemeris.isWeekend(${dayInfo})`
+        break
       case 'weekday':
-        code += `!actions.Ephemeris.isWeekend(${dayInfo})`;
-        break;
+        code += `!actions.Ephemeris.isWeekend(${dayInfo})`
+        break
       case 'holiday':
-        code += `actions.Ephemeris.isBankHoliday(${dayInfo})`;
-        break;
+        code += `actions.Ephemeris.isBankHoliday(${dayInfo})`
+        break
     }
-    return [code, javascriptGenerator.ORDER_FUNCTION_CALL];
-  };
+    return [code, javascriptGenerator.ORDER_FUNCTION_CALL]
+  }
 
   /*
    * Retrieve the current bonk holiday name
@@ -77,16 +77,16 @@ export default function (f7) {
     init: function () {
       this.appendValueInput('dayInfo')
         .appendField('holiday name for')
-        .setCheck(['DayOffset', 'ZonedDateTime']);
-      this.setColour(0);
-      this.setInputsInline(true);
-      this.setTooltip('name of the holiday for the given day');
-      this.setOutput(true, null);
+        .setCheck(['DayOffset', 'ZonedDateTime'])
+      this.setColour(0)
+      this.setInputsInline(true)
+      this.setTooltip('name of the holiday for the given day')
+      this.setOutput(true, null)
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-ephemeris.html#get-the-holiday-name-for-a-particular-date'
-      );
-    },
-  };
+      )
+    }
+  }
 
   /*
    * Retrieve the current bonk holiday name
@@ -97,9 +97,9 @@ export default function (f7) {
       block,
       'dayInfo',
       javascriptGenerator.ORDER_NONE
-    );
-    return [`actions.Ephemeris.getBankHolidayName(${dayInfo})`, javascriptGenerator.ORDER_NONE];
-  };
+    )
+    return [`actions.Ephemeris.getBankHolidayName(${dayInfo})`, javascriptGenerator.ORDER_NONE]
+  }
 
   /*
    * Retrieve the number of days from today until the given bank holiday name
@@ -109,16 +109,16 @@ export default function (f7) {
     init: function () {
       this.appendValueInput('holidayName')
         .appendField('days until holiday named')
-        .setCheck('String');
-      this.setColour(0);
-      this.setInputsInline(true);
-      this.setTooltip('days from today until the given bank holiday name');
-      this.setOutput(true, null);
+        .setCheck('String')
+      this.setColour(0)
+      this.setInputsInline(true)
+      this.setTooltip('days from today until the given bank holiday name')
+      this.setOutput(true, null)
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-ephemeris.html#get-the-number-of-days-until-a-specific-holiday'
-      );
-    },
-  };
+      )
+    }
+  }
 
   /*
    * Retrieve the number of days from today until the given bank holiday name
@@ -129,7 +129,7 @@ export default function (f7) {
       block,
       'holidayName',
       javascriptGenerator.ORDER_NONE
-    );
-    return [`actions.Ephemeris.getDaysUntil(${holidayName})`, javascriptGenerator.ORDER_NONE];
-  };
+    )
+    return [`actions.Ephemeris.getDaysUntil(${holidayName})`, javascriptGenerator.ORDER_NONE]
+  }
 }

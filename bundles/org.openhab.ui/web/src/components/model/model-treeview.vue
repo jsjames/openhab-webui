@@ -70,7 +70,8 @@
 <script>
 import ModelTreeviewItem from '@/components/model/treeview-item.vue';
 import ModelDragDropMixin from '@/pages/settings/model/model-dragdrop-mixin';
-import Draggable from 'vuedraggable';
+import { nextTick, defineAsyncComponent } from 'vue';
+import { VueDraggableNext as Draggable } from 'vue-draggable-next';
 
 export default {
   mixins: [ModelDragDropMixin],

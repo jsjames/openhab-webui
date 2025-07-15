@@ -1,4 +1,4 @@
-import { pt, pn } from '../helpers.js';
+import { pt, pn } from '../helpers.js'
 
 export default () => [
   pt('text', 'Text', 'Link label'),
@@ -16,5 +16,5 @@ export default () => [
     'Text to display in a badge on the opposite side of the item (set either this or "after")'
   ).a(),
   pt('badgeColor', 'Badge color', 'Color of the badge').a(),
-  pt('tooltip', 'Tooltip', 'Button tooltip text to show on button hover/press').a(),
-];
+  pt('tooltip', 'Tooltip', 'Button tooltip text to show on button hover/press').a()
+]

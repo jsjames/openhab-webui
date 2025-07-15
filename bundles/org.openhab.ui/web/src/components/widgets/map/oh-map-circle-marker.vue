@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { LCircle, LTooltip } from 'vue2-leaflet';
+import { LCircle, LTooltip } from '@vue-leaflet/vue-leaflet';
 
 import mixin from '../widget-mixin';
 import { actionsMixin } from '../widget-actions';

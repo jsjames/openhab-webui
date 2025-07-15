@@ -3,16 +3,16 @@ export default {
     let page = {
       component: 'oh-chart-page',
       config: {
-        chartType: analyzer.chartType,
+        chartType: analyzer.chartType
       },
-      slots: {},
-    };
-
-    if (!analyzer.chartType) {
-      throw new Error('The aggregate coordinate system cannot be used with a dynamic period chart');
+      slots: {}
     }
 
-    page.slots.grid = [{ component: 'oh-chart-grid', config: {} }];
+    if (!analyzer.chartType) {
+      throw new Error('The aggregate coordinate system cannot be used with a dynamic period chart')
+    }
+
+    page.slots.grid = [{ component: 'oh-chart-grid', config: {} }]
 
     const axis1 = [
       {
@@ -22,10 +22,10 @@ export default {
           categoryType: analyzer.chartType === 'isoWeek' ? 'week' : analyzer.chartType,
           startOnSunday: analyzer.chartType === 'week' ? true : undefined,
           monthFormat: 'short',
-          weekdayFormat: 'short',
-        },
-      },
-    ];
+          weekdayFormat: 'short'
+        }
+      }
+    ]
 
     const dimension1 =
       analyzer.chartType === 'day'
@@ -38,9 +38,9 @@ export default {
               ? 'date'
               : analyzer.chartType === 'year'
                 ? 'month'
-                : undefined;
+                : undefined
 
-    let axis2, dimension2;
+    let axis2, dimension2
     if (analyzer.aggregateDimensions === 2) {
       const category2 =
         analyzer.chartType === 'day'
@@ -53,7 +53,7 @@ export default {
                 ? 'day'
                 : analyzer.chartType === 'year'
                   ? 'month'
-                  : undefined;
+                  : undefined
 
       dimension2 =
         category2 === 'hour'
@@ -62,7 +62,7 @@ export default {
             ? 'hour'
             : category2 === 'month'
               ? 'date'
-              : undefined;
+              : undefined
 
       axis2 = [
         {
@@ -71,10 +71,10 @@ export default {
             gridIndex: 0,
             categoryType: category2,
             monthFormat: 'short',
-            weekdayFormat: 'short',
-          },
-        },
-      ];
+            weekdayFormat: 'short'
+          }
+        }
+      ]
     } else {
       axis2 = analyzer.valueAxesOptions.map(a => {
         return {
@@ -86,50 +86,50 @@ export default {
             ...(a.max && a.max !== '' && { max: parseFloat(a.max) }),
             scale: a.scale,
             ...((a.split === 'none' || a.split === 'area' || a.split === 'area+minor') && {
-              splitLine: { show: false },
+              splitLine: { show: false }
             }),
             ...((a.split === 'line+minor' || a.split === 'area+minor' || a.split === 'all') && {
               minorTick: { show: true },
-              minorSplitLine: { show: true },
+              minorSplitLine: { show: true }
             }),
             ...((a.split === 'area' ||
               a.split === 'line+area' ||
               a.split === 'area+minor' ||
-              a.split === 'all') && { splitArea: { show: true } }),
-          },
-        };
-      });
+              a.split === 'all') && { splitArea: { show: true } })
+          }
+        }
+      })
     }
 
     if (analyzer.orientation === 'vertical') {
-      page.slots.xAxis = axis2;
-      page.slots.yAxis = axis1;
+      page.slots.xAxis = axis2
+      page.slots.yAxis = axis1
     } else {
-      page.slots.xAxis = axis1;
-      page.slots.yAxis = axis2;
+      page.slots.xAxis = axis1
+      page.slots.yAxis = axis2
     }
 
     page.slots.series = analyzer.items.map(item => {
-      const seriesOptions = analyzer.seriesOptions[item.name];
+      const seriesOptions = analyzer.seriesOptions[item.name]
 
       const markLine =
         seriesOptions.markers === 'avg' || seriesOptions.markers === 'all'
           ? {
-              data: [{ type: 'average' }],
+              data: [{ type: 'average' }]
             }
-          : undefined;
+          : undefined
       const markPoint =
         seriesOptions.markers === 'min-max' || seriesOptions.markers === 'all'
           ? {
               label: {
-                backgroundColor: 'auto',
+                backgroundColor: 'auto'
               },
               data: [
                 { type: 'min', name: 'min' },
-                { type: 'max', name: 'max' },
-              ],
+                { type: 'max', name: 'max' }
+              ]
             }
-          : undefined;
+          : undefined
 
       return {
         component: 'oh-aggregate-series',
@@ -148,10 +148,10 @@ export default {
           markPoint,
           transpose: analyzer.orientation === 'vertical' ? true : undefined,
           areaStyle: seriesOptions.type === 'area' ? { opacity: 0.2 } : undefined,
-          aggregationFunction: seriesOptions.aggregation,
-        },
-      };
-    });
+          aggregationFunction: seriesOptions.aggregation
+        }
+      }
+    })
 
     if (dimension2) {
       page.slots.visualMap = [
@@ -167,26 +167,26 @@ export default {
             type: analyzer.visualMapType,
             ...(analyzer.visualMapMin &&
               analyzer.visualMapMin !== '' && {
-                min: parseFloat(analyzer.visualMapMin),
+                min: parseFloat(analyzer.visualMapMin)
               }),
             ...(analyzer.visualMapMax &&
               analyzer.visualMapMax !== '' && {
-                max: parseFloat(analyzer.visualMapMax),
-              }),
-          },
-        },
-      ];
+                max: parseFloat(analyzer.visualMapMax)
+              })
+          }
+        }
+      ]
     }
 
     page.slots.tooltip = [
       {
         component: 'oh-chart-tooltip',
         config: {
-          confine: true,
+          confine: true
           // smartFormatter: true
-        },
-      },
-    ];
+        }
+      }
+    ]
 
     if (!dimension2) {
       page.slots.legend = [
@@ -194,12 +194,12 @@ export default {
           component: 'oh-chart-legend',
           config: {
             bottom: 3,
-            type: 'scroll',
-          },
-        },
-      ];
+            type: 'scroll'
+          }
+        }
+      ]
     }
 
-    return page;
-  },
-};
+    return page
+  }
+}

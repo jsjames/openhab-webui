@@ -5,9 +5,9 @@
  * Additionally there is a block that allows transformations based on the Map-File functionality, regular-expressions and applying JSON-paths
  * supports jsscripting
  */
-import Blockly from 'blockly';
-import { javascriptGenerator } from 'blockly/javascript.js';
-import { blockGetCheckedInputType } from '@/assets/definitions/blockly/utils.js';
+import Blockly from 'blockly'
+import { javascriptGenerator } from 'blockly/javascript.js'
+import { blockGetCheckedInputType } from '@/assets/definitions/blockly/utils.js'
 
 export default function defineOHBlocks_Scripts(f7, transformationServices) {
   /*
@@ -16,19 +16,19 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
    */
   Blockly.Blocks['oh_callscriptfile'] = {
     init: function () {
-      this.appendValueInput('scriptfile').setCheck('String').appendField('call script file');
-      this.setInputsInline(true);
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
-      this.setColour(0);
+      this.appendValueInput('scriptfile').setCheck('String').appendField('call script file')
+      this.setInputsInline(true)
+      this.setPreviousStatement(true, null)
+      this.setNextStatement(true, null)
+      this.setColour(0)
       this.setTooltip(
         'Calls a script file which must be located in the $OPENHAB_CONF/scripts folder'
-      );
+      )
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-run-and-process.html#call-script-file'
-      );
-    },
-  };
+      )
+    }
+  }
 
   /*
    * Calls a script that is provided in openHABs scripts folder
@@ -39,9 +39,9 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
       block,
       'scriptfile',
       javascriptGenerator.ORDER_ATOMIC
-    );
-    return `actions.ScriptExecution.callScript(${scriptfile});\n`;
-  };
+    )
+    return `actions.ScriptExecution.callScript(${scriptfile});\n`
+  }
 
   /*
    * Calls a script that has been provided via the UI.
@@ -50,18 +50,18 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
    */
   Blockly.Blocks['oh_runrule'] = {
     init: function () {
-      this.appendValueInput('ruleUID').setCheck('String').appendField('run rule or script');
-      this.appendValueInput('parameters').appendField('with context').setCheck('Dictionary');
-      this.setInputsInline(false);
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
-      this.setColour(0);
-      this.setTooltip('Run a rule or script with a certain UID, and optional parameters');
+      this.appendValueInput('ruleUID').setCheck('String').appendField('run rule or script')
+      this.appendValueInput('parameters').appendField('with context').setCheck('Dictionary')
+      this.setInputsInline(false)
+      this.setPreviousStatement(true, null)
+      this.setNextStatement(true, null)
+      this.setColour(0)
+      this.setTooltip('Run a rule or script with a certain UID, and optional parameters')
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-run-and-process.html#run-rule-or-script-created-in-ui'
-      );
-    },
-  };
+      )
+    }
+  }
 
   /*
    * Calls a script that has been provided via the UI.
@@ -73,14 +73,14 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
       block,
       'ruleUID',
       javascriptGenerator.ORDER_ATOMIC
-    );
+    )
     const scriptParameters = javascriptGenerator.valueToCode(
       block,
       'parameters',
       javascriptGenerator.ORDER_ATOMIC
-    );
-    return `rules.runRule(${ruleUID}, ${scriptParameters});\n`;
-  };
+    )
+    return `rules.runRule(${ruleUID}, ${scriptParameters});\n`
+  }
 
   /*
    * Allow transformations via different methods
@@ -92,49 +92,49 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
    */
   Blockly.Blocks['oh_transformation'] = {
     init: function () {
-      this.appendValueInput('value').setAlign(Blockly.ALIGN_RIGHT).appendField('transform');
+      this.appendValueInput('value').setAlign(Blockly.ALIGN_RIGHT).appendField('transform')
       this.appendValueInput('function')
         .appendField('apply')
         .appendField(new Blockly.FieldDropdown(transformationOptions()), 'type')
         .appendField('with')
-        .setCheck(null);
+        .setCheck(null)
 
-      this.setInputsInline(false);
-      this.setOutput(true, null);
-      this.setColour(0);
+      this.setInputsInline(false)
+      this.setOutput(true, null)
+      this.setColour(0)
 
-      let thisBlock = this;
+      let thisBlock = this
       this.setTooltip(function () {
-        const type = thisBlock.getFieldValue('type');
+        const type = thisBlock.getFieldValue('type')
         switch (type) {
           case '':
-            return 'select from the installed transformations. The list is empty if no transformation addons have been installed.';
+            return 'select from the installed transformations. The list is empty if no transformation addons have been installed.'
           case 'MAP':
-            return 'transforms an input via a map file. Specify the file as the function.';
+            return 'transforms an input via a map file. Specify the file as the function.'
           case 'REGEX':
-            return 'transforms / filters an input by applying the provided regular expression.';
+            return 'transforms / filters an input by applying the provided regular expression.'
           case 'JSONPATH':
-            return 'transforms / filters a JSON input by executing the provided JSONPath query.';
+            return 'transforms / filters a JSON input by executing the provided JSONPath query.'
           default:
-            return 'transforms the input with the ' + type + ' transformation.';
+            return 'transforms the input with the ' + type + ' transformation.'
         }
-      });
+      })
       this.setHelpUrl(function () {
-        const type = thisBlock.getFieldValue('type');
+        const type = thisBlock.getFieldValue('type')
         return (
           'https://www.openhab.org/docs/configuration/blockly/rules-blockly-run-and-process.html#transform-values-via-map-regex-or-jsonpath-and-others' +
           type.toLowerCase() +
           '/'
-        );
-      });
-    },
-  };
+        )
+      })
+    }
+  }
 
   function transformationOptions() {
     if (transformationServices && transformationServices.length > 0) {
-      return transformationServices.map(service => [service, service]);
+      return transformationServices.map(service => [service, service])
     }
-    return [['', '']];
+    return [['', '']]
   }
 
   /*
@@ -142,22 +142,22 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
    * Code part
    */
   javascriptGenerator.forBlock['oh_transformation'] = function (block) {
-    const transformationType = block.getFieldValue('type');
+    const transformationType = block.getFieldValue('type')
     const transformationFunction = javascriptGenerator.valueToCode(
       block,
       'function',
       javascriptGenerator.ORDER_ATOMIC
-    );
+    )
     const transformationValue = javascriptGenerator.valueToCode(
       block,
       'value',
       javascriptGenerator.ORDER_ATOMIC
-    );
+    )
     return [
       `actions.Transformation.transform('${transformationType}', ${transformationFunction}, ${transformationValue})`,
-      0,
-    ];
-  };
+      0
+    ]
+  }
 
   Blockly.Blocks['oh_context_info'] = {
     init: function () {
@@ -174,19 +174,19 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
               ['triggering item name', 'itemName'],
               ['received command', 'itemCommand'],
               ['triggered channel', 'channel'],
-              ['triggered event', 'event'],
+              ['triggered event', 'event']
             ],
             this.handleTypeSelection.bind(this)
           ),
           'contextInfo'
-        );
-      this.contextInfo = this.getFieldValue('contextInfo');
-      this.setInputsInline(true);
-      this.setOutput(true, null);
-      this.setColour(0);
-      let thisBlock = this;
+        )
+      this.contextInfo = this.getFieldValue('contextInfo')
+      this.setInputsInline(true)
+      this.setOutput(true, null)
+      this.setColour(0)
+      let thisBlock = this
       this.setTooltip(function () {
-        const contextData = thisBlock.getFieldValue('contextInfo');
+        const contextData = thisBlock.getFieldValue('contextInfo')
         const TIP = {
           ruleUID: "The current rule's UID",
           eventAvailable: 'check if the event information is available',
@@ -200,78 +200,78 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
           channel:
             'the channel UID that triggered the event (only applicable for rules including a "trigger channel fired" event)',
           event:
-            'the channel event type that triggered the event (only applicable for rules including a "trigger channel fired" event)',
-        };
-        return TIP[contextData];
-      });
+            'the channel event type that triggered the event (only applicable for rules including a "trigger channel fired" event)'
+        }
+        return TIP[contextData]
+      })
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-run-and-process.html#retrieve-rule-context-information'
-      );
+      )
     },
     onchange: function (event) {
-      const contextInfo = this.getFieldValue('contextInfo');
-      const asType = this.getFieldValue('asType');
+      const contextInfo = this.getFieldValue('contextInfo')
+      const asType = this.getFieldValue('asType')
 
       if (this.contextInfo !== contextInfo) {
-        this.contextInfo = contextInfo;
+        this.contextInfo = contextInfo
         if (contextInfo === 'eventAvailable') {
-          this.setOutput(true, 'Boolean');
-          return;
+          this.setOutput(true, 'Boolean')
+          return
         }
         if (contextInfo === 'itemName') {
-          this.setOutput(true, 'oh_item');
+          this.setOutput(true, 'oh_item')
         } else {
-          this.setOutput(true, 'String');
+          this.setOutput(true, 'String')
         }
       }
 
       if (this.asType !== asType) {
-        this.asType = asType;
+        this.asType = asType
         if (
           this.methodName === 'itemState' ||
           this.methodName === 'oldItemState' ||
           this.methodName === 'itemCommand'
         ) {
           if (asType === 'asNumber') {
-            this.setOutput(true, 'Number');
+            this.setOutput(true, 'Number')
           } else if (asType === 'asQuantity') {
-            this.setOutput(true, 'oh_quantity');
+            this.setOutput(true, 'oh_quantity')
           } else {
-            this.setOutput(true, 'String');
+            this.setOutput(true, 'String')
           }
         }
       }
     },
     handleTypeSelection: function (methodName) {
       if (this.methodName !== methodName) {
-        this.methodName = methodName;
-        this.updateShape();
+        this.methodName = methodName
+        this.updateShape()
       }
     },
     mutationToDom: function () {
-      let container = Blockly.utils.xml.createElement('mutation');
-      container.setAttribute('asType', this.asType);
-      container.setAttribute('contextInfo', this.contextInfo);
-      return container;
+      let container = Blockly.utils.xml.createElement('mutation')
+      container.setAttribute('asType', this.asType)
+      container.setAttribute('contextInfo', this.contextInfo)
+      return container
     },
     domToMutation: function (xmlElement) {
-      this.contextInfo = xmlElement.getAttribute('contextInfo');
+      this.contextInfo = xmlElement.getAttribute('contextInfo')
       if (this.contextInfo === 'eventAvailable') {
-        this.setOutput(true, 'Boolean');
-        return;
+        this.setOutput(true, 'Boolean')
+        return
       }
       if (this.contextInfo === 'itemName') {
-        this.setOutput(true, 'oh_item');
+        this.setOutput(true, 'oh_item')
       } else {
-        this.setOutput(true, 'String');
+        this.setOutput(true, 'String')
       }
-      this.asType = xmlElement.getAttribute('asType');
+      this.asType = xmlElement.getAttribute('asType')
       if (this.asType === 'asNumber') {
-        this.setOutput(true, 'Number');
+        this.setOutput(true, 'Number')
       } else if (this.asType === 'asQuantity') {
-        this.setOutput(true, 'oh_quantity');
+        this.setOutput(true, 'oh_quantity')
       } else {
-        this.setOutput(true, 'String');
+        this.setOutput(true, 'String')
       }
     },
     updateShape: function () {
@@ -285,25 +285,25 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
             new Blockly.FieldDropdown([
               ['as String', 'asString'],
               ['as Number', 'asNumber'],
-              ['as Quantity', 'asQuantity'],
+              ['as Quantity', 'asQuantity']
             ]),
             'asType'
-          );
+          )
         }
       } else {
         if (this.getInput('asTypeInput')) {
-          this.removeInput('asTypeInput');
+          this.removeInput('asTypeInput')
         }
       }
-    },
-  };
+    }
+  }
 
   javascriptGenerator.forBlock['oh_context_info'] = function (block) {
-    const contextInfo = block.getFieldValue('contextInfo');
-    const type = block.getFieldValue('asType');
+    const contextInfo = block.getFieldValue('contextInfo')
+    const type = block.getFieldValue('asType')
     if (contextInfo === 'eventAvailable')
-      return ['(event !== undefined)', javascriptGenerator.ORDER_ATOMIC];
-    if (contextInfo === 'ruleUID') return ['ctx.ruleUID', javascriptGenerator.ORDER_ATOMIC];
+      return ['(event !== undefined)', javascriptGenerator.ORDER_ATOMIC]
+    if (contextInfo === 'ruleUID') return ['ctx.ruleUID', javascriptGenerator.ORDER_ATOMIC]
 
     if (
       contextInfo === 'itemState' ||
@@ -313,19 +313,19 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
       if (type === 'asNumber') {
         return [
           `((event.${contextInfo} !== undefined) ? parseFloat(event.${contextInfo}.toString()) : undefined)`,
-          javascriptGenerator.ORDER_ATOMIC,
-        ];
+          javascriptGenerator.ORDER_ATOMIC
+        ]
       } else if (type === 'asQuantity') {
         return [
           `((event.${contextInfo} !== undefined) ? Quantity(event.${contextInfo}.toString()) : undefined)`,
-          javascriptGenerator.ORDER_ATOMIC,
-        ];
+          javascriptGenerator.ORDER_ATOMIC
+        ]
       } else {
-        return [`event.${contextInfo}?.toString()`, javascriptGenerator.ORDER_ATOMIC];
+        return [`event.${contextInfo}?.toString()`, javascriptGenerator.ORDER_ATOMIC]
       }
     }
-    return [`event.${contextInfo}`, javascriptGenerator.ORDER_ATOMIC];
-  };
+    return [`event.${contextInfo}`, javascriptGenerator.ORDER_ATOMIC]
+  }
 
   /*
    * Allows retrieving parameters provided by a rule
@@ -333,28 +333,28 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
    */
   Blockly.Blocks['oh_context_attribute'] = {
     init: function () {
-      this.appendValueInput('key').appendField('get context attribute').setCheck('String');
-      this.setInputsInline(false);
-      this.setOutput(true, 'any');
-      this.setColour(0);
+      this.appendValueInput('key').appendField('get context attribute').setCheck('String')
+      this.setInputsInline(false)
+      this.setOutput(true, 'any')
+      this.setColour(0)
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-run-and-process.html#retrieve-context-attribute-from-rule'
-      );
+      )
       this.setTooltip(
         'Retrieve a specified attribute from the context that could be set from a calling rule or script'
-      );
-    },
-  };
+      )
+    }
+  }
 
   /*
    * Allows retrieving parameters provided by a rule
    * Code part
    */
   javascriptGenerator.forBlock['oh_context_attribute'] = function (block) {
-    const key = javascriptGenerator.valueToCode(block, 'key', javascriptGenerator.ORDER_ATOMIC);
-    let code = `ctx[${key}]`;
-    return [code, 0];
-  };
+    const key = javascriptGenerator.valueToCode(block, 'key', javascriptGenerator.ORDER_ATOMIC)
+    let code = `ctx[${key}]`
+    return [code, 0]
+  }
 
   /*
    * Allows inlining arbitrary code
@@ -362,63 +362,61 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
    */
   Blockly.Blocks['oh_script_inline'] = {
     init: function () {
-      this.appendDummyInput().appendField('inline script (advanced)');
-      const code = 'for (var i = 0; i < 10; i++) {\n  console.log(i.toString());\n}';
-      this.appendDummyInput().appendField(new Blockly.FieldMultilineInput(code), 'inlineScript');
-      this.setInputsInline(false);
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
-      this.setColour(0);
+      this.appendDummyInput().appendField('inline script (advanced)')
+      const code = 'for (var i = 0; i < 10; i++) {\n  console.log(i.toString());\n}'
+      this.appendDummyInput().appendField(new Blockly.FieldMultilineInput(code), 'inlineScript')
+      this.setInputsInline(false)
+      this.setPreviousStatement(true, null)
+      this.setNextStatement(true, null)
+      this.setColour(0)
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-run-and-process.html#inline-script'
-      );
-      this.setTooltip(
-        'Allows inlining arbitrary script code which has to be syntactically correct'
-      );
-    },
-  };
+      )
+      this.setTooltip('Allows inlining arbitrary script code which has to be syntactically correct')
+    }
+  }
 
   /*
    * Allows inlining arbitrary code
    * Code part
    */
   javascriptGenerator.forBlock['oh_script_inline'] = function (block) {
-    const code = block.getFieldValue('inlineScript') + '\n';
-    return code;
-  };
+    const code = block.getFieldValue('inlineScript') + '\n'
+    return code
+  }
 
   Blockly.Blocks['oh_rule_enable'] = {
     init: function () {
-      this.appendValueInput('ruleUID').setCheck('String').appendField('Set Rule ');
-      this.appendValueInput('enable').appendField('as ').setCheck(['Boolean', 'String']);
-      this.setInputsInline(true);
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
-      this.setColour(0);
-      this.setTooltip('Allows to enable or disable a rule');
+      this.appendValueInput('ruleUID').setCheck('String').appendField('Set Rule ')
+      this.appendValueInput('enable').appendField('as ').setCheck(['Boolean', 'String'])
+      this.setInputsInline(true)
+      this.setPreviousStatement(true, null)
+      this.setNextStatement(true, null)
+      this.setColour(0)
+      this.setTooltip('Allows to enable or disable a rule')
 
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-run-and-process.html#enableRule'
-      );
-    },
-  };
+      )
+    }
+  }
 
   javascriptGenerator.forBlock['oh_rule_enable'] = function (block) {
     const ruleUID = javascriptGenerator.valueToCode(
       block,
       'ruleUID',
       javascriptGenerator.ORDER_ATOMIC
-    );
+    )
     const enableValue = javascriptGenerator.valueToCode(
       block,
       'enable',
       javascriptGenerator.ORDER_ATOMIC
-    );
-    const enableType = blockGetCheckedInputType(block, 'enable');
+    )
+    const enableType = blockGetCheckedInputType(block, 'enable')
     let enable =
       enableType === 'Boolean'
         ? enableValue
-        : enableValue === "'true'" || enableValue === "'enabled'";
-    return `rules.setEnabled(${ruleUID}, ${enable});\n`;
-  };
+        : enableValue === "'true'" || enableValue === "'enabled'"
+    return `rules.setEnabled(${ruleUID}, ${enable});\n`
+  }
 }

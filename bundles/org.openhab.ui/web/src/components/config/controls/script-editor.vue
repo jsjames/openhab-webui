@@ -47,7 +47,7 @@
 
 <script>
 // require component
-import { codemirror } from 'vue-codemirror';
+import { Codemirror } from 'vue-codemirror';
 import _CodeMirror from 'codemirror';
 // require styles
 import 'codemirror/lib/codemirror.css';
@@ -153,7 +153,7 @@ let indentGuidesOverlay = {
 
 export default {
   components: {
-    codemirror,
+    Codemirror,
   },
   props: ['value', 'mode', 'hintContext', 'ternAutocompletionHook', 'readOnly'],
   emits: ['input'],

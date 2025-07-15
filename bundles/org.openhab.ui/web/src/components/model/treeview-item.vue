@@ -92,7 +92,7 @@
 <script>
 import ItemMixin from '@/components/item/item-mixin';
 import ModelDragDropMixin from '@/pages/settings/model/model-dragdrop-mixin';
-import Draggable from 'vuedraggable';
+import { VueDraggableNext as Draggable } from 'vue-draggable-next';
 
 export default {
   name: 'model-treeview-item',

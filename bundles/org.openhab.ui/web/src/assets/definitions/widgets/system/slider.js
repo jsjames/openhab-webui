@@ -1,4 +1,4 @@
-import { pi, pt, pb, pn, pd } from '../helpers.js';
+import { pi, pt, pb, pn, pd } from '../helpers.js'
 
 export default () => [
   pi('item', 'Item', 'Item to control'),
@@ -34,5 +34,5 @@ export default () => [
     'delayStateDisplay',
     'Delay State Display',
     'Time to wait before switching from displaying user input to displaying item state in ms (default 2000)'
-  ).a(),
-];
+  ).a()
+]

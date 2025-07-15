@@ -1,18 +1,18 @@
-import { f7 } from 'framework7-vue';
+import { f7 } from 'framework7-vue'
 
 export default {
   data() {
     return {
-      dirty: false,
-    };
+      dirty: false
+    }
   },
   computed: {
     dirtyIndicator() {
       if (this.dirty) {
-        return ' ●'; // &#9679;
+        return ' ●' // &#9679;
       }
-      return '';
-    },
+      return ''
+    }
   },
   methods: {
     confirmLeaveWithoutSaving(callbackLeave, callbackCancel) {
@@ -21,33 +21,33 @@ export default {
         'Changes have not been saved',
         callbackLeave,
         callbackCancel
-      );
+      )
     },
     beforeLeave(context) {
       if (this.dirty) {
         this.confirmLeaveWithoutSaving(
           function () {
-            context.resolve();
+            context.resolve()
           },
           function () {
-            const { pushStateRoot = '', pushStateSeparator } = router.params;
-            let url = routeFrom.url;
-            history.pushState({ view_main: { url } }, '', pushStateRoot + pushStateSeparator + url);
-            context.reject();
-            router.allowPageChange = true;
+            const { pushStateRoot = '', pushStateSeparator } = router.params
+            let url = routeFrom.url
+            history.pushState({ view_main: { url } }, '', pushStateRoot + pushStateSeparator + url)
+            context.reject()
+            router.allowPageChange = true
           }
-        );
+        )
       } else {
-        context.resolve();
+        context.resolve()
       }
     },
     switchTab(tab, onSuccessCallback) {
       if (this.currentTab !== tab) {
-        this.currentTab = tab;
+        this.currentTab = tab
         if (onSuccessCallback) {
-          onSuccessCallback();
+          onSuccessCallback()
         }
       }
-    },
-  },
-};
+    }
+  }
+}

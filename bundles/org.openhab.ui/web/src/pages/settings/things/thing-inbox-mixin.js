@@ -1,10 +1,10 @@
-import ThingMixin from '@/components/thing/thing-mixin';
-import FileDefinition from '@/pages/settings/file-definition-mixin';
-import { f7 } from 'framework7-vue';
+import ThingMixin from '@/components/thing/thing-mixin'
+import FileDefinition from '@/pages/settings/file-definition-mixin'
+import { f7 } from 'framework7-vue'
 
 export default {
   props: {
-    f7router: Object,
+    f7router: Object
   },
   mixins: [ThingMixin, FileDefinition],
   methods: {
@@ -27,21 +27,21 @@ export default {
             .create({
               text: 'Entry approved',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          return Promise.resolve();
+            .open()
+          return Promise.resolve()
         })
         .catch(err => {
           f7.toast
             .create({
               text: 'Error during thing creation: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          return Promise.reject(err);
-        });
+            .open()
+          return Promise.reject(err)
+        })
     },
     entryActionsAddAsThingButton(entry, loadFn) {
       return {
@@ -49,26 +49,26 @@ export default {
         color: 'green',
         bold: true,
         onClick: () => {
-          const lastColonIdx = entry.thingUID.lastIndexOf(':');
-          const uidPrefix = entry.thingUID.substring(0, lastColonIdx + 1);
-          const defaultId = entry.thingUID.substring(lastColonIdx + 1);
+          const lastColonIdx = entry.thingUID.lastIndexOf(':')
+          const uidPrefix = entry.thingUID.substring(0, lastColonIdx + 1)
+          const defaultId = entry.thingUID.substring(lastColonIdx + 1)
 
           const okButtonClicked = (dialog, redirect) => {
-            const newThingId = dialog.$el.find('.id-input').val();
-            const newThingUID = uidPrefix + newThingId;
+            const newThingId = dialog.$el.find('.id-input').val()
+            const newThingUID = uidPrefix + newThingId
 
-            const error = this.validateThingUID(newThingUID, newThingId);
-            const label = dialog.$el.find('.label-input').val();
+            const error = this.validateThingUID(newThingUID, newThingId)
+            const label = dialog.$el.find('.label-input').val()
             if (!error && label) {
-              dialog.close();
+              dialog.close()
               this.approveEntry(entry, label, newThingId)
                 .then(() => {
-                  if (redirect) this.f7router.navigate('/settings/things/' + newThingUID);
-                  else loadFn();
+                  if (redirect) this.f7router.navigate('/settings/things/' + newThingUID)
+                  else loadFn()
                 })
-                .catch(() => loadFn());
+                .catch(() => loadFn())
             }
-          };
+          }
 
           f7.dialog
             .create({
@@ -88,58 +88,58 @@ export default {
                   text: f7.params.dialog.buttonCancel,
                   color: 'gray',
                   keyCodes: [27],
-                  close: true,
+                  close: true
                 },
                 {
                   text: 'OK &rarr; Edit',
                   bold: true,
                   close: false,
-                  onClick: dialog => okButtonClicked(dialog, true),
+                  onClick: dialog => okButtonClicked(dialog, true)
                 },
                 {
                   text: 'OK',
                   bold: true,
                   keyCodes: [13],
                   close: false,
-                  onClick: dialog => okButtonClicked(dialog, false),
-                },
+                  onClick: dialog => okButtonClicked(dialog, false)
+                }
               ],
               destroyOnClose: true,
               cssClass: 'thing-inbox-approve-dialog',
               on: {
                 opened: dialog => {
-                  const id = dialog.$el.find('.id-input');
-                  id.val(defaultId);
-                  id.focus();
+                  const id = dialog.$el.find('.id-input')
+                  id.val(defaultId)
+                  id.focus()
 
                   id.on('input', () => {
-                    const error = this.validateThingUID(uidPrefix + id.val(), id.val());
-                    const info = dialog.$el.find('.id-info');
-                    info.text(error);
-                    info[0].style.color = error ? 'red' : '';
-                  });
+                    const error = this.validateThingUID(uidPrefix + id.val(), id.val())
+                    const info = dialog.$el.find('.id-info')
+                    info.text(error)
+                    info[0].style.color = error ? 'red' : ''
+                  })
 
-                  const label = dialog.$el.find('.label-input');
-                  label.val(entry.label);
+                  const label = dialog.$el.find('.label-input')
+                  label.val(entry.label)
                   label.on('input', () => {
-                    const info = dialog.$el.find('.label-info');
-                    info.text(label.val() ? '' : 'Label is required');
-                    info[0].style.color = label.val() ? '' : 'red';
-                  });
-                },
-              },
+                    const info = dialog.$el.find('.label-info')
+                    info.text(label.val() ? '' : 'Label is required')
+                    info[0].style.color = label.val() ? '' : 'red'
+                  })
+                }
+              }
             })
-            .open();
-        },
-      };
+            .open()
+        }
+      }
     },
     entryActionsCopyThingDefinitionButton(entry) {
       return {
         text: 'Copy Thing File Definition',
         color: 'blue',
         bold: true,
-        onClick: () => this.copyFileDefinitionToClipboard(this.ObjectType.THING, [entry.thingUID]),
-      };
-    },
-  },
-};
+        onClick: () => this.copyFileDefinitionToClipboard(this.ObjectType.THING, [entry.thingUID])
+      }
+    }
+  }
+}

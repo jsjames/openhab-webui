@@ -11,11 +11,9 @@
       :clear-button="!configDescription.required"
       @input="updateValue"
     />
-    <template #content-end>
-      <div class="display-flex justify-content-center">
-        <div ref="picker" />
-      </div>
-    </template>
+    <div slot="content-end" class="display-flex justify-content-center">
+      <div ref="picker" />
+    </div>
   </ul>
 </template>
 

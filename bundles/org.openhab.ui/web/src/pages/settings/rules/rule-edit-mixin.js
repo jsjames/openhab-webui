@@ -1,49 +1,49 @@
-import YAML from 'yaml';
-import { f7 } from 'framework7-vue';
+import YAML from 'yaml'
+import { f7 } from 'framework7-vue'
 
 export default {
   data() {
     return {
       showModuleControls: false,
       eventSource: null,
-      keyHandler: null,
-    };
+      keyHandler: null
+    }
   },
   computed: {
     isEditable() {
-      return this.rule && this.rule.editable !== false;
+      return this.rule && this.rule.editable !== false
     },
     yamlError() {
-      if (this.currentTab !== 'code') return null;
+      if (this.currentTab !== 'code') return null
       try {
-        YAML.parse(this.ruleYaml, { prettyErrors: true });
-        return 'OK';
+        YAML.parse(this.ruleYaml, { prettyErrors: true })
+        return 'OK'
       } catch (e) {
-        return e;
+        return e
       }
-    },
+    }
   },
   methods: {
     onPageAfterIn() {
       if (window) {
-        window.addEventListener('keydown', this.keyDown);
+        window.addEventListener('keydown', this.keyDown)
       }
-      this.load();
+      this.load()
     },
     onPageAfterOut() {
-      this.stopEventSource();
+      this.stopEventSource()
       if (window) {
-        window.removeEventListener('keydown', this.keyDown);
+        window.removeEventListener('keydown', this.keyDown)
       }
     },
     onEditorInput(value) {
-      this.ruleYaml = value;
-      this.dirty = true;
+      this.ruleYaml = value
+      this.dirty = true
     },
     toggleDisabled() {
-      if (this.createMode) return;
-      if (this.copyMode) return;
-      const enable = this.rule.status.statusDetail === 'DISABLED';
+      if (this.createMode) return
+      if (this.copyMode) return
+      const enable = this.rule.status.statusDetail === 'DISABLED'
       this.$oh.api
         .postPlain('/rest/rules/' + this.rule.uid + '/enable', enable.toString())
         .then(data => {
@@ -51,54 +51,54 @@ export default {
             .create({
               text: enable ? 'Enabled' : 'Disabled',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
+            .open()
         })
         .catch(err => {
           f7.toast
             .create({
               text: 'Error while disabling or enabling: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     keyDown(ev) {
       if ((ev.ctrlKey || ev.metaKey) && !(ev.altKey || ev.shiftKey)) {
-        if (this.currentModule) return;
+        if (this.currentModule) return
         switch (ev.keyCode) {
           case 68:
-            this.toggleDisabled();
-            ev.stopPropagation();
-            ev.preventDefault();
-            break;
+            this.toggleDisabled()
+            ev.stopPropagation()
+            ev.preventDefault()
+            break
           case 82:
-            this.runNow();
-            ev.stopPropagation();
-            ev.preventDefault();
-            break;
+            this.runNow()
+            ev.stopPropagation()
+            ev.preventDefault()
+            break
           case 83:
-            this.save();
-            ev.stopPropagation();
-            ev.preventDefault();
-            break;
+            this.save()
+            ev.stopPropagation()
+            ev.preventDefault()
+            break
         }
       }
     },
     toggleModuleControls() {
-      this.showModuleControls = !this.showModuleControls;
+      this.showModuleControls = !this.showModuleControls
     },
     showSwipeout(ev) {
-      let swipeoutElement = ev.target;
-      ev.cancelBubble = true;
+      let swipeoutElement = ev.target
+      ev.cancelBubble = true
       while (!swipeoutElement.classList.contains('swipeout')) {
-        swipeoutElement = swipeoutElement.parentElement;
+        swipeoutElement = swipeoutElement.parentElement
       }
 
       if (swipeoutElement) {
-        f7.swipeout.open(swipeoutElement);
+        f7.swipeout.open(swipeoutElement)
       }
     },
     startEventSource() {
@@ -106,24 +106,24 @@ export default {
         '/rest/events?topics=openhab/rules/' + this.ruleId + '/*',
         null,
         event => {
-          const topicParts = event.topic.split('/');
+          const topicParts = event.topic.split('/')
           switch (topicParts[3]) {
             case 'state':
-              this.rule.status = JSON.parse(event.payload); // e.g. {"status":"RUNNING","statusDetail":"NONE"}
-              break;
+              this.rule.status = JSON.parse(event.payload) // e.g. {"status":"RUNNING","statusDetail":"NONE"}
+              break
             case 'added':
             case 'updated':
               if (!this.dirty) {
-                this.load();
+                this.load()
               }
-              break;
+              break
           }
         }
-      );
+      )
     },
     stopEventSource() {
-      this.$oh.sse.close(this.eventSource);
-      this.eventSource = null;
-    },
-  },
-};
+      this.$oh.sse.close(this.eventSource)
+      this.eventSource = null
+    }
+  }
+}

@@ -162,7 +162,7 @@
           external
           :href="`${this.$store.state.websiteUrl}/link/transformations`"
           target="_blank"
-          t="'home.overview.button.documentation'"
+          :text="$t('home.overview.button.documentation')"
         />
       </f7-row>
     </f7-block>
@@ -211,6 +211,7 @@ export default {
       selectedTransformations: [],
       groupBy: 'alphabetical',
       showCheckboxes: false,
+      searchQuery: '',    // TODO-V3 - don't think this has ever been implemented
     };
   },
   computed: {

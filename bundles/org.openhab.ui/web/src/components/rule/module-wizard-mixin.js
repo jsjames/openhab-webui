@@ -1,114 +1,114 @@
-import ModelPickerPopup from '@/components/model/model-picker-popup.vue';
-import { f7 } from 'framework7-vue';
+import ModelPickerPopup from '@/components/model/model-picker-popup.vue'
+import { f7 } from 'framework7-vue'
 
 export default {
   props: {
-    f7router: Object,
+    f7router: Object
   },
   data() {
     return {
       category: '',
-      currentItem: null,
-    };
+      currentItem: null
+    }
   },
   computed: {
     commandSuggestions() {
-      if (!this.currentItem || this.category !== 'item') return [];
+      if (!this.currentItem || this.category !== 'item') return []
       let type =
         this.currentItem.type === 'Group' && this.currentItem.groupType
           ? this.currentItem.groupType
-          : this.currentItem.type;
+          : this.currentItem.type
 
       if (
         this.currentItem.commandDescription &&
         this.currentItem.commandDescription.commandOptions
       ) {
-        return this.currentItem.commandDescription.commandOptions;
+        return this.currentItem.commandDescription.commandOptions
       }
       if (type === 'Switch') {
         return ['ON', 'OFF'].map(c => {
-          return { command: c, label: c };
-        });
+          return { command: c, label: c }
+        })
       }
       if (type === 'Rollershutter') {
         return ['UP', 'DOWN', 'STOP'].map(c => {
-          return { command: c, label: c };
-        });
+          return { command: c, label: c }
+        })
       }
       if (type === 'Color') {
         return ['ON', 'OFF'].map(c => {
-          return { command: c, label: c };
-        });
+          return { command: c, label: c }
+        })
       }
 
       return ['ON', 'OFF'].map(c => {
-        return { command: c, label: c };
-      });
+        return { command: c, label: c }
+      })
     },
     stateSuggestions() {
-      if (!this.currentItem || this.category !== 'item') return [];
+      if (!this.currentItem || this.category !== 'item') return []
       let type =
         this.currentItem.type === 'Group' && this.currentItem.groupType
           ? this.currentItem.groupType
-          : this.currentItem.type;
+          : this.currentItem.type
 
       if (this.currentItem.stateDescription && this.currentItem.stateDescription.options) {
-        return this.currentItem.stateDescription.options;
+        return this.currentItem.stateDescription.options
       }
       if (type === 'Switch') {
         return ['ON', 'OFF'].map(c => {
-          return { value: c, label: c };
-        });
+          return { value: c, label: c }
+        })
       }
       if (type === 'Rollershutter') {
         return ['UP', 'DOWN', 'STOP'].map(c => {
-          return { value: c, label: c };
-        });
+          return { value: c, label: c }
+        })
       }
       if (type === 'Contact') {
         return ['OPEN', 'CLOSED'].map(c => {
-          return { value: c, label: c };
-        });
+          return { value: c, label: c }
+        })
       }
 
       return ['ON', 'OFF'].map(c => {
-        return { value: c, label: c };
-      });
+        return { value: c, label: c }
+      })
     },
     isJsAvailable() {
-      return this.isMimeTypeAvailable('application/javascript');
-    },
+      return this.isMimeTypeAvailable('application/javascript')
+    }
   },
   methods: {
     openModelPicker() {
       const popup = {
-        component: ModelPickerPopup,
-      };
+        component: ModelPickerPopup
+      }
 
       this.f7router.navigate(
         {
           url: 'pick-from-model',
           route: {
             path: 'pick-from-model',
-            popup,
-          },
+            popup
+          }
         },
         {
           props: {
-            multiple: false,
-          },
+            multiple: false
+          }
         }
-      );
+      )
 
-      f7.once('itemsPicked', this.itemPicked);
+      f7.once('itemsPicked', this.itemPicked)
       f7.once('modelPickerClosed', () => {
-        f7.off('itemsPicked', this.itemPicked);
-      });
+        f7.off('itemsPicked', this.itemPicked)
+      })
     },
     isMimeTypeAvailable(mimeType) {
       if (mimeType === 'application/javascript;version=ECMAScript-2021')
-        mimeType = 'application/javascript';
-      return this.languages.map(l => l.contentType).includes(mimeType);
-    },
-  },
-};
+        mimeType = 'application/javascript'
+      return this.languages.map(l => l.contentType).includes(mimeType)
+    }
+  }
+}

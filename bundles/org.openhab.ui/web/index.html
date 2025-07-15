@@ -23,7 +23,7 @@
     * allow connecting (through fetch(), XMLHttpRequest, WebSocket etc.) to the same origin, *.openhab.org, raw.githubusercontent.com (add-on logos etc.), Iconify icon sources, and any source
     * allows loading web workers from the same origin, and blob: URIs
   -->
-    <!-- TODO
+    <!-- TODO-V3
   <if condition="import.meta.env.PROD"  >
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval'; font-src 'self' data:; img-src * data:; media-src * data: blob: media:; frame-src *; connect-src 'self' *.openhab.org raw.githubusercontent.com api.iconify.design api.unisvg.com api.simplesvg.com *; worker-src 'self' blob:;">
   </if>
@@ -67,7 +67,6 @@
   </head>
   <body>
     <div id="app"></div>
-    <!-- TODO built script files will be auto injected -->
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

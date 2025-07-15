@@ -1,5 +1,5 @@
-import Framework7 from 'framework7';
-import diacritic from 'diacritic';
+import Framework7 from 'framework7'
+import diacritic from 'diacritic'
 
 export default {
   normalizeLabel: label => {
@@ -8,7 +8,7 @@ export default {
       .trim()
       .replace(/\s+/g, '_')
       .replace(/[^0-9a-z_]/gi, '')
-      .replace(/^([0-9])/, '_$1');
+      .replace(/^([0-9])/, '_$1')
   },
   normalizeLabelForThingId: label => {
     return diacritic
@@ -16,17 +16,17 @@ export default {
       .trim()
       .replace(/\s+/g, '-')
       .replace(/[^0-9a-z_-]/gi, '')
-      .replace(/^-+/, '');
+      .replace(/^-+/, '')
   },
   normalizeInput(id) {
-    const inputElement = document.querySelector(id);
-    inputElement.value = this.normalizeLabel(inputElement.value.trim());
-    inputElement.dispatchEvent(new Event('input'));
+    const inputElement = document.querySelector(id)
+    inputElement.value = this.normalizeLabel(inputElement.value.trim())
+    inputElement.dispatchEvent(new Event('input'))
   },
   normalizeInputForThingId(id) {
-    const inputElement = document.querySelector(id);
-    inputElement.value = this.normalizeLabelForThingId(inputElement.value.trim());
-    inputElement.dispatchEvent(new Event('input'));
+    const inputElement = document.querySelector(id)
+    inputElement.value = this.normalizeLabelForThingId(inputElement.value.trim())
+    inputElement.dispatchEvent(new Event('input'))
   },
   /**
    * Convert a color from HSB to RGB.
@@ -37,7 +37,7 @@ export default {
    * @returns {number[]} [r, g, b] array
    */
   hsbToRgb(h, s, b) {
-    const hsl = Framework7.utils.colorHsbToHsl(h, s, b);
-    return Framework7.utils.colorHslToRgb(hsl[0], hsl[1], hsl[2]);
-  },
-};
+    const hsl = Framework7.utils.colorHsbToHsl(h, s, b)
+    return Framework7.utils.colorHslToRgb(hsl[0], hsl[1], hsl[2])
+  }
+}

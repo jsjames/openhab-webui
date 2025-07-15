@@ -1,31 +1,31 @@
-import { nextTick } from 'vue';
-import { createI18n } from 'vue-i18n';
+import { nextTick } from 'vue'
+import { createI18n } from 'vue-i18n'
 
 export const i18n = createI18n({
   legacy: true,
-  //TODOlocale: import.meta.VUE_APP_I18N_LOCALE || 'en',
+  //TODO-V3 locale: import.meta.VUE_APP_I18N_LOCALE || 'en',
   locale: 'en',
-  //TODO fallbackLocale: import.meta.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+  //TODO-V3  fallbackLocale: import.meta.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
   fallbackLocale: 'en',
   // messages: loadLocaleMessages(require.context('@/assets/i18n/common')),
   messages: {},
   allowComposition: true, // you need to specify that!
   silentFallbackWarn: true,
-  globalInjection: true,
-});
+  globalInjection: true
+})
 
 export async function loadLocaleMessages(scope: string) {
   // load locale messages
 
-  // TODO const locale = i18n.global.locale || 'en'
-  const locale = 'en';
+  // TODO-V3 const locale = i18n.global.locale || 'en'
+  const locale = 'en'
 
-  const messages = await import(/* @vite-ignore */ `${scope}/${locale}.json`);
+  const messages = await import(/* @vite-ignore */ `${scope}/${locale}.json`)
 
   // set locale and locale message
-  i18n.global.mergeLocaleMessage(locale, messages.default || messages);
+  i18n.global.mergeLocaleMessage(locale, messages.default || messages)
 
-  return messages;
+  return messages
 }
 
 /*
@@ -66,44 +66,44 @@ export function loadLocaleMessagesOld (...scopes) {
 
 export function isLocaleSupported(locale) {
   try {
-    new Date().toLocaleDateString(locale);
+    new Date().toLocaleDateString(locale)
   } catch (e) {
-    return false;
+    return false
   }
-  return true;
+  return true
 }
 
 export function convertJavaLocale(locale) {
   if (!locale) {
-    return 'default';
+    return 'default'
   }
 
-  let language = '';
-  let script = '';
-  let region = '';
+  let language = ''
+  let script = ''
+  let region = ''
 
   // determine country, language and script
   locale.split('_').forEach(segment => {
     if (segment === segment.toLowerCase() && segment.length === 2) {
-      language = segment;
+      language = segment
     } else if (segment === segment.toUpperCase() && segment.length === 2) {
-      region = segment;
+      region = segment
     } else if (segment.charAt(0) === '#') {
-      script = segment.substring(1);
+      script = segment.substring(1)
     }
-  });
+  })
 
   if (language && script && region) {
-    const jsLocale = `${language}-${script}-${region}`;
+    const jsLocale = `${language}-${script}-${region}`
     if (isLocaleSupported(jsLocale)) {
-      return jsLocale;
+      return jsLocale
     }
   } else if (language && region) {
-    const jsLocale = `${language}-${region}`;
+    const jsLocale = `${language}-${region}`
     if (isLocaleSupported(jsLocale)) {
-      return jsLocale;
+      return jsLocale
     }
   }
 
-  return 'default';
+  return 'default'
 }

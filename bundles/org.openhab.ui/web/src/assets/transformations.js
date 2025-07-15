@@ -15,8 +15,8 @@ export const CodeSnippets = {
     "   <xsl:template match='/'>\n" +
     "      <reRoot><reNode><xsl:value-of select='/root/node/@val' /> world</reNode></reRoot>\n" +
     '   </xsl:template>\n' +
-    '</xsl:stylesheet>',
-};
+    '</xsl:stylesheet>'
+}
 
 export const EditorModes = {
   dsl: 'application/vnd.openhab.dsl.rule',
@@ -24,8 +24,8 @@ export const EditorModes = {
   map: 'text/x-properties',
   nashorn: 'application/javascript;version=ECMAScript-5.1',
   scale: 'text/x-properties',
-  xslt: 'application/xml',
-};
+  xslt: 'application/xml'
+}
 
 export const DocumentationLinks = {
   exec: '/addons/transformations/exec/',
@@ -38,5 +38,5 @@ export const DocumentationLinks = {
   regex: '/addons/transformations/regex/',
   scale: '/addons/transformations/scale/',
   xpath: '/addons/transformations/xpath/',
-  xslt: '/addons/transformations/xslt/',
-};
+  xslt: '/addons/transformations/xslt/'
+}

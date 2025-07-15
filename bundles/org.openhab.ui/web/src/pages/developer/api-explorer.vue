@@ -107,7 +107,7 @@
   .model-title
     color var(--f7-text-color) !important
     font-size var(--f7-list-font-size) !important
-.dark #swaggerUi
+.theme-dark #swaggerUi
   .loading, .model-toggle, svg
     filter invert(1) opacity(0.5)
 </style>

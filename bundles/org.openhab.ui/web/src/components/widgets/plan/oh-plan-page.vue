@@ -66,7 +66,7 @@
     background-color white
   &.oh-plan-black-background
     background-color black
-.dark
+.theme-dark
   .oh-plan-page-lmap
     &.oh-plan-blackwhite-background
       background-color black
@@ -97,7 +97,7 @@ dark-tooltip()
 .oh-plan-tooltip-black
   dark-tooltip()
 
-.dark
+.theme-dark
   .oh-plan-tooltip-blackwhite
     dark-tooltip()
 </style>
@@ -108,6 +108,7 @@ import { CRS, Icon } from 'leaflet';
 import { LMap, LImageOverlay, LFeatureGroup, LControl } from '@vue-leaflet/vue-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { utils } from 'framework7';
+import { nextTick } from 'vue';
 
 import OhPlanMarker from './oh-plan-marker.vue';
 import { OhPlanPageDefinition } from '@/assets/definitions/widgets/plan';

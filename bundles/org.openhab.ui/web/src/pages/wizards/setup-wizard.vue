@@ -145,7 +145,7 @@
             </f7-col>
           </f7-row>
           <f7-block-footer>
-            <small t="'setupwizard.location.footer'" />
+            <small>{{ $t('setupwizard.location.footer') }}</small>
           </f7-block-footer>
         </f7-block>
         <f7-block class="display-flex flex-direction-column padding" v-if="networksReady">
@@ -251,7 +251,7 @@
             <div class="display-flex justify-content-center margin-bottom">
               <f7-progressbar id="suggestions-progress-bar-persistence" :progress="0" />
             </div>
-            <div t="'setupwizard.addons.suggestionsWaitMessage'" />
+            <div>{{ $t('setupwizard.addons.suggestionsWaitMessage') }}</div>
           </f7-block>
           <addons-setup-wizard
             v-if="addonSuggestionsReady && recommendedAddonsByType('persistence').length"
@@ -260,7 +260,7 @@
             @update="updateAddonSelection(recommendedAddonsByType('persistence'), $event)"
           />
           <f7-block-footer class="margin-bottom">
-            <small t="'setupwizard.persistence.footer'" />
+            <small>{{ $t('setupwizard.persistence.footer') }}</small>
           </f7-block-footer>
           <div>
             <f7-button
@@ -302,20 +302,22 @@
         <f7-block strong>
           {{ $t('setupwizard.addons.header1') }}<br />{{ $t('setupwizard.addons.header2') }}<br />{{
             $t('setupwizard.addons.header3')
-          }}<br /><br />
+          }}
+          <br /><br />
           <a
             class="text-color-blue external"
             target="_blank"
             href="https://www.openhab.org/addons/"
-            t="'setupwizard.addons.browseAddonsOnWebsite'"
-          />
+          >
+            {{ $t('setupwizard.addons.browseAddonsOnWebsite') }}</a
+          >
         </f7-block>
         <f7-block class="padding">
           <f7-block v-if="waitingForAddonSuggestions">
             <div class="display-flex justify-content-center margin-bottom">
               <f7-progressbar id="suggestions-progress-bar-addons" :progress="0" />
             </div>
-            <div t="'setupwizard.addons.suggestionsWaitMessage'" />
+            <div>{{ $t('setupwizard.addons.suggestionsWaitMessage') }}</div>
           </f7-block>
           <addons-setup-wizard
             v-if="addonSuggestionsReady && mainAddons.length"
@@ -325,7 +327,7 @@
             @update="updateAddonSelection(mainAddonSelection, $event)"
           />
           <f7-block-footer class="margin-bottom">
-            <small t="'setupwizard.addons.footer'" />
+            <small>{{ $t('setupwizard.addons.footer') }}</small>
           </f7-block-footer>
           <div>
             <f7-button
@@ -376,7 +378,7 @@
             <div class="display-flex justify-content-center margin-bottom">
               <f7-preloader size="24" />
             </div>
-            <div t="'setupwizard.addons.waitMessage'" />
+            <div>{{ $t('setupwizard.addons.waitMessage') }}</div>
           </div>
         </f7-block>
       </f7-tab>

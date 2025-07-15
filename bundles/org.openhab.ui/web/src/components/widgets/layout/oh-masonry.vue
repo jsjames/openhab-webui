@@ -109,9 +109,10 @@
         @click="context.editmode.addWidget(context.component, null, context.parent)"
       />
     </div>
-    <masonry
+    <MasonryGrid
       v-else
-      :cols="
+      css="false"
+      :columns="
         config.cols || {
           default: 5,
           1400: 4,
@@ -123,7 +124,7 @@
         }
       "
     >
-      <div
+      <MasonryGridItem
         v-for="(slotComponent, idx) in context.component.slots.default"
         :key="idx"
         class="oh-masonry-item"
@@ -179,13 +180,13 @@
           </f7-menu-item>
         </f7-menu>
         <generic-widget-component v-bind="$attrs" :context="childContext(slotComponent)" />
-      </div>
+      </MasonryGridItem>
       <oh-placeholder-widget
         v-if="context.editmode"
         class="oh-column-item placeholder"
         @click="context.editmode.addWidget(context.component, null, context.parent)"
       />
-    </masonry>
+    </MasonryGrid>
   </div>
 </template>
 

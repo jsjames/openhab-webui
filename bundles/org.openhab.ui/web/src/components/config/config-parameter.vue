@@ -37,27 +37,23 @@
       :title="configDescription.label"
       :after="value !== undefined && value !== null ? value.toString() : 'N/A'"
     />
-    <template #after-list>
-      <f7-block-footer class="param-description">
-        <div v-if="status" class="param-status-info">
-          <f7-chip
-            v-if="status.type !== 'INFORMATION'"
-            :color="status.type === 'WARNING' ? 'orange' : status.type === 'ERROR' ? 'red' : 'gray'"
-            style="float: right"
-            :text="status.type"
-          />
-          <span v-if="status.statusCode"
-            >Status Code: &nbsp;{{ status.statusCode }}&nbsp;&nbsp;</span
-          >
-          <span v-if="status.message">{{ status.message }}</span>
-        </div>
-        <small
-          v-html="
+    <f7-block-footer slot="after-list" class="param-description">
+      <div v-if="status" class="param-status-info">
+        <f7-chip
+          v-if="status.type !== 'INFORMATION'"
+          :color="status.type === 'WARNING' ? 'orange' : status.type === 'ERROR' ? 'red' : 'gray'"
+          style="float: right"
+          :text="status.type"
+        />
+        <span v-if="status.statusCode">Status Code: &nbsp;{{ status.statusCode }}&nbsp;&nbsp;</span>
+        <span v-if="status.message">{{ status.message }}</span>
+      </div>
+      <small
+        v-html="
             `${configDescription.required ? '<strong>Required</strong>&nbsp;' : ''}${description || ''}`
           "
-        />
-      </f7-block-footer>
-    </template>
+      />
+    </f7-block-footer>
   </f7-list>
 </template>
 

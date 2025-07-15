@@ -28,7 +28,6 @@
       </f7-link>
     </f7-toolbar>
 
-    <!--TODO  @ was a standalone symbol -just removed -->
     <f7-tabs>
       <f7-tab
         id="menu-tab"

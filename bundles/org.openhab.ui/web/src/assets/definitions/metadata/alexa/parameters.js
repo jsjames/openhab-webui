@@ -6,8 +6,8 @@ import {
   STATE_DESCRIPTION_OPTIONS_LIMIT,
   TEMPERATURE_SCALES,
   THERMOSTAT_MODES,
-  UNITS_OF_MEASURE,
-} from './constants.js';
+  UNITS_OF_MEASURE
+} from './constants.js'
 import {
   docLink,
   getOptions,
@@ -15,8 +15,8 @@ import {
   getSupportedRange,
   getTemperatureScale,
   getUnitOfMeasure,
-  titleCase,
-} from './helpers.js';
+  titleCase
+} from './helpers.js'
 
 export default {
   actionMappings: (format, placeholder, defaultValue) => ({
@@ -28,18 +28,18 @@ export default {
     placeholder: placeholder.replace(/,/g, '\n'),
     multiple: true,
     advanced: !!defaultValue,
-    visible: (_, config) => !config.nonControllable,
+    visible: (_, config) => !config.nonControllable
   }),
   basicAuthPassword: () => ({
     name: 'password',
     label: 'Basic Authentication Password',
     type: 'TEXT',
-    context: 'password',
+    context: 'password'
   }),
   basicAuthUsername: () => ({
     name: 'username',
     label: 'Basic Authentication Username',
-    type: 'TEXT',
+    type: 'TEXT'
   }),
   capabilityNames: (defaultValue, placeholder) => ({
     name: 'capabilityNames',
@@ -49,7 +49,7 @@ export default {
     default: [defaultValue],
     placeholder: placeholder.replace(/,/g, '\n'),
     multiple: true,
-    required: !defaultValue,
+    required: !defaultValue
   }),
   channelMappings: required => ({
     name: 'channelMappings',
@@ -58,7 +58,7 @@ export default {
     type: 'TEXT',
     placeholder: '2=CBS\n4=NBC\n7=ABC\n13=PBS',
     multiple: true,
-    required,
+    required
   }),
   channelRange: () => ({
     name: 'range',
@@ -67,7 +67,7 @@ export default {
     type: 'TEXT',
     default: '1:9999',
     pattern: '[0-9]+:[0-9]+',
-    advanced: true,
+    advanced: true
   }),
   colorTemperatureBinding: () => ({
     name: 'binding',
@@ -86,10 +86,10 @@ export default {
       'tradfri:color': 'TRÅDFRI (Color)',
       'tradfri:white': 'TRÅDFRI (White)',
       'yeelight:color': 'Yeelight (Color)',
-      'yeelight:white': 'Yeelight (White)',
+      'yeelight:white': 'Yeelight (White)'
     }),
     limitToOptions: true,
-    visible: (_, config) => config.range === '1000:10000',
+    visible: (_, config) => config.range === '1000:10000'
   }),
   colorTemperatureRange: () => ({
     name: 'range',
@@ -98,21 +98,21 @@ export default {
     type: 'TEXT',
     default: '1000:10000',
     pattern: '[0-9]+:[0-9]+',
-    visible: (_, config) => !config.binding,
+    visible: (_, config) => !config.binding
   }),
   comfortRange: item => ({
     name: 'comfortRange',
     label: 'Comfort Range',
     type: 'INTEGER',
     min: 1,
-    default: config => ((config.scale || getTemperatureScale(item)) === 'FAHRENHEIT' ? 2 : 1),
+    default: config => ((config.scale || getTemperatureScale(item)) === 'FAHRENHEIT' ? 2 : 1)
   }),
   deviceDescription: defaultValue => ({
     name: 'description',
     label: 'Device Description',
     type: 'TEXT',
     default: defaultValue,
-    advanced: true,
+    advanced: true
   }),
   deviceName: defaultValue => ({
     name: 'name',
@@ -120,7 +120,7 @@ export default {
     type: 'TEXT',
     default: defaultValue,
     advanced: !!defaultValue,
-    required: !defaultValue,
+    required: !defaultValue
   }),
   equalizerDefaultLevel: defaultValue => ({
     name: 'defaultLevel',
@@ -128,10 +128,10 @@ export default {
     description: 'Defaults to equalizer range midpoint',
     type: 'INTEGER',
     default: config => {
-      if (!config.range) return defaultValue;
-      const range = config.range.split(':').map(n => parseInt(n));
-      if (range[0] < range[1]) return Math.round((range[0] + range[1]) / 2);
-    },
+      if (!config.range) return defaultValue
+      const range = config.range.split(':').map(n => parseInt(n))
+      if (range[0] < range[1]) return Math.round((range[0] + range[1]) / 2)
+    }
   }),
   equalizerRange: defaultValue => ({
     name: 'range',
@@ -139,7 +139,7 @@ export default {
     description: 'Formatted as <code>minValue:maxValue</code>',
     type: 'TEXT',
     default: defaultValue,
-    pattern: '[+-]?[0-9]+:[+-]?[0-9]+',
+    pattern: '[+-]?[0-9]+:[+-]?[0-9]+'
   }),
   exitDelay: () => ({
     name: 'exitDelay',
@@ -147,7 +147,7 @@ export default {
     type: 'INTEGER',
     min: 0,
     max: 255,
-    advanced: true,
+    advanced: true
   }),
   increment: defaultValue => ({
     name: 'increment',
@@ -155,13 +155,13 @@ export default {
     ...(isNaN(defaultValue) && { description: `Defaults to ${defaultValue}` }),
     type: 'INTEGER',
     min: 1,
-    ...(!isNaN(defaultValue) && { default: defaultValue }),
+    ...(!isNaN(defaultValue) && { default: defaultValue })
   }),
   inverted: (defaultValue = false) => ({
     name: 'inverted',
     label: 'Inverted',
     type: 'BOOLEAN',
-    default: defaultValue,
+    default: defaultValue
   }),
   language: defaultValue => ({
     name: 'language',
@@ -171,21 +171,21 @@ export default {
     default: LANGUAGES[defaultValue] ? defaultValue : 'en',
     options: getOptions(LANGUAGES),
     limitToOptions: true,
-    advanced: true,
+    advanced: true
   }),
   nonControllable: stateDescription => ({
     name: 'nonControllable',
     label: 'Non-Controllable',
     type: 'BOOLEAN',
     default: stateDescription?.readOnly === true,
-    visible: (_, config) => !!config.retrievable,
+    visible: (_, config) => !!config.retrievable
   }),
   ordered: () => ({
     name: 'ordered',
     label: 'Ordered',
     description: 'If modes can be adjusted incrementally',
     type: 'BOOLEAN',
-    default: false,
+    default: false
   }),
   pinCodes: () => ({
     name: 'pinCodes',
@@ -194,7 +194,7 @@ export default {
     type: 'TEXT',
     placeholder: '1234\n9876',
     multiple: true,
-    advanced: true,
+    advanced: true
   }),
   presets: (stateDescription, placeholder) => ({
     name: 'presets',
@@ -209,7 +209,7 @@ export default {
       .slice(0, STATE_DESCRIPTION_OPTIONS_LIMIT),
     placeholder: placeholder.replace(/,/g, '\n'),
     multiple: true,
-    visible: (_, config) => !config.nonControllable,
+    visible: (_, config) => !config.nonControllable
   }),
   primaryControl: () => ({
     name: 'primaryControl',
@@ -218,27 +218,27 @@ export default {
     type: 'TEXT',
     default: 'position',
     options: getOptions({ position: 'Position', tilt: 'Tilt' }),
-    limitToOptions: true,
+    limitToOptions: true
   }),
   proxyBaseUrl: () => ({
     name: 'proxyBaseUrl',
     label: 'Proxy Base URL',
     type: 'TEXT',
     required: true,
-    pattern: 'https://.+',
+    pattern: 'https://.+'
   }),
   requiresSetColorReset: () => ({
     name: 'requiresSetColorReset',
     label: 'Requires Reset on Set Color Requests',
     type: 'BOOLEAN',
     default: false,
-    visible: (_, config) => !!config.retrievable,
+    visible: (_, config) => !!config.retrievable
   }),
   requiresSetpointHold: () => ({
     name: 'requiresSetpointHold',
     label: 'Requires Hold on Setpoint Requests',
     type: 'BOOLEAN',
-    default: false,
+    default: false
   }),
   resolution: () => ({
     name: 'resolution',
@@ -246,7 +246,7 @@ export default {
     type: 'TEXT',
     default: '1080p',
     options: getOptions(['480p', '720p', '1080p']),
-    limitToOptions: true,
+    limitToOptions: true
   }),
   retrievable: () => ({
     name: 'retrievable',
@@ -254,7 +254,7 @@ export default {
     type: 'BOOLEAN',
     default: true,
     advanced: true,
-    visible: (_, config) => !config.nonControllable,
+    visible: (_, config) => !config.nonControllable
   }),
   scale: (item, advanced = false) => ({
     name: 'scale',
@@ -263,7 +263,7 @@ export default {
     default: getTemperatureScale(item) === 'FAHRENHEIT' ? 'FAHRENHEIT' : 'CELSIUS',
     options: getOptions(TEMPERATURE_SCALES),
     limitToOptions: true,
-    advanced,
+    advanced
   }),
   setpointRange: item => ({
     name: 'setpointRange',
@@ -272,14 +272,14 @@ export default {
     type: 'TEXT',
     default: config =>
       (config.scale || getTemperatureScale(item)) === 'FAHRENHEIT' ? '40:90' : '4:32',
-    pattern: '[+-]?[0-9]+:[+-]?[0-9]+',
+    pattern: '[+-]?[0-9]+:[+-]?[0-9]+'
   }),
   speedLevels: () => ({
     name: 'speedLevels',
     label: 'Speed Levels',
     type: 'INTEGER',
     min: 2,
-    default: 3,
+    default: 3
   }),
   stateMappings: (format, placeholder) => ({
     name: 'stateMappings',
@@ -288,7 +288,7 @@ export default {
     type: 'TEXT',
     placeholder: placeholder.replace(/,/g, '\n'),
     multiple: true,
-    visible: (_, config) => !!config.retrievable,
+    visible: (_, config) => !!config.retrievable
   }),
   supportedArmStates: () => ({
     name: 'supportedArmStates',
@@ -298,7 +298,7 @@ export default {
     options: getOptions(ARM_STATES),
     limitToOptions: true,
     multiple: true,
-    advanced: true,
+    advanced: true
   }),
   supportedCommands: (commands, placeholder) => ({
     name: 'supportedCommands',
@@ -308,7 +308,7 @@ export default {
       ` (${docLink('Asset Catalog')})<br />Supported commands are ${commands.join(', ')}`,
     type: 'TEXT',
     placeholder: placeholder.replace(/,/g, '\n'),
-    multiple: true,
+    multiple: true
   }),
   supportedEqualizerModes: () => ({
     name: 'supportedModes',
@@ -318,7 +318,7 @@ export default {
     options: getOptions(EQUALIZER_MODES),
     limitToOptions: true,
     multiple: true,
-    advanced: true,
+    advanced: true
   }),
   supportedInputs: (stateDescription, placeholder) => ({
     name: 'supportedInputs',
@@ -330,7 +330,7 @@ export default {
       .slice(0, STATE_DESCRIPTION_OPTIONS_LIMIT),
     placeholder: placeholder.replace(/,/g, '\n'),
     multiple: true,
-    required: !stateDescription?.options?.length,
+    required: !stateDescription?.options?.length
   }),
   supportedModes: stateDescription => ({
     name: 'supportedModes',
@@ -342,7 +342,7 @@ export default {
       .slice(0, STATE_DESCRIPTION_OPTIONS_LIMIT),
     placeholder: 'Normal=Normal:Cottons\nWhites=Whites',
     multiple: true,
-    required: !stateDescription?.options?.length,
+    required: !stateDescription?.options?.length
   }),
   supportedOperations: () => ({
     name: 'supportedOperations',
@@ -352,7 +352,7 @@ export default {
     options: getOptions(PLAYBACK_OPERATIONS, true),
     limitToOptions: true,
     multiple: true,
-    advanced: true,
+    advanced: true
   }),
   supportedRange: (item, config, defaultValue) => ({
     name: 'supportedRange',
@@ -360,7 +360,7 @@ export default {
     description: 'Formatted as <code>minValue:maxValue:precision</code>',
     type: 'TEXT',
     default: getSupportedRange(item, config, defaultValue),
-    pattern: '[+-]?[0-9]+:[+-]?[0-9]+:[0-9]+',
+    pattern: '[+-]?[0-9]+:[+-]?[0-9]+:[0-9]+'
   }),
   supportedThermostatModes: () => ({
     name: 'supportedModes',
@@ -371,20 +371,20 @@ export default {
     limitToOptions: true,
     multiple: true,
     advanced: true,
-    visible: (_, config) => !config.binding,
+    visible: (_, config) => !config.binding
   }),
   supportsChannelNumber: () => ({
     name: 'supportsChannelNumber',
     label: 'Supports Channel Requests by Number',
     type: 'BOOLEAN',
     default: false,
-    advanced: true,
+    advanced: true
   }),
   supportsDeactivation: () => ({
     name: 'supportsDeactivation',
     label: 'Supports Deactivation',
     type: 'BOOLEAN',
-    default: true,
+    default: true
   }),
   supportsSetpointMode: () => ({
     name: 'supportsSetpointMode',
@@ -392,7 +392,7 @@ export default {
     description: 'In most cases, this feature should remain enabled',
     type: 'BOOLEAN',
     default: true,
-    advanced: true,
+    advanced: true
   }),
   thermostatModeBinding: () => ({
     name: 'binding',
@@ -407,23 +407,23 @@ export default {
       nest: 'Nest',
       radiothermostat: 'RadioThermostat',
       venstarthermostat: 'Venstar Thermostat',
-      zwave: 'Z-Wave',
+      zwave: 'Z-Wave'
     }),
     limitToOptions: true,
     visible: (_, config) =>
-      THERMOSTAT_MODES.every(mode => !config[mode]) && !config.supportedModes.length,
+      THERMOSTAT_MODES.every(mode => !config[mode]) && !config.supportedModes.length
   }),
   thermostatModeMapping: mode => ({
     name: mode,
     label: `${titleCase(mode)} Mapping`,
     type: 'TEXT',
-    visible: (_, config) => !config.binding,
+    visible: (_, config) => !config.binding
   }),
   valueMapping: (value, required = false) => ({
     name: value,
     label: `${titleCase(value)} Mapping`,
     type: 'TEXT',
-    required,
+    required
   }),
   unitOfMeasure: item => ({
     name: 'unitOfMeasure',
@@ -431,6 +431,6 @@ export default {
     type: 'TEXT',
     default: getUnitOfMeasure(item),
     options: getOptions(Object.keys(UNITS_OF_MEASURE), true),
-    limitToOptions: true,
-  }),
-};
+    limitToOptions: true
+  })
+}

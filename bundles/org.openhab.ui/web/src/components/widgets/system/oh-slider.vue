@@ -50,8 +50,8 @@ export default {
     // re-calculate the range slider after masonry is updated
     setTimeout(() => {
       if (this.$refs.rangeslider) {
-        //TODO this.$refs.rangeslider.f7Range.calcSize()
-        //TODO this.$refs.rangeslider.f7Range.layout()
+        this.$refs.rangeslider.$el.f7Range.calcSize()
+        this.$refs.rangeslider.$el.f7Range.layout()
       }
     }, 0);
   },

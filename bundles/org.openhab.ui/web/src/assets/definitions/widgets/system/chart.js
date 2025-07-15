@@ -1,4 +1,4 @@
-import { po, pb } from '../helpers.js';
+import { po, pb } from '../helpers.js'
 
 export default () => [
   po(
@@ -11,7 +11,7 @@ export default () => [
       { value: 'isoWeek', label: 'Week (starting on Monday)' },
       { value: 'week', label: 'Week (starting on Sunday)' },
       { value: 'month', label: 'Month' },
-      { value: 'year', label: 'Year' },
+      { value: 'year', label: 'Year' }
     ]
   ).r(),
   po('period', 'Initial Period', 'The initial period for the chart', [
@@ -31,13 +31,13 @@ export default () => [
     { value: 'Y', label: 'Y' },
     { value: '3Y', label: '3Y' },
     { value: '5Y', label: '5Y' },
-    { value: '10Y', label: '10Y' },
+    { value: '10Y', label: '10Y' }
   ]).v((value, configuration, configDescription, parameters) => {
-    return !configuration.chartType;
+    return !configuration.chartType
   }),
   pb(
     'future',
     'Future Period',
     'Whether the period should extend to the future instead of the past'
-  ),
-];
+  )
+]

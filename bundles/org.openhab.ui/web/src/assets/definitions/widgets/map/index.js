@@ -1,16 +1,16 @@
 // definitions for the map page & markers
 
-import { WidgetDefinition, pt, pb, pi, pg, pd } from '../helpers.js';
-import { actionGroup, actionParams } from '../actions.js';
+import { WidgetDefinition, pt, pb, pi, pg, pd } from '../helpers.js'
+import { actionGroup, actionParams } from '../actions.js'
 
-const LabelParam = () => pt('label', 'Label', 'The label on the marker');
-const ItemParam = () => pi('item', 'Item', 'The Location item this marker will be centered on');
+const LabelParam = () => pt('label', 'Label', 'The label on the marker')
+const ItemParam = () => pi('item', 'Item', 'The Location item this marker will be centered on')
 const LocationParam = () =>
   pt(
     'location',
     'Fixed location',
     'The fixed position of the marker if no item is configured or its coordinates are invalid'
-  ).c('location');
+  ).c('location')
 
 export const OhMapPageDefinition = () =>
   new WidgetDefinition('oh-map-page', 'Map page', 'Displays markers on a map').params([
@@ -47,8 +47,8 @@ export const OhMapPageDefinition = () =>
         'Use one from <a class="external text-color-blue" target="_blank" href="https://leaflet-extras.github.io/leaflet-providers/preview/">Leaflet Providers</a>, ' +
         'Some providers will not work until you set options, like access tokens, in the <code>overlayTileLayerProviderOptions</code> parameter (in Code view). ' +
         'See <a class="external text-color-blue" target="_blank" href="https://github.com/leaflet-extras/leaflet-providers#providers-requiring-registration">here</a> for more info. '
-    ),
-  ]);
+    )
+  ])
 
 export const OhMapMarkerDefinition = () =>
   new WidgetDefinition('oh-map-marker', 'Map Marker', 'An icon on a map', 'map_pin')
@@ -58,10 +58,10 @@ export const OhMapMarkerDefinition = () =>
         'icon',
         'Icon',
         'Use <code>oh:iconName</code> (<a class="external text-color-blue" target="_blank" href="https://www.openhab.org/link/icons">openHAB icon</a>)'
-      ),
+      )
     ])
     .paramGroup(pg('position', 'Position', 'Position'), [ItemParam(), LocationParam()])
-    .paramGroup(actionGroup(null, 'Action to perform when the marker is clicked'), actionParams());
+    .paramGroup(actionGroup(null, 'Action to perform when the marker is clicked'), actionParams())
 
 export const OhMapCircleMarkerDefinition = () =>
   new WidgetDefinition(
@@ -72,7 +72,7 @@ export const OhMapCircleMarkerDefinition = () =>
   )
     .paramGroup(pg('marker', 'Marker', 'General marker settings'), [
       LabelParam(),
-      pt('color', 'Circle color', 'The color of the circle (e.g. "blue", "red", "yellow"...)'),
+      pt('color', 'Circle color', 'The color of the circle (e.g. "blue", "red", "yellow"...)')
     ])
     .paramGroup(pg('position', 'Center Position'), [ItemParam(), LocationParam()])
     .paramGroup(pg('radius', 'Radius', 'Radius of the circle'), [
@@ -85,6 +85,6 @@ export const OhMapCircleMarkerDefinition = () =>
         'radius',
         'Fixed radius',
         'The fixed radius of the circle in meters if no item is configured or its state is invalid'
-      ),
+      )
     ])
-    .paramGroup(actionGroup(null, 'Action to perform when the circle is clicked'), actionParams());
+    .paramGroup(actionGroup(null, 'Action to perform when the circle is clicked'), actionParams())

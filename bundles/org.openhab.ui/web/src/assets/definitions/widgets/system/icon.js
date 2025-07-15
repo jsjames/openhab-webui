@@ -1,4 +1,4 @@
-import { pb, pi, pt } from '../helpers.js';
+import { pb, pi, pt } from '../helpers.js'
 
 export default () => [
   pt(
@@ -17,5 +17,5 @@ export default () => [
   pt('rotate', 'Rotate', 'Rotate the icon (for Iconify icons only; use a CSS value e.g. 90deg)'),
   pb('horizontalFlip', 'Horizontal Flip', 'Flips the icon horizontally (for Iconify icons only)'),
   pb('verticalFlip', 'Vertical Flip', 'Flips the icon vertically (for Iconify icons only)'),
-  pb('state', 'State', 'State of the icon (usually the state of an item) to use dynamic icons'),
-];
+  pb('state', 'State', 'State of the icon (usually the state of an item) to use dynamic icons')
+]

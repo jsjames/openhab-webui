@@ -45,7 +45,7 @@
           external
           :href="`${$store.state.websiteUrl}/link/docs`"
           target="_blank"
-          t="'home.overview.button.documentation'"
+          :text="$t('home.overview.button.documentation')"
         />
         <span style="width: 8px" />
         <f7-button
@@ -54,7 +54,7 @@
           external
           :href="`${$store.state.websiteUrl}/link/tutorial`"
           target="_blank"
-          t="'home.overview.button.tutorial'"
+          :text="$t('home.overview.button.tutorial')"
         />
       </f7-row>
       <f7-row v-else class="display-flex justify-content-center">
@@ -68,7 +68,7 @@
               helpTab: 'quick',
             })
           "
-          t="'home.overview.button.quickstart'"
+          :text="$t('home.overview.button.quickstart')"
         />
       </f7-row>
     </div>

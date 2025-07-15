@@ -11,17 +11,17 @@ export const accessories = {
     { label: 'PM10Density', mandatory: false },
     { label: 'SulphurDioxideDensity', mandatory: false },
     { label: 'TamperedStatus', mandatory: false },
-    { label: 'VOCDensity', mandatory: false },
+    { label: 'VOCDensity', mandatory: false }
   ],
   BasicFan: [
     { label: 'OnState', mandatory: true },
     { label: 'RotationDirection', mandatory: false },
-    { label: 'RotationSpeed', mandatory: false },
+    { label: 'RotationSpeed', mandatory: false }
   ],
   Battery: [
     { label: 'BatteryLevel', mandatory: true },
     { label: 'BatteryLowStatus', mandatory: true },
-    { label: 'BatteryChargingState', mandatory: false },
+    { label: 'BatteryChargingState', mandatory: false }
   ],
   CarbonDioxideSensor: [
     { label: 'CarbonDioxideDetectedState', mandatory: true },
@@ -31,7 +31,7 @@ export const accessories = {
     { label: 'CarbonDioxidePeakLevel', mandatory: false },
     { label: 'FaultStatus', mandatory: false },
     { label: 'TamperedStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   CarbonMonoxideSensor: [
     { label: 'CarbonMonoxideDetectedState', mandatory: true },
@@ -41,7 +41,7 @@ export const accessories = {
     { label: 'CarbonMonoxidePeakLevel', mandatory: false },
     { label: 'FaultStatus', mandatory: false },
     { label: 'TamperedStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   ContactSensor: [
     { label: 'ContactSensorState', mandatory: true },
@@ -49,7 +49,7 @@ export const accessories = {
     { label: 'BatteryLowStatus', mandatory: false },
     { label: 'FaultStatus', mandatory: false },
     { label: 'TamperedStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   Door: [
     { label: 'CurrentPosition', mandatory: true },
@@ -57,7 +57,7 @@ export const accessories = {
     { label: 'TargetPosition', mandatory: true },
     { label: 'HoldPosition', mandatory: false },
     { label: 'ObstructionStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   Fan: [
     { label: 'ActiveStatus', mandatory: true },
@@ -66,16 +66,16 @@ export const accessories = {
     { label: 'RotationDirection', mandatory: false },
     { label: 'RotationSpeed', mandatory: false },
     { label: 'SwingMode', mandatory: false },
-    { label: 'TargetFanState', mandatory: false },
+    { label: 'TargetFanState', mandatory: false }
   ],
   Faucet: [
     { label: 'Active', mandatory: true },
-    { label: 'FaultStatus', mandatory: false },
+    { label: 'FaultStatus', mandatory: false }
   ],
   Filter: [
     { label: 'FilterChangeIndication', mandatory: true },
     { label: 'FilterLifeLevel', mandatory: false },
-    { label: 'FilterResetIndication', mandatory: false },
+    { label: 'FilterResetIndication', mandatory: false }
   ],
   GarageDoorOpener: [
     { label: 'CurrentDoorState', mandatory: true },
@@ -83,7 +83,7 @@ export const accessories = {
     { label: 'LockCurrentState', mandatory: false },
     { label: 'LockTargetState', mandatory: false },
     { label: 'ObstructionStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   HeaterCooler: [
     { label: 'ActiveStatus', mandatory: true },
@@ -94,7 +94,7 @@ export const accessories = {
     { label: 'HeatingThresholdTemperature', mandatory: false },
     { label: 'LockControl', mandatory: false },
     { label: 'RotationSpeed', mandatory: false },
-    { label: 'SwingMode', mandatory: false },
+    { label: 'SwingMode', mandatory: false }
   ],
   HumiditySensor: [
     { label: 'RelativeHumidity', mandatory: true },
@@ -102,7 +102,7 @@ export const accessories = {
     { label: 'BatteryLowStatus', mandatory: false },
     { label: 'FaultStatus', mandatory: false },
     { label: 'TamperedStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   InputSource: [
     { label: 'ConfiguredName', mandatory: false },
@@ -111,14 +111,14 @@ export const accessories = {
     { label: 'Identifier', mandatory: false },
     { label: 'InputDeviceType', mandatory: false },
     { label: 'InputSourceType', mandatory: false },
-    { label: 'TargetVisibilityState', mandatory: false },
+    { label: 'TargetVisibilityState', mandatory: false }
   ],
   IrrigationSystem: [
     { label: 'Active', mandatory: true },
     { label: 'InUseStatus', mandatory: true },
     { label: 'ProgramMode', mandatory: true },
     { label: 'FaultStatus', mandatory: false },
-    { label: 'RemainingDuration', mandatory: false },
+    { label: 'RemainingDuration', mandatory: false }
   ],
   LeakSensor: [
     { label: 'LeakDetectedState', mandatory: true },
@@ -126,7 +126,7 @@ export const accessories = {
     { label: 'BatteryLowStatus', mandatory: false },
     { label: 'FaultStatus', mandatory: false },
     { label: 'TamperedStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   LightSensor: [
     { label: 'LightLevel', mandatory: true },
@@ -134,7 +134,7 @@ export const accessories = {
     { label: 'BatteryLowStatus', mandatory: false },
     { label: 'FaultStatus', mandatory: false },
     { label: 'TamperedStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   Lighting: [
     { label: 'OnState', mandatory: true },
@@ -142,16 +142,16 @@ export const accessories = {
     { label: 'ColorTemperature', mandatory: false },
     { label: 'Hue', mandatory: false },
     { label: 'Saturation', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   Lock: [
     { label: 'LockCurrentState', mandatory: true },
     { label: 'LockTargetState', mandatory: true },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   Microphone: [
     { label: 'Mute', mandatory: true },
-    { label: 'Volume', mandatory: false },
+    { label: 'Volume', mandatory: false }
   ],
   MotionSensor: [
     { label: 'MotionDetectedState', mandatory: true },
@@ -159,7 +159,7 @@ export const accessories = {
     { label: 'BatteryLowStatus', mandatory: false },
     { label: 'FaultStatus', mandatory: false },
     { label: 'TamperedStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   OccupancySensor: [
     { label: 'OccupancyDetectedState', mandatory: true },
@@ -167,32 +167,32 @@ export const accessories = {
     { label: 'BatteryLowStatus', mandatory: false },
     { label: 'FaultStatus', mandatory: false },
     { label: 'TamperedStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   Outlet: [
     { label: 'InUseStatus', mandatory: true },
     { label: 'OnState', mandatory: true },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   SecuritySystem: [
     { label: 'CurrentSecuritySystemState', mandatory: true },
     { label: 'TargetSecuritySystemState', mandatory: true },
     { label: 'FaultStatus', mandatory: false },
     { label: 'TamperedStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   Slat: [
     { label: 'CurrentSlatState', mandatory: true },
     { label: 'CurrentTiltAngle', mandatory: false },
     { label: 'SwingMode', mandatory: false },
-    { label: 'TargetTiltAngle', mandatory: false },
+    { label: 'TargetTiltAngle', mandatory: false }
   ],
   SmartSpeaker: [
     { label: 'CurrentMediaState', mandatory: true },
     { label: 'TargetMediaState', mandatory: true },
     { label: 'ConfiguredName', mandatory: false },
     { label: 'Mute', mandatory: false },
-    { label: 'Volume', mandatory: false },
+    { label: 'Volume', mandatory: false }
   ],
   SmokeSensor: [
     { label: 'SmokeDetectedState', mandatory: true },
@@ -200,17 +200,17 @@ export const accessories = {
     { label: 'BatteryLowStatus', mandatory: false },
     { label: 'FaultStatus', mandatory: false },
     { label: 'TamperedStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   Speaker: [
     { label: 'Mute', mandatory: true },
     { label: 'Active', mandatory: false },
-    { label: 'Volume', mandatory: false },
+    { label: 'Volume', mandatory: false }
   ],
   StatelessProgrammableSwitch: [{ label: 'ProgrammableSwitchEvent', mandatory: true }],
   Switchable: [
     { label: 'OnState', mandatory: true },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   Television: [
     { label: 'Active', mandatory: true },
@@ -223,14 +223,14 @@ export const accessories = {
     { label: 'PowerMode', mandatory: false },
     { label: 'RemoteKey', mandatory: false },
     { label: 'SleepDiscoveryMode', mandatory: false },
-    { label: 'TargetMediaState', mandatory: false },
+    { label: 'TargetMediaState', mandatory: false }
   ],
   TelevisionSpeaker: [
     { label: 'Mute', mandatory: true },
     { label: 'Active', mandatory: false },
     { label: 'Volume', mandatory: false },
     { label: 'VolumeControlType', mandatory: false },
-    { label: 'VolumeSelector', mandatory: false },
+    { label: 'VolumeSelector', mandatory: false }
   ],
   TemperatureSensor: [
     { label: 'CurrentTemperature', mandatory: true },
@@ -238,7 +238,7 @@ export const accessories = {
     { label: 'BatteryLowStatus', mandatory: false },
     { label: 'FaultStatus', mandatory: false },
     { label: 'TamperedStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   Thermostat: [
     { label: 'CurrentTemperature', mandatory: true },
@@ -247,7 +247,7 @@ export const accessories = {
     { label: 'TargetTemperature', mandatory: false },
     { label: 'CoolingThresholdTemperature', mandatory: false },
     { label: 'HeatingThresholdTemperature', mandatory: false },
-    { label: 'RelativeHumidity', mandatory: false },
+    { label: 'RelativeHumidity', mandatory: false }
   ],
   Valve: [
     { label: 'ActiveStatus', mandatory: true },
@@ -255,7 +255,7 @@ export const accessories = {
     { label: 'Duration', mandatory: false },
     { label: 'FaultStatus', mandatory: false },
     { label: 'RemainingDuration', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   Window: [
     { label: 'CurrentPosition', mandatory: true },
@@ -263,7 +263,7 @@ export const accessories = {
     { label: 'TargetPosition', mandatory: true },
     { label: 'HoldPosition', mandatory: false },
     { label: 'ObstructionStatus', mandatory: false },
-    { label: 'Name', mandatory: false },
+    { label: 'Name', mandatory: false }
   ],
   WindowCovering: [
     { label: 'CurrentPosition', mandatory: true },
@@ -275,16 +275,16 @@ export const accessories = {
     { label: 'ObstructionStatus', mandatory: false },
     { label: 'TargetHorizontalTiltAngle', mandatory: false },
     { label: 'TargetVerticalTiltAngle', mandatory: false },
-    { label: 'Name', mandatory: false },
-  ],
-};
+    { label: 'Name', mandatory: false }
+  ]
+}
 
-export const accessoriesAndCharacteristics = [];
+export const accessoriesAndCharacteristics = []
 
 for (const a in accessories) {
-  accessoriesAndCharacteristics.push(a);
+  accessoriesAndCharacteristics.push(a)
   for (const c of accessories[a]) {
-    accessoriesAndCharacteristics.push(a + '.' + c.label);
+    accessoriesAndCharacteristics.push(a + '.' + c.label)
   }
 }
 
@@ -292,14 +292,14 @@ const activeIdentifierParameter = {
   name: 'ActiveIdentifier',
   label: 'Active Input',
   description: 'The input that is currently active (based on its identifier)',
-  type: 'INTEGER',
-};
+  type: 'INTEGER'
+}
 
 const batteryLowThreshold = {
   name: 'lowThreshold',
   label: 'battery low threshold. applicable only for items of type Number',
-  type: 'INTEGER',
-};
+  type: 'INTEGER'
+}
 
 const chargeableParameter = {
   name: 'chargeable',
@@ -309,9 +309,9 @@ const chargeableParameter = {
   limitToOptions: true,
   options: [
     { value: 'false', label: 'false' },
-    { value: 'true', label: 'true' },
-  ],
-};
+    { value: 'true', label: 'true' }
+  ]
+}
 
 const closedCaptionsParameter = {
   name: 'ClosedCaptions',
@@ -320,9 +320,9 @@ const closedCaptionsParameter = {
   limitToOptions: true,
   options: [
     { value: 'false', label: 'Disabled' },
-    { value: 'true', label: 'Enabled' },
-  ],
-};
+    { value: 'true', label: 'Enabled' }
+  ]
+}
 
 const configuredParameter = {
   name: 'Configured',
@@ -333,9 +333,9 @@ const configuredParameter = {
   limitToOptions: true,
   options: [
     { value: 'false', label: 'Not Configured' },
-    { value: 'true', label: 'Configured' },
-  ],
-};
+    { value: 'true', label: 'Configured' }
+  ]
+}
 
 const currentVisibilityParameter = {
   name: 'Visibility',
@@ -345,9 +345,9 @@ const currentVisibilityParameter = {
   limitToOptions: true,
   options: [
     { value: 'false', label: 'Hidden' },
-    { value: 'true', label: 'Visible' },
-  ],
-};
+    { value: 'true', label: 'Visible' }
+  ]
+}
 
 const dimmerFilterType = {
   name: 'dimmerMode',
@@ -357,26 +357,26 @@ const dimmerFilterType = {
   options: [
     {
       value: 'normal',
-      label: 'no filter, all events from iOS home app accepted',
+      label: 'no filter, all events from iOS home app accepted'
     },
     { value: 'filterOn', label: 'Filter out "ON" event' },
     {
       value: 'filterBrightness100',
-      label: 'Filter out "set brightness to 100%" event',
+      label: 'Filter out "set brightness to 100%" event'
     },
     {
       value: 'filterOnExceptBrightness100',
-      label: 'Filter out "ON" events except of combination with "set brightness to 100%"',
-    },
-  ],
-};
+      label: 'Filter out "ON" events except of combination with "set brightness to 100%"'
+    }
+  ]
+}
 
 const identifierParameter = {
   name: 'Identifier',
   label: 'Identifier',
   description: 'The identifier of the source, to be used with the ActiveIdentifier characteristic.',
-  type: 'INTEGER',
-};
+  type: 'INTEGER'
+}
 
 const inputDeviceTypeParameter = {
   name: 'InputDeviceType',
@@ -388,9 +388,9 @@ const inputDeviceTypeParameter = {
     { value: 'TV', label: 'Television' },
     { value: 'RECORDING', label: 'Recording Device' },
     { value: 'PLAYBACK', label: 'Playback Device' },
-    { value: 'AUDIO_SYSTEM', label: 'Audio System' },
-  ],
-};
+    { value: 'AUDIO_SYSTEM', label: 'Audio System' }
+  ]
+}
 
 const inputSourceTypeParameter = {
   name: 'InputSourceType',
@@ -408,16 +408,16 @@ const inputSourceTypeParameter = {
     { value: 'DVI', label: 'DVI connection' },
     { value: 'AIRPLAY', label: 'AirPlay' },
     { value: 'USB', label: 'USB Device' },
-    { value: 'APPLICATION', label: 'Application running on the television' },
-  ],
-};
+    { value: 'APPLICATION', label: 'Application running on the television' }
+  ]
+}
 const instanceParameter = {
   name: 'instance',
   label: 'Instance',
   description:
     'HomeKit bridge instance number in case of multiple bridge instances. if unsure, leave empty',
-  type: 'INTEGER',
-};
+  type: 'INTEGER'
+}
 
 const invertedParameter = {
   name: 'inverted',
@@ -427,27 +427,27 @@ const invertedParameter = {
   limitToOptions: true,
   options: [
     { value: 'false', label: 'false' },
-    { value: 'true', label: 'true' },
-  ],
-};
+    { value: 'true', label: 'true' }
+  ]
+}
 
 const minValue = {
   name: 'minValue',
   label: 'Minimum value for this characteristic',
-  type: 'INTEGER',
-};
+  type: 'INTEGER'
+}
 
 const maxValue = {
   name: 'maxValue',
   label: 'Maximum value for this characteristic',
-  type: 'INTEGER',
-};
+  type: 'INTEGER'
+}
 
 const stepValue = {
   name: 'step',
   label: 'Step value for this characteristic',
-  type: 'INTEGER',
-};
+  type: 'INTEGER'
+}
 
 const sendUpDownForExtentsParameter = {
   name: 'sendUpDownForExtents',
@@ -457,9 +457,9 @@ const sendUpDownForExtentsParameter = {
   limitToOptions: true,
   options: [
     { value: 'false', label: 'false' },
-    { value: 'true', label: 'true' },
-  ],
-};
+    { value: 'true', label: 'true' }
+  ]
+}
 
 const sleepDiscoveryModeParameter = {
   name: 'SleepDiscoveryMode',
@@ -467,9 +467,9 @@ const sleepDiscoveryModeParameter = {
   limitToOptions: true,
   options: [
     { value: 'false', label: 'Not discoverable in standby' },
-    { value: 'true', label: 'Always discoverable' },
-  ],
-};
+    { value: 'true', label: 'Always discoverable' }
+  ]
+}
 
 const stopParameter = {
   name: 'stop',
@@ -479,9 +479,9 @@ const stopParameter = {
   limitToOptions: true,
   options: [
     { value: 'false', label: 'false' },
-    { value: 'true', label: 'true' },
-  ],
-};
+    { value: 'true', label: 'true' }
+  ]
+}
 
 const stopSameDirectionParameter = {
   name: 'stopSameDirection',
@@ -492,14 +492,14 @@ const stopSameDirectionParameter = {
   limitToOptions: true,
   options: [
     { value: 'false', label: 'false' },
-    { value: 'true', label: 'true' },
-  ],
-};
+    { value: 'true', label: 'true' }
+  ]
+}
 const valveDefaultDuration = {
   name: 'homekitDefaultDuration',
   label: 'Default Duration',
-  type: 'INTEGER',
-};
+  type: 'INTEGER'
+}
 
 const valveTimerParameter = {
   name: 'homekitTimer',
@@ -508,9 +508,9 @@ const valveTimerParameter = {
   limitToOptions: true,
   options: [
     { value: 'false', label: 'false' },
-    { value: 'true', label: 'true' },
-  ],
-};
+    { value: 'true', label: 'true' }
+  ]
+}
 
 const valveTypeParameter = {
   name: 'homekitValveType',
@@ -521,9 +521,9 @@ const valveTypeParameter = {
     { value: 'Generic', label: 'Generic' },
     { value: 'Irrigation', label: 'Irrigation' },
     { value: 'Shower', label: 'Shower' },
-    { value: 'Faucet', label: 'Faucet' },
-  ],
-};
+    { value: 'Faucet', label: 'Faucet' }
+  ]
+}
 
 const volumeControlTypeParameter = {
   name: 'VolumeControlType',
@@ -535,25 +535,25 @@ const volumeControlTypeParameter = {
     { value: 'RELATIVE', label: 'INCREMENT/DECREMENT only; no status' },
     {
       value: 'RELATIVE_WITH_CURRENT',
-      label: 'INCREMENT/DECREMENT only with status',
+      label: 'INCREMENT/DECREMENT only with status'
     },
-    { value: 'ABSOLUTE', label: 'Direct status and control' },
-  ],
-};
+    { value: 'ABSOLUTE', label: 'Direct status and control' }
+  ]
+}
 
 const m = (name, type, label, description) => {
   return {
     name,
     type,
     label,
-    description,
-  };
-};
+    description
+  }
+}
 
 const activeEnum = [
   m('INACTIVE', 'TEXT', 'INACTIVE', 'Value for OFF'),
-  m('ACTIVE', 'TEXT', 'ACTIVE', 'Value for ON'),
-];
+  m('ACTIVE', 'TEXT', 'ACTIVE', 'Value for ON')
+]
 
 const airQualityEnum = [
   m('UNKNOWN', 'TEXT', 'UNKNOWN', 'Value for air quality "unknown"'),
@@ -561,113 +561,113 @@ const airQualityEnum = [
   m('GOOD', 'TEXT', 'GOOD', 'Value for air quality "good"'),
   m('FAIR', 'TEXT', 'FAIR', 'Value for air quality "fair"'),
   m('INFERIOR', 'TEXT', 'INFERIOR', 'Value for air quality "inferior"'),
-  m('POOR', 'TEXT', 'POOR', 'Value for air quality "poor"'),
-];
+  m('POOR', 'TEXT', 'POOR', 'Value for air quality "poor"')
+]
 
 const contactSensorStateEnum = [
   m('DETECTED', 'TEXT', 'DETECTED', 'Value for contact detected (closed)'),
-  m('NOT_DETECTED', 'TEXT', 'NOT_DETECTED', 'Value for contact not detected (open)'),
-];
+  m('NOT_DETECTED', 'TEXT', 'NOT_DETECTED', 'Value for contact not detected (open)')
+]
 
 const currentDoorStateEnum = [
   m('OPEN', 'TEXT', 'OPEN', 'Value for the door is fully open'),
   m('CLOSED', 'TEXT', 'CLOSED', 'Value for the door is fully closed'),
   m('OPENING', 'TEXT', 'OPENING', 'Value for the door is opening'),
   m('CLOSING', 'TEXT', 'CLOSING', 'Value for the door is closing'),
-  m('STOPPED', 'TEXT', 'STOPPED', 'Value for the door is partially open and stopped'),
-];
+  m('STOPPED', 'TEXT', 'STOPPED', 'Value for the door is partially open and stopped')
+]
 
 const currentFanStateEnum = [
   m('INACTIVE', 'TEXT', 'INACTIVE', 'Value for inactive (turned off)'),
   m('IDLE', 'TEXT', 'IDLE', 'Value for idle (turned on, but not blowing)'),
-  m('BLOWING_AIR', 'TEXT', 'BLOWING_AIR', 'Value for actively blowing air'),
-];
+  m('BLOWING_AIR', 'TEXT', 'BLOWING_AIR', 'Value for actively blowing air')
+]
 
 const currentMediaStateEnum = [
   m('PLAY', 'TEXT', 'PLAY', 'Value for media playing'),
   m('PAUSE', 'TEXT', 'PAUSE', 'Value for media pause'),
   m('STOP', 'TEXT', 'STOP', 'Value for media stopped'),
-  m('UNKOWN', 'TEXT', 'UNKOWN', 'Value for unknown media state'),
-];
+  m('UNKOWN', 'TEXT', 'UNKOWN', 'Value for unknown media state')
+]
 
 const currentSlatStateEnum = [
   m('FIXED', 'TEXT', 'FIXED', 'Value for slats not moving'),
   m('JAMMED', 'TEXT', 'JAMMED', 'Value for slats jammed'),
-  m('SWINGING', 'TEXT', 'SWINGING', 'Value for slats swinging'),
-];
+  m('SWINGING', 'TEXT', 'SWINGING', 'Value for slats swinging')
+]
 
 const faultStatusEnum = [
   m('NO_FAULT', 'TEXT', 'NO_FAULT', 'Value for no fault'),
-  m('GENERAL_FAULT', 'TEXT', 'GENERAL_FAULT', 'Value for fault present'),
-];
+  m('GENERAL_FAULT', 'TEXT', 'GENERAL_FAULT', 'Value for fault present')
+]
 
 const filterChangeIndicationEnum = [
   m('NO_CHANGE_NEEDED', 'TEXT', 'NO_CHANGE_NEEDED', 'Value for filter is healthy'),
-  m('CHANGE_NEEDED', 'TEXT', 'CHANGE_NEEDED', 'Value for filter needs replaced'),
-];
+  m('CHANGE_NEEDED', 'TEXT', 'CHANGE_NEEDED', 'Value for filter needs replaced')
+]
 
 const leakDetectedEnum = [
   m('LEAK_NOT_DETECTED', 'TEXT', 'LEAK_NOT_DETECTED', 'Value for no leak detected'),
-  m('LEAK_DETECTED', 'TEXT', 'LEAK_DETECTED', 'Value for leak detected'),
-];
+  m('LEAK_DETECTED', 'TEXT', 'LEAK_DETECTED', 'Value for leak detected')
+]
 
 const lockControlEnum = [
   m('CONTROL_LOCK_DISABLED', 'TEXT', 'CONTROL_LOCK_DISABLED', 'Value for controls unlocked'),
-  m('CONTROL_LOCK_ENABLED', 'TEXT', 'CONTROL_LOCK_ENABLED', 'Value for controls locked'),
-];
+  m('CONTROL_LOCK_ENABLED', 'TEXT', 'CONTROL_LOCK_ENABLED', 'Value for controls locked')
+]
 const lockCurrentStateEnum = [
   m('UNSECURED', 'TEXT', 'UNSECURED', 'Value for unsecured (unlocked)'),
   m('SECURED', 'TEXT', 'SECURED', 'Value for secured (locked)'),
   m('JAMMED', 'TEXT', 'JAMMED', 'Value for jammed'),
-  m('UNKNOWN', 'TEXT', 'UNKNOWN', 'Value for unknown state'),
-];
+  m('UNKNOWN', 'TEXT', 'UNKNOWN', 'Value for unknown state')
+]
 
 const lockTargetStateEnum = [
   m('UNSECURED', 'TEXT', 'UNSECURED', 'Value for unsecure (unlock)'),
-  m('SECURED', 'TEXT', 'SECURED', 'Value for secure (lock)'),
-];
+  m('SECURED', 'TEXT', 'SECURED', 'Value for secure (lock)')
+]
 
 const occupancyDetectedEnum = [
   m('NOT_DETECTED', 'TEXT', 'NOT_DETECTED', 'Value for unoccupied'),
-  m('DETECTED', 'TEXT', 'DETECTED', 'Value for occupied'),
-];
+  m('DETECTED', 'TEXT', 'DETECTED', 'Value for occupied')
+]
 
 const pollutantDetectedEnum = [
   m('NORMAL', 'TEXT', 'NORMAL', 'Value for acceptable pollutant levels detected'),
-  m('ABNORMAL', 'TEXT', 'ABNORMAL', 'Value for abnormal pollutant levels detected'),
-];
+  m('ABNORMAL', 'TEXT', 'ABNORMAL', 'Value for abnormal pollutant levels detected')
+]
 
 const positionStateEnum = [
   m('DECREASING', 'TEXT', 'DECREASING', 'Value for decreasing (closing) state'),
   m('INCREASING', 'TEXT', 'INCREASING', 'Value for increasing (opening) state'),
-  m('STOPPED', 'TEXT', 'STOPPED', 'Value for stopped state'),
-];
+  m('STOPPED', 'TEXT', 'STOPPED', 'Value for stopped state')
+]
 
 const rotationDirectionEnum = [
   m('CLOCKWISE', 'TEXT', 'CLOCKWISE', 'Value for clockwise rotation'),
-  m('COUNTER_CLOCKWISE', 'TEXT', 'COUNTER_CLOCKWISE', 'Value for counter-clockwise rotation'),
-];
+  m('COUNTER_CLOCKWISE', 'TEXT', 'COUNTER_CLOCKWISE', 'Value for counter-clockwise rotation')
+]
 
 const swingModeEnum = [
   m('SWING_DISABLED', 'TEXT', 'SWING_DISABLED', 'Value for swing disabled'),
-  m('SWING_ENABLED', 'TEXT', 'SWING_ENABLED', 'Value for swing enabled'),
-];
+  m('SWING_ENABLED', 'TEXT', 'SWING_ENABLED', 'Value for swing enabled')
+]
 
 const tamperedStatusEnum = [
   m('NOT_TAMPERED', 'TEXT', 'NOT_TAMPERED', 'Value for not tampered'),
-  m('TAMPERED', 'TEXT', 'TAMPERED', 'Value for tampered'),
-];
+  m('TAMPERED', 'TEXT', 'TAMPERED', 'Value for tampered')
+]
 
 const targetDoorStateEnum = [
   m('OPEN', 'TEXT', 'OPEN', 'Value to open the door'),
-  m('CLOSED', 'TEXT', 'CLOSED', 'Value to close the door'),
-];
+  m('CLOSED', 'TEXT', 'CLOSED', 'Value to close the door')
+]
 
 const targetMediaStateEnum = [
   m('PLAY', 'TEXT', 'PLAY', 'Value to play media'),
   m('PAUSE', 'TEXT', 'PAUSE', 'Value to pause media'),
-  m('STOP', 'TEXT', 'STOP', 'Value to stop media'),
-];
+  m('STOP', 'TEXT', 'STOP', 'Value to stop media')
+]
 
 export const homekitParameters = {
   AccessoryGroup: [instanceParameter],
@@ -705,7 +705,7 @@ export const homekitParameters = {
     invertedParameter,
     stopParameter,
     stopSameDirectionParameter,
-    sendUpDownForExtentsParameter,
+    sendUpDownForExtentsParameter
   ],
   'Door.PositionState': positionStateEnum,
   Fan: [instanceParameter],
@@ -716,7 +716,7 @@ export const homekitParameters = {
   'Fan.TargetFanState': [
     invertedParameter,
     m('MANUAL', 'TEXT', 'MANUAL', 'Value for manual (continuously blowing) fan control'),
-    m('AUTO', 'TEXT', 'AUTO', 'Value for automatic fan control'),
+    m('AUTO', 'TEXT', 'AUTO', 'Value for automatic fan control')
   ],
   Faucet: [instanceParameter, invertedParameter],
   'Faucet.Active': [invertedParameter],
@@ -731,7 +731,7 @@ export const homekitParameters = {
     m('INACTIVE', 'TEXT', 'INACTIVE', 'Value for the heater/cooler is disabled'),
     m('IDLE', 'TEXT', 'IDLE', 'Value for the heater/cooler is enabled, but idle'),
     m('HEATING', 'TEXT', 'HEATING', 'Value for actively heating'),
-    m('COOLER', 'TEXT', 'COOLER', 'Value for actively cooling'),
+    m('COOLER', 'TEXT', 'COOLER', 'Value for actively cooling')
   ],
   'HeaterCooler.CurrentTemperature': [minValue, maxValue, stepValue],
   'HeaterCooler.TargetHeaterCoolerState': [
@@ -742,7 +742,7 @@ export const homekitParameters = {
       'Value for requesting heating/cooling to maintain the target temperature'
     ),
     m('HEAT', 'TEXT', 'HEAT', 'Value for requesting heating only'),
-    m('COOL', 'TEXT', 'COOL', 'Value for requesting cooling only'),
+    m('COOL', 'TEXT', 'COOL', 'Value for requesting cooling only')
   ],
   'HeaterCooler.CoolingThresholdTemperature': [minValue, maxValue, stepValue],
   'HeaterCooler.HeatingThresholdTemperature': [minValue, maxValue, stepValue],
@@ -757,19 +757,19 @@ export const homekitParameters = {
     currentVisibilityParameter,
     identifierParameter,
     inputDeviceTypeParameter,
-    inputSourceTypeParameter,
+    inputSourceTypeParameter
   ],
   'InputSource.CurrentVisibility': [
     invertedParameter,
     m('SHOWN', 'TEXT', 'SHOWN', 'Value for input is visible/enabled'),
-    m('HIDDEN', 'TEXT', 'HIDDEN', 'Value for input is hidden/disabled'),
+    m('HIDDEN', 'TEXT', 'HIDDEN', 'Value for input is hidden/disabled')
   ],
   'InputSource.InputDeviceType': [
     m('OTHER', 'TEXT', 'OTHER', 'Value for other device type'),
     m('TV', 'TEXT', 'TV', 'Value for television'),
     m('RECORDING', 'TEXT', 'RECORDING', 'Value for recording device'),
     m('PLAYBACK', 'TEXT', 'PLAYBACK', 'Value for playback device'),
-    m('AUDIO_SYSTEM', 'TEXT', 'AUDIO_SYSTEM', 'Value for audio only device'),
+    m('AUDIO_SYSTEM', 'TEXT', 'AUDIO_SYSTEM', 'Value for audio only device')
   ],
   'InputSource.InputSourceType': [
     m('OTHER', 'TEXT', 'OTHER', 'Value for other connection type'),
@@ -782,23 +782,23 @@ export const homekitParameters = {
     m('DVI', 'TEXT', 'DVI', 'Value for DVI connection'),
     m('AIRPLAY', 'TEXT', 'AIRPLAY', 'Value for AirPlay'),
     m('USB', 'TEXT', 'USB', 'Value for USB device'),
-    m('APPLICATION', 'TEXT', 'APPLICATION', 'Value for application running on the television'),
+    m('APPLICATION', 'TEXT', 'APPLICATION', 'Value for application running on the television')
   ],
   'InputSource.TargetVisibilityState': [
     invertedParameter,
     m('SHOWN', 'TEXT', 'SHOWN', 'Value for requesting input shown'),
-    m('HIDDEN', 'TEXT', 'HIDDEN', 'Value for requesting input hidden'),
+    m('HIDDEN', 'TEXT', 'HIDDEN', 'Value for requesting input hidden')
   ],
   IrrigationSystem: [instanceParameter],
   'IrrigationSystem.Active': [
     invertedParameter,
     m('INACTIVE', 'TEXT', 'INACTIVE', 'Value for irrigation system disabled'),
-    m('ACTIVE', 'TEXT', 'ACTIVE', 'Value for irrigation system enabled'),
+    m('ACTIVE', 'TEXT', 'ACTIVE', 'Value for irrigation system enabled')
   ],
   'IrrigationSystem.InUseState': [
     invertedParameter,
     m('NOT_IN_USE', 'TEXT', 'NOT_IN_USE', 'Value for irrigation system is idle'),
-    m('IN_USE', 'TEXT', 'IN_USE', 'Value for any part of irrigation system is running'),
+    m('IN_USE', 'TEXT', 'IN_USE', 'Value for any part of irrigation system is running')
   ],
   'IrrigationSystem.FaultStatus': [invertedParameter].concat(faultStatusEnum),
   LeakSensor: [instanceParameter, invertedParameter].concat(leakDetectedEnum),
@@ -836,13 +836,13 @@ export const homekitParameters = {
     m('AWAY_ARM', 'TEXT', 'AWAY_ARM', 'Value for security state "arm away"'),
     m('NIGHT_ARM', 'TEXT', 'NIGHT_ARM', 'Value for security state "night arm"'),
     m('DISARMED', 'TEXT', 'DISARMED', 'Value for security state "disarmed"'),
-    m('TRIGGERED', 'TEXT', 'TRIGGERED', 'Value for security state "alarm triggered"'),
+    m('TRIGGERED', 'TEXT', 'TRIGGERED', 'Value for security state "alarm triggered"')
   ],
   'SecuritySystem.TargetSecuritySystemState': [
     m('STAY_ARM', 'TEXT', 'STAY_ARM', 'Value for security state "stay arm"'),
     m('AWAY_ARM', 'TEXT', 'AWAY_ARM', 'Value for security state "arm away"'),
     m('NIGHT_ARM', 'TEXT', 'NIGHT_ARM', 'Value for security state "night arm"'),
-    m('DISARM', 'TEXT', 'DISARM', 'Value for security state "disarm"'),
+    m('DISARM', 'TEXT', 'DISARM', 'Value for security state "disarm"')
   ],
   'SecuritySystem.FaultStatus': [invertedParameter].concat(faultStatusEnum),
   'SecuritySystem.TamperedStatus': [invertedParameter].concat(tamperedStatusEnum),
@@ -867,7 +867,7 @@ export const homekitParameters = {
     invertedParameter,
     activeIdentifierParameter,
     closedCaptionsParameter,
-    sleepDiscoveryModeParameter,
+    sleepDiscoveryModeParameter
   ].concat(activeEnum),
   'Television.Active': [invertedParameter].concat(activeEnum),
   'Television.ClosedCaptions': [invertedParameter].concat(activeEnum),
@@ -880,12 +880,12 @@ export const homekitParameters = {
     m('VIVID', 'TEXT', 'VIVID', 'Value for vivid'),
     m('GAME', 'TEXT', 'GAME', 'Value for faming'),
     m('COMPUTER', 'TEXT', 'COMPUTER', 'Value for computer'),
-    m('CUSTOM', 'TEXT', 'CUSTOM', 'Value for custom'),
+    m('CUSTOM', 'TEXT', 'CUSTOM', 'Value for custom')
   ],
   'Television.PowerMode': [
     invertedParameter,
     m('SHOW', 'TEXT', 'SHOW', "Show the television's menu"),
-    m('HIDE', 'TEXT', 'HIDE', "hide the television's menu"),
+    m('HIDE', 'TEXT', 'HIDE', "hide the television's menu")
   ],
   'Television.SleepDiscoveryMode': [
     invertedParameter,
@@ -900,7 +900,7 @@ export const homekitParameters = {
       'TEXT',
       'ALWAYS_DISCOVERABLE',
       'Value to enable discovery even if in standby'
-    ),
+    )
   ],
   'Television.TargetMediaState': targetMediaStateEnum,
   TelevisionSpeaker: [invertedParameter, volumeControlTypeParameter],
@@ -915,7 +915,7 @@ export const homekitParameters = {
       'RELATIVE_WITH_CURRENT',
       'Value for INCREMENT/DECREMENT only with status'
     ),
-    m('ABSOLUTE', 'TEXT', 'ABSOLUTE', 'Value for direct status and control'),
+    m('ABSOLUTE', 'TEXT', 'ABSOLUTE', 'Value for direct status and control')
   ],
   TemperatureSensor: [instanceParameter, minValue, maxValue, stepValue],
   'TemperatureSensor.CurrentTemperature': [instanceParameter, minValue, maxValue, stepValue],
@@ -926,7 +926,7 @@ export const homekitParameters = {
   'Thermostat.CurrentHeatingCoolingMode': [
     m('OFF', 'TEXT', 'OFF', 'Value for thermostate idle'),
     m('HEAT', 'TEXT', 'HEAT', 'Value for thermostat actively heating'),
-    m('COOL', 'TEXT', 'COOL', 'Value for thermostat actively cooling'),
+    m('COOL', 'TEXT', 'COOL', 'Value for thermostat actively cooling')
   ],
   'Thermostat.CurrentTemperature': [minValue, maxValue, stepValue],
   'Thermostat.TargetTemperature': [minValue, maxValue, stepValue],
@@ -934,7 +934,7 @@ export const homekitParameters = {
     m('OFF', 'TEXT', 'OFF', 'Value for disabling the thermostat'),
     m('HEAT', 'TEXT', 'HEAT', 'Value for requesting heating only'),
     m('COOL', 'TEXT', 'COOL', 'Value for requesting cooling only'),
-    m('AUTO', 'TEXT', 'AUTO', 'Value for requesting thermostat to maintain the target temperature'),
+    m('AUTO', 'TEXT', 'AUTO', 'Value for requesting thermostat to maintain the target temperature')
   ],
   'Thermostat.CoolingThresholdTemperature': [minValue, maxValue, stepValue],
   'Thermostat.HeatingThresholdTemperature': [minValue, maxValue, stepValue],
@@ -947,7 +947,7 @@ export const homekitParameters = {
     invertedParameter,
     stopParameter,
     stopSameDirectionParameter,
-    sendUpDownForExtentsParameter,
+    sendUpDownForExtentsParameter
   ],
   'Window.PositionState': positionStateEnum,
   WindowCovering: [
@@ -955,7 +955,7 @@ export const homekitParameters = {
     invertedParameter,
     stopParameter,
     stopSameDirectionParameter,
-    sendUpDownForExtentsParameter,
+    sendUpDownForExtentsParameter
   ],
-  'WindowCovering.PositionState': positionStateEnum,
-};
+  'WindowCovering.PositionState': positionStateEnum
+}

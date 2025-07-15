@@ -10,25 +10,25 @@
  * supports jsscripting
  */
 
-import Blockly from 'blockly';
-import { javascriptGenerator } from 'blockly/javascript.js';
-import { FieldSlider } from '@blockly/field-slider';
+import Blockly from 'blockly'
+import { javascriptGenerator } from 'blockly/javascript.js'
+import { FieldSlider } from '@blockly/field-slider'
 
 export default function (f7, sinks, voices) {
   Blockly.Blocks['oh_volumeslider'] = {
     init: function () {
-      this.appendDummyInput().appendField(new FieldSlider(50), 'volume');
-      this.setColour(210);
-      this.setInputsInline(true);
-      this.setOutput(true, null);
-    },
-  };
+      this.appendDummyInput().appendField(new FieldSlider(50), 'volume')
+      this.setColour(210)
+      this.setInputsInline(true)
+      this.setOutput(true, null)
+    }
+  }
 
   javascriptGenerator.forBlock['oh_volumeslider'] = function (block) {
-    const fieldName = block.getFieldValue('volume');
-    let code = `'${fieldName}'`;
-    return [code, 0];
-  };
+    const fieldName = block.getFieldValue('volume')
+    let code = `'${fieldName}'`
+    return [code, 0]
+  }
 
   /*
    * Plays a file (like mp3) which resides in conf/sounds to the given sink
@@ -36,18 +36,18 @@ export default function (f7, sinks, voices) {
    */
   Blockly.Blocks['oh_playmedia_sink'] = {
     init: function () {
-      this.appendValueInput('fileName').appendField('play audio').setCheck('String');
-      this.appendValueInput('sinkName').setCheck(null).appendField('on');
-      this.setInputsInline(false);
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
-      this.setColour(0);
-      this.setTooltip('Plays a sound file from the sounds folder to the given sink.');
+      this.appendValueInput('fileName').appendField('play audio').setCheck('String')
+      this.appendValueInput('sinkName').setCheck(null).appendField('on')
+      this.setInputsInline(false)
+      this.setPreviousStatement(true, null)
+      this.setNextStatement(true, null)
+      this.setColour(0)
+      this.setTooltip('Plays a sound file from the sounds folder to the given sink.')
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-voice-and-multimedia.html#play-audio'
-      );
-    },
-  };
+      )
+    }
+  }
 
   /*
    * Plays a file (like mp3) which resides in conf/sounds to the given sink
@@ -58,14 +58,14 @@ export default function (f7, sinks, voices) {
       block,
       'fileName',
       javascriptGenerator.ORDER_ATOMIC
-    );
+    )
     let sinkName = javascriptGenerator
       .valueToCode(block, 'sinkName', javascriptGenerator.ORDER_ATOMIC)
       .replace('(', '')
-      .replace(/[()]/g, '');
+      .replace(/[()]/g, '')
 
-    return `actions.Audio.playSound(${sinkName}, ${fileName});\n`;
-  };
+    return `actions.Audio.playSound(${sinkName}, ${fileName});\n`
+  }
 
   /*
    * Plays a file (like mp3) which resides in conf/sounds to the given sink at a given volume
@@ -73,21 +73,21 @@ export default function (f7, sinks, voices) {
    */
   Blockly.Blocks['oh_playmedia_sink_volume'] = {
     init: function () {
-      this.appendValueInput('fileName').appendField('play audio').setCheck('String');
-      this.appendValueInput('sinkName').setCheck(null).appendField('on');
-      this.appendValueInput('volume').setCheck(null).appendField('at volume');
-      this.setInputsInline(false);
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
-      this.setColour(0);
+      this.appendValueInput('fileName').appendField('play audio').setCheck('String')
+      this.appendValueInput('sinkName').setCheck(null).appendField('on')
+      this.appendValueInput('volume').setCheck(null).appendField('at volume')
+      this.setInputsInline(false)
+      this.setPreviousStatement(true, null)
+      this.setNextStatement(true, null)
+      this.setColour(0)
       this.setTooltip(
         'Plays a sound file from the sounds folder to the given sink at a given volume. \n Note: rather set volume first via thing volume channel, then play sound without volume parameter as it may be more reliable.'
-      );
+      )
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-voice-and-multimedia.html#play-audio-with-volume'
-      );
-    },
-  };
+      )
+    }
+  }
 
   /*
    * Plays a file (like mp3) which resides in conf/sounds to the given sink at a given volume
@@ -99,17 +99,17 @@ export default function (f7, sinks, voices) {
       block,
       'fileName',
       javascriptGenerator.ORDER_ATOMIC
-    );
+    )
     let sinkName = javascriptGenerator
       .valueToCode(block, 'sinkName', javascriptGenerator.ORDER_ATOMIC)
       .replace('(', '')
-      .replace(/[()]/g, '');
+      .replace(/[()]/g, '')
     let volume = javascriptGenerator
       .valueToCode(block, 'volume', javascriptGenerator.ORDER_ATOMIC)
-      .replace(/'/g, '');
+      .replace(/'/g, '')
 
-    return `actions.Audio.playSound(${sinkName}, ${fileName}, (${volume}/100));\n`;
-  };
+    return `actions.Audio.playSound(${sinkName}, ${fileName}, (${volume}/100));\n`
+  }
 
   /*
    * Plays a stream from a URL on a specific sink
@@ -117,32 +117,32 @@ export default function (f7, sinks, voices) {
    */
   Blockly.Blocks['oh_playstream_sink'] = {
     init: function () {
-      this.appendValueInput('url').appendField('play stream').setCheck('String');
-      this.appendValueInput('sinkName').setCheck(null).appendField('on');
-      this.setInputsInline(false);
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
-      this.setColour(0);
-      this.setTooltip('plays an audio stream from an url to the given sink(s)');
+      this.appendValueInput('url').appendField('play stream').setCheck('String')
+      this.appendValueInput('sinkName').setCheck(null).appendField('on')
+      this.setInputsInline(false)
+      this.setPreviousStatement(true, null)
+      this.setNextStatement(true, null)
+      this.setColour(0)
+      this.setTooltip('plays an audio stream from an url to the given sink(s)')
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-voice-and-multimedia.html#play-stream'
-      );
-    },
-  };
+      )
+    }
+  }
 
   /*
    * Plays a stream from a URL on a specific sink
    * Blockly part
    */
   javascriptGenerator.forBlock['oh_playstream_sink'] = function (block) {
-    let url = javascriptGenerator.valueToCode(block, 'url', javascriptGenerator.ORDER_ATOMIC);
+    let url = javascriptGenerator.valueToCode(block, 'url', javascriptGenerator.ORDER_ATOMIC)
     let sinkName = javascriptGenerator
       .valueToCode(block, 'sinkName', javascriptGenerator.ORDER_ATOMIC)
       .replace('(', '')
-      .replace(/[()]/g, '');
+      .replace(/[()]/g, '')
 
-    return `actions.Audio.playStream(${sinkName}, ${url});\n`;
-  };
+    return `actions.Audio.playStream(${sinkName}, ${url});\n`
+  }
 
   /*
    * Stops a stream at a specific sink
@@ -150,31 +150,31 @@ export default function (f7, sinks, voices) {
    */
   Blockly.Blocks['oh_stopstream_sink'] = {
     init: function () {
-      this.appendValueInput('sinkName').setCheck(null).appendField('stop stream on');
-      this.setInputsInline(true);
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
-      this.setColour(0);
-      this.setTooltip('stops the audio stream at the given sink');
+      this.appendValueInput('sinkName').setCheck(null).appendField('stop stream on')
+      this.setInputsInline(true)
+      this.setPreviousStatement(true, null)
+      this.setNextStatement(true, null)
+      this.setColour(0)
+      this.setTooltip('stops the audio stream at the given sink')
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-voice-and-multimedia.html#stop-stream'
-      );
-    },
-  };
+      )
+    }
+  }
 
   /*
    * Stops a stream on a specific sink
    * Blockly part
    */
   javascriptGenerator.forBlock['oh_stopstream_sink'] = function (block) {
-    let url = block.getFieldValue('url');
+    let url = block.getFieldValue('url')
     let sinkName = javascriptGenerator
       .valueToCode(block, 'sinkName', javascriptGenerator.ORDER_ATOMIC)
       .replace('(', '')
-      .replace(/[()]/g, '');
+      .replace(/[()]/g, '')
 
-    return `actions.Audio.playStream(${sinkName}, null);\n`;
-  };
+    return `actions.Audio.playStream(${sinkName}, null);\n`
+  }
 
   /*
    * Says some words via a device sink - TTS has to be installed for that
@@ -182,19 +182,19 @@ export default function (f7, sinks, voices) {
    */
   Blockly.Blocks['oh_say'] = {
     init: function () {
-      this.appendValueInput('textToSay').appendField('say');
-      this.appendValueInput('deviceSink').appendField('on').setCheck('String');
-      this.appendValueInput('voice').appendField('with').setCheck('String');
-      this.setInputsInline(false);
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
-      this.setColour(0);
-      this.setTooltip('Speak text at the given device via text-to-speech');
+      this.appendValueInput('textToSay').appendField('say')
+      this.appendValueInput('deviceSink').appendField('on').setCheck('String')
+      this.appendValueInput('voice').appendField('with').setCheck('String')
+      this.setInputsInline(false)
+      this.setPreviousStatement(true, null)
+      this.setNextStatement(true, null)
+      this.setColour(0)
+      this.setTooltip('Speak text at the given device via text-to-speech')
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-voice-and-multimedia.html#say'
-      );
-    },
-  };
+      )
+    }
+  }
 
   /*
    * Says some text via a device sink - TTS has to be installed for that
@@ -205,18 +205,18 @@ export default function (f7, sinks, voices) {
       block,
       'textToSay',
       javascriptGenerator.ORDER_ATOMIC
-    );
+    )
     const voiceName = javascriptGenerator
       .valueToCode(block, 'voice', javascriptGenerator.ORDER_ATOMIC)
       .replace('(', '')
-      .replace(/[()]/g, '');
+      .replace(/[()]/g, '')
     const deviceSink = javascriptGenerator
       .valueToCode(block, 'deviceSink', javascriptGenerator.ORDER_ATOMIC)
       .replace('(', '')
-      .replace(/[()]/g, '');
+      .replace(/[()]/g, '')
 
-    return `actions.Voice.say(${textToSay}, ${voiceName}, ${deviceSink});\n`;
-  };
+    return `actions.Voice.say(${textToSay}, ${voiceName}, ${deviceSink});\n`
+  }
 
   /*
    * Provides all available audio sinks as a dropdown
@@ -225,27 +225,27 @@ export default function (f7, sinks, voices) {
     init: function () {
       let input = this.appendDummyInput()
         .appendField('audio sink')
-        .appendField(new Blockly.FieldDropdown(this.generateOptions), 'sinks');
-      this.setOutput(true, null);
+        .appendField(new Blockly.FieldDropdown(this.generateOptions), 'sinks')
+      this.setOutput(true, null)
     },
     generateOptions: function () {
-      let options = [];
+      let options = []
       if (sinks != null && sinks.length > 0) {
         for (let key in sinks) {
-          let sinkOption = sinks[key];
-          options.push([sinkOption.label, sinkOption.id]);
+          let sinkOption = sinks[key]
+          options.push([sinkOption.label, sinkOption.id])
         }
       } else {
-        options.push(['(none)', '']);
+        options.push(['(none)', ''])
       }
-      return options;
-    },
-  };
+      return options
+    }
+  }
 
   javascriptGenerator.forBlock['oh_audiosink_dropdown'] = function (block) {
-    let sinkName = block.getFieldValue('sinks');
-    return [`'${sinkName}'`, javascriptGenerator.ORDER_NONE];
-  };
+    let sinkName = block.getFieldValue('sinks')
+    return [`'${sinkName}'`, javascriptGenerator.ORDER_NONE]
+  }
 
   /*
    * Provides all available voices as a dropdown
@@ -255,25 +255,25 @@ export default function (f7, sinks, voices) {
     init: function () {
       let input = this.appendDummyInput()
         .appendField('voice')
-        .appendField(new Blockly.FieldDropdown(this.generateOptions), 'voiceName');
-      this.setOutput(true, null);
+        .appendField(new Blockly.FieldDropdown(this.generateOptions), 'voiceName')
+      this.setOutput(true, null)
     },
     generateOptions: function () {
-      let options = [];
+      let options = []
       if (voices != null && voices.length > 0) {
         for (let key in voices) {
-          let voicesOption = voices[key];
-          options.push([voicesOption.label, voicesOption.id]);
+          let voicesOption = voices[key]
+          options.push([voicesOption.label, voicesOption.id])
         }
       } else {
-        options.push(['(none)', '']);
+        options.push(['(none)', ''])
       }
-      return options;
-    },
-  };
+      return options
+    }
+  }
 
   javascriptGenerator.forBlock['oh_voices_dropdown'] = function (block) {
-    let voiceName = block.getFieldValue('voiceName');
-    return [`'${voiceName}'`, javascriptGenerator.ORDER_NONE];
-  };
+    let voiceName = block.getFieldValue('voiceName')
+    return [`'${voiceName}'`, javascriptGenerator.ORDER_NONE]
+  }
 }

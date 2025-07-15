@@ -72,7 +72,7 @@
           external
           :href="`${$store.state.websiteUrl}/link/persistence`"
           target="_blank"
-          t="'home.overview.button.documentation'"
+          :text="$t('home.overview.button.documentation')"
         />
         <span style="width: 8px" />
         <f7-button large fill color="blue" href="/addons/persistence/">

@@ -1,4 +1,4 @@
-import { pi, pb, pd } from '../helpers.js';
+import { pi, pb, pd } from '../helpers.js'
 
 export default () => [
   pi('item', 'Item', 'Item to control'),
@@ -30,5 +30,5 @@ export default () => [
     'autorepeatDynamic',
     'Dynamic Auto-repeat',
     'Speed up the increase/decrease over time while the buttons keep being pressed'
-  ),
-];
+  )
+]

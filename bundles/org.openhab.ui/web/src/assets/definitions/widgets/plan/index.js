@@ -1,7 +1,7 @@
 // definitions for the plan page & markers
 
-import { WidgetDefinition, pt, pi, pg, pb, pn, po, pd } from '../helpers.js';
-import { actionGroup, actionParams } from '../actions.js';
+import { WidgetDefinition, pt, pi, pg, pb, pn, po, pd } from '../helpers.js'
+import { actionGroup, actionParams } from '../actions.js'
 
 export const OhPlanPageDefinition = () =>
   new WidgetDefinition('oh-plan-page', 'Floor plan', 'Displays markers on an image overlay').params(
@@ -32,7 +32,7 @@ export const OhPlanPageDefinition = () =>
           { value: '', label: 'Default' },
           { value: 'white', label: 'Always White' },
           { value: 'black', label: 'Always Black' },
-          { value: 'blackwhite', label: 'Black or White' },
+          { value: 'blackwhite', label: 'Black or White' }
         ]
       ),
       pb(
@@ -47,11 +47,11 @@ export const OhPlanPageDefinition = () =>
         [
           { value: 'white', label: 'White' },
           { value: 'black', label: 'Black' },
-          { value: 'blackwhite', label: 'Black or White' },
+          { value: 'blackwhite', label: 'Black or White' }
         ]
-      ),
+      )
     ]
-  );
+  )
 
 export const OhPlanMarkerDefinition = () =>
   new WidgetDefinition('oh-plan-marker', 'Floor Plan Marker', 'A marker on a floor plan', 'map_pin')
@@ -67,7 +67,7 @@ export const OhPlanMarkerDefinition = () =>
         'visible',
         'Visibility',
         'Enter an expression to dynamically show the marker, see <a class="external text-color-blue" target="_blank" href="https://www.openhab.org/docs/ui/building-pages.html#widgets-definition-usage">Building Pages: <code>visible</code></a>'
-      ),
+      )
     ])
     .paramGroup(
       pg(
@@ -102,7 +102,7 @@ export const OhPlanMarkerDefinition = () =>
           'Icon Color',
           'Color of the icon (for Framework7/Material/certain Iconify icons); use expression for dynamic colors'
         ),
-        pn('iconRotation', 'Icon Rotation', 'Rotation of the icon in degrees'),
+        pn('iconRotation', 'Icon Rotation', 'Rotation of the icon in degrees')
       ]
     )
     .paramGroup(
@@ -131,7 +131,7 @@ export const OhPlanMarkerDefinition = () =>
           { value: 'left', label: 'Left' },
           { value: 'right', label: 'Right' },
           { value: 'center', label: 'Center' },
-          { value: 'auto', label: 'Auto' },
+          { value: 'auto', label: 'Auto' }
         ]),
         pn(
           'tooltipOffsetX',
@@ -143,7 +143,7 @@ export const OhPlanMarkerDefinition = () =>
           'Tooltip Offset Y',
           'The Y offset of the tooltip from the marker in pixels'
         ).a(),
-        pd('tooltipOpacity', 'Tooltip Opacity', 'The opacity of the tooltip (0-1)').a(),
+        pd('tooltipOpacity', 'Tooltip Opacity', 'The opacity of the tooltip (0-1)').a()
       ]
     )
     .paramGroup(
@@ -158,7 +158,7 @@ export const OhPlanMarkerDefinition = () =>
           'zoomVisibilityMax',
           'Zoom Visibility Maximum',
           'Visible only when zoomed to below this level (no limit if empty)'
-        ).a(),
+        ).a()
       ]
     )
-    .paramGroup(actionGroup(null, 'Action to perform when the marker is clicked'), actionParams());
+    .paramGroup(actionGroup(null, 'Action to perform when the marker is clicked'), actionParams())

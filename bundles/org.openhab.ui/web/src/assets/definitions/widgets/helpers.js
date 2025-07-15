@@ -8,10 +8,10 @@
  * @param {string} description the untranslated (English) description of the parameter
  */
 function Parameter(type, name, label, description) {
-  this.type = type;
-  this.name = name;
-  this.label = label;
-  this.description = description;
+  this.type = type
+  this.name = name
+  this.label = label
+  this.description = description
 }
 
 Parameter.prototype = {
@@ -19,29 +19,29 @@ Parameter.prototype = {
    * Sets the parameter as advanced
    */
   a() {
-    this.advanced = true;
-    return this;
+    this.advanced = true
+    return this
   },
   /**
    * Sets the context of the parameter
    */
   c(context) {
-    this.context = context;
-    return this;
+    this.context = context
+    return this
   },
   /**
    * Sets the groupName of the parameter
    */
   g(groupName) {
-    this.groupName = groupName;
-    return this;
+    this.groupName = groupName
+    return this
   },
   /**
    * Sets the parameter as holding multiple values
    */
   m() {
-    this.multiple = true;
-    return this;
+    this.multiple = true
+    return this
   },
   /**
    * Sets the options of the parameter
@@ -50,27 +50,27 @@ Parameter.prototype = {
    * @param {boolean} multiple whether multiple options may be selected
    */
   o(opts, limitToOptions = true, multiple = false) {
-    this.options = opts;
-    this.limitToOptions = limitToOptions;
-    this.multiple = multiple;
-    return this;
+    this.options = opts
+    this.limitToOptions = limitToOptions
+    this.multiple = multiple
+    return this
   },
   /**
    * Sets the parameter as required
    */
   r() {
-    this.required = true;
-    return this;
+    this.required = true
+    return this
   },
   /**
    * The visibility function
    * @param {(visible) => boolean} vfn the visibility function
    */
   v(vfn) {
-    this.visible = vfn;
-    return this;
-  },
-};
+    this.visible = vfn
+    return this
+  }
+}
 
 /**
  * Builds a parameter
@@ -80,7 +80,7 @@ Parameter.prototype = {
  * @param {string} description the untranslated (English) description of the parameter
  */
 export function p(type, name, label, description) {
-  return new Parameter(type, name, label, description);
+  return new Parameter(type, name, label, description)
 }
 
 /**
@@ -90,7 +90,7 @@ export function p(type, name, label, description) {
  * @param {string} description the untranslated (English) description of the parameter
  */
 export function pb(name, label, description) {
-  return p('BOOLEAN', name, label, description);
+  return p('BOOLEAN', name, label, description)
 }
 
 /**
@@ -100,7 +100,7 @@ export function pb(name, label, description) {
  * @param {string} description the untranslated (English) description of the parameter
  */
 export function pd(name, label, description) {
-  return new Parameter('DECIMAL', name, label, description);
+  return new Parameter('DECIMAL', name, label, description)
 }
 
 /**
@@ -110,7 +110,7 @@ export function pd(name, label, description) {
  * @param {string} description the untranslated (English) description of the group
  */
 export function pg(name, label, description) {
-  return { name, label, description };
+  return { name, label, description }
 }
 
 /**
@@ -120,7 +120,7 @@ export function pg(name, label, description) {
  * @param {string} description the untranslated (English) description of the parameter
  */
 export function pi(name, label, description) {
-  return new Parameter('TEXT', name, label, description).c('item');
+  return new Parameter('TEXT', name, label, description).c('item')
 }
 
 /**
@@ -131,7 +131,7 @@ export function pi(name, label, description) {
  * @param {*} options an array of options with untranslated (English) labels
  */
 export function po(name, label, description, options) {
-  return new Parameter('TEXT', name, label, description).o(options);
+  return new Parameter('TEXT', name, label, description).o(options)
 }
 
 /**
@@ -141,7 +141,7 @@ export function po(name, label, description, options) {
  * @param {string} description the untranslated (English) description of the parameter
  */
 export function pn(name, label, description) {
-  return new Parameter('INTEGER', name, label, description);
+  return new Parameter('INTEGER', name, label, description)
 }
 
 /**
@@ -151,7 +151,7 @@ export function pn(name, label, description) {
  * @param {string} description the untranslated (English) description of the parameter
  */
 export function pt(name, label, description) {
-  return new Parameter('TEXT', name, label, description);
+  return new Parameter('TEXT', name, label, description)
 }
 
 /**
@@ -163,29 +163,29 @@ export function pt(name, label, description) {
  * @param {boolean} [hidden=false] whether the widget is hidden and should not be shown in the widget picker
  */
 export function WidgetDefinition(name, label, description, icon, hidden = false) {
-  this.name = name;
-  this.label = label;
-  this.description = description;
-  if (icon) this.icon = icon;
-  this.hidden = hidden;
+  this.name = name
+  this.label = label
+  this.description = description
+  if (icon) this.icon = icon
+  this.hidden = hidden
   this.props = {
     parameterGroups: [],
-    parameters: [],
-  };
+    parameters: []
+  }
 }
 
 WidgetDefinition.prototype = {
   paramGroup(group, params, advanced) {
-    this.props.parameterGroups.push(group);
+    this.props.parameterGroups.push(group)
     if (params) {
       this.props.parameters.push(
         ...params.map(p => (advanced ? p.g(group.name).a() : p.g(group.name)))
-      );
+      )
     }
-    return this;
+    return this
   },
   params(p) {
-    this.props.parameters.push(...p);
-    return this;
-  },
-};
+    this.props.parameters.push(...p)
+    return this
+  }
+}

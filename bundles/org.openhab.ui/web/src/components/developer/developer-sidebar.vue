@@ -781,7 +781,7 @@
     overflow-x hidden
 .md .developer-sidebar-content
   margin-top 0
-.dark
+.theme-dark
   .developer-sidebar
     &.page
       background #232323 !important
@@ -799,6 +799,11 @@ import RuleStatus from '@/components/rule/rule-status-mixin';
 import ThingStatus from '@/components/thing/thing-status-mixin';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
+
+import { useDeveloperStore } from '@/js/stores/developer';
+import { mapState } from 'pinia';
+
+const developerStore = useDeveloperStore();
 
 export default {
   mixins: [RuleStatus, ThingStatus],
@@ -836,17 +841,18 @@ export default {
         transformations: [],
         persistenceConfigs: [],
       },
-      pinnedObjects: f7.data.pinnedObjects || {
-        // TODO
-        items: [],
-        things: [],
-        rules: [],
-        scenes: [],
-        scripts: [],
-        pages: [],
-        widgets: [],
-        transformations: [],
-        persistenceConfigs: [],
+      pinnedObjects: {
+        ...mapState(developerStore, [
+          'pinnedItems',
+          'pinnedThings',
+          'pinnedRules',
+          'pinnedScenes',
+          'pinnedScripts',
+          'pinnedPages',
+          'pinnedWidgets',
+          'pinnedTransformations',
+          'pinnedPersistenceConfigs',
+        ]),
       },
       sseEvents: [],
       openedItem: null,
@@ -917,7 +923,6 @@ export default {
   beforeUnmount() {
     this.stopEventSource();
     if (this.addThingAutocomplete) this.addThingAutocomplete.destroy();
-    f7.data.pinnedObjects = this.pinnedObjects;
   },
   methods: {
     addItemsFromModel(value) {

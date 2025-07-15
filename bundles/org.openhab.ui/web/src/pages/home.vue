@@ -12,6 +12,7 @@
       :large="!simpleNavbar"
       :large-transparent="!simpleNavbar"
       class="home-nav disable-user-select"
+      ref="navbar"
     >
       <f7-nav-left>
         <f7-link
@@ -211,6 +212,7 @@ import OverviewTab from './home/overview-tab.vue';
 import ModelTab from './home/model-tab.vue';
 import { f7, theme } from 'framework7-vue';
 import { utils } from 'framework7';
+import { mapStores } from 'pinia';
 
 import HomeCards from './home/homecards-mixin';
 import { themeOptionsStore } from '@/js/stores/theme-options';
@@ -236,7 +238,6 @@ export default {
       showExitToApp: false,
       currentTab: this.initialTab || 'overview',
       overviewPageKey: utils.id(),
-      themeOptions: themeOptionsStore(),
     };
   },
   computed: {
@@ -249,7 +250,7 @@ export default {
       };
     },
     simpleNavbar() {
-      const homeNavbar = this.themeOptions.homeNavbar;
+      const homeNavbar = this.themeOptionsStore.homeNavbar;
       if (homeNavbar !== 'default') return homeNavbar === 'simple';
       if (this.$device.desktop) {
         return this.homePageComponent?.config?.simpleNavbarDesktopDefault === true;
@@ -258,7 +259,7 @@ export default {
       }
     },
     standardBackground() {
-      const homeBackground = this.themeOptions.homeBackground;
+      const homeBackground = this.themeOptionsStore.homeBackground;
       if (homeBackground !== 'default') return homeBackground === 'standard';
       if (this.$device.desktop) {
         return this.homePageComponent?.config?.standardBackgroundDesktopDefault === true;
@@ -311,6 +312,7 @@ export default {
           return this.$t('home.overview.title');
       }
     },
+    ...mapStores(themeOptionsStore),
   },
   watch: {
     ready(val, oldVal) {

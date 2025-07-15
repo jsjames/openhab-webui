@@ -254,7 +254,7 @@
           external
           :href="`${$store.state.websiteUrl}/link/thing`"
           target="_blank"
-          t="'home.overview.button.documentation'"
+          :text="$t('home.overview.button.documentation')"
         />
       </f7-row>
     </f7-block>
@@ -291,9 +291,10 @@ import FileDefinition from '@/pages/settings/file-definition-mixin';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
-import { useUIOptionsStore } from '../../../js/stores/ui-options';
+import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
+import { use } from 'marked';
 
-const uiOptionsStore = useUIOptionsStore();
+const lastSearchQueryStore = useLastSearchQueryStore();
 
 export default {
   mixins: [ThingStatus, FileDefinition],
@@ -413,13 +414,13 @@ export default {
     },
     onPageBeforeOut() {
       this.stopEventSource();
-      uiOptionsStore.lastThingsSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+      lastSearchQueryStore.lastThingsSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load() {
       if (this.loading) return;
       this.loading = true;
 
-      if (this.initSeachbar) uiOptionsStore.lastThingsSearchQuery = this.$refs.searchbar?.query;
+      if (this.initSeachbar) lastSearchQueryStore.lastThingsSearchQuery = this.$refs.searchbar?.query;
       this.initSeachbar = false;
 
       if (this.searchFor) {
@@ -438,7 +439,7 @@ export default {
             this.$refs.searchbar.$el.focus();
           }
           this.$refs.searchbar?.search(
-            this.searchFor || uiOptionsStore.lastThingsSearchQuery || ''
+            this.searchFor || lastSearchQueryStore.lastThingsSearchQuery || ''
           );
         });
         if (!this.eventSource) this.startEventSource();

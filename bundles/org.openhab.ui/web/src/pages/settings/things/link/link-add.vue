@@ -216,7 +216,7 @@ export default {
     ItemPicker,
     ThingPicker,
     Item,
-    ChannelList,
+    // ChannelList,
     ItemForm,
   },
   props: {

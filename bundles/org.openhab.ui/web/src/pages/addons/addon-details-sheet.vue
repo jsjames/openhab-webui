@@ -10,9 +10,7 @@
     <div class="sheet-modal-swipe-step">
       <div v-if="!noDetails" class="swipe-handler" @click="toggleSwipeStep" />
       <f7-block-title
-        ><strong
-          ><big>{{ addon.label }}</big></strong
-        ></f7-block-title
+        ><strong>{{ addon.label }}</strong></f7-block-title
       >
       <f7-block v-if="state === 'UNINSTALLED'">
         <div v-if="addon.verifiedAuthor" class="text-color-green display-flex align-items-center">

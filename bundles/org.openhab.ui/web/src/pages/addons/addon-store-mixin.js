@@ -1,9 +1,9 @@
-import AddonDetailsSheet from './addon-details-sheet.vue';
-import { f7 } from 'framework7-vue';
+import AddonDetailsSheet from './addon-details-sheet.vue'
+import { f7 } from 'framework7-vue'
 
 export default {
   components: {
-    AddonDetailsSheet,
+    AddonDetailsSheet
   },
   data() {
     return {
@@ -15,85 +15,85 @@ export default {
       initSearchbar: false,
       addonPopupOpened: false,
       currentlyInstalling: [],
-      currentlyUninstalling: [],
-    };
+      currentlyUninstalling: []
+    }
   },
   methods: {
     openAddonPopup(addonId, serviceId, addon) {
-      this.currentAddonId = addonId;
-      this.currentServiceId = serviceId;
-      if (addon) this.currentAddon = addon;
-      this.addonPopupOpened = true;
+      this.currentAddonId = addonId
+      this.currentServiceId = serviceId
+      if (addon) this.currentAddon = addon
+      this.addonPopupOpened = true
     },
     installAddon(addon) {
-      this.addonPopupOpened = false;
-      this.currentlyInstalling.push(addon.uid);
-      if (this.currentAddon) this.currentAddon.pending = 'INSTALL';
+      this.addonPopupOpened = false
+      this.currentlyInstalling.push(addon.uid)
+      if (this.currentAddon) this.currentAddon.pending = 'INSTALL'
     },
     uninstallAddon(addon) {
-      this.addonPopupOpened = false;
-      this.currentlyUninstalling.push(addon.uid);
-      if (this.currentAddon) this.currentAddon.pending = 'UNINSTALL';
+      this.addonPopupOpened = false
+      this.currentlyUninstalling.push(addon.uid)
+      if (this.currentAddon) this.currentAddon.pending = 'UNINSTALL'
     },
     installableAddon(addon) {
       return (
         addon &&
         (addon.contentType === 'application/vnd.openhab.bundle' ||
           addon.contentType.indexOf('application/vnd.openhab.feature') === 0)
-      );
+      )
     },
     isInstalling(addon) {
-      return this.currentlyInstalling.indexOf(addon.uid) >= 0;
+      return this.currentlyInstalling.indexOf(addon.uid) >= 0
     },
     isUninstalling(addon) {
-      return this.currentlyUninstalling.indexOf(addon.uid) >= 0;
+      return this.currentlyUninstalling.indexOf(addon.uid) >= 0
     },
     isPending(addon) {
-      return this.isInstalling(addon) || this.isUninstalling(addon);
+      return this.isInstalling(addon) || this.isUninstalling(addon)
     },
     resetPending() {
-      this.currentlyInstalling = [];
-      this.currentlyUninstalling = [];
-      this.currentAddon = null;
-      this.currentAddonId = null;
-      this.currentServiceId = null;
+      this.currentlyInstalling = []
+      this.currentlyUninstalling = []
+      this.currentAddon = null
+      this.currentAddonId = null
+      this.currentServiceId = null
     },
     startEventSource() {
       this.eventSource = this.$oh.sse.connect(
         '/rest/events?topics=openhab/addons/*/*',
         null,
         event => {
-          const topicParts = event.topic.split('/');
+          const topicParts = event.topic.split('/')
           switch (topicParts[3]) {
             case 'installed':
             case 'uninstalled':
-              this.stopEventSource();
-              this.load();
-              f7.emit('addon-change', null);
-              break;
+              this.stopEventSource()
+              this.load()
+              f7.emit('addon-change', null)
+              break
             case 'failed':
               f7.toast
                 .create({
                   text: `Installation of add-on ${topicParts[2]} failed`,
                   closeButton: true,
-                  destroyOnClose: true,
+                  destroyOnClose: true
                 })
-                .open();
-              this.stopEventSource();
-              this.load();
-              break;
+                .open()
+              this.stopEventSource()
+              this.load()
+              break
           }
         },
         () => {
           // in case of error, maybe the SSE connection was closed by the add-ons change itself - try reloading to refresh
-          this.stopEventSource();
-          this.load();
+          this.stopEventSource()
+          this.load()
         }
-      );
+      )
     },
     stopEventSource() {
-      this.$oh.sse.close(this.eventSource);
-      this.eventSource = null;
-    },
-  },
-};
+      this.$oh.sse.close(this.eventSource)
+      this.eventSource = null
+    }
+  }
+}

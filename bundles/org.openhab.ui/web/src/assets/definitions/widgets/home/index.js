@@ -1,5 +1,5 @@
-import { WidgetDefinition, pt, pi, pg, pb, pn, po } from '../helpers.js';
-import { actionGroup, actionParams } from '../actions.js';
+import { WidgetDefinition, pt, pi, pg, pb, pn, po } from '../helpers.js'
+import { actionGroup, actionParams } from '../actions.js'
 
 export const OhHomePageDefinition = () =>
   new WidgetDefinition('oh-home-page', 'Home page').params([
@@ -30,7 +30,7 @@ export const OhHomePageDefinition = () =>
     )
       .o([
         { value: 'role:administrator', label: 'Administrators' },
-        { value: 'role:user', label: 'Users' },
+        { value: 'role:user', label: 'Users' }
       ])
       .m(),
     pt(
@@ -40,39 +40,39 @@ export const OhHomePageDefinition = () =>
     )
       .o([
         { value: 'role:administrator', label: 'Administrators' },
-        { value: 'role:user', label: 'Users' },
+        { value: 'role:user', label: 'Users' }
       ])
       .m(),
     pt('hiddenModelTabs', 'Hidden Model Tabs', 'Hide individual model exploring tabs from view')
       .o([
         { value: 'locations', label: 'Locations' },
         { value: 'equipment', label: 'Equipment' },
-        { value: 'properties', label: 'Properties' },
+        { value: 'properties', label: 'Properties' }
       ])
-      .m(),
-  ]);
+      .m()
+  ])
 
 const EquipmentListParameterGroup = () =>
-  pg('equipmentList', 'Equipment List', 'General settings for equipment lists in this tab');
+  pg('equipmentList', 'Equipment List', 'General settings for equipment lists in this tab')
 
 const EquipmentListParameters = () => [
   pt('equipmentNesting', 'Display sub-equipment levels').o([
     { value: 'nested', label: 'Nested pages for sub-equipment (default)' },
-    { value: 'accordion', label: 'Equipment items grouped as accordion cards' },
+    { value: 'accordion', label: 'Equipment items grouped as accordion cards' }
   ]),
   pb(
     'equipmentPromoteSingle',
     'Promote single Points',
     "Flatten equipment which only have a single Point (only display the Point as the Equipment's representation"
   ).v((value, configuration, configDescription, parameters) => {
-    return configuration.equipmentNesting === 'accordion';
+    return configuration.equipmentNesting === 'accordion'
   }),
   pb(
     'equipmentPromoteMain',
     'Promote the main Point of an Equipment',
     "Promote the main Point item of an Equipment (widgetOrder equal to 0) as the Equipment's representation"
   ).v((value, configuration, configDescription, parameters) => {
-    return configuration.equipmentNesting === 'accordion';
+    return configuration.equipmentNesting === 'accordion'
   }),
   pt(
     'equipmentPromotedLabel',
@@ -82,7 +82,7 @@ const EquipmentListParameters = () => [
     .o([
       { value: 'equipment', label: 'Label of the equipment' },
       { value: 'separator', label: 'Separator character (>)' },
-      { value: 'item', label: 'Label of the item within the equipment' },
+      { value: 'item', label: 'Label of the item within the equipment' }
     ])
     .m()
     .v((value, configuration, configDescription, parameters) => {
@@ -90,12 +90,12 @@ const EquipmentListParameters = () => [
         (configuration.equipmentPromoteSingle === true ||
           configuration.equipmentPromoteMain === true) &&
         configuration.equipmentNesting === 'accordion'
-      );
-    }),
-];
+      )
+    })
+]
 
 const ItemSubtitleParameterGroup = () =>
-  pg('label', 'Item context label', 'Settings for context label of items displayed in this tab');
+  pg('label', 'Item context label', 'Settings for context label of items displayed in this tab')
 
 const ItemSubtitleParameters = () => [
   pt(
@@ -106,30 +106,30 @@ const ItemSubtitleParameters = () => [
     { value: 'path', label: 'Path in model (default)' },
     { value: 'parent', label: 'Label of parent in model' },
     { value: 'itemName', label: 'Item name' },
-    { value: 'none', label: 'None' },
+    { value: 'none', label: 'None' }
   ]),
   pn(
     'contextLabelPathTrimStart',
     'Trim start of path',
     'Number of parents of the item to trim from the start of the path'
   ).v((value, configuration, configDescription, parameters) => {
-    return configuration.contextLabelSource === 'path';
+    return configuration.contextLabelSource === 'path'
   }),
   pn(
     'contextLabelPathTrimEnd',
     'Trim end of path',
     'Number of parents of the item to trim from the end of the path'
   ).v((value, configuration, configDescription, parameters) => {
-    return configuration.contextLabelSource === 'path';
-  }),
-];
+    return configuration.contextLabelSource === 'path'
+  })
+]
 
 export const OhLocationsTabParameters = () =>
   new WidgetDefinition(
     'oh-locations-tab',
     'Locations Tab',
     'The tab showing all locations of the installation'
-  ).paramGroup(EquipmentListParameterGroup(), EquipmentListParameters());
+  ).paramGroup(EquipmentListParameterGroup(), EquipmentListParameters())
 
 export const OhEquipmentTabParameters = () =>
   new WidgetDefinition(
@@ -138,16 +138,16 @@ export const OhEquipmentTabParameters = () =>
     'The tab showing all equipment of the installation, by category'
   )
     .paramGroup(EquipmentListParameterGroup(), EquipmentListParameters())
-    .paramGroup(ItemSubtitleParameterGroup(), ItemSubtitleParameters());
+    .paramGroup(ItemSubtitleParameterGroup(), ItemSubtitleParameters())
 
 export const OhPropertiesTabParameters = () =>
   new WidgetDefinition(
     'oh-properties-tab',
     'Properties Tab',
     'The tab showing all properties of the installation, by category'
-  ).paramGroup(ItemSubtitleParameterGroup(), ItemSubtitleParameters());
+  ).paramGroup(ItemSubtitleParameterGroup(), ItemSubtitleParameters())
 
-const ModelCardParameterGroup = () => pg('card', 'Model Card', 'General settings for this card');
+const ModelCardParameterGroup = () => pg('card', 'Model Card', 'General settings for this card')
 
 const ModelCardParameters = () => [
   pt('title', 'Title', 'Title of the card'),
@@ -170,11 +170,11 @@ const ModelCardParameters = () => [
     { value: 'lime', label: 'Lime' },
     { value: 'deeporange', label: 'Deep Orange' },
     { value: 'gray', label: 'Gray' },
-    { value: 'black', label: 'Black' },
+    { value: 'black', label: 'Black' }
   ]),
   pt('backgroundImage', 'Background Image', 'URL of an image to display in the background'),
-  pb('invertText', 'Invert Text', 'Display the text in black (for light backgrounds)'),
-];
+  pb('invertText', 'Invert Text', 'Display the text in black (for light backgrounds)')
+]
 
 export const OhLocationCardParameters = () =>
   new WidgetDefinition(
@@ -213,12 +213,12 @@ export const OhLocationCardParameters = () =>
           { value: 'temperature', label: 'Average Temperature (+ Setpoint)' },
           { value: 'humidity', label: 'Average Humidity' },
           { value: 'co2', label: 'Average CO2' },
-          { value: 'luminance', label: 'Average Luminance' },
+          { value: 'luminance', label: 'Average Luminance' }
         ],
         true,
         true
-      ),
-    ]);
+      )
+    ])
 
 export const OhEquipmentCardParameters = () =>
   new WidgetDefinition(
@@ -228,9 +228,9 @@ export const OhEquipmentCardParameters = () =>
   ).paramGroup(
     ModelCardParameterGroup(),
     [
-      pt('item', 'Item', 'Equipment class to display').o([]), // inject semantic equipment tags at runtime
+      pt('item', 'Item', 'Equipment class to display').o([]) // inject semantic equipment tags at runtime
     ].concat(ModelCardParameters())
-  );
+  )
 
 export const OhPropertyCardParameters = () =>
   new WidgetDefinition(
@@ -240,6 +240,6 @@ export const OhPropertyCardParameters = () =>
   ).paramGroup(
     ModelCardParameterGroup(),
     [
-      pt('item', 'Item', 'Property to display').o([]), // inject semantic property tags at runtime
+      pt('item', 'Item', 'Property to display').o([]) // inject semantic property tags at runtime
     ].concat(ModelCardParameters())
-  );
+  )

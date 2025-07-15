@@ -1,6 +1,6 @@
 <template>
   <f7-block class="theme-switcher">
-    <f7-block-title class="padding-left" t="'about.theme'" />
+    <f7-block-title class="padding-left">{{  $t('about.theme') }}</f7-block-title>
     <f7-row>
       <f7-col width="25" class="theme-picker auto" @click="switchTheme('auto')">
         <span class="text-color-gray"> {{ $t('about.theme.auto') }}</span>
@@ -19,22 +19,22 @@
         <f7-checkbox checked disabled v-if="theme === 'aurora'" />
       </f7-col>
     </f7-row>
-    <f7-block-title t="'about.darkMode'" />
+    <f7-block-title>{{  $t('about.darkMode') }}</f7-block-title>
     <f7-row>
       <f7-col width="33" class="theme-picker auto" @click="setThemeDark('auto')">
-        <span class="text-color-gray" t="'about.darkMode.auto'" />
+        <span class="text-color-gray">{{ $t('about.darkMode.auto') }}</span>
         <f7-checkbox checked disabled v-if="darkMode === 'auto'" />
       </f7-col>
       <f7-col width="33" class="bg-color-white theme-picker" @click="setThemeDark('light')">
-        <span class="text-color-gray" t="'about.darkMode.light'" />
+        <span class="text-color-gray">{{ $t('about.darkMode.light') }}</span>
         <f7-checkbox checked disabled v-if="darkMode === 'light'" />
       </f7-col>
       <f7-col width="33" class="bg-color-black theme-picker" @click="setThemeDark('dark')">
-        <span class="text-color-gray" t="'about.darkMode.dark'" />
+        <span class="text-color-gray">{{ $t('about.darkMode.dark') }}</span>
         <f7-checkbox checked disabled v-if="darkMode === 'dark'" />
       </f7-col>
     </f7-row>
-    <f7-block-title t="'about.navigationBarsStyle'" />
+    <f7-block-title>{{  $t('about.navigationBarsStyle') }}</f7-block-title>
     <f7-row>
       <f7-col
         width="50"
@@ -56,89 +56,58 @@
 
     <f7-row>
       <f7-col>
-        <f7-block-title t="'about.miscellaneous'" />
+        <f7-block-title>{{  $t('about.miscellaneous') }}</f7-block-title>
         <f7-list>
           <f7-list-item>
-            <span t="'about.miscellaneous.home.navbar'" />
+            <span>{{ $t('about.miscellaneous.home.navbar') }}</span>
             <f7-segmented class="home-navbar-selection">
               <f7-button
+                v-for="navbarstyle in ['default', 'simple', 'large']"
                 outline
                 small
-                :active="homePageNavbarStyle === 'default'"
-                @click="setHomePageNavbarStyle('default')"
-              >
-                {{ $t('about.miscellaneous.home.navbar.default') }}
-              </f7-button>
-              <f7-button
-                outline
-                small
-                :active="homePageNavbarStyle === 'simple'"
-                @click="setHomePageNavbarStyle('simple')"
-              >
-                {{ $t('about.miscellaneous.home.navbar.simple') }}
-              </f7-button>
-              <f7-button
-                outline
-                small
-                :active="homePageNavbarStyle === 'large'"
-                @click="setHomePageNavbarStyle('large')"
-              >
-                {{ $t('about.miscellaneous.home.navbar.large') }}
-              </f7-button>
+                :active="homePageNavbarStyle === navbarstyle"
+                :text="$t('about.miscellaneous.home.navbar.' + navbarstyle)"
+                :key="navbarstyle"
+              />
             </f7-segmented>
           </f7-list-item>
           <f7-list-item>
-            <span t="'about.miscellaneous.home.background'" />
+            <span>{{ $t('about.miscellaneous.home.background') }}</span>
             <f7-segmented class="home-navbar-selection">
               <f7-button
+                v-for="background in ['default', 'standard', 'white']"
                 outline
                 small
-                :active="homePageBackground === 'default'"
-                @click="setHomePageBackground('default')"
-              >
-                {{ $t('about.miscellaneous.home.background.default') }}
-              </f7-button>
-              <f7-button
-                outline
-                small
-                :active="homePageBackground === 'standard'"
-                @click="setHomePageBackground('standard')"
-              >
-                {{ $t('about.miscellaneous.home.background.standard') }}
-              </f7-button>
-              <f7-button
-                outline
-                small
-                :active="homePageBackground === 'white'"
-                @click="setHomePageBackground('white')"
-              >
-                {{ $t('about.miscellaneous.home.background.white') }}
-              </f7-button>
+                :active="homePageBackground === background"
+                @click="setHomePageBackground(background)"
+                :text="$t('about.miscellaneous.home.background.' + background)"
+                :key="background"
+              />
             </f7-segmented>
           </f7-list-item>
           <f7-list-item v-show="$store.getters.apiEndpoint('habot')">
-            <span t="'about.miscellaneous.home.hideChatInput'" />
+            <span>{{ $t('about.miscellaneous.home.hideChatInput') }}</span>
             <f7-toggle
               :checked="hideChatInput == 'true' ? true : null"
               @toggle:change="setHideChatInput"
             />
           </f7-list-item>
           <f7-list-item>
-            <span t="'about.miscellaneous.home.disableCardExpansionAnimation'" />
+            <span>{{ $t('about.miscellaneous.home.disableCardExpansionAnimation') }}</span>
             <f7-toggle
               :checked="expandableCardsAnimation === 'disabled' ? true : null"
               @toggle:change="setExpandableCardAnimation"
             />
           </f7-list-item>
           <f7-list-item>
-            <span t="'about.miscellaneous.theme.disablePageTransition'" />
+            <span>{{ $t('about.miscellaneous.theme.disablePageTransition') }}</span>
             <f7-toggle
               :checked="pageTransitionAnimation === 'disabled' ? true : null"
               @toggle:change="setPageTransitionAnimation"
             />
           </f7-list-item>
           <f7-list-item>
-            <span t="'about.miscellaneous.webaudio.enable'" />
+            <span>{{ $t('about.miscellaneous.webaudio.enable') }}</span>
             <f7-toggle
               :checked="webAudio === 'enabled' ? true : null"
               @toggle:change="setWebAudio"
@@ -330,7 +299,7 @@ export default {
   background #f7f7f8
   border-color rgba(0,0,0,0.1)
 
-.dark .nav-bars-picker-empty .demo-navbar
+.theme-dark .nav-bars-picker-empty .demo-navbar
   background #1b1b1b
   border-color #282829
 

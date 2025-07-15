@@ -1,4 +1,4 @@
-import { pi, pb, pn, pd, pt, po } from '../helpers.js';
+import { pi, pb, pn, pd, pt, po } from '../helpers.js'
 
 export default () => [
   // Functionality
@@ -61,7 +61,7 @@ export default () => [
     { value: 'quarter-top-right', label: 'quarter top right' },
     { value: 'quarter-bottom-left', label: 'quarter bottom left' },
     { value: 'quarter-bottom-right', label: 'quarter bottom right' },
-    { value: 'pie', label: 'pie' },
+    { value: 'pie', label: 'pie' }
   ]),
   po(
     'lineCap',
@@ -69,7 +69,7 @@ export default () => [
     'Sets the shape of the end of the path; dotted path and line cap cannot be used together.',
     [
       { value: 'square', label: 'square' },
-      { value: 'round', label: 'round' },
+      { value: 'round', label: 'round' }
     ]
   ),
   pt(
@@ -82,7 +82,7 @@ export default () => [
   po('handleShape', 'Handle Shape', 'Sets the shape of the slider handle', [
     { value: 'square', label: 'square' },
     { value: 'round', label: 'round' },
-    { value: 'dot', label: 'dot' },
+    { value: 'dot', label: 'dot' }
   ]),
   pt(
     'borderColor',
@@ -91,5 +91,5 @@ export default () => [
   ),
   pt('pathColor', 'Path Color', 'Sets the path color of the slider (HTML value)'),
   pt('rangeColor', 'Range Color', 'Sets the range color of the slider (HTML value)'),
-  pt('tooltipColor', 'Tooltip Color', 'Sets the tooltip color of the slider (HTML value)'),
-];
+  pt('tooltipColor', 'Tooltip Color', 'Sets the tooltip color of the slider (HTML value)')
+]
