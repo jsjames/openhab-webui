@@ -145,7 +145,7 @@ export default {
                   closeTimeout: 2000,
                 })
                 .open();
-              this.$delete(this.enrichedLinks, this.enrichedLinks.indexOf(link));
+              delete this.enrichedLinks[this.enrichedLinks.indexOf(link)];
             })
             .catch(err => {
               f7.toast

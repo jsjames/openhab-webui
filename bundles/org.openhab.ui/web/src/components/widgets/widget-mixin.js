@@ -1,6 +1,6 @@
 // Import into widget components as a mixin!
 
-// import scope from 'scope-css'
+import scope from '@/js/scope-css'
 import WidgetExpressionMixin from '@/components/widgets/widget-expression-mixin'
 import { utils } from 'framework7'
 
@@ -94,8 +94,7 @@ export default {
 
       let style = document.createElement('style')
       style.id = this.cssUid
-      // style.innerHTML = scope(this.context.component.config.stylesheet, '.' + this.cssUid)
-      style.innerHTML = this.context.component.config.stylesheet
+      style.innerHTML = scope(this.context.component.config.stylesheet, '.' + this.cssUid)
       document.head.appendChild(style)
     }
   },

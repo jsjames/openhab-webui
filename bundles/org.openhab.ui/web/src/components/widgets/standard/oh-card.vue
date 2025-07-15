@@ -1,8 +1,8 @@
 <template>
   <f7-card
-    :no-border="config.noBorder"
-    :no-shadow="config.noShadow"
-    :outline="config.outline"
+    :no-border="config.noBorder ? true : null"
+    :no-shadow="config.noShadow ? true : null"
+    :outline="config.outline ? true : null"
     :style="config.style"
     :class="['oh-card', ...(Array.isArray(config.class) ? config.class : [])]"
   >

@@ -2,7 +2,7 @@
   <ul class="item-picker-container">
     <f7-list-item
       :title="title"
-      :disabled="disabled"
+      :disabled="disabled ? true : null"
       smart-select
       :smart-select-params="smartSelectParams"
       :textColor="textColor"
@@ -34,7 +34,7 @@
         :icon-aurora="aurora"
         :icon-ios="ios"
         :icon-md="md"
-        @click.native="pickFromModel"
+        @click="pickFromModel"
       />
       <f7-icon
         v-else-if="!hideIcon"
@@ -96,6 +96,7 @@ export default {
     'textColor',
     'hideIcon',
   ],
+  emits: ['input', 'item-selected'],
   data() {
     return {
       ready: false,

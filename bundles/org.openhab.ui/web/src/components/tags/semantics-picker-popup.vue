@@ -3,9 +3,7 @@
     <f7-page>
       <f7-navbar :title="propertyMode ? 'Semantic Property' : 'Semantic Class'">
         <f7-nav-right>
-          <f7-link @click="onClose">
-            Close
-          </f7-link>
+          <f7-link @click="onClose"> Close </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <f7-subnavbar :inner="false">
@@ -14,10 +12,24 @@
           search-item=".treeview-item"
           search-in=".treeview-item-label"
           :disable-button="!$theme.aurora"
-          @input="showFiltered($event.target.value)" />
+          @input="showFiltered($event.target.value)"
+        />
         <div class="expand-button">
-          <f7-button v-if="!expanded" icon-size="24" tooltip="Expand" icon-f7="rectangle_expand_vertical" @click="toggleExpanded()" />
-          <f7-button v-else color="gray" icon-size="24" tooltip="Collapse" icon-f7="rectangle_compress_vertical" @click="toggleExpanded()" />
+          <f7-button
+            v-if="!expanded"
+            icon-size="24"
+            tooltip="Expand"
+            icon-f7="rectangle_expand_vertical"
+            @click="toggleExpanded()"
+          />
+          <f7-button
+            v-else
+            color="gray"
+            icon-size="24"
+            tooltip="Collapse"
+            icon-f7="rectangle_compress_vertical"
+            @click="toggleExpanded()"
+          />
         </div>
       </f7-subnavbar>
       <f7-toolbar bottom class="toolbar-details">
@@ -29,15 +41,30 @@
           </div>
           <f7-checkbox :checked="showNames" @change="toggleShowNames" />
           <label @click="toggleShowNames" class="advanced-label">Show tag names</label>
-          <f7-checkbox style="margin-left: 5px" :checked="showSynonyms" @change="toggleShowSynonyms" />
+          <f7-checkbox
+            style="margin-left: 5px"
+            :checked="showSynonyms"
+            @change="toggleShowSynonyms"
+          />
           <label @click="toggleShowSynonyms" class="advanced-label">Show synonyms</label>
         </div>
         <span />
       </f7-toolbar>
-      <semantics-treeview class="semantic-classes" :semanticTags="semanticTags" :expandedTags="expandedTags"
-                          @selected="tagSelected" :showNames="showNames" :showSynonyms="showSynonyms"
-                          :selectedTag="selectedTag" :selectedClass="selectedClass" :hideNone="hideNone"
-                          picker="true" :propertyMode="!!propertyMode" :classMode="!!classMode" :limitToClass="!!limitToClass" />
+      <semantics-treeview
+        class="semantic-classes"
+        :semanticTags="semanticTags"
+        :expandedTags="expandedTags"
+        @selected="tagSelected"
+        :showNames="showNames"
+        :showSynonyms="showSynonyms"
+        :selectedTag="selectedTag"
+        :selectedClass="selectedClass"
+        :hideNone="hideNone"
+        picker="true"
+        :propertyMode="!!propertyMode"
+        :classMode="!!classMode"
+        :limitToClass="!!limitToClass"
+      />
     </f7-page>
   </f7-popup>
 </template>
@@ -59,6 +86,7 @@ export default {
     SemanticsTreeview
   },
   props: ['item', 'propertyMode', 'classMode', 'hideNone', 'semanticClass', 'semanticProperty'],
+  emits: ['close', 'changed'],
   data () {
     return {
       semanticClasses: this.$store.getters.semanticClasses,
@@ -113,14 +141,14 @@ export default {
     toggleExpanded () {
       this.expanded = !this.expanded
       this.semanticTags.forEach((t) => {
-        this.$set(this.expandedTags, t.uid, this.expanded)
+        this.expandedTags[t.uid] = this.expanded
       })
       this.expandToSelection()
     },
     expandToSelection () {
       this.selectedTag?.parent?.split('_').reduce((prev, p) => {
         const parent = (prev ? (prev + '_') : '') + p
-        this.$set(this.expandedTags, parent, true)
+        this.expandedTags[parent] = true;
         return parent
       }, '')
     },
@@ -151,7 +179,7 @@ export default {
         if (this.item.tags) {
           this.item.tags.push(tag.name)
         } else {
-          this.$set(this.item, 'tags', [tag.name])
+          this.item.tags = [tag.name]
         }
       }
       // If changing tag to 'None', a 'Location' tag or an 'Equipment' tag, remove 'Property' tags
@@ -168,7 +196,7 @@ export default {
       this.$emit('changed')
     },
     onClose () {
-      this.$f7.popup.close()
+      f7.popup.close()
       this.$emit('close')
     }
   }

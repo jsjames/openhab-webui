@@ -139,6 +139,7 @@ import YAML from 'yaml';
 import { utils } from 'framework7';
 import { theme } from 'framework7-vue';
 import { defineAsyncComponent } from 'vue';
+import { nextTick } from 'vue';
 
 import ConfigSheet from '@/components/config/config-sheet.vue';
 import DirtyMixin from '@/pages/settings/dirty-mixin';

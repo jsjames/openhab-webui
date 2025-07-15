@@ -140,7 +140,7 @@
           placeholder="temperature, firstfloor..."
           :value="itemCategory"
           @input="itemCategory = $event.target.value"
-          :disabled="!editable"
+          :disabled="!editable ? true : null"
           :clear-button="editable"
         >
           <template #root-end>

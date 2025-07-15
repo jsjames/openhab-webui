@@ -897,7 +897,7 @@ export default {
       f7.swipeout.delete(swipeoutElement, () => {
         console.debug(`Removing ${module}:`);
         console.debug(key);
-        this.$delete(this.persistence[module], key);
+        delete this.persistence[module][key];
         this.checkDirty();
       });
     },

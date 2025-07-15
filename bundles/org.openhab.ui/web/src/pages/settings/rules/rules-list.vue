@@ -422,11 +422,6 @@ export default {
         ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))'
         : 'Search';
     },
-    searchPlaceholder() {
-      return window.innerWidth >= 1280
-        ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))'
-        : 'Search';
-    },
     enablableItems() {
       if (!this.selectedItems || !this.selectedItems.length) return 0;
       return this.selectedItems.filter(i => this.isRuleStatusDisabled(this.ruleStatuses[i])).length;
@@ -700,7 +695,7 @@ export default {
     deleteSelected() {
       const vm = this;
 
-      this.$f7.dialog.confirm(
+      f7.dialog.confirm(
         `Delete ${this.selectedDeletableItems.length} rule${this.selectedDeletableItems.length === 1 ? '' : 's'}?`,
         'Delete Rules',
         () => {
@@ -709,14 +704,14 @@ export default {
       );
     },
     doDeleteSelected() {
-      let dialog = this.$f7.dialog.progress('Deleting Rules...');
+      let dialog = f7.dialog.progress('Deleting Rules...');
 
       const promises = this.selectedDeletableItems.map(i =>
         this.$oh.api.delete('/rest/rules/' + i)
       );
       Promise.all(promises)
         .then(data => {
-          this.$f7.toast
+          f7.toast
             .create({
               text: (promises.length === 1 ? 'Rule' : 'Rules') + ' deleted',
               destroyOnClose: true,
@@ -732,12 +727,12 @@ export default {
           dialog.close();
           this.load();
           console.error(err);
-          this.$f7.dialog.alert('An error occurred while deleting: ' + err);
+          f7.dialog.alert('An error occurred while deleting: ' + err);
         });
     },
     doDisableEnableSelected(enable) {
       if (!this.selectedItems) return;
-      let dialog = this.$f7.dialog.progress('Please Wait...');
+      let dialog = f7.dialog.progress('Please Wait...');
 
       const items = this.selectedItems.filter(
         i => Boolean(this.isRuleStatusDisabled(this.ruleStatuses[i])) === Boolean(enable)
@@ -747,7 +742,7 @@ export default {
       );
       Promise.all(promises)
         .then(data => {
-          this.$f7.toast
+          f7.toast
             .create({
               text:
                 (promises.length === 1 ? 'Rule ' : 'Rules ') + (enable ? 'enabled' : 'disabled'),
@@ -763,7 +758,7 @@ export default {
           dialog.close();
           this.load();
           console.error(err);
-          this.$f7.dialog.alert('An error occurred while enabling/disabling: ' + err);
+          f7.dialog.alert('An error occurred while enabling/disabling: ' + err);
         });
     },
     regenerateSelected() {
@@ -787,7 +782,7 @@ export default {
             );
           })
           .catch(err => {
-            this.$f7.dialog.alert(
+            f7.dialog.alert(
               'An error occurred when retrieving rule "' + rules[0].uid + '": ' + err
             );
           });
@@ -797,7 +792,7 @@ export default {
         );
         Promise.all(promises)
           .then(() => {
-            this.$f7.toast
+            f7.toast
               .create({
                 text: (rules.length === 1 ? 'Rule' : 'Rules') + ' regenerated from template',
                 destroyOnClose: true,
@@ -806,7 +801,7 @@ export default {
               .open();
           })
           .catch(err => {
-            this.$f7.dialog.alert(
+            f7.dialog.alert(
               'An error occurred when trying to regenerate rule(s) from template: ' + err
             );
           });

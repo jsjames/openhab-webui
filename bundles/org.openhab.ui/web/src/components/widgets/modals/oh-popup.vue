@@ -68,6 +68,11 @@ import { defineAsyncComponent } from 'vue';
 
 export default {
   mixins: [modal],
+  props: {
+    uid: String,
+    el: Object,
+    modalConfig: Object
+  },
   components: {
     'empty-state-placeholder': defineAsyncComponent(
       () => import('@/components/empty-state-placeholder.vue')

@@ -170,7 +170,7 @@ export default {
           // deleting the parameter sometimes lead to saves not updating it, so set it explicitely to null
           this.configuration[parameter.name] = null;
         } else {
-          this.$delete(this.configuration, parameter.name);
+          delete this.configuration[parameter.name];
         }
       } else {
         this.configuration[parameter.name] = value;

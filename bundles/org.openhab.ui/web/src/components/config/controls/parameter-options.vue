@@ -79,7 +79,7 @@ export default {
     return {
       inlineList: false,
       smartSelectParams: {
-        view: this.$f7 ? f7.view.main : null,
+        view: f7 ? f7.view.main : null,
       },
     };
   },

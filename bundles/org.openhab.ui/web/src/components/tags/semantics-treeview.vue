@@ -1,14 +1,18 @@
 <template>
   <f7-treeview class="semantics-treeview">
-    <semantics-treeview-item v-for="(childTag, idx) in rootTags"
-                             :key="idx" :tag="childTag"
-                             :semanticTags="semanticTags"
-                             :expandedTags="expandedTags"
-                             :showNames="showNames"
-                             :showSynonyms="showSynonyms"
-                             :canDragDrop="!!canDragDrop"
-                             :picker="!!picker"
-                             @selected="tagSelected" :selectedTag="selectedTag" />
+    <semantics-treeview-item
+      v-for="(childTag, idx) in rootTags"
+      :key="idx"
+      :tag="childTag"
+      :semanticTags="semanticTags"
+      :expandedTags="expandedTags"
+      :showNames="showNames"
+      :showSynonyms="showSynonyms"
+      :canDragDrop="!!canDragDrop"
+      :picker="!!picker"
+      @selected="tagSelected"
+      :selectedTag="selectedTag"
+    />
   </f7-treeview>
 </template>
 
@@ -29,6 +33,7 @@ import SemanticsTreeviewItem from '@/components/tags/treeview-item.vue'
 
 export default {
   props: ['semanticTags', 'expandedTags', 'showNames', 'showSynonyms', 'picker', 'selectedTag', 'selectedClass', 'canDragDrop', 'propertyMode', 'classMode', 'limitToClass', 'hideNone'],
+  emits: ['selected'],
   components: {
     SemanticsTreeviewItem
   },
@@ -59,9 +64,9 @@ export default {
   },
   mounted () {
     if (this.propertyMode) {
-      this.$set(this.expandedTags, 'Property', true)
+      this.expandedTags.Property = true
     } else if (this.classMode && this.selectedClass) {
-      this.$set(this.expandedTags, this.selectedClass, true)
+      this.expandedTags[this.selectedClass] = true
     }
   }
 }

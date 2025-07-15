@@ -41,11 +41,11 @@ export default {
   },
   methods: {
     popupClosed() {
-      f7.emit('scriptEditorClosed');
+      f7.emit('script-editor-closed');
       this.showEditor = false;
     },
     update() {
-      f7.emit('scriptEditorUpdate', this.code);
+      f7.emit('script-editor-update', this.code);
     },
   },
 };

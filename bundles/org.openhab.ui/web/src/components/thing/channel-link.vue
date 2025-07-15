@@ -232,7 +232,7 @@ export default {
                 if (finalChannel) {
                   // replace the channel in-place
                   const idx = self.thing.channels.findIndex(c => c.uid === finalChannel.uid);
-                  self.$set(self.thing.channels, idx, finalChannel);
+                  this.thing.channels[idx] = finalChannel;
                   self.$emit('channel-updated', true);
                 } else {
                   self.$emit('channel-updated', false);

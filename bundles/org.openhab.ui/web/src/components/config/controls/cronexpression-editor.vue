@@ -1013,10 +1013,10 @@ export default {
       return this.cron;
     },
     change() {
-      f7.emit('cronEditorUpdate', this.cron);
+      f7.emit('cron-editor-update', this.cron);
     },
     close() {
-      f7.emit('cronEditorClosed');
+      f7.emit('cron-editor-closed');
     },
     rest(data) {
       for (let i in data) {

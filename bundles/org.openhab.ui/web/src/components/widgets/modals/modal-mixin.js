@@ -12,7 +12,11 @@ export default {
       () => import('@/components/widgets/chart/oh-chart-page.vue')
     )
   },
-  props: ['uid', 'el', 'modalConfig'],
+  props: {
+    uid: String,
+    el: Object,
+    modalConfig: Object
+  },
   data() {
     return {
       currentTab: 0,
@@ -44,17 +48,15 @@ export default {
       return pageComponent.config.style
     },
     page() {
-      return this.uid.indexOf('page:') === 0
-        ? this.$store.getters.page(this.uid.substring(5))
-        : null
+      return this.uid.startsWith('page:') ? this.$store.getters.page(this.uid.substring(5)) : null
     },
     widget() {
-      return this.uid.indexOf('widget:') === 0
+      return this.uid.startsWith('widget:')
         ? this.$store.getters.widget(this.uid.substring(7))
         : null
     },
     standard() {
-      return this.uid.indexOf('oh-') === 0 ? { component: this.uid } : null
+      return this.uid.startsWith('oh-') ? { component: this.uid } : null
     },
     ready() {
       return this.page || this.widget || this.standard

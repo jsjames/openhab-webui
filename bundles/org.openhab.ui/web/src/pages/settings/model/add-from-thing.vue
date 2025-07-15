@@ -283,11 +283,11 @@ export default {
         return;
       }
       if (this.createEquipment && !this.equipmentItem.name) {
-        this.$f7.dialog.alert('Please fill out the details for the new Equipment group');
+        f7.dialog.alert('Please fill out the details for the new Equipment group');
         return;
       }
       if (!this.newPointItems.length && !this.updatedPointItems.length) {
-        this.$f7.dialog.alert('Please check at least one channel');
+        f7.dialog.alert('Please check at least one channel');
         return;
       }
 
@@ -327,7 +327,7 @@ export default {
         }
       });
 
-      let dialog = this.$f7.dialog.progress('Creating the Equipment and Points...');
+      let dialog = f7.dialog.progress('Creating the Equipment and Points...');
       const pointItems = [...this.newPointItems, ...this.updatedPointItems];
       const payload = [
         ...pointItems.map(p => {

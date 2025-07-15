@@ -12,7 +12,7 @@
       v-if="currentSemanticType === 'Point'"
       title="Semantic Property"
       :after="tagWithHierarchy(semanticProperty) || 'None'"
-      :disabled="!editable"
+      :disabled="!editable ? true : null"
       @click="openPopup('property')"
       class="aligned-smart-select"
       :link="editable"
@@ -88,7 +88,7 @@ export default {
       this.$nextTick(() => {
         const popupRef = type === 'class' ? 'classPopup' : 'propertyPopup';
         const popupEl = this.$refs[popupRef]?.$el;
-        if (popupEl) this.$f7.popup.open(popupEl);
+        if (popupEl) f7.popup.open(popupEl);
       });
     },
     closePopup() {

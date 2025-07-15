@@ -12,6 +12,7 @@
     :key="mapKey"
     @update:bounds="ready = true"
     class="oh-plan-page-lmap"
+    @ready="isReady"
     :class="{
       'with-tabbar': context.tab,
       'oh-plan-white-background': config.backgroundColor === 'white',
@@ -210,8 +211,11 @@ export default {
       return 'oh-plan-marker';
     },
     onMarkerUpdate() {},
+    isReady() {
+      this.fitMapBounds();
+    },
     fitMapBounds() {
-      if (this.$refs.map) this.$refs.map.mapObject.fitBounds(this.bounds);
+      if (this.$refs.map) this.$refs.map.leafletObject?.fitBounds(this.bounds);
     },
     refreshMap() {
       this.mapKey = utils.id();

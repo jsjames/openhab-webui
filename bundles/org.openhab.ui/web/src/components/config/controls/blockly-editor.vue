@@ -1440,7 +1440,7 @@ export default {
       definitions.forEach(definition => {
         this.workspace.registerToolboxCategoryCallback(
           'LIBRARY_' + definition.uid,
-          defineLibraryToolboxCategory(definition, this.$f7)
+          defineLibraryToolboxCategory(definition, f7)
         );
       });
     },

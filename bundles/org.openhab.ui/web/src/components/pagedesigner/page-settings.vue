@@ -136,7 +136,7 @@ export default {
     updatePageVisibility(userrole) {
       let value = this.$refs.pageVisibility.f7SmartSelect.getValue();
       if (value && value.length === 0) {
-        this.$delete(this.page.config, 'visibleTo');
+        delete this.page.config.visibleTo;
       } else {
         this.page.config.visibleTo = value;
         f7.toast

@@ -55,15 +55,10 @@
         <f7-col>
           <f7-block-title>Non-Semantic Tags</f7-block-title>
           <f7-block strong class="tags-block">
-<<<<<<< HEAD
             <f7-chip v-for="tag in nonSemanticTags" :key="tag" :text="tag" media-bg-color="blue">
-              <f7-icon slot="media" ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
-=======
-            <f7-chip v-for="tag in item.tags" :key="tag" :text="tag" media-bg-color="blue">
               <template #media>
                 <f7-icon ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
               </template>
->>>>>>> WIP
             </f7-chip>
           </f7-block>
         </f7-col>
@@ -92,14 +87,9 @@
               <f7-list-item
                 v-for="group in nonSemanticGroupNames"
                 :key="group"
-<<<<<<< HEAD
                 :link="groupLink(group)"
-                :title="group" />
-=======
-                :link="'/settings/items/' + group"
                 :title="group"
               />
->>>>>>> WIP
             </f7-list>
           </f7-card>
         </f7-col>
@@ -234,7 +224,6 @@ export default {
   computed: {
     context() {
       return {
-<<<<<<< HEAD
         store: this.$store.getters.trackedItems
       }
     },
@@ -282,11 +271,6 @@ export default {
     nonSemanticTags () {
       return this.item?.tags?.filter((tag) => tag !== this.semanticTag(this.semanticValue) && tag !== this.semanticTag(this.semanticProperty))
     }
-=======
-        store: this.$store.getters.trackedItems,
-      };
-    },
->>>>>>> WIP
   },
   methods: {
     onPageBeforeIn() {
@@ -332,9 +316,8 @@ export default {
         }
       );
     },
-<<<<<<< HEAD
     searchInSidebar () {
-      this.$f7.emit('selectDeveloperDock', { 'dock': 'tools', 'toolTab': 'pin', 'searchFor': this.item.name })
+      f7.emit('select-developer-dock', { 'dock': 'tools', 'toolTab': 'pin', 'searchFor': this.item.name })
     },
     groupLink (group) {
       return '/settings/items/' + group
@@ -353,15 +336,4 @@ export default {
     }
   }
 }
-=======
-    searchInSidebar() {
-      f7.emit('select-developer-dock', {
-        dock: 'tools',
-        toolTab: 'pin',
-        searchFor: this.item.name,
-      });
-    },
-  },
-};
->>>>>>> WIP
 </script>

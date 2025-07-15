@@ -17,18 +17,28 @@
       </f7-link>
     </f7-toolbar>
     <f7-toolbar bottom class="toolbar-details" v-if="currentTab === 'tree'">
-      <f7-link :disabled="selectedTag != null" class="left" @click="selectTag(null)">
+      <f7-link :disabled="selectedTag != null ? true : null" class="left" @click="selectTag(null)">
         Clear
       </f7-link>
       <div class="padding-left padding-right text-align-center" style="font-size: 12px">
         <div>
           <f7-checkbox :checked="showNames" @change="toggleShowNames" />
           <label @click="toggleShowNames" class="advanced-label">Show tag names</label>
-          <f7-checkbox style="margin-left: 5px" :checked="showSynonyms" @change="toggleShowSynonyms" />
+          <f7-checkbox
+            style="margin-left: 5px"
+            :checked="showSynonyms"
+            @change="toggleShowSynonyms"
+          />
           <label @click="toggleShowSynonyms" class="advanced-label">Show synonyms</label>
         </div>
       </div>
-      <f7-link v-if="selectedTag" class="right details-link padding-right" ref="detailsLink" @click="detailsOpened = true" icon-f7="chevron_up" />
+      <f7-link
+        v-if="selectedTag"
+        class="right details-link padding-right"
+        ref="detailsLink"
+        @click="detailsOpened = true"
+        icon-f7="chevron_up"
+      />
     </f7-toolbar>
 
     <f7-tabs class="semantics-editor-tabs">
@@ -37,67 +47,127 @@
           <f7-preloader />
           <div>Loading...</div>
         </f7-block>
-        <f7-block v-else class="semantics-tree-wrapper no-margin-top" :class="{ 'sheet-opened' : detailsOpened }">
+        <f7-block
+          v-else
+          class="semantics-tree-wrapper no-margin-top"
+          :class="{ 'sheet-opened' : detailsOpened }"
+        >
           <f7-row v-if="currentTab === 'tree'">
             <!-- do not set column width as usual, instead use custom CSS because of https://github.com/openhab/openhab-webui/issues/2574 -->
             <f7-col>
-              <f7-subnavbar v-show="semanticTags.length" :inner="false" style="position: sticky; top: 0px">
-                <f7-searchbar style="width: 100%"
-                              search-container=".semantics-treeview"
-                              search-item=".treeview-item"
-                              search-in=".treeview-item-label"
-                              :disable-button="!$theme.aurora"
-                              @input="showFiltered($event.target.value)" />
+              <f7-subnavbar
+                v-show="semanticTags.length"
+                :inner="false"
+                style="position: sticky; top: 0px"
+              >
+                <f7-searchbar
+                  style="width: 100%"
+                  search-container=".semantics-treeview"
+                  search-item=".treeview-item"
+                  search-in=".treeview-item-label"
+                  :disable-button="!$theme.aurora"
+                  @input="showFiltered($event.target.value)"
+                />
                 <div class="expand-button">
-                  <f7-button v-if="!expanded" icon-size="24" tooltip="Expand" icon-f7="rectangle_expand_vertical" @click="toggleExpanded()" />
-                  <f7-button v-else color="gray" icon-size="24" tooltip="Collapse" icon-f7="rectangle_compress_vertical" @click="toggleExpanded()" />
+                  <f7-button
+                    v-if="!expanded"
+                    icon-size="24"
+                    tooltip="Expand"
+                    icon-f7="rectangle_expand_vertical"
+                    @click="toggleExpanded()"
+                  />
+                  <f7-button
+                    v-else
+                    color="gray"
+                    icon-size="24"
+                    tooltip="Collapse"
+                    icon-f7="rectangle_compress_vertical"
+                    @click="toggleExpanded()"
+                  />
                 </div>
               </f7-subnavbar>
-              <f7-block v-show="semanticTags.length" class="semantics-tree" no-gap @click.native="clearSelection">
-                <semantics-treeview :semanticTags="semanticTags" :expandedTags="expandedTags" @selected="selectTag" :showNames="showNames" :showSynonyms="showSynonyms" :selectedTag="selectedTag" canDragDrop="true" />
+              <f7-block
+                v-show="semanticTags.length"
+                class="semantics-tree"
+                no-gap
+                @click="clearSelection"
+              >
+                <semantics-treeview
+                  :semanticTags="semanticTags"
+                  :expandedTags="expandedTags"
+                  @selected="selectTag"
+                  :showNames="showNames"
+                  :showSynonyms="showSynonyms"
+                  :selectedTag="selectedTag"
+                  canDragDrop="true"
+                />
               </f7-block>
             </f7-col>
             <f7-col class="details-pane">
               <f7-block v-if="!selectedTag" no-gap>
-                <div class="padding text-align-center">
-                  Nothing selected
-                </div>
+                <div class="padding text-align-center">Nothing selected</div>
               </f7-block>
               <f7-block v-else>
                 <f7-card style="tag-detail">
                   <f7-card-content>
                     <f7-list class="tag-detail" inline-labels>
-                      <f7-list-input label="Name" :value="selectedTag.name"
-                                     :disabled="!selectedTag.editable" :clear-button="selectedTag.editable"
-                                     placeholder="name"
-                                     required
-                                     validate pattern="^[A-Za-z][A-Za-z0-9\-]*$" error-message="Required. A-Z,a-z,0-9,- only"
-                                     @input="updateName($event)" />
-                      <f7-list-input label="Label" :value="selectedTag.label" :disabled="!selectedTag.editable" :clear-button="selectedTag.editable"
-                                     placeholder="label"
-                                     required
-                                     @input="($event) => selectedTag.label = $event.target.value" />
-                      <f7-list-input label="Description" :value="selectedTag.description" type="textarea" resizable :disabled="!selectedTag.editable" :clear-button="selectedTag.editable"
-                                     placeholder="description"
-                                     @input="($event) => selectedTag.description = $event.target.value" />
+                      <f7-list-input
+                        label="Name"
+                        :value="selectedTag.name"
+                        :disabled="!selectedTag.editable ? true : null"
+                        :clear-button="selectedTag.editable"
+                        placeholder="name"
+                        required
+                        validate
+                        pattern="^[A-Za-z][A-Za-z0-9\-]*$"
+                        error-message="Required. A-Z,a-z,0-9,- only"
+                        @input="updateName($event)"
+                      />
+                      <f7-list-input
+                        label="Label"
+                        :value="selectedTag.label"
+                        :disabled="!selectedTag.editable ? true : null"
+                        :clear-button="selectedTag.editable"
+                        placeholder="label"
+                        required
+                        @input="($event) => selectedTag.label = $event.target.value"
+                      />
+                      <f7-list-input
+                        label="Description"
+                        :value="selectedTag.description"
+                        type="textarea"
+                        resizable
+                        :disabled="!selectedTag.editable ? true : null"
+                        :clear-button="selectedTag.editable"
+                        placeholder="description"
+                        @input="($event) => selectedTag.description = $event.target.value"
+                      />
                     </f7-list>
                   </f7-card-content>
                   <f7-card-footer v-if="selectedTag.editable">
-                    <f7-button color="red" @click="removeTag">
-                      Remove
-                    </f7-button>
+                    <f7-button color="red" @click="removeTag"> Remove </f7-button>
                   </f7-card-footer>
                 </f7-card>
                 <div><f7-block-title>Synonyms</f7-block-title></div>
                 <f7-card style="tag-detail">
                   <f7-card-content>
                     <f7-list class="synonyms">
-                      <f7-list-input v-for="synonym in selectedTag.synonyms" :key="synonym" :value="synonym" :disabled="!selectedTag.editable" :clear-button="selectedTag.editable"
-                                     placeholder="synonym"
-                                     @change="updateSynonyms($event)" />
-                      <f7-list-input value="" :disabled="!selectedTag.editable" :clear-button="selectedTag.editable"
-                                     placeholder="synonym"
-                                     @change="updateSynonyms($event)" />
+                      <f7-list-input
+                        v-for="synonym in selectedTag.synonyms"
+                        :key="synonym"
+                        :value="synonym"
+                        :disabled="!selectedTag.editable ? true : null"
+                        :clear-button="selectedTag.editable"
+                        placeholder="synonym"
+                        @change="updateSynonyms($event)"
+                      />
+                      <f7-list-input
+                        value=""
+                        :disabled="!selectedTag.editable ? true : null"
+                        :clear-button="selectedTag.editable"
+                        placeholder="synonym"
+                        @change="updateSynonyms($event)"
+                      />
                     </f7-list>
                   </f7-card-content>
                 </f7-card>
@@ -107,7 +177,11 @@
                 <f7-card>
                   <f7-card-content>
                     <f7-list>
-                      <f7-list-button color="blue" :title="`Insert ${semanticType(selectedTag.name)} Child Tag in ${selectedTag.name}`" @click="addTag()" />
+                      <f7-list-button
+                        color="blue"
+                        :title="`Insert ${semanticType(selectedTag.name)} Child Tag in ${selectedTag.name}`"
+                        @click="addTag()"
+                      />
                     </f7-list>
                   </f7-card-content>
                 </f7-card>
@@ -117,15 +191,36 @@
         </f7-block>
       </f7-tab>
       <f7-tab id="code" :tab-active="currentTab === 'code'">
-        <editor v-if="ready" class="semantic-tag-code-editor" mode="application/vnd.openhab.tag+yaml" :value="editingTagsYaml" @input="onEditorInput" />
+        <editor
+          v-if="ready"
+          class="semantic-tag-code-editor"
+          mode="application/vnd.openhab.tag+yaml"
+          :value="editingTagsYaml"
+          @input="onEditorInput"
+        />
       </f7-tab>
     </f7-tabs>
 
-    <f7-fab v-if="currentTab === 'tree'" class="add-to-semantics-fab" position="right-center" slot="fixed" color="blue" @click="addTag()">
+    <f7-fab
+      v-if="currentTab === 'tree'"
+      class="add-to-semantics-fab"
+      position="right-center"
+      slot="fixed"
+      color="blue"
+      @click="addTag()"
+    >
       <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
       <f7-icon ios="f7:multiply" md="material:close" aurora="f7:multiply" />
     </f7-fab>
-    <f7-sheet v-if="currentTab === 'tree'" class="semantics-details-sheet" ref="details-sheet" :backdrop="false" :close-on-escape="true" :opened="detailsOpened" @sheet:closed="detailsOpened = false">
+    <f7-sheet
+      v-if="currentTab === 'tree'"
+      class="semantics-details-sheet"
+      ref="details-sheet"
+      :backdrop="false"
+      :close-on-escape="true"
+      :opened="detailsOpened"
+      @sheet:closed="detailsOpened = false"
+    >
       <f7-page>
         <f7-toolbar tabbar bottom scrollable>
           <div class="left">
@@ -133,39 +228,73 @@
               <f7-icon f7="chevron_down" />
             </f7-link>
           </div>
-          <f7-link class="padding-left padding-right" :tab-link-active="detailsTab === 'tag'" @click="detailsTab = 'tag'">
+          <f7-link
+            class="padding-left padding-right"
+            :tab-link-active="detailsTab === 'tag'"
+            @click="detailsTab = 'tag'"
+          >
             Tag
           </f7-link>
-          <f7-link class="padding-left padding-right" :tab-link-active="detailsTab === 'synonyms'" @click="detailsTab = 'synonyms'">
+          <f7-link
+            class="padding-left padding-right"
+            :tab-link-active="detailsTab === 'synonyms'"
+            @click="detailsTab = 'synonyms'"
+          >
             Synonyms
           </f7-link>
         </f7-toolbar>
         <f7-block style="margin-bottom: 6rem" v-if="selectedTag && detailsTab === 'tag'">
           <f7-list class="tag-detail" inline-labels>
-            <f7-list-input label="Name" :value="selectedTag.name"
-                           :disabled="!selectedTag.editable" :clear-button="selectedTag.editable"
-                           placeholder="name"
-                           validate pattern="^[A-Za-z][A-Za-z0-9\-]*$" error-message="Required. A-Z,a-z,0-9,- only"
-                           @input="updateName($event)" />
-            <f7-list-input label="Label" :value="selectedTag.label" :disabled="!selectedTag.editable" :clear-button="selectedTag.editable"
-                           placeholder="label"
-                           @input="($event) => selectedTag.label = $event.target.value" />
-            <f7-list-input label="Description" :value="selectedTag.description" type="textarea" resizable :disabled="!selectedTag.editable" :clear-button="selectedTag.editable"
-                           placeholder="description"
-                           @input="($event) => selectedTag.description = $event.target.value" />
+            <f7-list-input
+              label="Name"
+              :value="selectedTag.name"
+              :disabled="!selectedTag.editable ? true : null"
+              :clear-button="selectedTag.editable"
+              placeholder="name"
+              validate
+              pattern="^[A-Za-z][A-Za-z0-9\-]*$"
+              error-message="Required. A-Z,a-z,0-9,- only"
+              @input="updateName($event)"
+            />
+            <f7-list-input
+              label="Label"
+              :value="selectedTag.label"
+              :disabled="!selectedTag.editable ? true : null"
+              :clear-button="selectedTag.editable"
+              placeholder="label"
+              @input="($event) => selectedTag.label = $event.target.value"
+            />
+            <f7-list-input
+              label="Description"
+              :value="selectedTag.description"
+              type="textarea"
+              resizable
+              :disabled="!selectedTag.editable ? true : null"
+              :clear-button="selectedTag.editable"
+              placeholder="description"
+              @input="($event) => selectedTag.description = $event.target.value"
+            />
           </f7-list>
-          <f7-button v-if="selectedTag.editable" color="red" @click="removeTag">
-            Remove
-          </f7-button>
+          <f7-button v-if="selectedTag.editable" color="red" @click="removeTag"> Remove </f7-button>
         </f7-block>
         <f7-block style="margin-bottom: 6rem" v-if="selectedTag && detailsTab === 'synonyms'">
           <f7-list class="synonyms">
-            <f7-list-input v-for="(synonym, index) in selectedTag.synonyms" :key="synonym" :value="synonym" :disabled="!selectedTag.editable" :clear-button="selectedTag.editable"
-                           placeholder="synonym"
-                           @change="updateSynonyms($event, index)" />
-            <f7-list-input value="" :disabled="!selectedTag.editable" :clear-button="selectedTag.editable"
-                           placeholder="synonym"
-                           @change="updateSynonyms($event)" />
+            <f7-list-input
+              v-for="(synonym, index) in selectedTag.synonyms"
+              :key="synonym"
+              :value="synonym"
+              :disabled="!selectedTag.editable ? true : null"
+              :clear-button="selectedTag.editable"
+              placeholder="synonym"
+              @change="updateSynonyms($event, index)"
+            />
+            <f7-list-input
+              value=""
+              :disabled="!selectedTag.editable ? true : null"
+              :clear-button="selectedTag.editable"
+              placeholder="synonym"
+              @change="updateSynonyms($event)"
+            />
           </f7-list>
         </f7-block>
       </f7-page>
@@ -341,7 +470,7 @@ export default {
         this.editingTagsYaml = this.editableSemanticTagsYaml
       } else {
         if (!this.fromYaml()) {
-          this.$f7.dialog.alert('Error parsing YAML')
+          f7.dialog.alert('Error parsing YAML')
           return
         }
         this.currentTab = tab
@@ -369,7 +498,7 @@ export default {
           parent: t.parent
         }
       })
-      this.$set(this, 'semanticTags', tags)
+      this.semanticTags = tags
       this.$nextTick(() => {
         this.dirty = false
         this.loading = false
@@ -381,7 +510,7 @@ export default {
 
       if (this.currentTab === 'code') {
         if (!this.fromYaml()) {
-          this.$f7.dialog.alert('Error parsing YAML, cannot save')
+          f7.dialog.alert('Error parsing YAML, cannot save')
           return
         }
       }
@@ -394,11 +523,11 @@ export default {
 
       if (addedTags.some((t) => {
         if ((!t.name || !t.label) || modifiedTags.some((t) => !t.name || !t.label)) {
-          this.$f7.dialog.alert(`${t.name}: Tag name and label required`)
+          f7.dialog.alert(`${t.name}: Tag name and label required`)
           return true
         }
         if (this.semanticClasses.Tags.find((c) => c.name === t.name) && !removedTags.find((r) => r.name === t.name)) {
-          this.$f7.dialog.alert(`${t.name}: Tag names must be unique`)
+          f7.dialog.alert(`${t.name}: Tag names must be unique`)
           return true
         }
         return false
@@ -434,7 +563,7 @@ export default {
           this.load()
         })
       } catch (error) {
-        this.$f7.dialog.alert('Error saving: ' + error)
+        f7.dialog.alert('Error saving: ' + error)
       }
     },
     toggleShowNames () {
@@ -446,14 +575,14 @@ export default {
     toggleExpanded () {
       this.expanded = !this.expanded
       this.semanticTags.forEach((t) => {
-        this.$set(this.expandedTags, t.uid, this.expanded)
+        this.expandedTags[t.uid] = this.expanded
       })
       this.expandToSelection()
     },
     expandToSelection () {
       this.selectedTag?.parent?.split('_').reduce((prev, p) => {
         const parent = (prev ? (prev + '_') : '') + p
-        this.$set(this.expandedTags, parent, true)
+        this.expandedTags[parent] = true
         return parent
       }, '')
     },
@@ -508,7 +637,7 @@ export default {
       }
       this.semanticTags.push(tag)
       this.selectTag(tag)
-      this.$set(this.expandedTags, tag.parent, true)
+      this.expandedTags[tag.parent] = true
       this.detailsTab = 'tag'
     },
     removeTag () {
@@ -573,7 +702,7 @@ export default {
         console.warn('Error parsing YAML')
         return false
       }
-      this.$set(this, 'semanticTags', tags)
+      this.semanticTags = tags
       return true
     }
   }
