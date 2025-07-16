@@ -35,6 +35,7 @@
 
 
 
+
         }})
       </f7-block-title>
       <f7-list media-list>
@@ -280,6 +281,7 @@
 
 
 
+
         }})
       </f7-block-title>
       <f7-list media-list>
@@ -410,6 +412,7 @@
 
 
 
+
         }})
       </f7-block-title>
       <f7-list media-list>
@@ -466,6 +469,7 @@
       <f7-block-title class="padding-left">
         <f7-icon class="margin-right" f7="arrow_2_squarepath" />Transformations ({{
           searchResults.transformations.length
+
 
 
 
@@ -536,6 +540,7 @@
       <f7-block-title class="padding-left">
         <f7-icon class="margin-right" f7="download_circle" />Persistence Configs ({{
           searchResults.persistenceConfigs.length
+
 
 
 

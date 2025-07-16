@@ -890,6 +890,12 @@ export default {
       } else {
         Dom7('html').removeClass('theme-dark');
       }
+
+      if (this.themeOptionsStore.bars === 'filled') {
+        Dom7('html').addClass('theme-filled');
+      } else {
+        Dom7('html').removeClass('theme-filled');
+      }
       if (this.themeOptionsStore.pageTransitionAnimation === 'disabled') {
         Dom7('html').addClass('no-page-transitions');
       }
