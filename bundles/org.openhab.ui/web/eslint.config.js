@@ -35,16 +35,15 @@ export default [
         ...globals.node,
         ga: true,
         __statics: true,
-        process: true,
-      },
+        process: true
+      }
     },
-    /*
     extends: [
-            js.configs.recommended,
-            // "plugin:cypress/recommended",
-            // "plugin:@typescript-eslint/recommended",
-    */
-
+      'js.configs.recommended',
+      'plugin:prettier/recommended'
+      // "plugin:cypress/recommended",
+      // "plugin:@typescript-eslint/recommended",
+    ],
     plugins: {
       // import: fixupPluginRules(_import),
       // cypress,
@@ -70,8 +69,8 @@ export default [
         'error',
         2,
         {
-          SwitchCase: 1,
-        },
+          SwitchCase: 1
+        }
       ],
 
       'jsx-quotes': 'error',
@@ -94,15 +93,8 @@ export default [
       'vue/component-definition-name-casing': 'off',
       'vue/first-attribute-linebreak': 'off',
 
-      'vue/html-closing-bracket-newline': [
-        'error',
-        {
-          singleline: 'never',
-          multiline: 'never',
-        },
-      ],
-
-      'vue/html-closing-bracket-spacing': 'error',
+      'vue/html-closing-bracket-newline': ['off'],
+      'vue/html-closing-bracket-spacing': 'off',
       'vue/html-indent': 'error',
       'vue/html-quotes': 'error',
       'vue/html-self-closing': 'error',
@@ -122,8 +114,8 @@ export default [
       'no-empty': [
         'off',
         {
-          allowEmptyCatch: true,
-        },
+          allowEmptyCatch: true
+        }
       ],
 
       'no-unused-vars': 'off',
@@ -133,8 +125,8 @@ export default [
       'vue/component-tags-order': [
         'off',
         {
-          order: ['template', 'script', 'style'],
-        },
+          order: ['template', 'script', 'style']
+        }
       ],
 
       'vue/no-mutating-props': 'off',
@@ -144,9 +136,9 @@ export default [
       'vue/require-default-prop': 'off',
       'vue/require-prop-types': 'off',
       'vue/this-in-template': 'off',
-      'vue/valid-v-slot': 'off',
-    },
+      'vue/valid-v-slot': 'off'
+    }
   },
   globalIgnores(['dist', 'build', 'public']),
-  eslintPluginPrettierRecommended,
+  eslintPluginPrettierRecommended
 ]

@@ -6,10 +6,10 @@
     @click.stop="performAction"
   />
   <f7-list-item
+    v-else-if="config.divider && !context.editmode"
     divider
     ref="divider"
     :title="config.title"
-    v-else-if="config.divider && !context.editmode"
   />
   <f7-list-item
     v-else
@@ -23,23 +23,30 @@
     :class="{ 'oh-equipment-accordion-item': isEquipmentAccordion }"
     ref="f7AccordionContent"
   >
-    <template #inner>
+    <template #inner v-if="$slots.inner"">
       <slot name="inner" />
     </template>
-    <slot name="content" />
-    <slot name="root-end" />
-    <slot name="footer" />
-    <template #after>
-      <generic-widget-component
-        v-if="
-          context.component.slots &&
-          context.component.slots.after &&
-          context.component.slots.after.length
-        "
-        v-bind="$attrs"
-        :context="childContext(context.component.slots.after[0])"
-      />
+    <template #content v-if="$slots.content">
+      <slot name="content" />
     </template>
+    <template #root-end v-if="$slots.root-end">
+      <slot name="root-end" />
+    </template>
+    <template #footer v-if="$slots.footer">
+      <slot name="footer" />
+    </template>
+    <template #after v-if="$slots.after">
+      <slot name="after" />
+    </template>
+    <generic-widget-component
+      v-if="
+        context.component.slots &&
+        context.component.slots.after &&
+        context.component.slots.after.length
+      "
+      v-bind="$attrs"
+      :context="childContext(context.component.slots.after[0])"
+    />
     <f7-accordion-content v-if="context.parent.component.config.accordionList && !context.editmode">
       <generic-widget-component
         v-if="isRegularAccordion"
@@ -47,7 +54,7 @@
         :context="childContext(context.component.slots.accordion[0])"
       />
     </f7-accordion-content>
-    <template #root>
+    <template #root v-if="$slots.root">
       <f7-accordion-content v-if="isEquipmentAccordion && !context.editmode">
         <generic-widget-component
           v-bind="$attrs"
@@ -55,7 +62,7 @@
         />
       </f7-accordion-content>
     </template>
-    <template #media>
+    <template #media v-if="$slots.media">
       <oh-icon
         v-if="config.icon"
         :icon="config.icon"

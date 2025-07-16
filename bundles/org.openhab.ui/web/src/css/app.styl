@@ -260,11 +260,20 @@ html
   text-align center
   line-height 32px
 
+/* TODO-V3 - JJ: I think this should be as below to make sure the page is formated correctly since .theme-dark does not 
+   get applied to framework7-root */
 #framework7-root:not(.theme-dark) .page-home:not(.standard-background),
 #framework7-root:not(.theme-dark) .page-about:not(.standard-background),
 #framework7-root:not(.theme-dark) .page-addon-store:not(.standard-background),
 #framework7-root:not(.theme-dark) .page-addon-details:not(.standard-background),
-//#framework7-root:not(.theme-dark) .page-settings
+  --f7-page-bg-color #fff
+/* //#framework7-root:not(.theme-dark) .page-settings */
+*/
+html:not(.theme-dark) .page
+html:not(.theme-dark) .page-home:not(.standard-background),
+html:not(.theme-dark) .page-about:not(.standard-background),
+html:not(.theme-dark) .page-addon-store:not(.standard-background),
+html:not(.theme-dark) .page-addon-details:not(.standard-background),
   --f7-page-bg-color #fff
 
 // disable blur on card backdrop (poor performance - update: seems fixed)

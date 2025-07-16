@@ -1,17 +1,18 @@
 <template>
   <f7-app
     v-if="init"
-    v-bind="f7params"
     :style="{
       visibility:
         $store.getters.user || $store.getters.page('overview') || communicationFailureMsg
           ? ''
           : 'hidden',
     }"
+    class="theme-filled"
     :class="{
       'theme-dark': themeOptionsStore.dark === 'dark',
       'theme-filled': themeOptionsStore.bars === 'filled',
     }"
+    v-bind="f7params"
   >
     <!-- Left Panel -->
     <f7-panel
