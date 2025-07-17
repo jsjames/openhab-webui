@@ -7,8 +7,7 @@
     :title="item.label ? item.label : item.name"
     :footer="item.label ? item.name : '\xa0'"
     :subtitle="noType ? '' : getItemTypeAndMetaLabel(item)"
-    :after="state"
-  >
+    :after="state">
     <template #media>
       <oh-icon
         v-if="!noIcon && item.category"
@@ -17,8 +16,7 @@
           noState || item.type === 'Image' ? null : context?.store[item.name]?.state || item.state
         "
         height="32"
-        width="32"
-      />
+        width="32" />
       <span v-else-if="!noIcon" class="item-initial">{{ item.name[0] }}</span>
     </template>
     <template #after-title>
@@ -32,8 +30,7 @@
           :key="tag"
           :text="tag"
           media-bg-color="blue"
-          style="margin-right: 6px"
-        >
+          style="margin-right: 6px">
           <template #media>
             <f7-icon ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
           </template>

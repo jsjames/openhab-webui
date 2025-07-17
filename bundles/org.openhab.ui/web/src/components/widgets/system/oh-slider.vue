@@ -8,8 +8,7 @@
     :format-scale-label="formatScaleLabel"
     @range:change="onChange($event)"
     @click.stop="sendCommandDebounced(sliderValue, true)"
-    @touchend="sendCommandDebounced(sliderValue, true)"
-  />
+    @touchend="sendCommandDebounced(sliderValue, true)" />
 </template>
 
 <style lang="stylus">

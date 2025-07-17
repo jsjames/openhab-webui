@@ -6,8 +6,7 @@
       :disabled="!editable ? true : null"
       @click="openPopup('class')"
       class="aligned-smart-select"
-      :link="editable"
-    />
+      :link="editable" />
     <f7-list-item
       v-if="currentSemanticType === 'Point'"
       title="Semantic Property"
@@ -15,8 +14,7 @@
       :disabled="!editable ? true : null"
       @click="openPopup('property')"
       class="aligned-smart-select"
-      :link="editable"
-    />
+      :link="editable" />
     <semantics-picker-popup
       ref="classPopup"
       :key="'semantics-class'"
@@ -26,8 +24,7 @@
       classMode="true"
       :semanticClass="semanticClass"
       @changed="itemChanged"
-      @close="closePopup"
-    />
+      @close="closePopup" />
     <semantics-picker-popup
       ref="propertyPopup"
       :key="'semantics-property'"
@@ -37,8 +34,7 @@
       propertyMode="true"
       @changed="itemChanged"
       :semanticProperty="semanticProperty"
-      @close="closePopup"
-    />
+      @close="closePopup" />
   </f7-list>
 </template>
 

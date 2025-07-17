@@ -12,16 +12,14 @@
       'theme-dark': themeOptionsStore.dark === 'dark',
       'theme-filled': themeOptionsStore.bars === 'filled',
     }"
-    v-bind="f7params"
-  >
+    v-bind="f7params">
     <!-- Left Panel -->
     <f7-panel
       v-show="ready"
       left
       :cover="showSidebar ? true : null"
       class="sidebar"
-      :visible-breakpoint="1024"
-    >
+      :visible-breakpoint="1024">
       <f7-page>
         <f7-link href="/overview" class="openhab-logo no-ripple" panel-close>
           <div class="logo-inner">
@@ -29,8 +27,7 @@
               v-if="themeOptionsStore.dark === 'dark'"
               src="/images/openhab-logo-white.svg"
               type="image/svg+xml"
-              width="196px"
-            />
+              width="196px" />
             <img v-else src="/images/openhab-logo.svg" type="image/svg+xml" width="196px" />
           </div>
         </f7-link>
@@ -48,8 +45,7 @@
             :link="'/page/' + page.uid"
             :title="page.config.label"
             view=".view-main"
-            panel-close
-          >
+            panel-close>
             <template #media>
               <oh-icon :icon="pageIcon(page)" height="18" width="18" />
             </template>
@@ -74,15 +70,13 @@
                 currentPath.settings?.addons ||
                 currentPath.settings?.persistence ||
                 currentPath.settings?.transformations,
-            }"
-          >
+            }">
             <template #media>
               <f7-icon
                 ios="f7:gear_alt_fill"
                 aurora="f7:gear_alt_fill"
                 md="material:settings"
-                color="gray"
-              />
+                color="gray" />
             </template>
           </f7-list-item>
           <li v-if="currentPath.settings">
@@ -95,8 +89,7 @@
                 panel-close
                 :animate="false"
                 no-chevron
-                :class="{ currentsection: currentPath.settings?.things }"
-              >
+                :class="{ currentsection: currentPath.settings?.things }">
                 <template #media>
                   <f7-icon f7="lightbulb" color="gray" />
                 </template>
@@ -109,8 +102,7 @@
                 panel-close
                 :animate="false"
                 no-chevron
-                :class="{ currentsection: currentPath.settings?.model }"
-              >
+                :class="{ currentsection: currentPath.settings?.model }">
                 <template #media>
                   <f7-icon f7="list_bullet_indent" color="gray" />
                 </template>
@@ -123,8 +115,7 @@
                 panel-close
                 :animate="false"
                 no-chevron
-                :class="{ currentsection: currentPath.settings?.items }"
-              >
+                :class="{ currentsection: currentPath.settings?.items }">
                 <template #media>
                   <f7-icon f7="square_on_circle" color="gray" />
                 </template>
@@ -137,8 +128,7 @@
                 panel-close
                 :animate="false"
                 no-chevron
-                :class="{ currentsection: currentPath.settings?.pages }"
-              >
+                :class="{ currentsection: currentPath.settings?.pages }">
                 <template #media>
                   <f7-icon f7="tv" color="gray" />
                 </template>
@@ -151,8 +141,7 @@
                 panel-close
                 :animate="false"
                 no-chevron
-                :class="{ currentsection: currentPath.settings?.rules }"
-              >
+                :class="{ currentsection: currentPath.settings?.rules }">
                 <template #media>
                   <f7-icon f7="wand_stars" color="gray" />
                 </template>
@@ -165,8 +154,7 @@
                 panel-close
                 :animate="false"
                 no-chevron
-                :class="{ currentsection: currentPath.settings?.scenes }"
-              >
+                :class="{ currentsection: currentPath.settings?.scenes }">
                 <template #media>
                   <f7-icon f7="film" color="gray" />
                 </template>
@@ -179,8 +167,7 @@
                 panel-close
                 :animate="false"
                 no-chevron
-                :class="{ currentsection: currentPath.settings?.scripts }"
-              >
+                :class="{ currentsection: currentPath.settings?.scripts }">
                 <template #media>
                   <f7-icon f7="doc_plaintext" color="gray" />
                 </template>
@@ -193,8 +180,7 @@
                 panel-close
                 :animate="false"
                 no-chevron
-                :class="{ currentsection: currentPath.settings?.schedule }"
-              >
+                :class="{ currentsection: currentPath.settings?.schedule }">
                 <template #media>
                   <f7-icon f7="calendar" color="gray" />
                 </template>
@@ -209,15 +195,13 @@
             view=".view-main"
             panel-close
             :animate="false"
-            :class="{ currentsection: currentPath.addons?.$end }"
-          >
+            :class="{ currentsection: currentPath.addons?.$end }">
             <template #media>
               <f7-icon
                 ios="f7:bag_fill"
                 aurora="f7:bag_fill"
                 md="material:shopping_bag"
-                color="gray"
-              />
+                color="gray" />
             </template>
           </f7-list-item>
           <li v-if="currentPath.addons && $store.getters.apiEndpoint('addons')">
@@ -231,8 +215,7 @@
                 panel-close
                 :animate="false"
                 no-chevron
-                :class="{ currentsection: currentPath.addons?.[section] }"
-              >
+                :class="{ currentsection: currentPath.addons?.[section] }">
                 <template #media>
                   <f7-icon :f7="AddonIcons[section]" color="gray" />
                 </template>
@@ -246,15 +229,13 @@
             :title="$t('sidebar.developerTools')"
             panel-close
             :animate="false"
-            :class="{ currentsection: currentPath.developer?.$end }"
-          >
+            :class="{ currentsection: currentPath.developer?.$end }">
             <template #media>
               <f7-icon
                 ios="f7:wrench_fill"
                 aurora="f7:wrench_fill"
                 md="material:construction"
-                color="gray"
-              />
+                color="gray" />
             </template>
           </f7-list-item>
           <li v-if="currentPath.developer">
@@ -267,8 +248,7 @@
                 panel-close
                 :animate="false"
                 no-chevron
-                :class="{ currentsection: currentPath.developer?.widgets }"
-              >
+                :class="{ currentsection: currentPath.developer?.widgets }">
                 <template #media>
                   <f7-icon f7="rectangle_on_rectangle_angled" color="gray" />
                 </template>
@@ -281,8 +261,7 @@
                 panel-close
                 :animate="false"
                 no-chevron
-                :class="{ currentsection: currentPath.developer?.blocks }"
-              >
+                :class="{ currentsection: currentPath.developer?.blocks }">
                 <template #media>
                   <f7-icon f7="ticket" color="gray" />
                 </template>
@@ -296,8 +275,7 @@
                 no-chevron
                 :class="{
                   currentsection: currentPath.developer?.['api-explorer'],
-                }"
-              >
+                }">
                 <template #media>
                   <f7-icon f7="burn" color="gray" />
                 </template>
@@ -311,8 +289,7 @@
                 no-chevron
                 :class="{
                   currentsection: currentPath.developer?.['log-viewer'],
-                }"
-              >
+                }">
                 <template #media>
                   <f7-icon f7="square_list" color="gray" />
                 </template>
@@ -330,15 +307,13 @@
             :title="$t('sidebar.helpAbout')"
             view=".view-main"
             panel-close
-            :class="{ currentsection: currentPath.about }"
-          >
+            :class="{ currentsection: currentPath.about }">
             <template #media>
               <f7-icon
                 ios="f7:question_circle_fill"
                 aurora="f7:question_circle_fill"
                 md="material:help"
-                color="gray"
-              />
+                color="gray" />
             </template>
           </f7-list-item>
         </f7-list>
@@ -356,8 +331,7 @@
                 v-if="
                   !$store.getters.user &&
                   !$store.getters.pages.filter(p => p.uid !== 'overview').length
-                "
-              >
+                ">
                 <em>{{ $t('sidebar.tip.signIn') }}<br /><f7-icon f7="arrow_down" size="20" /></em>
               </div>
               <f7-button
@@ -367,8 +341,7 @@
                 large
                 color="gray"
                 icon-size="43"
-                :tooltip="$t('sidebar.unlockAdmin')"
-              />
+                :tooltip="$t('sidebar.unlockAdmin')" />
             </div>
             <f7-list v-if="$store.getters.user" media-list>
               <f7-list-item
@@ -379,16 +352,14 @@
                 no-chevron
                 panel-close
                 view=".view-main"
-                :class="{ currentsection: currentPath.profile }"
-              >
+                :class="{ currentsection: currentPath.profile }">
                 <template #media>
                   <f7-icon
                     size="36"
                     ios="f7:person_alt_circle_fill"
                     aurora="f7:person_alt_circle_fill"
                     md="f7:person_alt_circle_fill"
-                    color="gray"
-                  />
+                    color="gray" />
                 </template>
               </f7-list-item>
             </f7-list>
@@ -408,16 +379,14 @@
         :dock="activeDock"
         :helpTab="activeHelpTab"
         :toolTab="activeToolTab"
-        :searchFor="developerSearch"
-      />
+        :searchFor="developerSearch" />
     </f7-panel>
 
     <f7-block v-if="!ready && communicationFailureMsg" class="block-narrow">
       <empty-state-placeholder
         icon="wifi_slash"
         :title="$t('error.notReachable.title')"
-        :text="$t('error.notReachable.msg') + '<br/><br/>Error: ' + communicationFailureMsg"
-      />
+        :text="$t('error.notReachable.msg') + '<br/><br/>Error: ' + communicationFailureMsg" />
       <f7-col>
         <f7-list>
           <f7-list-button color="blue" @click="loadData">
@@ -429,8 +398,7 @@
           <f7-list-button
             v-if="showCachePurgeOption"
             color="red"
-            @click="purgeServiceWorkerAndCaches"
-          >
+            @click="purgeServiceWorkerAndCaches">
             {{ $t('about.reload.purgeCachesAndRefresh') }}
           </f7-list-button>
         </f7-list>
@@ -443,8 +411,7 @@
       class="safe-areas"
       url="/"
       :master-detail-breakpoint="960"
-      :animate="themeOptionsStore.pageTransitionAnimation !== 'disabled'"
-    />
+      :animate="themeOptionsStore.pageTransitionAnimation !== 'disabled'" />
   </f7-app>
 </template>
 

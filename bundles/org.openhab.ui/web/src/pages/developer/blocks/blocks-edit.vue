@@ -4,8 +4,7 @@
       :title="
         (createMode ? 'Create Block Library' : 'Block Library: ' + blocks.uid) + dirtyIndicator
       "
-      back-link="Back"
-    >
+      back-link="Back">
       <f7-nav-right>
         <f7-link @click="save()" v-if="theme.md" icon-md="material:save" icon-only />
         <f7-link @click="save()" v-if="!theme.md">
@@ -22,8 +21,7 @@
         @click="
           split = split === 'horizontal' ? 'vertical' : 'horizontal';
           blockKey = utils.id();
-        "
-      />
+        " />
       <f7-link @click="refreshBlocks">
         Refresh<span v-if="$device.desktop">&nbsp;(Ctrl-R)</span>
       </f7-link>
@@ -35,8 +33,7 @@
             class="blocks-component-editor"
             mode="application/vnd.openhab.uicomponent+yaml;type=blocks"
             :value="blocksDefinition"
-            @input="onEditorInput"
-          />
+            @input="onEditorInput" />
         </f7-col>
       </f7-row>
       <f7-row v-if="ready" resizable>
@@ -53,15 +50,13 @@
             class="blocks-component-editor"
             mode="application/vnd.openhab.uicomponent+yaml;type=blocks"
             :value="blocksDefinition"
-            @input="onEditorInput"
-          />
+            @input="onEditorInput" />
         </f7-col>
         <f7-col
           v-if="ready"
           resizable
           style="min-width: 20px"
-          class="block-preview-pane padding-right margin-bottom"
-        >
+          class="block-preview-pane padding-right margin-bottom">
           <block-preview :blocks-definition="blocks" :key="previewKey" />
           <!-- <generic-widget-component :key="widgetKey" :context="context" @command="onCommand" /> -->
         </f7-col>
@@ -73,8 +68,7 @@
       close-on-escape
       class="block-editor-preview-popup"
       :opened="previewOpened"
-      @popup:closed="previewClosed"
-    >
+      @popup:closed="previewClosed">
       <f7-page v-if="previewOpened">
         <f7-navbar>
           <f7-nav-left>
@@ -82,8 +76,7 @@
               icon-ios="f7:arrow_left"
               icon-md="material:arrow_back"
               icon-aurora="f7:arrow_left"
-              popup-close
-            />
+              popup-close />
           </f7-nav-left>
           <f7-nav-title>Preview</f7-nav-title>
           <f7-nav-right>
@@ -95,30 +88,26 @@
           v-if="previewMode === 'blockly'"
           :blocks="previewBlockSource"
           :library-definitions="[blocks]"
-          @change="dirty = true"
-        />
+          @change="dirty = true" />
         <editor
           class="blocks-preview-code"
           v-else-if="previewMode === 'code'"
           mode="application/javascript"
           :value="previewGeneratedCode"
-          :read-only="true"
-        />
+          :read-only="true" />
         <template #fixed>
           <f7-fab
             v-show="previewMode === 'blockly'"
             position="right-bottom"
             color="blue"
-            @click="togglePreviewMode('code')"
-          >
+            @click="togglePreviewMode('code')">
             <f7-icon f7="doc_text" />
           </f7-fab>
           <f7-fab
             v-show="previewMode === 'code'"
             position="right-bottom"
             color="blue"
-            @click="togglePreviewMode('blockly')"
-          >
+            @click="togglePreviewMode('blockly')">
             <f7-icon f7="ticket" />
           </f7-fab>
         </template>

@@ -2,8 +2,7 @@
   <oh-card
     :context="context"
     :content-class="['display-flex', 'justify-content-center']"
-    :content-style="{ height: 'calc(2 * var(--f7-toggle-width))' }"
-  >
+    :content-style="{ height: 'calc(2 * var(--f7-toggle-width))' }">
     <template #content>
       <oh-toggle class="large-vertical-toggle" :context="context" @command="onCommand" />
     </template>

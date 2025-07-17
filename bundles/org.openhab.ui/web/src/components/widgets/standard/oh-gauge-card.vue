@@ -1,8 +1,7 @@
 <template>
   <oh-card
     :context="context"
-    :content-class="['oh-gauge-card', 'display-flex', 'justify-content-center']"
-  >
+    :content-class="['oh-gauge-card', 'display-flex', 'justify-content-center']">
     <template #content-root>
       <f7-card-content
         :style="config.contentStyle"
@@ -11,8 +10,7 @@
           'oh-gauge-card',
           'display-flex',
           'justify-content-center',
-        ]"
-      >
+        ]">
         <f7-link v-if="hasAction" class="oh-gauge-link" @click="performAction">
           <oh-gauge :context="childContext(context.component)" />
         </f7-link>

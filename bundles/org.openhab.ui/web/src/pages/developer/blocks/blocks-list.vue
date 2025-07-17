@@ -4,14 +4,12 @@
       title="Block Libraries"
       back-link="Developer Tools"
       back-link-url="/developer/"
-      back-link-force
-    >
+      back-link-force>
       <f7-nav-right>
         <f7-link
           icon-md="material:done_all"
           @click="toggleCheck()"
-          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''"
-        />
+          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''" />
       </f7-nav-right>
       <f7-subnavbar :inner="false" v-show="initSearchbar">
         <f7-searchbar
@@ -22,8 +20,7 @@
           search-container=".blocks-list"
           search-item=".blockslist-item"
           search-in=".item-title, .item-subtitle, .item-header, .item-footer"
-          :disable-button="!theme.aurora"
-        />
+          :disable-button="!theme.aurora" />
       </f7-subnavbar>
     </f7-navbar>
     <f7-toolbar
@@ -31,8 +28,7 @@
       :class="{ navbar: theme.md }"
       v-if="showCheckboxes"
       bottom-ios
-      bottom-aurora
-    >
+      bottom-aurora>
       <f7-link
         color="red"
         v-show="selectedItems.length"
@@ -40,24 +36,21 @@
         class="delete"
         icon-ios="f7:trash"
         icon-aurora="f7:trash"
-        @click="removeSelected"
-      >
+        @click="removeSelected">
         Remove {{ selectedItems.length }}
       </f7-link>
       <f7-link
         v-if="theme.md"
         icon-md="material:close"
         icon-color="white"
-        @click="showCheckboxes = false"
-      />
+        @click="showCheckboxes = false" />
       <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
       <div class="right" v-if="theme.md">
         <f7-link
           v-show="selectedItems.length"
           icon-md="material:delete"
           icon-color="white"
-          @click="removeSelected"
-        />
+          @click="removeSelected" />
       </div>
     </f7-toolbar>
 
@@ -77,8 +70,7 @@
               :key="n"
               :class="`skeleton-text skeleton-effect-blink`"
               title="Title of the widget"
-              subtitle="Tag1, Tag2, Tag3..."
-            />
+              subtitle="Tag1, Tag2, Tag3..." />
           </f7-list-group>
         </f7-list>
       </f7-col>
@@ -90,8 +82,7 @@
           v-show="blocks.length > 0"
           class="searchbar-found col blocks-list"
           ref="blocksList"
-          media-list
-        >
+          media-list>
           <f7-list-item
             v-for="(b, index) in blocks"
             :key="index"
@@ -103,8 +94,7 @@
             @click.meta="e => ctrlClick(e, b)"
             @click.exact="e => click(e, b)"
             link=""
-            :title="b.uid"
-          >
+            :title="b.uid">
             <template #subtitle>
               <div>
                 <f7-chip
@@ -112,8 +102,7 @@
                   :key="tag"
                   :text="tag"
                   media-bg-color="blue"
-                  style="margin-right: 6px"
-                >
+                  style="margin-right: 6px">
                   <template #media>
                     <f7-icon ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
                   </template>

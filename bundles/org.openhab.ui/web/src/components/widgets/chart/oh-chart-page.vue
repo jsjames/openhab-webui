@@ -4,8 +4,7 @@
     class="oh-chart-page-chart"
     :class="{ 'with-tabbar': context.tab, 'with-toolbar': context.analyzer }"
     :style="themeOptions.dark === 'dark' ? 'background-color: black;' : 'background-color: white;'"
-    :context="this.context"
-  />
+    :context="this.context" />
 </template>
 
 <style lang="stylus">

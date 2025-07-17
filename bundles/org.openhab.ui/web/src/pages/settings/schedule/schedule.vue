@@ -6,8 +6,7 @@
         <f7-link
           icon-md="material:done_all"
           @click="toggleCheck()"
-          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''"
-        />
+          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''" />
       </f7-nav-right>
       <f7-subnavbar :inner="false" v-show="initSearchbar">
         <f7-searchbar
@@ -18,8 +17,7 @@
           search-item=".timeline-item-inner"
           search-in=".timeline-item-title"
           :placeholder="searchPlaceholder"
-          :disable-button="!theme.aurora"
-        />
+          :disable-button="!theme.aurora" />
       </f7-subnavbar>
     </f7-navbar>
     <f7-toolbar
@@ -27,24 +25,21 @@
       :class="{ navbar: theme.md }"
       v-if="showCheckboxes"
       bottom-ios
-      bottom-aurora
-    >
+      bottom-aurora>
       <f7-link
         v-show="selectedItems.length"
         v-if="!theme.md"
         class="delete"
         icon-ios="f7:trash"
         icon-aurora="f7:trash"
-        @click="removeSelected"
-      >
+        @click="removeSelected">
         Remove {{ selectedItems.length }}
       </f7-link>
       <f7-link
         v-if="theme.md"
         icon-md="material:close"
         icon-color="white"
-        @click="showCheckboxes = false"
-      />
+        @click="showCheckboxes = false" />
       <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
       <div class="right" v-if="theme.md">
         <f7-link icon-md="material:delete" icon-color="white" @click="removeSelected" />
@@ -56,14 +51,12 @@
       v-if="noRuleEngine"
       icon="exclamationmark_triangle"
       title="rules.missingengine.title"
-      text="rules.missingengine.text"
-    />
+      text="rules.missingengine.text" />
     <empty-state-placeholder
       v-else-if="ready && !rules.length"
       icon="calendar"
       title="schedule.title"
-      text="schedule.text"
-    />
+      text="schedule.text" />
     <div v-else class="timeline timeline-horizontal col-33 tablet-15">
       <div class="timeline-year" v-for="(yearObj, year) in calendar" :key="year">
         <div class="timeline-year-title">
@@ -81,8 +74,7 @@
               <div
                 class="timeline-item-inner"
                 v-for="(occurrence, $idx) in calendar[year][month][day]"
-                :key="$idx"
-              >
+                :key="$idx">
                 <div class="timeline-item-time">
                   {{ occurrence[0].toTimeString().substring(0, 5) }}
                 </div>

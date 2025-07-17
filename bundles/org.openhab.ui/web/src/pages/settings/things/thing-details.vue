@@ -2,16 +2,14 @@
   <f7-page
     @page:afterin="onPageAfterIn"
     @page:beforeout="onPageBeforeOut"
-    class="thing-details-page"
-  >
+    class="thing-details-page">
     <f7-navbar :title="pageTitle + dirtyIndicator" back-link="Back" no-hairline>
       <f7-nav-right v-if="!error && ready">
         <f7-link
           v-if="!editable"
           icon-f7="lock_fill"
           icon-only
-          tooltip="This Thing is not editable through the UI"
-        />
+          tooltip="This Thing is not editable through the UI" />
         <f7-link v-else-if="theme.md" icon-md="material:save" icon-only @click="save()" />
         <f7-link v-else @click="save()">
           Save<span v-if="$device.desktop">&nbsp;(Ctrl-S)</span>
@@ -22,24 +20,21 @@
       <f7-link
         @click="switchTab('thing')"
         :tab-link-active="currentTab === 'thing'"
-        class="tab-link"
-      >
+        class="tab-link">
         Thing
       </f7-link>
       <f7-link
         @click="switchTab('channels')"
         :tab-link-active="currentTab === 'channels'"
         v-show="!error"
-        class="tab-link"
-      >
+        class="tab-link">
         Channels
       </f7-link>
       <f7-link
         @click="switchTab('code')"
         :tab-link-active="currentTab === 'code'"
         v-show="!error"
-        class="tab-link"
-      >
+        class="tab-link">
         Code
       </f7-link>
     </f7-toolbar>
@@ -60,15 +55,13 @@
                 icon-aurora="f7:pause_circle"
                 icon-size="32"
                 color="orange"
-                @click="toggleDisabled"
-              />
+                @click="toggleDisabled" />
             </div>
             Status:
             <f7-chip
               class="margin-left"
               :text="thing.statusInfo.status"
-              :color="thingStatusBadgeColor(thing.statusInfo)"
-            />
+              :color="thingStatusBadgeColor(thing.statusInfo)" />
             <div>
               <strong>{{
                 thing.statusInfo.statusDetail !== 'NONE' ? thing.statusInfo.statusDetail : '&nbsp;'
@@ -76,8 +69,7 @@
               <br />
               <div
                 v-if="thingStatusDescription(thing.statusInfo)"
-                v-html="thingStatusDescription(thing.statusInfo)"
-              />
+                v-html="thingStatusDescription(thing.statusInfo)" />
             </div>
           </f7-col>
         </f7-block>
@@ -99,13 +91,11 @@
               :thing="thing"
               :thing-type="thingType"
               :ready="true"
-              :read-only="!editable"
-            />
+              :read-only="!editable" />
             <f7-block-title
               v-if="thingType && thingType.UID"
               medium
-              style="margin-bottom: var(--f7-list-margin-vertical)"
-            >
+              style="margin-bottom: var(--f7-list-margin-vertical)">
               Information
             </f7-block-title>
             <f7-block-footer v-if="!editable" class="no-margin padding-left">
@@ -122,16 +112,14 @@
                 accordion-item
                 v-if="Object.keys(thing.properties).length > 0"
                 title="Thing Properties"
-                :badge="Object.keys(thing.properties).length"
-              >
+                :badge="Object.keys(thing.properties).length">
                 <f7-accordion-content>
                   <f7-list>
                     <f7-list-item
                       class="thing-property"
                       v-for="(value, key) in thing.properties"
                       :key="key"
-                      @click="showFullPropertyIfTruncated(key, value)"
-                    >
+                      @click="showFullPropertyIfTruncated(key, value)">
                       <template #title>
                         <div class="item-title-content">
                           <span :ref="'titleSpan-' + key">{{ key }}</span>
@@ -144,8 +132,7 @@
                             v-if="isTruncated(key, 'title') || isTruncated(key, 'value')"
                             f7="info_circle"
                             size="16"
-                            class="truncation-icon"
-                          />
+                            class="truncation-icon" />
                         </div>
                       </template>
                     </f7-list-item>
@@ -159,20 +146,17 @@
                 :badge="firmwares.length"
                 :badge-color="
                   thing.firmwareStatus.status === 'UPDATE_EXECUTABLE' ? 'green' : 'gray'
-                "
-              >
+                ">
                 <f7-accordion-content>
                   <f7-list>
                     <f7-list-item
                       class="thing-property"
                       title="Status"
-                      :after="thing.firmwareStatus.status"
-                    />
+                      :after="thing.firmwareStatus.status" />
                     <f7-list-item
                       class="thing-property"
                       title="Current Version"
-                      :after="thing.properties.firmwareVersion"
-                    />
+                      :after="thing.properties.firmwareVersion" />
                     <f7-list-item
                       class="thing-property"
                       v-for="firmware in firmwares"
@@ -180,13 +164,11 @@
                       header="Version"
                       :title="firmware.version"
                       :after="firmware.description"
-                      :footer="firmware.changelog"
-                    >
+                      :footer="firmware.changelog">
                       <f7-icon
                         v-if="firmware.version === thing.properties.firmwareVersion"
                         f7="checkmark"
-                        color="green"
-                      />
+                        color="green" />
                     </f7-list-item>
                   </f7-list>
                 </f7-accordion-content>
@@ -201,8 +183,7 @@
               :configuration="thing.configuration"
               :status="configStatusInfo"
               :set-empty-config-as-null="true"
-              :read-only="!editable"
-            />
+              :read-only="!editable" />
 
             <!-- Thing Actions & UI Actions -->
             <template v-if="thingActions.length > 0 || thingType?.UID?.startsWith('zwave:')">
@@ -212,16 +193,14 @@
                   v-if="thingType?.UID?.startsWith('zwave:')"
                   title="View Network Map"
                   link=""
-                  @click="openZWaveNetworkPopup()"
-                />
+                  @click="openZWaveNetworkPopup()" />
                 <f7-list-item
                   v-for="action in thingActions"
                   :key="action.name"
                   :title="action.label"
                   :footer="action.description"
                   link=""
-                  @click="doThingAction(action)"
-                />
+                  @click="doThingAction(action)" />
               </f7-list>
             </template>
           </f7-col>
@@ -242,8 +221,7 @@
           <f7-block
             class="block-narrow"
             v-for="actionGroup in configActionsByGroup"
-            :key="actionGroup.group.name"
-          >
+            :key="actionGroup.group.name">
             <f7-col>
               <f7-block-title class="parameter-group-title">
                 {{ actionGroup.group.label }}
@@ -257,8 +235,7 @@
                   :color="action.verify ? 'yellow' : 'blue'"
                   :key="action.name"
                   :title="action.label"
-                  @click="action.execute()"
-                />
+                  @click="action.execute()" />
               </f7-list>
             </f7-col>
           </f7-block>
@@ -271,26 +248,22 @@
                 v-if="thing.statusInfo.statusDetail === 'HANDLER_MISSING_ERROR'"
                 color="blue"
                 title="Install Binding"
-                @click="installBinding"
-              />
+                @click="installBinding" />
               <f7-list-button
                 v-if="!error"
                 color="blue"
                 title="Duplicate Thing"
-                @click="duplicateThing"
-              />
+                @click="duplicateThing" />
               <f7-list-button
                 v-if="!error"
                 color="blue"
                 title="Copy File Definition"
-                @click="copyFileDefinitionToClipboard(ObjectType.THING, [thingId])"
-              />
+                @click="copyFileDefinitionToClipboard(ObjectType.THING, [thingId])" />
               <f7-list-button
                 v-if="editable"
                 color="red"
                 title="Remove Thing"
-                @click="deleteThing"
-              />
+                @click="deleteThing" />
             </f7-list>
           </f7-col>
         </f7-block>
@@ -303,8 +276,7 @@
             :thing="thing"
             :channelTypes="channelTypes"
             @channels-updated="onChannelsUpdated"
-            :context="context"
-          />
+            :context="context" />
           <f7-col v-if="isExtensible || thing.channels.length > 0">
             <f7-list>
               <f7-list-button
@@ -312,32 +284,27 @@
                 color="blue"
                 title="Add Channel"
                 v-if="isExtensible && editable"
-                @click="addChannel()"
-              />
+                @click="addChannel()" />
               <f7-list-button
                 class="searchbar-ignore"
                 color="blue"
                 title="Add Equipment to Model"
-                @click="addToModel(true)"
-              />
+                @click="addToModel(true)" />
               <f7-list-button
                 class="searchbar-ignore"
                 color="blue"
                 title="Add Points to Model"
-                @click="addToModel(false)"
-              />
+                @click="addToModel(false)" />
               <f7-list-button
                 class="searchbar-ignore"
                 color="red"
                 title="Unlink all Items"
-                @click="unlinkAll(false)"
-              />
+                @click="unlinkAll(false)" />
               <f7-list-button
                 class="searchbar-ignore"
                 color="red"
                 title="Unlink all and Remove Items"
-                @click="unlinkAll(true)"
-              />
+                @click="unlinkAll(true)" />
             </f7-list>
           </f7-col>
         </f7-block>
@@ -351,8 +318,7 @@
           style="opacity: 0.5; z-index: 4000; user-select: none"
           size="50"
           color="gray"
-          :tooltip="notEditableMsg"
-        />
+          :tooltip="notEditableMsg" />
         <editor
           v-if="ready"
           class="thing-code-editor"
@@ -360,8 +326,7 @@
           :value="thingYaml"
           :hint-context="{ thingType: thingType, channelTypes: channelTypes }"
           @input="onEditorInput"
-          :read-only="!editable"
-        />
+          :read-only="!editable" />
         <!-- <pre class="yaml-message padding-horizontal" :class="[yamlError === 'OK' ? 'text-color-green' : 'text-color-red']">{{yamlError}}</pre> -->
       </f7-tab>
     </f7-tabs>

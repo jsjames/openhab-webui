@@ -4,20 +4,17 @@
     @page:beforeout="onPageBeforeOut"
     hide-bars-on-scroll
     :style="pageStyle"
-    class="disable-user-select"
-  >
+    class="disable-user-select">
     <f7-navbar
       v-if="!page || !page.config.hideNavbar"
       :back-link="showBackButton ? $t('page.navbar.back') : undefined"
-      class="disable-user-select"
-    >
+      class="disable-user-select">
       <f7-nav-left v-if="!showBackButton">
         <f7-link
           icon-ios="f7:menu"
           icon-aurora="f7:menu"
           icon-md="material:menu"
-          panel-open="left"
-        />
+          panel-open="left" />
       </f7-nav-left>
       <f7-nav-title>{{ pageLabel }}</f7-nav-title>
       <f7-nav-right>
@@ -28,12 +25,10 @@
           v-if="fullscreenIcon"
           class="fullscreen-icon-navbar"
           :icon-f7="fullscreenIcon"
-          @click="toggleFullscreen"
-        />
+          @click="toggleFullscreen" />
         <div
           v-if="!showBackButton && !isAdmin && !fullscreenIcon"
-          style="width: 44px; height: 44px"
-        />
+          style="width: 44px; height: 44px" />
       </f7-nav-right>
     </f7-navbar>
     <template v-else>
@@ -43,14 +38,12 @@
         icon-ios="f7:menu"
         icon-aurora="f7:menu"
         icon-md="material:menu"
-        panel-open="left"
-      />
+        panel-open="left" />
       <f7-link
         v-if="fullscreenIcon"
         class="fullscreen-icon"
         :icon-f7="fullscreenIcon"
-        @click="toggleFullscreen"
-      />
+        @click="toggleFullscreen" />
     </template>
 
     <!-- Tabbed Pages -->
@@ -60,18 +53,15 @@
         :key="idx"
         tab-link
         @click="onTabChange(idx)"
-        :tab-link-active="currentTab === idx"
-      >
+        :tab-link-active="currentTab === idx">
         <i
           v-if="tabEvaluateExpression(tab, idx, 'icon')"
           class="icon"
-          :style="{ width: tabBarIconSize, height: tabBarIconSize }"
-        >
+          :style="{ width: tabBarIconSize, height: tabBarIconSize }">
           <oh-icon
             :icon="tabEvaluateExpression(tab, idx, 'icon')"
             :width="tabBarIconSize"
-            :height="tabBarIconSize"
-          />
+            :height="tabBarIconSize" />
           <f7-badge
             v-if="tabEvaluateExpression(tab, idx, 'badge')"
             :color="tabEvaluateExpression(tab, idx, 'badgeColor')"
@@ -87,8 +77,7 @@
           v-if="currentTab === idx"
           :is="tabComponent(tab)"
           :context="tabContext(tab)"
-          @command="onCommand"
-        />
+          @command="onCommand" />
       </f7-tab>
     </f7-tabs>
 
@@ -97,15 +86,13 @@
       v-else-if="page && visibleToCurrentUser"
       :context="context"
       @command="onCommand"
-      @action="performAction($event.ev, $event.prefix, $event.config, $event.context)"
-    />
+      @action="performAction($event.ev, $event.prefix, $event.config, $event.context)" />
 
     <empty-state-placeholder
       v-if="!visibleToCurrentUser"
       icon="multiply_circle_fill"
       title="page.unavailable.title"
-      text="page.unavailable.text"
-    />
+      text="page.unavailable.text" />
   </f7-page>
 </template>
 

@@ -11,34 +11,29 @@
       ...resolvedStyle,
     }"
     onload="this.classList.remove('no-icon')"
-    onerror="this.classList.add('no-icon')"
-  />
+    onerror="this.classList.add('no-icon')" />
   <f7-link v-else-if="hasAction" @click="performAction()">
     <f7-icon
       v-if="iconType === 'f7'"
       v-bind="resolvedConfig"
       :size="resolvedConfig.width || resolvedConfig.height || null"
-      :style="resolvedStyle"
-    />
+      :style="resolvedStyle" />
     <iconify-icon
       v-else-if="iconType === 'iconify'"
       v-bind="resolvedConfig"
       :icon="resolvedIcon.iconName"
-      :style="resolvedStyle"
-    />
+      :style="resolvedStyle" />
   </f7-link>
   <f7-icon
     v-else-if="iconType === 'f7'"
     v-bind="resolvedConfig"
     :size="resolvedConfig.width || resolvedConfig.height || null"
-    :style="resolvedStyle"
-  />
+    :style="resolvedStyle" />
   <iconify-icon
     v-else-if="iconType === 'iconify'"
     v-bind="resolvedConfig"
     :icon="resolvedIcon.iconName"
-    :style="resolvedStyle"
-  />
+    :style="resolvedStyle" />
 </template>
 
 <style lang="stylus">

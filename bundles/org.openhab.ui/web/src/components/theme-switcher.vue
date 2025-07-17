@@ -39,16 +39,14 @@
       <f7-col
         width="50"
         class="nav-bars-picker nav-bars-picker-empty"
-        @click="setBarsStyle('light')"
-      >
+        @click="setBarsStyle('light')">
         <div class="demo-navbar" />
         <f7-checkbox checked disabled v-if="barsStyle === 'light'" />
       </f7-col>
       <f7-col
         width="50"
         class="nav-bars-picker nav-bars-picker-fill"
-        @click="setBarsStyle('filled')"
-      >
+        @click="setBarsStyle('filled')">
         <div class="demo-navbar" />
         <f7-checkbox checked disabled v-if="barsStyle === 'filled'" />
       </f7-col>
@@ -67,8 +65,7 @@
                 small
                 :active="homePageNavbarStyle === navbarstyle"
                 :text="$t('about.miscellaneous.home.navbar.' + navbarstyle)"
-                :key="navbarstyle"
-              />
+                :key="navbarstyle" />
             </f7-segmented>
           </f7-list-item>
           <f7-list-item>
@@ -81,45 +78,39 @@
                 :active="homePageBackground === background"
                 @click="setHomePageBackground(background)"
                 :text="$t('about.miscellaneous.home.background.' + background)"
-                :key="background"
-              />
+                :key="background" />
             </f7-segmented>
           </f7-list-item>
           <f7-list-item v-show="$store.getters.apiEndpoint('habot')">
             <span>{{ $t('about.miscellaneous.home.hideChatInput') }}</span>
             <f7-toggle
               :checked="hideChatInput == 'true' ? true : null"
-              @toggle:change="setHideChatInput"
-            />
+              @toggle:change="setHideChatInput" />
           </f7-list-item>
           <f7-list-item>
             <span>{{ $t('about.miscellaneous.home.disableCardExpansionAnimation') }}</span>
             <f7-toggle
               :checked="expandableCardsAnimation === 'disabled' ? true : null"
-              @toggle:change="setExpandableCardAnimation"
-            />
+              @toggle:change="setExpandableCardAnimation" />
           </f7-list-item>
           <f7-list-item>
             <span>{{ $t('about.miscellaneous.theme.disablePageTransition') }}</span>
             <f7-toggle
               :checked="pageTransitionAnimation === 'disabled' ? true : null"
-              @toggle:change="setPageTransitionAnimation"
-            />
+              @toggle:change="setPageTransitionAnimation" />
           </f7-list-item>
           <f7-list-item>
             <span>{{ $t('about.miscellaneous.webaudio.enable') }}</span>
             <f7-toggle
               :checked="webAudio === 'enabled' ? true : null"
-              @toggle:change="setWebAudio"
-            />
+              @toggle:change="setWebAudio" />
           </f7-list-item>
           <f7-list-item>
             <item-picker
               :title="$t('about.miscellaneous.commandItem.title')"
               :multiple="false"
               :value="commandItem"
-              @input="setCommandItem"
-            />
+              @input="setCommandItem" />
           </f7-list-item>
         </f7-list>
       </f7-col>

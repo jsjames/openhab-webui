@@ -3,15 +3,13 @@
     class="item-details-page"
     @page:beforein="onPageBeforeIn"
     @page:afterin="onPageAfterIn"
-    @page:beforeout="onPageBeforeOut"
-  >
+    @page:beforeout="onPageBeforeOut">
     <f7-navbar
       :title="item.name"
       back-link="Back"
       no-shadow
       no-hairline
-      class="item-details-navbar"
-    >
+      class="item-details-navbar">
       <f7-nav-right v-if="ready">
         <f7-link v-if="item.editable" icon-md="material:edit" href="edit">
           {{ theme.md ? '' : 'Edit' }}
@@ -20,8 +18,7 @@
           v-else
           icon-f7="lock_fill"
           tooltip="This Item is not editable through the UI"
-          href="edit"
-        >
+          href="edit">
           Details
         </f7-link>
       </f7-nav-right>
@@ -32,8 +29,7 @@
             :icon="item.category"
             :state="item.type === 'Image' ? null : context.store[item.name].state || item.state"
             height="60"
-            width="60"
-          />
+            width="60" />
           <span v-else>
             {{ item.label ? item.label[0] : item.name[0] }}
           </span>
@@ -74,8 +70,7 @@
               :key="key"
               :link="groupLink(value)"
               :title="key"
-              :after="value"
-            />
+              :after="value" />
           </f7-list>
         </f7-col>
       </f7-row>
@@ -88,8 +83,7 @@
                 v-for="group in nonSemanticGroupNames"
                 :key="group"
                 :link="groupLink(group)"
-                :title="group"
-              />
+                :title="group" />
             </f7-list>
           </f7-card>
         </f7-col>
@@ -118,8 +112,7 @@
             <f7-list-button color="blue" @click="duplicateItem"> Duplicate Item </f7-list-button>
             <f7-list-button
               color="blue"
-              @click="copyFileDefinitionToClipboard(ObjectType.ITEM, [item.name])"
-            >
+              @click="copyFileDefinitionToClipboard(ObjectType.ITEM, [item.name])">
               Copy File Definition
             </f7-list-button>
             <f7-list-button v-if="item.editable" color="red" @click="deleteItem">

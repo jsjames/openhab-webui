@@ -4,8 +4,7 @@
       <generic-widget-component
         :context="childContext(slotComponent)"
         v-for="(slotComponent, idx) in context.component.slots.default"
-        :key="'default-' + idx"
-      />
+        :key="'default-' + idx" />
     </template>
   </f7-link>
 </template>

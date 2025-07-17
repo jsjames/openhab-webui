@@ -6,8 +6,7 @@
         <f7-link
           icon-md="material:done_all"
           @click="toggleCheck()"
-          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''"
-        />
+          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''" />
       </f7-nav-right>
       <f7-subnavbar :inner="false" v-show="initSeachbar">
         <f7-searchbar
@@ -19,8 +18,7 @@
           @searchbar:clear="clearSearch"
           @searchbar:disable="clearSearch"
           :placeholder="searchPlaceholder"
-          :disable-button="!theme.aurora"
-        />
+          :disable-button="!theme.aurora" />
       </f7-subnavbar>
     </f7-navbar>
     <f7-toolbar
@@ -28,21 +26,18 @@
       :class="{ navbar: theme.md }"
       v-if="showCheckboxes"
       bottom-ios
-      bottom-aurora
-    >
+      bottom-aurora>
       <div
         class="display-flex justify-content-center"
         v-if="!theme.md && selectedItems.length > 0"
-        style="width: 100%"
-      >
+        style="width: 100%">
         <f7-link
           color="red"
           v-show="selectedItems.length"
           class="delete display-flex flex-direction-row margin-right"
           icon-ios="f7:trash"
           icon-aurora="f7:trash"
-          @click="removeSelected"
-        >
+          @click="removeSelected">
           Remove
         </f7-link>
         <f7-link
@@ -51,8 +46,7 @@
           class="disable display-flex flex-direction-row margin-right"
           @click="doDisableEnableSelected(false)"
           icon-ios="f7:pause_circle"
-          icon-aurora="f7:pause_circle"
-        >
+          icon-aurora="f7:pause_circle">
           &nbsp;Disable
         </f7-link>
         <f7-link
@@ -61,8 +55,7 @@
           class="enable display-flex flex-direction-row margin-right"
           @click="doDisableEnableSelected(true)"
           icon-ios="f7:play_circle"
-          icon-aurora="f7:play_circle"
-        >
+          icon-aurora="f7:play_circle">
           &nbsp;Enable
         </f7-link>
         <f7-link
@@ -71,8 +64,7 @@
           class="copy display-flex flex-direction-row"
           @click="copyFileDefinitionToClipboard(ObjectType.THING, selectedItems)"
           icon-ios="f7:square_on_square"
-          icon-aurora="f7:square_on_square"
-        >
+          icon-aurora="f7:square_on_square">
           &nbsp;Copy
         </f7-link>
       </div>
@@ -80,8 +72,7 @@
         v-if="theme.md"
         icon-md="material:close"
         icon-color="white"
-        @click="showCheckboxes = false"
-      />
+        @click="showCheckboxes = false" />
       <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
       <div class="right" v-if="theme.md">
         <f7-link
@@ -89,29 +80,25 @@
           tooltip="Disable selected"
           icon-md="material:pause_circle_outline"
           icon-color="white"
-          @click="doDisableEnableSelected(false)"
-        />
+          @click="doDisableEnableSelected(false)" />
         <f7-link
           v-show="selectedItems.length"
           tooltip="Enable selected"
           icon-md="material:play_circle_outline"
           icon-color="white"
-          @click="doDisableEnableSelected(true)"
-        />
+          @click="doDisableEnableSelected(true)" />
         <f7-link
           v-show="selectedItems.length"
           tooltip="Remove selected"
           icon-md="material:delete"
           icon-color="white"
-          @click="removeSelected"
-        />
+          @click="removeSelected" />
         <f7-link
           v-show="selectedItems.length"
           tooltip="Copy selected"
           icon-md="material:content_copy"
           icon-color="white"
-          @click="copyFileDefinitionToClipboard(ObjectType.THING, selectedItems)"
-        />
+          @click="copyFileDefinitionToClipboard(ObjectType.THING, selectedItems)" />
       </div>
     </f7-toolbar>
 
@@ -121,8 +108,7 @@
       v-show="groupBy === 'alphabetical' && !$device.desktop"
       list-el=".things-list"
       :scroll-list="true"
-      :label="true"
-    />
+      :label="true" />
 
     <f7-block class="block-narrow">
       <f7-col v-show="ready">
@@ -132,23 +118,20 @@
             -
             <f7-link
               @click="selectDeselectAll"
-              :text="allSelected ? 'Deselect all' : 'Select all'"
-            />
+              :text="allSelected ? 'Deselect all' : 'Select all'" />
           </span>
           <template v-if="groupBy === 'location'">
             <div
               v-if="!$device.desktop && f7.width < 1024"
               style="text-align: right; color: var(--f7-block-text-color); font-weight: normal"
-              class="float-right"
-            >
+              class="float-right">
               <f7-checkbox :checked="showNoLocation ? true : null" @change="toggleShowNoLocation" />
               <label @click="toggleShowNoLocation" style="cursor: pointer">Show no location</label>
             </div>
             <div
               v-else
               style="text-align: right; color: var(--f7-block-text-color); font-weight: normal"
-              class="float-right"
-            >
+              class="float-right">
               <label @click="toggleShowNoLocation" style="cursor: pointer">Show no location</label>
               <f7-checkbox :checked="showNoLocation ? true : null" @change="toggleShowNoLocation" />
             </div>
@@ -167,8 +150,7 @@
               :class="`skeleton-text skeleton-effect-blink`"
               title="Label of the thing"
               subtitle="This contains the thing UID"
-              after="status badge"
-            />
+              after="status badge" />
           </f7-list-group>
         </f7-list>
       </f7-col>
@@ -178,8 +160,7 @@
           <f7-segmented strong tag="p">
             <f7-button
               :active="groupBy === 'alphabetical'"
-              @click="switchGroupOrder('alphabetical')"
-            >
+              @click="switchGroupOrder('alphabetical')">
               Alphabetical
             </f7-button>
             <f7-button :active="groupBy === 'binding'" @click="switchGroupOrder('binding')">
@@ -208,8 +189,7 @@
               @click.meta="e => ctrlClick(e, thing)"
               @click.exact="e => click(e, thing)"
               link=""
-              :title="thing.label || thing.UID"
-            >
+              :title="thing.label || thing.UID">
               <template #footer>
                 <div>
                   {{ thing.UID }}
@@ -223,15 +203,13 @@
                   <f7-icon
                     f7="placemark"
                     color="gray"
-                    style="font-size: 16px; width: 16px; height: 16px"
-                  />
+                    style="font-size: 16px; width: 16px; height: 16px" />
                 </div>
               </template>
               <template #after>
                 <f7-badge
                   :color="thingStatusBadgeColor(thing.statusInfo)"
-                  :tooltip="thing.statusInfo.description"
-                >
+                  :tooltip="thing.statusInfo.description">
                   {{ thingStatusBadgeText(thing.statusInfo) }}
                 </f7-badge>
               </template>
@@ -254,8 +232,7 @@
           external
           :href="`${$store.state.websiteUrl}/link/thing`"
           target="_blank"
-          :text="$t('home.overview.button.documentation')"
-        />
+          :text="$t('home.overview.button.documentation')" />
       </f7-row>
     </f7-block>
 
@@ -271,8 +248,7 @@
         position="center-bottom"
         :text="`Inbox (${inboxCount})`"
         :color="inboxCount > 0 ? 'red' : 'gray'"
-        href="inbox"
-      >
+        href="inbox">
         <f7-icon f7="tray" />
       </f7-fab>
     </template>

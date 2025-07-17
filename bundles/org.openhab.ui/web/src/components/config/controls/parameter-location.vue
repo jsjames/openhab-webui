@@ -10,8 +10,7 @@
       validate
       :clear-button="!configDescription.required"
       @input="ev => updateValue(ev.target.value)"
-      type="text"
-    >
+      type="text">
       <template #slot-content-end>
         <div class="padding-left">
           <f7-button @click="openMapPicker"> <f7-icon f7="placemark" /> Map </f7-button>

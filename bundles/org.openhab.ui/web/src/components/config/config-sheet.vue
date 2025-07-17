@@ -17,8 +17,7 @@
               :configuration="configurationWithDefaults"
               :read-only="readOnly"
               :status="parameterStatus(parameter)"
-              @update="value => updateParameter(parameter, value)"
-            />
+              @update="value => updateParameter(parameter, value)" />
           </f7-col>
         </f7-row>
       </f7-block>
@@ -28,8 +27,7 @@
         width="100"
         class="parameter-group"
         v-for="group in parameterGroups"
-        :key="group.name"
-      >
+        :key="group.name">
         <f7-row v-if="displayedParameters.some(p => p.groupName === group.name)">
           <f7-col>
             <f7-block-title class="parameter-group-title">
@@ -48,8 +46,7 @@
               :configuration="configurationWithDefaults"
               :read-only="readOnly"
               :status="parameterStatus(parameter)"
-              @update="value => updateParameter(parameter, value)"
-            />
+              @update="value => updateParameter(parameter, value)" />
           </f7-col>
         </f7-row>
       </f7-block>
@@ -85,14 +82,14 @@ import { actionParams } from '@/assets/definitions/widgets/actions';
 import { defineAsyncComponent } from 'vue';
 
 export default {
-  props: [
-    'parameterGroups',
-    'parameters',
-    'configuration',
-    'status',
-    'readOnly',
-    'setEmptyConfigAsNull',
-  ],
+  props: {
+    parameterGroups: Array,
+    parameters: Array,
+    configuration: Object,
+    status: Array,
+    readOnly: Boolean,
+    setEmptyConfigAsNull: Boolean,
+  },
   emits: ['updated'],
   components: {
     'config-parameter': defineAsyncComponent(

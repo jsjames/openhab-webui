@@ -6,8 +6,7 @@
       :rule="rule"
       :createMode="createMode"
       :inScriptEditor="true"
-      style="margin-bottom: -15px"
-    />
+      style="margin-bottom: -15px" />
     <f7-block class="block-narrow" style="margin-top: 0">
       <f7-col v-if="!createMode && languages">
         <f7-list inline-labels style="margin-top: 0">
@@ -19,8 +18,7 @@
               :placeholder="sugModuleTitle"
               @input="$set(module, 'label', $event.target.value)"
               :disabled="!editable ? true : null"
-              :clear-button="editable"
-            />
+              :clear-button="editable" />
             <f7-list-input
               label="Description"
               type="text"
@@ -28,8 +26,7 @@
               :placeholder="sugModuleDescription"
               @input="$set(module, 'description', $event.target.value)"
               :disabled="!editable ? true : null"
-              :clear-button="editable"
-            />
+              :clear-button="editable" />
           </template>
           <f7-list-item
             title="Scripting Language"
@@ -37,23 +34,20 @@
             :disabled="!editable ? true : null"
             :key="mode"
             smart-select
-            :smart-select-params="{ openIn: 'sheet', closeOnSelect: true }"
-          >
+            :smart-select-params="{ openIn: 'sheet', closeOnSelect: true }">
             <select @change="$emit('new-language', $event.target.value)">
               <option
                 v-if="!languages.map(l => l.contentType).includes(mode)"
                 :key="mode"
                 :value="mode"
-                selected="true"
-              >
+                selected="true">
                 {{ mode ? mode + ' (not installed)' : 'Unknown' }}
               </option>
               <option
                 v-for="language in languages"
                 :key="language.contentType"
                 :value="language.contentType"
-                :selected="language.contentType === mode ? true : null"
-              >
+                :selected="language.contentType === mode ? true : null">
                 {{ language.name }} ({{ language.version }})
               </option>
             </select>

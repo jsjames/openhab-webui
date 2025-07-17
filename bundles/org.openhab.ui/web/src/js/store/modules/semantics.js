@@ -39,7 +39,7 @@ const mutations = {
       state.Synonyms[t.name] = t.synonyms || []
     }
     // Save labels as i18n messages
-    i18n.mergeLocaleMessage(i18n.locale, state.Labels)
+    i18n.global.mergeLocaleMessage(i18n.locale, state.Labels)
   }
 }
 

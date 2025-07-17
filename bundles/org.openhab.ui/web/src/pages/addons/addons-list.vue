@@ -2,14 +2,12 @@
   <f7-page
     @page:afterin="onPageAfterIn"
     @page:beforeout="addonPopupOpened = false"
-    @page:afterout="stopEventSource"
-  >
+    @page:afterout="stopEventSource">
     <f7-navbar
       :title="'Add-ons: ' + addonsLabels[addonType]"
       back-link="Settings"
       back-link-url="/settings/"
-      back-link-force
-    >
+      back-link-force>
       <!-- <f7-nav-right>
         <f7-link href="add">Add</f7-link>
       </f7-nav-right>-->
@@ -28,8 +26,7 @@
             title="Label of the binding"
             header="BindingID"
             footer="Binding version"
-            media-item
-          />
+            media-item />
         </f7-list>
         <f7-list v-else>
           <f7-list-item
@@ -41,8 +38,7 @@
             :header="addon.uid"
             :footer="addon.version"
             :after="currentlyUninstalling.indexOf(addon.uid) >= 0 ? 'Uninstalling...' : ''"
-            :title="addon.label"
-          >
+            :title="addon.label">
             <!-- <f7-swipeout-actions left>
               <f7-swipeout-button v-if="addon.link" color="blue">Documentation</f7-swipeout-button>
               <f7-swipeout-button color="red">Uninstall</f7-swipeout-button>
@@ -57,8 +53,7 @@
       <empty-state-placeholder
         :icon="addonsIcons[addonType]"
         :title="'No ' + addonsLabels[addonType] + ' installed yet'"
-        text="addons.text"
-      />
+        text="addons.text" />
     </f7-block>
     <template #fixed>
       <f7-fab position="right-bottom" color="blue" href="add">
@@ -76,8 +71,7 @@
       :addon-id="currentAddonId"
       :opened="addonPopupOpened"
       @closed="addonPopupOpened = false"
-      @uninstall="uninstallAddon"
-    />
+      @uninstall="uninstallAddon" />
   </f7-page>
 </template>
 

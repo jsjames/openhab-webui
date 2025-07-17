@@ -8,8 +8,7 @@
             :key="namespace.name"
             :link="'/settings/items/' + item.name + '/metadata/' + namespace.name"
             :title="namespace.label"
-            :after="namespace.value || 'Not Set'"
-          >
+            :after="namespace.value || 'Not Set'">
             <template #title>
               <f7-icon v-if="!namespace.editable" f7="lock_fill" size="1rem" color="gray" />
             </template>
@@ -22,8 +21,7 @@
             :key="namespace.name"
             :link="'/settings/items/' + item.name + '/metadata/' + namespace.name"
             :title="namespace.label"
-            :after="namespace.value || 'Not Set'"
-          >
+            :after="namespace.value || 'Not Set'">
             <template #title>
               <f7-icon v-if="!namespace.editable" f7="lock_fill" size="1rem" color="gray" />
             </template>

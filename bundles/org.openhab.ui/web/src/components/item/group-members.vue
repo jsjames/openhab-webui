@@ -8,8 +8,7 @@
             :key="member.name"
             :item="member"
             :link="'/settings/items/' + member.name"
-            :context="context"
-          />
+            :context="context" />
           <!-- <f7-list-button @click="enableEditMode" color="blue" title="Add or Remove Members" /> -->
         </ul>
         <item-picker
@@ -19,8 +18,7 @@
           :value="pickedMemberNames"
           title="Members"
           :editableOnly="true"
-          @input="members => (pickedMemberNames = members)"
-        />
+          @input="members => (pickedMemberNames = members)" />
       </f7-list>
     </f7-card-content>
     <f7-card-footer>

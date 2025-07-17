@@ -18,8 +18,7 @@
       @start="onDragStart"
       @change="onDragChange"
       @end="onDragEnd"
-      :move="onDragMove"
-    >
+      :move="onDragMove">
       <model-treeview-item
         v-for="node in children"
         :key="node.item.name"
@@ -33,8 +32,7 @@
         @selected="nodeSelected"
         :selected="selected ? true : null"
         @checked="(item, check) => $emit('checked', item, check)"
-        @reload="$emit('reload')"
-      />
+        @reload="$emit('reload')" />
       <!-- Drop zone for adding at root level -->
       <div v-if="canDragDrop" class="root-drop-zone">
         <!-- empty space to catch drops outside children -->

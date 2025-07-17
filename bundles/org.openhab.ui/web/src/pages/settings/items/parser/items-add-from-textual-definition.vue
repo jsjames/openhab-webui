@@ -13,8 +13,7 @@
             class="editor"
             :value="itemsDsl"
             @input="value => (itemsDsl = value)"
-            mode="application/vnd.openhab.items+dsl"
-          />
+            mode="application/vnd.openhab.items+dsl" />
         </div>
         <span class="resize-handler" />
       </div>
@@ -25,8 +24,7 @@
               <empty-state-placeholder
                 icon="text_badge_plus"
                 title="items.add.title"
-                text="items.add.text"
-              />
+                text="items.add.text" />
             </div>
             <pre v-else><code>{{ parsedItems.error }}</code></pre>
           </div>
@@ -57,15 +55,13 @@
                         f7="exclamationmark_octagon_fill"
                         color="yellow"
                         size="22"
-                        tooltip="Item already exists"
-                      />
+                        tooltip="Item already exists" />
                       <f7-icon
                         v-if="item.existing && !item.existing.editable"
                         f7="multiply_circle_fill"
                         color="red"
                         size="22"
-                        tooltip="Item already exists and is not editable"
-                      />
+                        tooltip="Item already exists and is not editable" />
                     </td>
                     <td class="label-cell">
                       {{ item.label }}
@@ -75,8 +71,7 @@
                         v-if="item.category"
                         :icon="item.category"
                         :width="20"
-                        :height="20"
-                      />
+                        :height="20" />
                     </td>
                     <td class="label-cell">
                       {{ item.groupNames ? item.groupNames.join(', ') : '' }}
@@ -87,8 +82,7 @@
                         v-for="tag in item.tags"
                         :key="tag"
                         :text="tag"
-                        media-bg-color="blue"
-                      >
+                        media-bg-color="blue">
                         <template #media>
                           <f7-icon ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
                         </template>
@@ -115,8 +109,7 @@
                       <div
                         class="margin-right"
                         v-for="(metadata, lidx) in item.metadata"
-                        :key="lidx"
-                      >
+                        :key="lidx">
                         <div v-if="metadata.value.value">
                           <div>{{ metadata.key }}="{{ metadata.value.value }}"</div>
                           <small>{{

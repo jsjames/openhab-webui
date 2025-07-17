@@ -17,16 +17,14 @@
             pattern="[A-Za-z0-9_\-]+"
             error-message="Required. A-Z,a-z,0-9,_,- only"
             @input="rule.uid = $event.target.value"
-            :clear-button="createMode"
-          >
+            :clear-button="createMode">
             <template #inner>
               <f7-link
                 icon-f7="hammer_fill"
                 style="margin-top: 4px; margin-left: 4px; margin-bottom: auto"
                 tooltip="Fix ID"
                 v-if="createMode && $refs.ruleId?.state?.inputInvalid && rule.uid.trim()"
-                @click="$oh.utils.normalizeInput('#input')"
-              />
+                @click="$oh.utils.normalizeInput('#input')" />
             </template>
           </f7-list-input>
           <f7-list-input
@@ -34,8 +32,7 @@
             label="Template"
             type="text"
             :value="templateName"
-            disabled
-          />
+            disabled />
           <f7-list-input
             label="Label"
             type="text"
@@ -46,16 +43,14 @@
             validate
             :disabled="!editable ? true : null"
             @input="rule.name = $event.target.value"
-            :clear-button="editable"
-          />
+            :clear-button="editable" />
           <f7-list-input
             label="Description"
             type="text"
             :value="rule.description"
             :disabled="!editable ? true : null"
             @input="rule.description = $event.target.value"
-            :clear-button="editable"
-          />
+            :clear-button="editable" />
         </f7-list>
         <f7-list inline-labels no-hairlines-md>
           <tag-input
@@ -65,8 +60,7 @@
             :disabled="!editable ? true : null"
             :showSemanticTags="true"
             :inScriptEditor="inScriptEditor"
-            :inSceneEditor="inSceneEditor"
-          />
+            :inSceneEditor="inSceneEditor" />
         </f7-list>
       </f7-col>
     </f7-block>
@@ -85,8 +79,7 @@
             :disabled="true"
             :info="createMode ? 'Note: cannot be changed after the creation' : ''"
             @input="rule.uid = $event.target.value"
-            :clear-button="createMode"
-          />
+            :clear-button="createMode" />
           <f7-list-input
             label="Name"
             type="text"
@@ -95,16 +88,14 @@
             validate
             :disabled="true"
             @input="rule.name = $event.target.value"
-            :clear-button="editable"
-          />
+            :clear-button="editable" />
           <f7-list-input
             label="Description"
             type="text"
             value="__ _____ ___ __ ___"
             :disabled="true"
             @input="rule.description = $event.target.value"
-            :clear-button="editable"
-          />
+            :clear-button="editable" />
         </f7-list>
         <f7-list inline-labels no-hairlines-md>
           <tag-input
@@ -113,8 +104,7 @@
             :disabled="!editable ? true : null"
             :showSemanticTags="true"
             :inScriptEditor="inScriptEditor"
-            :inSceneEditor="inSceneEditor"
-          />
+            :inSceneEditor="inSceneEditor" />
         </f7-list>
       </f7-col>
     </f7-block>

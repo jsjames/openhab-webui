@@ -3,8 +3,7 @@
     ref="slotConfig"
     class="slotconfig-popup"
     @popup:open="ready = true"
-    @popup:closed="widgetSlotConfigClosed"
-  >
+    @popup:closed="widgetSlotConfigClosed">
     <f7-page v-if="ready">
       <f7-navbar>
         <f7-nav-left>
@@ -12,8 +11,7 @@
             icon-ios="f7:arrow_left"
             icon-md="material:arrow_back"
             icon-aurora="f7:arrow_left"
-            popup-close
-          />
+            popup-close />
         </f7-nav-left>
         <f7-nav-title>Edit {{ currentSlot }}</f7-nav-title>
         <f7-nav-right>
@@ -26,8 +24,7 @@
           :key="idx"
           @click="switchTab(idx)"
           :tab-link-active="currentTab === idx"
-          class="tab-link"
-        >
+          class="tab-link">
           {{ idx }}
         </f7-link>
         <f7-link @click="addComponentToSlot" icon-f7="plus_filled" class="tab-link" />
@@ -38,8 +35,7 @@
         <f7-tab
           v-for="(slotComponent, idx) in slotConfig"
           :key="idx"
-          :tab-active="currentTab === idx"
-        >
+          :tab-active="currentTab === idx">
           <config-sheet
             v-if="currentTab === idx && getWidgetDefinition(slotComponent.component)"
             :parameterGroups="
@@ -47,8 +43,7 @@
             "
             :parameters="getWidgetDefinition(slotComponent.component).props.parameters || []"
             :configuration="slotComponent.config"
-            @updated="dirty = true"
-          />
+            @updated="dirty = true" />
           <f7-block v-else strong>
             This type of component cannot be configured:
             {{ slotComponent.component }}.
@@ -62,8 +57,7 @@
               @click="
                 removeComponentFromSlot(slotComponent, slotConfig);
                 switchTab(slotConfig.length - 1);
-              "
-            >
+              ">
               Remove
             </f7-list-button>
           </f7-list>

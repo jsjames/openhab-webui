@@ -15,8 +15,7 @@
             class="channel-item"
             :title="channel.label || channelType.label"
             :footer="channel.description || channelType.description"
-            :subtitle="channel.uid + ' (' + getItemType(channel) + ')'"
-          />
+            :subtitle="channel.uid + ' (' + getItemType(channel) + ')'" />
         </f7-list>
       </f7-col>
 
@@ -35,16 +34,14 @@
               value="false"
               @change="createMode = false"
               title="Use an existing Item"
-              name="item-creation-choice"
-            />
+              name="item-creation-choice" />
             <f7-list-item
               radio
               :checked="createMode ? true : null"
               value="true"
               @change="createMode = true"
               title="Create a new Item"
-              name="item-creation-choice"
-            />
+              name="item-creation-choice" />
           </f7-list>
         </f7-col>
 
@@ -59,8 +56,7 @@
               :multiple="false"
               :items="items"
               :filterType="getCompatibleItemTypes()"
-              @input="value => (selectedItemName = value)"
-            />
+              @input="value => (selectedItemName = value)" />
           </f7-list>
         </f7-col>
 
@@ -72,8 +68,7 @@
             :items="items"
             :createMode="true"
             :unitHint="linkUnit()"
-            :stateDescription="stateDescription()"
-          />
+            :stateDescription="stateDescription()" />
         </f7-col>
       </template>
 
@@ -91,8 +86,7 @@
             title="Thing"
             name="thing"
             :value="selectedThingId"
-            @input="e => (selectedThingId = e)"
-          />
+            @input="e => (selectedThingId = e)" />
         </f7-list>
         <div v-if="selectedThing.UID && selectedThingType.UID">
           <f7-block-title>Channel</f7-block-title>
@@ -102,8 +96,7 @@
             :picker-mode="true"
             :item-type-filter="item.type"
             :channel-types="selectedThingChannelTypes"
-            @selected="channel => loadProfileTypes(channel)"
-          />
+            @selected="channel => loadProfileTypes(channel)" />
         </div>
       </f7-col>
 
@@ -122,8 +115,7 @@
             external
             color="blue"
             target="_blank"
-            :href="`${$store.state.websiteUrl}/link/profiles`"
-          >
+            :href="`${$store.state.websiteUrl}/link/profiles`">
             Learn more about profiles.
           </f7-link>
         </f7-block-footer>
@@ -147,8 +139,7 @@
             @change="onProfileTypeChange(profileType.uid)"
             :key="profileType.uid"
             :title="profileType.label"
-            name="profile-type"
-          />
+            name="profile-type" />
         </f7-list>
       </f7-col>
       <f7-col v-if="profileTypeConfiguration != null">
@@ -158,15 +149,13 @@
           :key="'profileTypeConfiguration-' + currentProfileType.uid"
           :parameter-groups="profileTypeConfiguration.parameterGroups"
           :parameters="profileTypeConfiguration.parameters"
-          :configuration="configuration"
-        />
+          :configuration="configuration" />
       </f7-col>
     </f7-block>
 
     <div
       v-if="ready && profileTypes.length"
-      class="if-aurora display-flex justify-content-center padding margin"
-    >
+      class="if-aurora display-flex justify-content-center padding margin">
       <div class="flex-shrink-0">
         <f7-button
           class="padding-left padding-right"
@@ -175,8 +164,7 @@
           large
           raised
           fill
-          @click="save"
-        >
+          @click="save">
           Link
         </f7-button>
       </div>

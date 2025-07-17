@@ -11,8 +11,7 @@
               :text="tag"
               :deleteable="!disabled"
               @delete="deleteTag"
-              media-bg-color="blue"
-            >
+              media-bg-color="blue">
               <template #media>
                 <f7-icon ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
               </template>
@@ -29,8 +28,7 @@
         :value="pendingTag"
         @input="pendingTag = $event.target.value"
         :input="false"
-        class="add-tag-input"
-      >
+        class="add-tag-input">
         <template #input>
           <input type="text" placeholder="Add tag" @keyup="keyUp" @blur="addTag" />
         </template>

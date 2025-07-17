@@ -3,8 +3,7 @@
     ref="mapPicker"
     class="mappicker-popup"
     @popup:open="mapPickerOpen"
-    @popup:closed="mapPickerClosed"
-  >
+    @popup:closed="mapPickerClosed">
     <f7-page>
       <f7-navbar>
         <f7-nav-left>
@@ -12,8 +11,7 @@
             icon-ios="f7:arrow_left"
             icon-md="material:arrow_back"
             icon-aurora="f7:arrow_left"
-            popup-close
-          />
+            popup-close />
         </f7-nav-left>
         <f7-nav-title>{{ title }}</f7-nav-title>
         <f7-nav-right>

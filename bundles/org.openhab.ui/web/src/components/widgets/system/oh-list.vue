@@ -2,8 +2,7 @@
   <f7-list
     v-bind="config"
     :title="null"
-    :style="{ 'z-index': context.editmode ? 'inherit' : undefined }"
-  >
+    :style="{ 'z-index': context.editmode ? 'inherit' : undefined }">
     <template #before-list>
       <f7-menu v-if="context.editmode" class="configure-layout-menu margin-vertical padding-left">
         <f7-menu-item @click="context.editmode.addWidget(context.component)" icon-f7="plus" />
@@ -14,15 +13,13 @@
                 context.editmode.configureWidget(context.component, context.parent, 'oh-list')
               "
               href="#"
-              text="Configure List"
-            />
+              text="Configure List" />
             <f7-menu-dropdown-item v-if="context.clipboardtype" divider />
             <f7-menu-dropdown-item
               v-if="context.clipboardtype"
               @click="context.editmode.pasteWidget(context.component, context.parent)"
               href="#"
-              text="Paste Item"
-            />
+              text="Paste Item" />
           </f7-menu-dropdown>
         </f7-menu-item>
       </f7-menu>
@@ -37,15 +34,13 @@
                   context.editmode.configureWidget(context.component.slots.default[idx], context)
                 "
                 href="#"
-                text="Configure Item"
-              />
+                text="Configure Item" />
               <f7-menu-dropdown-item
                 @click="
                   context.editmode.editWidgetCode(context.component.slots.default[idx], context)
                 "
                 href="#"
-                text="Edit YAML"
-              />
+                text="Edit YAML" />
               <f7-menu-dropdown-item
                 v-if="context.parent.component.config.accordionList"
                 @click="
@@ -56,47 +51,40 @@
                   )
                 "
                 href="#"
-                text="Edit Accordion Code"
-              />
+                text="Edit Accordion Code" />
               <f7-menu-dropdown-item divider />
               <f7-menu-dropdown-item
                 @click="context.editmode.cutWidget(context.component.slots.default[idx], context)"
                 href="#"
-                text="Cut"
-              />
+                text="Cut" />
               <f7-menu-dropdown-item
                 @click="context.editmode.copyWidget(context.component.slots.default[idx], context)"
                 href="#"
-                text="Copy"
-              />
+                text="Copy" />
               <f7-menu-dropdown-item
                 v-if="idx > 0 || idx < context.component.slots.default.length - 1"
-                divider
-              />
+                divider />
               <f7-menu-dropdown-item
                 v-if="idx > 0"
                 @click="
                   context.editmode.moveWidgetUp(context.component.slots.default[idx], context)
                 "
                 href="#"
-                text="Move Up"
-              />
+                text="Move Up" />
               <f7-menu-dropdown-item
                 v-if="idx < context.component.slots.default.length - 1"
                 @click="
                   context.editmode.moveWidgetDown(context.component.slots.default[idx], context)
                 "
                 href="#"
-                text="Move Down"
-              />
+                text="Move Down" />
               <f7-menu-dropdown-item divider />
               <f7-menu-dropdown-item
                 @click="
                   context.editmode.removeWidget(context.component.slots.default[idx], context)
                 "
                 href="#"
-                text="Remove Item"
-              />
+                text="Remove Item" />
             </f7-menu-dropdown>
           </f7-menu-item>
         </f7-menu>

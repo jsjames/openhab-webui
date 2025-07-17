@@ -5,8 +5,7 @@
     :icon-f7="listening && activity ? 'mic_fill' : 'mic'"
     :icon-size="24"
     :icon-color="listening ? 'red' : 'gray'"
-    @click="toggleSpeech"
-  />
+    @click="toggleSpeech" />
 </template>
 
 <style lang="stylus">

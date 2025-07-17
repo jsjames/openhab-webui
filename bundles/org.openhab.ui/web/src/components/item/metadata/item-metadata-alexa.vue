@@ -19,16 +19,14 @@
           closeOnSelect: !multiple,
           scrollToSelectedItem: true,
         }"
-        ref="classes"
-      >
+        ref="classes">
         <select v-if="itemType === 'Group'" name="classes" @change="updateClasses">
           <option value="" />
           <option
             v-for="cl in orderedClasses"
             :value="cl"
             :key="cl"
-            :selected="isSelected(cl) ? true : null"
-          >
+            :selected="isSelected(cl) ? true : null">
             {{ cl }}
           </option>
         </select>
@@ -39,8 +37,7 @@
               v-for="cl in defaultClasses"
               :value="cl"
               :key="cl"
-              :selected="isSelected(cl) ? true : null"
-            >
+              :selected="isSelected(cl) ? true : null">
               {{ cl }}
             </option>
           </optgroup>
@@ -50,8 +47,7 @@
               :value="cl"
               :key="cl"
               :selected="isSelected(cl) ? true : null"
-              :disabled="isDefined(cl) ? true : null"
-            >
+              :disabled="isDefined(cl) ? true : null">
               {{ cl }}
             </option>
           </optgroup>
@@ -60,8 +56,7 @@
               v-for="cl in genericClasses"
               :value="cl"
               :key="cl"
-              :selected="isSelected(cl) ? true : null"
-            >
+              :selected="isSelected(cl) ? true : null">
               {{ cl }}
             </option>
           </optgroup>
@@ -69,8 +64,7 @@
       </f7-list-item>
       <f7-block-footer class="padding-left no-padding no-margin" v-if="isPartOfGroupEndpoint">
         <small
-          v-html="`Part of group endpoint${item.groups.length > 1 ? 's' : ''}: ${groupLinks}`"
-        />
+          v-html="`Part of group endpoint${item.groups.length > 1 ? 's' : ''}: ${groupLinks}`" />
       </f7-block-footer>
     </f7-list>
     <div>
@@ -78,13 +72,11 @@
         :parameterGroups="[]"
         :parameters="parameters"
         :configuration="metadata.config"
-        :read-only="!editable"
-      />
+        :read-only="!editable" />
     </div>
     <f7-block
       class="padding-top no-padding no-margin"
-      v-if="itemType === 'Group' && classes.length"
-    >
+      v-if="itemType === 'Group' && classes.length">
       <f7-block-title class="padding-left"> Group Endpoint Capabilities </f7-block-title>
       <f7-list>
         <f7-list-item
@@ -93,8 +85,7 @@
           :after="cap.item"
           :key="`${cap.name}:${cap.item}`"
           :disabled="cap.isIgnored || !editable ? true : null"
-          :link="`/settings/items/${cap.item}/metadata/alexa`"
-        />
+          :link="`/settings/items/${cap.item}/metadata/alexa`" />
       </f7-list>
       <f7-block-footer class="padding-left" v-if="!groupCapabilities.length">
         No direct group members of {{ item.name }} configured for Alexa

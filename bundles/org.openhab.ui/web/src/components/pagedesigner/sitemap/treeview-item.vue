@@ -11,8 +11,7 @@
     :toggle="canHaveChildren"
     @treeview:open="setWidgetClosed(false)"
     @treeview:close="setWidgetClosed(true)"
-    @click="select"
-  >
+    @click="select">
     <draggable
       :disabled="!dropAllowed(widget) ? true : null"
       :list="children"
@@ -26,8 +25,7 @@
       touchStartThreshold="10"
       @start="onStart"
       @end="onEnd"
-      :move="onMove"
-    >
+      :move="onMove">
       <sitemap-treeview-item
         class="sitemap-treeview-item"
         v-for="(childwidget, idx) in children"
@@ -39,8 +37,7 @@
         @selected="event => $emit('selected', event)"
         :selected="selected ? true : null"
         :sitemap="localSitemap"
-        :moveState="localMoveState"
-      />
+        :moveState="localMoveState" />
     </draggable>
     <template #label>
       <div class="subtitle">

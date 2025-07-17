@@ -3,8 +3,7 @@
     ref="modulePopup"
     class="moduleconfig-popup"
     :close-by-backdrop-click="false"
-    @popup-closed="moduleConfigClosed"
-  >
+    @popup-closed="moduleConfigClosed">
     <f7-page>
       <f7-navbar>
         <f7-nav-left>
@@ -12,8 +11,7 @@
             icon-ios="f7:arrow_left"
             icon-md="material:arrow_back"
             icon-aurora="f7:arrow_left"
-            @click="onBackClicked"
-          />
+            @click="onBackClicked" />
         </f7-nav-left>
         <f7-nav-title v-if="ruleModule && ruleModule.new">
           Add {{ SectionLabels[currentSection][1] }}
@@ -41,16 +39,14 @@
               required
               @input="ruleModule.label = $event.target.value"
               :disabled="readOnly ? true : null"
-              clear-button
-            />
+              clear-button />
             <f7-list-input
               type="text"
               :placeholder="moduleDescriptionSuggestion"
               :value="ruleModule.description"
               @input="ruleModule.description = $event.target.value"
               :disabled="readOnly ? true : null"
-              clear-button
-            />
+              clear-button />
           </f7-list>
         </f7-col>
         <!-- <f7-block-footer class="no-margin padding-left"><small>Tip: leave fields blank to set automatically to the suggested name and description. <f7-link @click="ruleModule.label = null; ruleModule.description = null">Clear</f7-link></small></f7-block-footer> -->
@@ -60,8 +56,7 @@
           <f7-block-title
             class="no-margin padding-horizontal margin-vertical"
             v-if="!advancedTypePicker"
-            medium
-          >
+            medium>
             {{ SectionLabels[currentSection][0] }}
           </f7-block-title>
           <f7-list v-if="advancedTypePicker && !ruleModule.type">
@@ -75,8 +70,7 @@
                 :checked="ruleModule.type === moduleType.uid ? true : null"
                 :key="moduleType.uid"
                 :title="moduleType.label"
-                name="module-type"
-              />
+                name="module-type" />
             </ul>
           </f7-list>
           <trigger-module-wizard
@@ -84,8 +78,7 @@
             :current-module="ruleModule"
             :current-module-type="currentRuleModuleType"
             @type-select="setModuleType"
-            @show-advanced="advancedTypePicker = true"
-          />
+            @show-advanced="advancedTypePicker = true" />
           <condition-module-wizard
             v-else-if="!advancedTypePicker && currentSection === 'conditions'"
             :current-module="ruleModule"
@@ -93,8 +86,7 @@
             :module-types="moduleTypes['conditions']"
             @type-select="setModuleType"
             @show-advanced="advancedTypePicker = true"
-            @start-script="startScripting"
-          />
+            @start-script="startScripting" />
           <action-module-wizard
             v-else-if="!advancedTypePicker && currentSection === 'actions'"
             :current-module="ruleModule"
@@ -102,15 +94,13 @@
             :module-types="moduleTypes['actions']"
             @type-select="setModuleType"
             @show-advanced="advancedTypePicker = true"
-            @start-script="startScripting"
-          />
+            @start-script="startScripting" />
         </f7-col>
 
         <!-- module configuration -->
         <f7-col
           v-if="ruleModule.type && (!ruleModule.new || advancedTypePicker)"
-          class="margin-top"
-        >
+          class="margin-top">
           <f7-list>
             <f7-list-item
               :disabled="readOnly ? true : null"
@@ -121,8 +111,7 @@
                 view: f7.views.main,
                 openIn: 'popup',
                 closeOnSelect: true,
-              }"
-            >
+              }">
               <select
                 name="ruleModuleType"
                 @change="
@@ -132,19 +121,16 @@
                     ),
                     true
                   )
-                "
-              >
+                ">
                 <optgroup
                   v-for="(mt, scope) in groupedModuleTypes(currentSection)"
                   :key="scope"
-                  :label="scope"
-                >
+                  :label="scope">
                   <option
                     v-for="moduleType in mt"
                     :value="moduleType.uid"
                     :key="moduleType.uid"
-                    :selected="currentRuleModuleType.uid === moduleType.uid ? true : null"
-                  >
+                    :selected="currentRuleModuleType.uid === moduleType.uid ? true : null">
                     {{ moduleType.label }}
                   </option>
                 </optgroup>
@@ -154,8 +140,7 @@
         </f7-col>
         <f7-col
           v-if="ruleModule && currentRuleModuleType && (!ruleModule.new || advancedTypePicker)"
-          class="margin-top"
-        >
+          class="margin-top">
           <f7-block-title style="margin-bottom: 0"> Configuration </f7-block-title>
           <config-sheet
             v-if="!(ruleModule.configuration && ruleModule.configuration.blockSource)"
@@ -165,8 +150,7 @@
             :parameters="currentRuleModuleType.configDescriptions"
             :configuration="ruleModule.configuration"
             :readOnly="readOnly"
-            @updated="dirty = true"
-          />
+            @updated="dirty = true" />
           <f7-block v-else>
             <f7-button @click="editBlockly" color="blue" outline fill> Edit Blockly </f7-button>
           </f7-block>

@@ -11,16 +11,14 @@
       @click="handleClick"
       :class="{ 'with-tabbar': context.tab, 'with-toolbar': context.analyzer }"
       :theme="themeOptions.dark === 'dark' ? 'dark' : undefined"
-      autoresize
-    />
+      autoresize />
     <f7-menu class="padding float-right" v-if="periodVisible">
       <f7-menu-item @click="earlierPeriod()" icon-f7="chevron_left" />
       <f7-menu-item
         v-if="context.component.config.chartType"
         :text="fixedPeriodLabel"
         type="text"
-        @click="pickFixedStartDate"
-      >
+        @click="pickFixedStartDate">
         <input ref="calendarInput" type="text" style="width: 40px; height: 0; visibility: hidden" />
       </f7-menu-item>
       <f7-menu-item v-else dropdown :text="period">
@@ -48,8 +46,7 @@
             :key="p"
             @click="setPeriod(p)"
             href="#"
-            :text="p"
-          />
+            :text="p" />
         </f7-menu-dropdown>
       </f7-menu-item>
       <f7-menu-item @click="laterPeriod()" icon-f7="chevron_right" />

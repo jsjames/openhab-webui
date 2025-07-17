@@ -13,28 +13,13 @@
         !searchResults.scenes.length &&
         !searchResults.scripts.length
       "
-      class="text-align-center"
-    >
+      class="text-align-center">
       <div>Nothing found</div>
     </f7-block>
     <!-- Items -->
     <f7-block class="no-margin no-padding" v-if="searchResults.items.length">
       <f7-block-title class="padding-left">
-        <f7-icon class="margin-right" f7="square_on_circle" />Items ({{
-          searchResults.items.length
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <f7-icon class="margin-right" f7="square_on_circle" />Items ({{ searchResults.items.length
 
         }})
       </f7-block-title>
@@ -47,8 +32,7 @@
           :footer="item.label ? item.name : ''"
           link=""
           no-chevron
-          @click="evt => togglePin(evt, 'items', item, 'name')"
-        >
+          @click="evt => togglePin(evt, 'items', item, 'name')">
           <template #after>
             <f7-link color="gray">
               <clipboard-icon :value="item.name" tooltip="Copy Item name" />
@@ -59,31 +43,27 @@
               icon-size="18"
               tooltip="Details"
               :href="'/settings/items/' + item.name"
-              :animate="false"
-            />
+              :animate="false" />
             <f7-link
               v-if="isPinned('items', item, 'name')"
               @click="$emit('unpin', 'items', item, 'name')"
               color="red"
               icon-f7="pin_slash_fill"
               icon-size="18"
-              tooltip="Unpin"
-            />
+              tooltip="Unpin" />
             <f7-link
               v-else
               @click="$emit('pin', 'items', item, 'name')"
               color="blue"
               icon-f7="unpin"
               icon-size="18"
-              tooltip="Pin"
-            />
+              tooltip="Pin" />
           </template>
         </f7-list-item>
         <f7-list-button
           v-if="!showingAll('items')"
           color="blue"
-          @click="$set(expandedTypes, 'items', true)"
-        >
+          @click="$set(expandedTypes, 'items', true)">
           Show All
         </f7-list-button>
       </f7-list>
@@ -102,8 +82,7 @@
           :footer="thing.UID"
           link=""
           no-chevron
-          @click="evt => togglePin(evt, 'things', thing, 'UID')"
-        >
+          @click="evt => togglePin(evt, 'things', thing, 'UID')">
           <template #after>
             <f7-link color="gray">
               <clipboard-icon :value="thing.UID" tooltip="Copy Thing UID" />
@@ -114,31 +93,27 @@
               icon-size="18"
               tooltip="Edit"
               :href="'/settings/things/' + thing.UID"
-              :animate="false"
-            />
+              :animate="false" />
             <f7-link
               v-if="isPinned('things', thing, 'UID')"
               @click="$emit('unpin', 'things', thing, 'UID')"
               color="red"
               icon-f7="pin_slash_fill"
               icon-size="18"
-              tooltip="Unpin"
-            />
+              tooltip="Unpin" />
             <f7-link
               v-else
               @click="$emit('pin', 'things', thing, 'UID')"
               color="blue"
               icon-f7="unpin"
               icon-size="18"
-              tooltip="Pin"
-            />
+              tooltip="Pin" />
           </template>
         </f7-list-item>
         <f7-list-button
           v-if="!showingAll('things')"
           color="blue"
-          @click="$set(expandedTypes, 'things', true)"
-        >
+          @click="$set(expandedTypes, 'things', true)">
           Show All
         </f7-list-button>
       </f7-list>
@@ -157,8 +132,7 @@
           :footer="rule.uid"
           link=""
           no-chevron
-          @click="evt => togglePin(evt, 'rules', rule, 'uid')"
-        >
+          @click="evt => togglePin(evt, 'rules', rule, 'uid')">
           <template #after>
             <f7-link color="gray">
               <clipboard-icon :value="rule.uid" tooltip="Copy Rule UID" />
@@ -174,31 +148,27 @@
                 '/' +
                 rule.uid
               "
-              :animate="false"
-            />
+              :animate="false" />
             <f7-link
               v-if="isPinned('rules', rule, 'uid')"
               @click="$emit('unpin', 'rules', rule, 'uid')"
               color="red"
               icon-f7="pin_slash_fill"
               icon-size="18"
-              tooltip="Unpin"
-            />
+              tooltip="Unpin" />
             <f7-link
               v-else
               @click="$emit('pin', 'rules', rule, 'uid')"
               color="blue"
               icon-f7="unpin"
               icon-size="18"
-              tooltip="Pin"
-            />
+              tooltip="Pin" />
           </template>
         </f7-list-item>
         <f7-list-button
           v-if="!showingAll('rules')"
           color="blue"
-          @click="$set(expandedTypes, 'rules', true)"
-        >
+          @click="$set(expandedTypes, 'rules', true)">
           Show All
         </f7-list-button>
       </f7-list>
@@ -217,8 +187,7 @@
           :footer="rule.uid"
           link=""
           no-chevron
-          @click="evt => togglePin(evt, 'rules', rule, 'uid')"
-        >
+          @click="evt => togglePin(evt, 'rules', rule, 'uid')">
           <template #after>
             <f7-link color="gray">
               <clipboard-icon :value="rule.uid" tooltip="Copy Scene UID" />
@@ -234,31 +203,27 @@
                 '/' +
                 rule.uid
               "
-              :animate="false"
-            />
+              :animate="false" />
             <f7-link
               v-if="isPinned('scenes', rule, 'uid')"
               @click="$emit('unpin', 'scenes', rule, 'uid')"
               color="red"
               icon-f7="pin_slash_fill"
               icon-size="18"
-              tooltip="Unpin"
-            />
+              tooltip="Unpin" />
             <f7-link
               v-else
               @click="$emit('pin', 'scenes', rule, 'uid')"
               color="blue"
               icon-f7="unpin"
               icon-size="18"
-              tooltip="Pin"
-            />
+              tooltip="Pin" />
           </template>
         </f7-list-item>
         <f7-list-button
           v-if="!showingAll('rules')"
           color="blue"
-          @click="$set(expandedTypes, 'rules', true)"
-        >
+          @click="$set(expandedTypes, 'rules', true)">
           Show All
         </f7-list-button>
       </f7-list>
@@ -268,6 +233,28 @@
       <f7-block-title class="padding-left">
         <f7-icon class="margin-right" f7="doc_plaintext" />Scripts ({{
           searchResults.scripts.length
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -293,8 +280,7 @@
           :footer="rule.uid"
           link=""
           no-chevron
-          @click="evt => togglePin(evt, 'rules', rule, 'uid')"
-        >
+          @click="evt => togglePin(evt, 'rules', rule, 'uid')">
           <template #after>
             <f7-link color="gray">
               <clipboard-icon :value="rule.uid" tooltip="Copy Script UID" />
@@ -310,31 +296,27 @@
                 '/' +
                 rule.uid
               "
-              :animate="false"
-            />
+              :animate="false" />
             <f7-link
               v-if="isPinned('scripts', rule, 'uid')"
               @click="$emit('unpin', 'scripts', rule, 'uid')"
               color="red"
               icon-f7="pin_slash_fill"
               icon-size="18"
-              tooltip="Unpin"
-            />
+              tooltip="Unpin" />
             <f7-link
               v-else
               @click="$emit('pin', 'scripts', rule, 'uid')"
               color="blue"
               icon-f7="unpin"
               icon-size="18"
-              tooltip="Pin"
-            />
+              tooltip="Pin" />
           </template>
         </f7-list-item>
         <f7-list-button
           v-if="!showingAll('rules')"
           color="blue"
-          @click="$set(expandedTypes, 'rules', true)"
-        >
+          @click="$set(expandedTypes, 'rules', true)">
           Show All
         </f7-list-button>
       </f7-list>
@@ -353,8 +335,7 @@
           :footer="page.uid"
           link=""
           no-chevron
-          @click="evt => togglePin(evt, 'pages', page, 'uid')"
-        >
+          @click="evt => togglePin(evt, 'pages', page, 'uid')">
           <template #after>
             <f7-link color="gray">
               <clipboard-icon :value="page.uid" tooltip="Copy Page UID" />
@@ -365,31 +346,27 @@
               icon-size="18"
               tooltip="Edit"
               :href="'/settings/pages/' + getPageType(page).type + '/' + page.uid"
-              :animate="false"
-            />
+              :animate="false" />
             <f7-link
               v-if="isPinned('pages', page, 'uid')"
               @click="$emit('unpin', 'pages', page, 'uid')"
               color="red"
               icon-f7="pin_slash_fill"
               icon-size="18"
-              tooltip="Unpin"
-            />
+              tooltip="Unpin" />
             <f7-link
               v-else
               @click="$emit('pin', 'pages', page, 'uid')"
               color="blue"
               icon-f7="unpin"
               icon-size="18"
-              tooltip="Pin"
-            />
+              tooltip="Pin" />
           </template>
         </f7-list-item>
         <f7-list-button
           v-if="!showingAll('pages')"
           color="blue"
-          @click="$set(expandedTypes, 'pages', true)"
-        >
+          @click="$set(expandedTypes, 'pages', true)">
           Show All
         </f7-list-button>
       </f7-list>
@@ -399,6 +376,28 @@
       <f7-block-title class="padding-left">
         <f7-icon class="margin-right" f7="rectangle_on_rectangle_angled" />Widgets ({{
           searchResults.widgets.length
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -423,8 +422,7 @@
           :title="widget.uid"
           link=""
           no-chevron
-          @click="evt => togglePin(evt, 'widgets', widget, 'uid')"
-        >
+          @click="evt => togglePin(evt, 'widgets', widget, 'uid')">
           <template #after>
             <f7-link color="gray">
               <clipboard-icon :value="widget.uid" tooltip="Copy Widget UID" />
@@ -435,31 +433,27 @@
               icon-size="18"
               tooltip="Edit"
               :href="'/developer/widgets/' + widget.uid"
-              :animate="false"
-            />
+              :animate="false" />
             <f7-link
               v-if="isPinned('widgets', widget, 'uid')"
               @click="$emit('unpin', 'widgets', widget, 'uid')"
               color="red"
               icon-f7="pin_slash_fill"
               icon-size="18"
-              tooltip="Unpin"
-            />
+              tooltip="Unpin" />
             <f7-link
               v-else
               @click="$emit('pin', 'widgets', widget, 'uid')"
               color="blue"
               icon-f7="unpin"
               icon-size="18"
-              tooltip="Pin"
-            />
+              tooltip="Pin" />
           </template>
         </f7-list-item>
         <f7-list-button
           v-if="!showingAll('widgets')"
           color="blue"
-          @click="$set(expandedTypes, 'widgets', true)"
-        >
+          @click="$set(expandedTypes, 'widgets', true)">
           Show All
         </f7-list-button>
       </f7-list>
@@ -469,6 +463,28 @@
       <f7-block-title class="padding-left">
         <f7-icon class="margin-right" f7="arrow_2_squarepath" />Transformations ({{
           searchResults.transformations.length
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -494,8 +510,7 @@
           :footer="transformation.uid"
           link=""
           no-chevron
-          @click="evt => togglePin(evt, 'transformations', transformation, 'uid')"
-        >
+          @click="evt => togglePin(evt, 'transformations', transformation, 'uid')">
           <template #after>
             <f7-link color="gray">
               <clipboard-icon :value="transformation.uid" tooltip="Copy Transformation UID" />
@@ -506,31 +521,27 @@
               icon-size="18"
               tooltip="Edit"
               :href="'/settings/transformations/' + transformation.uid"
-              :animate="false"
-            />
+              :animate="false" />
             <f7-link
               v-if="isPinned('transformations', transformation, 'uid')"
               @click="$emit('unpin', 'transformations', transformation, 'uid')"
               color="red"
               icon-f7="pin_slash_fill"
               icon-size="18"
-              tooltip="Unpin"
-            />
+              tooltip="Unpin" />
             <f7-link
               v-else
               @click="$emit('pin', 'transformations', transformation, 'uid')"
               color="blue"
               icon-f7="unpin"
               icon-size="18"
-              tooltip="Pin"
-            />
+              tooltip="Pin" />
           </template>
         </f7-list-item>
         <f7-list-button
           v-if="!showingAll('transformations')"
           color="blue"
-          @click="$set(expandedTypes, 'transformations', true)"
-        >
+          @click="$set(expandedTypes, 'transformations', true)">
           Show All
         </f7-list-button>
       </f7-list>
@@ -540,6 +551,28 @@
       <f7-block-title class="padding-left">
         <f7-icon class="margin-right" f7="download_circle" />Persistence Configs ({{
           searchResults.persistenceConfigs.length
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -565,8 +598,7 @@
           :footer="persistenceConfig.serviceId"
           link=""
           no-chevron
-          @click="evt => togglePin(evt, 'persistenceConfigs', persistenceConfig, 'serviceId')"
-        >
+          @click="evt => togglePin(evt, 'persistenceConfigs', persistenceConfig, 'serviceId')">
           <template #after>
             <f7-link color="gray">
               <clipboard-icon :value="persistenceConfig.serviceId" tooltip="Copy Service ID" />
@@ -577,31 +609,27 @@
               icon-size="18"
               tooltip="Edit"
               :href="'/settings/persistence/' + persistenceConfig.serviceId"
-              :animate="false"
-            />
+              :animate="false" />
             <f7-link
               v-if="isPinned('persistenceConfigs', persistenceConfig, 'serviceId')"
               @click="$emit('unpin', 'persistenceConfigs', persistenceConfig, 'serviceId')"
               color="red"
               icon-f7="pin_slash_fill"
               icon-size="18"
-              tooltip="Unpin"
-            />
+              tooltip="Unpin" />
             <f7-link
               v-else
               @click="$emit('pin', 'persistenceConfigs', persistenceConfig, 'serviceId')"
               color="blue"
               icon-f7="unpin"
               icon-size="18"
-              tooltip="Pin"
-            />
+              tooltip="Pin" />
           </template>
         </f7-list-item>
         <f7-list-button
           v-if="!showingAll('persistenceConfigs')"
           color="blue"
-          @click="$set(expandedTypes, 'persistenceConfigs', true)"
-        >
+          @click="$set(expandedTypes, 'persistenceConfigs', true)">
           Show All
         </f7-list-button>
       </f7-list>

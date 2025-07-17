@@ -2,13 +2,11 @@
   <f7-link
     v-if="iconVisible && $store.state.developerDock"
     icon-f7="question_circle_fill"
-    @click="f7.emit('toggle-developer-dock')"
-  />
+    @click="f7.emit('toggle-developer-dock')" />
   <f7-link
     v-else-if="iconVisible"
     icon-f7="question_circle"
-    @click="f7.emit('select-developer-dock', { dock: 'help', helpTab: 'current' })"
-  />
+    @click="f7.emit('select-developer-dock', { dock: 'help', helpTab: 'current' })" />
 </template>
 
 <script>

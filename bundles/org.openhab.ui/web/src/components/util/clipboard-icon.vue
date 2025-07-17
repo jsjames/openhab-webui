@@ -5,8 +5,7 @@
     f7="square_on_square"
     :size="size ? size : 12"
     v-clipboard="value"
-    v-clipboard:success="success"
-  />
+    v-clipboard:success="success" />
 </template>
 
 <style lang="stylus">

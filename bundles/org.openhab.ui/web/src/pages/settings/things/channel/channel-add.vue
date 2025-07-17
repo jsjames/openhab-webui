@@ -13,8 +13,7 @@
           v-if="ready"
           :channel="channel"
           :channelType="currentChannelType"
-          :createMode="true"
-        />
+          :createMode="true" />
       </f7-col>
       <f7-col>
         <f7-block-title>Channel type</f7-block-title>
@@ -31,8 +30,7 @@
             :key="channelType.UID"
             :title="channelType.label"
             :footer="channelType.description"
-            name="channel-type"
-          />
+            name="channel-type" />
         </f7-list>
       </f7-col>
       <f7-col v-if="currentChannelType != null">
@@ -40,15 +38,13 @@
         <config-sheet
           :parameter-groups="currentChannelType.parameterGroups"
           :parameters="currentChannelType.parameters"
-          :configuration="config"
-        />
+          :configuration="config" />
       </f7-col>
     </f7-block>
 
     <div
       v-if="ready && currentChannelType"
-      class="if-aurora display-flex justify-content-center margin padding"
-    >
+      class="if-aurora display-flex justify-content-center margin padding">
       <div class="flex-shrink-0">
         <f7-button
           class="padding-left padding-right"
@@ -57,8 +53,7 @@
           large
           raised
           fill
-          @click="save"
-        >
+          @click="save">
           Create
         </f7-button>
       </div>

@@ -3,14 +3,12 @@
     <template #glance>
       <div
         v-if="context && context.component.slots && context.component.slots.glance"
-        class="display-flex flex-direction-column align-items-flex-start"
-      >
+        class="display-flex flex-direction-column align-items-flex-start">
         <generic-widget-component
           :context="childContext(slotComponent)"
           v-for="(slotComponent, idx) in context.component.slots.glance"
           :key="'glance-' + idx"
-          @command="onCommand"
-        />
+          @command="onCommand" />
       </div>
       <!-- <div class="equipment-stats" v-else><small v-if="element.equipment">{{element.equipment.length}}</small></div> -->
     </template>
@@ -24,8 +22,7 @@
           card-close
           :color="color"
           class="margin-horizontal"
-          :text="$t('home.cards.close')"
-        />
+          :text="$t('home.cards.close')" />
       </p>
     </div>
   </model-card>

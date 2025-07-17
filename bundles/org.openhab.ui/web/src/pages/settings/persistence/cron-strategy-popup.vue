@@ -7,15 +7,13 @@
             icon-ios="f7:arrow_left"
             icon-md="material:arrow_back"
             icon-aurora="f7:arrow_left"
-            popup-close
-          />
+            popup-close />
         </f7-nav-left>
         <f7-nav-title> Configure cron strategy </f7-nav-title>
         <f7-nav-right>
           <f7-link
             v-show="currentCronStrategy.name && currentCronStrategy.cronExpression"
-            @click="updateModuleConfig"
-          >
+            @click="updateModuleConfig">
             Done
           </f7-link>
         </f7-nav-right>
@@ -35,8 +33,7 @@
               required
               validate
               pattern="[A-Za-z0-9_]+"
-              error-message="Required. A-Z,a-z only"
-            />
+              error-message="Required. A-Z,a-z only" />
           </f7-list>
         </f7-col>
         <f7-col>
@@ -46,8 +43,7 @@
               ref="cronExpression"
               :configDescription="cronExpressionConfigDescription"
               :value="currentCronStrategy.cronExpression"
-              @input="currentCronStrategy.cronExpression = $event"
-            />
+              @input="currentCronStrategy.cronExpression = $event" />
           </f7-list>
         </f7-col>
       </f7-block>

@@ -7,8 +7,7 @@
       :icon-md="upIcon"
       :icon-aurora="upIcon"
       icon-size="24"
-      icon-color="gray"
-    />
+      icon-color="gray" />
     <f7-button v-if="config.stateInCenter" @click.stop="stop()" large class="state">
       <small>{{ state }}</small>
     </f7-button>
@@ -20,8 +19,7 @@
       :icon-md="stopIcon"
       :icon-aurora="stopIcon"
       icon-size="24"
-      icon-color="red"
-    />
+      icon-color="red" />
     <f7-button
       @click.stop="down()"
       large
@@ -29,8 +27,7 @@
       :icon-md="downIcon"
       :icon-aurora="downIcon"
       icon-size="24"
-      icon-color="gray"
-    />
+      icon-color="gray" />
   </f7-segmented>
 </template>
 

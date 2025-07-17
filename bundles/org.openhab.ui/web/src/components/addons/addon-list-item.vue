@@ -3,8 +3,7 @@
     v-if="addon"
     class="addon-list-item padding-right-half"
     :title="addon.label"
-    :link="`/addons/${addon.type}/${addon.uid}`"
-  >
+    :link="`/addons/${addon.type}/${addon.uid}`">
     <template #subtitle>
       <div v-if="addon.verifiedAuthor">
         {{ addon.author }}
@@ -13,8 +12,7 @@
           size="15"
           :color="themeOptions.dark === 'dark' ? 'white' : 'blue'"
           f7="checkmark_seal_fill"
-          style="margin-top: -3px"
-        />
+          style="margin-top: -3px" />
       </div>
       <div v-else-if="addon.properties && addon.properties.views">
         <addon-stats-line :addon="addon" :iconSize="15" />
@@ -33,8 +31,7 @@
           color="red"
           round
           small
-          @click="buttonClicked"
-        />
+          @click="buttonClicked" />
         <f7-button
           v-else
           class="install-button prevent-active-state-propagation"
@@ -42,8 +39,7 @@
           color="blue"
           round
           small
-          @click="buttonClicked"
-        />
+          @click="buttonClicked" />
       </div>
     </template>
   </f7-list-item>

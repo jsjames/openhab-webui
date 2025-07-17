@@ -6,14 +6,12 @@
       </div>
       <div
         v-if="context && context.component.slots && context.component.slots.glance"
-        class="display-flex flex-direction-column align-items-flex-start"
-      >
+        class="display-flex flex-direction-column align-items-flex-start">
         <generic-widget-component
           :context="childContext(slotComponent)"
           v-for="(slotComponent, idx) in context.component.slots.glance"
           :key="'glance-' + idx"
-          @command="onCommand"
-        />
+          @command="onCommand" />
       </div>
       <div class="location-stats margin-top-half" v-if="!config.disableBadges">
         <span v-for="badgeType in ['temperature', 'humidity', 'co2', 'luminance']" :key="badgeType">
@@ -23,15 +21,13 @@
             :element="element"
             :type="badgeType"
             :invert-color="config.invertText"
-            :badgeOverrides="badgeOverrides"
-          />
+            :badgeOverrides="badgeOverrides" />
         </span>
       </div>
       <div
         class="location-stats margin-top"
         :class="config.invertText ? 'invert-text' : ''"
-        v-if="!config.disableBadges"
-      >
+        v-if="!config.disableBadges">
         <span
           v-for="badgeType in [
             'alarms',
@@ -48,16 +44,14 @@
             'projectors',
             'speakers',
           ]"
-          :key="badgeType"
-        >
+          :key="badgeType">
           <status-badge
             v-if="!config.badges || !config.badges.length || config.badges.indexOf(badgeType) >= 0"
             :store="context.store"
             :element="element"
             :type="badgeType"
             :invert-color="config.invertText"
-            :badgeOverrides="badgeOverrides"
-          />
+            :badgeOverrides="badgeOverrides" />
         </span>
       </div>
     </template>
@@ -65,37 +59,32 @@
       <f7-segmented
         round
         tag="p"
-        v-if="element.equipment.length > 0 && element.properties.length > 0"
-      >
+        v-if="element.equipment.length > 0 && element.properties.length > 0">
         <f7-button
           round
           outline
           :active="activeTab === 'equipment'"
           :color="color"
           @click="activeTab = 'equipment'"
-          :text="$t('home.equipment.tab')"
-        />
+          :text="$t('home.equipment.tab')" />
         <f7-button
           round
           outline
           :active="activeTab === 'properties'"
           :color="color"
           @click="activeTab = 'properties'"
-          :text="$t('home.properties.tab')"
-        />
+          :text="$t('home.properties.tab')" />
       </f7-segmented>
       <generic-widget-component
         v-if="activeTab === 'equipment'"
         class="margin-vertical"
         :key="cardId + '-equipment'"
-        :context="equipmentListContext"
-      />
+        :context="equipmentListContext" />
       <generic-widget-component
         v-if="activeTab === 'properties'"
         class="margin-vertical"
         key="'cardId + '-properties'"
-        :context="propertiesListContext"
-      />
+        :context="propertiesListContext" />
       <p>
         <f7-button
           fill
@@ -104,8 +93,7 @@
           card-close
           :color="color"
           class="margin-horizontal"
-          :text="$t('home.cards.close')"
-        />
+          :text="$t('home.cards.close')" />
       </p>
     </div>
   </model-card>

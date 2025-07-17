@@ -3,8 +3,7 @@
     <f7-navbar
       :title="pageTitle + dirtyIndicator"
       :subtitle="!createMode ? mode : undefined"
-      back-link="Back"
-    >
+      back-link="Back">
       <f7-nav-right>
         <developer-dock-icon />
         <template v-if="editable && !createMode">
@@ -18,16 +17,14 @@
             @click="createScript"
             v-if="theme.md && createMode"
             icon-md="material:save"
-            icon-only
-          />
+            icon-only />
           <f7-link @click="createScript" v-if="theme.ios && createMode"> Create </f7-link>
         </template>
         <f7-link
           v-if="!editable"
           icon-f7="lock_fill"
           icon-only
-          tooltip="This script is not editable through the UI"
-        />
+          tooltip="This script is not editable through the UI" />
       </f7-nav-right>
     </f7-navbar>
 
@@ -44,8 +41,7 @@
             icon-md="f7:pause_circle"
             icon-aurora="f7:pause_circle"
             color="orange"
-            @click="toggleDisabled"
-          />
+            @click="toggleDisabled" />
           <f7-link
             v-if="!theme.aurora"
             :tooltip="
@@ -60,8 +56,7 @@
             icon-md="f7:play_round"
             icon-aurora="f7:play_round"
             :color="rule.status.status === 'IDLE' && isMimeTypeAvailable(mode) ? 'blue' : 'gray'"
-            @click="runNow"
-          />
+            @click="runNow" />
           <f7-link
             v-else
             class="margin-left"
@@ -78,15 +73,13 @@
             icon-md="f7:play_round"
             icon-aurora="f7:play_round"
             :color="rule.status.status === 'IDLE' && isMimeTypeAvailable(mode) ? 'blue' : 'gray'"
-            @click="runNow"
-          />
+            @click="runNow" />
           <f7-chip
             class="margin-left"
             v-if="currentModule && currentModule.configuration.script"
             :text="ruleStatusBadgeText(rule.status)"
             :color="ruleStatusBadgeColor(rule.status)"
-            :tooltip="rule.status.description"
-          />
+            :tooltip="rule.status.description" />
         </span>
         <span class="display-flex flex-direction-row align-items-center">
           <template v-if="isBlockly">
@@ -101,8 +94,7 @@
                   color="blue"
                   radio
                   :checked="renderer === blocklyRenderer ? true : null"
-                  @click="setBlocklyRenderer(renderer)"
-                />
+                  @click="setBlocklyRenderer(renderer)" />
                 <f7-list-item v-if="!$device.desktop" group-title title="Show Items" />
                 <f7-list-item
                   v-if="!$device.desktop"
@@ -110,16 +102,14 @@
                   color="blue"
                   radio
                   :checked="blocklyShowLabels ? true : null"
-                  @click="setBlocklyShowLabels(true)"
-                />
+                  @click="setBlocklyShowLabels(true)" />
                 <f7-list-item
                   v-if="!$device.desktop"
                   title="As Item IDs"
                   color="blue"
                   radio
                   :checked="!blocklyShowLabels ? true : null"
-                  @click="setBlocklyShowLabels(false)"
-                />
+                  @click="setBlocklyShowLabels(false)" />
               </f7-list>
             </f7-popover>
             <template v-if="$device.desktop">
@@ -132,8 +122,7 @@
                 class="no-ripple"
                 style="margin-right: 5px"
                 tooltip="Block Style"
-                popover-open=".config-popover"
-              />
+                popover-open=".config-popover" />
               <f7-button
                 v-if="!createMode && !blocklyCodePreview"
                 outline
@@ -144,8 +133,7 @@
                 class="no-ripple"
                 style="margin-right: 5px"
                 @click="setBlocklyShowLabels(!blocklyShowLabels)"
-                tooltip="Toggle to show either Item labels or IDs"
-              />
+                tooltip="Toggle to show either Item labels or IDs" />
             </template>
             <f7-button
               v-else-if="!blocklyCodePreview"
@@ -156,8 +144,7 @@
               class="no-ripple"
               style="margin-right: 5px"
               tooltip="Blockly Settings"
-              popover-open=".config-popover"
-            />
+              popover-open=".config-popover" />
             <f7-segmented v-if="!createMode" class="margin-right">
               <f7-button
                 outline
@@ -167,8 +154,7 @@
                 :icon-size="theme.aurora ? 20 : 22"
                 class="no-ripple"
                 @click="blocklyCodePreview = false"
-                tooltip="Show blocks"
-              />
+                tooltip="Show blocks" />
               <f7-button
                 outline
                 small
@@ -177,8 +163,7 @@
                 :icon-size="theme.aurora ? 20 : 22"
                 class="no-ripple"
                 @click="showBlocklyCode"
-                tooltip="Show generated code"
-              />
+                tooltip="Show generated code" />
             </f7-segmented>
           </template>
           <f7-link
@@ -192,14 +177,12 @@
             color="blue"
             :href="$store.state.websiteUrl + documentationLink(mode)"
             target="_blank"
-            external
-          />
+            external />
           <f7-link
             class="right details-link margin-left padding-right"
             ref="detailsLink"
             @click="detailsOpened = true"
-            icon-f7="chevron_up"
-          />
+            icon-f7="chevron_up" />
         </span>
       </f7-toolbar>
 
@@ -212,8 +195,7 @@
         color="gray"
         :tooltip="
           isBlockly ? 'Cannot edit the code generated by Blockly' : 'This code is not editable'
-        "
-      />
+        " />
       <editor
         v-if="!createMode && (!isBlockly || blocklyCodePreview)"
         class="rule-script-editor"
@@ -221,16 +203,14 @@
         :value="script"
         @input="onEditorInput"
         :read-only="isBlockly || !editable"
-        :tern-autocompletion-hook="true"
-      />
+        :tern-autocompletion-hook="true" />
       <blockly-editor
         ref="blocklyEditor"
         v-else-if="!createMode && isBlockly"
         :blocks="currentModule.configuration.blockSource"
         @change="scriptDirty = true"
         @mounted="onBlocklyMounted"
-        @ready="onBlocklyReady"
-      />
+        @ready="onBlocklyReady" />
       <script-general-settings v-else-if="createMode" :createMode="true" :rule="rule" />
       <f7-block class="block-narrow" v-if="createMode && !ruleCopy">
         <f7-col>
@@ -251,8 +231,7 @@
               "
               :value="'application/javascript+blockly'"
               :checked="mode === 'application/javascript+blockly' ? true : null"
-              @change="mode = 'application/javascript+blockly'"
-            >
+              @change="mode = 'application/javascript+blockly'">
               <template #media>
                 <img src="@/images/blockly.svg" height="32" width="32" />
               </template>
@@ -273,8 +252,7 @@
               :key="language.contentType"
               :title="language.name"
               :after="language.version"
-              :footer="language.contentType"
-            />
+              :footer="language.contentType" />
           </f7-list>
         </f7-col>
       </f7-block>
@@ -287,8 +265,7 @@
             large
             raised
             fill
-            @click="createScript"
-          >
+            @click="createScript">
             Create Script
           </f7-button>
         </div>
@@ -300,8 +277,7 @@
           position="center-bottom"
           color="blue"
           @click="convertToBlockly"
-          text="Design with Blockly"
-        >
+          text="Design with Blockly">
           <f7-icon f7="ticket_fill" />
         </f7-fab>
       </template>
@@ -312,8 +288,7 @@
         :backdrop="false"
         :close-on-escape="true"
         :opened="detailsOpened"
-        @sheet:closed="detailsOpened = false"
-      >
+        @sheet:closed="detailsOpened = false">
         <f7-page>
           <f7-toolbar tabbar bottom>
             <span class="margin-left">Script details</span>
@@ -332,8 +307,7 @@
             :isScriptRule="isScriptRule"
             :mode="mode"
             :languages="languages"
-            @new-language="changeLanguage"
-          />
+            @new-language="changeLanguage" />
           <f7-block class="block-narrow" v-if="editable && isScriptRule">
             <f7-col>
               <f7-list>

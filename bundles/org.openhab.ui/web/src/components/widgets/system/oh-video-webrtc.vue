@@ -5,8 +5,7 @@
     :controls="this.hideControls ? false : true"
     :poster="computedPosterUrl"
     playsinline
-    style="max-width: 100%"
-  >
+    style="max-width: 100%">
     Sorry, your browser doesn't support embedded videos.
   </video>
 </template>

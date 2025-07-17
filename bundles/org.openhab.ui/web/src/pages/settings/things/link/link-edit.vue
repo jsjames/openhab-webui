@@ -2,8 +2,7 @@
   <f7-page
     @page:beforein="onPageBeforeIn"
     @page:afterin="onPageAfterIn"
-    @page:beforeout="onPageBeforeOut"
-  >
+    @page:beforeout="onPageBeforeOut">
     <f7-navbar>
       <f7-nav-left>
         <f7-link icon-f7="chevron_left" @click="goBackWithDirtyCheck"> Back </f7-link>
@@ -15,8 +14,7 @@
             v-if="!link.editable"
             icon-f7="lock_fill"
             icon-only
-            tooltip="links defined in a .items file are not editable from this screen"
-          />
+            tooltip="links defined in a .items file are not editable from this screen" />
           <!-- TODO-V3 verify this is correct placement - these links were not in the right slot - but now included in the right slot -->
           <f7-link v-else-if="theme.md" icon-md="material:save" icon-only @click="save()" />
           <f7-link v-else @click="save()"> Save </f7-link>
@@ -42,8 +40,7 @@
                   :footer="channel.uid + ' (' + getItemType(channel) + ')'"
                   :subtitle="thing.label"
                   :badge="thingStatusBadgeText(thing.statusInfo)"
-                  :badge-color="thingStatusBadgeColor(thing.statusInfo)"
-                >
+                  :badge-color="thingStatusBadgeColor(thing.statusInfo)">
                   <template #media>
                     <span class="item-initial">{{
                       channel.label
@@ -64,8 +61,7 @@
               color="red"
               fill
               @click="unlinkAndDelete()"
-              v-if="source === 'thing' && item.editable"
-            >
+              v-if="source === 'thing' && item.editable">
               Unlink &amp; Remove Item
             </f7-button>
             <f7-button color="red" @click="unlink()" v-if="link.editable">
@@ -83,8 +79,7 @@
             external
             color="blue"
             target="_blank"
-            :href="`${$store.state.websiteUrl}/link/profiles`"
-          >
+            :href="`${$store.state.websiteUrl}/link/profiles`">
             Learn more about profiles.
           </f7-link>
         </f7-block-footer>
@@ -108,8 +103,7 @@
             @change="onProfileTypeChange(profileType.uid)"
             :key="profileType.uid"
             :title="profileType.label"
-            name="profile-type"
-          />
+            name="profile-type" />
         </f7-list>
       </f7-col>
       <f7-col v-if="profileTypeConfiguration != null">
@@ -121,8 +115,7 @@
           :parameters="profileTypeConfiguration.parameters"
           :configuration="link.configuration"
           :read-only="!link.editable"
-          @updated="updated"
-        />
+          @updated="updated" />
       </f7-col>
     </f7-block>
   </f7-page>

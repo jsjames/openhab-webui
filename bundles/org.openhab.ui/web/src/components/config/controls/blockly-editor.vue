@@ -18,8 +18,7 @@
         <button
           helpUrl="configuration/blockly/rules-blockly-standard-ext.html#loops"
           text="Help"
-          callbackKey="ohBlocklyHelp"
-        />
+          callbackKey="ohBlocklyHelp" />
         <block type="controls_repeat_ext">
           <value name="TIMES">
             <shadow type="math_number">
@@ -54,8 +53,7 @@
         <button
           helpUrl="configuration/blockly/rules-blockly-standard-ext.html#math"
           text="Help"
-          callbackKey="ohBlocklyHelp"
-        />
+          callbackKey="ohBlocklyHelp" />
         <block type="math_number">
           <field name="NUM">123</field>
         </block>
@@ -199,8 +197,7 @@
         <button
           helpUrl="configuration/blockly/rules-blockly-standard-ext.html#text"
           text="Help"
-          callbackKey="ohBlocklyHelp"
-        />
+          callbackKey="ohBlocklyHelp" />
         <block type="text" />
         <block type="text_join">
           <mutation items="0" />
@@ -288,8 +285,7 @@
         <button
           helpUrl="configuration/blockly/rules-blockly-standard-ext.html#lists"
           text="Help"
-          callbackKey="ohBlocklyHelp"
-        />
+          callbackKey="ohBlocklyHelp" />
         <block type="lists_create_with">
           <mutation items="0" />
         </block>
@@ -366,8 +362,7 @@
         <button
           helpUrl="configuration/blockly/rules-blockly-standard-ext.html#colors"
           text="Help"
-          callbackKey="ohBlocklyHelp"
-        />
+          callbackKey="ohBlocklyHelp" />
         <block type="colour_picker" />
         <block type="colour_random" />
         <block type="colour_rgb">
@@ -427,8 +422,7 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-items-things.html"
             text="Help"
-            callbackKey="ohBlocklyHelp"
-          />
+            callbackKey="ohBlocklyHelp" />
           <block type="oh_getitem_state">
             <value name="itemName">
               <shadow type="oh_item" />
@@ -541,8 +535,7 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-timers-and-delays.html"
             text="Help"
-            callbackKey="ohBlocklyHelp"
-          />
+            callbackKey="ohBlocklyHelp" />
           <block type="oh_sleep" />
           <sep gap="48" />
           <block type="oh_timer">
@@ -616,8 +609,7 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-voice-and-multimedia.html"
             text="Help"
-            callbackKey="ohBlocklyHelp"
-          />
+            callbackKey="ohBlocklyHelp" />
           <block type="oh_playmedia_sink">
             <value name="fileName">
               <shadow type="text">
@@ -677,8 +669,7 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-uom.html"
             text="Help"
-            callbackKey="ohBlocklyHelp"
-          />
+            callbackKey="ohBlocklyHelp" />
           <block type="oh_quantity">
             <value name="quantity">
               <shadow type="text">
@@ -729,8 +720,7 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-date-handling.html"
             text="Help"
-            callbackKey="ohBlocklyHelp"
-          />
+            callbackKey="ohBlocklyHelp" />
           <block type="oh_zdt_now" />
           <block type="oh_zdt_plusminus">
             <value name="offset">
@@ -847,8 +837,7 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-ephemeris.html"
             text="Help"
-            callbackKey="ohBlocklyHelp"
-          />
+            callbackKey="ohBlocklyHelp" />
           <block type="oh_ephemeris_check">
             <value name="dayInfo">
               <shadow type="oh_dayoffset_today" />
@@ -872,8 +861,7 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-notifications.html"
             text="Help"
-            callbackKey="ohBlocklyHelp"
-          />
+            callbackKey="ohBlocklyHelp" />
           <block type="oh_sendCloudNotification">
             <value name="message">
               <shadow type="text">
@@ -947,8 +935,7 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-persistence.html"
             text="Help"
-            callbackKey="ohBlocklyHelp"
-          />
+            callbackKey="ohBlocklyHelp" />
           <block type="oh_zdt_plusminus">
             <value name="offset">
               <shadow type="math_number">
@@ -1034,8 +1021,7 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-value-storage.html"
             text="Help"
-            callbackKey="ohBlocklyHelp"
-          />
+            callbackKey="ohBlocklyHelp" />
           <block type="oh_store_value">
             <value name="value">
               <shadow type="text">
@@ -1067,8 +1053,7 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-http.html"
             text="Help"
-            callbackKey="ohBlocklyHelp"
-          />
+            callbackKey="ohBlocklyHelp" />
           <block type="oh_httprequest">
             <value name="url">
               <shadow type="text">
@@ -1081,8 +1066,7 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-run-and-process.html"
             text="Help"
-            callbackKey="ohBlocklyHelp"
-          />
+            callbackKey="ohBlocklyHelp" />
           <block type="oh_callscriptfile">
             <value name="scriptfile">
               <shadow type="text">
@@ -1144,8 +1128,7 @@
           <button
             helpUrl="configuration/blockly/rules-blockly-logging.html"
             text="Help"
-            callbackKey="ohBlocklyHelp"
-          />
+            callbackKey="ohBlocklyHelp" />
           <block type="oh_log">
             <value name="message">
               <shadow type="text">
@@ -1168,15 +1151,13 @@
       <category
         name="Typed Variables"
         colour="%{BKY_VARIABLES_HUE}"
-        custom="CREATE_TYPED_VARIABLE"
-      />
+        custom="CREATE_TYPED_VARIABLE" />
       <category name="Variables" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE" />
       <category name="Functions" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE" />
       <category
         :name="libraryDefinitions ? 'This Library' : 'Libraries'"
         colour="gray"
-        ref="libraryCategory"
-      />
+        ref="libraryCategory" />
     </xml>
   </div>
 </template>

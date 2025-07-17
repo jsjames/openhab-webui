@@ -14,6 +14,7 @@ import { fixupPluginRules } from '@eslint/compat'
 import { FlatCompat } from '@eslint/eslintrc'
 
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import eslintConfigPrettier from 'eslint-config-prettier/flat'
 
 /*
 const compat = new FlatCompat({
@@ -38,12 +39,9 @@ export default [
         process: true
       }
     },
-    extends: [
-      'js.configs.recommended',
-      'plugin:prettier/recommended'
-      // "plugin:cypress/recommended",
-      // "plugin:@typescript-eslint/recommended",
-    ],
+    // 'js.configs.recommended',
+    // "plugin:cypress/recommended",
+    // "plugin:@typescript-eslint/recommended",
     plugins: {
       // import: fixupPluginRules(_import),
       // cypress,
@@ -140,5 +138,6 @@ export default [
     }
   },
   globalIgnores(['dist', 'build', 'public']),
-  eslintPluginPrettierRecommended
+  eslintPluginPrettierRecommended,
+  eslintConfigPrettier
 ]

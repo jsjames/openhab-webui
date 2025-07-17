@@ -6,13 +6,11 @@
           <f7-menu-dropdown-item
             @click="context.editmode.configureWidget(context.component, context)"
             href="#"
-            text="Configure Masonry"
-          />
+            text="Configure Masonry" />
           <f7-menu-dropdown-item
             @click="context.editmode.editWidgetCode(context.component, context)"
             href="#"
-            text="Edit YAML"
-          />
+            text="Edit YAML" />
           <f7-menu-dropdown-item
             v-if="
               context.clipboardtype &&
@@ -22,14 +20,12 @@
             "
             @click="context.editmode.pasteWidget(context.component, context.parent)"
             href="#"
-            text="Paste"
-          />
+            text="Paste" />
           <f7-menu-dropdown-item divider />
           <f7-menu-dropdown-item
             @click="context.editmode.removeWidget(context.component, context.parent, 'masonry')"
             href="#"
-            text="Remove Masonry"
-          />
+            text="Remove Masonry" />
         </f7-menu-dropdown>
       </f7-menu-item>
     </f7-menu>
@@ -49,55 +45,46 @@
               ? 'calc(10 * var(--f7-menu-dropdown-item-height))'
               : undefined,
           'z-index': 100 - context.component.slots.default.indexOf(slotComponent),
-        }"
-      >
+        }">
         <f7-menu v-if="context.editmode" class="configure-layout-menu">
           <f7-menu-item
             style="margin-left: auto"
             icon-f7="slider_horizontal_below_rectangle"
             dropdown
             @menu:opened="dropdownMenuOpened = idx"
-            @menu:closed="dropdownMenuOpened = null"
-          >
+            @menu:closed="dropdownMenuOpened = null">
             <f7-menu-dropdown right>
               <f7-menu-dropdown-item
                 @click="context.editmode.configureWidget(slotComponent, context)"
                 href="#"
-                text="Configure Widget"
-              />
+                text="Configure Widget" />
               <f7-menu-dropdown-item
                 @click="context.editmode.editWidgetCode(slotComponent, context)"
                 href="#"
-                text="Edit YAML"
-              />
+                text="Edit YAML" />
               <f7-menu-dropdown-item divider />
               <f7-menu-dropdown-item
                 @click="context.editmode.cutWidget(slotComponent, context)"
                 href="#"
-                text="Cut"
-              />
+                text="Cut" />
               <f7-menu-dropdown-item
                 @click="context.editmode.copyWidget(slotComponent, context)"
                 href="#"
-                text="Copy"
-              />
+                text="Copy" />
               <f7-menu-dropdown-item divider />
               <f7-menu-dropdown-item
                 @click="context.editmode.moveWidgetUp(slotComponent, context)"
                 href="#"
-                text="Move Up"
-              />
+                text="Move Up" />
               <f7-menu-dropdown-item
                 @click="context.editmode.moveWidgetDown(slotComponent, context)"
                 href="#"
-                text="Move Down"
-              />
+                text="Move Down" />
               <f7-menu-dropdown-item divider />
               <f7-menu-dropdown-item
                 @click="context.editmode.removeWidget(slotComponent, context)"
                 href="#"
-                text="Remove Widget"
-              />
+                text="Remove Widget" />
             </f7-menu-dropdown>
           </f7-menu-item>
         </f7-menu>
@@ -106,12 +93,10 @@
       <oh-placeholder-widget
         v-if="context.editmode"
         class="oh-column-item placeholder"
-        @click="context.editmode.addWidget(context.component, null, context.parent)"
-      />
+        @click="context.editmode.addWidget(context.component, null, context.parent)" />
     </div>
     <MasonryGrid
       v-else
-      css="false"
       :columns="
         config.cols || {
           default: 5,
@@ -122,60 +107,50 @@
           576: 2,
           480: 1,
         }
-      "
-    >
+      ">
       <MasonryGridItem
         v-for="(slotComponent, idx) in context.component.slots.default"
         :key="idx"
-        class="oh-masonry-item"
-      >
+        class="oh-masonry-item">
         <f7-menu v-if="context.editmode" class="configure-layout-menu">
           <f7-menu-item
             style="margin-left: auto"
             icon-f7="slider_horizontal_below_rectangle"
             dropdown
             @menu:opened="dropdownMenuOpened = idx"
-            @menu:closed="dropdownMenuOpened = null"
-          >
+            @menu:closed="dropdownMenuOpened = null">
             <f7-menu-dropdown right>
               <f7-menu-dropdown-item
                 @click="context.editmode.configureWidget(slotComponent, context)"
                 href="#"
-                text="Configure Widget"
-              />
+                text="Configure Widget" />
               <f7-menu-dropdown-item
                 @click="context.editmode.editWidgetCode(slotComponent, context)"
                 href="#"
-                text="Edit YAML"
-              />
+                text="Edit YAML" />
               <f7-menu-dropdown-item divider />
               <f7-menu-dropdown-item
                 @click="context.editmode.cutWidget(slotComponent, context)"
                 href="#"
-                text="Cut"
-              />
+                text="Cut" />
               <f7-menu-dropdown-item
                 @click="context.editmode.copyWidget(slotComponent, context)"
                 href="#"
-                text="Copy"
-              />
+                text="Copy" />
               <f7-menu-dropdown-item divider />
               <f7-menu-dropdown-item
                 @click="context.editmode.moveWidgetUp(slotComponent, context)"
                 href="#"
-                text="Move Up"
-              />
+                text="Move Up" />
               <f7-menu-dropdown-item
                 @click="context.editmode.moveWidgetDown(slotComponent, context)"
                 href="#"
-                text="Move Down"
-              />
+                text="Move Down" />
               <f7-menu-dropdown-item divider />
               <f7-menu-dropdown-item
                 @click="context.editmode.removeWidget(slotComponent, context)"
                 href="#"
-                text="Remove Widget"
-              />
+                text="Remove Widget" />
             </f7-menu-dropdown>
           </f7-menu-item>
         </f7-menu>
@@ -184,8 +159,7 @@
       <oh-placeholder-widget
         v-if="context.editmode"
         class="oh-column-item placeholder"
-        @click="context.editmode.addWidget(context.component, null, context.parent)"
-      />
+        @click="context.editmode.addWidget(context.component, null, context.parent)" />
     </MasonryGrid>
   </div>
 </template>

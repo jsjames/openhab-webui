@@ -7,8 +7,7 @@
       title="Settings"
       back-link="Back"
       back-link-url="/"
-      back-link-force
-    >
+      back-link-force>
       <f7-nav-right>
         <developer-dock-icon />
         <f7-link
@@ -16,8 +15,7 @@
           data-searchbar=".searchbar-demo"
           icon-ios="f7:search_strong"
           icon-aurora="f7:search_strong"
-          icon-md="material:search"
-        />
+          icon-md="material:search" />
       </f7-nav-right>
       <f7-searchbar
         class="searchbar-demo"
@@ -25,8 +23,7 @@
         search-container=".search-list"
         search-in=".item-title"
         @searchbar:search="expandAll"
-        :disable-button="!theme.aurora"
-      />
+        :disable-button="!theme.aurora" />
     </f7-navbar>
     <f7-block class="block-narrow after-big-title settings-menu">
       <f7-row>
@@ -35,8 +32,7 @@
             !addonsLoaded || (addonsLoaded && addonsInstalled.length > 0) ? 'settings-col' : ''
           "
           width="100"
-          medium="50"
-        >
+          medium="50">
           <f7-block-title>Configuration</f7-block-title>
           <f7-list media-list class="search-list">
             <f7-list-item
@@ -47,8 +43,7 @@
               :badge="inboxCount > 0 ? inboxCount : undefined"
               :after="inboxCount > 0 ? thingsCount + '+' : thingsCount"
               :badge-color="inboxCount ? 'red' : 'blue'"
-              :footer="objectsSubtitles.things"
-            >
+              :footer="objectsSubtitles.things">
               <template #media>
                 <f7-icon f7="lightbulb" color="gray" />
               </template>
@@ -59,8 +54,7 @@
               link="model/"
               title="Model"
               badge-color="blue"
-              :footer="objectsSubtitles.model"
-            >
+              :footer="objectsSubtitles.model">
               <template #media>
                 <f7-icon f7="list_bullet_indent" color="gray" />
               </template>
@@ -72,8 +66,7 @@
               title="Items"
               :after="itemsCount"
               badge-color="blue"
-              :footer="objectsSubtitles.items"
-            >
+              :footer="objectsSubtitles.items">
               <template #media>
                 <f7-icon f7="square_on_circle" color="gray" />
               </template>
@@ -84,8 +77,7 @@
               title="Pages"
               :after="$store.getters.pages.length + sitemapsCount"
               badge-color="blue"
-              :footer="objectsSubtitles.pages"
-            >
+              :footer="objectsSubtitles.pages">
               <template #media>
                 <f7-icon f7="tv" color="gray" />
               </template>
@@ -99,8 +91,7 @@
               title="Transformations"
               :after="transformationsCount"
               badge-color="blue"
-              :footer="objectsSubtitles.transform"
-            >
+              :footer="objectsSubtitles.transform">
               <template #media>
                 <f7-icon f7="function" color="gray" />
               </template>
@@ -110,8 +101,7 @@
               link="persistence/"
               title="Persistence"
               badge-color="blue"
-              :footer="objectsSubtitles.persistence"
-            >
+              :footer="objectsSubtitles.persistence">
               <template #media>
                 <f7-icon f7="download_circle" color="gray" />
               </template>
@@ -125,8 +115,7 @@
               title="Rules"
               :after="rulesCount"
               badge-color="blue"
-              :footer="objectsSubtitles.rules"
-            >
+              :footer="objectsSubtitles.rules">
               <template #media>
                 <f7-icon f7="wand_stars" color="gray" />
               </template>
@@ -137,8 +126,7 @@
               title="Scenes"
               :after="scenesCount"
               badge-color="blue"
-              :footer="objectsSubtitles.scenes"
-            >
+              :footer="objectsSubtitles.scenes">
               <template #media>
                 <f7-icon f7="film" color="gray" />
               </template>
@@ -149,8 +137,7 @@
               title="Scripts"
               :after="scriptsCount"
               badge-color="blue"
-              :footer="objectsSubtitles.scripts"
-            >
+              :footer="objectsSubtitles.scripts">
               <template #media>
                 <f7-icon f7="doc_plaintext" color="gray" />
               </template>
@@ -160,8 +147,7 @@
               link="schedule/"
               title="Schedule"
               badge-color="blue"
-              :footer="objectsSubtitles.schedule"
-            >
+              :footer="objectsSubtitles.schedule">
               <template #media>
                 <f7-icon f7="calendar" color="gray" />
               </template>
@@ -173,8 +159,7 @@
             !addonsLoaded || (addonsLoaded && addonsInstalled.length > 0) ? 'settings-col' : ''
           "
           width="100"
-          medium="50"
-        >
+          medium="50">
           <div v-show="servicesLoaded">
             <f7-block-title>System Settings</f7-block-title>
             <f7-list class="search-list">
@@ -183,13 +168,11 @@
                 :key="service.id"
                 :link="'services/' + service.id"
                 :title="service.label"
-                v-show="!service.hidden"
-              />
+                v-show="!service.hidden" />
               <f7-list-button
                 v-if="!expandedTypes.systemSettingsExpanded"
                 color="blue"
-                @click="expand('systemSettingsExpanded')"
-              >
+                @click="expand('systemSettingsExpanded')">
                 {{ $t('dialogs.showAll') }}
               </f7-list-button>
             </f7-list>
@@ -202,8 +185,7 @@
                 v-for="n in 9"
                 :key="n"
                 :class="`skeleton-text skeleton-effect-blink`"
-                title="Service Label"
-              />
+                title="Service Label" />
             </f7-list>
           </div>
           <div v-show="f7.width < 1450">
@@ -213,8 +195,7 @@
                 :addonsInstalled="addonsInstalled"
                 :addonsServices="addonsServices"
                 :expanded="expandedTypes.addonsExpanded"
-                @expand="expand('addonsExpanded')"
-              />
+                @expand="expand('addonsExpanded')" />
             </div>
             <!-- skeleton for not addonsLoaded -->
             <div v-if="!addonsLoaded">
@@ -224,8 +205,7 @@
                   v-for="n in 4"
                   :key="n"
                   :class="`skeleton-text skeleton-effect-blink`"
-                  title="Service Label"
-                />
+                  title="Service Label" />
               </f7-list>
             </div>
           </div>
@@ -236,8 +216,7 @@
               :addonsInstalled="addonsInstalled"
               :addonsServices="addonsServices"
               :expanded="expandedTypes.addonsExpanded"
-              @expand="expand('addonsExpanded')"
-            />
+              @expand="expand('addonsExpanded')" />
           </div>
           <!-- skeleton for not addonsLoaded -->
           <div v-if="!addonsLoaded">
@@ -247,16 +226,14 @@
                 v-for="n in 9"
                 :key="n"
                 :class="`skeleton-text skeleton-effect-blink`"
-                title="Service Label"
-              />
+                title="Service Label" />
             </f7-list>
           </div>
         </f7-col>
       </f7-row>
       <f7-block-footer
         v-if="$t('home.overview.title') !== 'Overview'"
-        class="margin text-align-center"
-      >
+        class="margin text-align-center">
         <small>{{ $t('admin.notTranslatedYet') }}</small>
       </f7-block-footer>
     </f7-block>
@@ -267,8 +244,7 @@
         position="center-bottom"
         :text="`Health Issues (${healthCount})`"
         color="red"
-        href="health/"
-      >
+        href="health/">
         <f7-icon f7="heart" />
       </f7-fab>
     </template>

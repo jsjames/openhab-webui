@@ -18,14 +18,12 @@
       :change="updated"
       @calendar:change="updated"
       @texteditor:change="updated"
-      @colorpicker:change="updated"
-    >
+      @colorpicker:change="updated">
       <template v-if="context.component.slots && context.component.slots.default">
         <generic-widget-component
           :context="childContext(slotComponent)"
           v-for="(slotComponent, idx) in context.component.slots.default"
-          :key="'default-' + idx"
-        />
+          :key="'default-' + idx" />
       </template>
     </f7-input>
     <span v-if="unit" class="unit">{{ unit }}</span>
@@ -49,14 +47,12 @@
       :change="updated"
       @calendar:change="updated"
       @texteditor:change="updated"
-      @colorpicker:change="updated"
-    >
+      @colorpicker:change="updated">
       <template v-if="context.component.slots && context.component.slots.default">
         <generic-widget-component
           :context="childContext(slotComponent)"
           v-for="(slotComponent, idx) in context.component.slots.default"
-          :key="'default-' + idx"
-        />
+          :key="'default-' + idx" />
       </template>
     </f7-input>
     <span v-if="unit" class="unit">{{ unit }}</span>
@@ -64,8 +60,7 @@
       class="send-button col-10"
       v-if="this.config.sendButton"
       @click.stop="sendButtonClicked"
-      v-bind="config.sendButtonConfig || { iconMaterial: 'done', iconColor: 'gray' }"
-    />
+      v-bind="config.sendButtonConfig || { iconMaterial: 'done', iconColor: 'gray' }" />
   </f7-row>
 </template>
 

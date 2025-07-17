@@ -14,8 +14,7 @@
           error-message="Required. A-Z,a-z,0-9,_ only"
           info="Note: cannot be changed after the creation"
           @input="transformation.uid = $event.target.value"
-          clear-button
-        />
+          clear-button />
         <f7-list-input v-else label="Transformation UID" type="text" :input="false">
           <template #input>
             <span>
@@ -23,8 +22,7 @@
               <clipboard-icon
                 :value="transformation.uid"
                 tooltip="Copy UID"
-                style="pointer-events: initial !important"
-              />
+                style="pointer-events: initial !important" />
             </span>
           </template>
         </f7-list-input>
@@ -38,22 +36,19 @@
           validate
           :disabled="!transformation.editable ? true : null"
           @input="transformation.label = $event.target.value"
-          :clear-button="createMode || transformation.editable"
-        />
+          :clear-button="createMode || transformation.editable" />
         <f7-list-item
           v-if="createMode && languages"
           title="Language"
           smart-select
-          :smart-select-params="smartSelectParams"
-        >
+          :smart-select-params="smartSelectParams">
           <select name="language" @change="$emit('new-language', $event.target.value)">
             <option value="" selected />
             <option
               v-for="lang in languages"
               :selected="language ? true : null"
               :value="lang.value"
-              :key="lang.value"
-            >
+              :key="lang.value">
               {{ lang.label }}
             </option>
           </select>
@@ -72,8 +67,7 @@
           @change="$emit('new-type', type)"
           v-for="type in types"
           :key="type"
-          :title="type"
-        />
+          :title="type" />
       </f7-list>
     </f7-col>
   </f7-block>

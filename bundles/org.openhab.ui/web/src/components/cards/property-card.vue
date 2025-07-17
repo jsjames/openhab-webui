@@ -3,14 +3,12 @@
     <template #glance>
       <div
         v-if="context && context.component.slots && context.component.slots.glance"
-        class="display-flex flex-direction-column align-items-flex-start"
-      >
+        class="display-flex flex-direction-column align-items-flex-start">
         <generic-widget-component
           :context="childContext(slotComponent)"
           v-for="(slotComponent, idx) in context.component.slots.glance"
           :key="'glance-' + idx"
-          @command="onCommand"
-        />
+          @command="onCommand" />
       </div>
       <!-- <div class="property-stats" v-else><small v-if="element.points">{{element.points.length}}</small></div> -->
     </template>
@@ -21,8 +19,7 @@
           outline
           round
           :color="color"
-          :href="`/analyzer/?items=${element.points.map(m => m.name).join(',')}`"
-        >
+          :href="`/analyzer/?items=${element.points.map(m => m.name).join(',')}`">
           {{ element.points.length > 1 ? $t('home.cards.analyzeAll') : $t('home.cards.analyze') }}
         </f7-button>
       </p>

@@ -3,14 +3,12 @@
     v-if="config.listButton && !context.editmode"
     :title="config.title || 'Action'"
     :color="config.color || 'blue'"
-    @click.stop="performAction"
-  />
+    @click.stop="performAction" />
   <f7-list-item
     v-else-if="config.divider && !context.editmode"
     divider
     ref="divider"
-    :title="config.title"
-  />
+    :title="config.title" />
   <f7-list-item
     v-else
     v-bind="config"
@@ -21,15 +19,14 @@
     :link="hasAction && !context.editmode ? true : undefined"
     @click.stop="openAccordionOrPerformAction"
     :class="{ 'oh-equipment-accordion-item': isEquipmentAccordion }"
-    ref="f7AccordionContent"
-  >
-    <template #inner v-if="$slots.inner"">
+    ref="f7AccordionContent">
+    <template #inner v-if="$slots.inner">
       <slot name="inner" />
     </template>
     <template #content v-if="$slots.content">
       <slot name="content" />
     </template>
-    <template #root-end v-if="$slots.root-end">
+    <template #root-end v-if="$slots['root-end']">
       <slot name="root-end" />
     </template>
     <template #footer v-if="$slots.footer">
@@ -45,21 +42,18 @@
         context.component.slots.after.length
       "
       v-bind="$attrs"
-      :context="childContext(context.component.slots.after[0])"
-    />
+      :context="childContext(context.component.slots.after[0])" />
     <f7-accordion-content v-if="context.parent.component.config.accordionList && !context.editmode">
       <generic-widget-component
         v-if="isRegularAccordion"
         v-bind="$attrs"
-        :context="childContext(context.component.slots.accordion[0])"
-      />
+        :context="childContext(context.component.slots.accordion[0])" />
     </f7-accordion-content>
     <template #root v-if="$slots.root">
       <f7-accordion-content v-if="isEquipmentAccordion && !context.editmode">
         <generic-widget-component
           v-bind="$attrs"
-          :context="childContext(context.component.slots.accordion[0])"
-        />
+          :context="childContext(context.component.slots.accordion[0])" />
       </f7-accordion-content>
     </template>
     <template #media v-if="$slots.media">
@@ -69,8 +63,7 @@
         height="32"
         width="32"
         :color="config.iconColor"
-        :state="config.item && config.iconUseState ? context.store[config.item].state : null"
-      />
+        :state="config.item && config.iconUseState ? context.store[config.item].state : null" />
       <span
         v-else-if="
           config.fallbackIconToInitial &&
@@ -244,7 +237,7 @@ export default {
         if (element.scrollWidth > element.offsetWidth) {
           let value = '…' + element.textContent;
           do {
-            value = '…' + value.substr(2);
+            value = '…' + value.slice(2);
             trimCount++;
             element.textContent = value;
           } while (element.scrollWidth > element.offsetWidth && trimCount < 100);

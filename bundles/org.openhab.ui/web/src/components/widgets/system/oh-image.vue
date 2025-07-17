@@ -6,8 +6,7 @@
     :data-src="computedSrc"
     class="oh-image lazy"
     :class="{ 'lazy-fade-in': config.lazyFadeIn }"
-    @click="clicked"
-  />
+    @click="clicked" />
   <img v-else v-bind="config" ref="image" :src="computedSrc" class="oh-image" @click="clicked" />
 </template>
 

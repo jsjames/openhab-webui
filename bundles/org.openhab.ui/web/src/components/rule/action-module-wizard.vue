@@ -3,26 +3,22 @@
     <f7-row class="margin-bottom">
       <f7-col
         class="elevation-2 elevation-hover-6 elevation-pressed-1 triggertype-big-button"
-        width="50"
-      >
+        width="50">
         <f7-link
           class="display-flex flex-direction-column no-ripple"
           no-ripple
-          @click="chooseItemCategory"
-        >
+          @click="chooseItemCategory">
           <f7-icon size="35" f7="square_on_circle" class="margin" />
           Item<br />Action
         </f7-link>
       </f7-col>
       <f7-col
         class="elevation-2 elevation-hover-6 elevation-pressed-1 triggertype-big-button"
-        width="50"
-      >
+        width="50">
         <f7-link
           class="display-flex flex-direction-column no-ripple"
           no-ripple
-          @click="chooseScriptCategory"
-        >
+          @click="chooseScriptCategory">
           <f7-icon size="35" f7="doc_plaintext" class="margin" />
           Inline<br />Script
         </f7-link>
@@ -31,26 +27,22 @@
     <f7-row class="margin-bottom">
       <f7-col
         class="elevation-2 elevation-hover-6 elevation-pressed-1 triggertype-big-button"
-        width="50"
-      >
+        width="50">
         <f7-link
           class="display-flex flex-direction-column no-ripple"
           no-ripple
-          @click="chooseRulesCategory"
-        >
+          @click="chooseRulesCategory">
           <f7-icon size="35" f7="wand_stars" class="margin" />
           Scenes, Scripts<br />& Rules
         </f7-link>
       </f7-col>
       <f7-col
         class="elevation-2 elevation-hover-6 elevation-pressed-1 triggertype-big-button"
-        width="50"
-      >
+        width="50">
         <f7-link
           class="display-flex flex-direction-column no-ripple"
           no-ripple
-          @click="chooseMediaCategory"
-        >
+          @click="chooseMediaCategory">
           <f7-icon size="35" f7="music_note_list" class="margin" />
           Audio &amp;<br />Voice
         </f7-link>
@@ -67,15 +59,13 @@
         :checked="itemEventType === 'command' ? true : null"
         name="MediaEventType"
         title="send a command to"
-        @click="updateItemEventType('command')"
-      />
+        @click="updateItemEventType('command')" />
       <f7-list-item
         radio
         :checked="itemEventType === 'update' ? true : null"
         name="MediaEventType"
         title="update the state of"
-        @click="updateItemEventType('update')"
-      />
+        @click="updateItemEventType('update')" />
     </f7-list>
     <f7-list>
       <item-picker
@@ -87,8 +77,7 @@
             $set(this, 'currentItem', value);
             updateItemEventType('command');
           }
-        "
-      />
+        " />
     </f7-list>
     <f7-list>
       <f7-list-input
@@ -97,16 +86,14 @@
         name="command"
         type="text"
         :value="currentModule.configuration.command"
-        @blur="evt => $set(currentModule.configuration, 'command', evt.target.value)"
-      />
+        @blur="evt => $set(currentModule.configuration, 'command', evt.target.value)" />
       <f7-list-input
         v-else-if="itemEventType === 'update'"
         label="to state"
         name="state"
         type="text"
         :value="currentModule.configuration.state"
-        @blur="evt => $set(currentModule.configuration, 'state', evt.target.value)"
-      />
+        @blur="evt => $set(currentModule.configuration, 'state', evt.target.value)" />
     </f7-list>
     <f7-list v-if="itemEventType === 'command' && commandSuggestions.length">
       <f7-list-item
@@ -115,8 +102,7 @@
         v-for="suggestion in commandSuggestions"
         :key="suggestion.command"
         :title="suggestion.label"
-        @click="$set(currentModule.configuration, 'command', suggestion.command)"
-      />
+        @click="$set(currentModule.configuration, 'command', suggestion.command)" />
     </f7-list>
     <!-- <f7-block v-if="itemEventType === 'command' && currentItem && (currentItem.type === 'Dimmer' || currentItem.type === 'Rollershutter' || (currentItem.type === 'Number' && currentItem.stateDescription && currentItem.stateDescription.minimum !== undefined))">
       <f7-range :value="currentModule.configuration.command" @range:changed="(val) => $set(currentModule.configuration, 'command', val)"
@@ -127,8 +113,7 @@
     </f7-block> -->
     <f7-list
       v-if="itemEventType === 'command' && currentItem && currentItem.type === 'Color'"
-      media-list
-    >
+      media-list>
       <f7-list-input
         media-item
         type="colorpicker"
@@ -144,14 +129,12 @@
           formatValue: colorToCommand,
         }"
         :value="commandToColor()"
-        @change="updateColorCommand"
-      >
+        @change="updateColorCommand">
         <template #media>
           <i
             style="width: 32px; height: 32px"
             class="icon demo-list-icon"
-            id="color-picker-value"
-          />
+            id="color-picker-value" />
         </template>
       </f7-list-input>
     </f7-list>
@@ -169,8 +152,7 @@
             : undefined
         "
         link=""
-        @click="scriptLanguagePicked('blockly')"
-      >
+        @click="scriptLanguagePicked('blockly')">
         <template #media>
           <img src="@/images/blockly.svg" height="32" width="32" />
         </template>
@@ -188,8 +170,7 @@
         :after="language.version"
         :footer="language.contentType"
         link=""
-        @click="scriptLanguagePicked(language.contentType)"
-      >
+        @click="scriptLanguagePicked(language.contentType)">
         <template #media>
           <span class="item-initial">{{ language.name[0] }}</span>
         </template>
@@ -209,15 +190,13 @@
         :checked="rulesEventType === 'run' ? true : null"
         name="rulesEventType"
         title="run"
-        @click="updateRulesEventType('run')"
-      />
+        @click="updateRulesEventType('run')" />
       <f7-list-item
         radio
         :checked="rulesEventType === 'enable' ? true : null"
         name="rulesEventType"
         title="enable or disable"
-        @click="updateRulesEventType('enable')"
-      />
+        @click="updateRulesEventType('enable')" />
     </f7-list>
     <config-sheet
       v-if="currentModuleType"
@@ -225,8 +204,7 @@
       :parameterGroups="[]"
       :parameters="currentModuleType.configDescriptions"
       :configuration="currentModule.configuration"
-      @updated="dirty = true"
-    />
+      @updated="dirty = true" />
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'media'">
     <f7-list>
@@ -235,15 +213,13 @@
         :checked="mediaEventType === 'say' ? true : null"
         name="MediaEventType"
         title="say something"
-        @click="updateMediaEventType('say')"
-      />
+        @click="updateMediaEventType('say')" />
       <f7-list-item
         radio
         :checked="mediaEventType === 'play' ? true : null"
         name="MediaEventType"
         title="play an audio file"
-        @click="updateMediaEventType('play')"
-      />
+        @click="updateMediaEventType('play')" />
     </f7-list>
     <config-sheet
       v-if="currentModuleType"
@@ -251,8 +227,7 @@
       :parameterGroups="[]"
       :parameters="currentModuleType.configDescriptions"
       :configuration="currentModule.configuration"
-      @updated="dirty = true"
-    />
+      @updated="dirty = true" />
   </f7-block>
 </template>
 

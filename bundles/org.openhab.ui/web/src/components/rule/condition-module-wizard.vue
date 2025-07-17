@@ -3,26 +3,22 @@
     <f7-row class="margin-bottom">
       <f7-col
         class="elevation-2 elevation-hover-6 elevation-pressed-1 triggertype-big-button"
-        width="50"
-      >
+        width="50">
         <f7-link
           class="display-flex flex-direction-column no-ripple"
           no-ripple
-          @click="chooseItemCategory"
-        >
+          @click="chooseItemCategory">
           <f7-icon size="35" f7="square_on_circle" class="margin" />
           Item<br />Condition
         </f7-link>
       </f7-col>
       <f7-col
         class="elevation-2 elevation-hover-6 elevation-pressed-1 triggertype-big-button"
-        width="50"
-      >
+        width="50">
         <f7-link
           class="display-flex flex-direction-column no-ripple"
           no-ripple
-          @click="chooseScriptCategory"
-        >
+          @click="chooseScriptCategory">
           <f7-icon size="35" f7="doc_plaintext" class="margin" />
           Script<br />Condition
         </f7-link>
@@ -31,26 +27,22 @@
     <f7-row class="margin-bottom">
       <f7-col
         class="elevation-2 elevation-hover-6 elevation-pressed-1 triggertype-big-button"
-        width="50"
-      >
+        width="50">
         <f7-link
           class="display-flex flex-direction-column no-ripple"
           no-ripple
-          @click="chooseTimeCategory"
-        >
+          @click="chooseTimeCategory">
           <f7-icon size="35" f7="clock" class="margin" />
           Time<br />Condition
         </f7-link>
       </f7-col>
       <f7-col
         class="elevation-2 elevation-hover-6 elevation-pressed-1 triggertype-big-button"
-        width="50"
-      >
+        width="50">
         <f7-link
           class="display-flex flex-direction-column no-ripple"
           no-ripple
-          @click="chooseEphemerisCategory"
-        >
+          @click="chooseEphemerisCategory">
           <f7-icon size="35" f7="calendar_today" class="margin" />
           Ephemeris<br />Schedule
         </f7-link>
@@ -65,8 +57,7 @@
       <item-picker
         :value="currentModule.configuration.itemName"
         title="Item"
-        @input="val => $set(currentModule.configuration, 'itemName', val)"
-      />
+        @input="val => $set(currentModule.configuration, 'itemName', val)" />
     </f7-list>
     <f7-list>
       <f7-list-item
@@ -76,15 +67,13 @@
         :title="operator.label"
         name="itemStateOperator"
         :checked="currentModule.configuration.operator === operator.value ? true : null"
-        @click="$set(currentModule.configuration, 'operator', operator.value)"
-      />
+        @click="$set(currentModule.configuration, 'operator', operator.value)" />
       <f7-list-input
         label="State"
         name="itemState"
         type="text"
         :value="currentModule.configuration.state"
-        @blur="evt => $set(currentModule.configuration, 'state', evt.target.value)"
-      />
+        @blur="evt => $set(currentModule.configuration, 'state', evt.target.value)" />
     </f7-list>
     <f7-list v-if="stateSuggestions.length">
       <f7-list-item
@@ -93,8 +82,7 @@
         v-for="suggestion in stateSuggestions"
         :key="suggestion.value"
         :title="suggestion.label"
-        @click="$set(currentModule.configuration, 'state', suggestion.value)"
-      />
+        @click="$set(currentModule.configuration, 'state', suggestion.value)" />
     </f7-list>
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'script'">
@@ -110,8 +98,7 @@
             : undefined
         "
         link=""
-        @click="scriptLanguagePicked('blockly')"
-      >
+        @click="scriptLanguagePicked('blockly')">
         <template #media>
           <img src="@/images/blockly.svg" height="32" width="32" />
         </template>
@@ -129,8 +116,7 @@
         :after="language.version"
         :footer="language.contentType"
         link=""
-        @click="scriptLanguagePicked(language.contentType)"
-      >
+        @click="scriptLanguagePicked(language.contentType)">
         <template #media>
           <span class="item-initial">{{ language.name[0] }}</span>
         </template>
@@ -150,22 +136,19 @@
         :checked="timeEventType === 'dayOfWeek' ? true : null"
         name="timeEventType"
         title="the current day of the week is"
-        @click="updateTimeEventType('dayOfWeek')"
-      />
+        @click="updateTimeEventType('dayOfWeek')" />
       <f7-list-item
         radio
         :checked="timeEventType === 'timeOfDay' ? true : null"
         name="timeEventType"
         title="inside a time range"
-        @click="updateTimeEventType('timeOfDay')"
-      />
+        @click="updateTimeEventType('timeOfDay')" />
       <f7-list-item
         radio
         :checked="timeEventType === 'interval' ? true : null"
         name="timeEventType"
         title="a minimum interval is met"
-        @click="updateTimeEventType('interval')"
-      />
+        @click="updateTimeEventType('interval')" />
     </f7-list>
     <config-sheet
       v-if="currentModuleType"
@@ -173,8 +156,7 @@
       :parameterGroups="[]"
       :parameters="currentModuleType.configDescriptions"
       :configuration="currentModule.configuration"
-      @updated="dirty = true"
-    />
+      @updated="dirty = true" />
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'ephemeris'">
     <f7-list>
@@ -183,36 +165,31 @@
         :checked="ephemerisEventType === 'weekdays' ? true : null"
         name="EphemerisEventType"
         title="it's a weekday"
-        @click="updateEphemerisEventType('weekdays')"
-      />
+        @click="updateEphemerisEventType('weekdays')" />
       <f7-list-item
         radio
         :checked="ephemerisEventType === 'weekends' ? true : null"
         name="EphemerisEventType"
         title="it's the weekend"
-        @click="updateEphemerisEventType('weekends')"
-      />
+        @click="updateEphemerisEventType('weekends')" />
       <f7-list-item
         radio
         :checked="ephemerisEventType === 'holidays' ? true : null"
         name="EphemerisEventType"
         title="it's a holiday"
-        @click="updateEphemerisEventType('holidays')"
-      />
+        @click="updateEphemerisEventType('holidays')" />
       <f7-list-item
         radio
         :checked="ephemerisEventType === 'notHolidays' ? true : null"
         name="EphemerisEventType"
         title="it's not a holiday"
-        @click="updateEphemerisEventType('notHolidays')"
-      />
+        @click="updateEphemerisEventType('notHolidays')" />
       <f7-list-item
         radio
         :checked="ephemerisEventType === 'dayset' ? true : null"
         name="EphemerisEventType"
         title="today is in a specific dayset"
-        @click="updateEphemerisEventType('dayset')"
-      />
+        @click="updateEphemerisEventType('dayset')" />
     </f7-list>
     <f7-block-footer class="padding-horizontal">
       Remember to configure Ephemeris in Settings before using these conditions.
@@ -223,8 +200,7 @@
       :parameterGroups="[]"
       :parameters="currentModuleType.configDescriptions"
       :configuration="currentModule.configuration"
-      @updated="dirty = true"
-    />
+      @updated="dirty = true" />
   </f7-block>
 </template>
 

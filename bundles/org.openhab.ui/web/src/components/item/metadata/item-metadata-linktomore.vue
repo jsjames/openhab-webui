@@ -8,8 +8,7 @@
         type="text"
         :value="metadata.value"
         :disabled="editable ? true : null"
-        @input="updateValue"
-      />
+        @input="updateValue" />
       <template #after-list>
         <f7-block-footer class="param-description">
           <small>

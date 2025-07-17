@@ -7,8 +7,7 @@
         <generic-widget-component
           v-if="ready && groupControlContext"
           v-bind="$attrs"
-          :context="groupControlContext"
-        />
+          :context="groupControlContext" />
       </div>
 
       <generic-widget-component v-if="ready" v-bind="$attrs" :context="context" />

@@ -7,8 +7,7 @@
             icon-ios="f7:arrow_left"
             icon-md="material:arrow_back"
             icon-aurora="f7:arrow_left"
-            popup-close
-          />
+            popup-close />
         </f7-nav-left>
         <f7-nav-title> Configure {{ filterType.label.toLowerCase() }} filter </f7-nav-title>
         <f7-nav-right>
@@ -30,8 +29,7 @@
               required
               validate
               pattern="[A-Za-z0-9_]+"
-              error-message="Required. A-Z,a-z only"
-            />
+              error-message="Required. A-Z,a-z only" />
           </f7-list>
         </f7-col>
         <f7-col>
@@ -40,8 +38,7 @@
             ref="config-sheet"
             :parameter-groups="[]"
             :parameters="filterConfigDescriptionParameters"
-            :configuration="currentFilter"
-          />
+            :configuration="currentFilter" />
         </f7-col>
       </f7-block>
     </f7-page>

@@ -11,8 +11,7 @@
       :canDragDrop="!!canDragDrop"
       :picker="!!picker"
       @selected="tagSelected"
-      :selectedTag="selectedTag"
-    />
+      :selectedTag="selectedTag" />
   </f7-treeview>
 </template>
 

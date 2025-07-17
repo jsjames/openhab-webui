@@ -9,8 +9,7 @@
         name="synonyms"
         :value="synonyms"
         :disabled="!editable ? true : null"
-        @input="updateValue"
-      />
+        @input="updateValue" />
       <template #after-list>
         <f7-block-footer class="param-description">
           <small>Enter each synonym on a separate line.</small>

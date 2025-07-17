@@ -4,8 +4,7 @@
       title="Persistence Settings"
       back-link="Settings"
       back-link-url="/settings/"
-      back-link-force
-    >
+      back-link-force>
       <f7-nav-right v-if="persistenceList.length > 0">
         <developer-dock-icon />
         <f7-link @click="save()" v-if="theme.md" icon-md="material:save" icon-only />
@@ -22,8 +21,7 @@
           :parameter-groups="configDescriptions.parameterGroups"
           :parameters="configDescriptions.parameters"
           :configuration="config"
-          :set-empty-config-as-null="true"
-        />
+          :set-empty-config-as-null="true" />
       </f7-col>
     </f7-block>
     <f7-block v-if="ready && persistenceList.length" class="block-narrow">
@@ -36,22 +34,19 @@
             :key="persistence.id"
             :link="persistence.id"
             :title="persistence.label"
-            :footer="persistence.id"
-          />
+            :footer="persistence.id" />
           <f7-list-item
             link="/addons/persistence/"
             no-chevron
             media-item
             :color="theme.dark ? 'black' : 'white'"
-            subtitle="Install more persistence add-ons"
-          >
+            subtitle="Install more persistence add-ons">
             <template #media>
               <f7-icon
                 color="green"
                 aurora="f7:plus_circle_fill"
                 ios="f7:plus_circle_fill"
-                md="material:control_point"
-              />
+                md="material:control_point" />
             </template>
           </f7-list-item>
         </f7-list>
@@ -62,8 +57,7 @@
       <empty-state-placeholder
         icon="download_circle"
         title="persistence.title"
-        text="persistence.text"
-      />
+        text="persistence.text" />
       <f7-row class="display-flex justify-content-center">
         <f7-button
           large
@@ -72,8 +66,7 @@
           external
           :href="`${$store.state.websiteUrl}/link/persistence`"
           target="_blank"
-          :text="$t('home.overview.button.documentation')"
-        />
+          :text="$t('home.overview.button.documentation')" />
         <span style="width: 8px" />
         <f7-button large fill color="blue" href="/addons/persistence/">
           Install a persistence add-on

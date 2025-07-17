@@ -12,8 +12,7 @@
         <channel-general-settings
           :channel="channel"
           :channelType="channelType"
-          :createMode="true"
-        />
+          :createMode="true" />
       </f7-col>
       <f7-col v-if="channelType != null">
         <f7-block-title v-if="configDescription.parameters"> Configuration </f7-block-title>
@@ -23,8 +22,7 @@
         <config-sheet
           :parameter-groups="configDescription.parameterGroups"
           :parameters="configDescription.parameters"
-          :configuration="config"
-        />
+          :configuration="config" />
       </f7-col>
     </f7-block>
   </f7-page>

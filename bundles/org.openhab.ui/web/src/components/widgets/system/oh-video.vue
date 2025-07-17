@@ -7,8 +7,7 @@
       :candidatesTimeout="config.candidatesTimeout"
       :startManually="config.startManually"
       :hideControls="config.hideControls"
-      :posterURL="config.posterURL"
-    />
+      :posterURL="config.posterURL" />
     <oh-video-videojs
       v-else
       :src="src"
@@ -16,8 +15,7 @@
       :config="config.videoOptions"
       :startManually="config.startManually"
       :hideControls="config.hideControls"
-      :posterURL="config.posterURL"
-    />
+      :posterURL="config.posterURL" />
   </div>
 </template>
 

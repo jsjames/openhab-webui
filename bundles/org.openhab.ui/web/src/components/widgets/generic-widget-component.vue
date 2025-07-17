@@ -3,8 +3,7 @@
     v-if="componentType && componentType.startsWith('f7-') && visible"
     :is="componentType"
     v-bind="config"
-    @command="onCommand"
-  >
+    @command="onCommand">
     <!-- eslint-disable-next-line vue/no-unused-vars -->
     <template v-for="(slotComponents, slotName) in context.component.slots" #[slotName]>
       <ul :key="slotName" v-if="componentType === 'f7-list'">
@@ -14,8 +13,7 @@
           v-for="(slotComponent, idx) in slotComponents"
           :slot="slotName"
           :key="slotName + '-' + idx"
-          @command="onCommand"
-        />
+          @command="onCommand" />
       </ul>
       <generic-widget-component
         v-else
@@ -23,8 +21,7 @@
         v-for="(slotComponent, idx) in slotComponents"
         :slot="slotName"
         :key="slotName + '-' + idx"
-        @command="onCommand"
-      />
+        @command="onCommand" />
     </template>
   </component>
   <oh-card v-else-if="componentType && componentType === 'oh-card' && visible" :context="context">
@@ -35,26 +32,22 @@
         v-for="(slotComponent, idx) in slotComponents"
         :slot="slotName"
         :key="slotName + '-' + idx"
-        @command="onCommand"
-      />
+        @command="onCommand" />
     </template>
   </oh-card>
   <generic-widget-component
     v-else-if="componentType && componentType.startsWith('widget:') && visible"
     :context="childWidgetContext()"
-    @command="onCommand"
-  />
+    @command="onCommand" />
   <component
     v-else-if="componentType && componentType.startsWith('oh-') && visible"
     :is="componentType"
     :context="context"
-    @command="onCommand"
-  />
+    @command="onCommand" />
   <div
     v-else-if="componentType && componentType === 'Label' && visible"
     :class="config.class"
-    :style="config.style"
-  >
+    :style="config.style">
     {{ config.text }}
   </div>
   <!-- fragment? -->
@@ -73,8 +66,7 @@
       <generic-widget-component
         :context="childContext(slotComponent)"
         v-for="(slotComponent, idx) in context.component.slots.default"
-        :key="'default-' + idx"
-      />
+        :key="'default-' + idx" />
     </template>
   </component>
 </template>

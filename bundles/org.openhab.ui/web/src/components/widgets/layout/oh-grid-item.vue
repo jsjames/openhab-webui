@@ -5,8 +5,7 @@
     class="oh-grid-item card no-margin"
     @moved="movedEvent"
     @resized="resizedEvent"
-    dragAllowFrom=".drag-handle"
-  >
+    dragAllowFrom=".drag-handle">
     <template v-if="context.editmode">
       <f7-link :popover-open="'.item-popover-' + _uid" class="configure-item-menu">
         <f7-icon f7="gear_alt" />
@@ -18,8 +17,7 @@
         :style="{
           width: context.component.slots.default.length > 0 ? '208px' : '76px',
         }"
-        :animate="false"
-      >
+        :animate="false">
         <div class="display-flex margin justify-content-center">
           <f7-link
             href="#"
@@ -30,8 +28,7 @@
               ($refs.popover.f7Popover.close(false),
               context.editmode.configureWidget(context.component.slots.default[0], context))
             "
-            icon-f7="square_pencil"
-          >
+            icon-f7="square_pencil">
             Configure
           </f7-link>
           <f7-link
@@ -43,8 +40,7 @@
               $refs.popover.f7Popover.close(false);
               context.editmode.editWidgetCode(context.component.slots.default[0], context);
             "
-            icon-f7="doc_text"
-          >
+            icon-f7="doc_text">
             YAML
           </f7-link>
           <f7-link
@@ -54,8 +50,7 @@
               $refs.popover.f7Popover.close(false);
               context.editmode.removeWidget(context.component, context.parent, 'grid');
             "
-            icon-f7="trash"
-          >
+            icon-f7="trash">
             Remove
           </f7-link>
         </div>
@@ -64,15 +59,13 @@
     <oh-placeholder-widget
       v-if="context.editmode && !context.component.slots.default.length"
       @click="context.editmode.addWidget(context.component, null, context.parent)"
-      class="oh-grid-item-content"
-    />
+      class="oh-grid-item-content" />
     <generic-widget-component
       v-else-if="context.component.slots.default.length"
       @command="onCommand"
       class="oh-grid-item-content"
       :context="childContext(context.component.slots.default[0])"
-      :style="{ overflow: context.editmode ? 'visible' : 'hidden' }"
-    />
+      :style="{ overflow: context.editmode ? 'visible' : 'hidden' }" />
 
     <f7-icon v-if="context.editmode" class="drag-handle" f7="move" />
   </grid-item>

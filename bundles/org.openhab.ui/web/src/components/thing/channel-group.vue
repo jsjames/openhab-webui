@@ -5,8 +5,7 @@
       v-if="group && group.label && group.channels.length > 0"
       :title="group.label"
       :description="group.description"
-      :footer="group.description"
-    />
+      :footer="group.description" />
     <f7-list-item
       v-for="c in group.channels"
       :key="c.channel.id"
@@ -25,8 +24,7 @@
       @change="$emit('selected', c.channel, c.channelType)"
       @accordion:beforeopen="openedChannel = c.channelType.id"
       @accordion:close="openedChannel = ''"
-      @accordion:open="opened(c.channel)"
-    >
+      @accordion:open="opened(c.channel)">
       <template #footer>
         <div v-html="c.channel.description || c.channelType.description" />
       </template>
@@ -36,8 +34,7 @@
           v-if="!c.extensible && c.channelType.category"
           :icon="c.channelType.category"
           height="32"
-          width="32"
-        />
+          width="32" />
         <span v-else-if="c.extensible && c.channel.label" class="item-initial">{{
           c.channel.label[0]
         }}</span>
@@ -51,8 +48,7 @@
           :channelType="c.channelType"
           :channelId="c.channel.id"
           :channel="c.channel"
-          :extensible="c.extensible"
-        />
+          :extensible="c.extensible" />
       </f7-accordion-content>
       <template #root-end>
         <div v-if="multipleLinksMode">
@@ -60,8 +56,7 @@
             :channelType="c.channelType"
             :channelId="c.channel.id"
             :channel="c.channel"
-            :extensible="c.extensible"
-          />
+            :extensible="c.extensible" />
         </div>
       </template>
       <template #subtitle>
@@ -69,8 +64,7 @@
           class="channel-clipboard-icon"
           :value="c.channel.uid"
           tooltip="Copy UID"
-          color="gray"
-        />
+          color="gray" />
       </template>
     </f7-list-item>
   </f7-list>

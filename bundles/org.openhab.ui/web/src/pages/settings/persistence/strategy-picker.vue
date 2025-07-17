@@ -5,15 +5,13 @@
       :smart-select="disabled !== true"
       :smart-select-params="smartSelectParams"
       ref="smartSelect"
-      class="defaults-picker"
-    >
+      class="defaults-picker">
       <select v-if="disabled !== true" :name="name" multiple @change="select">
         <option
           v-for="s in strategies"
           :key="s"
           :value="s"
-          :selected="value.includes(s) ? true : null"
-        >
+          :selected="value.includes(s) ? true : null">
           {{ s }}
         </option>
       </select>

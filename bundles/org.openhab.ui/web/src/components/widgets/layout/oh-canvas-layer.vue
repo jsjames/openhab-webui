@@ -3,8 +3,7 @@
     v-if="layerPreload || layerVisible"
     v-show="!layerPreload || layerVisible"
     ref="ohCanvasLayer"
-    class="oh-canvas-layer"
-  >
+    class="oh-canvas-layer">
     <oh-canvas-item
       v-for="obj in layer"
       v-bind="$attrs"
@@ -13,8 +12,7 @@
       :grid-enable="gridEnable"
       :grid-pitch="gridPitch"
       :prevent-deactivation="preventDeactivation"
-      :context="childContext(obj.item)"
-    />
+      :context="childContext(obj.item)" />
   </div>
 </template>
 

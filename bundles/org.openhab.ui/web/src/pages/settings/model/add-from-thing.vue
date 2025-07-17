@@ -31,8 +31,7 @@
             :title="selectedThing.label"
             :footer="selectedThing.UID"
             :badge="thingStatusBadgeText(selectedThing.statusInfo)"
-            :badge-color="thingStatusBadgeColor(selectedThing.statusInfo)"
-          />
+            :badge-color="thingStatusBadgeColor(selectedThing.statusInfo)" />
         </f7-list>
         <f7-block-title v-if="createEquipment"> Equipment </f7-block-title>
         <f7-block-footer v-if="createEquipment && !thingId" class="padding-left padding-right">
@@ -47,8 +46,7 @@
         </f7-block-footer>
         <f7-block-footer
           v-else-if="!createEquipment && !thingId"
-          class="padding-left padding-right"
-        >
+          class="padding-left padding-right">
           Select the Thing for which you wish to create Point Items from its Channels. They will be
           placed under the parent group above, if any.
         </f7-block-footer>
@@ -57,8 +55,7 @@
             title="Thing"
             name="thing"
             :value="selectedThingId"
-            @input="e => (selectedThingId = e)"
-          />
+            @input="e => (selectedThingId = e)" />
         </f7-list>
         <f7-block v-if="!ready" class="text-align-center">
           <f7-preloader />
@@ -75,8 +72,7 @@
               :noModelPicker="true"
               :setValueText="false"
               :value="selectedGroup?.name"
-              @input="selectExistingGroup($event)"
-            />
+              @input="selectExistingGroup($event)" />
           </f7-list>
           <item-form
             v-if="createEquipment"
@@ -84,8 +80,7 @@
             :items="items"
             :createMode="selectedGroup ? false : true"
             :hide-type="true"
-            :force-semantics="true"
-          />
+            :force-semantics="true" />
           <f7-block-title>Channels</f7-block-title>
           <f7-block-footer class="padding-left padding-right">
             Check the channels you wish to create as new Point items. You can alter the suggested
@@ -106,16 +101,14 @@
               createEquipment ? equipmentItem.name : parentGroup ? parentGroup.name : ''
             "
             :new-items="newPointItems"
-            :updated-items="updatedPointItems"
-          />
+            :updated-items="updatedPointItems" />
         </div>
       </f7-col>
     </f7-block>
 
     <div
       v-if="ready && selectedThing.UID"
-      class="if-aurora display-flex justify-content-center margin padding"
-    >
+      class="if-aurora display-flex justify-content-center margin padding">
       <div class="flex-shrink-0">
         <f7-button
           class="padding-left padding-right"
@@ -124,8 +117,7 @@
           large
           raised
           fill
-          @click="add"
-        >
+          @click="add">
           Add to Model
         </f7-button>
       </div>

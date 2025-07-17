@@ -12,8 +12,7 @@
           closeOnSelect: true,
           scrollToSelectedItem: true,
         }"
-        ref="classes"
-      >
+        ref="classes">
         <select name="classes" @change="updateClass">
           <option value="" />
           <optgroup label="Types">
@@ -21,8 +20,7 @@
               v-for="cl in orderedClasses.filter(c => c.indexOf('type:') === 0)"
               :value="cl.replace('type:', '')"
               :key="cl"
-              :selected="isSelected(cl.replace('type:', '')) ? true : null"
-            >
+              :selected="isSelected(cl.replace('type:', '')) ? true : null">
               {{ cl.replace('type:', '') }}
             </option>
           </optgroup>
@@ -31,8 +29,7 @@
               v-for="cl in orderedClasses.filter(c => c.indexOf('attribute:') === 0)"
               :value="cl.replace('attribute:', '')"
               :key="cl"
-              :selected="isSelected(cl.replace('attribute:', '')) ? true : null"
-            >
+              :selected="isSelected(cl.replace('attribute:', '')) ? true : null">
               {{ cl.replace('attribute:', '') }}
             </option>
           </optgroup>
@@ -44,16 +41,14 @@
         :parameterGroups="[]"
         :parameters="parameters"
         :configuration="metadata.config"
-        :read-only="!editable"
-      />
+        :read-only="!editable" />
     </div>
     <p class="padding">
       <f7-link
         color="blue"
         external
         target="_blank"
-        :href="`${$store.state.websiteUrl}/link/google-assistant`"
-      >
+        :href="`${$store.state.websiteUrl}/link/google-assistant`">
         Google Assistant Integration Documentation
       </f7-link>
     </p>

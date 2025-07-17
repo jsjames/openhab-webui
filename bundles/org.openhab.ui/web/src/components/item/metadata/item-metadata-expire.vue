@@ -7,15 +7,13 @@
         :checked="parsedAction.action === 'state' ? true : null"
         name="action"
         title="update state"
-        @click="updateAction('state')"
-      />
+        @click="updateAction('state')" />
       <f7-list-item
         radio
         :checked="parsedAction.action === 'command'"
         name="action"
         title="send command"
-        @click="updateAction('command')"
-      />
+        @click="updateAction('command')" />
       <f7-list-input
         :label="parsedAction.action === 'command' ? 'Command' : 'State'"
         name="value"
@@ -23,24 +21,21 @@
         type="text"
         placeholder="UNDEF if unset"
         :value="parsedAction.value"
-        @blur="evt => updateActionValue(evt.target.value)"
-      />
+        @blur="evt => updateActionValue(evt.target.value)" />
       <f7-list-item
         title="ignore state updates"
         checkbox
         :checked="ignoreStateUpdates ? true : null"
         @change="
           ev => (metadata.config['ignoreStateUpdates'] = new Boolean(ev.target.checked).toString())
-        "
-      />
+        " />
       <f7-list-item
         title="ignore commands"
         checkbox
         :checked="ignoreCommands ? true : null"
         @change="
           ev => (metadata.config['ignoreCommands'] = new Boolean(ev.target.checked).toString())
-        "
-      />
+        " />
     </f7-list>
     <f7-block v-else>
       {{ parsedAction.action === 'state' ? 'Update state to' : 'Send command' }}
@@ -72,8 +67,7 @@
         @blur="evt => updateDuration(evt.target.value)"
         pattern="(\d+h)*(\d+m)*(\d+s)*"
         validate
-        validate-on-blur
-      />
+        validate-on-blur />
       <f7-list-item v-if="editable" class="display-flex justify-content-center">
         <div ref="picker" />
       </f7-list-item>

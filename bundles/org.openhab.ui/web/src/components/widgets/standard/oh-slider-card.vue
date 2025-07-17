@@ -5,14 +5,12 @@
       config.vertical ? 'slider-card-vertical' : '',
       'display-flex',
       'justify-content-center',
-    ]"
-  >
+    ]">
     <template #content>
       <oh-slider
         :context="childContext(context.component)"
         :class="{ 'slider-card-vertical': config.vertical }"
-        @command="onCommand"
-      />
+        @command="onCommand" />
     </template>
   </oh-card>
 </template>

@@ -5,8 +5,7 @@
       smart-select
       :smart-select-params="smartSelectParams"
       v-if="ready"
-      ref="smartSelect"
-    >
+      ref="smartSelect">
       <select :name="name" :multiple="multiple" @change="select" :required="required">
         <option v-if="!multiple" value="" />
         <optgroup v-if="scenes.length > 0" label="Scenes">
@@ -16,8 +15,7 @@
             :key="rule.uid"
             :selected="
               multiple ? value && value.indexOf(rule.uid) >= 0 : value === rule.uid ? true : null
-            "
-          >
+            ">
             {{ rule.name }}
           </option>
         </optgroup>
@@ -28,8 +26,7 @@
             :key="rule.uid"
             :selected="
               multiple ? value && value.indexOf(rule.uid) >= 0 : value === rule.uid ? true : null
-            "
-          >
+            ">
             {{ rule.name }}
           </option>
         </optgroup>
@@ -40,8 +37,7 @@
             :key="rule.uid"
             :selected="
               multiple ? value && value.indexOf(rule.uid) >= 0 : value === rule.uid ? true : null
-            "
-          >
+            ">
             {{ rule.name }}
           </option>
         </optgroup>

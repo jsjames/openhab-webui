@@ -10,8 +10,7 @@
             type="text"
             :placeholder="placeholder"
             :value="attr.value"
-            @change="updateAttribute($event, idx, attr)"
-          />
+            @change="updateAttribute($event, idx, attr)" />
           <f7-input
             v-for="(field, fieldidx) in fieldDefs"
             :key="JSON.stringify(field)"
@@ -23,15 +22,13 @@
             :placeholder="fieldProp(field, 'placeholder')"
             :value="attr.value[Object.keys(field)[0]]"
             validate
-            @change="updateAttribute($event, idx, attr, Object.keys(field)[0])"
-          />
+            @change="updateAttribute($event, idx, attr, Object.keys(field)[0])" />
           <f7-button
             style="padding-left: 5px; padding-right: 0; flex-shrink: 0"
             text=""
             icon-material="clear"
             small
-            @click="removeAttribute(idx)"
-          />
+            @click="removeAttribute(idx)" />
         </f7-list-item>
       </f7-list>
     </f7-card-content>

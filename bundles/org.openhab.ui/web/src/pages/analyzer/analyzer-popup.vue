@@ -3,8 +3,7 @@
     tablet-fullscreen
     :backdrop="false"
     class="analyzer-popup"
-    @popup:close="$refs.analyzer.onClose()"
-  >
+    @popup:close="$refs.analyzer.onClose()">
     <analyzer ref="analyzer" />
   </f7-popup>
 </template>

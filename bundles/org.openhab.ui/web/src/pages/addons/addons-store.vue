@@ -3,16 +3,14 @@
     @page:afterin="onPageAfterIn"
     @page:beforeout="onPageBeforeOut"
     ref="addonstore"
-    class="page-addon-store"
-  >
+    class="page-addon-store">
     <f7-navbar
       large
       :large-transparent="false"
       back-link="Back"
       class="store-nav"
       :title-large="AddonTitles[currentTab] || 'Add-on Store'"
-      :title="pageTitle"
-    >
+      :title="pageTitle">
       <f7-nav-right>
         <developer-dock-icon />
       </f7-nav-right>
@@ -24,8 +22,7 @@
         href="/addons/"
         icon-ios="f7:bag_fill"
         icon-aurora="f7:bag_fill"
-        icon-md="material:shopping_bag"
-      />
+        icon-md="material:shopping_bag" />
       <f7-link
         v-for="section in Object.keys(AddonTitles)"
         :key="section"
@@ -34,8 +31,7 @@
         :href="`/addons/${section}`"
         :icon-ios="`f7:${AddonIcons[section]}`"
         :icon-aurora="`f7:${AddonIcons[section]}`"
-        :icon-md="`f7:${AddonIcons[section]}`"
-      />
+        :icon-md="`f7:${AddonIcons[section]}`" />
     </f7-toolbar>
     <f7-block class="no-padding" style="margin-top: 0">
       <f7-searchbar
@@ -47,8 +43,7 @@
         "
         :disable-button="!theme.aurora"
         @searchbar:search="search"
-        @searchbar:clear="clearSearch"
-      />
+        @searchbar:clear="clearSearch" />
       <f7-list accordion-list style="margin-top: 0px; margin-bottom: 0px">
         <f7-list-item accordion-item title="Filters">
           <f7-accordion-content>
@@ -56,15 +51,13 @@
               <f7-list-item
                 smart-select
                 title="Connection Type"
-                :smart-select-params="{ closeOnSelect: true, openIn: 'sheet' }"
-              >
+                :smart-select-params="{ closeOnSelect: true, openIn: 'sheet' }">
                 <select @change="updateFilter('connectionType', $event.target.value)">
                   <option
                     v-for="type in Object.keys(AddonConnectionTypes)"
                     :key="type"
                     :value="type"
-                    :selected="type === connectionType ? true : null"
-                  >
+                    :selected="type === connectionType ? true : null">
                     {{ AddonConnectionTypes[type].label }}
                   </option>
                 </select>
@@ -73,15 +66,13 @@
                 v-if="regionReady"
                 smart-select
                 title="Country"
-                :smart-select-params="{ closeOnSelect: true, openIn: 'sheet' }"
-              >
+                :smart-select-params="{ closeOnSelect: true, openIn: 'sheet' }">
                 <select @change="updateFilter('regionType', $event.target.value)">
                   <option
                     v-for="type in Object.keys(AddonRegionTypes)"
                     :key="type"
                     :value="type"
-                    :selected="type === regionType ? true : null"
-                  >
+                    :selected="type === regionType ? true : null">
                     {{ AddonRegionTypes[type] }}
                   </option>
                 </select>
@@ -118,8 +109,7 @@
           ' add-on' +
           (searchResults.length === 1 ? '' : 's')
         "
-        @addon-button-click="addonButtonClick"
-      />
+        @addon-button-click="addonButtonClick" />
     </div>
 
     <f7-tabs v-show="ready && !searchResults" routable>
@@ -133,8 +123,7 @@
           :addons="suggestedAddons.filter(a => a.type === section)"
           :suggested="true"
           :title="SuggestionLabels[section].title"
-          :subtitle="SuggestionLabels[section].subtitle"
-        />
+          :subtitle="SuggestionLabels[section].subtitle" />
 
         <!-- Show Installed Add-ons -->
         <addons-section
@@ -143,8 +132,7 @@
           :show-as-cards="installedAddons.length <= 3"
           @addon-button-click="addonButtonClick"
           :title="'Installed ' + AddonTitles[section]"
-          :addons="installedAddons.filter(a => a.type === section)"
-        />
+          :addons="installedAddons.filter(a => a.type === section)" />
       </f7-tab>
 
       <f7-tab id="binding" @tab-show="onTabShow">
@@ -155,28 +143,24 @@
           :addons="suggestedAddons.filter(a => a.type === 'binding')"
           :suggested="true"
           :title="SuggestionLabels.binding.title"
-          :subtitle="SuggestionLabels.binding.subtitle"
-        />
+          :subtitle="SuggestionLabels.binding.subtitle" />
         <addons-section
           v-if="officialAddons"
           @addon-button-click="addonButtonClick"
           :addons="officialAddons.filter(a => a.type === 'binding')"
           :title="'openHAB Distribution'"
-          :subtitle="'Official bindings maintained by the openHAB project'"
-        />
+          :subtitle="'Official bindings maintained by the openHAB project'" />
         <addons-section
           v-if="addons && addons.marketplace"
           @addon-button-click="addonButtonClick"
           :addons="marketplaceAddons.filter(a => a.type === 'binding')"
           :title="'Community Marketplace'"
-          :subtitle="'Bindings independently released by the community'"
-        />
+          :subtitle="'Bindings independently released by the community'" />
         <addons-section
           v-if="otherAddons && otherAddons.length"
           @addon-button-click="addonButtonClick"
           :addons="otherAddons.filter(a => a.type === 'binding')"
-          :title="'Other Add-ons'"
-        />
+          :title="'Other Add-ons'" />
       </f7-tab>
 
       <f7-tab id="automation" @tab-show="onTabShow">
@@ -198,8 +182,7 @@
             'automation-groovyscripting',
           ]"
           :title="'Languages &amp; Technologies'"
-          :subtitle="'Use your preferred scripting language and other automation functionality'"
-        />
+          :subtitle="'Use your preferred scripting language and other automation functionality'" />
         <addons-section
           v-if="addons"
           @addon-button-click="addonButtonClick"
@@ -211,8 +194,7 @@
           "
           :install-action-text="'Add'"
           :title="'Rule Templates'"
-          :subtitle="'Shared by the community to bootstrap your automation'"
-        />
+          :subtitle="'Shared by the community to bootstrap your automation'" />
         <addons-section
           v-if="addons"
           @addon-button-click="addonButtonClick"
@@ -225,8 +207,7 @@
           "
           :install-action-text="'Add'"
           :title="'Block Libraries'"
-          :subtitle="'Community extensions to the Blockly toolbox'"
-        />
+          :subtitle="'Community extensions to the Blockly toolbox'" />
       </f7-tab>
 
       <f7-tab id="ui" @tab-show="onTabShow">
@@ -243,8 +224,7 @@
           :install-action-text="'Add'"
           :show-as-cards="true"
           :title="'Widgets for the Main UI'"
-          :subtitle="'Extend your pages with these community-designed widgets'"
-        />
+          :subtitle="'Extend your pages with these community-designed widgets'" />
         <addons-section
           v-if="addons && officialAddons"
           :show-all="true"
@@ -257,8 +237,7 @@
             )
           "
           :title="'Other UI Add-ons'"
-          :subtitle="'Alternative user interfaces and icon sets'"
-        />
+          :subtitle="'Alternative user interfaces and icon sets'" />
       </f7-tab>
 
       <f7-tab id="misc" @tab-show="onTabShow">
@@ -269,16 +248,14 @@
           :suggested="true"
           :addons="suggestedAddons.filter(a => a.type === 'misc')"
           :title="SuggestionLabels.misc.title"
-          :subtitle="SuggestionLabels.misc.subtitle"
-        />
+          :subtitle="SuggestionLabels.misc.subtitle" />
         <addons-section
           v-if="addons && officialAddons"
           :show-all="true"
           @addon-button-click="addonButtonClick"
           :addons="unsuggestedAddons.filter(a => a.type === 'misc')"
           :featured="['misc-openhabcloud', 'misc-homekit', 'misc-metrics']"
-          :subtitle="'Integrate openHAB with external systems'"
-        />
+          :subtitle="'Integrate openHAB with external systems'" />
       </f7-tab>
 
       <f7-tab id="persistence" @tab-show="onTabShow">
@@ -289,8 +266,7 @@
           :suggested="true"
           :addons="suggestedAddons.filter(a => a.type === 'persistence')"
           :title="SuggestionLabels.persistence.title"
-          :subtitle="SuggestionLabels.persistence.subtitle"
-        />
+          :subtitle="SuggestionLabels.persistence.subtitle" />
         <addons-section
           v-if="addons && officialAddons"
           @addon-button-click="addonButtonClick"
@@ -298,8 +274,7 @@
           :show-all="true"
           :featured="['persistence-rrd4j', 'persistence-influxdb', 'persistence-mapdb']"
           :title="'Persistence Services'"
-          :subtitle="'Backend connectors to store historical data'"
-        />
+          :subtitle="'Backend connectors to store historical data'" />
       </f7-tab>
 
       <f7-tab id="transformation" @tab-show="onTabShow">
@@ -310,8 +285,7 @@
           :suggested="true"
           :addons="suggestedAddons.filter(a => a.type === 'transformation')"
           :title="SuggestionLabels.transformation.title"
-          :subtitle="SuggestionLabels.transformation.subtitle"
-        />
+          :subtitle="SuggestionLabels.transformation.subtitle" />
         <addons-section
           v-if="addons && officialAddons"
           @addon-button-click="addonButtonClick"
@@ -319,8 +293,7 @@
           :show-all="true"
           :featured="['transformation-jsonpath', 'transformation-map', 'transformation-regex']"
           :title="'Transformation Add-ons'"
-          :subtitle="'Translate raw values into processed or human-readable representations'"
-        />
+          :subtitle="'Translate raw values into processed or human-readable representations'" />
       </f7-tab>
 
       <f7-tab id="voice" @tab-show="onTabShow">
@@ -331,16 +304,14 @@
           :suggested="true"
           :addons="suggestedAddons.filter(a => a.type === 'voice')"
           :title="SuggestionLabels.voice.title"
-          :subtitle="SuggestionLabels.voice.subtitle"
-        />
+          :subtitle="SuggestionLabels.voice.subtitle" />
         <addons-section
           v-if="addons && officialAddons"
           :show-all="true"
           @addon-button-click="addonButtonClick"
           :addons="unsuggestedAddons.filter(a => a.type === 'voice')"
           :featured="['voice-googletts', 'voice-pollytts', 'voice-voicerss']"
-          :subtitle="'Convert between text and speech, interpret human language queries'"
-        />
+          :subtitle="'Convert between text and speech, interpret human language queries'" />
       </f7-tab>
     </f7-tabs>
     <addon-details-sheet
@@ -350,8 +321,7 @@
       :opened="addonPopupOpened"
       @closed="addonPopupOpened = false"
       @install="installAddon"
-      @uninstall="uninstallAddon"
-    />
+      @uninstall="uninstallAddon" />
   </f7-page>
 </template>
 

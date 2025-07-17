@@ -14,8 +14,7 @@
           :error-message-force="createMode && !!nameErrorMessage"
           input-id="input"
           @input="item.name = $event.target.value"
-          :clear-button="createMode"
-        >
+          :clear-button="createMode">
           <template #inner>
             <f7-link
               icon-f7="hammer_fill"
@@ -27,8 +26,7 @@
                 !nameErrorMessage.includes('exists') &&
                 item.name.trim()
               "
-              @click="$oh.utils.normalizeInput('#input')"
-            />
+              @click="$oh.utils.normalizeInput('#input')" />
           </template>
         </f7-list-input>
         <f7-list-input
@@ -38,8 +36,7 @@
           :value="item.label"
           @input="updateLabel"
           :disabled="!editable ? true : null"
-          :clear-button="editable"
-        />
+          :clear-button="editable" />
       </f7-list-group>
       <f7-list-group v-if="!hideType" v-show="itemType">
         <!-- Type -->
@@ -53,15 +50,13 @@
             searchbar: true,
             openIn: 'popup',
             closeOnSelect: true,
-          }"
-        >
+          }">
           <select name="select-type" @change="itemType = $event.target.value">
             <option
               v-for="t in types.ItemTypes"
               :key="t"
               :value="t"
-              :selected="t === itemType ? true : null"
-            >
+              :selected="t === itemType ? true : null">
               {{ t }}
             </option>
           </select>
@@ -78,16 +73,14 @@
             searchbar: true,
             openIn: 'popup',
             closeOnSelect: true,
-          }"
-        >
+          }">
           <select name="select-dimension" @change="itemDimension = $event.target.value">
             <option key="" value="" :selected="itemDimension === '' ? true : null" />
             <option
               v-for="d in dimensions"
               :key="d.name"
               :value="d.name"
-              :selected="d.name === itemDimension ? true : null"
-            >
+              :selected="d.name === itemDimension ? true : null">
               {{ d.label }}
             </option>
           </select>
@@ -106,8 +99,7 @@
           "
           :disabled="!editable ? true : null"
           :value="itemDimension ? itemUnit : ''"
-          @change="itemUnit = $event.target.value"
-        />
+          @change="itemUnit = $event.target.value" />
         <f7-list-input
           v-show="itemDimension"
           label="State Description Pattern"
@@ -120,16 +112,14 @@
           :disabled="!createMode ? true : null"
           :value="stateDescriptionPattern"
           @input="stateDescriptionPattern = $event.target.value"
-          :clear-button="createMode"
-        />
+          :clear-button="createMode" />
 
         <!-- Group Item Form -->
         <group-form
           ref="groupForm"
           v-if="itemType === 'Group'"
           :item="item"
-          :createMode="createMode"
-        />
+          :createMode="createMode" />
       </f7-list-group>
       <f7-list-group v-if="!hideCategory">
         <f7-list-input
@@ -141,8 +131,7 @@
           :value="itemCategory"
           @input="itemCategory = $event.target.value"
           :disabled="!editable ? true : null"
-          :clear-button="editable"
-        >
+          :clear-button="editable">
           <template #root-end>
             <div style="margin-left: calc(35% + 14px)">
               <oh-icon
@@ -150,8 +139,7 @@
                 :icon="itemCategory"
                 :state="createMode || itemType === 'Image' ? null : item.state"
                 height="32"
-                width="32"
-              />
+                width="32" />
               <oh-icon v-else icon="" height="32" width="32" />
             </div>
           </template>
@@ -162,8 +150,7 @@
       v-if="!hideSemantics"
       :item="item"
       :createMode="createMode"
-      :hide-none="forceSemantics"
-    />
+      :hide-none="forceSemantics" />
     <f7-list inline-labels no-hairline-md>
       <tag-input title="Non-Semantic Tags" :disabled="!editable ? true : null" :item="item" />
     </f7-list>
@@ -180,8 +167,7 @@
               :deleteable="editable"
               @delete="deleteGroup"
               media-bg-color="blue"
-              style="margin-right: 6px"
-            >
+              style="margin-right: 6px">
               <template #media>
                 <f7-icon ios="f7:folder_fill" md="material:folder" aurora="f7:folder_fill" />
               </template>
@@ -197,8 +183,7 @@
         @input="value => (this.item.groupNames = value)"
         :multiple="true"
         filterType="Group"
-        :set-value-text="false"
-      />
+        :set-value-text="false" />
     </f7-list>
   </div>
 </template>

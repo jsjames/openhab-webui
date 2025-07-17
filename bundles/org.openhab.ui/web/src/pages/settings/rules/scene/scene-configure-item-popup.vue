@@ -4,8 +4,7 @@
     class="sceneitemconfig-popup"
     close-on-escape
     @popup:open="itemConfigOpened"
-    @popup:closed="itemConfigClosed"
-  >
+    @popup:closed="itemConfigClosed">
     <f7-page>
       <f7-navbar>
         <f7-nav-left>
@@ -13,8 +12,7 @@
             icon-ios="f7:arrow_left"
             icon-md="material:arrow_back"
             icon-aurora="f7:arrow_left"
-            popup-close
-          />
+            popup-close />
         </f7-nav-left>
         <f7-nav-title>
           Configure Item:
@@ -28,8 +26,7 @@
         <f7-link
           class="left"
           icon-f7="arrow_uturn_left_circle"
-          @click="updateCommandFromCurrentState"
-        >
+          @click="updateCommandFromCurrentState">
           Set to current state
         </f7-link>
         <f7-link class="right" icon-f7="arrowtriangle_right_circle" @click="testCommand">
@@ -44,8 +41,7 @@
               floating-label
               :value="command"
               @input="command = $event.target.value"
-              type="text"
-            />
+              type="text" />
             <ul v-if="commandSuggestions.length">
               <f7-list-item
                 radio
@@ -53,8 +49,7 @@
                 v-for="suggestion in commandSuggestions"
                 :key="suggestion.command"
                 :title="suggestion.label"
-                @click="command = suggestion.command"
-              />
+                @click="command = suggestion.command" />
             </ul>
           </f7-list>
         </f7-col>
@@ -64,20 +59,17 @@
           <div
             v-show="control === 'colorpicker'"
             class="scene-item-control-colorpicker"
-            ref="colorpicker"
-          />
+            ref="colorpicker" />
           <div v-if="control === 'toggle'" class="scene-item-control-toggle">
             <f7-toggle
               :checked="command === 'ON' ? true : null"
-              @toggle:change="value => (command = value ? 'ON' : 'OFF')"
-            />
+              @toggle:change="value => (command = value ? 'ON' : 'OFF')" />
           </div>
           <div v-else-if="control === 'slider'" class="scene-item-control-slider">
             <f7-range
               v-bind="sliderConfig"
               :value="command"
-              @range:change="command = $event.toString()"
-            />
+              @range:change="command = $event.toString()" />
           </div>
           <div v-else-if="control === 'rollershutter'" class="scene-item-control-rollershutter">
             <f7-segmented round outline strong class="rollershutter-controls">
@@ -86,22 +78,19 @@
                 large
                 icon-f7="arrowtriangle_left"
                 icon-size="24"
-                icon-color="gray"
-              />
+                icon-color="gray" />
               <f7-button
                 @click="command = 'STOP'"
                 large
                 icon-f7="stop"
                 icon-size="24"
-                icon-color="red"
-              />
+                icon-color="red" />
               <f7-button
                 @click="command = 'DOWN'"
                 large
                 icon-f7="arrowtriangle_right"
                 icon-size="24"
-                icon-color="gray"
-              />
+                icon-color="gray" />
             </f7-segmented>
           </div>
         </f7-col>

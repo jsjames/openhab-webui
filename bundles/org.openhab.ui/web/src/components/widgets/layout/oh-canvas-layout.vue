@@ -4,23 +4,20 @@
     class="oh-canvas-layout disable-user-select"
     :class="context.editmode ? 'margin-top' : ''"
     @keydown="onKeyDown"
-    @keyup="onKeyUp"
-  >
+    @keyup="onKeyUp">
     <f7-block v-if="context.editmode">
       <f7-menu class="configure-layout-menu">
         <f7-menu-item @click="addItem" icon="margin-left" icon-f7="plus" text="Add Widget" />
         <f7-menu-item
           v-if="context.clipboardtype"
           @click="context.editmode.pasteWidget(activeLayer, context.component)"
-          icon-f7="square_on_square"
-        />
+          icon-f7="square_on_square" />
         <f7-menu-item
           @click="toggleGrid()"
           icon="margin-left-half"
           :icon-f7="grid.enable ? 'circle_grid_3x3_fill' : 'scircle_grid_3x3'"
           style="margin-left: auto"
-          text="Grid"
-        />
+          text="Grid" />
         <f7-menu-item v-if="config.embedSvg" @click="flashEmbeddedSvgComponents()" icon-f7="bolt" />
         <f7-menu-item dropdown icon-f7="rectangle_3_offgrid">
           <f7-menu-dropdown right>
@@ -33,8 +30,7 @@
                 )
               "
               href="#"
-              text="Configure Canvas Layout"
-            />
+              text="Configure Canvas Layout" />
             <f7-menu-dropdown-item divider />
             <f7-menu-dropdown-item @click="addLayer()" href="#" text="Add Layer" />
             <f7-menu-dropdown-item @click="configureLayer()" href="#" text="Configure Layer" />
@@ -45,8 +41,7 @@
                 v-for="(obj, idx) in layout.slice().reverse()"
                 :key="idx"
                 @click="setActiveLayer(layout.length - idx - 1)"
-                href="#"
-              >
+                href="#">
                 <span>{{
                   obj.item.config && obj.item.config.layerName
                     ? obj.item.config.layerName
@@ -54,16 +49,14 @@
                 }}</span>
                 <f7-icon
                   class="margin-left"
-                  :f7="layout.length - idx - 1 == actLyrIdx ? 'pencil_circle_fill' : ''"
-                />
+                  :f7="layout.length - idx - 1 == actLyrIdx ? 'pencil_circle_fill' : ''" />
                 <f7-icon
                   class="margin-left"
                   :f7="
                     !(obj.item.config && obj.item.config.editVisible === false)
                       ? 'eye_fill'
                       : 'eye_slash_fill'
-                  "
-                />
+                  " />
               </f7-menu-dropdown-item>
               <f7-menu-dropdown-item divider />
               <f7-menu-dropdown-item @click="hideOtherLayers()" href="#" text="Hide Other Layers" />
@@ -76,29 +69,25 @@
                   )
                 "
                 href="#"
-                text="Bring Layer to Front"
-              />
+                text="Bring Layer to Front" />
               <f7-menu-dropdown-item
                 @click="
                   setActiveLayer(context.editmode.moveWidgetDown(activeLayer, context, 'canvas'))
                 "
                 href="#"
-                text="Move Layer Up"
-              />
+                text="Move Layer Up" />
               <f7-menu-dropdown-item
                 @click="
                   setActiveLayer(context.editmode.moveWidgetUp(activeLayer, context, 'canvas'))
                 "
                 href="#"
-                text="Move Layer Down"
-              />
+                text="Move Layer Down" />
               <f7-menu-dropdown-item
                 @click="
                   setActiveLayer(context.editmode.sendWidgetToBack(activeLayer, context, 'canvas'))
                 "
                 href="#"
-                text="Send Layer to Back"
-              />
+                text="Send Layer to Back" />
               <f7-menu-dropdown-item divider />
               <f7-menu-dropdown-item @click="removeLayer()" href="#" text="Remove Layer" />
             </template>
@@ -124,8 +113,7 @@
           : 'drop-shadow(0px 0px 4px #444)',
         '--oh-canvas-item-text-shadow': config.textShadow ? config.textShadow : '#444 0px 0px 4px',
         ...config.style,
-      }"
-    >
+      }">
       <div
         v-if="config.imageUrl || config.imageSrcSet"
         v-show="!config.embedSvg || embeddedSvgReady"
@@ -137,14 +125,12 @@
           top: 0;
           left: 0;
           overflow: hidden;
-        "
-      >
+        ">
         <img
           v-if="!config.embedSvg"
           class="oh-canvas-background disable-user-drag"
           :src="config.imageUrl"
-          :srcset="config.imageSrcSet"
-        />
+          :srcset="config.imageSrcSet" />
       </div>
       <!-- Grid lines -->
       <div
@@ -158,12 +144,10 @@
             'linear-gradient(-90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px)',
           'background-size': `${grid.pitch}px ${grid.pitch}px, ${grid.pitch}px ${grid.pitch}px`,
           visibility: context.editmode && grid.enable ? 'inherit' : 'hidden',
-        }"
-      />
+        }" />
       <div
         v-if="context.editmode"
-        style="opacity: 0.3; padding: 4px; position: absolute; width: 100%"
-      >
+        style="opacity: 0.3; padding: 4px; position: absolute; width: 100%">
         {{ getCurrentScreenResolution() }}
         <span v-if="isRetina()"
           ><f7-icon
@@ -182,8 +166,7 @@
         @oci-dragged="ociDragged"
         @oci-drag-stop="ociDragStop"
         @oci-selected="ociSelected"
-        @oci-deselected="ociDeselected"
-      />
+        @oci-deselected="ociDeselected" />
     </div>
   </div>
 </template>

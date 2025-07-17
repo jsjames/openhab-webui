@@ -9,8 +9,7 @@
         name="custom-rules"
         :value="customRules"
         :disabled="!editable ? true : null"
-        @input="updateValue"
-      />
+        @input="updateValue" />
       <template #after-list>
         <f7-block-footer class="param-description">
           <small
@@ -24,8 +23,7 @@
       :parameterGroups="[]"
       :parameters="ruleOptionParameters"
       :configuration="metadata.config"
-      :read-only="!editable"
-    />
+      :read-only="!editable" />
   </div>
 </template>
 

@@ -4,24 +4,21 @@
       :context="ctx"
       v-for="(ctx, idx) in childrenContexts"
       :key="'repeater-' + idx"
-      @command="onCommand"
-    />
+      @command="onCommand" />
   </ul>
   <div v-else-if="config.fragment">
     <generic-widget-component
       :context="ctx"
       v-for="(ctx, idx) in childrenContexts"
       :key="'repeater-' + idx"
-      @command="onCommand"
-    />
+      @command="onCommand" />
   </div>
   <div v-else :class="config.containerClasses" :style="config.containerStyle">
     <generic-widget-component
       :context="ctx"
       v-for="(ctx, idx) in childrenContexts"
       :key="'repeater-' + idx"
-      @command="onCommand"
-    />
+      @command="onCommand" />
   </div>
 </template>
 

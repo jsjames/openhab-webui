@@ -7,8 +7,7 @@
     :radius="radius"
     v-bind="markerConfig"
     @update:lat-lng="$emit('update', $event)"
-    @click="performAction"
-  >
+    @click="performAction">
     <l-tooltip v-if="config.label">
       {{ config.label }}
     </l-tooltip>

@@ -4,8 +4,7 @@
     class="widgetconfig-popup"
     :close-by-backdrop-click="false"
     @popup:opened="widgetConfigOpened"
-    @popup:closed="widgetConfigClosed"
-  >
+    @popup:closed="widgetConfigClosed">
     <f7-page v-if="component && widget">
       <f7-navbar ref="navbar">
         <f7-nav-left>
@@ -13,8 +12,7 @@
             icon-ios="f7:arrow_left"
             icon-md="material:arrow_back"
             icon-aurora="f7:arrow_left"
-            @click="closeWithDirtyCheck"
-          />
+            @click="closeWithDirtyCheck" />
         </f7-nav-left>
         <f7-nav-title>Edit {{ widget.label || widget.uid }}{{ dirtyIndicator }}</f7-nav-title>
         <f7-nav-right>
@@ -29,8 +27,7 @@
             :parameterGroups="widget.props.parameterGroups || []"
             :parameters="widget.props.parameters || []"
             :configuration="config"
-            @updated="updated"
-          />
+            @updated="updated" />
         </f7-col>
       </f7-block>
     </f7-page>

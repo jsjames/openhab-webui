@@ -12,8 +12,7 @@
     :toggle="canHaveChildren"
     @treeview:open="model.opened = true"
     @treeview:close="model.opened = false"
-    @click="select"
-  >
+    @click="select">
     <draggable
       :disabled="!canDragDrop ? true : null"
       :list="children"
@@ -32,8 +31,7 @@
       @start="onDragStart"
       @change="onDragChange"
       @end="onDragEnd"
-      :move="onDragMove"
-    >
+      :move="onDragMove">
       <template v-if="model.opened">
         <model-treeview-item
           v-for="node in children"
@@ -48,8 +46,7 @@
           :canDragDrop="canDragDrop"
           :moveState="moveState"
           @checked="(item, check) => $emit('checked', item, check)"
-          @reload="$emit('reload')"
-        />
+          @reload="$emit('reload')" />
       </template>
     </draggable>
     <template #label>
@@ -60,16 +57,14 @@
             class="semantic-class chip"
             v-for="tag in getNonSemanticTags(model.item)"
             :key="tag"
-            style="height: 16px; margin-left: 4px"
-          >
+            style="height: 16px; margin-left: 4px">
             <div class="chip-media bg-color-blue" style="height: 16px; width: 16px">
               <f7-icon
                 slots="media"
                 ios="f7:tag_fill"
                 md="material:label"
                 aurora="f7:tag_fill"
-                style="font-size: 8px; height: 16px; line-height: 16px"
-              />
+                style="font-size: 8px; height: 16px; line-height: 16px" />
             </div>
             <div class="chip-label" style="height: 16px; line-height: 16px">
               {{ tag }}
@@ -83,8 +78,7 @@
         v-if="model.checkable"
         :checked="model.checked ? true : null"
         :disabled="model.disabled ? true : null"
-        @change="check"
-      />
+        @change="check" />
     </template>
   </f7-treeview-item>
 </template>

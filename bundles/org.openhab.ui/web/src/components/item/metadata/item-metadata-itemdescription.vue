@@ -5,8 +5,7 @@
       :parameterGroups="[]"
       :parameters="stateDescriptionParameters"
       :configuration="metadata.config"
-      :read-only="!editable"
-    />
+      :read-only="!editable" />
     <f7-list>
       <f7-list-input
         ref="input"
@@ -16,8 +15,7 @@
         name="options"
         :disabled="!editable ? true : null"
         :value="options"
-        @input="updateOptions"
-      />
+        @input="updateOptions" />
       <f7-block-footer class="param-description" alot="after-list">
         <small
           >Enter each option on a separate line.<br />Use <code>value=label</code> format to provide
@@ -31,8 +29,7 @@
         color="blue"
         external
         target="_blank"
-        :href="docLink"
-      >
+        :href="docLink">
         State Description Documentation
       </f7-link>
       <f7-link
@@ -40,8 +37,7 @@
         color="blue"
         external
         target="_blank"
-        :href="docLink"
-      >
+        :href="docLink">
         Command Description Documentation
       </f7-link>
     </p>

@@ -15,16 +15,14 @@
         validate
         pattern="[A-Za-z0-9_]+"
         error-message="Required. A-Z,a-z,0-9,_ only"
-        :disabled="!createMode ? true : null"
-      >
+        :disabled="!createMode ? true : null">
         <template #inner>
           <f7-link
             icon-f7="hammer_fill"
             style="margin-top: 4px; margin-left: 4px; margin-bottom: auto"
             tooltip="Fix ID"
             v-if="createMode && $refs.pageId?.state?.inputInvalid && page.uid.trim()"
-            @click="$oh.utils.normalizeInput('#input')"
-          />
+            @click="$oh.utils.normalizeInput('#input')" />
         </template>
       </f7-list-input>
       <f7-list-input
@@ -36,22 +34,19 @@
         @input="page.config.label = $event.target.value"
         required
         validate
-        clear-button
-      />
+        clear-button />
       <f7-list-item accordion-item title="Sidebar &amp; Visibility" v-if="page.uid !== 'overview'">
         <f7-accordion-content>
           <f7-list-item
             ref="pageVisibility"
             title="Visible only to"
             smart-select
-            :smart-select-params="{ openIn: 'popover' }"
-          >
+            :smart-select-params="{ openIn: 'popover' }">
             <select name="pagevisibility" multiple @change="updatePageVisibility">
               <optgroup label="Roles">
                 <option
                   value="role:administrator"
-                  :selected="isVisibleTo('role:administrator') ? true : null"
-                >
+                  :selected="isVisibleTo('role:administrator') ? true : null">
                   Administrators
                 </option>
                 <option value="role:user" :selected="isVisibleTo('role:user') ? true : null">
@@ -65,8 +60,7 @@
               <template #after>
                 <f7-toggle
                   :checked="page.config.sidebar ? true : null"
-                  @toggle:change="page.config.sidebar = $event"
-                />
+                  @toggle:change="page.config.sidebar = $event" />
               </template>
             </f7-list-item>
             <f7-list-input
@@ -75,24 +69,21 @@
               placeholder="Assign order index to rearrange pages on sidebar"
               :value="page.config.order"
               @input="page.config.order = $event.target.value"
-              clear-button
-            />
+              clear-button />
             <f7-list-input
               label="Icon"
               type="text"
               placeholder="Assign a custom icon"
               :value="page.config.icon"
               @input="page.config.icon = $event.target.value"
-              clear-button
-            />
+              clear-button />
             <f7-list-input
               label="Browser Title"
               type="text"
               placeholder="A custom browser title instead of the label"
               :value="page.config.browserTitle"
               @input="page.config.browserTitle = $event.target.value"
-              clear-button
-            />
+              clear-button />
           </f7-list>
         </f7-accordion-content>
       </f7-list-item>

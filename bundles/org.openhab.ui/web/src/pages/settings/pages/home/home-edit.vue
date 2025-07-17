@@ -12,15 +12,13 @@
       <f7-link
         @click="switchTab('design', fromYaml)"
         :tab-link-active="currentTab === 'design'"
-        class="tab-link"
-      >
+        class="tab-link">
         Design
       </f7-link>
       <f7-link
         @click="switchTab('code', toYaml)"
         :tab-link-active="currentTab === 'code'"
-        class="tab-link"
-      >
+        class="tab-link">
         Code
       </f7-link>
     </f7-toolbar>
@@ -33,8 +31,7 @@
           currentModelTab = tab.value;
         "
         :tab-link-active="currentModelTab === tab.value"
-        class="tab-link"
-      >
+        class="tab-link">
         {{ tab.label }}
       </f7-link>
     </f7-toolbar>
@@ -42,8 +39,7 @@
       <div style="margin-left: auto">
         <f7-toggle
           :checked="previewMode ? true : null"
-          @toggle:change="value => togglePreviewMode(value)"
-        />
+          @toggle:change="value => togglePreviewMode(value)" />
         Run mode<span v-if="$device.desktop">&nbsp;(Ctrl-R)</span>
       </div>
     </f7-toolbar>
@@ -52,8 +48,7 @@
         id="design"
         class="tabs-editor-design-tab"
         @tab:show="() => (this.currentTab = 'design')"
-        :tab-active="currentTab === 'design'"
-      >
+        :tab-active="currentTab === 'design'">
         <f7-block v-if="!ready || !modelReady" class="text-align-center">
           <f7-preloader />
           <div>Loading...</div>
@@ -67,8 +62,7 @@
                 :parameterGroups="pageWidgetDefinition.props.parameterGroups || []"
                 :parameters="pageWidgetDefinition.props.parameters || []"
                 :configuration="page.config"
-                @updated="dirty = true"
-              />
+                @updated="dirty = true" />
             </f7-col>
           </f7-block>
 
@@ -82,8 +76,7 @@
                   currentModelTab = tab.value;
                 "
                 :active="currentModelTab === tab.value"
-                :text="tab.label"
-              />
+                :text="tab.label" />
             </f7-segmented>
 
             <f7-block-title class="no-margin-bottom"> Cards </f7-block-title>
@@ -101,8 +94,7 @@
                     icon-size="12"
                     icon-ios="material:wrap_text"
                     icon-md="material:wrap_text"
-                    icon-aurora="material:wrap_text"
-                  >
+                    icon-aurora="material:wrap_text">
                     &nbsp;Reorder
                   </f7-button>
                 </div>
@@ -113,8 +105,7 @@
                 class="homecards-list"
                 sortable
                 :key="'cards-' + currentModelTab + cardListId"
-                @sortable:sort="reorderCard"
-              >
+                @sortable:sort="reorderCard">
                 <f7-list-item
                   media-item
                   :link="showCardControls ? undefined : ''"
@@ -122,8 +113,7 @@
                   v-for="(card, idx) in cardGroups(currentModelTab, page).flat()"
                   :key="idx"
                   :title="card.separator || card.defaultTitle"
-                  :footer="card.separator ? '(separator)' : card.key"
-                >
+                  :footer="card.separator ? '(separator)' : card.key">
                   <template #content-start>
                     <f7-menu class="configure-layout-menu">
                       <f7-menu-item icon-f7="list_bullet" dropdown>
@@ -132,41 +122,35 @@
                             v-if="!card.separator"
                             @click="configureCard(card)"
                             href="#"
-                            text="Configure Card"
-                          />
+                            text="Configure Card" />
                           <f7-menu-dropdown-item
                             v-if="!card.separator"
                             @click="editCardCode(card)"
                             href="#"
-                            text="Edit YAML"
-                          />
+                            text="Edit YAML" />
                           <f7-menu-dropdown-item
                             v-if="card.separator"
                             @click="renameCardSeparator(idx)"
                             href="#"
-                            text="Rename"
-                          />
+                            text="Rename" />
                           <f7-menu-dropdown-item divider />
                           <f7-menu-dropdown-item
                             v-if="!card.separator"
                             @click="addCardSeparator(idx)"
                             href="#"
-                            text="Add Separator Before"
-                          />
+                            text="Add Separator Before" />
                           <f7-menu-dropdown-item
                             v-if="card.separator"
                             @click="removeCardSeparator(idx)"
                             href="#"
-                            text="Remove Separator"
-                          />
+                            text="Remove Separator" />
                         </f7-menu-dropdown>
                       </f7-menu-item>
                     </f7-menu>
                     <f7-checkbox
                       :checked="!isCardExcluded(card) ? true : null"
                       :disabled="card.separator !== undefined ? true : null"
-                      class="margin-right"
-                    />
+                      class="margin-right" />
                   </template>
                 </f7-list-item>
               </f7-list>
@@ -179,8 +163,7 @@
                 :parameterGroups="locationsTabParameters.props.parameterGroups || []"
                 :parameters="locationsTabParameters.props.parameters || []"
                 :configuration="page.slots.locations[0].config"
-                @updated="dirty = true"
-              />
+                @updated="dirty = true" />
             </div>
 
             <div v-if="currentModelTab === 'equipment'">
@@ -188,8 +171,7 @@
                 :parameterGroups="equipmentTabParameters.props.parameterGroups || []"
                 :parameters="equipmentTabParameters.props.parameters || []"
                 :configuration="page.slots.equipment[0].config"
-                @updated="dirty = true"
-              />
+                @updated="dirty = true" />
             </div>
 
             <div v-if="currentModelTab === 'properties'">
@@ -197,8 +179,7 @@
                 :parameterGroups="propertiesTabParameters.props.parameterGroups || []"
                 :parameters="propertiesTabParameters.props.parameters || []"
                 :configuration="page.slots.properties[0].config"
-                @updated="dirty = true"
-              />
+                @updated="dirty = true" />
             </div>
           </f7-block>
         </div>
@@ -208,8 +189,7 @@
             style="margin-bottom: 4rem"
             :context="context"
             :type="currentModelTab"
-            :page="page"
-          />
+            :page="page" />
         </div>
       </f7-tab>
 
@@ -220,24 +200,21 @@
             this.currentTab = 'code';
           }
         "
-        :tab-active="currentTab === 'code'"
-      >
+        :tab-active="currentTab === 'code'">
         <editor
           v-if="currentTab === 'code'"
           :style="{ opacity: previewMode ? '0' : '' }"
           class="page-code-editor"
           mode="application/vnd.openhab.uicomponent+yaml;type=home"
           :value="pageYaml"
-          @input="onEditorInput"
-        />
+          @input="onEditorInput" />
         <!-- <pre class="yaml-message padding-horizontal" :class="[yamlError === 'OK' ? 'text-color-green' : 'text-color-red']">{{yamlError}}</pre> -->
         <div v-if="ready && previewMode" :context="context" :key="pageKey">
           <model-tab
             style="margin-bottom: 4rem"
             :context="context"
             :type="currentModelTab"
-            :page="page"
-          />
+            :page="page" />
         </div>
       </f7-tab>
     </f7-tabs>

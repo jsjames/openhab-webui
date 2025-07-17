@@ -3,8 +3,7 @@
     <f7-block-header class="no-margin">
       <div
         class="margin-horizontal item-label"
-        style="padding-top: var(--f7-list-item-padding-vertical); color: var(--f7-text-color)"
-      >
+        style="padding-top: var(--f7-list-item-padding-vertical); color: var(--f7-text-color)">
         {{ configDescription.label }}
       </div>
     </f7-block-header>
@@ -19,8 +18,7 @@
       @input:clear="removeValueIdx(idx)"
       @input="updateValueIdx(idx, $event)"
       @focus="gotFocus"
-      :value="v"
-    />
+      :value="v" />
     <f7-list-input
       v-if="!configDescription.readOnly"
       ref="input"
@@ -30,8 +28,7 @@
       :clear-button="false"
       @input:notempty="addValue"
       @focus="gotFocus"
-      :placeholder="configDescription.placeholder"
-    />
+      :placeholder="configDescription.placeholder" />
   </ul>
   <ul v-else>
     <f7-list-input
@@ -48,8 +45,7 @@
       :clear-button="!configDescription.required && configDescription.context !== 'password'"
       @input="updateValue"
       :readonly="configDescription.readOnly"
-      :type="controlType"
-    >
+      :type="controlType">
       <template #slot-content-end>
         <div v-if="configDescription.context === 'password'" class="padding-left">
           <f7-link class="margin" color="gray" @click="showPassword = !showPassword">

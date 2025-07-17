@@ -13,8 +13,7 @@
             :badge="thingStatusBadgeText(l.thing.statusInfo)"
             :badge-color="thingStatusBadgeColor(l.thing.statusInfo)"
             :link="!l.link.editable && l._invalid ? undefined : '#'"
-            @click="!l.link.editable && l._invalid ? undefined : editLink(l)"
-          >
+            @click="!l.link.editable && l._invalid ? undefined : editLink(l)">
             <template #media>
               <span class="item-initial">{{
                 !l._invalid && l.channel.label ? l.channel.label[0] : '?'

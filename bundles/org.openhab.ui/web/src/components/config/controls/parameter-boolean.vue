@@ -5,8 +5,7 @@
         <f7-toggle
           :name="configDescription.name"
           :checked="actualValue ? true : null"
-          @toggle:change="updateValue"
-        />
+          @toggle:change="updateValue" />
       </template>
     </f7-list-item>
   </ul>

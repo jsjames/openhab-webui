@@ -14,8 +14,7 @@
         placeholder="leave empty to use system default"
         :value="metadata.value"
         :disabled="!editable ? true : null"
-        @blur="evt => (metadata.value = evt.target.value)"
-      />
+        @blur="evt => (metadata.value = evt.target.value)" />
     </f7-list>
     <f7-block-footer class="param-description padding-horizontal">
       <small

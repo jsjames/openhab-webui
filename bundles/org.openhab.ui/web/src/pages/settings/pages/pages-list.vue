@@ -6,8 +6,7 @@
         <f7-link
           icon-md="material:done_all"
           @click="toggleCheck()"
-          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''"
-        />
+          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''" />
       </f7-nav-right>
       <f7-subnavbar :inner="false" v-show="initSearchbar">
         <f7-searchbar
@@ -18,8 +17,7 @@
           search-item=".pagelist-item"
           search-in=".item-title, .item-subtitle, .item-header, .item-footer"
           :placeholder="searchPlaceholder"
-          :disable-button="!theme.aurora"
-        />
+          :disable-button="!theme.aurora" />
       </f7-subnavbar>
     </f7-navbar>
     <f7-toolbar
@@ -27,8 +25,7 @@
       :class="{ navbar: theme.md }"
       v-if="showCheckboxes"
       bottom-ios
-      bottom-aurora
-    >
+      bottom-aurora>
       <f7-link
         color="red"
         v-show="selectedItems.length"
@@ -36,24 +33,21 @@
         class="delete"
         icon-ios="f7:trash"
         icon-aurora="f7:trash"
-        @click="removeSelected"
-      >
+        @click="removeSelected">
         Remove {{ selectedItems.length }}
       </f7-link>
       <f7-link
         v-if="theme.md"
         icon-md="material:close"
         icon-color="white"
-        @click="showCheckboxes = false"
-      />
+        @click="showCheckboxes = false" />
       <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
       <div class="right" v-if="theme.md">
         <f7-link
           v-show="selectedItems.length"
           icon-md="material:delete"
           icon-color="white"
-          @click="removeSelected"
-        />
+          @click="removeSelected" />
       </div>
     </f7-toolbar>
 
@@ -64,8 +58,7 @@
       v-show="groupBy === 'alphabetical' && !$device.desktop"
       list-el=".pages-list"
       :scroll-list="true"
-      :label="true"
-    />
+      :label="true" />
 
     <f7-block class="block-narrow">
       <!-- skeleton for not ready -->
@@ -81,8 +74,7 @@
               title="Title of the page"
               subtitle="Page type"
               after="The item state"
-              footer="Page ID"
-            >
+              footer="Page ID">
               <template #media>
                 <f7-skeleton-block style="width: 32px; height: 32px; border-radius: 50%" />
               </template>
@@ -97,8 +89,7 @@
           <f7-segmented strong tag="p">
             <f7-button
               :active="groupBy === 'alphabetical'"
-              @click="switchGroupOrder('alphabetical')"
-            >
+              @click="switchGroupOrder('alphabetical')">
               Alphabetical
             </f7-button>
             <f7-button :active="groupBy === 'type'" @click="switchGroupOrder('type')">
@@ -115,8 +106,7 @@
           class="col pages-list"
           ref="pagesList"
           :contacts-list="groupBy === 'alphabetical'"
-          media-list
-        >
+          media-list>
           <f7-list-group v-for="(pagesWithInitial, initial) in indexedPages" :key="initial">
             <f7-list-item v-if="pagesWithInitial.length" :title="initial" group-title />
             <f7-list-item
@@ -140,8 +130,7 @@
               :title="page.config.label"
               :subtitle="getPageType(page).label"
               :footer="page.uid"
-              :badge="page.config.order"
-            >
+              :badge="page.config.order">
               <template #subtitle>
                 <div>
                   <f7-chip
@@ -149,8 +138,7 @@
                     :key="tag"
                     :text="tag"
                     media-bg-color="blue"
-                    style="margin-right: 6px"
-                  >
+                    style="margin-right: 6px">
                     <template #media>
                       <f7-icon ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
                     </template>
@@ -160,8 +148,7 @@
                     :key="userrole"
                     :text="userrole"
                     media-bg-color="green"
-                    style="margin-right: 6px"
-                  >
+                    style="margin-right: 6px">
                     <template #media>
                       <f7-icon f7="person_crop_circle_fill_badge_checkmark" />
                     </template>
@@ -174,8 +161,7 @@
                   :color="page.config.sidebar || page.uid === 'overview' ? '' : 'gray'"
                   :icon="getPageIcon(page)"
                   :height="32"
-                  :width="32"
-                />
+                  :width="32" />
               </template>
             </f7-list-item>
           </f7-list-group>

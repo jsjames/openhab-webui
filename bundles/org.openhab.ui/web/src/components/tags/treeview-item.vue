@@ -12,8 +12,7 @@
     :toggle="canHaveChildren"
     @treeview:open="setTagOpened(true)"
     @treeview:close="setTagOpened(false)"
-    @click="select"
-  >
+    @click="select">
     <draggable
       :disabled="!canDragDrop ? true : null"
       :list="children"
@@ -25,8 +24,7 @@
       @start="onDragStart"
       @change="onDragChange"
       @end="onDragEnd"
-      :move="onDragMove"
-    >
+      :move="onDragMove">
       <semantics-treeview-item
         v-for="(childTag, idx) in children"
         :key="idx"
@@ -40,8 +38,7 @@
         @selected="(event) => $emit('selected', event)"
         :selectedTag="selectedTag"
         :moveState="moveState"
-        :class="{ 'non-draggable': !childTag.editable }"
-      />
+        :class="{ 'non-draggable': !childTag.editable }" />
     </draggable>
     <div v-if="showSynonyms" slot="label" class="synonyms-class">
       {{ synonyms }}
@@ -51,21 +48,18 @@
       name="semantic-tag-radio"
       v-if="picker"
       :checked="selected"
-      @change="select"
-    />
+      @change="select" />
     <f7-badge
       v-if="tag.description"
       slot="content-end"
       class="semantic-tag-tooltip-badge"
-      :tooltip="tooltip"
-    >
+      :tooltip="tooltip">
       <f7-icon
         class="tooltip-icon"
         f7="info_circle"
         ios="f7:info_circle"
         md="material:info"
-        color="gray"
-      />
+        color="gray" />
     </f7-badge>
   </f7-treeview-item>
 </template>

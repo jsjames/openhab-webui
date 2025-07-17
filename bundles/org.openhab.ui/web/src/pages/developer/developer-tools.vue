@@ -5,8 +5,7 @@
       back-link="Back"
       back-link-url="/"
       back-link-force
-      no-hairline
-    >
+      no-hairline>
       <f7-nav-right>
         <developer-dock-icon />
       </f7-nav-right>
@@ -15,15 +14,13 @@
       <f7-link
         @click="currentTab = 'menu'"
         :tab-link-active="currentTab === 'menu'"
-        class="tab-link"
-      >
+        class="tab-link">
         Expert Features
       </f7-link>
       <f7-link
         @click="currentTab = 'debug'"
         :tab-link-active="currentTab === 'debug'"
-        class="tab-link"
-      >
+        class="tab-link">
         Debug
       </f7-link>
     </f7-toolbar>
@@ -32,8 +29,7 @@
       <f7-tab
         id="menu-tab"
         tab:show="() => this.currentTab = 'menu'"
-        :tab-active="currentTab === 'menu'"
-      >
+        :tab-active="currentTab === 'menu'">
         <f7-block class="block-narrow after-big-title settings-menu">
           <f7-row>
             <f7-col width="100" medium="50">
@@ -43,8 +39,7 @@
                   media-item
                   title="Widgets"
                   footer="Develop custom widgets to use on pages"
-                  link="widgets/"
-                >
+                  link="widgets/">
                   <template #media>
                     <f7-icon f7="rectangle_on_rectangle_angled" color="gray" />
                   </template>
@@ -53,8 +48,7 @@
                   media-item
                   title="Block Libraries"
                   footer="Develop custom extensions for Blockly scripts"
-                  link="blocks/"
-                >
+                  link="blocks/">
                   <template #media>
                     <f7-icon f7="ticket" color="gray" />
                   </template>
@@ -63,8 +57,7 @@
                   media-item
                   title="Semantic Tags"
                   footer="Extend the list of semantic tags for the model"
-                  link="semantics/"
-                >
+                  link="semantics/">
                   <f7-icon slot="media" f7="list_bullet_indent" color="gray" />
                 </f7-list-item>
                 <f7-list-item
@@ -72,8 +65,7 @@
                   title="Things File Definitions"
                   footer="Copy all Things' file definitions to clipboard"
                   link="#"
-                  @click="copyFileDefinitionToClipboard(ObjectType.THING)"
-                >
+                  @click="copyFileDefinitionToClipboard(ObjectType.THING)">
                   <f7-icon slot="media" f7="lightbulb" color="gray" />
                 </f7-list-item>
                 <f7-list-item
@@ -81,8 +73,7 @@
                   title="Items File Definitions"
                   footer="Copy all Items' file definitions to clipboard"
                   link="#"
-                  @click="copyFileDefinitionToClipboard(ObjectType.ITEM)"
-                >
+                  @click="copyFileDefinitionToClipboard(ObjectType.ITEM)">
                   <template #media>
                     <f7-icon f7="square_on_circle" color="gray" />
                   </template>
@@ -91,8 +82,7 @@
                   media-item
                   title="Add Items from DSL Definition"
                   footer="Create or update items &amp; links in bulk"
-                  link="add-items-dsl"
-                >
+                  link="add-items-dsl">
                   <template #media>
                     <f7-icon f7="text_badge_plus" color="gray" />
                   </template>
@@ -109,16 +99,14 @@
                   footer="Show a panel with various tools and help"
                   link=""
                   no-chevron
-                  @click="f7.emit('toggle-developer-dock')"
-                >
+                  @click="f7.emit('toggle-developer-dock')">
                   <template #media>
                     <f7-icon f7="wrench" color="gray" />
                   </template>
                   <template #header>
                     <div
                       style="height: 100%; height: 32px"
-                      class="display-flex float-right flex-direction-column justify-content-center"
-                    >
+                      class="display-flex float-right flex-direction-column justify-content-center">
                       <f7-toggle color="blue" :checked="$store.state.developerDock ? true : null" />
                     </div>
                   </template>
@@ -127,8 +115,7 @@
                   media-item
                   title="API Explorer"
                   footer="Discover and access the REST API directly"
-                  link="api-explorer"
-                >
+                  link="api-explorer">
                   <template #media>
                     <f7-icon f7="burn" color="gray" />
                   </template>
@@ -137,8 +124,7 @@
                   media-item
                   title="Log Viewer"
                   footer="Monitor openHAB log output"
-                  link="log-viewer"
-                >
+                  link="log-viewer">
                   <template #media>
                     <f7-icon f7="square_list" color="gray" />
                   </template>
@@ -148,8 +134,7 @@
                   :smartSelectParams="{ openIn: 'popup', closeOnSelect: true }"
                   media-item
                   title="UI Logging"
-                  footer="Set the log level for the browser console logs"
-                >
+                  footer="Set the log level for the browser console logs">
                   <template #media>
                     <f7-icon f7="exclamationmark_circle" color="gray" />
                   </template>
@@ -167,8 +152,7 @@
           </f7-row>
           <f7-block-footer
             v-if="$t('home.overview.title') !== 'Overview'"
-            class="margin text-align-center"
-          >
+            class="margin text-align-center">
             <small>{{ $t('admin.notTranslatedYet') }}</small>
           </f7-block-footer>
         </f7-block>
@@ -176,8 +160,7 @@
       <f7-tab
         id="debug-tab"
         @tab:show="() => (this.currentTab = 'debug')"
-        :tab-active="currentTab === 'debug'"
-      >
+        :tab-active="currentTab === 'debug'">
         <!-- Test SSE connection -->
         <f7-block class="block-narrow">
           <f7-row>
@@ -192,8 +175,7 @@
                     :key="event.time.getTime()"
                     :title="event.topic"
                     :subtitle="event.payload"
-                    :after="event.type"
-                  />
+                    :after="event.type" />
                 </f7-list>
               </f7-block>
             </f7-col>
@@ -213,8 +195,7 @@
                     :key="event.time.getTime()"
                     :title="event.topic"
                     :subtitle="event.payload"
-                    :after="event.type"
-                  />
+                    :after="event.type" />
                 </f7-list>
               </f7-block>
             </f7-col>
@@ -234,8 +215,7 @@
                     @change="icon = $event.target.value"
                     placeholder="e.g. lightbulb, qualityofservice-2"
                     :info="iconUrl"
-                    clear-button
-                  >
+                    clear-button>
                     <template #media>
                       <img :src="iconUrl" width="44" />
                     </template>

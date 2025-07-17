@@ -8,8 +8,7 @@
       :textColor="textColor"
       v-if="ready"
       ref="smartSelect"
-      class="item-picker"
-    >
+      class="item-picker">
       <select :name="name" :multiple="multiple" @change="select" :required="required">
         <option value="" v-if="!multiple" />
         <option
@@ -22,8 +21,7 @@
               : value === item.name
                 ? true
                 : null
-          "
-        >
+          ">
           {{ item.label ? item.label + ' (' + item.name + ')' : item.name }}
         </option>
       </select>
@@ -34,16 +32,14 @@
         :icon-aurora="aurora"
         :icon-ios="ios"
         :icon-md="md"
-        @click="pickFromModel"
-      />
+        @click="pickFromModel" />
       <f7-icon
         v-else-if="!hideIcon"
         slot="media"
         :color="color"
         :aurora="aurora"
         :ios="ios"
-        :md="md"
-      />
+        :md="md" />
     </f7-list-item>
     <!-- for placeholder purposes before items are loaded -->
     <f7-list-item link v-show="!ready" :title="title" disabled no-chevron>
@@ -54,8 +50,7 @@
           :icon-aurora="aurora"
           :icon-ios="ios"
           :icon-md="md"
-          @click="pickFromModel"
-        />
+          @click="pickFromModel" />
         <f7-icon v-else :color="color" :aurora="aurora" :ios="ios" :md="md" />
       </template>
     </f7-list-item>

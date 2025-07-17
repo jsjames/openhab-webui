@@ -5,8 +5,7 @@
         v-if="
           config.after === undefined &&
           (context.store[config.item].displayState || context.store[config.item].state !== 'NULL')
-        "
-      >
+        ">
         {{ context.store[config.item].displayState || context.store[config.item].state }}
       </div>
     </template>

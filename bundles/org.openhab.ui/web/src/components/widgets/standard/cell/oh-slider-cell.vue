@@ -3,38 +3,32 @@
     class="cell-expanded-thin"
     :context="context"
     :no-swipe-to-close="true"
-    :style="{ '--oh-slider-cell-height': config.sliderHeight || '350px' }"
-  >
+    :style="{ '--oh-slider-cell-height': config.sliderHeight || '350px' }">
     <f7-row>
       <f7-col
         width="100"
-        class="cell-slider display-flex flex-direction-column justify-content-center"
-      >
+        class="cell-slider display-flex flex-direction-column justify-content-center">
         <slot name="beforeSlider">
           <div
             v-if="context.component.slots"
-            class="margin-top display-flex flex-direction-column justify-content-center"
-          >
+            class="margin-top display-flex flex-direction-column justify-content-center">
             <generic-widget-component
               :context="childContext(slotComponent)"
               v-for="(slotComponent, idx) in context.component.slots.beforeSlider"
               :key="'beforeSlider-' + idx"
-              @command="onCommand"
-            />
+              @command="onCommand" />
           </div>
         </slot>
         <oh-slider class="slider-control" :context="sliderContext" />
         <div
           class="after-slider"
-          v-if="context.component.slots && context.component.slots.afterSlider"
-        >
+          v-if="context.component.slots && context.component.slots.afterSlider">
           <slot name="afterSlider">
             <generic-widget-component
               :context="childContext(slotComponent)"
               v-for="(slotComponent, idx) in context.component.slots.afterSlider"
               :key="'afterSlider-' + idx"
-              @command="onCommand"
-            />
+              @command="onCommand" />
           </slot>
         </div>
       </f7-col>

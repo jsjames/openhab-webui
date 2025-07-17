@@ -4,8 +4,7 @@
       title="Orphan Links"
       back-link="Health Checks"
       back-link-url="/settings/health/"
-      back-link-force
-    >
+      back-link-force>
       <f7-nav-right>
         <developer-dock-icon />
       </f7-nav-right>
@@ -37,8 +36,7 @@
               :class="`skeleton-text skeleton-effect-blink`"
               title="Type of problem"
               subtitle="Item name"
-              footer="Channel link"
-            />
+              footer="Channel link" />
           </f7-list-group>
         </f7-list>
       </f7-col>
@@ -53,15 +51,13 @@
             :link="getLinkForProblem(orphanLink)"
             :title="'Problem: ' + orphanLinkProblemExplanation[orphanLink.problem]"
             :subtitle="'Item name: ' + orphanLink.itemChannelLink.itemName"
-            :footer="'Channel UID: ' + orphanLink.itemChannelLink.channelUID"
-          >
+            :footer="'Channel UID: ' + orphanLink.itemChannelLink.channelUID">
             <template #after-title>
               <f7-icon
                 v-if="!orphanLink.itemChannelLink.editable"
                 f7="lock_fill"
                 size="1rem"
-                color="gray"
-              />
+                color="gray" />
             </template>
           </f7-list-item>
         </f7-list>

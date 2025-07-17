@@ -15,8 +15,7 @@
           fill
           color="blue"
           :href="'/settings/persistence/' + name"
-          class="persistence-button"
-        >
+          class="persistence-button">
           Configure Persistence Policies
         </f7-button>
       </f7-col>
@@ -27,8 +26,7 @@
         <config-sheet
           :parameter-groups="configDescription.parameterGroups"
           :parameters="configDescription.parameters"
-          :configuration="config"
-        />
+          :configuration="config" />
       </f7-col>
     </f7-block>
     <f7-block form v-if="loggerPackages.length > 0" class="block-narrow">
@@ -38,13 +36,19 @@
           <f7-list-item
             v-for="loggerPackage in loggerPackages"
             :key="loggerPackage.loggerName"
-            :title="loggerPackage.loggerName"
-          >
+            :title="loggerPackage.loggerName">
             <f7-input
               type="select"
               :value="loggerPackage.level"
+<<<<<<< HEAD
               @input="loggerPackage.level = $event.target.value"
             >
+=======
+              @input="
+                loggerPackage.level = $event.target.value;
+                loggerPackage.changed = true;
+              ">
+>>>>>>> Formatting, address window.getComputedStyle issue.
               <option value="DEFAULT">Default</option>
               <option value="TRACE">Trace</option>
               <option value="DEBUG">Debug</option>

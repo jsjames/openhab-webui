@@ -3,8 +3,7 @@
     :element="element"
     :context="context"
     :tab-context="config"
-    :parent-location="parentLocationName"
-  />
+    :parent-location="parentLocationName" />
 </template>
 
 <script>

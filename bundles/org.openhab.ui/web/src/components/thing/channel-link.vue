@@ -6,8 +6,7 @@
           <div class="item-media searchbar-ignore">
             <div
               class="skeleton-block searchbar-ignore"
-              style="width: 40px; height: 40px; border-radius: 50%"
-            />
+              style="width: 40px; height: 40px; border-radius: 50%" />
           </div>
           <div class="item-inner searchbar-ignore">
             <div class="item-title-row searchbar-ignore">
@@ -38,8 +37,7 @@
           context.store[link.item.name]
             ? context.store[link.item.name].displayState || context.store[link.item.name].state
             : link.item.state
-        "
-      >
+        ">
         <template #media>
           <oh-icon
             v-if="link.item.category"
@@ -50,8 +48,7 @@
                 : context.store[link.item.name].state || link.item.state
             "
             height="32"
-            width="32"
-          />
+            width="32" />
           <span v-else class="item-initial">{{ link.item.name[0] }}</span>
         </template>
         <template #after-title>
@@ -65,15 +62,13 @@
       link
       color="blue"
       subtitle="Add Link to Item..."
-      @click="addLink()"
-    >
+      @click="addLink()">
       <template #media>
         <f7-icon
           color="green"
           aurora="f7:plus_circle_fill"
           ios="f7:plus_circle_fill"
-          md="material:control_point"
-        />
+          md="material:control_point" />
       </template>
     </f7-list-item>
     <f7-list-button
@@ -84,22 +79,19 @@
           ? 'Configure Channel'
           : 'Channel Details'
       "
-      @click="configureChannel()"
-    />
+      @click="configureChannel()" />
     <f7-list-button
       class="searchbar-ignore"
       v-if="extensible && thing.editable"
       color="blue"
       title="Duplicate Channel"
-      @click="duplicateChannel()"
-    />
+      @click="duplicateChannel()" />
     <f7-list-button
       class="searchbar-ignore"
       v-if="extensible && thing.editable"
       color="red"
       title="Remove Channel"
-      @click="removeChannel()"
-    />
+      @click="removeChannel()" />
   </f7-list>
 </template>
 

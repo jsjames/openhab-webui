@@ -7,8 +7,7 @@
     login-screen
     class="setup-wizard"
     @page:init="pageBeforeIn"
-    @page:beforeout="pageBeforeOut"
-  >
+    @page:beforeout="pageBeforeOut">
     <f7-tabs animated>
       <f7-tab id="intro" ref="intro" tab-active>
         <f7-login-screen-title>
@@ -22,16 +21,14 @@
               openIn: 'popup',
               searchbar: true,
               closeOnSelect: true,
-            }"
-          >
+            }">
             <select name="language" @change="evt => (language = evt.target.value)">
               <option value="" :selected="!language ? true : null" />
               <option
                 v-for="option in availableLanguages"
                 :key="option.value"
                 :value="option.value"
-                :selected="language === option.value ? true : null"
-              >
+                :selected="language === option.value ? true : null">
                 {{ option.label }}
               </option>
             </select>
@@ -43,16 +40,14 @@
               openIn: 'popup',
               searchbar: true,
               closeOnSelect: true,
-            }"
-          >
+            }">
             <select name="region" @change="evt => (region = evt.target.value)">
               <option value="" :selected="!region ? true : null" />
               <option
                 v-for="option in availableRegions"
                 :key="option.value"
                 :value="option.value"
-                :selected="region === option.value ? true : null"
-              >
+                :selected="region === option.value ? true : null">
                 {{ option.label }}
               </option>
             </select>
@@ -66,16 +61,14 @@
               virtualList: true,
               closeOnSelect: true,
               virtualListHeight: theme.aurora ? 32 : undefined,
-            }"
-          >
+            }">
             <select name="timezone" @change="evt => (timezone = evt.target.value)">
               <option value="" />
               <option
                 v-for="option in availableTimezones"
                 :key="option.value"
                 :value="option.value"
-                :selected="timezone === option.value ? true : null"
-              >
+                :selected="timezone === option.value ? true : null">
                 {{ option.label }}
               </option>
             </select>
@@ -88,15 +81,13 @@
               fill
               color="blue"
               :text="$t('setupwizard.beginSetup')"
-              @click="beginSetup"
-            />
+              @click="beginSetup" />
             <f7-button
               large
               color="blue"
               :text="$t('setupwizard.skipSetup')"
               class="margin-top"
-              @click="skipSetup"
-            />
+              @click="skipSetup" />
           </div>
         </f7-block>
       </f7-tab>
@@ -109,8 +100,7 @@
             icon-md="material:arrow_back"
             tab-link="#intro"
             color="blue"
-            tab-link-active
-          />
+            tab-link-active />
           <f7-login-screen-title>
             <div class="padding">
               <f7-icon size="48" color="blue" f7="map_pin_ellipse" />
@@ -129,8 +119,7 @@
               name: 'Location',
             }"
             @input="value => (location = value)"
-            :placeholder="$t('setupwizard.location.placeholder')"
-          />
+            :placeholder="$t('setupwizard.location.placeholder')" />
         </f7-list>
         <f7-block class="padding">
           <f7-row>
@@ -140,8 +129,7 @@
                 icon-f7="location_fill"
                 icon-size="24"
                 @click="getCurrentPosition()"
-                :text="$t('setupwizard.location.retrieveFromDevice')"
-              />
+                :text="$t('setupwizard.location.retrieveFromDevice')" />
             </f7-col>
           </f7-row>
           <f7-block-footer>
@@ -156,15 +144,13 @@
               fill
               color="blue"
               :text="$t('setupwizard.location.setLocation')"
-              @click="setLocation"
-            />
+              @click="setLocation" />
             <f7-button
               large
               color="blue"
               :text="$t('setupwizard.configureLater')"
               class="margin-top"
-              @click="skipLocation"
-            />
+              @click="skipLocation" />
           </div>
         </f7-block>
       </f7-tab>
@@ -177,8 +163,7 @@
             icon-md="material:arrow_back"
             tab-link="#location"
             color="blue"
-            tab-link-active
-          />
+            tab-link-active />
           <f7-login-screen-title>
             <div class="padding">
               <f7-icon size="48" color="blue" f7="wifi" />
@@ -196,8 +181,7 @@
             v-if="networksReady"
             :config-description="networkConfigDescription"
             :value="network"
-            @input="value => changeNetwork(value)"
-          />
+            @input="value => changeNetwork(value)" />
         </f7-list>
         <f7-block class="display-flex flex-direction-column padding">
           <div>
@@ -206,15 +190,13 @@
               fill
               color="blue"
               :text="$t('setupwizard.network.setNetwork')"
-              @click="setNetwork"
-            />
+              @click="setNetwork" />
             <f7-button
               large
               color="blue"
               :text="$t('setupwizard.configureLater')"
               class="margin-top"
-              @click="skipNetwork"
-            />
+              @click="skipNetwork" />
           </div>
         </f7-block>
       </f7-tab>
@@ -233,8 +215,7 @@
                 : '#location'
             "
             color="blue"
-            tab-link-active
-          />
+            tab-link-active />
           <f7-login-screen-title>
             <div class="padding">
               <f7-icon size="48" color="blue" f7="download_circle" />
@@ -257,8 +238,7 @@
             v-if="addonSuggestionsReady && recommendedAddonsByType('persistence').length"
             :addons="recommendedAddonsByType('persistence')"
             :preSelectedAddons="selectedAddons"
-            @update="updateAddonSelection(recommendedAddonsByType('persistence'), $event)"
-          />
+            @update="updateAddonSelection(recommendedAddonsByType('persistence'), $event)" />
           <f7-block-footer class="margin-bottom">
             <small>{{ $t('setupwizard.persistence.footer') }}</small>
           </f7-block-footer>
@@ -269,15 +249,13 @@
               fill
               color="blue"
               :text="$t('setupwizard.persistence.install')"
-              @click="selectPersistence"
-            />
+              @click="selectPersistence" />
             <f7-button
               large
               color="blue"
               :text="$t('setupwizard.persistence.installLater')"
               class="margin-top"
-              @click="skipPersistence"
-            />
+              @click="skipPersistence" />
           </div>
         </f7-block>
       </f7-tab>
@@ -290,8 +268,7 @@
             icon-md="material:arrow_back"
             tab-link="#persistence"
             color="blue"
-            tab-link-active
-          />
+            tab-link-active />
           <f7-login-screen-title>
             <div class="padding">
               <f7-icon size="48" color="blue" f7="bag_badge_plus" />
@@ -307,8 +284,7 @@
           <a
             class="text-color-blue external"
             target="_blank"
-            href="https://www.openhab.org/addons/"
-          >
+            href="https://www.openhab.org/addons/">
             {{ $t('setupwizard.addons.browseAddonsOnWebsite') }}</a
           >
         </f7-block>
@@ -324,8 +300,7 @@
             :enableAddonSelection="true"
             :addons="mainAddons"
             :preSelectedAddons="selectedAddons"
-            @update="updateAddonSelection(mainAddonSelection, $event)"
-          />
+            @update="updateAddonSelection(mainAddonSelection, $event)" />
           <f7-block-footer class="margin-bottom">
             <small>{{ $t('setupwizard.addons.footer') }}</small>
           </f7-block-footer>
@@ -344,15 +319,13 @@
                   toInstallAddons.filter(a => !preSelectedAddon(a) && !a.installed).length
                 )
               "
-              @click="installAddons"
-            />
+              @click="installAddons" />
             <f7-button
               large
               color="blue"
               :text="$t('setupwizard.addons.installLater')"
               class="margin-top"
-              @click="skipAddons"
-            />
+              @click="skipAddons" />
           </div>
         </f7-block>
       </f7-tab>
@@ -366,15 +339,13 @@
             tab-link="#intro"
             color="blue"
             tab-link-active
-            style="visibility: hidden"
-          />
+            style="visibility: hidden" />
           <f7-login-screen-title class="text-color-gray">
             {{ $t('setupwizard.addons.pleaseWait') }}
           </f7-login-screen-title>
           <div
             class="display-flex justify-content-center flex-direction-column text-align-center text-color-gray"
-            style="margin-top: 4rem"
-          >
+            style="margin-top: 4rem">
             <div class="display-flex justify-content-center margin-bottom">
               <f7-preloader size="24" />
             </div>
@@ -405,8 +376,7 @@
               large
               color="blue"
               :text="$t('setupwizard.welcome.getStarted')"
-              @click="finish"
-            />
+              @click="finish" />
           </div>
         </f7-block>
       </f7-tab>

@@ -6,8 +6,7 @@
     mouseScrollAction="true"
     @input="onChange"
     @click.stop="sendCommandDebounced(value, true)"
-    @touchend.stop="sendCommandDebounced(value, true)"
-  />
+    @touchend.stop="sendCommandDebounced(value, true)" />
 </template>
 
 <script>

@@ -3,8 +3,7 @@
     name="logviewer"
     class="log-viewer"
     @page:afterin="onPageAfterIn"
-    @page:beforeout="onPageBeforeOut"
-  >
+    @page:beforeout="onPageBeforeOut">
     <!-- Logger Settings Popup -->
     <div class="popup logsettings-popup">
       <div class="view">
@@ -26,8 +25,7 @@
                   type="text"
                   placeholder="Add custom logger package entry..."
                   @keyup.enter="handleLogPackageEnter($event)"
-                  class="custom-input"
-                />
+                  class="custom-input" />
               </div>
             </f7-block>
             <f7-block style="margin-top: 4px; font-size: 0.85rem; text-align: center">
@@ -38,14 +36,12 @@
               <f7-list-item
                 v-for="loggerPackage in loggerPackages"
                 :key="loggerPackage.loggerName"
-                :title="loggerPackage.loggerName"
-              >
+                :title="loggerPackage.loggerName">
                 <template #after>
                   <f7-input
                     type="select"
                     :value="loggerPackage.level"
-                    @input="updateLogLevel(loggerPackage, $event.target.value)"
-                  >
+                    @input="updateLogLevel(loggerPackage, $event.target.value)">
                     <option value="DEFAULT">Default</option>
                     <option value="TRACE">Trace</option>
                     <option value="DEBUG">Debug</option>
@@ -88,8 +84,7 @@
                     type="text"
                     placeholder="Enter text to highlight..."
                     :value="highlightFilter.text"
-                    @input="updateHighlightText($event, index)"
-                  />
+                    @input="updateHighlightText($event, index)" />
                 </template>
 
                 <!-- Color Picker -->
@@ -98,8 +93,7 @@
                     <f7-button
                       class="color-picker-button"
                       @click="openColorPopover(index, $event)"
-                      :style="{ backgroundColor: highlightFilter.color }"
-                    />
+                      :style="{ backgroundColor: highlightFilter.color }" />
                   </div>
                   <f7-button small icon-f7="xmark_circle" @click="removeHighlight(index)" />
                 </template>
@@ -120,8 +114,7 @@
             :key="color"
             :style="{ backgroundColor: color }"
             :class="{ selected: currentHighlightColor === color }"
-            @click="selectHighlightColor(color)"
-          />
+            @click="selectHighlightColor(color)" />
         </div>
       </f7-block>
     </f7-popover>
@@ -133,8 +126,7 @@
       close-on-escape
       close-by-backdrop-click
       @popup:open="popupOpened($refs.logDetailsPopup, $refs.logDetailsNavbar)"
-      @popup:closed="cleanupMovablePopup"
-    >
+      @popup:closed="cleanupMovablePopup">
       <f7-page>
         <f7-navbar title="Log Details" ref="logDetailsNavbar">
           <f7-nav-right>
@@ -145,8 +137,7 @@
           <div class="display-flex justify-content-center" style="width: 100%">
             <f7-link
               class="display-flex flex-direction-row margin-right"
-              @click="selectedId = selectedId > 0 ? selectedId - 1 : 0"
-            >
+              @click="selectedId = selectedId > 0 ? selectedId - 1 : 0">
               <f7-icon f7="backward_fill" />
               &nbsp; Previous
             </f7-link>
@@ -155,15 +146,13 @@
               @click="
                 selectedId =
                   selectedId < tableData.length - 1 ? selectedId + 1 : tableData.length - 1
-              "
-            >
+              ">
               Next &nbsp;
               <f7-icon f7="forward_fill" />
             </f7-link>
             <f7-link
               class="display-flex flex-direction-row"
-              @click="selectedId = tableData.length - 1"
-            >
+              @click="selectedId = tableData.length - 1">
               <f7-icon f7="forward_end_fill" />
             </f7-link>
           </div>
@@ -203,8 +192,7 @@
       title="Log Viewer"
       back-link="Developer Tools"
       back-link-url="/developer/"
-      back-link-force
-    >
+      back-link-force>
       <f7-nav-right>
         <f7-link
           icon-ios="f7:play_fill"
@@ -216,8 +204,7 @@
             'disabled-link': stateConnected && stateProcessing,
             'no-margin-left': $device.ios,
           }"
-          @click="loggingContinue"
-        />
+          @click="loggingContinue" />
         <f7-link
           icon-ios="f7:pause_fill"
           icon-aurora="f7:pause_fill"
@@ -228,8 +215,7 @@
             'disabled-link': !stateConnected || !stateProcessing,
             'no-margin-left': $device.ios,
           }"
-          @click="loggingPause"
-        />
+          @click="loggingPause" />
         <f7-link
           icon-ios="f7:stop_fill"
           icon-aurora="f7:stop_fill"
@@ -240,8 +226,7 @@
             'disabled-link': !stateConnected,
             'no-margin-left': $device.ios,
           }"
-          @click="loggingStop"
-        />
+          @click="loggingStop" />
       </f7-nav-right>
 
       <f7-subnavbar :inner="false" style="padding-right: var(--f7-safe-area-right)">
@@ -252,8 +237,7 @@
           placeholder="Filter"
           :disable-button="false"
           @searchbar:search="handleFilter"
-          @searchbar.clear="clearFilter"
-        />
+          @searchbar.clear="clearFilter" />
         <!-- <div class="filter-input-box">
           <input type="search" placeholder="Filter..." v-model="filterText" @keyup.enter="handleFilter"></input>
         </div> -->
@@ -264,8 +248,7 @@
           <f7-badge
             class="margin-horizontal"
             :color="countersBadgeColor"
-            tooltip="Log entries filtered/total"
-          >
+            tooltip="Log entries filtered/total">
             {{ filterCount }}/{{ tableData.length }}
           </f7-badge>
           <!-- <f7-badge color="red" tooltip="Maximum log entries to be buffered">
@@ -282,20 +265,17 @@
         icon-f7="cloud_download"
         tooltip="Download filtered log as CSV"
         :class="{ 'disabled-link': filterCount == 0 }"
-        @click="downloadCSV"
-      />
+        @click="downloadCSV" />
       <f7-link
         icon-f7="rectangle_on_rectangle"
         tooltip="Copy filtered log to clipboard"
         :class="{ 'disabled-link': filterCount == 0 }"
-        @click="copyTableToClipboard"
-      />
+        @click="copyTableToClipboard" />
       <f7-link
         icon-f7="trash"
         tooltip="Clear the log buffer"
         :class="{ 'disabled-link': tableData.length == 0 }"
-        @click="clearLog"
-      />
+        @click="clearLog" />
       <f7-link @click="toggleErrorDisplay" tooltip="Always show error level logs">
         <f7-icon v-if="showErrors" f7="exclamationmark_triangle_fill" />
         <f7-icon v-else f7="exclamationmark_triangle" />
@@ -304,8 +284,7 @@
         icon-f7="pencil"
         tooltip="Configure highlights"
         data-popup=".loghighlights-popup"
-        class="popup-open"
-      />
+        class="popup-open" />
       <f7-segmented>
         <f7-button
           outline
@@ -315,8 +294,7 @@
           :icon-size="theme.aurora ? 20 : 22"
           class="no-ripple"
           @click="setTextMode(false)"
-          tooltip="Show logs in a table"
-        />
+          tooltip="Show logs in a table" />
         <f7-button
           outline
           small
@@ -325,15 +303,13 @@
           :icon-size="theme.aurora ? 20 : 22"
           class="no-ripple"
           @click="setTextMode(true)"
-          tooltip="Show logs as plain text"
-        />
+          tooltip="Show logs as plain text" />
       </f7-segmented>
       <f7-link
         icon-f7="gear"
         tooltip="Configure logging"
         data-popup=".logsettings-popup"
-        class="popup-open"
-      />
+        class="popup-open" />
     </f7-toolbar>
 
     <f7-block class="table-block">
@@ -354,8 +330,7 @@
         position="right-bottom"
         color="blue"
         tooltip="Scroll to latest log entries"
-        @click="showLatestLogs"
-      >
+        @click="showLatestLogs">
         <f7-icon f7="arrow_down_to_line" />
       </f7-fab>
     </template>

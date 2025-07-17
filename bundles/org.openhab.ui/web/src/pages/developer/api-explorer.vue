@@ -4,8 +4,7 @@
       title="API Explorer"
       back-link="Developer Tools"
       back-link-url="/developer/"
-      back-link-force
-    />
+      back-link-force />
     <f7-block>
       <f7-col>
         <f7-card id="swaggerUi" />

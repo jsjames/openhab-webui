@@ -13,15 +13,13 @@
       <f7-link
         @click="switchTab('design', fromYaml)"
         :tab-link-active="currentTab === 'design'"
-        class="tab-link"
-      >
+        class="tab-link">
         Design
       </f7-link>
       <f7-link
         @click="switchTab('code', toYaml)"
         :tab-link-active="currentTab === 'code'"
-        class="tab-link"
-      >
+        class="tab-link">
         Code
       </f7-link>
     </f7-toolbar>
@@ -30,8 +28,7 @@
       <f7-tab
         id="design"
         @tab:show="() => (this.currentTab = 'design')"
-        :tab-active="currentTab === 'design'"
-      >
+        :tab-active="currentTab === 'design'">
         <f7-block class="block-narrow" v-if="item.name || item.created === false">
           <f7-col v-if="!editable">
             <div class="padding-left">Note: {{ notEditableMsg }}</div>
@@ -49,8 +46,7 @@
               color="blue"
               raised
               fill
-              @click="save"
-            />
+              @click="save" />
             <f7-button
               text="Save"
               v-else-if="editable"
@@ -59,8 +55,7 @@
               color="blue"
               raised
               fill
-              @click="save"
-            />
+              @click="save" />
             <f7-button :text="editable ? 'Cancel' : 'Back'" color="blue" @click="f7router.back()" />
           </div>
         </f7-block>
@@ -74,8 +69,7 @@
             toYaml();
           }
         "
-        :tab-active="currentTab === 'code'"
-      >
+        :tab-active="currentTab === 'code'">
         <f7-icon
           v-if="!editable"
           f7="lock"
@@ -83,15 +77,13 @@
           style="opacity: 0.5; z-index: 4000; user-select: none"
           size="50"
           color="gray"
-          :tooltip="notEditableMsg"
-        />
+          :tooltip="notEditableMsg" />
         <editor
           class="item-code-editor"
           mode="application/vnd.openhab.item+yaml"
           :value="itemYaml"
           @input="onEditorInput"
-          :readOnly="!editable"
-        />
+          :readOnly="!editable" />
       </f7-tab>
     </f7-tabs>
   </f7-page>

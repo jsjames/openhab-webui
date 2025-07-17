@@ -47,6 +47,9 @@ export const store = createStore({
       state.websiteUrl = `https://${rootResponse.runtimeInfo?.buildString !== 'Release Build' ? 'next' : 'www'}.openhab.org`
       state.docSrcUrl = `https://www.openhab.org/link/docs-src/${rootResponse.runtimeInfo.version.replace(/(\d+\.\d+)\.\d+/g, '$1.x')}`
     },
+    setLocale(state, locale) {
+      state.locale = locale
+    },
     setDeveloperDock(state, value) {
       state.developerDock = value
       state.states.keepConnectionOpen = value

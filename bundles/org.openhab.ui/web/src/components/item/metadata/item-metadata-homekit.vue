@@ -15,14 +15,12 @@
           searchbar: true,
           closeOnSelect: !multiple,
         }"
-        ref="classes"
-      >
+        ref="classes">
         <select
           v-if="itemType == 'Group'"
           name="parameters"
           @change="updateClasses"
-          :multiple="multiple"
-        >
+          :multiple="multiple">
           <option v-if="!multiple" value="" />
           <option
             v-for="cl in classesDefs
@@ -30,8 +28,7 @@
               .filter(c => c.indexOf('label:') !== 0)"
             :value="cl"
             :key="cl"
-            :selected="isSelected(cl) ? true : null"
-          >
+            :selected="isSelected(cl) ? true : null">
             {{ cl }}
           </option>
         </select>
@@ -41,8 +38,7 @@
             v-for="cl in classesDefs.filter(c => c.indexOf('label:') !== 0)"
             :value="cl"
             :key="cl"
-            :selected="isSelected(cl) ? true : null"
-          >
+            :selected="isSelected(cl) ? true : null">
             {{ cl }}
           </option>
         </select>
@@ -53,13 +49,11 @@
         :parameterGroups="parametersGroups"
         :parameters="parameters"
         :configuration="metadata.config"
-        :read-only="!editable"
-      />
+        :read-only="!editable" />
     </div>
     <f7-block
       class="padding-top no-padding no-margin"
-      v-if="itemType === 'Group' && classes.length"
-    >
+      v-if="itemType === 'Group' && classes.length">
       <f7-block-title class="padding-left"> Group HomeKit Characteristics Mapping </f7-block-title>
       <f7-block v-for="cl in classesAsArray" :key="cl">
         <f7-block-title class="padding-left">
@@ -76,16 +70,14 @@
               openIn: 'popup',
               searchbar: true,
               closeOnSelect: !multiple,
-            }"
-          >
+            }">
             <select @change="updateLinkedItem(cl, accessory.label, $event.target.value)">
               <option value="" />
               <option
                 v-for="mbr in item.members"
                 :value="mbr.name"
                 :key="mbr.id"
-                :selected="isLinked(cl, accessory.label, mbr) ? true : null"
-              >
+                :selected="isLinked(cl, accessory.label, mbr) ? true : null">
                 {{ mbr.label }} ({{ mbr.name }})
               </option>
             </select>
@@ -101,8 +93,7 @@
         color="blue"
         external
         target="_blank"
-        :href="`${$store.state.websiteUrl}/link/homekit`"
-      >
+        :href="`${$store.state.websiteUrl}/link/homekit`">
         HomeKit integration documentation
       </f7-link>
     </p>

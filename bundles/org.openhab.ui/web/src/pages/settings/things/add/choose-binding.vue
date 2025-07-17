@@ -9,8 +9,7 @@
           :init="initSearchbar"
           search-container=".binding-list"
           search-in=".item-title, .item-header, .item-footer"
-          :disable-button="!theme.aurora"
-        />
+          :disable-button="!theme.aurora" />
       </f7-subnavbar>
     </f7-navbar>
 
@@ -18,8 +17,7 @@
       v-if="ready && !bindings.length"
       icon="circle_grid_hex"
       title="things.nobindings.title"
-      text="things.nobindings.text"
-    />
+      text="things.nobindings.text" />
 
     <f7-block class="block-narrow">
       <f7-col>
@@ -32,8 +30,7 @@
               :class="`skeleton-text skeleton-effect-blink`"
               title="Label of the binding"
               header="BindingID"
-              footer="This contains the description of the binding"
-            />
+              footer="This contains the description of the binding" />
           </f7-list-group>
         </f7-list>
         <f7-list v-else class="col">
@@ -52,8 +49,7 @@
               binding.description && binding.description.indexOf('<br>') >= 0
                 ? binding.description.split('<br>')[0]
                 : binding.description
-            "
-          />
+            " />
         </f7-list>
       </f7-col>
     </f7-block>

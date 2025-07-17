@@ -4,26 +4,22 @@
       :title="configDescription.label"
       smart-select
       :smart-select-params="smartSelectParams"
-      ref="item"
-    >
+      ref="item">
       <select
         :name="configDescription.name"
         @change="updateValue"
         :multiple="configDescription.multiple"
-        :required="configDescription.required"
-      >
+        :required="configDescription.required">
         <option
           v-if="!configDescription.required"
           :value="undefined"
-          :selected="value === null || value === undefined ? true : null"
-        />
+          :selected="value === null || value === undefined ? true : null" />
         <optgroup v-if="configDescription.context.indexOf('page') >= 0" label="Pages">
           <option
             v-for="option in $store.getters.pages"
             :value="'page:' + option.uid"
             :key="option.uid"
-            :selected="isSelected(option, 'page') ? true : null"
-          >
+            :selected="isSelected(option, 'page') ? true : null">
             {{ option.config.label }}
           </option>
         </optgroup>
@@ -32,8 +28,7 @@
             v-for="option in $store.getters.widgets"
             :value="'widget:' + option.uid"
             :key="option.uid"
-            :selected="isSelected(option, 'widget') ? true : null"
-          >
+            :selected="isSelected(option, 'widget') ? true : null">
             {{ option.uid }}
           </option>
         </optgroup>

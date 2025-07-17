@@ -6,49 +6,41 @@
         <f7-menu-item
           @click="context.editmode.addWidget(context.component, 'oh-grid-col')"
           icon-f7="plus"
-          text="Add Column"
-        />
+          text="Add Column" />
         <f7-menu-item style="margin-left: auto" icon-f7="square_split_1x2" dropdown>
           <f7-menu-dropdown right>
             <f7-menu-dropdown-item
               @click="context.editmode.editWidgetCode(context.component, context.parent)"
               href="#"
-              text="Edit YAML"
-            />
+              text="Edit YAML" />
             <f7-menu-dropdown-item divider />
             <f7-menu-dropdown-item
               @click="context.editmode.cutWidget(context.component, context.parent)"
               href="#"
-              text="Cut"
-            />
+              text="Cut" />
             <f7-menu-dropdown-item
               @click="context.editmode.copyWidget(context.component, context.parent)"
               href="#"
-              text="Copy"
-            />
+              text="Copy" />
             <f7-menu-dropdown-item
               v-if="context.clipboardtype === 'oh-grid-col'"
               @click="context.editmode.pasteWidget(context.component, context.parent)"
               href="#"
-              text="Paste"
-            />
+              text="Paste" />
             <f7-menu-dropdown-item divider />
             <f7-menu-dropdown-item
               @click="context.editmode.moveWidgetUp(context.component, context.parent)"
               href="#"
-              text="Move Up"
-            />
+              text="Move Up" />
             <f7-menu-dropdown-item
               @click="context.editmode.moveWidgetDown(context.component, context.parent)"
               href="#"
-              text="Move Down"
-            />
+              text="Move Down" />
             <f7-menu-dropdown-item divider />
             <f7-menu-dropdown-item
               @click="context.editmode.removeWidget(context.component, context.parent)"
               href="#"
-              text="Remove Row"
-            />
+              text="Remove Row" />
           </f7-menu-dropdown>
         </f7-menu-item>
       </f7-menu>
@@ -58,8 +50,7 @@
         v-for="(component, idx) in context.component.slots.default"
         v-bind="$attrs"
         :key="idx"
-        :context="childContext(component)"
-      />
+        :context="childContext(component)" />
       <f7-block-title v-if="config.title" />
     </f7-row>
     <!-- <f7-row v-if="context.editmode">

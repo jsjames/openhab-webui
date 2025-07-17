@@ -14,8 +14,7 @@
           :thing-type="thingType"
           :createMode="true"
           :things="things"
-          :ready="true"
-        />
+          :ready="true" />
         <f7-block-title medium>
           {{ thingType.label }}
         </f7-block-title>
@@ -28,8 +27,7 @@
         :thing="thing"
         :thing-type="thingType"
         :createMode="true"
-        :ready="false"
-      />
+        :ready="false" />
       <f7-col>
         <f7-block-title>____ _______</f7-block-title>
         <div class="margin">____ ____ ____ _____ ___ __ ____ __ ________ __ ____ ___ ____</div>
@@ -41,8 +39,7 @@
         ref="parameters"
         :parameter-groups="thingType.parameterGroups"
         :parameters="thingType.configParameters"
-        :configuration="thing.configuration"
-      />
+        :configuration="thing.configuration" />
     </f7-block>
 
     <div v-if="ready" class="if-aurora display-flex justify-content-center margin">
@@ -54,8 +51,7 @@
           large
           raised
           fill
-          @click="save"
-        >
+          @click="save">
           Create Thing
         </f7-button>
       </div>

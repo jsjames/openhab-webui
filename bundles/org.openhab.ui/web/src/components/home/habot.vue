@@ -10,8 +10,7 @@
         @focus="chatboxFocused"
         :value="value"
         @change="chatboxSend"
-        @blur="chatboxBlur"
-      />
+        @blur="chatboxBlur" />
       <speech-button class="habot-icon" v-show="!focused" :lang="language" @result="speechResult" />
     </div>
     <f7-list v-if="focused && !value" class="chat-suggestions" no-hairlines-md>
@@ -22,14 +21,12 @@
         link
         :title="suggestion"
         :footer="history.length === 0 ? $t('habot.example.label') : ''"
-        no-chevron
-      />
+        no-chevron />
       <f7-list-button
         v-if="history.length > 0"
         color="red"
         :title="$t('habot.clearHistory')"
-        @click="clearHistory"
-      />
+        @click="clearHistory" />
     </f7-list>
     <f7-message
       v-if="interimSpeechResult"
@@ -38,8 +35,7 @@
       :text="interimSpeechResult"
       color="gray"
       first
-      tail
-    />
+      tail />
     <f7-message
       v-if="query && !focused && !interimSpeechResult"
       type="sent"
@@ -47,31 +43,26 @@
       :text="query"
       color="blue"
       first
-      tail
-    />
+      tail />
     <f7-message
       v-if="!interimSpeechResult && (answer || busy) && !focused"
       type="received"
       :typing="busy"
       :text="!busy ? answer : null"
       last
-      :tail="!hint"
-    />
+      :tail="!hint" />
     <f7-message
       v-if="hint && !focused && !interimSpeechResult"
       type="received"
       :text="hint"
       last
-      tail
-    />
+      tail />
     <generic-widget-component
       v-if="cardContext && !focused && !interimSpeechResult"
-      :context="cardContext"
-    />
+      :context="cardContext" />
     <div
       v-if="query && !focused && answer && !busy && !interimSpeechResult"
-      class="display-flex justify-content-space-between padding"
-    >
+      class="display-flex justify-content-space-between padding">
       <span />
       <f7-button outline round color="blue" @click="endSession">
         {{ $t('habot.dismiss') }}

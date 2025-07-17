@@ -5,8 +5,7 @@
         <editor
           :value="sitemapDsl"
           @input="updateSitemap"
-          mode="application/vnd.openhab.sitemap+dsl"
-        />
+          mode="application/vnd.openhab.sitemap+dsl" />
       </div>
       <span class="resize-handler" />
     </div>

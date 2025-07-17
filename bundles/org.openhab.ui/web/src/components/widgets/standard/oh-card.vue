@@ -4,8 +4,7 @@
     :no-shadow="config.noShadow ? true : null"
     :outline="config.outline ? true : null"
     :style="config.style"
-    :class="['oh-card', ...(Array.isArray(config.class) ? config.class : [])]"
-  >
+    :class="['oh-card', ...(Array.isArray(config.class) ? config.class : [])]">
     <slot name="header">
       <f7-card-header v-if="config.title" :style="config.headerStyle" :class="config.headerClass">
         <div>{{ config.title }}</div>
@@ -17,8 +16,7 @@
         @taphold="onTaphold($event)"
         @contextmenu="onContextMenu($event)"
         :style="{ ...contentStyle, ...config.contentStyle }"
-        :class="computedContentClass"
-      >
+        :class="computedContentClass">
         <slot name="content" />
       </f7-card-content>
     </slot>

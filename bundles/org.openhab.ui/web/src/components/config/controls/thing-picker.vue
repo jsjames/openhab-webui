@@ -5,16 +5,14 @@
       smart-select
       :smart-select-params="smartSelectParams"
       ref="smartSelect"
-      v-if="ready"
-    >
+      v-if="ready">
       <select :name="name" :multiple="multiple" @change="select" :required="required">
         <option v-if="!multiple" value="" />
         <option
           v-for="thing in things"
           :value="thing.UID"
           :key="thing.UID"
-          :selected="multiple ? value.indexOf(thing.UID) >= 0 : value === thing.UID ? true : null"
-        >
+          :selected="multiple ? value.indexOf(thing.UID) >= 0 : value === thing.UID ? true : null">
           {{ thing.label ? thing.label + ' (' + thing.UID + ')' : thing.UID }}
         </option>
       </select>

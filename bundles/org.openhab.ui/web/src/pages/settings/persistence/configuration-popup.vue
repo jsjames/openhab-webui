@@ -7,8 +7,7 @@
             icon-ios="f7:arrow_left"
             icon-md="material:arrow_back"
             icon-aurora="f7:arrow_left"
-            popup-close
-          />
+            popup-close />
         </f7-nav-left>
         <f7-nav-title> Configure strategies and filters for Item(s) </f7-nav-title>
         <f7-nav-right>
@@ -25,8 +24,7 @@
               <template #after>
                 <f7-toggle
                   :checked="allItemsSelected ? true : null"
-                  @toggle:change="allItemsSelected = $event"
-                />
+                  @toggle:change="allItemsSelected = $event" />
               </template>
             </f7-list-item>
           </f7-list>
@@ -39,8 +37,7 @@
               filterType="Group"
               :disabled="allItemsSelected ? true : null"
               :value="groupItems"
-              @input="groupItems = $event"
-            />
+              @input="groupItems = $event" />
             <f7-list-item>... whose members are to be persisted.</f7-list-item>
           </f7-list>
           <f7-list>
@@ -51,8 +48,7 @@
               multiple="true"
               :disabled="allItemsSelected ? true : null"
               :value="items"
-              @input="items = $event"
-            />
+              @input="items = $event" />
             <f7-list-item>... to be persisted.</f7-list-item>
           </f7-list>
           <f7-list>
@@ -64,8 +60,7 @@
               filterType="Group"
               :disabled="!anySelected ? true : null"
               :value="excludeGroupItems"
-              @input="excludeGroupItems = $event"
-            />
+              @input="excludeGroupItems = $event" />
             <f7-list-item>... whose members are to be excluded from persistence.</f7-list-item>
           </f7-list>
           <f7-list>
@@ -76,8 +71,7 @@
               multiple="true"
               :disabled="!anySelected ? true : null"
               :value="excludeItems"
-              @input="excludeItems = $event"
-            />
+              @input="excludeItems = $event" />
             <f7-list-item>... to be excluded from persistence.</f7-list-item>
           </f7-list>
         </f7-col>
@@ -88,16 +82,14 @@
             name="strategies"
             :strategies="strategies"
             :value="currentConfiguration.strategies"
-            @strategies-selected="currentConfiguration.strategies = $event"
-          />
+            @strategies-selected="currentConfiguration.strategies = $event" />
         </f7-col>
         <f7-col>
           <f7-block-title medium class="padding-bottom"> Filters </f7-block-title>
           <filter-picker
             :filters="filters"
             :value="currentConfiguration.filters"
-            @filters-selected="currentConfiguration.filters = $event"
-          />
+            @filters-selected="currentConfiguration.filters = $event" />
         </f7-col>
       </f7-block>
     </f7-page>

@@ -11,8 +11,7 @@
                 :icon="config.icon"
                 :color="config.iconColor"
                 width="20"
-                height="20"
-              />
+                height="20" />
               <span>{{ config.title || config.header }}</span>
               <f7-badge v-if="config.headerBadge" :color="config.headerBadgeColor">
                 {{ config.headerBadge }}

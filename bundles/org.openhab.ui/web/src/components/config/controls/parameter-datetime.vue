@@ -11,8 +11,7 @@
       :value="value"
       :required="configDescription.required"
       validate
-      @input="updateValue"
-    />
+      @input="updateValue" />
   </ul>
 </template>
 

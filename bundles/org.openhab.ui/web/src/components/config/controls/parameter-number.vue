@@ -21,8 +21,7 @@
       validate
       validate-on-blur
       :clear-button="false"
-      type="number"
-    />
+      type="number" />
   </ul>
 </template>
 

@@ -3,8 +3,7 @@
     <f7-navbar
       :title="`${editable ? 'Edit' : 'View'} Item Metadata: ${namespace} ${dirtyIndicator}`"
       back-link="Cancel"
-      no-hairline
-    >
+      no-hairline>
       <f7-nav-right>
         <f7-link @click="save()" v-if="theme.md && editable" icon-md="material:save" icon-only />
         <f7-link @click="save()" v-if="!theme.md && editable"> Save </f7-link>
@@ -15,15 +14,13 @@
         v-if="!generic"
         @click="switchTab('config', fromYaml)"
         :tab-link-active="currentTab === 'config'"
-        class="tab-link"
-      >
+        class="tab-link">
         Config
       </f7-link>
       <f7-link
         @click="switchTab('code', toYaml)"
         :tab-link-active="currentTab === 'code'"
-        class="tab-link"
-      >
+        class="tab-link">
         Code
       </f7-link>
     </f7-toolbar>
@@ -37,16 +34,14 @@
         id="config"
         class="metadata-editor-config-tab"
         @tab:show="() => (this.currentTab = 'config')"
-        :tab-active="currentTab === 'config'"
-      >
+        :tab-active="currentTab === 'config'">
         <f7-block class="block-narrow" v-if="ready && currentTab === 'config'">
           <f7-col>
             <component
               :is="editorControl"
               :item="item"
               :metadata="metadata"
-              :namespace="namespace"
-            />
+              :namespace="namespace" />
           </f7-col>
         </f7-block>
         <f7-block class="block-narrow" v-if="ready">
@@ -67,8 +62,7 @@
             this.currentTab = 'code';
           }
         "
-        :tab-active="currentTab === 'code'"
-      >
+        :tab-active="currentTab === 'code'">
         <f7-icon
           v-if="!editable"
           f7="lock"
@@ -76,16 +70,14 @@
           style="opacity: 0.5; z-index: 4000; user-select: none"
           size="50"
           color="gray"
-          tooltip="This metadata is not editable as it has not been created through the UI"
-        />
+          tooltip="This metadata is not editable as it has not been created through the UI" />
         <editor
           v-if="currentTab === 'code'"
           class="metadata-code-editor"
           mode="text/x-yaml"
           :value="yaml"
           :readOnly="!editable"
-          @input="onEditorInput"
-        />
+          @input="onEditorInput" />
       </f7-tab>
     </f7-tabs>
   </f7-page>

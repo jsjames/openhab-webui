@@ -17,14 +17,12 @@
       v-if="visibleToCurrentUser"
       :is="componentType"
       :context="context"
-      :class="{ notready: !ready }"
-    />
+      :class="{ notready: !ready }" />
     <empty-state-placeholder
       v-if="page && !visibleToCurrentUser"
       icon="multiply_circle_fill"
       title="page.unavailable.title"
-      text="page.unavailable.text"
-    />
+      text="page.unavailable.text" />
   </f7-sheet>
 </template>
 

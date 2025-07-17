@@ -7,8 +7,7 @@
     @input="onInput"
     :input="config.enableInput === true"
     :manual-input-mode="true"
-    :format-value="formatValue"
-  />
+    :format-value="formatValue" />
 </template>
 
 <style lang="stylus">

@@ -9,8 +9,7 @@
         :href="documentationLink"
         target="_blank"
         text="Open full documentation"
-        color="blue"
-      />
+        color="blue" />
     </f7-block>
   </f7-block>
 </template>

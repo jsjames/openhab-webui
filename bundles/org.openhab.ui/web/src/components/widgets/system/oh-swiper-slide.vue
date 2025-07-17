@@ -6,41 +6,34 @@
           <f7-menu-dropdown-item
             @click="context.editmode.configureWidget(context.component, context.parent)"
             href="#"
-            text="Configure Widget"
-          />
+            text="Configure Widget" />
           <f7-menu-dropdown-item
             @click="context.editmode.editWidgetCode(context.component, context.parent)"
             href="#"
-            text="Edit YAML"
-          />
+            text="Edit YAML" />
           <f7-menu-dropdown-item divider />
           <f7-menu-dropdown-item
             @click="context.editmode.cutWidget(context.component, context.parent)"
             href="#"
-            text="Cut"
-          />
+            text="Cut" />
           <f7-menu-dropdown-item
             @click="context.editmode.copyWidget(context.component, context.parent)"
             href="#"
-            text="Copy"
-          />
+            text="Copy" />
           <f7-menu-dropdown-item divider />
           <f7-menu-dropdown-item
             @click="context.editmode.moveWidgetUp(context.component, context.parent)"
             href="#"
-            text="Move Before"
-          />
+            text="Move Before" />
           <f7-menu-dropdown-item
             @click="context.editmode.moveWidgetDown(context.component, context.parent)"
             href="#"
-            text="Move After"
-          />
+            text="Move After" />
           <f7-menu-dropdown-item divider />
           <f7-menu-dropdown-item
             @click="context.editmode.removeWidget(context.component, context.parent)"
             href="#"
-            text="Remove Slide"
-          />
+            text="Remove Slide" />
         </f7-menu-dropdown>
       </f7-menu-item>
     </f7-menu>

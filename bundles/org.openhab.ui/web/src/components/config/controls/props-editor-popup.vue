@@ -3,8 +3,7 @@
     ref="propSheet"
     close-on-escape
     class="widgetprops-popup"
-    @popup:closed="propsSheetClosed"
-  >
+    @popup:closed="propsSheetClosed">
     <f7-page>
       <f7-navbar>
         <f7-nav-left>
@@ -12,8 +11,7 @@
             icon-ios="f7:arrow_left"
             icon-md="material:arrow_back"
             icon-aurora="f7:arrow_left"
-            class="popup-close"
-          />
+            class="popup-close" />
         </f7-nav-left>
         <f7-nav-title>Set Component Props</f7-nav-title>
         <f7-nav-right>
@@ -25,8 +23,7 @@
           <config-sheet
             :parameterGroups="props.parameterGroups || []"
             :parameters="props.parameters || []"
-            :configuration="config"
-          />
+            :configuration="config" />
         </f7-col>
       </f7-block>
     </f7-page>

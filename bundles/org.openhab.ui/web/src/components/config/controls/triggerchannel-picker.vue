@@ -5,23 +5,20 @@
       smart-select
       :smart-select-params="smartSelectParams"
       v-if="ready"
-      ref="smartSelect"
-    >
+      ref="smartSelect">
       <select :name="name" :multiple="multiple" @change="select" :required="required">
         <option v-if="!multiple" value="" />
         <optgroup
           v-for="thing in things.filter(t => (filterThing ? t.UID === filterThing : true))"
           :label="thing.label"
-          :key="thing.UID"
-        >
+          :key="thing.UID">
           <option
             v-for="channel in thing.triggerChannels"
             :value="channel.uid"
             :key="channel.uid"
             :selected="
               multiple ? value.indexOf(channel.uid) >= 0 : value === channel.uid ? true : null
-            "
-          >
+            ">
             {{ channel.id }} ({{ channel.label }})
           </option>
         </optgroup>

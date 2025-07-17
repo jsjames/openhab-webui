@@ -7,8 +7,7 @@
             v-if="!thing.editable"
             icon-f7="lock_fill"
             icon-only
-            tooltip="Channels of Things defined in a .things file are not editable from this screen"
-          />
+            tooltip="Channels of Things defined in a .things file are not editable from this screen" />
           <f7-link @click="save()" v-else-if="theme.md" icon-md="material:save" icon-only />
           <f7-link @click="save()" v-else> Done </f7-link>
         </template>
@@ -21,8 +20,7 @@
           :channel="channel"
           :channelType="channelType"
           :createMode="false"
-          :disabled="!thing.editable ? true : null"
-        />
+          :disabled="!thing.editable ? true : null" />
       </f7-col>
       <f7-col v-if="channelType != null">
         <f7-block-title v-if="configDescription.parameters"> Configuration </f7-block-title>
@@ -33,8 +31,7 @@
           :parameter-groups="configDescription.parameterGroups"
           :parameters="configDescription.parameters"
           :configuration="config"
-          :read-only="!thing.editable"
-        />
+          :read-only="!thing.editable" />
       </f7-col>
     </f7-block>
   </f7-page>

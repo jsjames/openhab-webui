@@ -4,25 +4,21 @@
       :title="configDescription.label"
       smart-select
       :smart-select-params="smartSelectParams"
-      ref="item"
-    >
+      ref="item">
       <select
         :name="configDescription.name"
         @change="updateValue"
         :multiple="configDescription.multiple"
-        :required="configDescription.required"
-      >
+        :required="configDescription.required">
         <option
           v-if="!configDescription.required && !configDescription.multiple"
           :value="undefined"
-          :selected="value === null || value === undefined"
-        />
+          :selected="value === null || value === undefined" />
         <option
           v-for="option in configDescription.options"
           :value="option.value"
           :key="option.value"
-          :selected="isSelected(option) ? true : null"
-        >
+          :selected="isSelected(option) ? true : null">
           {{ option.label }}
         </option>
       </select>
@@ -32,8 +28,7 @@
     <f7-block-header class="no-margin">
       <div
         class="margin-horizontal item-label"
-        style="padding-top: var(--f7-list-item-padding-vertical); color: var(--f7-text-color)"
-      >
+        style="padding-top: var(--f7-list-item-padding-vertical); color: var(--f7-text-color)">
         {{ configDescription.label }}
       </div>
       <f7-link
@@ -47,8 +42,7 @@
           pointerEvents: 'initial',
         }"
         class="input-clear-button margin-right"
-        @click="updateValue(undefined)"
-      />
+        @click="updateValue(undefined)" />
     </f7-block-header>
     <f7-list-item
       radio
@@ -64,8 +58,7 @@
       "
       :key="option.value"
       :title="option.label"
-      :name="configDescription.name"
-    />
+      :name="configDescription.name" />
   </ul>
 </template>
 

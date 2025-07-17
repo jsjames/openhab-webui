@@ -5,8 +5,7 @@
         <f7-link
           icon-md="material:done_all"
           @click="toggleCheck()"
-          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''"
-        />
+          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''" />
       </f7-nav-right>
       <f7-subnavbar :inner="false" v-show="initSearchbar">
         <f7-searchbar
@@ -17,8 +16,7 @@
           custom-search
           @searchbar:search="search"
           @searchbar:clear="clearSearch"
-          :disable-button="!theme.aurora"
-        />
+          :disable-button="!theme.aurora" />
       </f7-subnavbar>
     </f7-navbar>
     <f7-toolbar
@@ -26,20 +24,17 @@
       :class="{ navbar: theme.md }"
       v-if="showCheckboxes"
       bottom-ios
-      bottom-aurora
-    >
+      bottom-aurora>
       <div
         class="display-flex justify-content-center"
         v-if="!theme.md && selectedItems.length > 0"
-        style="width: 100%"
-      >
+        style="width: 100%">
         <f7-button
           @click="confirmActionOnSelection('delete')"
           color="red"
           class="delete display-flex flex-direction-row margin-right"
           icon-ios="f7:trash"
-          icon-aurora="f7:trash"
-        >
+          icon-aurora="f7:trash">
           &nbsp;Remove
         </f7-button>
         <f7-button
@@ -52,8 +47,7 @@
           color="orange"
           class="ignore display-flex flex-direction-row margin-right"
           icon-ios="f7:eye_slash"
-          icon-aurora="f7:eye_slash"
-        >
+          icon-aurora="f7:eye_slash">
           &nbsp;Ignore
         </f7-button>
         <f7-button
@@ -62,8 +56,7 @@
           color="orange"
           class="unignore display-flex flex-direction-row margin-right"
           icon-ios="f7:eye"
-          icon-aurora="f7:eye"
-        >
+          icon-aurora="f7:eye">
           &nbsp;Unignore
         </f7-button>
         <f7-button
@@ -71,8 +64,7 @@
           color="green"
           class="approve display-flex flex-direction-row margin-right"
           icon-ios="f7:hand_thumbsup"
-          icon-aurora="f7:hand_thumbsup"
-        >
+          icon-aurora="f7:hand_thumbsup">
           &nbsp;Approve
         </f7-button>
         <!-- buttons for wider screen -->
@@ -82,8 +74,7 @@
             color="blue"
             class="copy wider-screen display-flex flex-direction-row"
             icon-ios="f7:square_on_square"
-            icon-aurora="f7:square_on_square"
-          >
+            icon-aurora="f7:square_on_square">
             &nbsp;Copy
           </f7-button>
         </template>
@@ -92,8 +83,7 @@
           <f7-button
             color="blue"
             class="popover-button narrower-screen"
-            popover-open=".item-popover"
-          >
+            popover-open=".item-popover">
             ...
           </f7-button>
           <f7-popover
@@ -102,8 +92,7 @@
             :backdrop="false"
             :close-by-backdrop-click="true"
             :style="{ width: '96px' }"
-            :animate="false"
-          >
+            :animate="false">
             <div class="margin-vertical display-flex justify-content-center" style="width: 100%">
               <f7-link
                 @click="performActionOnSelection('copy')"
@@ -111,8 +100,7 @@
                 class="copy display-flex flex-direction-column margin-right"
                 icon-ios="f7:square_on_square"
                 icon-aurora="f7:square_on_square"
-                popover-close=".item-popover"
-              >
+                popover-close=".item-popover">
                 Copy
               </f7-link>
             </div>
@@ -123,34 +111,29 @@
         v-if="theme.md"
         icon-md="material:close"
         icon-color="white"
-        @click="showCheckboxes = false"
-      />
+        @click="showCheckboxes = false" />
       <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
       <div class="right" v-if="theme.md && selectedItems.length > 0">
         <f7-link
           v-show="selectedItems.length"
           icon-md="material:delete"
           icon-color="white"
-          @click="confirmActionOnSelection('delete')"
-        />
+          @click="confirmActionOnSelection('delete')" />
         <f7-link
           v-show="selectedItems.length"
           icon-md="material:visibility_off"
           icon-color="white"
-          @click="confirmActionOnSelection('ignore')"
-        />
+          @click="confirmActionOnSelection('ignore')" />
         <f7-link
           v-show="selectedItems.length"
           icon-md="material:thumb_up"
           icon-color="white"
-          @click="confirmActionOnSelection('approve')"
-        />
+          @click="confirmActionOnSelection('approve')" />
         <f7-link
           v-show="selectedItems.length"
           icon-md="material:content_copy"
           icon-color="white"
-          @click="copyFileDefinitionToClipboard(ObjectType.THING, selectedItems)"
-        />
+          @click="copyFileDefinitionToClipboard(ObjectType.THING, selectedItems)" />
       </div>
     </f7-toolbar>
 
@@ -159,8 +142,7 @@
       v-show="groupBy === 'alphabetical' && !$device.desktop"
       list-el=".inbox-list"
       :scroll-list="true"
-      :label="true"
-    />
+      :label="true" />
 
     <f7-block class="block-narrow">
       <f7-col>
@@ -174,23 +156,20 @@
               -
               <f7-link
                 @click="selectDeselectAll"
-                :text="areAllSelected ? 'Deselect all' : 'Select all'"
-              />
+                :text="areAllSelected ? 'Deselect all' : 'Select all'" />
             </template>
           </span>
           <div
             v-if="!$device.desktop && f7.width < 1024"
             style="text-align: right; color: var(--f7-block-text-color); font-weight: normal"
-            class="float-right"
-          >
+            class="float-right">
             <f7-checkbox :checked="showIgnored ? true : null" @change="toggleIgnored" />
             <label @click="toggleIgnored" style="cursor: pointer">Show ignored</label>
           </div>
           <div
             v-else
             style="text-align: right; color: var(--f7-block-text-color); font-weight: normal"
-            class="float-right"
-          >
+            class="float-right">
             <label @click="toggleIgnored" style="cursor: pointer">Show ignored</label>
             <f7-checkbox :checked="showIgnored ? true : null" @change="toggleIgnored" />
           </div>
@@ -199,8 +178,7 @@
           <f7-segmented strong tag="p">
             <f7-button
               :active="groupBy === 'alphabetical'"
-              @click="switchGroupOrder('alphabetical')"
-            >
+              @click="switchGroupOrder('alphabetical')">
               Alphabetical
             </f7-button>
             <f7-button :active="groupBy === 'binding'" @click="switchGroupOrder('binding')">
@@ -219,8 +197,7 @@
               :class="`skeleton-text skeleton-effect-blink`"
               title="Label of the thing"
               subtitle="This contains the inbox UID"
-              footer="binding:thingUID"
-            />
+              footer="binding:thingUID" />
           </f7-list-group>
         </f7-list>
 
@@ -243,8 +220,7 @@
                 entry.representationProperty ? entry.properties[entry.representationProperty] : ''
               "
               :footer="entry.thingUID"
-              :badge="entry.flag === 'IGNORED' ? 'IGNORED' : ''"
-            >
+              :badge="entry.flag === 'IGNORED' ? 'IGNORED' : ''">
               <!-- <f7-button icon-f7="add_round" color="blue"></f7-button>
               <f7-button icon-f7="eye_off" color="blue"></f7-button>
               <f7-button icon-f7="trash" color="blue"></f7-button> -->
@@ -266,8 +242,7 @@
         v-show="!showCheckboxes"
         position="right-bottom"
         color="blue"
-        href="/settings/things/add"
-      >
+        href="/settings/things/add">
         <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
         <f7-icon ios="f7:close" md="material:close" aurora="f7:close" />
         <!-- <f7-fab-buttons position="top">

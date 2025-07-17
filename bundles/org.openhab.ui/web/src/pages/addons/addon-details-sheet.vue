@@ -5,8 +5,7 @@
     @sheet:closed="$emit('closed')"
     swipe-to-close
     swipe-to-step
-    backdrop
-  >
+    backdrop>
     <div class="sheet-modal-swipe-step">
       <div v-if="!noDetails" class="swipe-handler" @click="toggleSwipeStep" />
       <f7-block-title
@@ -19,22 +18,19 @@
         </div>
         <h3
           v-else-if="showUnpublishedWarning"
-          class="text-color-red display-flex align-items-center"
-        >
+          class="text-color-red display-flex align-items-center">
           <f7-icon f7="xmark_shield" class="margin-right" />
           WARNING! UNPUBLISHED ADD-ON
         </h3>
         <div
           v-else-if="showUnverifiedAuthorWarning"
-          class="text-color-orange display-flex align-items-center"
-        >
+          class="text-color-orange display-flex align-items-center">
           <f7-icon f7="exclamationmark_shield" class="margin-right" />
           Unverified Author
         </div>
         <f7-block-footer
           v-if="showUnpublishedWarning"
-          class="display-flex align-items-center text-color-red"
-        >
+          class="display-flex align-items-center text-color-red">
           This add-on has not been published to the Marketplace. DO NOT install this add-on, unless
           for debugging purposes if you are the author or a marketplace curator!<br /><br />
           Please make sure "Show Unpublished Entries" is not inadvertently turned on in Settings >
@@ -64,8 +60,7 @@
         <div
           v-if="!noDetails"
           class="margin-top margin-bottom text-align-center"
-          style="cursor: pointer"
-        >
+          style="cursor: pointer">
           <f7-icon f7="chevron_down_circle" />&nbsp;Expand for details
         </div>
       </f7-block>

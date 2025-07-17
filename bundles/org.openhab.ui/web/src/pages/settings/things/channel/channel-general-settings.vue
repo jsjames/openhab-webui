@@ -15,16 +15,14 @@
           validate
           pattern="[A-Za-z0-9_][A-Za-z0-9_\-]*"
           error-message="Required. Must not start with a dash. A-Z,a-z,0-9,_,- only"
-          @input="channel.id = $event.target.value"
-        >
+          @input="channel.id = $event.target.value">
           <template #inner>
             <f7-link
               icon-f7="hammer_fill"
               style="margin-top: 4px; margin-left: 4px; margin-bottom: auto"
               tooltip="Fix ID"
               v-if="createMode && $refs.channelId?.state?.inputInvalid && channel.id.trim()"
-              @click="$oh.utils.normalizeInputForThingId('#input')"
-            />
+              @click="$oh.utils.normalizeInputForThingId('#input')" />
           </template>
         </f7-list-input>
         <f7-list-item v-if="!createMode" media-item class="channel-item" title="Channel UID">
@@ -48,8 +46,7 @@
           validate
           :info="createMode ? 'Required.' : ''"
           @input="channel.label = $event.target.value"
-          :clear-button="disabled !== true"
-        />
+          :clear-button="disabled !== true" />
         <f7-list-input
           label="Description"
           type="text"
@@ -57,8 +54,7 @@
           :placeholder="channelType !== null ? channelType.description : ''"
           :value="channel.description"
           @input="channel.description = $event.target.value"
-          :clear-button="disabled !== true"
-        />
+          :clear-button="disabled !== true" />
       </f7-list>
     </f7-col>
   </f7-block>

@@ -17,8 +17,7 @@
         v-if="coordSystem !== 'time'"
         color="blue"
         icon-f7="crop_rotate"
-        @click="orientation = orientation === 'horizontal' ? 'vertical' : 'horizontal'"
-      />
+        @click="orientation = orientation === 'horizontal' ? 'vertical' : 'horizontal'" />
       <span v-else />
     </f7-toolbar>
 
@@ -27,14 +26,12 @@
       class="analyzer-chart"
       :class="{ 'sheet-opened': controlsOpened }"
       :key="chartKey"
-      :context="context"
-    />
+      :context="context" />
     <empty-state-placeholder
       v-else-if="invalidConfiguration"
       icon="exclamationmark"
       :title="$t('analyzer.invalid-configuration.title')"
-      :text="$t('analyzer.invalid-configuration.text')"
-    />
+      :text="$t('analyzer.invalid-configuration.text')" />
 
     <!-- analyzer controls -->
     <f7-sheet
@@ -42,28 +39,24 @@
       :backdrop="false"
       :close-on-escape="true"
       :opened="controlsOpened"
-      @sheet:closed="controlsOpened = false"
-    >
+      @sheet:closed="controlsOpened = false">
       <f7-page>
         <f7-toolbar tabbar :bottom="true">
           <f7-link
             class="padding-left padding-right"
             :tab-link-active="controlsTab === 'series'"
             @click="controlsTab = 'series'"
-            :text="$t('analyzer.series')"
-          />
+            :text="$t('analyzer.series')" />
           <f7-link
             class="padding-left padding-right"
             :tab-link-active="controlsTab === 'coords'"
             @click="controlsTab = 'coords'"
-            :text="$t('analyzer.coords')"
-          />
+            :text="$t('analyzer.coords')" />
           <f7-link
             class="padding-left padding-right"
             :tab-link-active="controlsTab === 'ranges'"
             @click="controlsTab = 'ranges'"
-            :text="$t('analyzer.ranges')"
-          />
+            :text="$t('analyzer.ranges')" />
           <div class="right">
             <f7-link sheet-close class="padding-right">
               <f7-icon f7="chevron_down" />
@@ -85,8 +78,7 @@
                       name="items-to-analyze"
                       :value="itemNames"
                       @input="updateItems"
-                      :multiple="true"
-                    />
+                      :multiple="true" />
                   </f7-list>
                   <!-- <div class="data-table-title">Options</div> -->
                 </div>
@@ -113,8 +105,7 @@
                             <input
                               type="text"
                               v-model.lazy="options.name"
-                              style="min-width: 150px"
-                            />
+                              style="min-width: 150px" />
                           </div>
                         </td>
                         <td class="label-cell">
@@ -130,8 +121,7 @@
                               style="width: 60px"
                               :fill="options.type === 'bar'"
                               @click="options.type = 'bar'"
-                              :text="$t('analyzer.series.table.type.bar')"
-                            />
+                              :text="$t('analyzer.series.table.type.bar')" />
                             <f7-button
                               v-if="
                                 !options.discrete &&
@@ -143,8 +133,7 @@
                               style="width: 60px"
                               :fill="options.type === 'line'"
                               @click="options.type = 'line'"
-                              :text="$t('analyzer.series.table.type.line')"
-                            />
+                              :text="$t('analyzer.series.table.type.line')" />
                             <f7-button
                               v-if="
                                 coordSystem === 'time' ||
@@ -155,8 +144,7 @@
                               style="width: 60px"
                               :fill="options.type === 'area'"
                               @click="options.type = 'area'"
-                              :text="$t('analyzer.series.table.type.area')"
-                            />
+                              :text="$t('analyzer.series.table.type.area')" />
                             <f7-button
                               v-if="
                                 coordSystem === 'calendar' ||
@@ -166,15 +154,13 @@
                               fill
                               outline
                               style="width: 90px"
-                              :text="$t('analyzer.series.table.type.heatmap')"
-                            />
+                              :text="$t('analyzer.series.table.type.heatmap')" />
                           </f7-segmented>
                         </td>
                         <td class="label-cell">
                           <f7-segmented
                             round
-                            v-if="!options.discrete && options.type !== 'heatmap'"
-                          >
+                            v-if="!options.discrete && options.type !== 'heatmap'">
                             <f7-button
                               v-for="(axis, $idx) in valueAxesOptions"
                               :key="$idx"
@@ -182,8 +168,7 @@
                               outline
                               style="width: 60px"
                               :fill="options.valueAxisIndex === $idx"
-                              @click="options.valueAxisIndex = $idx"
-                            >
+                              @click="options.valueAxisIndex = $idx">
                               {{ axis.unit }}
                             </f7-button>
                           </f7-segmented>
@@ -192,8 +177,7 @@
                         <td class="label-cell">
                           <f7-link
                             v-if="!options.discrete && options.type !== 'heatmap'"
-                            @click="chooseMarkers(options)"
-                          >
+                            @click="chooseMarkers(options)">
                             {{ options.markers || 'none' }}
                           </f7-link>
                           <span v-else>{{ $t('analyzer.series.table.na') }}</span>
@@ -207,8 +191,7 @@
                         <td v-if="coordSystem === 'time'" class="label-cell">
                           <f7-checkbox
                             v-if="options.discrete"
-                            @change="evt => $set(options, 'silent', evt.target.checked)"
-                          />
+                            @change="evt => $set(options, 'silent', evt.target.checked)" />
                           <span v-else>{{ $t('analyzer.series.table.na') }}</span>
                         </td>
                       </tr>
@@ -229,37 +212,31 @@
                 <f7-button
                   :active="chartType === ''"
                   @click="changeChartType('')"
-                  :text="$t('analyzer.coords.period.dynamic')"
-                />
+                  :text="$t('analyzer.coords.period.dynamic')" />
                 <f7-button
                   :active="chartType !== ''"
                   @click="changeChartType('day')"
-                  :text="$t('analyzer.coords.period.fixed')"
-                />
+                  :text="$t('analyzer.coords.period.fixed')" />
               </f7-segmented>
               <f7-segmented v-if="chartType !== ''">
                 <f7-button
                   :disabled="coordSystem === 'calendar' ? true : null"
                   :active="chartType === 'day'"
                   @click="changeChartType('day')"
-                  :text="$t('analyzer.coords.period.day')"
-                />
+                  :text="$t('analyzer.coords.period.day')" />
                 <f7-button
                   :disabled="coordSystem === 'calendar' ? true : null"
                   :active="chartType === 'isoWeek'"
                   @click="changeChartType('isoWeek')"
-                  :text="$t('analyzer.coords.period.week')"
-                />
+                  :text="$t('analyzer.coords.period.week')" />
                 <f7-button
                   :active="chartType === 'month'"
                   @click="changeChartType('month')"
-                  :text="$t('analyzer.coords.period.month')"
-                />
+                  :text="$t('analyzer.coords.period.month')" />
                 <f7-button
                   :active="chartType === 'year'"
                   @click="changeChartType('year')"
-                  :text="$t('analyzer.coords.period.year')"
-                />
+                  :text="$t('analyzer.coords.period.year')" />
               </f7-segmented>
             </f7-col>
             <f7-col :width="100" :medium="50" class="margin-bottom">
@@ -268,38 +245,32 @@
                 <f7-button
                   :active="coordSystem === 'time'"
                   @click="changeCoordSystem('time')"
-                  :text="$t('analyzer.coords.coordSystem.time')"
-                />
+                  :text="$t('analyzer.coords.coordSystem.time')" />
                 <f7-button
                   :disabled="chartType === '' ? true : null"
                   :active="coordSystem === 'aggregate'"
                   @click="changeCoordSystem('aggregate')"
-                  :text="$t('analyzer.coords.coordSystem.aggregate')"
-                />
+                  :text="$t('analyzer.coords.coordSystem.aggregate')" />
                 <f7-button
                   :disabled="chartType === '' ? true : null"
                   :active="coordSystem === 'calendar'"
                   @click="changeCoordSystem('calendar')"
-                  :text="$t('analyzer.coords.coordSystem.calendar')"
-                />
+                  :text="$t('analyzer.coords.coordSystem.calendar')" />
               </f7-segmented>
               <f7-segmented v-if="coordSystem === 'aggregate'">
                 <f7-button
                   :active="aggregateDimensions === 1"
                   @click="changeAggregateDimensions(1)"
-                  :text="$t('analyzer.coords.coordSystem.aggregate.1dimension')"
-                />
+                  :text="$t('analyzer.coords.coordSystem.aggregate.1dimension')" />
                 <f7-button
                   :active="aggregateDimensions === 2"
                   @click="changeAggregateDimensions(2)"
-                  :text="$t('analyzer.coords.coordSystem.aggregate.2dimensions')"
-                />
+                  :text="$t('analyzer.coords.coordSystem.aggregate.2dimensions')" />
               </f7-segmented>
             </f7-col>
             <f7-col
               width="100"
-              class="margin-top display-flex justify-content-center margin-bottom"
-            >
+              class="margin-top display-flex justify-content-center margin-bottom">
               <f7-button
                 round
                 raised
@@ -308,8 +279,7 @@
                 v-if="coordSystem !== 'time'"
                 icon-f7="crop_rotate"
                 icon-size="20"
-                @click="orientation = orientation === 'horizontal' ? 'vertical' : 'horizontal'"
-              >
+                @click="orientation = orientation === 'horizontal' ? 'vertical' : 'horizontal'">
                 {{ $t('analyzer.coords.rotate') }}
               </f7-button>
             </f7-col>
@@ -322,8 +292,7 @@
             v-if="
               (coordSystem === 'aggregate' && aggregateDimensions === 2) ||
               coordSystem === 'calendar'
-            "
-          >
+            ">
             <f7-col :width="100" :medium="50">
               <f7-list class="no-margin-vertical">
                 <f7-list-item divider>{{ $t('analyzer.ranges.visualPalette') }}</f7-list-item>
@@ -331,32 +300,28 @@
                   radio
                   name="visualMapPalette"
                   :checked="visualMapPalette === '' ? true : null"
-                  @change="changeVisualMapPalette('')"
-                >
+                  @change="changeVisualMapPalette('')">
                   {{ $t('analyzer.ranges.visualPalette.yellowred') }}
                 </f7-list-item>
                 <f7-list-item
                   radio
                   name="visualMapPalette"
                   :checked="visualMapPalette === 'greenred' ? true : null"
-                  @change="changeVisualMapPalette('greenred')"
-                >
+                  @change="changeVisualMapPalette('greenred')">
                   {{ $t('analyzer.ranges.visualPalette.greenred') }}
                 </f7-list-item>
                 <f7-list-item
                   radio
                   name="visualMapPalette"
                   :checked="visualMapPalette === 'whiteblue' ? true : null"
-                  @change="changeVisualMapPalette('whiteblue')"
-                >
+                  @change="changeVisualMapPalette('whiteblue')">
                   {{ $t('analyzer.ranges.visualPalette.whiteblue') }}
                 </f7-list-item>
                 <f7-list-item
                   radio
                   name="visualMapPalette"
                   :checked="visualMapPalette === 'bluered' ? true : null"
-                  @change="changeVisualMapPalette('bluered')"
-                >
+                  @change="changeVisualMapPalette('bluered')">
                   {{ $t('analyzer.ranges.visualPalette.bluered') }}
                 </f7-list-item>
               </f7-list>
@@ -370,31 +335,27 @@
                   type="number"
                   @input="visualMapMin = $event.target.value"
                   placeholder="Auto"
-                  clear-button
-                />
+                  clear-button />
                 <f7-list-input
                   :label="$t('analyzer.ranges.range.max')"
                   :value="visualMapMax"
                   type="number"
                   @input="visualMapMax = $event.target.value"
                   placeholder="Auto"
-                  clear-button
-                />
+                  clear-button />
                 <f7-list-item divider>{{ $t('analyzer.ranges.range.type') }}</f7-list-item>
                 <f7-list-item
                   radio
                   name="visualMapType"
                   :checked="visualMapType === 'continuous' ? true : null"
-                  @change="changeVisualMapType('continuous')"
-                >
+                  @change="changeVisualMapType('continuous')">
                   {{ $t('analyzer.ranges.range.type.continuous') }}
                 </f7-list-item>
                 <f7-list-item
                   radio
                   name="visualMapType"
                   :checked="visualMapType === 'piecewise' ? true : null"
-                  @change="changeVisualMapType('piecewise')"
-                >
+                  @change="changeVisualMapType('piecewise')">
                   {{ $t('analyzer.ranges.range.type.piecewise') }}
                 </f7-list-item>
               </f7-list>
@@ -438,8 +399,7 @@
                               type="number"
                               v-model.lazy="axis.min"
                               style="min-width: 100px"
-                              :placeholder="$t('analyzer.ranges.valueAxes.placeholder.auto')"
-                            />
+                              :placeholder="$t('analyzer.ranges.valueAxes.placeholder.auto')" />
                           </div>
                         </td>
                         <td class="label-cell">
@@ -448,15 +408,13 @@
                               type="number"
                               v-model.lazy="axis.max"
                               style="min-width: 100px"
-                              :placeholder="$t('analyzer.ranges.valueAxes.placeholder.auto')"
-                            />
+                              :placeholder="$t('analyzer.ranges.valueAxes.placeholder.auto')" />
                           </div>
                         </td>
                         <td class="label-cell">
                           <f7-checkbox
                             :checked="axis.scale ? true : null"
-                            @change="evt => $set(axis, 'scale', evt.target.checked)"
-                          />
+                            @change="evt => $set(axis, 'scale', evt.target.checked)" />
                         </td>
                         <td class="label-cell">
                           <f7-link @click="chooseAxisSplit(axis)">

@@ -3,26 +3,22 @@
     <f7-row class="margin-bottom">
       <f7-col
         class="elevation-2 elevation-hover-6 elevation-pressed-1 triggertype-big-button"
-        width="50"
-      >
+        width="50">
         <f7-link
           class="display-flex flex-direction-column no-ripple"
           no-ripple
-          @click="chooseItemCategory"
-        >
+          @click="chooseItemCategory">
           <f7-icon size="35" f7="square_on_circle" class="margin" />
           Item<br />Event
         </f7-link>
       </f7-col>
       <f7-col
         class="elevation-2 elevation-hover-6 elevation-pressed-1 triggertype-big-button"
-        width="50"
-      >
+        width="50">
         <f7-link
           class="display-flex flex-direction-column no-ripple"
           no-ripple
-          @click="chooseThingCategory"
-        >
+          @click="chooseThingCategory">
           <f7-icon size="35" f7="lightbulb" class="margin" />
           Thing<br />Event
         </f7-link>
@@ -31,26 +27,22 @@
     <f7-row class="margin-bottom">
       <f7-col
         class="elevation-2 elevation-hover-6 elevation-pressed-1 triggertype-big-button"
-        width="50"
-      >
+        width="50">
         <f7-link
           class="display-flex flex-direction-column no-ripple"
           no-ripple
-          @click="chooseTimeCategory"
-        >
+          @click="chooseTimeCategory">
           <f7-icon size="35" f7="clock" class="margin" />
           Time<br />Event
         </f7-link>
       </f7-col>
       <f7-col
         class="elevation-2 elevation-hover-6 elevation-pressed-1 triggertype-big-button"
-        width="50"
-      >
+        width="50">
         <f7-link
           class="display-flex flex-direction-column no-ripple"
           no-ripple
-          @click="chooseSystemCategory"
-        >
+          @click="chooseSystemCategory">
           <f7-icon size="35" f7="gear" class="margin" />
           System<br />Event
         </f7-link>
@@ -72,8 +64,7 @@
             currentItem = value;
             updateItemEventType('command');
           }
-        "
-      />
+        " />
     </f7-list>
     <f7-list>
       <f7-list-item
@@ -81,46 +72,40 @@
         :checked="itemEventType === 'command' ? true : null"
         name="itemEventType"
         title="received a command"
-        @click="updateItemEventType('command')"
-      />
+        @click="updateItemEventType('command')" />
       <f7-list-item
         radio
         :checked="itemEventType === 'updated' ? true : null"
         name="itemEventType"
         title="was updated"
-        @click="updateItemEventType('updated')"
-      />
+        @click="updateItemEventType('updated')" />
       <f7-list-item
         radio
         :checked="itemEventType === 'changed'"
         name="itemEventType"
         title="changed"
-        @click="updateItemEventType('changed')"
-      />
+        @click="updateItemEventType('changed')" />
       <f7-list-item
         radio
         v-if="currentItem && currentItem.type === 'Group'"
         :checked="itemEventType === 'memberCommand' ? true : null"
         name="itemEventType"
         title="had a member receive a command"
-        @click="updateItemEventType('memberCommand')"
-      />
+        @click="updateItemEventType('memberCommand')" />
       <f7-list-item
         radio
         v-if="currentItem && currentItem.type === 'Group'"
         :checked="itemEventType === 'memberUpdated' ? true : null"
         name="itemEventType"
         title="had a member update"
-        @click="updateItemEventType('memberUpdated')"
-      />
+        @click="updateItemEventType('memberUpdated')" />
       <f7-list-item
         radio
         v-if="currentItem && currentItem.type === 'Group'"
         :checked="itemEventType === 'memberChanged' ? true : null"
         name="itemEventType"
         title="had a member change"
-        @click="updateItemEventType('memberChanged')"
-      />
+        @click="updateItemEventType('memberChanged')" />
     </f7-list>
     <f7-list :key="itemEventType">
       <f7-list-input
@@ -130,8 +115,7 @@
         type="text"
         placeholder="Any"
         :value="currentModule.configuration.command"
-        @blur="evt => $set(currentModule.configuration, 'command', evt.target.value)"
-      />
+        @blur="evt => $set(currentModule.configuration, 'command', evt.target.value)" />
       <f7-list-input
         v-if="itemEventType === 'updated' || itemEventType === 'memberUpdated'"
         label="to state"
@@ -139,8 +123,7 @@
         type="text"
         placeholder="Any"
         :value="currentModule.configuration.state"
-        @blur="evt => $set(currentModule.configuration, 'state', evt.target.value)"
-      />
+        @blur="evt => $set(currentModule.configuration, 'state', evt.target.value)" />
       <f7-list-input
         v-if="itemEventType === 'changed' || itemEventType === 'memberChanged'"
         label="from state"
@@ -148,8 +131,7 @@
         type="text"
         placeholder="Any"
         :value="currentModule.configuration.previousState"
-        @blur="evt => $set(currentModule.configuration, 'previousState', evt.target.value)"
-      />
+        @blur="evt => $set(currentModule.configuration, 'previousState', evt.target.value)" />
       <f7-list-input
         v-if="itemEventType === 'changed' || itemEventType === 'memberChanged'"
         label="to state"
@@ -157,23 +139,20 @@
         type="text"
         placeholder="Any"
         :value="currentModule.configuration.state"
-        @blur="evt => $set(currentModule.configuration, 'state', evt.target.value)"
-      />
+        @blur="evt => $set(currentModule.configuration, 'state', evt.target.value)" />
     </f7-list>
     <f7-list
       v-if="
         (itemEventType === 'command' || itemEventType === 'memberCommand') &&
         commandSuggestions.length
-      "
-    >
+      ">
       <f7-list-item
         radio
         :checked="currentModule.configuration.command === suggestion.command ? true : null"
         v-for="suggestion in commandSuggestions"
         :key="suggestion.command"
         :title="suggestion.label"
-        @click="$set(currentModule.configuration, 'command', suggestion.command)"
-      />
+        @click="$set(currentModule.configuration, 'command', suggestion.command)" />
     </f7-list>
     <f7-list v-else-if="stateSuggestions.length">
       <f7-list-item
@@ -182,8 +161,7 @@
         v-for="suggestion in stateSuggestions"
         :key="suggestion.value"
         :title="suggestion.label"
-        @click="$set(currentModule.configuration, 'state', suggestion.value)"
-      />
+        @click="$set(currentModule.configuration, 'state', suggestion.value)" />
     </f7-list>
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'thing'">
@@ -193,8 +171,7 @@
         :value="currentModule.configuration.thingUID"
         title="Thing"
         @input="val => $set(currentModule.configuration, 'thingUID', val)"
-        :open-on-ready="true"
-      />
+        :open-on-ready="true" />
     </f7-list>
     <f7-list />
     <f7-list>
@@ -203,37 +180,32 @@
         :checked="thingEventType === 'triggerChannelFired' ? true : null"
         name="thingEventType"
         title="a trigger channel fired"
-        @click="updateThingEventType('triggerChannelFired')"
-      />
+        @click="updateThingEventType('triggerChannelFired')" />
       <f7-list-item
         radio
         v-if="currentModule.configuration.thingUID"
         :checked="thingEventType === 'statusUpdated' ? true : null"
         name="thingEventType"
         title="status was updated"
-        @click="updateThingEventType('statusUpdated')"
-      />
+        @click="updateThingEventType('statusUpdated')" />
       <f7-list-item
         radio
         v-if="currentModule.configuration.thingUID"
         :checked="thingEventType === 'statusChanged' ? true : null"
         name="thingEventType"
         title="status changed"
-        @click="updateThingEventType('statusChanged')"
-      />
+        @click="updateThingEventType('statusChanged')" />
     </f7-list>
     <f7-list :key="thingEventType">
       <f7-list-item
         v-if="thingEventType === 'statusUpdated'"
         title="to"
         smart-select
-        :smart-select-params="{ view: f7.view.main, openIn: 'popover' }"
-      >
+        :smart-select-params="{ view: f7.view.main, openIn: 'popover' }">
         <select
           name="thingStatus"
           required
-          @change="evt => $set(currentModule.configuration, 'status', evt.target.value)"
-        >
+          @change="evt => $set(currentModule.configuration, 'status', evt.target.value)">
           <option
             v-for="status in [
               { value: '', label: '' },
@@ -241,8 +213,7 @@
             ]"
             :value="status.value"
             :key="status.value"
-            :selected="currentModule.configuration.status === status.value ? true : null"
-          >
+            :selected="currentModule.configuration.status === status.value ? true : null">
             {{ status.label }}
           </option>
         </select>
@@ -251,13 +222,11 @@
         v-if="thingEventType === 'statusChanged'"
         title="from"
         smart-select
-        :smart-select-params="{ view: f7.view.main, openIn: 'popover' }"
-      >
+        :smart-select-params="{ view: f7.view.main, openIn: 'popover' }">
         <select
           name="thingStatus"
           required
-          @change="evt => $set(currentModule.configuration, 'previousStatus', evt.target.value)"
-        >
+          @change="evt => $set(currentModule.configuration, 'previousStatus', evt.target.value)">
           <option
             v-for="status in [
               { value: '', label: '' },
@@ -266,8 +235,7 @@
             ]"
             :value="status.value"
             :key="status.value"
-            :selected="currentModule.configuration.previousStatus === status.value ? true : null"
-          >
+            :selected="currentModule.configuration.previousStatus === status.value ? true : null">
             {{ status.label }}
           </option>
         </select>
@@ -276,13 +244,11 @@
         v-if="thingEventType === 'statusChanged'"
         title="to"
         smart-select
-        :smart-select-params="{ view: f7.view.main, openIn: 'popover' }"
-      >
+        :smart-select-params="{ view: f7.view.main, openIn: 'popover' }">
         <select
           name="thingStatus"
           required
-          @change="evt => $set(currentModule.configuration, 'status', evt.target.value)"
-        >
+          @change="evt => $set(currentModule.configuration, 'status', evt.target.value)">
           <option
             v-for="status in [
               { value: '', label: '' },
@@ -290,8 +256,7 @@
             ]"
             :value="status.value"
             :key="status.value"
-            :selected="currentModule.configuration.status === status.value ? true : null"
-          >
+            :selected="currentModule.configuration.status === status.value ? true : null">
             {{ status.label }}
           </option>
         </select>
@@ -303,8 +268,7 @@
         :value="currentModule.configuration.channelUID"
         title="Channel"
         @input="val => $set(currentModule.configuration, 'channelUID', val)"
-        :filter-thing="currentModule.configuration.thingUID"
-      />
+        :filter-thing="currentModule.configuration.thingUID" />
     </f7-list>
     <f7-list>
       <f7-list-input
@@ -314,8 +278,7 @@
         type="text"
         placeholder="Any"
         :value="currentModule.configuration.event"
-        @blur="evt => $set(currentModule.configuration, 'event', evt.target.value)"
-      />
+        @blur="evt => $set(currentModule.configuration, 'event', evt.target.value)" />
     </f7-list>
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'time'">
@@ -325,22 +288,19 @@
         :checked="timeEventType === 'cron' ? true : null"
         name="timeEventType"
         title="on a schedule (cron)"
-        @click="updateTimeEventType('cron')"
-      />
+        @click="updateTimeEventType('cron')" />
       <f7-list-item
         radio
         :checked="timeEventType === 'timeOfDay' ? true : null"
         name="timeEventType"
         title="at a fixed time of the day"
-        @click="updateTimeEventType('timeOfDay')"
-      />
+        @click="updateTimeEventType('timeOfDay')" />
       <f7-list-item
         radio
         :checked="timeEventType === 'dateTime' ? true : null"
         name="timeEventType"
         title="at the time specified in an item's state"
-        @click="updateTimeEventType('dateTime')"
-      />
+        @click="updateTimeEventType('dateTime')" />
     </f7-list>
     <config-sheet
       v-if="currentModuleType"
@@ -348,8 +308,7 @@
       :parameterGroups="[]"
       :parameters="currentModuleType.configDescriptions"
       :configuration="currentModule.configuration"
-      @updated="dirty = true"
-    />
+      @updated="dirty = true" />
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'system'">
     <f7-list>
@@ -358,8 +317,7 @@
         :checked="systemEventType === 'start' ? true : null"
         name="systemEventType"
         title="the system is being initialized"
-        @click="updateSystemEventType('start')"
-      />
+        @click="updateSystemEventType('start')" />
     </f7-list>
     <f7-block-footer class="padding-horizontal margin-vertical">
       and this start level has been reached:
@@ -370,8 +328,7 @@
       :parameterGroups="[]"
       :parameters="currentModuleType.configDescriptions"
       :configuration="currentModule.configuration"
-      @updated="dirty = true"
-    />
+      @updated="dirty = true" />
   </f7-block>
 </template>
 

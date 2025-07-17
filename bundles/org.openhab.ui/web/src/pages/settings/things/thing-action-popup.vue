@@ -7,8 +7,7 @@
             icon-ios="f7:arrow_left"
             icon-md="material:arrow_back"
             icon-aurora="f7:arrow_left"
-            popup-close
-          />
+            popup-close />
         </f7-nav-left>
         <f7-nav-title>
           {{ action.label }}
@@ -30,8 +29,7 @@
             :parameter-groups="[]"
             :parameters="inputConfigDescriptions"
             :configuration="actionInput"
-            :read-only="executing"
-          />
+            :read-only="executing" />
           <div class="margin" v-else>There is no input to be configured for this action.</div>
         </f7-col>
         <!-- Executing Spinner -->
@@ -63,8 +61,7 @@
                   :key="key + '-list-item'"
                   :floating-label="theme.md"
                   :title="action.outputs.find(o => o.name === key)?.label || 'Result'"
-                  :footer="action.outputs.find(o => o.name === key)?.description"
-                >
+                  :footer="action.outputs.find(o => o.name === key)?.description">
                   <template #after>
                     <div>
                       {{ actionOutput[key] }}
@@ -80,8 +77,7 @@
                   :key="key + '-qr-code-item'"
                   :floating-label="theme.md"
                   :title="action.outputs.find(o => o.name === key)?.label || 'QR Code'"
-                  :footer="action.outputs.find(o => o.name === key)?.description"
-                >
+                  :footer="action.outputs.find(o => o.name === key)?.description">
                   <template #after>
                     <vue-qrcode :value="actionOutput[key]" />
                   </template>
@@ -92,8 +88,7 @@
                   :key="key + '-other-item'"
                   :floating-label="theme.md"
                   :title="action.outputs.find(o => o.name === key)?.label || key"
-                  :footer="action.outputs.find(o => o.name === key)?.description"
-                >
+                  :footer="action.outputs.find(o => o.name === key)?.description">
                   <template #after>
                     <div>
                       {{ actionOutput[key] }}

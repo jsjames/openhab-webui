@@ -6,8 +6,7 @@
         <f7-link
           icon-md="material:done_all"
           @click="toggleCheck()"
-          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''"
-        />
+          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''" />
       </f7-nav-right>
       <f7-subnavbar :inner="false" v-show="initSearchbar">
         <!-- Only render searchbar, if page is ready. Otherwise searchbar is broken after changes to the Items list. -->
@@ -18,8 +17,7 @@
           search-container=".virtual-list"
           @searchbar:search="filterSelectedItems"
           :placeholder="searchPlaceholder"
-          :disable-button="!theme.aurora"
-        />
+          :disable-button="!theme.aurora" />
       </f7-subnavbar>
     </f7-navbar>
     <f7-toolbar
@@ -27,21 +25,18 @@
       :class="{ navbar: theme.md }"
       v-if="showCheckboxes"
       bottom-ios
-      bottom-aurora
-    >
+      bottom-aurora>
       <div
         class="display-flex justify-content-center"
         v-if="!theme.md && selectedItems.length > 0"
-        style="width: 100%"
-      >
+        style="width: 100%">
         <f7-link
           color="red"
           v-show="selectedItems.length"
           class="delete display-flex flex-direction-row margin-right"
           icon-ios="f7:trash"
           icon-aurora="f7:trash"
-          @click="removeSelected"
-        >
+          @click="removeSelected">
           Remove
         </f7-link>
         <f7-link
@@ -50,8 +45,7 @@
           class="copy display-flex flex-direction-row"
           icon-ios="f7:square_on_square"
           icon-aurora="f7:square_on_square"
-          @click="copySelected"
-        >
+          @click="copySelected">
           &nbsp;Copy
         </f7-link>
       </div>
@@ -59,8 +53,7 @@
         v-if="theme.md"
         icon-md="material:close"
         icon-color="white"
-        @click="showCheckboxes = false"
-      />
+        @click="showCheckboxes = false" />
       <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
       <div class="right" v-if="theme.md && selectedItems.length">
         <f7-link icon-md="material:delete" icon-color="white" @click="removeSelected" />
@@ -73,8 +66,7 @@
         <div>
           <f7-block-footer
             class="no-margin-top margin-bottom"
-            style="padding-left: 16px; padding-right: 16px"
-          >
+            style="padding-left: 16px; padding-right: 16px">
             Note: Item states are not updated in real-time. Click the refresh button to update.
           </f7-block-footer>
         </div>
@@ -93,8 +85,7 @@
               title="Label of the item"
               subtitle="type, semantic metadata"
               after="The item state"
-              footer="This contains the type of the item"
-            >
+              footer="This contains the type of the item">
               <template #media>
                 <f7-skeleton-block style="width: 32px; height: 32px; border-radius: 50%" />
               </template>
@@ -110,8 +101,7 @@
             -
             <f7-link
               @click="selectDeselectAll"
-              :text="allSelected ? 'Deselect all' : 'Select all'"
-            />
+              :text="allSelected ? 'Deselect all' : 'Select all'" />
           </template>
         </f7-block-title>
         <f7-list class="searchbar-not-found">
@@ -123,8 +113,7 @@
           ref="itemsList"
           media-list
           virtual-list
-          :virtual-list-params="vlParams"
-        >
+          :virtual-list-params="vlParams">
           <ul>
             <f7-list-item
               v-for="(item, index) in vlData.items"
@@ -141,8 +130,7 @@
               :footer="item.label ? item.name : '\xa0'"
               :subtitle="getItemTypeAndMetaLabel(item)"
               :style="`top: ${vlData.topPosition}px`"
-              :after="item.state ? item.state : '\xa0'"
-            >
+              :after="item.state ? item.state : '\xa0'">
               <!-- Note: Using dynamic states is not possible since state tracking has a heavy performance impact -->
               <template #media>
                 <oh-icon
@@ -150,8 +138,7 @@
                   :icon="item.category"
                   :state="item.type === 'Image' ? null : item.state"
                   height="32"
-                  width="32"
-                />
+                  width="32" />
                 <span v-else class="item-initial">{{ item.name[0] }}</span>
               </template>
               <template #after-title>
@@ -165,8 +152,7 @@
                     :key="tag"
                     :text="tag"
                     media-bg-color="blue"
-                    style="margin-right: 6px"
-                  >
+                    style="margin-right: 6px">
                     <template #media>
                       <f7-icon ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
                     </template>
@@ -189,8 +175,7 @@
           external
           :href="`${$store.state.websiteUrl}/link/items`"
           target="_blank"
-          :text="$t('home.overview.button.documentation')"
-        />
+          :text="$t('home.overview.button.documentation')" />
       </f7-row>
     </f7-block>
 
@@ -200,8 +185,7 @@
         position="center-bottom"
         text="Refresh"
         color="blue"
-        @click="load()"
-      >
+        @click="load()">
         <f7-icon ios="f7:arrow_clockwise" md="material:refresh" aurora="f7:arrow_clockwise" />
       </f7-fab>
       <f7-fab v-show="!showCheckboxes" position="right-bottom" color="blue" href="add">

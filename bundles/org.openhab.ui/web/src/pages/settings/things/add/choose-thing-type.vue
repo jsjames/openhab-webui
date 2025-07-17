@@ -2,8 +2,7 @@
   <f7-page
     class="choose-thing-type"
     @page:afterin="onPageAfterIn"
-    @page:beforeout="onPageBeforeOut"
-  >
+    @page:beforeout="onPageBeforeOut">
     <f7-navbar :title="`Add a new Thing: ${bindingId}`" back-link="Back">
       <f7-subnavbar :inner="false" v-show="initSearchbar">
         <f7-searchbar
@@ -14,8 +13,7 @@
           search-container=".thing-type-list"
           search-item=".media-item"
           search-in=".item-title, .item-header, .item-footer"
-          :disable-button="!theme.aurora"
-        />
+          :disable-button="!theme.aurora" />
       </f7-subnavbar>
     </f7-navbar>
     <f7-block class="block-narrow">
@@ -29,8 +27,7 @@
               large
               raised
               fill
-              @click="scan"
-            >
+              @click="scan">
               {{ scanning ? 'Stop Scanning' : 'Scan' }}
             </f7-button>
           </div>
@@ -38,16 +35,14 @@
         <p
           class="margin-left margin-right no-margin-bottom"
           style="height: 30px"
-          id="scan-progress"
-        />
+          id="scan-progress" />
         <f7-block-title v-if="inputSupported"> Scan Input </f7-block-title>
         <config-sheet
           v-if="inputSupported"
           class="scan-input"
           :parameter-groups="[]"
           :parameters="inputParameters"
-          :configuration="inputConfig"
-        />
+          :configuration="inputConfig" />
         <f7-block-title v-if="discoverySupported && scanResults.length">
           Discovered Things
         </f7-block-title>
@@ -62,14 +57,12 @@
             :subtitle="
               entry.representationProperty ? entry.properties[entry.representationProperty] : ''
             "
-            :footer="entry.thingUID"
-          />
+            :footer="entry.thingUID" />
           <f7-list-button
             v-show="scanResults.length > 1"
             title="Add All"
             @click="approveAll"
-            color="blue"
-          />
+            color="blue" />
         </f7-list>
 
         <f7-block-title>Add Manually</f7-block-title>
@@ -82,8 +75,7 @@
               title="Label of the thing type"
               footer="This contains the description of the thing type"
               header="thingTypeUID"
-              media-item
-            />
+              media-item />
           </ul>
           <ul v-else>
             <f7-list-item
@@ -95,8 +87,7 @@
               :header="thingType.UID"
               :badge="thingType.bridge ? 'Bridge' : ''"
               badge-color="blue"
-              media-item
-            />
+              media-item />
           </ul>
         </f7-list>
       </f7-col>

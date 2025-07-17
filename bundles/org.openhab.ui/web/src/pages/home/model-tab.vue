@@ -17,24 +17,21 @@
             :element="element"
             :context="cardContext(element)"
             :parent-location="parentLocationName(element.item)"
-            :tab-context="tabContext(type)"
-          />
+            :tab-context="tabContext(type)" />
           <equipment-card
             v-if="type === 'equipment' && !element.separator"
             :key="element.key"
             type="equipment"
             :element="element"
             :context="cardContext(element)"
-            :tab-context="tabContext(type)"
-          />
+            :tab-context="tabContext(type)" />
           <property-card
             v-if="type === 'properties' && !element.separator"
             :key="element.key"
             type="property"
             :element="element"
             :context="cardContext(element)"
-            :tab-context="tabContext(type)"
-          />
+            :tab-context="tabContext(type)" />
         </div>
       </div>
     </div>

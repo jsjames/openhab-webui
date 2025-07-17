@@ -4,15 +4,13 @@
       title="Transformations"
       back-link="Settings"
       back-link-url="/settings/"
-      back-link-force
-    >
+      back-link-force>
       <f7-nav-right>
         <developer-dock-icon />
         <f7-link
           icon-md="material:done_all"
           @click="toggleCheck()"
-          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''"
-        />
+          :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''" />
       </f7-nav-right>
       <f7-subnavbar :inner="false" v-show="initSearchbar">
         <f7-searchbar
@@ -23,8 +21,7 @@
           search-container=".transformations-list"
           search-item=".transformationlist-item"
           search-in=".item-title, .item-subtitle, .item-footer"
-          :disable-button="!theme.aurora"
-        />
+          :disable-button="!theme.aurora" />
       </f7-subnavbar>
     </f7-navbar>
     <f7-toolbar
@@ -32,8 +29,7 @@
       :class="{ navbar: theme.md }"
       v-if="showCheckboxes"
       bottom-ios
-      bottom-aurora
-    >
+      bottom-aurora>
       <f7-link
         color="red"
         v-show="selectedTransformations.length"
@@ -41,24 +37,21 @@
         class="delete"
         icon-ios="f7:trash"
         icon-aurora="f7:trash"
-        @click="removeSelected"
-      >
+        @click="removeSelected">
         Remove {{ selectedTransformations.length }}
       </f7-link>
       <f7-link
         v-if="theme.md"
         icon-md="material:close"
         icon-color="white"
-        @click="showCheckboxes = false"
-      />
+        @click="showCheckboxes = false" />
       <div class="title" v-if="theme.md">{{ selectedTransformations.length }} selected</div>
       <div class="right" v-if="theme.md">
         <f7-link
           v-show="selectedTransformations.length"
           icon-md="material:delete"
           icon-color="white"
-          @click="removeSelected"
-        />
+          @click="removeSelected" />
       </div>
     </f7-toolbar>
 
@@ -68,8 +61,7 @@
       v-show="groupBy === 'alphabetical' && !$device.desktop"
       listEl=".transformations-list"
       :scroll-list="true"
-      :label="true"
-    />
+      :label="true" />
 
     <f7-block class="block-narrow">
       <!-- skeleton for not ready -->
@@ -84,8 +76,7 @@
               :class="`skeleton-text skeleton-effect-blink`"
               title="Label of the transformation"
               subtitle="Transformation type"
-              footer="Transformation UID"
-            />
+              footer="Transformation UID" />
           </f7-list-group>
         </f7-list>
       </f7-col>
@@ -98,8 +89,7 @@
           <f7-segmented strong tag="p">
             <f7-button
               :active="groupBy === 'alphabetical'"
-              @click="switchGroupOrder('alphabetical')"
-            >
+              @click="switchGroupOrder('alphabetical')">
               Alphabetical
             </f7-button>
             <f7-button :active="groupBy === 'type'" @click="switchGroupOrder('type')">
@@ -114,12 +104,10 @@
         <f7-list
           class="searchbar-found col transformations-list"
           ref="transformationsList"
-          :contacts-list="groupBy === 'alphabetical'"
-        >
+          :contacts-list="groupBy === 'alphabetical'">
           <f7-list-group
             v-for="(transformationsWithInitial, initial) in indexedTransformations"
-            :key="initial"
-          >
+            :key="initial">
             <f7-list-item v-if="transformationsWithInitial.length" :title="initial" group-title />
             <f7-list-item
               v-for="transformation in transformationsWithInitial"
@@ -133,8 +121,7 @@
               @click.exact="e => click(e, transformation)"
               link=""
               :title="transformation.label"
-              :subtitle="transformation.type"
-            >
+              :subtitle="transformation.type">
               <template #after-title>
                 <f7-icon v-if="!transformation.editable" f7="lock_fill" size="1rem" color="gray" />
               </template>
@@ -152,8 +139,7 @@
       <empty-state-placeholder
         icon="arrow_2_squarepath"
         title="transformations.title"
-        text="transformations.text"
-      />
+        text="transformations.text" />
       <f7-row v-if="f7.width < 1280" class="display-flex justify-content-center">
         <f7-button
           large
@@ -162,8 +148,7 @@
           external
           :href="`${this.$store.state.websiteUrl}/link/transformations`"
           target="_blank"
-          :text="$t('home.overview.button.documentation')"
-        />
+          :text="$t('home.overview.button.documentation')" />
       </f7-row>
     </f7-block>
 

@@ -4,8 +4,7 @@
       title="Health Checks"
       back-link="Settings"
       back-link-url="/settings/"
-      back-link-force
-    >
+      back-link-force>
       <f7-nav-right>
         <developer-dock-icon />
       </f7-nav-right>
@@ -31,8 +30,7 @@
             :badge="orphanLinksCount > 0 ? orphanLinksCount : undefined"
             :after="orphanLinksCount > 0 ? undefined : orphanLinksCount"
             :badge-color="orphanLinksCount ? 'red' : 'blue'"
-            :footer="objectsSubtitles.orphanLinks"
-          >
+            :footer="objectsSubtitles.orphanLinks">
             <template #media>
               <f7-icon f7="link" color="gray" />
             </template>
@@ -44,8 +42,7 @@
             :badge="semanticsProblemCount > 0 ? semanticsProblemCount : undefined"
             :after="semanticsProblemCount > 0 ? undefined : semanticsProblemCount"
             :badge-color="semanticsProblemCount ? 'red' : 'blue'"
-            :footer="objectsSubtitles.semanticsProblems"
-          >
+            :footer="objectsSubtitles.semanticsProblems">
             <template #media>
               <f7-icon f7="list_bullet_indent" color="gray" />
             </template>

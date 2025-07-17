@@ -5,8 +5,7 @@
     @input="updateValue"
     :filter-uid="configDescription.options.map(o => o.value)"
     :multiple="configDescription.multiple"
-    :required="configDescription.required"
-  />
+    :required="configDescription.required" />
 </template>
 
 <script>

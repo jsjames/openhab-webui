@@ -16,8 +16,7 @@
                   )
                 "
                 href="#"
-                text="Configure Grid Layout"
-              />
+                text="Configure Grid Layout" />
             </f7-menu-dropdown>
           </f7-menu-item>
         </f7-menu>
@@ -43,8 +42,7 @@
                   context.parent,
                   'oh-grid-layout'
                 )
-              "
-            >
+              ">
               <f7-icon size="20" f7="square_pencil" />
             </f7-fab-button>
             <f7-fab-button label="Add Widget" fab-close @click="addItem">
@@ -74,8 +72,7 @@
         height: style.height + 'px',
         textAlign: 'center',
       }"
-      :use-css-transforms="false"
-    >
+      :use-css-transforms="false">
       <div v-if="context.editmode" style="opacity: 0.3; padding: 4px; user-select: none">
         {{ getCurrentScreenResolution() }}
         <span v-if="isRetina()"
@@ -92,8 +89,7 @@
         :h="item.h"
         :i="item.i"
         :key="item.i"
-        :context="childContext(context.component.slots.grid[item.i])"
-      />
+        :context="childContext(context.component.slots.grid[item.i])" />
     </grid-layout>
   </div>
 </template>

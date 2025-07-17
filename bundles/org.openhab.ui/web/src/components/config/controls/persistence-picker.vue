@@ -5,16 +5,14 @@
       smart-select
       :smart-select-params="smartSelectParams"
       ref="smartSelect"
-      v-if="ready"
-    >
+      v-if="ready">
       <select :name="name" @change="select" :required="required">
         <option value="" />
         <option
           v-for="service in services"
           :value="service.id"
           :key="service.id"
-          :selected="value === service.id ? true : null"
-        >
+          :selected="value === service.id ? true : null">
           {{ service.label ? service.label + ' (' + service.id + ')' : service.id }}
         </option>
       </select>

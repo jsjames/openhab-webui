@@ -11,8 +11,7 @@
           search-container=".channel-group"
           search-in=".channel-item .item-title, .channel-item .item-subtitle, .channel-item .item-footer"
           search-group=".channel-group .row"
-          :clear-button="true"
-        />
+          :clear-button="true" />
       </f7-col>
     </f7-block>
     <div style="text-align: right" class="padding-right" v-if="hasAdvanced">
@@ -20,8 +19,7 @@
       <f7-checkbox
         name="channel-advanced"
         :checked="showAdvanced ? true : null"
-        @change="toggleAdvanced"
-      />
+        @change="toggleAdvanced" />
     </div>
     <f7-col v-if="thing.channels.length > 0">
       <f7-block width="100" class="channel-group no-margin no-padding" ref="channelList">
@@ -33,22 +31,19 @@
                 @click="toggleLinkFilter(undefined)"
                 small
                 :active="showLinked === undefined"
-                text="All"
-              />
+                text="All" />
               <f7-button
                 class="searchbar-ignore"
                 @click="toggleLinkFilter(true)"
                 small
                 :active="showLinked === true"
-                text="Linked"
-              />
+                text="Linked" />
               <f7-button
                 class="searchbar-ignore"
                 @click="toggleLinkFilter(false)"
                 small
                 :active="showLinked === false"
-                text="Unlinked"
-              />
+                text="Unlinked" />
             </f7-segmented>
           </f7-col>
         </f7-row>
@@ -67,12 +62,10 @@
               :item-type-filter="itemTypeFilter"
               :selection="multipleLinksMode ? selectedChannels : selectedChannel"
               @selected="selectChannel"
-              @channel-opened="channelOpened"
-            >
+              @channel-opened="channelOpened">
               <template
                 #default="{ channelId, channelType, channel, extensible }"
-                v-if="!pickerMode && !multipleLinksMode"
-              >
+                v-if="!pickerMode && !multipleLinksMode">
                 <channel-link
                   :opened="openedChannelId === channelId"
                   :thing="thing"
@@ -81,8 +74,7 @@
                   :channel="channel"
                   :extensible="extensible"
                   :context="context"
-                  @channel-updated="e => $emit('channels-updated', e)"
-                />
+                  @channel-updated="e => $emit('channels-updated', e)" />
               </template>
               <template #default="{ channelType, channel }" v-else-if="multipleLinksMode">
                 <item-picker
@@ -97,22 +89,19 @@
                   :noModelPicker="true"
                   :setValueText="false"
                   :value="selectedItem(channel)?.name"
-                  @input="selectExistingItem($event, channel, channelType)"
-                />
+                  @input="selectExistingItem($event, channel, channelType)" />
                 <item-form
                   v-if="selectedItem(channel)"
                   :item="selectedItem(channel)"
                   :items="items"
-                  :createMode="false"
-                />
+                  :createMode="false" />
                 <item-form
                   v-else-if="isChecked(channel)"
                   :item="newItem(channel)"
                   :items="items"
                   :createMode="true"
                   :unitHint="getUnitHint(channel, channelType)"
-                  :stateDescription="stateDescription(channelType)"
-                />
+                  :stateDescription="stateDescription(channelType)" />
               </template>
               <!-- <channel-link #default="{ channelId }" /> -->
             </channel-group>
@@ -122,8 +111,7 @@
           <f7-list-button
             style="padding-left: 0; text-align: left"
             color="blue"
-            @click="toggleAllChecks(true)"
-          >
+            @click="toggleAllChecks(true)">
             Select All
           </f7-list-button>
           <f7-list-button color="blue" @click="toggleAllChecks(false)">

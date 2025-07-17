@@ -12,24 +12,21 @@
           search-item=".treeview-item"
           search-in=".treeview-item-label"
           :disable-button="!$theme.aurora"
-          @input="showFiltered($event.target.value)"
-        />
+          @input="showFiltered($event.target.value)" />
         <div class="expand-button">
           <f7-button
             v-if="!expanded"
             icon-size="24"
             tooltip="Expand"
             icon-f7="rectangle_expand_vertical"
-            @click="toggleExpanded()"
-          />
+            @click="toggleExpanded()" />
           <f7-button
             v-else
             color="gray"
             icon-size="24"
             tooltip="Collapse"
             icon-f7="rectangle_compress_vertical"
-            @click="toggleExpanded()"
-          />
+            @click="toggleExpanded()" />
         </div>
       </f7-subnavbar>
       <f7-toolbar bottom class="toolbar-details">
@@ -44,8 +41,7 @@
           <f7-checkbox
             style="margin-left: 5px"
             :checked="showSynonyms"
-            @change="toggleShowSynonyms"
-          />
+            @change="toggleShowSynonyms" />
           <label @click="toggleShowSynonyms" class="advanced-label">Show synonyms</label>
         </div>
         <span />
@@ -63,8 +59,7 @@
         picker="true"
         :propertyMode="!!propertyMode"
         :classMode="!!classMode"
-        :limitToClass="!!limitToClass"
-      />
+        :limitToClass="!!limitToClass" />
     </f7-page>
   </f7-popup>
 </template>

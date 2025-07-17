@@ -6,8 +6,7 @@
       color="gray"
       :icon-size="50"
       outline
-      @click="$emit('click')"
-    />
+      @click="$emit('click')" />
   </div>
 </template>
 

@@ -6,8 +6,7 @@
           ><f7-icon
             class="float-right margin-left margin-bottom"
             f7="arrow_turn_right_up"
-            size="20"
-          />{{ $t('home.tip.otherApps') }}</em
+            size="20" />{{ $t('home.tip.otherApps') }}</em
         >
       </p>
     </div>
@@ -15,8 +14,7 @@
       <habot
         v-if="showHABot"
         @session-started="inChatSession = true"
-        @session-end="inChatSession = false"
-      />
+        @session-end="inChatSession = false" />
     </f7-block>
 
     <f7-block v-if="!$store" class="text-align-center">
@@ -30,14 +28,12 @@
       v-show="!inChatSession"
       :context="overviewPageContext"
       :class="{ notready: !ready }"
-      @command="onCommand"
-    />
+      @command="onCommand" />
     <div class="empty-overview" v-else-if="!inChatSession">
       <empty-state-placeholder icon="house" title="overview.title" text="overview.text" />
       <f7-row
         v-if="!$store.getters.isAdmin || f7.width < 1280"
-        class="display-flex justify-content-center"
-      >
+        class="display-flex justify-content-center">
         <f7-button
           large
           fill
@@ -45,8 +41,7 @@
           external
           :href="`${$store.state.websiteUrl}/link/docs`"
           target="_blank"
-          :text="$t('home.overview.button.documentation')"
-        />
+          :text="$t('home.overview.button.documentation')" />
         <span style="width: 8px" />
         <f7-button
           large
@@ -54,8 +49,7 @@
           external
           :href="`${$store.state.websiteUrl}/link/tutorial`"
           target="_blank"
-          :text="$t('home.overview.button.tutorial')"
-        />
+          :text="$t('home.overview.button.tutorial')" />
       </f7-row>
       <f7-row v-else class="display-flex justify-content-center">
         <f7-button
@@ -68,8 +62,7 @@
               helpTab: 'quick',
             })
           "
-          :text="$t('home.overview.button.quickstart')"
-        />
+          :text="$t('home.overview.button.quickstart')" />
       </f7-row>
     </div>
   </div>

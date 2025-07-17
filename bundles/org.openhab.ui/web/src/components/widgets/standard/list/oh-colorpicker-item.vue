@@ -6,8 +6,7 @@
         <generic-widget-component
           v-bind="$attrs"
           class="margin-left"
-          :context="childContext(switchComponent)"
-        />
+          :context="childContext(switchComponent)" />
       </div>
     </template>
   </oh-list-item>

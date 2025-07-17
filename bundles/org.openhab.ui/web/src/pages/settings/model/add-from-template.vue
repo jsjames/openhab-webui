@@ -17,22 +17,19 @@
               value="0"
               @change="onSelectTemplate(0)"
               title="One Bedroom Apartment"
-              name="select-template"
-            />
+              name="select-template" />
             <f7-list-item
               radio
               value="1"
               @change="onSelectTemplate(1)"
               title="One Story House"
-              name="select-template"
-            />
+              name="select-template" />
             <f7-list-item
               radio
               value="2"
               @change="onSelectTemplate(2)"
               title="Two Story House"
-              name="select-template"
-            />
+              name="select-template" />
           </f7-list>
           <f7-block-footer class="padding-left padding-right">
             Select the template that best matches the description of your property.
@@ -48,8 +45,7 @@
               @input="onPrefixInput"
               clear-button
               :error-message="prefixErrorMessage"
-              :error-message-force="!!prefixErrorMessage"
-            />
+              :error-message-force="!!prefixErrorMessage" />
           </f7-list>
           <f7-block-footer class="padding-horizontal">
             Add a prefix to each created item's name (optional, default is 'l')
@@ -66,8 +62,7 @@
               :rootNodes="rootLocations"
               :selected="selectedItem ? true : false"
               @selected="selectItem"
-              @checked="checkItem"
-            />
+              @checked="checkItem" />
           </f7-block>
         </f7-block>
       </f7-col>
@@ -75,8 +70,7 @@
 
     <div
       v-if="selectedTemplate !== null && checkedItems.length > 0"
-      class="if-aurora display-flex justify-content-center margin padding"
-    >
+      class="if-aurora display-flex justify-content-center margin padding">
       <div class="flex-shrink-0">
         <f7-button
           class="padding-left padding-right"
@@ -85,8 +79,7 @@
           large
           raised
           fill
-          @click="add"
-        >
+          @click="add">
           Add to Model
         </f7-button>
       </div>

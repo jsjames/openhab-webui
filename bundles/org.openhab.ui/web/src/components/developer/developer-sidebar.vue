@@ -8,8 +8,7 @@
         placeholder="Search and Pin"
         :backdrop="false"
         @searchbar:search="search"
-        @searchbar:clear="clearSearch"
-      />
+        @searchbar:clear="clearSearch" />
     </f7-row>
     <f7-row style="width: 100%" :inner="false" v-else>
       <f7-searchbar
@@ -18,8 +17,7 @@
         placeholder="Search and Pin"
         :backdrop="false"
         @searchbar:search="search"
-        @searchbar:clear="clearSearch"
-      />
+        @searchbar:clear="clearSearch" />
     </f7-row>
     <div v-if="!searching" class="developer-sidebar-content">
       <div v-if="activeToolTab === 'pin'">
@@ -37,8 +35,7 @@
             !pinnedObjects.pages.length &&
             !pinnedObjects.widgets.length &&
             !pinnedObjects.transformations.length
-          "
-        >
+          ">
           <p class="padding-horizontal">
             Use the search box above or the button below to temporarily pin objects here for quick
             access.
@@ -57,8 +54,7 @@
                 color="gray"
                 icon-f7="list_bullet_indent"
                 icon-size="14"
-                @click="openModelPicker"
-              />
+                @click="openModelPicker" />
               <f7-link color="gray" icon-f7="multiply" icon-size="14" @click="unpinAll('items')" />
             </span>
           </f7-block-title>
@@ -73,13 +69,11 @@
                 :no-icon="true"
                 :no-type="true"
                 :no-tags="true"
-                @click="evt => showItem(evt, item)"
-              >
+                @click="evt => showItem(evt, item)">
                 <template #footer>
                   <div
                     class="display-flex align-items-flex-end justify-content-flex-end"
-                    style="margin-top: 3px"
-                  >
+                    style="margin-top: 3px">
                     <f7-link color="gray" class="margin-right itemlist-actions">
                       <clipboard-icon :value="item.name" size="18" tooltip="Copy Item name" />
                     </f7-link>
@@ -90,16 +84,14 @@
                       icon-size="18"
                       tooltip="Edit"
                       :href="'/settings/items/' + item.name"
-                      :animate="false"
-                    />
+                      :animate="false" />
                     <f7-link
                       class="itemlist-actions"
                       color="red"
                       icon-f7="pin_slash_fill"
                       icon-size="18"
                       tooltip="Unpin"
-                      @click="unpin('items', item, 'name')"
-                    />
+                      @click="unpin('items', item, 'name')" />
                   </div>
                 </template>
               </item>
@@ -122,21 +114,18 @@
                 :key="thing.UID"
                 media-item
                 :title="thing.label"
-                :footer="thing.UID"
-              >
+                :footer="thing.UID">
                 <template #after>
                   <f7-badge
                     :color="thingStatusBadgeColor(thing.statusInfo)"
-                    :tooltip="thing.statusInfo.description"
-                  >
+                    :tooltip="thing.statusInfo.description">
                     {{ thingStatusBadgeText(thing.statusInfo) }}
                   </f7-badge>
                 </template>
                 <template #footer>
                   <div
                     class="display-flex align-items-flex-end justify-content-flex-end"
-                    style="margin-top: 3px"
-                  >
+                    style="margin-top: 3px">
                     <f7-link color="gray" class="margin-right">
                       <clipboard-icon :value="thing.UID" size="18" tooltip="Copy Thing UID" />
                     </f7-link>
@@ -146,8 +135,7 @@
                       :tooltip="thing.statusInfo.statusDetail === 'DISABLED' ? 'Enable' : 'Disable'"
                       icon-f7="pause_circle"
                       icon-size="18"
-                      @click="toggleThingDisabled(thing)"
-                    />
+                      @click="toggleThingDisabled(thing)" />
                     <f7-link
                       class="margin-right"
                       color="gray"
@@ -155,15 +143,13 @@
                       icon-size="18"
                       tooltip="Edit"
                       :href="'/settings/things/' + thing.UID"
-                      :animate="false"
-                    />
+                      :animate="false" />
                     <f7-link
                       color="red"
                       icon-f7="pin_slash_fill"
                       icon-size="18"
                       tooltip="Unpin"
-                      @click="unpin('things', thing, 'UID')"
-                    />
+                      @click="unpin('things', thing, 'UID')" />
                   </div>
                 </template>
               </f7-list-item>
@@ -185,21 +171,18 @@
                 :key="rule.uid"
                 media-item
                 :title="rule.name"
-                :footer="rule.uid"
-              >
+                :footer="rule.uid">
                 <template #after>
                   <f7-badge
                     :color="ruleStatusBadgeColor(rule.status)"
-                    :tooltip="rule.status.description"
-                  >
+                    :tooltip="rule.status.description">
                     {{ ruleStatusBadgeText(rule.status) }}
                   </f7-badge>
                 </template>
                 <template #footer>
                   <div
                     class="display-flex align-items-flex-end justify-content-flex-end"
-                    style="margin-top: 3px"
-                  >
+                    style="margin-top: 3px">
                     <f7-link color="gray" class="margin-right">
                       <clipboard-icon :value="rule.uid" size="18" tooltip="Copy Rule UID" />
                     </f7-link>
@@ -209,16 +192,14 @@
                       :tooltip="rule.status.statusDetail === 'DISABLED' ? 'Enable' : 'Disable'"
                       icon-f7="pause_circle"
                       icon-size="18"
-                      @click="toggleRuleDisabled(rule)"
-                    />
+                      @click="toggleRuleDisabled(rule)" />
                     <f7-link
                       class="margin-right"
                       :color="rule.status.status === 'IDLE' ? 'blue' : 'gray'"
                       icon-f7="play"
                       icon-size="18"
                       tooltip="Run"
-                      @click="runRuleNow(rule)"
-                    />
+                      @click="runRuleNow(rule)" />
                     <f7-link
                       class="margin-right"
                       color="gray"
@@ -231,15 +212,13 @@
                         '/' +
                         rule.uid
                       "
-                      :animate="false"
-                    />
+                      :animate="false" />
                     <f7-link
                       color="red"
                       icon-f7="pin_slash_fill"
                       icon-size="18"
                       tooltip="Unpin"
-                      @click="unpin('rules', rule, 'uid')"
-                    />
+                      @click="unpin('rules', rule, 'uid')" />
                   </div>
                 </template>
               </f7-list-item>
@@ -261,21 +240,18 @@
                 :key="rule.uid"
                 media-item
                 :title="rule.name"
-                :footer="rule.uid"
-              >
+                :footer="rule.uid">
                 <template #after>
                   <f7-badge
                     :color="ruleStatusBadgeColor(rule.status)"
-                    :tooltip="rule.status.description"
-                  >
+                    :tooltip="rule.status.description">
                     {{ ruleStatusBadgeText(rule.status) }}
                   </f7-badge>
                 </template>
                 <template #footer>
                   <div
                     class="display-flex align-items-flex-end justify-content-flex-end"
-                    style="margin-top: 3px"
-                  >
+                    style="margin-top: 3px">
                     <f7-link color="gray" class="margin-right">
                       <clipboard-icon :value="rule.uid" size="18" tooltip="Copy Rule UID" />
                     </f7-link>
@@ -285,16 +261,14 @@
                       :tooltip="rule.status.statusDetail === 'DISABLED' ? 'Enable' : 'Disable'"
                       icon-f7="pause_circle"
                       icon-size="18"
-                      @click="toggleRuleDisabled(rule, 'Scene')"
-                    />
+                      @click="toggleRuleDisabled(rule, 'Scene')" />
                     <f7-link
                       class="margin-right"
                       :color="rule.status.status === 'IDLE' ? 'blue' : 'gray'"
                       icon-f7="play"
                       icon-size="18"
                       tooltip="Run"
-                      @click="runRuleNow(rule, 'Scene')"
-                    />
+                      @click="runRuleNow(rule, 'Scene')" />
                     <f7-link
                       class="margin-right"
                       color="gray"
@@ -307,15 +281,13 @@
                         '/' +
                         rule.uid
                       "
-                      :animate="false"
-                    />
+                      :animate="false" />
                     <f7-link
                       color="red"
                       icon-f7="pin_slash_fill"
                       icon-size="18"
                       tooltip="Unpin"
-                      @click="unpin('scenes', rule, 'uid')"
-                    />
+                      @click="unpin('scenes', rule, 'uid')" />
                   </div>
                 </template>
               </f7-list-item>
@@ -331,8 +303,7 @@
                 color="gray"
                 icon-f7="multiply"
                 icon-size="14"
-                @click="unpinAll('scripts')"
-              />
+                @click="unpinAll('scripts')" />
             </span>
           </f7-block-title>
           <f7-list media-list>
@@ -342,21 +313,18 @@
                 :key="rule.uid"
                 media-item
                 :title="rule.name"
-                :footer="rule.uid"
-              >
+                :footer="rule.uid">
                 <template #after>
                   <f7-badge
                     :color="ruleStatusBadgeColor(rule.status)"
-                    :tooltip="rule.status.description"
-                  >
+                    :tooltip="rule.status.description">
                     {{ ruleStatusBadgeText(rule.status) }}
                   </f7-badge>
                 </template>
                 <template #footer>
                   <div
                     class="display-flex align-items-flex-end justify-content-flex-end"
-                    style="margin-top: 3px"
-                  >
+                    style="margin-top: 3px">
                     <f7-link color="gray" class="margin-right">
                       <clipboard-icon :value="rule.uid" size="18" tooltip="Copy Rule UID" />
                     </f7-link>
@@ -366,16 +334,14 @@
                       :tooltip="rule.status.statusDetail === 'DISABLED' ? 'Enable' : 'Disable'"
                       icon-f7="pause_circle"
                       icon-size="18"
-                      @click="toggleRuleDisabled(rule, 'Script')"
-                    />
+                      @click="toggleRuleDisabled(rule, 'Script')" />
                     <f7-link
                       class="margin-right"
                       :color="rule.status.status === 'IDLE' ? 'blue' : 'gray'"
                       icon-f7="play"
                       icon-size="18"
                       tooltip="Run"
-                      @click="runRuleNow(rule, 'Script')"
-                    />
+                      @click="runRuleNow(rule, 'Script')" />
                     <f7-link
                       class="margin-right"
                       color="gray"
@@ -388,15 +354,13 @@
                         '/' +
                         rule.uid
                       "
-                      :animate="false"
-                    />
+                      :animate="false" />
                     <f7-link
                       color="red"
                       icon-f7="pin_slash_fill"
                       icon-size="18"
                       tooltip="Unpin"
-                      @click="unpin('scripts', rule, 'uid')"
-                    />
+                      @click="unpin('scripts', rule, 'uid')" />
                   </div>
                 </template>
               </f7-list-item>
@@ -418,13 +382,11 @@
                 :key="page.uid"
                 media-item
                 :title="page.config.label"
-                :footer="page.uid"
-              >
+                :footer="page.uid">
                 <template #footer>
                   <div
                     class="display-flex align-items-flex-end justify-content-flex-end"
-                    style="margin-top: 3px"
-                  >
+                    style="margin-top: 3px">
                     <f7-link color="gray" class="margin-right">
                       <clipboard-icon :value="page.uid" size="18" tooltip="Copy Page UID" />
                     </f7-link>
@@ -436,8 +398,7 @@
                       icon-size="18"
                       tooltip="View"
                       :href="'/page/' + page.uid"
-                      :animate="false"
-                    />
+                      :animate="false" />
                     <f7-link
                       class="margin-right"
                       color="gray"
@@ -445,15 +406,13 @@
                       icon-size="18"
                       tooltip="Edit"
                       :href="'/settings/pages/' + getPageType(page).type + '/' + page.uid"
-                      :animate="false"
-                    />
+                      :animate="false" />
                     <f7-link
                       color="red"
                       icon-f7="pin_slash_fill"
                       icon-size="18"
                       tooltip="Unpin"
-                      @click="unpin('pages', page, 'uid')"
-                    />
+                      @click="unpin('pages', page, 'uid')" />
                   </div>
                 </template>
               </f7-list-item>
@@ -469,8 +428,7 @@
                 color="gray"
                 icon-f7="multiply"
                 icon-size="14"
-                @click="unpinAll('widgets')"
-              />
+                @click="unpinAll('widgets')" />
             </span>
           </f7-block-title>
           <f7-list media-list>
@@ -479,8 +437,7 @@
                 v-for="widget in pinnedObjects.widgets"
                 :key="widget.uid"
                 media-item
-                :title="widget.uid"
-              >
+                :title="widget.uid">
                 <template #footer>
                   <div class="display-flex align-items-flex-end justify-content-flex-end">
                     <f7-link color="gray" class="margin-right">
@@ -493,15 +450,13 @@
                       icon-size="18"
                       tooltip="Edit"
                       :href="'/developer/widgets/' + widget.uid"
-                      :animate="false"
-                    />
+                      :animate="false" />
                     <f7-link
                       color="red"
                       icon-f7="pin_slash_fill"
                       icon-size="18"
                       tooltip="Unpin"
-                      @click="unpin('widgets', widget, 'uid')"
-                    />
+                      @click="unpin('widgets', widget, 'uid')" />
                   </div>
                 </template>
               </f7-list-item>
@@ -517,8 +472,7 @@
                 color="gray"
                 icon-f7="multiply"
                 icon-size="14"
-                @click="unpinAll('transformations')"
-              />
+                @click="unpinAll('transformations')" />
             </span>
           </f7-block-title>
           <f7-list media-list>
@@ -528,19 +482,16 @@
                 :key="transformation.uid"
                 media-item
                 :title="transformation.label"
-                :footer="transformation.uid"
-              >
+                :footer="transformation.uid">
                 <template #footer>
                   <div
                     class="display-flex align-items-flex-end justify-content-flex-end"
-                    style="margin-top: 3px"
-                  >
+                    style="margin-top: 3px">
                     <f7-link color="gray" class="margin-right">
                       <clipboard-icon
                         :value="transformation.uid"
                         size="18"
-                        tooltip="Copy Transformation UID"
-                      />
+                        tooltip="Copy Transformation UID" />
                     </f7-link>
                     <f7-link
                       class="margin-right"
@@ -549,15 +500,13 @@
                       icon-size="18"
                       tooltip="Edit"
                       :href="'/settings/transformations/' + transformation.uid"
-                      :animate="false"
-                    />
+                      :animate="false" />
                     <f7-link
                       color="red"
                       icon-f7="pin_slash_fill"
                       icon-size="18"
                       tooltip="Unpin"
-                      @click="unpin('transformations', transformation, 'uid')"
-                    />
+                      @click="unpin('transformations', transformation, 'uid')" />
                   </div>
                 </template>
               </f7-list-item>
@@ -573,8 +522,7 @@
                 color="gray"
                 icon-f7="multiply"
                 icon-size="14"
-                @click="unpinAll('persistenceConfigs')"
-              />
+                @click="unpinAll('persistenceConfigs')" />
             </span>
           </f7-block-title>
           <f7-list media-list>
@@ -584,19 +532,16 @@
                 :key="persistenceConfig.serviceId"
                 media-item
                 :title="persistenceConfig.label"
-                :footer="persistenceConfig.serviceId"
-              >
+                :footer="persistenceConfig.serviceId">
                 <template #footer>
                   <div
                     class="display-flex align-items-flex-end justify-content-flex-end"
-                    style="margin-top: 3px"
-                  >
+                    style="margin-top: 3px">
                     <f7-link color="gray" class="margin-right">
                       <clipboard-icon
                         :value="persistenceConfig.serviceId"
                         size="18"
-                        tooltip="Copy Service ID"
-                      />
+                        tooltip="Copy Service ID" />
                     </f7-link>
                     <f7-link
                       class="margin-right"
@@ -605,15 +550,13 @@
                       icon-size="18"
                       tooltip="Edit"
                       :href="'/settings/persistence/' + persistenceConfig.serviceId"
-                      :animate="false"
-                    />
+                      :animate="false" />
                     <f7-link
                       color="red"
                       icon-f7="pin_slash_fill"
                       icon-size="18"
                       tooltip="Unpin"
-                      @click="unpin('persistenceConfig', persistenceConfig, 'serviceId')"
-                    />
+                      @click="unpin('persistenceConfig', persistenceConfig, 'serviceId')" />
                   </div>
                 </template>
               </f7-list-item>
@@ -636,8 +579,7 @@
                 "
                 icon-size="14"
                 tooltip="Filter topics"
-                @click="changeEventTopicFilter"
-              />
+                @click="changeEventTopicFilter" />
             </span>
           </f7-block-title>
           <f7-block>
@@ -654,8 +596,7 @@
               :key="event.time.getTime()"
               :title="event.topic"
               :subtitle="event.type"
-              :footer="event.payload"
-            />
+              :footer="event.payload" />
           </f7-list>
         </f7-block>
       </div>
@@ -696,8 +637,7 @@
             <f7-list-button
               href="/settings/items/add-from-textual-definition"
               color="blue"
-              :animate="false"
-            >
+              :animate="false">
               Add Items (textual)
             </f7-list-button>
             <f7-list-item divider title="Pages" />
@@ -746,8 +686,7 @@
         v-if="openedItem"
         :item="openedItem"
         :context="context"
-        :no-border="true"
-      />
+        :no-border="true" />
     </f7-popover>
     <search-results
       v-if="searching"
@@ -757,8 +696,7 @@
       @pin="pin"
       @unpin="unpin"
       :cachedObjects="cachedObjects"
-      :loading="searchResultsLoading"
-    />
+      :loading="searchResultsLoading" />
   </f7-block>
 </template>
 

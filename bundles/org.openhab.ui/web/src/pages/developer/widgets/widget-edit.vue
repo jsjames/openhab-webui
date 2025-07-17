@@ -2,8 +2,7 @@
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut">
     <f7-navbar
       :title="(createMode ? 'Create Widget' : 'Widget: ' + widget.uid) + dirtyIndicator"
-      back-link="Back"
-    >
+      back-link="Back">
       <f7-nav-right>
         <f7-link @click="save()" v-if="theme.md" icon-md="material:save" icon-only />
         <f7-link @click="save()" v-if="!theme.md">
@@ -20,8 +19,7 @@
         @click="
           split = split === 'horizontal' ? 'vertical' : 'horizontal';
           blockKey = utils.id();
-        "
-      />
+        " />
       <f7-link @click="redrawWidget">
         Redraw<span v-if="$device.desktop">&nbsp;(Ctrl-R)</span>
       </f7-link>
@@ -33,8 +31,7 @@
             class="widget-component-editor"
             mode="application/vnd.openhab.uicomponent+yaml?type=widget"
             :value="widgetDefinition"
-            @input="onEditorInput"
-          />
+            @input="onEditorInput" />
         </f7-col>
       </f7-row>
       <f7-row v-if="ready" resizable>
@@ -50,15 +47,13 @@
             class="widget-component-editor"
             mode="application/vnd.openhab.uicomponent+yaml?type=widget"
             :value="widgetDefinition"
-            @input="onEditorInput"
-          />
+            @input="onEditorInput" />
         </f7-col>
         <f7-col
           v-if="ready"
           resizable
           style="min-width: 20px"
-          class="widget-preview padding-right margin-bottom"
-        >
+          class="widget-preview padding-right margin-bottom">
           <generic-widget-component :key="widgetKey" :context="context" @command="onCommand" />
         </f7-col>
       </f7-row>
@@ -69,8 +64,7 @@
       close-on-escape
       class="widgetprops-popup"
       :opened="widgetPropsOpened"
-      @popup:closed="widgetPropsClosed"
-    >
+      @popup:closed="widgetPropsClosed">
       <f7-page v-if="widgetPropsOpened">
         <f7-navbar>
           <f7-nav-left>
@@ -78,8 +72,7 @@
               icon-ios="f7:arrow_left"
               icon-md="material:arrow_back"
               icon-aurora="f7:arrow_left"
-              popup-close
-            />
+              popup-close />
           </f7-nav-left>
           <f7-nav-title>Set Widget Props</f7-nav-title>
           <f7-nav-right>
@@ -95,8 +88,7 @@
             <config-sheet
               :parameterGroups="widget.props.parameterGroups || []"
               :parameters="widget.props.parameters || []"
-              :configuration="props"
-            />
+              :configuration="props" />
           </f7-col>
         </f7-block>
       </f7-page>

@@ -12,15 +12,13 @@
         searchbar: true,
         openIn: 'popup',
         closeOnSelect: true,
-      }"
-    >
+      }">
       <select name="select-basetype" @change="groupType = $event.target.value">
         <option
           v-for="type in types.GroupTypes"
           :key="type"
           :value="type"
-          :selected="type === groupType ? true : null"
-        >
+          :selected="type === groupType ? true : null">
           {{ type }}
         </option>
       </select>
@@ -37,16 +35,14 @@
         searchbar: true,
         openIn: 'popup',
         closeOnSelect: true,
-      }"
-    >
+      }">
       <select name="select-dimension" @change="groupDimension = $event.target.value">
         <option key="" value="Number" :selected="groupType === 'Number' ? true : null" />
         <option
           v-for="d in dimensions"
           :key="d.name"
           :value="d.name"
-          :selected="d.name === groupDimension ? true : null"
-        >
+          :selected="d.name === groupDimension ? true : null">
           {{ d.label }}
         </option>
       </select>
@@ -65,8 +61,7 @@
       "
       :value="groupDimension ? groupUnit : ''"
       @change="groupUnit = $event.target.value"
-      :clear-button="editable"
-    />
+      :clear-button="editable" />
     <f7-list-input
       v-show="groupType && groupDimension"
       :disabled="!editable ? true : null"
@@ -79,8 +74,7 @@
       "
       :value="stateDescriptionPattern"
       @input="stateDescriptionPattern = $event.target.value"
-      :clear-button:="editable"
-    />
+      :clear-button:="editable" />
     <!-- Aggregation Functions -->
     <f7-list-item
       v-if="aggregationFunctions"
@@ -88,15 +82,13 @@
       title="Aggregation Function"
       class="aligned-smart-select"
       smart-select
-      :smart-select-params="{ openIn: 'popup', closeOnSelect: true }"
-    >
+      :smart-select-params="{ openIn: 'popup', closeOnSelect: true }">
       <select name="select-function" @change="groupFunctionKey = $event.target.value">
         <option
           v-for="type in aggregationFunctions"
           :key="type.name"
           :value="type.name"
-          :selected="type.name === groupFunctionKey ? true : null"
-        >
+          :selected="type.name === groupFunctionKey ? true : null">
           {{ type.value }}
         </option>
       </select>
@@ -110,8 +102,7 @@
       info="Specify the regular expression used to to match the states of the members."
       :value="groupFunctionParam"
       @input="groupFunctionParam = $event.target.value"
-      :clear-button="editable"
-    />
+      :clear-button="editable" />
   </div>
 </template>
 

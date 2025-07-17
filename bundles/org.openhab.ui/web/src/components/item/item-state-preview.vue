@@ -10,8 +10,7 @@
           item.type === 'Rollershutter' ||
           item.type === 'Dimmer'
         "
-        class="display-flex justify-content-center flex-direction-row"
-      >
+        class="display-flex justify-content-center flex-direction-row">
         <f7-button :href="'/analyzer/?items=' + item.name"> Analyze </f7-button>
       </div>
     </div>

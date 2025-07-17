@@ -11,15 +11,13 @@
           config.vertical ? 'vertical-arrangement' : '',
           ...(Array.isArray(config.contentClass) ? config.contentClass : []),
         ]"
-        :style="{ background: config.background, ...config.contentStyle }"
-      >
+        :style="{ background: config.background, ...config.contentStyle }">
         <oh-trend
           v-if="config.trendItem"
           :key="'trend' + config.item"
           class="trend"
           :width="$refs.cardContent ? $refs.cardContent.$el.clientWidth : 0"
-          :context="context"
-        />
+          :context="context" />
         <f7-list>
           <f7-list-item :link="hasAction ? true : false" no-chevron>
             <template #media>
@@ -31,16 +29,14 @@
                 :state="
                   config.item && config.iconUseState ? context.store[config.item].state : null
                 "
-                :color="config.iconColor"
-              />
+                :color="config.iconColor" />
             </template>
             <div v-if="config.label || config.item" :class="config.class">
               <span
                 :style="{
                   'font-size': config.fontSize || '24px',
                   'font-weight': config.fontWeight || 'normal',
-                }"
-              >
+                }">
                 {{ label }}
               </span>
             </div>

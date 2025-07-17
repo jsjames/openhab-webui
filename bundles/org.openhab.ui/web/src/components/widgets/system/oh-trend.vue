@@ -10,8 +10,7 @@
     :gradientDirection="trendGradientDirection"
     :stroke-width="trendStrokeWidth"
     auto-draw
-    smooth
-  />
+    smooth />
 </template>
 
 <script>

@@ -4,8 +4,7 @@
     :value="value"
     @input="updateValue"
     :multiple="configDescription.multiple"
-    :required="configDescription.required"
-  />
+    :required="configDescription.required" />
 </template>
 
 <script>

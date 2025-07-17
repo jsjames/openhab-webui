@@ -5,15 +5,13 @@
     :addon="addonsList[0]"
     :install-action-text="installActionText"
     :headline="headline"
-    @addon-button-click="addonButtonClick"
-  />
+    @addon-button-click="addonButtonClick" />
   <f7-swiper
     class="addons-swiper"
     v-else
     pagination
     :params="{ spaceBetween: 10, slidesPerView: slidesPerView }"
-    :key="slidesPerView"
-  >
+    :key="slidesPerView">
     <f7-swiper-slide v-for="addon in addonsList" :key="addon.uid">
       <addon-card
         :key="addon.uid"
@@ -21,8 +19,7 @@
         :install-action-text="installActionText"
         :headline="headline"
         :lazy-logo="false"
-        @addon-button-click="addonButtonClick"
-      />
+        @addon-button-click="addonButtonClick" />
     </f7-swiper-slide>
   </f7-swiper>
 </template>

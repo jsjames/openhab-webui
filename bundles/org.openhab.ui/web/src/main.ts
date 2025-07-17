@@ -1,20 +1,10 @@
-import './js/compatibility'
-import './js/logging'
-// import './monkeypatch';
+import '@/js/compatibility'
+import '@/js/logging'
+import '@/js/monkeypatch'
 
 // Import Vue
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
-// disable compat for certain features
-/*
-import { configureCompat } from 'vue'
-
-configureCompat({
-  RENDER_FUNCTION: false,
-  ATTR_FALSE_VALUE: false
-})
-  */
 
 // Import globally registered components
 import OHIconComponent from './components/widgets/system/oh-icon.vue'
@@ -52,15 +42,12 @@ Framework7.use(Framework7Vue)
 
 // Import VueX store
 import { store } from '@/js/store/index'
-// App.prototype.$store = store
 store.dispatch('initializeTrackingStore')
 
 // initialize i18n
 import { i18n, loadLocaleMessages } from '@/js/i18n'
 
 await loadLocaleMessages('/src/assets/i18n/common')
-
-// import Vue3Masonry from 'vue3-masonry-css'
 
 // Import vuetrend
 //TODO-V3 import Trend from 'vuetrend'

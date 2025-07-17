@@ -5,8 +5,7 @@
     ref="cm"
     class="code-editor-fit"
     :options="cmOptions"
-    @ready="onCmReady"
-  />
+    @ready="onCmReady" />
 </template>
 
 <style lang="stylus">

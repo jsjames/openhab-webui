@@ -7,8 +7,7 @@
       :key="app.url"
       :href="app.url"
       external
-      target="_blank"
-    >
+      target="_blank">
       <f7-card class="app-card">
         <f7-card-content :padding="false">
           <img :src="app.imageUrl" width="100%" />

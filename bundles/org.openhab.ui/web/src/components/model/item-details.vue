@@ -8,8 +8,7 @@
             :item="model.item"
             :link="'/settings/items/' + model.item.name"
             :context="context"
-            :no-tags="editMode"
-          />
+            :no-tags="editMode" />
           <!-- <f7-list-button v-if="!editMode && !createMode" color="blue" title="Edit Item" @click="editMode = true">Edit Item</f7-list-button> -->
         </ul>
       </f7-list>
@@ -22,8 +21,7 @@
           :item="editedItem"
           :items="items"
           :createMode="true"
-          :force-semantics="forceSemantics"
-        />
+          :force-semantics="forceSemantics" />
       </div>
     </f7-card-content>
     <f7-card-footer v-if="createMode || editMode" key="item-card-buttons">
@@ -38,8 +36,7 @@
         @click="cancel"
         icon-ios="material:expand_less"
         icon-md="material:expand_less"
-        icon-aurora="material:expand_less"
-      >
+        icon-aurora="material:expand_less">
         Hide Details
       </f7-button>
     </f7-card-footer>
@@ -50,8 +47,7 @@
         @click="edit"
         icon-ios="material:expand_more"
         icon-md="material:expand_more"
-        icon-aurora="material:expand_more"
-      >
+        icon-aurora="material:expand_more">
         Edit
       </f7-button>
       <f7-button v-if="model.item.editable" color="red" @click="remove"> Remove </f7-button>
@@ -61,8 +57,7 @@
         @click="edit"
         icon-ios="material:expand_more"
         icon-md="material:expand_more"
-        icon-aurora="material:expand_more"
-      >
+        icon-aurora="material:expand_more">
         View Details
       </f7-button>
     </f7-card-footer>

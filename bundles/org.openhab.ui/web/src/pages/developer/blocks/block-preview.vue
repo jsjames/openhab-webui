@@ -5,8 +5,7 @@
     </code>
     <f7-menu
       style="position: absolute; right: 20px; top: 20px"
-      v-if="blocksDefinition && blocksDefinition.slots && blocksDefinition.slots.blocks"
-    >
+      v-if="blocksDefinition && blocksDefinition.slots && blocksDefinition.slots.blocks">
       <f7-menu-item style="margin-left: auto" :text="currentBlock" dropdown>
         <f7-menu-dropdown right>
           <f7-menu-dropdown-item
@@ -14,8 +13,7 @@
             :key="block.config.type"
             @click="displayCurrentBlock(block)"
             href="#"
-            :text="block.config.type"
-          />
+            :text="block.config.type" />
         </f7-menu-dropdown>
       </f7-menu-item>
     </f7-menu>

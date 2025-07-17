@@ -4,41 +4,34 @@
       <f7-menu-dropdown-item
         @click="context.editmode.configureWidget(component, context)"
         href="#"
-        :text="configureLabel || 'Configure'"
-      />
+        :text="configureLabel || 'Configure'" />
       <f7-menu-dropdown-item
         @click="context.editmode.editWidgetCode(component, context)"
         href="#"
-        text="Edit YAML"
-      />
+        text="Edit YAML" />
       <f7-menu-dropdown-item divider />
       <f7-menu-dropdown-item
         @click="context.editmode.cutWidget(component, context, parentSlot)"
         href="#"
-        text="Cut"
-      />
+        text="Cut" />
       <f7-menu-dropdown-item
         @click="context.editmode.copyWidget(component, context, parentSlot)"
         href="#"
-        text="Copy"
-      />
+        text="Copy" />
       <f7-menu-dropdown-item divider />
       <f7-menu-dropdown-item
         @click="context.editmode.moveWidgetUp(component, context, parentSlot)"
         href="#"
-        text="Move Up"
-      />
+        text="Move Up" />
       <f7-menu-dropdown-item
         @click="context.editmode.moveWidgetDown(component, context, parentSlot)"
         href="#"
-        text="Move Down"
-      />
+        text="Move Down" />
       <f7-menu-dropdown-item divider />
       <f7-menu-dropdown-item
         @click="context.editmode.removeWidget(component, context, parentSlot)"
         href="#"
-        :text="removeLabel || 'Remove'"
-      />
+        :text="removeLabel || 'Remove'" />
     </f7-menu-dropdown>
   </f7-menu-item>
 </template>

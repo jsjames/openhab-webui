@@ -19,7 +19,7 @@ BUGS
 
 - [x] bars theme-filled applied to app class, but does not change navbar style. It seems in vue3 (contrary to documentation that I can find), that f7-app classes will not be applied. So, added code to add to the html element at the top.
 - [] vue3-masonry-css is buggy especially when you change the window width??
-- []
+- [] There are two home pages created in the DOM under the view?  Removing the "stacked" setting addresses this, but that breaks other things.
 
 NOTES
 

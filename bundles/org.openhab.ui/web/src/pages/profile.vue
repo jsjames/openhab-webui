@@ -5,8 +5,7 @@
       back-link="Back"
       no-shadow
       no-hairline
-      class="user-profile-navbar"
-    >
+      class="user-profile-navbar">
       <!-- <f7-nav-right>
         <f7-link icon-md="material:edit" href="edit">{{ theme.md ? '' : 'Edit' }}</f7-link>
       </f7-nav-right> -->
@@ -17,8 +16,7 @@
             ios="f7:person_alt_circle_fill"
             aurora="f7:person_alt_circle_fill"
             md="f7:person_alt_circle_fill"
-            color="gray"
-          />
+            color="gray" />
           <!-- <span v-else>
           {{item.label ? item.label[0] : item.name[0]}}
         </span> -->
@@ -64,22 +62,19 @@
                 :text="
                   $t('profile.sessions.lastRefreshed') +
                   new Date(session.lastRefreshTime).toLocaleString($store.getters.locale)
-                "
-              >
+                ">
                 <template #media>
                   <f7-link
                     icon-color="red"
                     icon-aurora="f7:minus_circle_filled"
                     icon-ios="f7:minus_circle_filled"
                     icon-md="material:remove_circle_outline"
-                    @click="showSwipeout"
-                  />
+                    @click="showSwipeout" />
                 </template>
                 <f7-swipeout-actions right>
                   <f7-swipeout-button
                     @click="ev => deleteSession(ev, session)"
-                    style="background-color: var(--f7-swipeout-delete-button-bg-color)"
-                  >
+                    style="background-color: var(--f7-swipeout-delete-button-bg-color)">
                     {{ $t('dialogs.delete') }}
                   </f7-swipeout-button>
                 </f7-swipeout-actions>
@@ -87,8 +82,7 @@
               <f7-list-button
                 v-if="!expandedTypes.sessions && sessions.length > 10"
                 color="blue"
-                @click="$set(expandedTypes, 'sessions', true)"
-              >
+                @click="$set(expandedTypes, 'sessions', true)">
                 {{ $t('dialogs.showAll') }}
               </f7-list-button>
               <f7-list-button color="red" @click="logout()">
@@ -119,20 +113,17 @@
                   $t('profile.apiTokens.created') +
                   new Date(apiToken.createdTime).toLocaleString($store.getters.locale)
                 "
-                :text="$t('profile.apiTokens.validForScope') + (apiToken.scope || 'N/A')"
-              >
+                :text="$t('profile.apiTokens.validForScope') + (apiToken.scope || 'N/A')">
                 <f7-link
                   icon-color="red"
                   icon-aurora="f7:minus_circle_filled"
                   icon-ios="f7:minus_circle_filled"
                   icon-md="material:remove_circle_outline"
-                  @click="showSwipeout"
-                />
+                  @click="showSwipeout" />
                 <f7-swipeout-actions right>
                   <f7-swipeout-button
                     @click="ev => deleteApiToken(ev, apiToken)"
-                    style="background-color: var(--f7-swipeout-delete-button-bg-color)"
-                  >
+                    style="background-color: var(--f7-swipeout-delete-button-bg-color)">
                     {{ $t('dialogs.delete') }}
                   </f7-swipeout-button>
                 </f7-swipeout-actions>

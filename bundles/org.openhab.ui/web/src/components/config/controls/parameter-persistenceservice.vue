@@ -2,8 +2,7 @@
   <persistence-service-picker
     :title="configDescription.label"
     :value="value"
-    @input="updateValue"
-  />
+    @input="updateValue" />
 </template>
 
 <script>

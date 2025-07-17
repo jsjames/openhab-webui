@@ -4,8 +4,7 @@
     class="widgetcode-popup"
     :close-by-backdrop-click="false"
     @popup:open="widgetCodeOpened"
-    @popup:closed="widgetCodeClosed"
-  >
+    @popup:closed="widgetCodeClosed">
     <f7-page v-if="component && code">
       <f7-navbar ref="navbar">
         <f7-nav-left>
@@ -13,8 +12,7 @@
             icon-ios="f7:arrow_left"
             icon-md="material:arrow_back"
             icon-aurora="f7:arrow_left"
-            @click="closeWithDirtyCheck"
-          />
+            @click="closeWithDirtyCheck" />
         </f7-nav-left>
         <f7-nav-title>Edit Widget Code{{ dirtyIndicator }}</f7-nav-title>
         <f7-nav-right>
@@ -27,8 +25,7 @@
         class="page-code-editor"
         :mode="`application/vnd.openhab.uicomponent+yaml;type=${componentType || 'widget'}`"
         :value="code"
-        @input="update"
-      />
+        @input="update" />
       <!-- <pre class="yaml-message padding-horizontal" :class="[widgetYamlError === 'OK' ? 'text-color-green' : 'text-color-red']">{{widgetYamlError}}</pre> -->
     </f7-page>
   </f7-popup>

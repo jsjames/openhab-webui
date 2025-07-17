@@ -6,13 +6,11 @@
     :draggable="context.editmode != undefined"
     :lat-lng="coords"
     @update:lat-lng="onMove"
-    @click="onClick"
-  >
+    @click="onClick">
     <l-tooltip
       v-if="tooltip && !config.useTooltipAsLabel"
       :options="tooltipOptions"
-      @click="() => {}"
-    >
+      @click="() => {}">
       <div style="white-space: nowrap" :style="tooltipStyle">
         {{ tooltip }}
       </div>
@@ -28,8 +26,7 @@
         :color="config.iconColor"
         :width="config.iconWidth || config.iconSize || 40"
         :height="config.iconHeight || config.iconSize || 40"
-        :state="config.iconUseState ? state : undefined"
-      />
+        :state="config.iconUseState ? state : undefined" />
     </l-icon>
     <l-popup v-if="context.editmode != null && !dragging">
       <div class="display-flex">
@@ -37,32 +34,28 @@
           href="#"
           class="text-color-blue display-flex flex-direction-column margin-right"
           @click="context.editmode.configureWidget(context.component, context.parent)"
-          icon-f7="square_pencil"
-        >
+          icon-f7="square_pencil">
           Configure
         </f7-link>
         <f7-link
           href="#"
           class="text-color-blue display-flex flex-direction-column margin-right"
           @click="context.editmode.editWidgetCode(context.component, context.parent)"
-          icon-f7="doc_text"
-        >
+          icon-f7="doc_text">
           YAML
         </f7-link>
         <f7-link
           href="#"
           class="text-color-blue display-flex flex-direction-column margin-right"
           @click="context.editmode.copyWidget(context.component, context.parent)"
-          icon-f7="scissors_alt"
-        >
+          icon-f7="scissors_alt">
           Copy
         </f7-link>
         <f7-link
           href="#"
           class="text-color-red display-flex flex-direction-column"
           @click="context.editmode.removeWidget(context.component, context.parent)"
-          icon-f7="trash"
-        >
+          icon-f7="trash">
           Remove
         </f7-link>
       </div>

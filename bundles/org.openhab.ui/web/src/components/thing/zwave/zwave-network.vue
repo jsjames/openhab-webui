@@ -3,8 +3,7 @@
     <chart
       :option="finalOptions"
       :theme="themeOptions.dark === 'dark' ? 'dark' : undefined"
-      autoresize
-    />
+      autoresize />
   </div>
 </template>
 

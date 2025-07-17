@@ -6,16 +6,14 @@
       color="gray"
       :f7="addonIcon"
       class="default-icon"
-      style="padding-left: 0; opacity: 0.2; position: absolute"
-    />
+      style="padding-left: 0; opacity: 0.2; position: absolute" />
     <img
       v-if="!svgLogoError"
       :class="lazy ? 'lazy logo' : 'logo'"
       :style="imgStyle"
       ref="svgLogo"
       :src="imageUrl('svg')"
-      :data-src="imageUrl('svg')"
-    />
+      :data-src="imageUrl('svg')" />
     <img
       v-else-if="!pngLogoError"
       class="logo"
@@ -23,8 +21,7 @@
       ref="pngLogo"
       :src="imageUrl('png')"
       @load="logoLoaded = true"
-      @error="pngLogoError = true"
-    />
+      @error="pngLogoError = true" />
   </div>
 </template>
 

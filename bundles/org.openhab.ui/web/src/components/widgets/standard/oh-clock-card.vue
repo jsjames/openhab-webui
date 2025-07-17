@@ -9,8 +9,7 @@
               'font-size': config.dateFontSize || '1vw',
               'font-weight': config.dateFontWeight || 'normal',
             }"
-            :format="config.dateFormat"
-          />
+            :format="config.dateFormat" />
         </f7-col>
       </f7-row>
       <f7-row>
@@ -21,8 +20,7 @@
               'font-size': config.timeFontSize || '2vw',
               'font-weight': config.timeFontWeight || 'normal',
             }"
-            :format="config.timeFormat"
-          />
+            :format="config.timeFormat" />
         </f7-col>
       </f7-row>
       <f7-row v-if="config.showDate && config.datePos === 'below'">
@@ -33,8 +31,7 @@
               'font-size': config.dateFontSize || '1vw',
               'font-weight': config.dateFontWeight || 'normal',
             }"
-            :format="config.dateFormat"
-          />
+            :format="config.dateFormat" />
         </f7-col>
       </f7-row>
     </template>

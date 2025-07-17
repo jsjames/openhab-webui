@@ -12,16 +12,14 @@
               :key="instruct.title"
               accordion-item
               :accordion-item-opened="instruct.opened"
-              :title="instruct.title"
-            >
+              :title="instruct.title">
               <f7-accordion-content>
                 <f7-list media-list>
                   <f7-list-item
                     v-for="step in instruct.steps"
                     :key="step.title"
                     :link="step.link"
-                    :title="step.title"
-                  >
+                    :title="step.title">
                     <div class="item-text" v-html="step.text" />
                   </f7-list-item>
                   <f7-list-button
@@ -29,8 +27,7 @@
                     :external="true"
                     :title="instruct.button.title"
                     :href="$store.state.websiteUrl + '/' + instruct.button.link"
-                    target="_blank"
-                  />
+                    target="_blank" />
                 </f7-list>
               </f7-accordion-content>
             </f7-list-item>
@@ -51,8 +48,7 @@
               accordion-item
               v-for="faq in faqs"
               :key="faq.title"
-              :title="faq.title"
-            >
+              :title="faq.title">
               <f7-accordion-content>
                 <f7-block>
                   <p v-if="faq.goto">
@@ -66,8 +62,7 @@
                     <f7-link
                       external
                       target="_blank"
-                      :href="$store.state.websiteUrl + '/' + faq.doclink"
-                    >
+                      :href="$store.state.websiteUrl + '/' + faq.doclink">
                       Full Help Docs
                     </f7-link>
                   </p>
@@ -91,8 +86,7 @@
               :external="true"
               target="_blank"
               :title="addon.label.replaceAll(/Binding|Transformation|Persistence/gi, '')"
-              :text="addon.type"
-            />
+              :text="addon.type" />
           </f7-list>
         </f7-block>
       </div>
@@ -115,32 +109,28 @@
                 external
                 target="_blank"
                 href="https://www.openhab.org/"
-                :text="$t('about.homePage')"
-              />
+                :text="$t('about.homePage')" />
             </li>
             <li>
               <f7-link
                 external
                 target="_blank"
                 :href="`${$store.state.websiteUrl}/link/docs`"
-                :text="$t('about.documentation')"
-              />
+                :text="$t('about.documentation')" />
             </li>
             <li>
               <f7-link
                 external
                 :href="`${$store.state.websiteUrl}/link/tutorial`"
                 target="_blank"
-                :text="$t('home.overview.button.tutorial')"
-              />
+                :text="$t('home.overview.button.tutorial')" />
             </li>
             <li>
               <f7-link
                 external
                 target="_blank"
                 href="https://community.openhab.org/"
-                :text="$t('about.communityForum')"
-              />
+                :text="$t('about.communityForum')" />
             </li>
           </ul>
         </f7-block>

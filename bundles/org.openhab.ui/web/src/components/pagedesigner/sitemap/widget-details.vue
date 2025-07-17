@@ -13,22 +13,19 @@
           validate
           pattern="[A-Za-z0-9_]+"
           error-message="Required. Alphanumeric &amp; underscores only"
-          :disabled="!createMode ? true : null"
-        />
+          :disabled="!createMode ? true : null" />
         <f7-list-input
           label="Label"
           type="text"
           placeholder="Label"
           :value="widget.config.label"
           @input="updateParameter('label', $event)"
-          clear-button
-        />
+          clear-button />
         <item-picker
           v-if="widget.component !== 'Sitemap' && widget.component !== 'Frame'"
           title="Item"
           :value="widget.config.item"
-          @input="value => (widget.config.item = value)"
-        />
+          @input="value => (widget.config.item = value)" />
         <ul v-if="widget.component !== 'Sitemap'">
           <f7-list-input
             ref="icon"
@@ -38,8 +35,7 @@
             placeholder="temperature, firstfloor..."
             :value="widget.config.icon"
             @input="updateParameter('icon', $event)"
-            clear-button
-          >
+            clear-button>
             <template #root-end>
               <div style="margin-left: calc(35% + 8px)">
                 <oh-icon :icon="widget.config.icon || ''" height="32" width="32" />
@@ -50,8 +46,7 @@
             <template #after>
               <f7-toggle
                 :checked="widget.config.staticIcon ? true : null"
-                @toggle:change="widget.config.staticIcon = $event"
-              />
+                @toggle:change="widget.config.staticIcon = $event" />
             </template>
           </f7-list-item>
         </ul>
@@ -63,8 +58,7 @@
             type="url"
             :value="widget.config.url"
             @input="updateParameter('url', $event)"
-            clear-button
-          />
+            clear-button />
           <f7-list-input
             v-if="supports('refresh')"
             label="Refresh interval (ms)"
@@ -72,19 +66,16 @@
             min="1"
             :value="widget.config.refresh"
             @input="updateParameter('refresh', $event)"
-            clear-button
-          />
+            clear-button />
           <f7-list-item
             v-if="supports('encoding')"
             title="Encoding"
             smart-select
-            :smart-select-params="{ openIn: 'popover', closeOnSelect: true }"
-          >
+            :smart-select-params="{ openIn: 'popover', closeOnSelect: true }">
             <select
               name="encodings"
               :value="widget.config.encoding"
-              @change="updateParameter('encoding', $event)"
-            >
+              @change="updateParameter('encoding', $event)">
               <option v-for="def in ENCODING_DEFS" :key="def.key" :value="def.key">
                 {{ def.value }}
               </option>
@@ -95,8 +86,7 @@
             style="padding-left: 0"
             title="Persistence service"
             :value="widget.config.service"
-            @input="value => (widget.config.service = value)"
-          />
+            @input="value => (widget.config.service = value)" />
           <f7-list-input
             v-if="supports('period')"
             label="Period"
@@ -106,8 +96,7 @@
             pattern="^((P(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?|\d*[YMWDh])-)?-?(P(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?|\d*[YMWDh])$"
             :value="widget.config.period"
             @input="updateParameter('period', $event)"
-            clear-button
-          />
+            clear-button />
           <f7-list-input
             v-if="supports('height')"
             label="Height"
@@ -115,24 +104,21 @@
             min="1"
             :value="widget.config.height"
             @input="updateParameter('height', $event)"
-            clear-button
-          />
+            clear-button />
           <f7-list-input
             v-if="supports('minValue')"
             label="Minimum"
             type="number"
             :value="widget.config.minValue"
             @input="updateParameter('minValue', $event)"
-            clear-button
-          />
+            clear-button />
           <f7-list-input
             v-if="supports('maxValue')"
             label="Maximum"
             type="number"
             :value="widget.config.maxValue"
             @input="updateParameter('maxValue', $event)"
-            clear-button
-          />
+            clear-button />
           <f7-list-input
             v-if="supports('step')"
             label="Step"
@@ -140,8 +126,7 @@
             min="0"
             :value="widget.config.step"
             @input="updateParameter('step', $event)"
-            clear-button
-          />
+            clear-button />
           <f7-list-input
             v-if="supports('yAxisDecimalPattern')"
             label="Y-axis decimal pattern"
@@ -151,19 +136,16 @@
             pattern="^(?:'[0#.,;E]?'|[^0#.,;E'])*((#[,#]*|0)[,0]*)(\.(0+#*|#+))?(?:E0+)?(?:';'|[^;])*(?:;(?:'[0#.,;E]?'|[^0#.,;E'])*((#[,#]*|0)[,0]*)(\.(0+#*|#+))?(?:E0+)?.*)?$"
             :value="widget.config.yAxisDecimalPattern"
             @input="updateParameter('yAxisDecimalPattern', $event)"
-            clear-button
-          />
+            clear-button />
           <f7-list-item
             v-if="supports('interpolation')"
             title="Interpolation"
             smart-select
-            :smart-select-params="{ openIn: 'popover', closeOnSelect: true }"
-          >
+            :smart-select-params="{ openIn: 'popover', closeOnSelect: true }">
             <select
               name="interpolations"
               :value="widget.config.encoding"
-              @change="updateParameter('interpolation', $event)"
-            >
+              @change="updateParameter('interpolation', $event)">
               <option v-for="def in INTERPOLATION_DEFS" :key="def.key" :value="def.key">
                 {{ def.value }}
               </option>
@@ -179,8 +161,7 @@
             max="12"
             :value="widget.config.column"
             @input="updateParameter('column', $event)"
-            clear-button
-          />
+            clear-button />
           <f7-list-input
             v-if="supports('cmd')"
             label="Click command"
@@ -189,68 +170,59 @@
             validate
             :value="widget.config.cmd"
             @input="updateParameter('cmd', $event)"
-            clear-button
-          />
+            clear-button />
           <f7-list-input
             v-if="supports('releaseCmd')"
             label="Release command"
             type="text"
             :value="widget.config.releaseCmd"
             @input="updateParameter('releaseCmd', $event)"
-            clear-button
-          />
+            clear-button />
           <f7-list-item v-if="supports('stateless')" title="Stateless">
             <template #after>
               <f7-toggle
                 :checked="widget.config.stateless ? true : null"
-                @toggle:change="widget.config.stateless = $event"
-              />
+                @toggle:change="widget.config.stateless = $event" />
             </template>
           </f7-list-item>
           <f7-list-item v-if="supports('switchEnabled')" title="Switch enabled">
             <template #after>
               <f7-toggle
                 :checked="widget.config.switchEnabled ? true : null"
-                @toggle:change="widget.config.switchEnabled = $event"
-              />
+                @toggle:change="widget.config.switchEnabled = $event" />
             </template>
           </f7-list-item>
           <f7-list-item v-if="supports('releaseOnly')" title="Release only">
             <template #after>
               <f7-toggle
                 :checked="widget.config.releaseOnly ? true : null"
-                @toggle:change="widget.config.releaseOnly = $event"
-              />
+                @toggle:change="widget.config.releaseOnly = $event" />
             </template>
           </f7-list-item>
           <f7-list-item v-if="supports('legend')" title="Legend">
             <template #after>
               <f7-toggle
                 :checked="widget.config.legend ? true : null"
-                @toggle:change="widget.config.legend = $event"
-              />
+                @toggle:change="widget.config.legend = $event" />
             </template>
           </f7-list-item>
           <f7-list-item v-if="supports('forceAsItem')" title="Force as item">
             <template #after>
               <f7-toggle
                 :checked="widget.config.forceAsItem ? true : null"
-                @toggle:change="widget.config.forceAsItem = $event"
-              />
+                @toggle:change="widget.config.forceAsItem = $event" />
             </template>
           </f7-list-item>
           <f7-list-item
             v-if="supports('inputHint')"
             title="Hint"
             smart-select
-            :smart-select-params="{ openIn: 'popover', closeOnSelect: true }"
-          >
+            :smart-select-params="{ openIn: 'popover', closeOnSelect: true }">
             <select
               name="inputHints"
               required
               :value="widget.config.inputHint"
-              @change="updateParameter('inputHint', $event)"
-            >
+              @change="updateParameter('inputHint', $event)">
               <option v-for="def in INPUT_HINT_DEFS" :key="def.key" :value="def.key">
                 {{ def.value }}
               </option>
@@ -268,8 +240,7 @@
       <f7-button
         v-if="widget.component !== 'Sitemap'"
         color="blue"
-        @click="$emit('duplicate', widget)"
-      >
+        @click="$emit('duplicate', widget)">
         Duplicate
       </f7-button>
       <f7-button v-if="widget.component !== 'Sitemap'" color="red" @click="$emit('remove', widget)">

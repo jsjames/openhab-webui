@@ -11,8 +11,7 @@
       configDescription.visible
         ? configDescription.visible(value, configuration, configDescription, parameters)
         : true
-    "
-  >
+    ">
     <component
       v-if="!readOnly && !configDescription.readOnly"
       :is="control"
@@ -21,8 +20,7 @@
       :parameters="parameters"
       :configuration="configuration"
       :title="configDescription.title"
-      @input="updateValue"
-    />
+      @input="updateValue" />
     <f7-list-item
       v-else-if="readOnly && configDescription.context === 'password'"
       :is="passwords"
@@ -30,29 +28,25 @@
       :value="value"
       :parameters="parameters"
       :configuration="configuration"
-      :title="configDescription.title"
-    />
+      :title="configDescription.title" />
     <f7-list-item
       v-else
       :title="configDescription.label"
-      :after="value !== undefined && value !== null ? value.toString() : 'N/A'"
-    />
+      :after="value !== undefined && value !== null ? value.toString() : 'N/A'" />
     <f7-block-footer slot="after-list" class="param-description">
       <div v-if="status" class="param-status-info">
         <f7-chip
           v-if="status.type !== 'INFORMATION'"
           :color="status.type === 'WARNING' ? 'orange' : status.type === 'ERROR' ? 'red' : 'gray'"
           style="float: right"
-          :text="status.type"
-        />
+          :text="status.type" />
         <span v-if="status.statusCode">Status Code: &nbsp;{{ status.statusCode }}&nbsp;&nbsp;</span>
         <span v-if="status.message">{{ status.message }}</span>
       </div>
       <small
         v-html="
             `${configDescription.required ? '<strong>Required</strong>&nbsp;' : ''}${description || ''}`
-          "
-      />
+          " />
     </f7-block-footer>
   </f7-list>
 </template>
@@ -81,7 +75,14 @@ import ParameterQrcode from './controls/parameter-qrcode.vue';
 
 export default {
   components: {},
-  props: ['configDescription', 'value', 'parameters', 'configuration', 'readOnly', 'status'],
+  props: {
+    configDescription: Object,
+    value: [String, Number, Boolean, Array, Object],
+    parameters: Array,
+    configuration: Object,
+    readOnly: Boolean,
+    status: Array,
+  },
   emits: ['update'],
   data() {
     return {};

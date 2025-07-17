@@ -4,8 +4,7 @@
       <oh-input
         class="input-card-content"
         :context="childContext(context.component)"
-        @command="onCommand"
-      />
+        @command="onCommand" />
     </template>
   </oh-card>
 </template>

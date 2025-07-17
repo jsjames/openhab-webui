@@ -3,8 +3,7 @@
     @page:beforein="onPageBeforeIn"
     @page:beforeout="onPageBeforeOut"
     ref="addondetails"
-    class="page-addon-details"
-  >
+    class="page-addon-details">
     <f7-navbar :transparent="true" back-link="Back" class="addon-details-nav">
       <f7-nav-title v-if="addon">
         {{ addon.label }}
@@ -25,13 +24,11 @@
                 {{ addon.author }}
                 <f7-icon
                   :color="themeOptions.dark === 'dark' ? 'white' : 'blue'"
-                  f7="checkmark_seal_fill"
-                />
+                  f7="checkmark_seal_fill" />
               </div>
               <div
                 v-else-if="addon.properties && addon.properties.views"
-                class="addon-header-subtitle"
-              >
+                class="addon-header-subtitle">
                 <addon-stats-line :addon="addon" :iconSize="15" />
               </div>
               <div class="addon-header-actions">
@@ -45,8 +42,7 @@
                     round
                     small
                     fill
-                    @click="openAddonPopup"
-                  />
+                    @click="openAddonPopup" />
                   <f7-button
                     v-else
                     class="install-button"
@@ -55,8 +51,7 @@
                     round
                     small
                     fill
-                    @click="openAddonPopup"
-                  />
+                    @click="openAddonPopup" />
                 </div>
                 <f7-link
                   v-if="showConfig"
@@ -65,8 +60,7 @@
                   color="blue"
                   :href="'/settings/addons/' + addonId"
                   round
-                  small
-                />
+                  small />
               </div>
             </div>
           </div>
@@ -78,13 +72,11 @@
             <div
               v-show="descriptionExpanded"
               v-html="parsedDescription"
-              class="addon-description-text"
-            />
+              class="addon-description-text" />
             <div
               v-show="!descriptionExpanded"
               v-html="addonDescription"
-              class="addon-description-text"
-            />
+              class="addon-description-text" />
             <div v-show="!descriptionExpanded" class="text-align-right">
               <f7-link @click="descriptionExpanded = true"> more </f7-link>
             </div>
@@ -122,8 +114,7 @@
       :opened="addonPopupOpened"
       @closed="addonPopupOpened = false"
       @install="installAddon"
-      @uninstall="uninstallAddon"
-    />
+      @uninstall="uninstallAddon" />
   </f7-page>
 </template>
 

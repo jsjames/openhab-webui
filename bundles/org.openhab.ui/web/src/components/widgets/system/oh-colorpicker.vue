@@ -3,8 +3,7 @@
     :style="{
       width: '100%',
       ...config.style,
-    }"
-  >
+    }">
     <div v-if="!config.openIn" ref="container" style="width: 100%" />
     <div
       v-else
@@ -22,8 +21,7 @@
         height: config.swatchSize ? config.swatchSize + 'px' : '32px',
         borderRadius: config.swatchBorderRadius ? config.swatchBorderRadius + 'px' : '6px',
         cursor: 'pointer',
-      }"
-    />
+      }" />
   </div>
 </template>
 

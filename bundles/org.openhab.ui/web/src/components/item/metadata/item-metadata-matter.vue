@@ -16,16 +16,14 @@
             searchbar: true,
             closeOnSelect: !multiple,
           }"
-          ref="classes"
-        >
+          ref="classes">
           <select name="parameters" @change="updateClasses" :multiple="multiple">
             <option v-if="!multiple" value="" />
             <option
               v-for="deviceType in getAvailableDeviceTypes()"
               :value="deviceType"
               :key="deviceType"
-              :selected="isSelected(deviceType) ? true : null"
-            >
+              :selected="isSelected(deviceType) ? true : null">
               {{ deviceType }}
             </option>
           </select>
@@ -36,8 +34,7 @@
           :parameterGroups="parametersGroups"
           :parameters="parameters"
           :configuration="metadata.config"
-          :read-only="!editable"
-        />
+          :read-only="!editable" />
       </div>
       <f7-block class="padding-top no-padding no-margin" v-if="shouldShowAttributeMapping">
         <f7-block-title class="padding-horizontal" medium>
@@ -61,16 +58,14 @@
                 openIn: 'popup',
                 searchbar: true,
                 closeOnSelect: true,
-              }"
-            >
+              }">
               <select @change="updateLinkedItem(deviceType, attribute.name, $event.target.value)">
                 <option value="" />
                 <option
                   v-for="mbr in item.members"
                   :value="mbr.name"
                   :key="mbr.id"
-                  :selected="isLinked(deviceType, attribute.name, mbr) ? true : null"
-                >
+                  :selected="isLinked(deviceType, attribute.name, mbr) ? true : null">
                   {{ mbr.label }} ({{ mbr.name }})
                 </option>
               </select>
@@ -79,14 +74,12 @@
           <!-- Option mapping UI: separate from item mapping list -->
           <div
             v-for="attribute in deviceTypes[deviceType]?.attributes"
-            :key="attribute.name + '-mapping'"
-          >
+            :key="attribute.name + '-mapping'">
             <template
               v-if="
                 getMappedChild(attribute.name) &&
                 getAttributeOptions(attribute.name, deviceType).length
-              "
-            >
+              ">
               <div class="option-mapping-fields padding-left padding-bottom">
                 <div class="padding-bottom padding-top">
                   <b>Mapping options for {{ attribute.label }}</b>
@@ -99,8 +92,7 @@
                     :label="option.label"
                     :value="getChildMapping(attribute.name, option.label, option.value)"
                     :disabled="!editable ? true : null"
-                    @input="setChildMapping(attribute.name, option.label, $event.target.value)"
-                  />
+                    @input="setChildMapping(attribute.name, option.label, $event.target.value)" />
                 </f7-list>
               </div>
             </template>
@@ -118,8 +110,7 @@
           color="blue"
           external
           target="_blank"
-          :href="`${$store.state.websiteUrl}/link/matter`"
-        >
+          :href="`${$store.state.websiteUrl}/link/matter`">
           Matter integration documentation
         </f7-link>
       </p>

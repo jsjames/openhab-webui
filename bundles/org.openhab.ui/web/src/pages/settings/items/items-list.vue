@@ -5,8 +5,7 @@
         <f7-link
           icon-md="material:done_all"
           @click="toggleCheck()"
-          :text="theme.ios ? (showCheckboxes ? 'Done' : 'Select') : ''"
-        />
+          :text="theme.ios ? (showCheckboxes ? 'Done' : 'Select') : ''" />
       </f7-nav-right>
       <!-- <f7-nav-right>
         <f7-link
@@ -31,8 +30,7 @@
           :init="initSearchbar"
           search-container=".contacts-list"
           search-in=".item-title"
-          :disable-button="!theme.aurora"
-        />
+          :disable-button="!theme.aurora" />
       </f7-subnavbar>
     </f7-navbar>
     <f7-toolbar class="contextual-toolbar" v-if="showCheckboxes" bottom-ios>
@@ -45,8 +43,7 @@
       v-show="!$device.desktop"
       list-el=".items-list"
       :scroll-list="true"
-      :label="true"
-    />
+      :label="true" />
 
     <f7-list class="searchbar-not-found">
       <f7-list-item title="Nothing found" />
@@ -64,8 +61,7 @@
             :class="`skeleton-text skeleton-effect-blink`"
             title="Label of the item"
             subtitle="This contains the name of the item"
-            after="The item type"
-          />
+            after="The item type" />
         </f7-list-group>
       </f7-list>
       <f7-list v-else class="searchbar-found col items-list" contacts-list>
@@ -79,8 +75,7 @@
             :link="showCheckboxes ? null : item.name"
             :title="item.label ? item.label : item.name"
             :subtitle="item.label ? item.name : ''"
-            :after="item.type"
-          />
+            :after="item.type" />
         </f7-list-group>
       </f7-list>
     </f7-block>

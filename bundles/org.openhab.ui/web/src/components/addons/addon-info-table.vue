@@ -8,8 +8,7 @@
       :link="line.linkUrl"
       external
       no-chevron
-      target="_blank"
-    >
+      target="_blank">
       <template #after>
         <f7-icon v-if="line.afterIcon" :f7="line.afterIcon" />
       </template>

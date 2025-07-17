@@ -7,13 +7,11 @@
         :key="a.uid"
         :link="'addons/' + a.uid"
         :title="a.label"
-        v-show="!a.hidden"
-      />
+        v-show="!a.hidden" />
       <f7-list-button
         v-if="!expanded && addonsSettings.find(a => a.hidden)"
         color="blue"
-        @click="$emit('expand')"
-      >
+        @click="$emit('expand')">
         {{ $t('dialogs.showAll') }}
       </f7-list-button>
     </f7-list>

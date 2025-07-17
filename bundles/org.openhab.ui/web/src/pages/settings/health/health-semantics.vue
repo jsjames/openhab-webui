@@ -4,8 +4,7 @@
       title="Semantic Model Configuration Conflicts"
       back-link="Health Checks"
       back-link-url="/settings/health/"
-      back-link-force
-    >
+      back-link-force>
       <f7-nav-right>
         <developer-dock-icon />
       </f7-nav-right>
@@ -38,8 +37,7 @@
               :class="`skeleton-text skeleton-effect-blink`"
               title="Type of problem"
               subtitle="Semantics model"
-              footer=""
-            />
+              footer="" />
           </f7-list-group>
         </f7-list>
       </f7-col>
@@ -64,8 +62,7 @@
               semanticsProblem.item +
               (semanticsProblem.semanticType ? ' (' + semanticsProblem.semanticType + ')' : '')
             "
-            :footer="semanticsProblem.explanation"
-          >
+            :footer="semanticsProblem.explanation">
             <template #after-title>
               <f7-icon v-if="!semanticsProblem.editable" f7="lock_fill" size="1rem" color="gray" />
             </template>

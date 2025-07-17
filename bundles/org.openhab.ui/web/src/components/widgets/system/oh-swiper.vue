@@ -4,28 +4,24 @@
       v-for="(slide, idx) in slides"
       v-bind="$attrs"
       :key="idx"
-      :context="childContext(slide)"
-    />
+      :context="childContext(slide)" />
 
     <template
       v-if="
         context.component.slots &&
         context.component.slots.slides &&
         Array.isArray(context.component.slots.slides)
-      "
-    >
+      ">
       <generic-widget-component
         v-for="(slide, idx) in context.component.slots.slides"
         v-bind="$attrs"
         :key="idx"
-        :context="childContext(slide)"
-      />
+        :context="childContext(slide)" />
     </template>
 
     <f7-swiper-slide v-if="context.editmode">
       <oh-placeholder-widget
-        @click="context.editmode.addWidget(context.component, null, context.parent)"
-      />
+        @click="context.editmode.addWidget(context.component, null, context.parent)" />
     </f7-swiper-slide>
     <!-- <f7-menu v-if="context.editmode" class="configure-layout-menu margin-vertical padding-left">
       <f7-menu-item @click="context.editmode.addWidget(context.component, 'oh-list-item')" icon-f7="plus" />

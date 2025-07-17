@@ -4,8 +4,7 @@
     class="modelpicker-popup"
     close-on-escape
     @popup:open="onOpen"
-    @popup:close="onClose"
-  >
+    @popup:close="onClose">
     <f7-page>
       <f7-navbar>
         <f7-nav-left>
@@ -13,15 +12,13 @@
             icon-ios="f7:arrow_left"
             icon-md="material:arrow_back"
             icon-aurora="f7:arrow_left"
-            popup-close
-          />
+            popup-close />
         </f7-nav-left>
         <f7-nav-title>{{ popupTitle || 'Pick from Model' }}</f7-nav-title>
         <f7-nav-right>
           <f7-link
             v-if="ready && ((multiple && checkedItems.length > 0) || selectedItem || allowEmpty)"
-            @click="pickItems"
-          >
+            @click="pickItems">
             {{ actionLabel || 'Pick' }}
             <span v-if="multiple && checkedItems.length > 0">&nbsp;{{ checkedItems.length }}</span>
           </f7-link>
@@ -34,24 +31,21 @@
           search-container=".model-treeview"
           search-item=".treeview-item"
           search-in=".treeview-item-label"
-          :disable-button="!theme.aurora"
-        />
+          :disable-button="!theme.aurora" />
         <div class="expand-button">
           <f7-button
             v-if="!expanded"
             icon-size="24"
             tooltip="Expand"
             icon-f7="rectangle_expand_vertical"
-            @click="toggleExpanded()"
-          />
+            @click="toggleExpanded()" />
           <f7-button
             v-else
             color="gray"
             icon-size="24"
             tooltip="Collapse"
             icon-f7="rectangle_compress_vertical"
-            @click="toggleExpanded()"
-          />
+            @click="toggleExpanded()" />
         </div>
       </f7-subnavbar>
 
@@ -61,8 +55,7 @@
           v-if="!multiple"
           :disabled="selectedItem != null ? true : null"
           class="left"
-          @click="selectedItem = null"
-        >
+          @click="selectedItem = null">
           Clear
         </f7-link>
         <span v-else />
@@ -72,14 +65,12 @@
           <f7-checkbox
             style="margin-left: 5px"
             :checked="includeItemName ? true : null"
-            @change="toggleItemName"
-          />
+            @change="toggleItemName" />
           <label @click="toggleItemName" class="advanced-label">Show name</label>
           <f7-checkbox
             style="margin-left: 5px"
             :checked="includeItemTags ? true : null"
-            @change="toggleItemTags"
-          />
+            @change="toggleItemTags" />
           <label @click="toggleItemTags" class="advanced-label">Show tags</label>
         </div>
         <span />
@@ -88,14 +79,12 @@
         v-else
         bottom
         class="toolbar-details"
-        style="height: calc(50px + var(--f7-safe-area-bottom))"
-      >
+        style="height: calc(50px + var(--f7-safe-area-bottom))">
         <f7-link
           v-if="!multiple"
           :disabled="selectedItem != null ? true : null"
           class="left"
-          @click="selectedItem = null"
-        >
+          @click="selectedItem = null">
           Clear
         </f7-link>
         <span v-else />
@@ -110,8 +99,7 @@
             <f7-checkbox
               style="margin-left: 5px"
               :checked="includeItemTags ? true : null"
-              @change="toggleItemTags"
-            />
+              @change="toggleItemTags" />
             <label @click="toggleItemTags" class="advanced-label">Show tags</label>
           </div>
         </div>
@@ -126,8 +114,7 @@
           :includeItemTags="includeItemTags"
           :selected="selectedItem ? true : false"
           @selected="selectItem"
-          @checked="checkItem"
-        />
+          @checked="checkItem" />
       </f7-block>
       <f7-block v-else-if="!ready" class="text-align-center">
         <f7-preloader />

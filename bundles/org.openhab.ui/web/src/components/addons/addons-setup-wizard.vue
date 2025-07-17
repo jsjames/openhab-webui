@@ -8,8 +8,7 @@
           icon-f7="bag_fill_badge_plus"
           icon-size="24"
           @click="selectAddons"
-          :text="$t('setupwizard.addons.selectAddons')"
-        />
+          :text="$t('setupwizard.addons.selectAddons')" />
       </f7-col>
     </f7-row>
     <f7-list media-list>
@@ -21,8 +20,7 @@
                 style="margin-right: 0.5rem"
                 :checked="selectedAddon(addon) ? true : null"
                 :disabled="addon.installed ? true : null"
-                @change="toggleAddonSelection(addon, $event)"
-              />
+                @change="toggleAddonSelection(addon, $event)" />
               {{ addon.label }}
               <f7-link
                 style="float: right"
@@ -30,8 +28,7 @@
                 :external="true"
                 color="gray"
                 target="_blank"
-                :href="addon.link"
-              />
+                :href="addon.link" />
             </div>
           </f7-row>
           <f7-row no-gap style="margin-top: 0.5rem; margin-bottom: 0">

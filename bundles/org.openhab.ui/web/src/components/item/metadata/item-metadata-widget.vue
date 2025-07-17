@@ -5,8 +5,7 @@
         <generic-widget-component
           v-if="previewContext.component"
           :context="previewContext"
-          :key="previewWidgetKey"
-        />
+          :key="previewWidgetKey" />
       </f7-col>
     </f7-block>
 
@@ -26,8 +25,7 @@
           closeOnSelect: true,
           scrollToSelectedItem: true,
         }"
-        ref="widgets"
-      >
+        ref="widgets">
         <select name="widgets" @change="updateComponent">
           <option value="">Default ({{ defaultComponent.component }})</option>
           <optgroup label="Standard Library (List)" v-if="namespace === 'listWidget'">
@@ -35,8 +33,7 @@
               v-for="widget in standardListWidgets"
               :key="widget.name"
               :value="widget.name"
-              :selected="metadata.value === widget.name ? true : null"
-            >
+              :selected="metadata.value === widget.name ? true : null">
               {{ widget.label }}
             </option>
           </optgroup>
@@ -45,8 +42,7 @@
               v-for="widget in standardCellWidgets"
               :key="widget.name"
               :value="widget.name"
-              :selected="metadata.value === widget.name"
-            >
+              :selected="metadata.value === widget.name">
               {{ widget.label }}
             </option>
           </optgroup>
@@ -55,8 +51,7 @@
               v-for="widget in standardWidgets"
               :key="widget.name"
               :value="widget.name"
-              :selected="metadata.value === widget.name"
-            >
+              :selected="metadata.value === widget.name">
               {{ widget.label }}
             </option>
           </optgroup>
@@ -65,8 +60,7 @@
               v-for="widget in personalWidgets"
               :value="'widget:' + widget.uid"
               :key="widget.uid"
-              :selected="metadata.value.replace('widget:', '') === widget.uid ? true : null"
-            >
+              :selected="metadata.value.replace('widget:', '') === widget.uid ? true : null">
               {{ widget.uid }}
             </option>
           </optgroup>
@@ -78,29 +72,15 @@
     </f7-list>
     <div v-if="configDescriptions.parameters" class="widget-metadata-config-sheet">
       <f7-block-title>Configuration</f7-block-title>
+
       <f7-block-footer class="padding-horizontal margin-bottom">
-        Note: the parameter named 'item' will be set automatically with the name of the item ({{
-          this.item.name
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        Note: the parameter named 'item' will be set automatically with the name of the item ({{ this.item.name
         }}) unless it's set explicitely.
       </f7-block-footer>
+
       <f7-block-footer
         v-if="currentComponent.component && currentComponent.component.indexOf('widget:') === 0"
-        class="padding-horizontal margin-bottom"
-      >
+        class="padding-horizontal margin-bottom">
         Make sure the personal widget is of the expected type (cell, list item or standalone).
       </f7-block-footer>
       <config-sheet
@@ -108,8 +88,7 @@
         :parameters="configDescriptions.parameters"
         :configuration="metadata.config"
         @updated="widgetConfigUpdated"
-        set-empty-config-as-null="true"
-      />
+        set-empty-config-as-null="true" />
     </div>
   </div>
 </template>
