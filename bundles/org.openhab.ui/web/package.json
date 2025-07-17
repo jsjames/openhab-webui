@@ -110,6 +110,7 @@
     "vue3-clipboard": "^1.0.0",
     "vue3-echarts": "^1.1.0",
     "vue3-masonry-css": "^1.0.8",
+    "vue3trend": "^1.0.0",
     "vuex": "^4.1.0",
     "yaml": "^2.5.0"
   },

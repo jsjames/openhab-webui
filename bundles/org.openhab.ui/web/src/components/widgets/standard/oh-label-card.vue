@@ -81,7 +81,7 @@ export default {
   mixins: [mixin, actionsMixin],
   components: {
     OhCard,
-    // OhTrend
+    OhTrend
   },
   widget: OhLabelCardDefinition,
   computed: {

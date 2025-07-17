@@ -19,7 +19,9 @@ import { OhTrendDefinition } from '@/assets/definitions/widgets/system';
 
 export default {
   mixins: [mixin],
-  props: ['width'],
+  props: {
+    width: Number
+  },
   widget: OhTrendDefinition,
   data() {
     return {

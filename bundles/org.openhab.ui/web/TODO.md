@@ -3,7 +3,7 @@ TODO
 - [] HIGH - production build scripts and reporting
 - [] HIGH - no babel support - is this needed moving forward?
 - [] HIGH - dynamic imports for i18n, node_modules needs to be looked at - currently hacked to get running
-- [] HIGH - vuetrend does not support vue 3 - need to find alternative or update vuetrend
+- [x] HIGH - vuetrend does not support vue 3 - vue3trend does exist
 - [] HIGH - Cypress - haven't even looked at this or testing yet
 - [] HIGH - Codemirror - to upgrade to vue3 reqires Codemirror v6 which architecturally is different
 - [] HIGH - Swiper-slide needs to be retrofited with new (https://v6.framework7.io/vue/migration-from-v5#swiper)
@@ -20,6 +20,8 @@ BUGS
 - [x] bars theme-filled applied to app class, but does not change navbar style. It seems in vue3 (contrary to documentation that I can find), that f7-app classes will not be applied. So, added code to add to the html element at the top.
 - [] vue3-masonry-css is buggy especially when you change the window width??
 - [] There are two home pages created in the DOM under the view?  Removing the "stacked" setting addresses this, but that breaks other things.
+- [] on item-detail->oh-label-card->oh-trend - the width setting is only correct AFTER the page is display - doesn't seem to be reactive
+- [] back button on settings/items/item-details does not work
 
 NOTES
 
