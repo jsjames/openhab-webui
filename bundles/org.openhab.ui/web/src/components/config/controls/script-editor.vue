@@ -1,10 +1,11 @@
 <template>
   <codemirror
-    :value="value"
-    @input="onCmCodeChange"
+    :modelValue="value"
+    :extensions="extensions"
     ref="cm"
     class="code-editor-fit"
-    :options="cmOptions"
+    v-bind="cmOptions"
+    @input="onCmCodeChange"
     @ready="onCmReady" />
 </template>
 
@@ -45,50 +46,48 @@
 </style>
 
 <script>
-// require component
-import { Codemirror } from 'vue-codemirror';
-import _CodeMirror from 'codemirror';
+import { Codemirror } from "vue-codemirror";
+
 // require styles
-import 'codemirror/lib/codemirror.css';
+//TODO-V3 import 'codemirror/lib/codemirror.css';
 
 // language js
-import 'codemirror/mode/clike/clike.js';
-import 'codemirror/mode/groovy/groovy.js';
-import 'codemirror/mode/jinja2/jinja2.js';
-import 'codemirror/mode/javascript/javascript.js';
-import 'codemirror/mode/properties/properties.js';
-import 'codemirror/mode/python/python.js';
-import 'codemirror/mode/ruby/ruby.js';
-import 'codemirror/mode/shell/shell.js';
-import 'codemirror/mode/xml/xml.js';
-import 'codemirror/mode/yaml/yaml.js';
+import { clike } from '@codemirror/legacy-modes/mode/clike';
+import { groovy } from '@codemirror/legacy-modes/mode/groovy';
+import { jinja2 } from '@codemirror/legacy-modes/mode/jinja2';
+import { javascript } from '@codemirror/lang-javascript';
+// import { properties } from '@codemirror/legacy-modes/mode/properties';
+import { python } from '@codemirror/lang-python';
+import { ruby } from '@codemirror/legacy-modes/mode/ruby';
+// import { shell } from '@codemirror/legacy-modes/mode/shell';
+import { xml } from '@codemirror/lang-xml';
+import { yaml } from '@codemirror/lang-yaml';
 
-// theme css
-import 'codemirror/theme/gruvbox-dark.css';
+//TODO-V3 import 'codemirror/theme/gruvbox-dark.css';
+import { gruvboxDark } from '@uiw/codemirror-theme-gruvbox-dark';
+import { oneDark } from '@codemirror/theme-one-dark';
 
-import 'codemirror/addon/edit/matchbrackets.js';
-import 'codemirror/addon/edit/closebrackets.js';
+import { closeBrackets } from "@codemirror/autocomplete";
+// import { matchBrackets } from "@codemirror/language";
 
-import 'codemirror/addon/comment/comment.js';
+//TODO-V3 import 'codemirror/addon/comment/comment.js';
 
 // for autocomplete
-import 'codemirror/addon/hint/show-hint.js';
-import 'codemirror/addon/hint/show-hint.css';
-import 'codemirror/addon/hint/anyword-hint.js';
-import 'codemirror/addon/dialog/dialog.js';
-import 'codemirror/addon/dialog/dialog.css';
-import 'codemirror/addon/tern/tern.js';
-import 'codemirror/addon/tern/tern.css';
+//TODO-V3 import 'codemirror/addon/hint/show-hint.js';
+//TODO-V3 import 'codemirror/addon/hint/show-hint.css';
+//TODO-V3 import 'codemirror/addon/hint/anyword-hint.js';
+//TODO-V3 import 'codemirror/addon/dialog/dialog.js';
+//TODO-V3 import 'codemirror/addon/dialog/dialog.css';
+//TODO-V3 import 'codemirror/addon/tern/tern.js';
+//TODO-V3 import 'codemirror/addon/tern/tern.css';
 
 // for folding
-import 'codemirror/addon/fold/foldgutter.css';
-import 'codemirror/addon/fold/foldcode.js';
-import 'codemirror/addon/fold/foldgutter.js';
-import 'codemirror/addon/fold/indent-fold.js';
+import { codeFolding } from '@codemirror/language'
+//TODO-V3 import 'codemirror/addon/fold/indent-fold.js';
 
 // for linting
-import 'codemirror/addon/lint/lint.js';
-import 'codemirror/addon/lint/lint.css';
+//TODO-V3 import 'codemirror/addon/lint/lint.js';
+//TODO-V3 import 'codemirror/addon/lint/lint.css';
 import YAML from 'yaml';
 
 import tern from 'tern';
@@ -105,11 +104,11 @@ import EcmascriptDefs from 'tern/defs/ecmascript.json';
 import NashornDefs from '@/assets/nashorn-tern-defs.json';
 import OpenhabJsDefs from '@/assets/openhab-js-tern-defs.json';
 
-import componentsHint from '../editor/hint-components';
-import itemsHint from '../editor/hint-items';
-import rulesHint from '../editor/hint-rules';
-import thingsHint from '../editor/hint-things';
-import pythonHint from '../editor/hint-python';
+//TODO-V3 import componentsHint from '../editor/hint-components';
+//TODO-V3 import itemsHint from '../editor/hint-items';
+//TODO-V3 import rulesHint from '../editor/hint-rules';
+//TODO-V3 import thingsHint from '../editor/hint-things';
+//TODO-V3 import pythonHint from '../editor/hint-python';
 
 import openhab from '@/js/openhab';
 import { themeOptionsStore } from '@/js/stores/theme-options';
@@ -154,7 +153,13 @@ export default {
   components: {
     Codemirror,
   },
-  props: ['value', 'mode', 'hintContext', 'ternAutocompletionHook', 'readOnly'],
+  props: {
+    value: String,
+    mode: String,
+    hintContext: Object,
+    ternAutocompletionHook: Function,
+    readOnly: Boolean,
+  },
   emits: ['input'],
   data() {
     return {
@@ -162,19 +167,10 @@ export default {
       itemsCache: [],
       themeOptions: themeOptionsStore(),
       cmOptions: {
-        // codemirror options
         tabSize: 4,
-        mode: this.translateMode(this.mode),
-        theme: themeOptionsStore().dark === 'dark' ? 'gruvbox-dark' : 'default',
-        lineNumbers: true,
         line: true,
         readOnly: this.readOnly,
-        matchBrackets: true,
-        autoCloseBrackets: true,
         viewportMargin: Infinity,
-        foldGutter: true,
-        lint: false,
-        gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
       },
     };
   },
@@ -184,6 +180,46 @@ export default {
     }
   },
   methods: {
+    getCMModeExtension(mode) {
+      switch(mode) {
+        case 'yaml':
+        case 'text/x-yaml':
+        case 'application/vnd.openhab.thing+yaml':
+          return yaml();
+        case 'application/javascript':
+        case 'js':
+          return javascript();
+        case 'application/x-groovy':
+        case 'groovy':
+          return groovy();
+        case 'application/x-python2':
+        case 'py2':
+          return python({ version: 2 });
+        case 'application/x-python3':
+        case 'py3':
+        case 'application/x-python':
+        case 'py':
+          return python();
+        case 'application/x-ruby':
+        case 'rb':
+          return ruby();
+        case 'text/jinja2':
+        case 'jinja':
+        case 'jinja2':
+          return jinja2();
+        case 'text/xml':
+        case 'xml':
+          return xml();
+        case 'text/css':
+        case 'css':
+          return css();
+        case 'clike':
+          return clike();
+        default:
+          console.log('Unsupported codemirror mode:', mode);
+          return clike();
+      }
+    },
     translateMode(mode) {
       // Translations required for some special modes used in MainUI
       // See https://codemirror.net/5/mode/index.html for supported language names & MIME types
@@ -278,6 +314,7 @@ export default {
             this.itemsCache = data;
           });
         }
+        /* TODO-V3
         const server = new _CodeMirror.TernServer({
           defs:
             this.mode.indexOf('version=ECMAScript-5.1') > 0
@@ -300,6 +337,7 @@ export default {
             return _CodeMirror.Pass; // tell CodeMirror we didn't handle the key
           },
         };
+        */
         cm.on('cursorActivity', function (cm) {
           server.updateArgHints(cm);
         });
@@ -320,6 +358,7 @@ export default {
         cm.state.$oh = this.$oh;
         cm.state.originalMode = this.mode;
         if (this.hintContext) cm.state.hintContext = Object.assign({}, this.hintContext);
+        /* TODO-V3
         cm.setOption('hintOptions', {
           closeOnUnfocus: false,
           completeSingle: self.mode && self.mode.indexOf('yaml') > 0,
@@ -339,7 +378,9 @@ export default {
             }
           },
         });
+        */
 
+        /* TODO-V3
         _CodeMirror.registerHelper('lint', 'yaml', function (text) {
           const found = [];
           const parsed = YAML.parseDocument(text);
@@ -360,8 +401,8 @@ export default {
 
           return found;
         });
+        */
 
-        this.cmOptions.gutters.push('CodeMirror-lint-markers');
         this.cmOptions.lint = true;
       }
       extraKeys.Tab = function (cm) {
@@ -378,9 +419,9 @@ export default {
       extraKeys['Shift-Tab'] = 'indentLess';
       extraKeys['Cmd-/'] = extraKeys['Ctrl-/'] = 'toggleComment';
       extraKeys['Shift-Cmd-K'] = extraKeys['Shift-Ctrl-K'] = this.deleteCurrentLine;
-      cm.setOption('extraKeys', extraKeys);
-      cm.addOverlay(indentGuidesOverlay);
-      cm.refresh();
+      // TODO-V3 cm.setOption('extraKeys', extraKeys);
+      // TODO-V3 cm.addOverlay(indentGuidesOverlay);
+      // TODO-V3 cm.refresh();
     },
     onCmCodeChange(newCode) {
       this.$emit('input', newCode);
@@ -406,6 +447,14 @@ export default {
     },
   },
   computed: {
+    extensions() {
+      const extensions = [ closeBrackets(), codeFolding() ]
+      if( themeOptionsStore().dark === 'dark')
+        extensions.push(gruvboxDark)
+      extensions.push(this.getCMModeExtension(this.mode))
+
+      return extensions
+    },
     codemirror() {
       return this.$refs.cm.codemirror;
     },

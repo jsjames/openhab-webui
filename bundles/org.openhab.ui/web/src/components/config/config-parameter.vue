@@ -12,15 +12,16 @@
         ? configDescription.visible(value, configuration, configDescription, parameters)
         : true
     ">
-    <component
-      v-if="!readOnly && !configDescription.readOnly"
-      :is="control"
-      :config-description="configDescription"
-      :value="value"
-      :parameters="parameters"
-      :configuration="configuration"
-      :title="configDescription.title"
-      @input="updateValue" />
+    <div v-if="!readOnly && !configDescription.readOnly">
+      <component
+        :is="control"
+        :config-description="configDescription"
+        :value="value"
+        :parameters="parameters"
+        :configuration="configuration"
+        :title="configDescription.title"
+        @input="updateValue" />
+    </div>
     <f7-list-item
       v-else-if="readOnly && configDescription.context === 'password'"
       :is="passwords"

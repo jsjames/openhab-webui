@@ -7,7 +7,6 @@
           ? ''
           : 'hidden',
     }"
-    class="theme-filled"
     :class="{
       'theme-dark': themeOptionsStore.dark === 'dark',
       'theme-filled': themeOptionsStore.bars === 'filled',
@@ -407,6 +406,8 @@
 
     <f7-view
       main
+      browser-history
+      browserHistorySeparator=""
       v-show="ready"
       class="safe-areas"
       url="/"
@@ -858,6 +859,7 @@ export default {
         Dom7('html').removeClass('theme-dark');
       }
 
+      // Not sure why the classes are not getting appliced to the app element via binding
       if (this.themeOptionsStore.bars === 'filled') {
         Dom7('html').addClass('theme-filled');
       } else {

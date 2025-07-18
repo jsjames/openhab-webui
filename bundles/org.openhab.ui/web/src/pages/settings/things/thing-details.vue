@@ -19,20 +19,20 @@
     <f7-toolbar tabbar position="top">
       <f7-link
         @click="switchTab('thing')"
-        :tab-link-active="currentTab === 'thing'"
+        :tab-link-active="currentTab === 'thing' ? true : null"
         class="tab-link">
         Thing
       </f7-link>
       <f7-link
         @click="switchTab('channels')"
-        :tab-link-active="currentTab === 'channels'"
+        :tab-link-active="currentTab === 'channels' ? true : null"
         v-show="!error"
         class="tab-link">
         Channels
       </f7-link>
       <f7-link
         @click="switchTab('code')"
-        :tab-link-active="currentTab === 'code'"
+        :tab-link-active="currentTab === 'code' ? true : null"
         v-show="!error"
         class="tab-link">
         Code
@@ -40,7 +40,7 @@
     </f7-toolbar>
 
     <f7-tabs>
-      <f7-tab id="thing" :tab-active="currentTab === 'thing'">
+      <f7-tab id="thing" :tab-active="currentTab === 'thing' ? true : null">
         <f7-block v-if="ready && thing.statusInfo" class="block-narrow" strong>
           <f7-col class="padding-horizontal">
             <div v-show="!error" class="float-right align-items-flex-start align-items-center">
@@ -269,7 +269,10 @@
         </f7-block>
       </f7-tab>
 
-      <f7-tab id="channels" disabled="!thingType.channels" :tab-active="currentTab === 'channels'">
+      <f7-tab
+        id="channels"
+        disabled="!thingType.channels ? true : null"
+        :tab-active="currentTab === 'channels' ? true : null">
         <f7-block v-if="currentTab === 'channels'" class="block-narrow">
           <channel-list
             :thingType="thingType"
@@ -310,7 +313,7 @@
         </f7-block>
       </f7-tab>
 
-      <f7-tab id="code" :tab-active="currentTab === 'code'">
+      <f7-tab id="code" :tab-active="currentTab === 'code' ? true : null">
         <f7-icon
           v-if="!editable"
           f7="lock"

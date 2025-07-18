@@ -50,7 +50,7 @@ import { i18n, loadLocaleMessages } from '@/js/i18n'
 await loadLocaleMessages('/src/assets/i18n/common')
 
 // Import vuetrend
-import Trend from 'vue3trend'
+//import Trend from 'vue3trend'
 
 // Import Fullscreen Plugin
 import fullscreen from 'vue-fullscreen'
@@ -76,7 +76,6 @@ app.use(VueClipboard, {
   autoSetContainer: true, // add this line to enable auto setting container
   appendToBody: true // add this line to append the popup to body
 })
-app.use(Trend)
 
 store.$oh = openhab
 

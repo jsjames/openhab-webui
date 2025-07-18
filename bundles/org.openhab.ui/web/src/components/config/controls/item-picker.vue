@@ -25,21 +25,16 @@
           {{ item.label ? item.label + ' (' + item.name + ')' : item.name }}
         </option>
       </select>
-      <f7-button
-        v-if="!noModelPicker"
-        slot="media"
-        :icon-color="color"
-        :icon-aurora="aurora"
-        :icon-ios="ios"
-        :icon-md="md"
-        @click="pickFromModel" />
-      <f7-icon
-        v-else-if="!hideIcon"
-        slot="media"
-        :color="color"
-        :aurora="aurora"
-        :ios="ios"
-        :md="md" />
+      <template #media>
+        <f7-button
+          v-if="!noModelPicker"
+          :icon-color="color"
+          :icon-aurora="aurora"
+          :icon-ios="ios"
+          :icon-md="md"
+          @click="pickFromModel" />
+        <f7-icon v-else-if="!hideIcon" :color="color" :aurora="aurora" :ios="ios" :md="md" />
+      </template>
     </f7-list-item>
     <!-- for placeholder purposes before items are loaded -->
     <f7-list-item link v-show="!ready" :title="title" disabled no-chevron>

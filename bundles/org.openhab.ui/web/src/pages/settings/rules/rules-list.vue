@@ -198,7 +198,6 @@
                   @click="e => toggleSearchTag(e, tag)">
                   <template #media>
                     <f7-icon
-                      slot="media"
                       v-if="isTagSelected(tag)"
                       ios="f7:checkmark_circle_fill"
                       md="material:check_circle"
@@ -222,7 +221,7 @@
               :key="rule.uid"
               media-item
               class="rulelist-item"
-              :checkbox="showCheckboxes"
+              :checkbox="showCheckboxes ? true : null"
               :checked="isChecked(rule.uid) ? true : null"
               @click.ctrl="e => ctrlClick(e, rule)"
               @click.meta="e => ctrlClick(e, rule)"
@@ -233,7 +232,8 @@
               :footer="rule.description"
               :badge="showScenes ? '' : ruleStatusBadgeText(ruleStatuses[rule.uid])"
               :badge-color="ruleStatusBadgeColor(ruleStatuses[rule.uid])">
-              <div slot="footer" class="footer-inner">
+              <template #footer>
+              <div class="footer-inner">
                 <f7-chip
                   v-if="rule.templateUID"
                   :text="templateName(rule)"
@@ -260,28 +260,24 @@
                   </template>
                 </f7-chip>
               </div>
+              </template>
+              <template v-if="showCheckboxes" #media>
               <!-- <span slot="media" class="item-initial">{{initial}}</span> -->
-              <f7-icon
-                v-if="rule.editable === false"
-                slot="after-title"
-                f7="lock_fill"
-                size="1rem"
-                color="gray" />
+              <template v-if="rule.editable === false" #after-title>
+                <f7-icon f7="lock_fill" size="1rem" color="gray" />
+              </template>
             </f7-list-item>
           </f7-list-group>
         </f7-list>
       </f7-col>
     </f7-block>
 
-    <f7-fab
-      slot="fixed"
-      v-show="ready && !showCheckboxes"
-      position="right-bottom"
-      color="blue"
-      href="add">
-      <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
-      <f7-icon ios="f7:close" md="material:close" aurora="f7:close" />
-    </f7-fab>
+    <template #fixed>
+      <f7-fab v-show="ready && !showCheckboxes" position="right-bottom" color="blue" href="add">
+        <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
+        <f7-icon ios="f7:close" md="material:close" aurora="f7:close" />
+      </f7-fab>
+    </template>
   </f7-page>
 </template>
 

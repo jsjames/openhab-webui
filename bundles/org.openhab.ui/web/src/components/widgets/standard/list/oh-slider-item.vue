@@ -1,6 +1,5 @@
 <template>
   <oh-list-item :context="context" class="slider-listitem">
-    <<<<<<< HEAD
     <div slot="after">
       {{ value }}
     </div>
