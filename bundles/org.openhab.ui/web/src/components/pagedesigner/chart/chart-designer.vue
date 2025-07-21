@@ -385,7 +385,7 @@ import {
   VisualMapComponent,
   CalendarComponent,
 } from 'echarts/components';
-import { VueEcharts as VChart } from 'vue3-echarts';
+import VChart from 'vue-echarts';
 import { f7 } from 'framework7-vue';
 
 use([
@@ -411,7 +411,7 @@ use([
   CalendarComponent,
 ]);
 
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import IsoWeek from 'dayjs/plugin/isoWeek';
 dayjs.extend(IsoWeek);
 

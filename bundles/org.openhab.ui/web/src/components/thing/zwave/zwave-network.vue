@@ -28,7 +28,7 @@ import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { GraphChart } from 'echarts/charts';
 import { TooltipComponent, ToolboxComponent } from 'echarts/components';
-import { VueEcharts as VChart } from 'vue3-echarts';
+import VChart from 'vue-echarts';
 import { f7, theme } from 'framework7-vue';
 import { themeOptionsStore } from '@/js/stores/theme-options';
 

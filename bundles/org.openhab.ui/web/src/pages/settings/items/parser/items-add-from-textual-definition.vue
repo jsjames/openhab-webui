@@ -159,7 +159,7 @@
 
 <script>
 import { Parser, Grammar } from 'nearley';
-import grammar from '@/assets/items-lexer.nearley';
+import grammar from '@/assets/items-lexer.nearley?raw';
 import { f7, theme } from 'framework7-vue';
 import { defineAsyncComponent } from 'vue';
 

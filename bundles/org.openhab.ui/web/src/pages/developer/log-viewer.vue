@@ -521,7 +521,7 @@
     border 2px solid black
 </style>
 
-<script lang="ts">
+<script>
 import MovablePopupMixin from '@/pages/settings/movable-popup-mixin';
 import { nextTick } from 'vue';
 import { theme } from 'framework7-vue';

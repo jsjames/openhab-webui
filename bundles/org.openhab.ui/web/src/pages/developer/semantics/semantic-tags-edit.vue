@@ -2,8 +2,8 @@
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut">
     <f7-navbar :title="'Semantic Tags' + dirtyIndicator" back-link="Back" no-hairline>
       <f7-nav-right>
-        <f7-link @click="save()" v-if="$theme.md" icon-md="material:save" icon-only />
-        <f7-link @click="save()" v-if="!$theme.md">
+        <f7-link @click="save()" v-if="theme.md" icon-md="material:save" icon-only />
+        <f7-link @click="save()" v-if="!theme.md">
           Save<span v-if="$device.desktop">&nbsp;(Ctrl-S)</span>
         </f7-link>
       </f7-nav-right>
@@ -61,7 +61,7 @@
                   search-container=".semantics-treeview"
                   search-item=".treeview-item"
                   search-in=".treeview-item-label"
-                  :disable-button="!$theme.aurora"
+                  :disable-button="!theme.aurora"
                   @input="showFiltered($event.target.value)" />
                 <div class="expand-button">
                   <f7-button

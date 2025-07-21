@@ -105,13 +105,13 @@
               :checked="webAudio === 'enabled' ? true : null"
               @toggle:change="setWebAudio" />
           </f7-list-item>
-          <f7-list-item>
+          <div>
             <item-picker
               :title="$t('about.miscellaneous.commandItem.title')"
               :multiple="false"
               :value="commandItem"
               @input="setCommandItem" />
-          </f7-list-item>
+          </div>
         </f7-list>
       </f7-col>
     </f7-row>
@@ -134,7 +134,7 @@ export default {
     ItemPicker,
   },
   i18n: {
-    messages: loadLocaleMessages('/src/assets/i18n/theme-switcher'),
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/theme-switcher/*.json')),
   },
   methods: {
     switchTheme(theme) {

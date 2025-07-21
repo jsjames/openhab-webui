@@ -16,8 +16,8 @@
       <f7-nav-right>
         <developer-dock-icon />
         <template v-if="isEditable">
-          <f7-link @click="save()" v-if="$theme.md" icon-md="material:save" icon-only />
-          <f7-link @click="save()" v-if="!$theme.md">
+          <f7-link @click="save()" v-if="theme.md" icon-md="material:save" icon-only />
+          <f7-link @click="save()" v-if="!theme.md">
             {{
               stubMode
                 ? $t('dialogs.regenerate')

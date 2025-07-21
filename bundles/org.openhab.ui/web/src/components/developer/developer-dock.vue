@@ -124,7 +124,8 @@
 <script>
 import DeveloperSidebar from './developer-sidebar.vue';
 import HelpSidebar from './help-sidebar.vue';
-import { f7, nextTick, theme } from 'framework7-vue';
+import { f7, theme } from 'framework7-vue';
+import { nextTick } from 'vue';
 import { themeOptionsStore } from '@/js/stores/theme-options';
 
 export default {

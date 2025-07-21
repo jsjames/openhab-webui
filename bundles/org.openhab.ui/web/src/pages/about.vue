@@ -178,6 +178,7 @@ import { f7, theme } from 'framework7-vue';
 import { themeOptionsStore } from '@/js/stores/theme-options';
 
 import reloadMixin from '../components/reload-mixin.js';
+import { onMounted } from 'vue';
 
 export default {
   mixins: [reloadMixin],
@@ -193,7 +194,7 @@ export default {
     };
   },
   i18n: {
-    messages: await loadLocaleMessages('/src/assets/i18n/about'),
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/about/*.json')),
   },
   computed: {
     textualSystemInfo() {

@@ -267,8 +267,8 @@ html
 #framework7-root:not(.theme-dark) .page-addon-store:not(.standard-background),
 #framework7-root:not(.theme-dark) .page-addon-details:not(.standard-background),
   --f7-page-bg-color #fff
-/* //#framework7-root:not(.theme-dark) .page-settings */
-*/
+//#framework7-root:not(.theme-dark) .page-settings 
+
 html:not(.theme-dark) .page
 html:not(.theme-dark) .page-home:not(.standard-background),
 html:not(.theme-dark) .page-about:not(.standard-background),
@@ -337,3 +337,8 @@ html:not(.theme-dark) .page-addon-details:not(.standard-background),
 
 // Additional safe area fixes are in nomini.css due to CssMinimizerPlugin minimizing app.styl and removing the unit px from 0px,
 // which breaks calculcations using the overwritten CSS variables.
+
+// Fix for grouped list indentation
+.list ul .list-group ul
+  --f7-list-in-list-padding-left 0px
+  --f7-list-item-padding-horizontal 0px

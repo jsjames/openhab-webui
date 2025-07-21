@@ -53,14 +53,16 @@
             :clear-button="editable" />
         </f7-list>
         <f7-list inline-labels no-hairlines-md>
-          <tag-input
-            v-if="!stubMode"
-            title="Tags"
-            :item="rule"
-            :disabled="!editable ? true : null"
-            :showSemanticTags="true"
-            :inScriptEditor="inScriptEditor"
-            :inSceneEditor="inSceneEditor" />
+          <div>
+            <tag-input
+              v-if="!stubMode"
+              title="Tags"
+              :item="rule"
+              :disabled="!editable ? true : null"
+              :showSemanticTags="true"
+              :inScriptEditor="inScriptEditor"
+              :inSceneEditor="inSceneEditor" />
+          </div>
         </f7-list>
       </f7-col>
     </f7-block>
@@ -98,13 +100,15 @@
             :clear-button="editable" />
         </f7-list>
         <f7-list inline-labels no-hairlines-md>
-          <tag-input
-            v-if="!stubMode"
-            :item="rule"
-            :disabled="!editable ? true : null"
-            :showSemanticTags="true"
-            :inScriptEditor="inScriptEditor"
-            :inSceneEditor="inSceneEditor" />
+          <div>
+            <tag-input
+              v-if="!stubMode"
+              :item="rule"
+              :disabled="!editable ? true : null"
+              :showSemanticTags="true"
+              :inScriptEditor="inScriptEditor"
+              :inSceneEditor="inSceneEditor" />
+          </div>
         </f7-list>
       </f7-col>
     </f7-block>

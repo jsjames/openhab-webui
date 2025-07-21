@@ -26,7 +26,7 @@ export default {
     text: String,
   },
   i18n: {
-    messages: loadLocaleMessages('/src/assets/i18n/empty-states'),
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/empty-states/*.json')),
   },
 };
 </script>

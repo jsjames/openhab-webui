@@ -176,7 +176,7 @@
         </f7-list>
         <f7-list v-else class="col things-list" :contacts-list="groupBy === 'alphabetical'">
           <f7-list-group v-for="(thingsWithInitial, initial) in indexedThings" :key="initial">
-            <f7-list-item v-if="thingsWithInitial.length" :title="initial" group-title />
+            <f7-list-item v-if="thingsWithInitial.length" :title="initial" group-title media-item />
             <f7-list-item
               v-for="(thing, index) in thingsWithInitial"
               :key="index"

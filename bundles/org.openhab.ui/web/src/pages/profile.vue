@@ -202,7 +202,7 @@ export default {
     };
   },
   i18n: {
-    messages: loadLocaleMessages('/src/assets/i18n/profile'),
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/profile/*.json')),
   },
   computed: {
     filteredSessions() {

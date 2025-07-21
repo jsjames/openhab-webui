@@ -130,7 +130,7 @@ import {
 } from '@/assets/definitions/metadata/matter';
 import ConfigSheet from '@/components/config/config-sheet.vue';
 import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
-import { map } from 'yaml/dist/schema/common/map';
+import { map } from '../../../../node_modules/yaml/dist/schema/common/map';
 import { f7 } from 'framework7-vue';
 import { utils } from 'framework7';
 

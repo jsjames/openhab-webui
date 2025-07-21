@@ -11,7 +11,7 @@
           search-container=".semantics-treeview"
           search-item=".treeview-item"
           search-in=".treeview-item-label"
-          :disable-button="!$theme.aurora"
+          :disable-button="!theme.aurora"
           @input="showFiltered($event.target.value)" />
         <div class="expand-button">
           <f7-button
@@ -75,6 +75,7 @@
 
 <script>
 import SemanticsTreeview from '@/components/tags/semantics-treeview.vue'
+import { theme } from 'framework7-vue'
 
 export default {
   components: {
@@ -82,6 +83,11 @@ export default {
   },
   props: ['item', 'propertyMode', 'classMode', 'hideNone', 'semanticClass', 'semanticProperty'],
   emits: ['close', 'changed'],
+  setup() {
+    return {
+      theme
+    }
+  },
   data () {
     return {
       semanticClasses: this.$store.getters.semanticClasses,

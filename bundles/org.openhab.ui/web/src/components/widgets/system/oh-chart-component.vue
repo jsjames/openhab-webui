@@ -102,7 +102,7 @@ import {
   VisualMapComponent,
   CalendarComponent,
 } from 'echarts/components';
-import { VueEcharts as VChart } from 'vue3-echarts';
+import VChart from 'vue-echarts';
 
 use([
   CanvasRenderer,

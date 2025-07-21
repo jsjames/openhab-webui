@@ -48,11 +48,11 @@
 
 <script>
 import Blockly from 'blockly';
-import Vue from 'vue';
+//TODO-V3 import Vue from 'vue';
 import { f7, theme } from 'framework7-vue';
 import { themeOptionsStore } from '@/js/stores/theme-options';
 
-Vue.config.ignoredElements = ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep'];
+// TODO-V3 Vue.config.ignoredElements = ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep'];
 export default {
   props: ['blocksDefinition'],
   data() {

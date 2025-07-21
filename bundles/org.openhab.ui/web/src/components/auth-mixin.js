@@ -17,7 +17,7 @@ export default {
   methods: {
     async authorize() {
       console.log('Authorizing user')
-      await authorize(false)
+      authorize(false)
     },
     getRefreshToken() {
       return localStorage.getItem('openhab.ui:refreshToken') || null

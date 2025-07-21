@@ -682,6 +682,9 @@ export default {
             });
             this.$oh.api.get('/rest/things/' + this.thingId + '/firmwares').then(firmwareData => {
               this.firmwares = firmwareData;
+            }).catch(err => {
+              // thing does not have firmwares
+              this.firmwares = [];
             });
           })
           .catch(err => {

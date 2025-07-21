@@ -2,6 +2,7 @@ import { globalIgnores } from 'eslint/config'
 import vue from 'eslint-plugin-vue'
 import globals from 'globals'
 import js from '@eslint/js'
+import vueI18n from '@intlify/eslint-plugin-vue-i18n'
 
 // import standard from "@vue/eslint-config-standard";
 // import ts from "@typescript-eslint/parser"
@@ -11,26 +12,19 @@ import js from '@eslint/js'
 // const es = require("eslint-plugin-es");
 
 import { fixupPluginRules } from '@eslint/compat'
-import { FlatCompat } from '@eslint/eslintrc'
 
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import eslintConfigPrettier from 'eslint-config-prettier/flat'
 
-/*
-const compat = new FlatCompat({
-    // baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: NewScripts.configs.all
-});
-*/
-
 export default [
   ...vue.configs['flat/recommended'],
+  eslintPluginPrettierRecommended,
+  ...vueI18n.configs.recommended,
   {
-    files: ['**/*.js', '**/*.mjs', '**/*.vue', '**.ts', '**/*.tsx'],
+    files: ['**/*.js', '**/*.mjs', '**/*.vue', '**.ts', '**/*.tsx', '**/*.json'],
     languageOptions: {
       sourceType: 'module',
-
+      ecmaVersion: 'latest',
       globals: {
         ...globals.browser,
         ...globals.node,
@@ -42,11 +36,6 @@ export default [
     // 'js.configs.recommended',
     // "plugin:cypress/recommended",
     // "plugin:@typescript-eslint/recommended",
-    plugins: {
-      // import: fixupPluginRules(_import),
-      // cypress,
-    },
-
     rules: {
       'arrow-parens': 'off',
       'comma-dangle': 'error',
@@ -91,8 +80,8 @@ export default [
       'vue/component-definition-name-casing': 'off',
       'vue/first-attribute-linebreak': 'off',
 
-      'vue/html-closing-bracket-newline': ['off'],
-      'vue/html-closing-bracket-spacing': 'off',
+      // 'vue/html-closing-bracket-spacing': 'off',
+      // 'vue/singleline-html-element-content-newline': 'off',
       'vue/html-indent': 'error',
       'vue/html-quotes': 'error',
       'vue/html-self-closing': 'error',
@@ -134,10 +123,18 @@ export default [
       'vue/require-default-prop': 'off',
       'vue/require-prop-types': 'off',
       'vue/this-in-template': 'off',
-      'vue/valid-v-slot': 'off'
+      'vue/valid-v-slot': 'off',
+
+      '@intlify/vue-i18n/no-raw-text': 'off',
+      '@intlify/vue-i18n/no-html-messages': 'off'
+    },
+    settings: {
+      'vue-i18n': {
+        localeDir: './src/assets/i18n/**/*.json',
+        messageSyntaxVersion: '^11.0.0'
+      }
     }
   },
-  globalIgnores(['dist', 'build', 'public']),
-  eslintPluginPrettierRecommended,
-  eslintConfigPrettier
+  eslintConfigPrettier, // This is the Prettier config that disables all ESLint rules that conflict with Prettier
+  globalIgnores(['dist', 'build', 'public'])
 ]

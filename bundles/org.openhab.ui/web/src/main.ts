@@ -45,9 +45,7 @@ import { store } from '@/js/store/index'
 store.dispatch('initializeTrackingStore')
 
 // initialize i18n
-import { i18n, loadLocaleMessages } from '@/js/i18n'
-
-await loadLocaleMessages('/src/assets/i18n/common')
+import { i18n } from '@/js/i18n'
 
 // Import vuetrend
 //import Trend from 'vue3trend'

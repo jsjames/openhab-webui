@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import aggregate from './aggregators'
 import ComponentId from '../../component-id'
 

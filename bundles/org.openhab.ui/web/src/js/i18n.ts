@@ -1,70 +1,34 @@
-import { nextTick } from 'vue'
 import { createI18n } from 'vue-i18n'
+import type { I18n } from 'vue-i18n'
 
-export const i18n = createI18n({
+export async function loadLocaleMessages(scopes: { [key: string]: () => Promise<any> }) {
+  const locale = import.meta.env.VUE_APP_I18N_LOCALE || 'en'
+
+  const allMessages: { [key: string]: any } = {}
+
+  for (const key in scopes) {
+    const matched = key.match(/([A-Za-z0-9-_]+)\./i)
+    if (matched && matched.length > 1 && matched[1] === locale) {
+      const messages = await scopes[key]()
+      console.debug('loading i18n messages from: ' + key)
+      console.debug('messages', messages)
+      allMessages[locale] = { ...allMessages[locale], ...messages.default }
+    }
+  }
+  return allMessages
+}
+
+export const i18n: I18n = createI18n({
   legacy: true,
-  //TODO-V3 locale: import.meta.VUE_APP_I18N_LOCALE || 'en',
-  locale: 'en',
-  //TODO-V3  fallbackLocale: import.meta.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
-  fallbackLocale: 'en',
-  // messages: loadLocaleMessages(require.context('@/assets/i18n/common')),
+  locale: import.meta.env.VUE_APP_I18N_LOCALE || 'en',
+  fallbackLocale: import.meta.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
   messages: {},
   allowComposition: true, // you need to specify that!
   silentFallbackWarn: true,
   globalInjection: true
 })
 
-export async function loadLocaleMessages(scope: string) {
-  // load locale messages
-
-  // TODO-V3 const locale = i18n.global.locale || 'en'
-  const locale = 'en'
-
-  const messages = await import(/* @vite-ignore */ `${scope}/${locale}.json`)
-
-  // set locale and locale message
-  i18n.global.mergeLocaleMessage(locale, messages.default || messages)
-
-  return messages
-}
-
-/*
-export function loadLocaleMessagesOld (...scopes) {
-  // const messages = {}
-  for (const scope of scopes) {
-    console.log('Loading i18n messages from: ' + scope)
-    Object.entries(scope).forEach(([path, component]) => {
-      const locale = path.split('/').pop().replace(/\.\w+$/, '')
-      console.log('Locale: ' + locale + ' - ' + component)
-      messages[locale] = { ...messages[locale], ...component }
-    })
-
-    Object.entries(scope).forEach(([path, component]) => {
-      const locale = path.split('/').pop().replace(/\.\w+$/, '')
-      debugger
-    })
-  }
-
-    Object.entries(scope).forEach(([path, component]) => {
-      const locale = path.split('/').pop().replace(/\.\w+$/, '')
-      messages[locale] = { ...messages[locale], ...component }
-    })
-
-  scopes.forEach(scope => {
-    scope.keys().forEach(key => {
-      const matched = key.match(/([A-Za-z0-9-_]+)\./i)
-      if (matched && matched.length > 1) {
-        console.debug('loading i18n messages from: ' + key)
-        const locale = matched[1]
-        messages[locale] = { ...messages[locale], ...scope(key) }
-      }
-    })
-  })
-  return messages
-}
-  */
-
-export function isLocaleSupported(locale) {
+export function isLocaleSupported(locale: string): boolean {
   try {
     new Date().toLocaleDateString(locale)
   } catch (e) {
@@ -73,7 +37,7 @@ export function isLocaleSupported(locale) {
   return true
 }
 
-export function convertJavaLocale(locale) {
+export function convertJavaLocale(locale: string): string {
   if (!locale) {
     return 'default'
   }

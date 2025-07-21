@@ -271,16 +271,15 @@
         </div>
       </div>
 
-      <template #fixed>
-        <f7-fab
-          v-show="!createMode && !script && mode === 'application/javascript' && !isBlockly"
-          position="center-bottom"
-          color="blue"
-          @click="convertToBlockly"
-          text="Design with Blockly">
-          <f7-icon f7="ticket_fill" />
-        </f7-fab>
-      </template>
+      <f7-fab
+        v-show="!createMode && !script && mode === 'application/javascript' && !isBlockly"
+        slot="fixed"
+        position="center-bottom"
+        color="blue"
+        @click="convertToBlockly"
+        text="Design with Blockly">
+        <f7-icon f7="ticket_fill" />
+      </f7-fab>
 
       <f7-sheet
         ref="detailsSheet"

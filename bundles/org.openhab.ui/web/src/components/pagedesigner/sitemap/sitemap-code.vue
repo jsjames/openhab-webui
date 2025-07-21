@@ -51,7 +51,7 @@
 
 <script>
 import { Parser, Grammar } from 'nearley';
-import grammar from '@/assets/sitemap-lexer.nearley';
+import grammar from '@/assets/sitemap-lexer.nearley?raw';
 import dslUtil from './dslUtil';
 import { defineAsyncComponent } from 'vue';
 

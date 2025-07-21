@@ -314,7 +314,7 @@
               fill
               color="blue"
               :text="
-                $tc(
+                $t(
                   'setupwizard.addons.installAddons',
                   toInstallAddons.filter(a => !preSelectedAddon(a) && !a.installed).length
                 )
@@ -416,10 +416,10 @@
 <script>
 import i18n_mixin from '@/components/i18n-mixin';
 import { loadLocaleMessages } from '@/js/i18n';
-import AddonsSetupWizard from '@/components/addons/addons-setup-wizard';
+import AddonsSetupWizard from '@/components/addons/addons-setup-wizard.vue';
 import { f7, theme } from 'framework7-vue';
 import { nextTick, defineAsyncComponent } from 'vue';
-import { i18n } from 'vue-i18n';
+import { i18n } from '@/js/i18n';
 
 export default {
   mixins: [i18n_mixin],
@@ -475,7 +475,7 @@ export default {
     };
   },
   i18n: {
-    messages: loadLocaleMessages('/src/assets/i18n/setup-wizard'),
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/setup-wizard/*.json')),
   },
   computed: {
     locale() {

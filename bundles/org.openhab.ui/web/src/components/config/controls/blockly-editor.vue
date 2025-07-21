@@ -1204,7 +1204,7 @@ import {
 } from '@mit-app-inventor/blockly-plugin-workspace-multiselect';
 import { TypedVariableModal } from '@blockly/plugin-typed-variable-modal';
 
-import Vue from 'vue';
+//TODO-V3 import Vue from 'vue';
 import { f7 } from 'framework7-vue';
 
 import defineOHBlocks from '@/assets/definitions/blockly';
@@ -1212,7 +1212,7 @@ import { defineLibraryToolboxCategory } from '@/assets/definitions/blockly/libra
 import { theme } from 'framework7-vue';
 import { themeOptionsStore } from '@/js/stores/theme-options';
 
-Vue.config.ignoredElements = ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep'];
+//TODO-V3 Vue.config.ignoredElements = ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep'];
 
 export default {
   props: ['blocks', 'libraryDefinitions'],
