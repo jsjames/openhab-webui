@@ -20,21 +20,21 @@
       <f7-link
         @click="switchTab('thing')"
         :tab-link-active="currentTab === 'thing' ? true : null"
-        class="tab-link">
+        tab-link="#thing">
         Thing
       </f7-link>
       <f7-link
         @click="switchTab('channels')"
         :tab-link-active="currentTab === 'channels' ? true : null"
         v-show="!error"
-        class="tab-link">
+        tab-link="#channels">
         Channels
       </f7-link>
       <f7-link
         @click="switchTab('code')"
         :tab-link-active="currentTab === 'code' ? true : null"
         v-show="!error"
-        class="tab-link">
+        tab-link="#code">
         Code
       </f7-link>
     </f7-toolbar>

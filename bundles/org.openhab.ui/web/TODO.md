@@ -1,6 +1,6 @@
 TODO
 
-- [] HIGH - production build scripts and reporting
+- [x] HIGH - production build scripts and reporting
 - [] HIGH - no babel support - is this needed moving forward? - Vite has built-in support for this
 - [x] HIGH - dynamic imports for i18n, node_modules needs to be looked at - currently hacked to get running
 - [x] HIGH - vuetrend does not support vue 3 - vue3trend does exist

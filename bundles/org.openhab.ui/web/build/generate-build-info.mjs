@@ -5,7 +5,7 @@ import fs from 'node:fs'
 
 const promisifiedExec = util.promisify(exec)
 
-const env = import.meta.env.DEV ? 'development' : 'production'
+const env = process.env.DEV ? 'development' : 'production'
 
 const timestamp = new Date().toISOString().slice(0, 16).replaceAll(/[T:-]/g, '')
 let version = process.argv[2] || (env === 'production' ? timestamp : 'development')
