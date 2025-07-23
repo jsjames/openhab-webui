@@ -70,34 +70,34 @@ export default {
   },
   methods: {
     skipPrevious(value) {
-      this.$store.dispatch('sendCommand', {
-        itemName: this.config.item,
-        cmd: 'PREVIOUS',
-      });
+      useStatesStore().sendCommand(
+        this.config.item,
+        'PREVIOUS'
+      );
     },
     rewind(value) {
-      this.$store.dispatch('sendCommand', {
-        itemName: this.config.item,
-        cmd: 'REWIND',
-      });
+      useStatesStore().sendCommand(
+        this.config.item,
+        'REWIND'
+      );
     },
     playPause(value) {
-      this.$store.dispatch('sendCommand', {
-        itemName: this.config.item,
-        cmd: this.isPlaying ? 'PAUSE' : 'PLAY',
-      });
+      useStatesStore().sendCommand(
+        this.config.item,
+        this.isPlaying ? 'PAUSE' : 'PLAY'
+      );
     },
     fastForward(value) {
-      this.$store.dispatch('sendCommand', {
-        itemName: this.config.item,
-        cmd: 'FASTFORWARD',
-      });
+      useStatesStore().sendCommand(
+        this.config.item,
+        'FASTFORWARD'
+      );
     },
     skipNext(value) {
-      this.$store.dispatch('sendCommand', {
-        itemName: this.config.item,
-        cmd: 'NEXT',
-      });
+      useStatesStore().sendCommand(
+        this.config.item,
+        'NEXT'
+      );
     },
   },
 };

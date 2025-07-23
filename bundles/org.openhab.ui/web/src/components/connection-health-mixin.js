@@ -1,6 +1,8 @@
 import reloadMixin from './reload-mixin'
 import { f7, f7ready } from 'framework7-vue'
 
+import { useStatesStore } from '@/js/stores/states'
+
 export default {
   mixins: [reloadMixin],
   data() {
@@ -43,60 +45,61 @@ export default {
   },
   mounted() {
     f7ready(f7 => {
-      this.$store.subscribe((mutation, state) => {
-        if (this.ready) {
-          if (mutation.type === 'sseConnected') {
-            if (!window.OHApp && f7) {
-              if (mutation.payload === false) {
-                if (this.communicationFailureToast === null) {
-                  this.communicationFailureTimeoutId = setTimeout(() => {
-                    if (this.communicationFailureToast !== null) return
-                    this.communicationFailureToast = this.displayFailureToast(
-                      this.$t('error.communicationFailure'),
-                      true,
-                      false
-                    )
-                    this.communicationFailureTimeoutId = null
-                  }, 1000)
-                }
-              } else if (mutation.payload === true) {
-                if (this.communicationFailureTimeoutId !== null)
-                  clearTimeout(this.communicationFailureTimeoutId)
-                if (this.communicationFailureToast !== null) {
-                  this.communicationFailureToast.close()
-                  this.communicationFailureToast = null
-                }
-              }
-            }
-          }
+      //TODO-V3 - finish implementing in pinia
+      useStatesStore().$subscribe((mutation, state) => {
+        if (!(this.ready && !window.OHApp && f7)) {
+          // mutation.type === 'sseConnected' is used to avoid the initial call
+          return
         }
-      })
-
-      this.$store.subscribeAction({
-        error: (action, state, error) => {
-          if (action.type === 'sendCommand') {
-            let reloadButton = true
-            let msg = this.$t('error.communicationFailure')
-            switch (error) {
-              case 404:
-              case 'Not Found':
-                msg = this.$t('error.itemNotFound').replace('%s', action.payload.itemName)
-                reloadButton = false
-                return this.displayFailureToast(msg, reloadButton)
-            }
-            if (this.communicationFailureToast === null) {
+        if (state.sseConnected === false) {
+          if (this.communicationFailureToast === null) {
+            this.communicationFailureTimeoutId = setTimeout(() => {
+              if (this.communicationFailureToast !== null) return
               this.communicationFailureToast = this.displayFailureToast(
                 this.$t('error.communicationFailure'),
                 true,
-                true
+                false
               )
-              this.communicationFailureToast.on('closed', () => {
-                this.communicationFailureToast = null
-              })
-            }
+              this.communicationFailureTimeoutId = null
+            }, 1000)
+          }
+        } else if (state.sseConnected === true) {
+          if (this.communicationFailureTimeoutId !== null)
+            clearTimeout(this.communicationFailureTimeoutId)
+          if (this.communicationFailureToast !== null) {
+            this.communicationFailureToast.close()
+            this.communicationFailureToast = null
           }
         }
       })
     })
-  }
+
+    //TODO-V3 - need to adjust for pinia
+    this.$store.subscribeAction({
+      error: (action, state, error) => {
+        if (action.type === 'sendCommand') {
+          let reloadButton = true
+          let msg = this.$t('error.communicationFailure')
+          switch (error) {
+            case 404:
+            case 'Not Found':
+              msg = this.$t('error.itemNotFound').replace('%s', action.payload.itemName)
+              reloadButton = false
+              return this.displayFailureToast(msg, reloadButton)
+          }
+          if (this.communicationFailureToast === null) {
+            this.communicationFailureToast = this.displayFailureToast(
+              this.$t('error.communicationFailure'),
+              true,
+              true
+            )
+            this.communicationFailureToast.on('closed', () => {
+              this.communicationFailureToast = null
+            })
+          }
+        }
+      }
+    })
+  },
+  unmounted() {}
 }

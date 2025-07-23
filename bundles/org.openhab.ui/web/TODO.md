@@ -8,7 +8,7 @@ TODO
 - [] HIGH - Swiper-slide needs to be retrofited with new (https://v6.framework7.io/vue/migration-from-v5#swiper)
 - [] HIGH - decide on prettier or other formatter? which rules (currently I just have used default rules)
 - [] HIGH - TODO-V3 comments in code need to be cleaned up / examined
-- [] HIGH - vuex reactive items are not getting updated
+- [x] HIGH - vuex reactive items are not getting updated
 - [x] HIGH - add support for Codemirror v6
 - [] MED - Codemirror - codemirror is basically in place, but many of the addon features need to be added
 - [] MED - Blockly test/update? Haven't looked at yet.

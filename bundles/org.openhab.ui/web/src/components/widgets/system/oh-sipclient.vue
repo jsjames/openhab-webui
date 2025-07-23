@@ -126,6 +126,7 @@ import { f7 } from 'framework7-vue';
 // ringFile source: https://bigsoundbank.com/detail-0375-phone-ring-5.html
 import ringFile from './oh-sipclient-ringtone.mp3';
 import ringBackFile from './oh-sipclient-ringback.mp3';
+import { useStatesStore } from '@/js/stores/states';
 
 export default {
   props: {
@@ -492,10 +493,10 @@ export default {
     },
     updateStateItem(newStatus) {
       if (!this.config.sipStateItem) return;
-      this.$store.dispatch('sendCommand', {
-        itemName: this.config.sipStateItem,
-        cmd: newStatus,
-      });
+      useStatesStore().sendCommand(
+        this.config.sipStateItem,
+        newStatus
+      );
     },
   },
   created() {

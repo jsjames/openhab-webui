@@ -142,6 +142,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import fastDeepEqual from 'fast-deep-equal/es6';
 import { f7, theme } from 'framework7-vue';
 
+import { useStatesStore } from '@/js/stores/states';
+
 export default {
   mixins: [ThingStatus, LinkMixin, DirtyMixin],
   components: {
@@ -178,16 +180,16 @@ export default {
   computed: {
     context() {
       return {
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
       };
     },
   },
   methods: {
     onPageBeforeIn(event) {
-      this.$store.dispatch('startTrackingStates');
+      useStatesStore().startTrackingStates();
     },
     onPageBeforeOut(event) {
-      this.$store.dispatch('stopTrackingStates');
+      useStatesStore().stopTrackingStates();
     },
     onPageAfterIn(event) {
       const itemName = this.item.name;

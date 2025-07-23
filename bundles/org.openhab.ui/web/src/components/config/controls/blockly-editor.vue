@@ -1204,7 +1204,6 @@ import {
 } from '@mit-app-inventor/blockly-plugin-workspace-multiselect';
 import { TypedVariableModal } from '@blockly/plugin-typed-variable-modal';
 
-//TODO-V3 import Vue from 'vue';
 import { f7 } from 'framework7-vue';
 
 import defineOHBlocks from '@/assets/definitions/blockly';

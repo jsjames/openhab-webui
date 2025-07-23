@@ -100,6 +100,7 @@ import LocationCard from '../../components/cards/location-card.vue';
 import EquipmentCard from '../../components/cards/equipment-card.vue';
 import PropertyCard from '../../components/cards/property-card.vue';
 import { mapState } from 'vuex';
+import { useStatesStore } from '@/js/stores/states';
 
 export default {
   props: ['type', 'page'],
@@ -141,7 +142,7 @@ export default {
                 : 'oh-property-card',
           config: {},
         },
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
       };
       const page = this.page;
       const type = this.type;

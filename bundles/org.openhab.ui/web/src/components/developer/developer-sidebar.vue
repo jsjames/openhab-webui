@@ -845,7 +845,7 @@ export default {
   computed: {
     context() {
       return {
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
       };
     },
   },

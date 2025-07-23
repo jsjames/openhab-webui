@@ -42,7 +42,7 @@ export default {
         },
         editmode: true,
         vars: {},
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
       };
     },
   },

@@ -41,6 +41,8 @@ import { equipmentListComponent } from '@/components/widgets/standard/list/defau
 import CardMixin from './card-mixin';
 import ModelCard from './model-card.vue';
 
+import { useStatesStore } from '@/js/stores/states';
+
 export default {
   mixins: [mixin, CardMixin],
   props: ['tabContext'],
@@ -51,7 +53,7 @@ export default {
     listContext() {
       const contextLabelDefaults = { contextLabelSource: 'path' };
       return {
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
         component: equipmentListComponent(
           this.element.equipment,
           { ...contextLabelDefaults, ...this.tabContext },

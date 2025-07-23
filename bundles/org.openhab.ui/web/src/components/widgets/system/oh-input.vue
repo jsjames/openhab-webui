@@ -85,6 +85,7 @@ import dayjs from 'dayjs';
 import mixin from '../widget-mixin';
 import variableMixin from '../variable-mixin';
 import { OhInputDefinition } from '@/assets/definitions/widgets/system';
+import { useStatesStore } from '@/js/stores/states';
 
 export default {
   mixins: [mixin, variableMixin],
@@ -277,10 +278,7 @@ export default {
           cmd = dayjs(cmd[0]).format();
           if (cmd === 'Invalid Date') return;
         }
-        this.$store.dispatch('sendCommand', {
-          itemName: this.config.item,
-          cmd,
-        });
+        useStatesStore().sendCommand(this.config.item, cmd);
         this.pendingUpdate = null;
       }
     },

@@ -142,7 +142,7 @@ export default {
     },
     propertiesListContext() {
       return {
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
         component: {
           component: 'oh-list',
           config: {
@@ -156,7 +156,7 @@ export default {
     },
     equipmentListContext() {
       return {
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
         component: equipmentListComponent(this.element.item.equipment, this.tabContext, true),
       };
     },

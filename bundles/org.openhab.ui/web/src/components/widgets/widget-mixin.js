@@ -153,7 +153,7 @@ export default {
       return widgetContext
     },
     onCommand(itemName, cmd) {
-      this.$store.dispatch('sendCommand', { itemName, cmd })
+      useStatesStore().sendCommand(itemName, cmd)
     }
   }
 }

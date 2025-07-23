@@ -9,6 +9,8 @@ import WidgetConfigPopup from '@/components/pagedesigner/widget-config-popup.vue
 import WidgetCodePopup from '@/components/pagedesigner/widget-code-popup.vue'
 import DirtyMixin from '../dirty-mixin'
 
+import { useStatesStore } from '@/js/stores/states'
+
 export default {
   mixins: [DirtyMixin],
   props: {
@@ -39,7 +41,7 @@ export default {
     context() {
       return {
         component: this.page,
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
         props: this.props,
         vars:
           this.page && this.page.config && this.page.config.defineVars
@@ -91,14 +93,14 @@ export default {
       if (window) {
         window.addEventListener('keydown', this.keyDown)
       }
-      this.$store.dispatch('startTrackingStates')
+      useStatesStore().startTrackingStates()
       this.load()
     },
     onPageBeforeOut() {
       if (window) {
         window.removeEventListener('keydown', this.keyDown)
       }
-      this.$store.dispatch('stopTrackingStates')
+      useStatesStore().stopTrackingStates()
     },
     keyDown(ev) {
       if ((ev.ctrlKey || ev.metaKey) && !(ev.altKey || ev.shiftKey)) {

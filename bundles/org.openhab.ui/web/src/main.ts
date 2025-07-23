@@ -42,7 +42,6 @@ Framework7.use(Framework7Vue)
 
 // Import VueX store
 import { store } from '@/js/store/index'
-store.dispatch('initializeTrackingStore')
 
 // initialize i18n
 import { i18n } from '@/js/i18n'

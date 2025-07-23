@@ -197,6 +197,7 @@ import { mapStores } from 'pinia';
 
 import HomeCards from './home/homecards-mixin';
 import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useStatesStore } from '@/js/stores/states';
 
 export default {
   props: {
@@ -227,7 +228,7 @@ export default {
     },
     context() {
       return {
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
       };
     },
     simpleNavbar() {
@@ -298,7 +299,7 @@ export default {
   watch: {
     ready(val, oldVal) {
       if (val && !oldVal) {
-        this.$store.dispatch('startTrackingStates');
+        useStatesStore().startTrackingStates();
       }
     },
   },
@@ -310,11 +311,11 @@ export default {
     },
     onPageAfterIn() {
       if (this.ready) {
-        this.$store.dispatch('startTrackingStates');
+        useStatesStore().startTrackingStates();
       }
     },
     onPageBeforeOut() {
-      this.$store.dispatch('stopTrackingStates');
+      useStatesStore().stopTrackingStates();
     },
     onPageInit() {
       if (window.OHApp) {

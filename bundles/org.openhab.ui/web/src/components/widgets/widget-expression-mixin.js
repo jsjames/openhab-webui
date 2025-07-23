@@ -7,11 +7,11 @@ import isoWeek from 'dayjs/plugin/isoWeek'
 import isToday from 'dayjs/plugin/isToday'
 import isYesterday from 'dayjs/plugin/isYesterday'
 import isTomorrow from 'dayjs/plugin/isTomorrow'
-import store from '@/js/store'
 import { f7, theme } from 'framework7-vue'
 import { nextTick } from 'vue'
 
 import { themeOptionsStore } from '@/js/stores/theme-options'
+import { useStatesStore } from '@/js/stores/states'
 
 import jsepRegex from '@jsep-plugin/regex'
 import jsepArrow from '@jsep-plugin/arrow'
@@ -21,16 +21,16 @@ expr.jsep.plugins.register(jsepRegex, jsepArrow, jsepObject, jsepTemplate)
 
 expr.addUnaryOp('@', itemName => {
   if (itemName === undefined) return '-'
-  const item = store.getters.trackedItems[itemName]
+  const item = useStatesStore().trackedItems[itemName]
   return item.displayState !== undefined ? item.displayState : item.state
 })
 expr.addUnaryOp('@@', itemName => {
   if (itemName === undefined) return '-'
-  return store.getters.trackedItems[itemName].state
+  return useStatesStore().trackedItems[itemName].state
 })
 expr.addUnaryOp('#', itemName => {
   if (itemName === undefined) return undefined
-  return store.getters.trackedItems[itemName].numericState
+  return useStatesStore().trackedItems[itemName].numericState
 })
 
 dayjs.extend(relativeTime)

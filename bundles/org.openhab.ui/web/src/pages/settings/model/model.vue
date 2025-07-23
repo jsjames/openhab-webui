@@ -375,6 +375,7 @@ import { f7, theme } from 'framework7-vue';
 import { nextTick, defineAsyncComponent } from 'vue';
 
 import { useModelStore } from '@/js/stores/models';
+import { useStatesStore } from '@/js/stores/states';
 
 import ItemStatePreview from '@/components/item/item-state-preview.vue';
 import ItemDetails from '@/components/model/item-details.vue';
@@ -428,7 +429,7 @@ export default {
     },
     context() {
       return {
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
       };
     },
     searchPlaceholder() {
@@ -439,7 +440,7 @@ export default {
   },
   methods: {
     onPageAfterIn() {
-      this.$store.dispatch('startTrackingStates');
+      useStatesStore().startTrackingStates();
       if (this.selectedItem) {
         this.update();
       } else {
@@ -448,7 +449,7 @@ export default {
     },
     onPageBeforeOut() {
       this.detailsOpened = false;
-      this.$store.dispatch('stopTrackingStates');
+      useStatesStore().stopTrackingStates();
       this.stopEventSource();
       modelStore.lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },

@@ -442,6 +442,8 @@ import DirtyMixin from '../dirty-mixin';
 import ThingActionPopup from '@/pages/settings/things/thing-action-popup.vue';
 import FileDefinition from '@/pages/settings/file-definition-mixin';
 
+import { useStatesStore } from '@/js/stores/states';
+
 export default {
   mixins: [ThingStatus, DirtyMixin, FileDefinition],
   components: {
@@ -503,7 +505,7 @@ export default {
     },
     context() {
       return {
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
       };
     },
     yamlError() {
@@ -557,7 +559,7 @@ export default {
   },
   methods: {
     onPageAfterIn(event) {
-      this.$store.dispatch('startTrackingStates');
+      useStatesStore().startTrackingStates();
       if (window) {
         window.addEventListener('keydown', this.keyDown);
       }
@@ -568,7 +570,7 @@ export default {
       }
     },
     onPageBeforeOut(event) {
-      this.$store.dispatch('stopTrackingStates');
+      useStatesStore().stopTrackingStates();
       this.stopEventSource();
       if (window) {
         window.removeEventListener('keydown', this.keyDown);

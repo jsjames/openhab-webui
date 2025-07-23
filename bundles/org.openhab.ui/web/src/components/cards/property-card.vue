@@ -74,7 +74,7 @@ export default {
       }
 
       return {
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
         component: {
           component: 'oh-list',
           config: {

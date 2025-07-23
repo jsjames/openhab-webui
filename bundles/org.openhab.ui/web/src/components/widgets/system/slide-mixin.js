@@ -1,4 +1,5 @@
 import variableMixin from '../variable-mixin'
+import { useStatesStore } from '@/js/stores/states'
 
 export default {
   mixins: [variableMixin],
@@ -94,13 +95,12 @@ export default {
         if (this.displayLockTimer) clearTimeout(this.displayLockTimer)
         const stateType = this.context.store[this.config.item].type
         this.sendCommandTimer = setTimeout(() => {
-          this.$store.dispatch('sendCommand', {
-            itemName: this.config.item,
-            cmd:
-              this.unit && stateType === 'Quantity'
-                ? this.pendingCommand + ' ' + this.unit
-                : this.pendingCommand.toString()
-          })
+          useStatesStore().sendCommand(
+            this.config.item,
+            this.unit && stateType === 'Quantity'
+              ? this.pendingCommand + ' ' + this.unit
+              : this.pendingCommand.toString()
+          )
           this.lastValueSent = this.pendingCommand
           this.lastDateSent = Date.now()
           this.sendCommandTimer = null

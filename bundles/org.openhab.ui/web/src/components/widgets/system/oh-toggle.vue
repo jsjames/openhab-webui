@@ -6,6 +6,7 @@
 import mixin from '../widget-mixin';
 import variableMixin from '../variable-mixin';
 import { OhToggleDefinition } from '@/assets/definitions/widgets/system';
+import { useStatesStore } from '@/js/stores/states';
 
 export default {
   mixins: [mixin, variableMixin],
@@ -61,10 +62,10 @@ export default {
         }
         variableLocation[this.config.variable] = value;
       } else if (this.config.item) {
-        this.$store.dispatch('sendCommand', {
-          itemName: this.config.item,
-          cmd: value ? 'ON' : 'OFF',
-        });
+        useStatesStore().sendCommand(
+          this.config.item,
+          value ? 'ON' : 'OFF'
+        );
       }
     },
   },

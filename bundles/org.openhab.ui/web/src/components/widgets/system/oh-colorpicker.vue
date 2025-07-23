@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { useStatesStore } from '@/js/stores/states';
 import mixin from '../widget-mixin';
 import { OhColorpickerDefinition } from '@/assets/definitions/widgets/system';
 
@@ -118,11 +119,7 @@ export default {
         if (!this.delayCommand) {
           this.delayCommand = true;
           console.debug(state + ' -> ' + cmd);
-          this.$store.dispatch('sendCommand', {
-            itemName: this.config.item,
-            cmd,
-            updateState: true,
-          });
+          useStatesStore().sendCommand(this.config.item, cmd, true);
           this.lastCommand = cmd;
           setTimeout(() => {
             const pendingCommand = [...this.pendingCommand];

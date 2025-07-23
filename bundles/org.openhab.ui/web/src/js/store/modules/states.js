@@ -179,8 +179,7 @@ const mutations = {
     state.sseConnected = value
   },
   setItemState(state, { itemName, itemState }) {
-    // Vue.sset(state.itemStates, itemName.toString(), itemState)
-    state.itemStates[itemName] = itemState
+    state.itemStates = { ...state.itemStates, [itemName]: itemState }
   },
   setPendingTrackingListUpdate(state, payload) {
     state.pendingTrackingListUpdate = payload

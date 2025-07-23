@@ -40,7 +40,7 @@ export default {
 
       if (this.item.members && this.item.members.length > 0) {
         return {
-          store: this.$store.getters.trackedItems,
+          store: useStatesStore().trackedItems,
           component: {
             component: 'oh-list-card',
             config: {
@@ -63,7 +63,7 @@ export default {
         };
       } else {
         return {
-          store: this.$store.getters.trackedItems,
+          store: useStatesStore().trackedItems,
           component: itemDefaultStandaloneComponent(this.item),
         };
       }
@@ -77,7 +77,7 @@ export default {
       itemAsBaseType.groupType = undefined;
 
       return {
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
         component: itemDefaultStandaloneComponent(itemAsBaseType),
       };
     },

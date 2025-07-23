@@ -142,7 +142,7 @@ export default {
   },
   methods: {
     onCommand(itemName, command) {
-      this.$store.dispatch('sendCommand', { itemName, command });
+      useStatesStore().sendCommand(itemName, command);
     },
   },
 };

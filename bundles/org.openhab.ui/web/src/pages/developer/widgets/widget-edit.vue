@@ -137,6 +137,7 @@ import ConfigSheet from '@/components/config/config-sheet.vue';
 import DirtyMixin from '@/pages/settings/dirty-mixin';
 
 import * as StandardListWidgets from '@/components/widgets/standard/list';
+import { useStatesStore } from '@/js/stores/states';
 
 const toStringOptions = { toStringDefaults: { lineWidth: 0 } };
 
@@ -195,7 +196,7 @@ export default {
                 },
               }
             : this.widget,
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
         props: this.props,
         vars: this.vars,
         ctxVars: this.ctxVars,
@@ -223,14 +224,14 @@ export default {
       if (window) {
         window.addEventListener('keydown', this.keyDown);
       }
-      this.$store.dispatch('startTrackingStates');
+      useStatesStore().startTrackingStates();
       this.load();
     },
     onPageBeforeOut() {
       if (window) {
         window.removeEventListener('keydown', this.keyDown);
       }
-      this.$store.dispatch('stopTrackingStates');
+      useStatesStore().stopTrackingStates();
     },
     onEditorInput(value) {
       this.widgetDefinition = value;
@@ -373,7 +374,7 @@ export default {
         });
     },
     onCommand(itemName, cmd) {
-      this.$store.dispatch('sendCommand', { itemName, cmd });
+      useStatesStore().sendCommand(itemName, cmd);
     },
     redrawWidget() {
       this.ctxVars = {};

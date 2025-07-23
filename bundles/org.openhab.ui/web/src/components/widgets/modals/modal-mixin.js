@@ -1,4 +1,5 @@
 import OhLayoutPage from '@/components/widgets/layout/oh-layout-page.vue'
+import { use } from 'marked'
 import { defineAsyncComponent } from 'vue'
 
 export default {
@@ -31,7 +32,7 @@ export default {
       return {
         component,
         root: component,
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
         props: this.modalConfig,
         vars: this.vars,
         ctxVars: this.ctxVars,
@@ -93,7 +94,7 @@ export default {
         root: page,
         tab,
         props: tab.config.pageConfig,
-        store: this.$store.getters.trackedItems
+        store: useStatesStore().trackedItems
       }
     },
     tabComponent(tab) {

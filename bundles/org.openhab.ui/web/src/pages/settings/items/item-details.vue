@@ -185,6 +185,8 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { f7, theme } from 'framework7-vue';
 
+import { useStatesStore } from '@/js/stores/states';
+
 import ItemStatePreview from '@/components/item/item-state-preview.vue';
 import LinkDetails from '@/components/model/link-details.vue';
 import GroupMembers from '@/components/item/group-members.vue';
@@ -217,7 +219,7 @@ export default {
   computed: {
     context() {
       return {
-        store: this.$store.getters.trackedItems
+        store: useStatesStore().trackedItems,
       }
     },
     semanticClass () {
@@ -267,7 +269,7 @@ export default {
   },
   methods: {
     onPageBeforeIn() {
-      this.$store.dispatch('startTrackingStates');
+      useStatesStore().startTrackingStates();
       this.load();
     },
     onPageAfterIn() {
@@ -276,7 +278,7 @@ export default {
       });
     },
     onPageBeforeOut() {
-      this.$store.dispatch('stopTrackingStates');
+      useStatesStore().stopTrackingStates();
     },
     load() {
       this.$oh.api.get(`/rest/items/${this.itemName}?metadata=.+`).then(data => {

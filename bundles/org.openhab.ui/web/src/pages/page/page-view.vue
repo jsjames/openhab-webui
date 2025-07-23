@@ -119,6 +119,7 @@ import { actionsMixin } from '@/components/widgets/widget-actions';
 import { f7, theme } from 'framework7-vue';
 import { defineAsyncComponent } from 'vue';
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import { useStatesStore } from '@/js/stores/states';
 
 export default {
   mixins: [WidgetExpressionMixin, actionsMixin],
@@ -189,7 +190,7 @@ export default {
             : {},
           this.defineVars
         ),
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
       };
     },
     page() {
@@ -227,10 +228,10 @@ export default {
   },
   methods: {
     onPageAfterIn() {
-      this.$store.dispatch('startTrackingStates');
+      useStatesStore().startTrackingStates();
     },
     onPageBeforeOut() {
-      this.$store.dispatch('stopTrackingStates');
+      useStatesStore().stopTrackingStates();
     },
     onTabChange(idx) {
       this.currentTab = idx;
@@ -240,7 +241,7 @@ export default {
       this.f7router.url = url;
     },
     onCommand(itemName, command) {
-      this.$store.dispatch('sendCommand', { itemName, command });
+      useStatesStore().sendCommand(itemName, command);
     },
     getPageType(page) {
       if (!page) return null;
@@ -269,7 +270,7 @@ export default {
         tab,
         vars: this.vars,
         props: tab.config.pageConfig,
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
       };
       // mock some slots so that it works with current homecard-grouping implementation
       if (tab.component === 'oh-locations-tab') {

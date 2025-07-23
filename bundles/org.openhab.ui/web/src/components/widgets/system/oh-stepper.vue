@@ -116,10 +116,10 @@ export default {
         }
         variableLocation[this.config.variable] = newValue;
       } else if (this.config.item) {
-        this.$store.dispatch('sendCommand', {
-          itemName: this.config.item,
-          cmd: newValue.toString(),
-        });
+        useStatesStore().sendCommand(
+          this.config.item,
+          newValue.toString()
+        );
       }
     },
   },

@@ -4,7 +4,6 @@ import buildInfo from '@/assets/build-info'
 
 import components from './modules/components'
 import model from './modules/model'
-import states from './modules/states'
 import semantics from './modules/semantics'
 import user from './modules/user'
 import { convertJavaLocale } from '@/js/i18n'
@@ -16,7 +15,6 @@ export const store = createStore({
     components,
     model,
     semantics,
-    states,
     user
   },
   state: {
@@ -52,7 +50,7 @@ export const store = createStore({
     },
     setDeveloperDock(state, value) {
       state.developerDock = value
-      state.states.keepConnectionOpen = value
+      //TODO state.states.keepConnectionOpen = value
     },
     setPagePath(state, value) {
       state.pagePath = value

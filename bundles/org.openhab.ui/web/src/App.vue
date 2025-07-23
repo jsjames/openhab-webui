@@ -532,6 +532,7 @@ import { AddonIcons, AddonTitles } from '@/assets/addon-store';
 import { on } from 'dom7';
 
 import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useStatesStore } from './js/stores/states';
 
 export default {
   mixins: [auth, i18n_mixin, connectionHealth, sseEvents],
@@ -659,7 +660,7 @@ export default {
     ...mapStores(themeOptionsStore),
   },
   watch: {
-    '$store.state.states.sseConnected': {
+    'useStatesStore().sseConnected': {
       handler: function (connected) {
         console.debug('sseConnected', connected);
         if (window.OHApp && typeof window.OHApp.sseConnected === 'function') {
@@ -877,7 +878,7 @@ export default {
     toggleDeveloperDock() {
       if (!this.$store.getters.isAdmin) return;
       this.showDeveloperDock = !this.showDeveloperDock;
-      if (this.showDeveloperDock) this.$store.dispatch('startTrackingStates');
+      if (this.showDeveloperDock) useStatesStore().startTrackingStates()
       this.$store.commit('setDeveloperDock', this.showDeveloperDock);
     },
     selectDeveloperDock(dockOpts) {

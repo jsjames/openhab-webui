@@ -5,6 +5,7 @@ import { f7 } from 'framework7-vue'
 
 import GroupPopup from '@/pages/group/group-popup.vue'
 import variableMixin from './variable-mixin'
+import { useStatesStore } from '@/js/stores/states'
 
 export const actionsMixin = {
   mixins: [variableMixin],
@@ -158,11 +159,8 @@ export const actionsMixin = {
             case 'command':
               const actionItem = actionConfig[prefix + 'actionItem']
               const actionCommand = actionConfig[prefix + 'actionCommand']
-              this.$store
-                .dispatch('sendCommand', {
-                  itemName: actionItem,
-                  cmd: actionCommand
-                })
+              useStatesStore()
+                .sendCommand(actionItem, actionCommand)
                 .then(() => this.showActionFeedback(prefix, actionConfig))
               break
             case 'toggle':
@@ -191,8 +189,8 @@ export const actionsMixin = {
                 cmd = actionToggleCommandAlt
               if (actionToggleCommand === 'ON' && state.indexOf(',') < 0 && parseInt(state) > 0)
                 cmd = actionToggleCommandAlt
-              this.$store
-                .dispatch('sendCommand', { itemName: actionToggleItem, cmd })
+              useStatesStore()
+                .sendCommand(actionToggleItem, cmd)
                 .then(() => this.showActionFeedback(prefix, actionConfig))
               break
             case 'options':
@@ -227,11 +225,8 @@ export const actionsMixin = {
                         text: label || cmd,
                         color: 'blue',
                         onClick: () => {
-                          this.$store
-                            .dispatch('sendCommand', {
-                              itemName: actionCommandOptionsItem,
-                              cmd
-                            })
+                          useStatesStore()
+                            .sendCommand(actionCommandOptionsItem, cmd)
                             .then(() => this.showActionFeedback(prefix, actionConfig))
                         }
                       }
@@ -248,11 +243,8 @@ export const actionsMixin = {
                             text: cd.label || cd.command,
                             color: 'blue',
                             onClick: () => {
-                              this.$store
-                                .dispatch('sendCommand', {
-                                  itemName: actionCommandOptionsItem,
-                                  cmd: cd.command
-                                })
+                              useStatesStore()
+                                .sendCommand(actionCommandOptionsItem, cmd)
                                 .then(() => this.showActionFeedback(prefix, actionConfig))
                             }
                           }

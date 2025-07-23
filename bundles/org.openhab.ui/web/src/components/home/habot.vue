@@ -165,7 +165,7 @@ export default {
     cardContext() {
       if (!this.card) return null;
       return {
-        store: this.$store.getters.trackedItems,
+        store: useStatesStore().trackedItems,
         component: this.card,
       };
     },
