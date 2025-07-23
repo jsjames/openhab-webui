@@ -89,14 +89,13 @@ import ConfigSheet from '@/components/config/config-sheet.vue';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
 export default {
   mixins: [DirtyMixin],
   components: {
-    'empty-state-placeholder': defineAsyncComponent(
-      () => import('@/components/empty-state-placeholder.vue')
-    ),
-    ConfigSheet,
+    'empty-state-placeholder': EmptyStatePlaceholder,
+    ConfigSheet
   },
   setup() {
     return { theme };

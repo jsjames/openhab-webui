@@ -306,6 +306,7 @@ import { Dom7 } from 'framework7';
 
 import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
 const lastSearchQueryStore = useLastSearchQueryStore();
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
 export default {
   mixins: [RuleStatus],
@@ -315,9 +316,7 @@ export default {
     f7router: Object,
   },
   components: {
-    'empty-state-placeholder': defineAsyncComponent(
-      () => import('@/components/empty-state-placeholder.vue')
-    ),
+    'empty-state-placeholder': EmptyStatePlaceholder,
   },
   setup() {
     return { f7, theme };

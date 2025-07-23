@@ -266,13 +266,12 @@ import ThingInboxMixin from '@/pages/settings/things/thing-inbox-mixin';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
 export default {
   mixins: [ThingInboxMixin],
   components: {
-    'empty-state-placeholder': defineAsyncComponent(
-      () => import('@/components/empty-state-placeholder.vue')
-    ),
+    'empty-state-placeholder': EmptyStatePlaceholder
   },
   setup() {
     return { theme };

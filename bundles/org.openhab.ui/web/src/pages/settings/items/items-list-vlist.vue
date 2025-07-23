@@ -211,6 +211,7 @@ import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
 import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
 const lastSearchQueryStore = useLastSearchQueryStore();
 
@@ -220,9 +221,7 @@ export default {
     f7router: Object,
   },
   components: {
-    'empty-state-placeholder': defineAsyncComponent(
-      () => import('@/components/empty-state-placeholder.vue')
-    ),
+    'empty-state-placeholder': EmptyStatePlaceholder
   },
   setup() {
     return { theme };

@@ -131,6 +131,7 @@ const SetupWizardPage = () =>
   import(/* webpackChunkName: "setup-wizard" */ '@/pages/wizards/setup-wizard.vue')
 
 const checkDirtyBeforeLeave = function (context) {
+  console.log('checkDirtyBeforeLeave', context)
   if (
     this.currentPageEl &&
     this.currentPageEl.__vue__ &&

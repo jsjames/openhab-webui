@@ -69,12 +69,11 @@
 <script>
 import { nextTick, defineAsyncComponent } from 'vue';
 import { theme } from 'framework7-vue';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
 export default {
   components: {
-    'empty-state-placeholder': defineAsyncComponent(
-      () => import('@/components/empty-state-placeholder.vue')
-    ),
+    'empty-state-placeholder': EmptyStatePlaceholder
   },
   setup() {
     return { theme };

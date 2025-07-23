@@ -13,15 +13,15 @@
     </f7-navbar>
     <f7-toolbar tabbar position="top">
       <f7-link
-        @click="switchTab('design', fromYaml)"
-        :tab-link-active="currentTab === 'design'"
-        class="tab-link">
+        @click="fromYaml"
+        :tab-link-active="currentTab === 'design' ? true : null"
+        tab-link="#design">
         Design
       </f7-link>
       <f7-link
-        @click="switchTab('code', toYaml)"
-        :tab-link-active="currentTab === 'code'"
-        class="tab-link">
+        @click="toYaml"
+        :tab-link-active="currentTab === 'code' ? true : null"
+        tab-link="#code">
         Code
       </f7-link>
     </f7-toolbar>
@@ -115,6 +115,7 @@
 <script>
 import PageDesigner from '../pagedesigner-mixin';
 import { f7, theme } from 'framework7-vue';
+import { utils } from 'framework7';
 import { defineAsyncComponent } from 'vue';
 
 import YAML from 'yaml';
@@ -156,7 +157,7 @@ export default {
     return {
       pageWidgetDefinition: OhChartPage.widget(),
       page: {
-        uid: 'page_' + f7.utils.id(),
+        uid: 'page_' + utils.id(),
         component: 'oh-chart-page',
         config: {},
         tags: [],

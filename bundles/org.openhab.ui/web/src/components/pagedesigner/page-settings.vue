@@ -90,7 +90,9 @@
     </f7-list>
     <template v-if="page.uid !== 'overview'">
       <f7-list inline-labels no-hairline-md>
-        <tag-input :item="page" />
+        <div>
+          <tag-input :item="page" />
+        </div>
       </f7-list>
       <f7-list v-if="!createMode" inline-labels no-hairline-md>
         <f7-list-button color="blue" @click="duplicatePage"> Duplicate Page </f7-list-button>

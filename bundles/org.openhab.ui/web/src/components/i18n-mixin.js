@@ -4,7 +4,6 @@ import { i18n, loadLocaleMessages } from '@/js/i18n'
 export default {
   methods: {
     updateLocale() {
-      // this.$root.$i18n.locale = this.$store.getters.locale
       i18n.global.locale = this.$store.getters.locale
 
       loadLocaleMessages(import.meta.glob('/src/assets/i18n/common/*.json'))

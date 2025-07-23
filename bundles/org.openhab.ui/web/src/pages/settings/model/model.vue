@@ -382,6 +382,7 @@ import MetadataMenu from '@/components/item/metadata/item-metadata-menu.vue';
 import LinkDetails from '@/components/model/link-details.vue';
 
 import ModelMixin from '@/pages/settings/model/model-mixin';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
 const modelStore = useModelStore();
 
@@ -391,9 +392,7 @@ export default {
   },
   mixins: [ModelMixin],
   components: {
-    'empty-state-placeholder': defineAsyncComponent(
-      () => import('@/components/empty-state-placeholder.vue')
-    ),
+    'empty-state-placeholder': EmptyStatePlaceholder,
     ModelDetailsPane,
     ModelTreeview,
     ItemStatePreview,

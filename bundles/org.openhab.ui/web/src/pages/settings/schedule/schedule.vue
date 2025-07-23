@@ -113,14 +113,13 @@ import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
 
 import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
 const lastSearchQueryStore = useLastSearchQueryStore();
 
 export default {
   components: {
-    'empty-state-placeholder': defineAsyncComponent(
-      () => import('@/components/empty-state-placeholder.vue')
-    ),
+    'empty-state-placeholder': EmptyStatePlaceholder
   },
   setup() {
     return { theme };

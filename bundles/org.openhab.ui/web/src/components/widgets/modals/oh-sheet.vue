@@ -34,13 +34,12 @@
 <script>
 import modal from './modal-mixin';
 import { defineAsyncComponent } from 'vue';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
 export default {
   mixins: [modal],
   components: {
-    'empty-state-placeholder': defineAsyncComponent(
-      () => import('@/components/empty-state-placeholder.vue')
-    ),
+    'empty-state-placeholder': EmptyStatePlaceholder
   },
 };
 </script>

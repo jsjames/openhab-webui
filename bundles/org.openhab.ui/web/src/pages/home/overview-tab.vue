@@ -88,14 +88,13 @@
 import OhLayoutPage from '@/components/widgets/layout/oh-layout-page.vue';
 import { defineAsyncComponent } from 'vue';
 import { f7 } from 'framework7-vue';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
 export default {
   props: ['context', 'allowChat'],
   components: {
     OhLayoutPage,
-    'empty-state-placeholder': defineAsyncComponent(
-      () => import('@/components/empty-state-placeholder.vue')
-    ),
+    'empty-state-placeholder': EmptyStatePlaceholder,
     habot: defineAsyncComponent(
       () => import(/* webpackChunkName: "habot" */ '../../components/home/habot.vue')
     ),

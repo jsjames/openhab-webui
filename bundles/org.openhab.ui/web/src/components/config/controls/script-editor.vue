@@ -181,11 +181,11 @@ export default {
   },
   methods: {
     getCMModeExtension(mode) {
+      if(mode.indexOf('yaml') >= 0) {
+        return yaml();
+      }
+
       switch(mode) {
-        case 'yaml':
-        case 'text/x-yaml':
-        case 'application/vnd.openhab.thing+yaml':
-          return yaml();
         case 'application/javascript':
         case 'js':
           return javascript();

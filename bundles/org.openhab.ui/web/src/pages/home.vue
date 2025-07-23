@@ -68,36 +68,36 @@
     </f7-navbar>
     <f7-toolbar tabbar labels bottom v-if="tabsVisible">
       <f7-link
-        tab-link
-        @click="switchTab('overview')"
-        :tab-link-active="currentTab === 'overview'"
+        tab-link="overview"
+        href="/overview"
+        :tab-link-active="currentTab === 'overview' ? true : null"
         icon-ios="f7:house_fill"
         icon-aurora="f7:house_fill"
         icon-md="material:home"
         :text="$t('home.overview.tab')" />
       <f7-link
-        tab-link
+        tab-link="#locations"
+        href="/locations"
         v-if="tabVisible('locations')"
-        @click="switchTab('locations')"
-        :tab-link-active="currentTab === 'locations'"
+        :tab-link-active="currentTab === 'locations' ? true : null"
         icon-ios="f7:placemark_fill"
         icon-aurora="f7:placemark_fill"
         icon-md="material:place"
         :text="$t('home.locations.tab')" />
       <f7-link
-        tab-link
+        tab-link="#equipment"
+        href="/equipment"
         v-if="tabVisible('equipment')"
-        @click="switchTab('equipment')"
-        :tab-link-active="currentTab === 'equipment'"
+        :tab-link-active="currentTab === 'equipment' ? true : null"
         icon-ios="f7:cube_box_fill"
         icon-aurora="f7:cube_box_fill"
         icon-md="material:payments"
         :text="$t('home.equipment.tab')" />
       <f7-link
-        tab-link
+        tab-link="#properties"
+        href="/properties"
         v-if="tabVisible('properties')"
-        @click="switchTab('properties')"
-        :tab-link-active="currentTab === 'properties'"
+        :tab-link-active="currentTab === 'properties' ? true : null"
         icon-ios="f7:bolt_fill"
         icon-aurora="f7:bolt_fill"
         icon-md="material:flash_on"
@@ -121,7 +121,7 @@
     <f7-tabs v-else>
       <f7-tab
         id="tab-overview"
-        :tab-active="currentTab === 'overview'"
+        :tab-active="currentTab === 'overview' ? true : null"
         @tab:show="() => (this.currentTab = 'overview')">
         <overview-tab
           v-if="currentTab === 'overview'"
@@ -131,7 +131,7 @@
       </f7-tab>
       <f7-tab
         id="tab-locations"
-        :tab-active="currentTab === 'locations'"
+        :tab-active="currentTab === 'locations' ? true : null"
         @tab:show="() => (this.currentTab = 'locations')">
         <model-tab
           v-if="currentTab === 'locations'"
@@ -141,7 +141,7 @@
       </f7-tab>
       <f7-tab
         id="tab-equipment"
-        :tab-active="currentTab === 'equipment'"
+        :tab-active="currentTab === 'equipment' ? true : null"
         @tab:show="() => (this.currentTab = 'equipment')">
         <model-tab
           v-if="currentTab === 'equipment'"
@@ -151,7 +151,7 @@
       </f7-tab>
       <f7-tab
         id="tab-properties"
-        :tab-active="currentTab === 'properties'"
+        :tab-active="currentTab === 'properties' ? true : null"
         @tab:show="() => (this.currentTab = 'properties')">
         <model-tab
           v-if="currentTab === 'properties'"
@@ -327,11 +327,6 @@ export default {
     },
     exitToApp() {
       window.OHApp.exitToApp();
-    },
-    switchTab(tab) {
-      this.currentTab = tab;
-      this.f7router.updateCurrentUrl('/' + this.currentTab);
-      this.f7router.url = '/' + this.currentTab;
     },
     tabVisible(tab) {
       if (!this.tabsVisible) return false;

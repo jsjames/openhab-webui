@@ -62,6 +62,7 @@ const getters = {
 
 const actions = {
   initializeTrackingStore(context) {
+    console.log('Initializing state tracking store')
     if (stateTrackingProxy) return
     console.debug('Initializing state tracking store proxy')
     stateTrackingProxy = new Proxy({}, handler(context))

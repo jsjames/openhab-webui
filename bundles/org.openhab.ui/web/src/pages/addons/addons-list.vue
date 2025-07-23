@@ -80,13 +80,12 @@
 import AddonDetailsSheet from './addon-details-sheet.vue';
 import { f7 } from 'framework7-vue';
 import { defineAsyncComponent } from 'vue';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
 export default {
   components: {
-    'empty-state-placeholder': defineAsyncComponent(
-      () => import('@/components/empty-state-placeholder.vue')
-    ),
-    AddonDetailsSheet,
+    'empty-state-placeholder': EmptyStatePlaceholder,
+    AddonDetailsSheet
   },
   props: ['addonType'],
   data() {

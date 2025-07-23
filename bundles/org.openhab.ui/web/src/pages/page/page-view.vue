@@ -118,14 +118,13 @@ import WidgetExpressionMixin from '@/components/widgets/widget-expression-mixin'
 import { actionsMixin } from '@/components/widgets/widget-actions';
 import { f7, theme } from 'framework7-vue';
 import { defineAsyncComponent } from 'vue';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
 export default {
   mixins: [WidgetExpressionMixin, actionsMixin],
   components: {
     'oh-layout-page': OhLayoutPage,
-    'empty-state-placeholder': defineAsyncComponent(
-      () => import('@/components/empty-state-placeholder.vue')
-    ),
+    'empty-state-placeholder': EmptyStatePlaceholder,
     'oh-map-page': defineAsyncComponent(
       () => import(/* webpackChunkName: "map-page" */ '@/components/widgets/map/oh-map-page.vue')
     ),

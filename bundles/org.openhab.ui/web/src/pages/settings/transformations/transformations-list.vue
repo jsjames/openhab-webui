@@ -104,7 +104,8 @@
         <f7-list
           class="searchbar-found col transformations-list"
           ref="transformationsList"
-          :contacts-list="groupBy === 'alphabetical'">
+          :contacts-list="groupBy === 'alphabetical'"
+          media-list>
           <f7-list-group
             v-for="(transformationsWithInitial, initial) in indexedTransformations"
             :key="initial">
@@ -172,15 +173,14 @@ import ClipboardIcon from '@/components/util/clipboard-icon.vue';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
 export default {
   props: {
     f7router: Object,
   },
   components: {
-    'empty-state-placeholder': defineAsyncComponent(
-      () => import('@/components/empty-state-placeholder.vue')
-    ),
+    'empty-state-placeholder': EmptyStatePlaceholder,
     ClipboardIcon,
   },
   setup() {
