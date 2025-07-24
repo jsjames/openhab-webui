@@ -2,6 +2,8 @@ import dayjs from 'dayjs'
 import IsoWeek from 'dayjs/plugin/isoWeek'
 dayjs.extend(IsoWeek)
 
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+
 // Axis components
 import OhTimeAxis from './axis/oh-time-axis'
 import OhValueAxis from './axis/oh-value-axis'
@@ -65,7 +67,7 @@ export default {
     options() {
       if (!this.config) return {}
       const chartConfig = this.config.options || {}
-      if (!chartConfig.backgroundColor && this.themeOptions.dark === 'dark') {
+      if (!chartConfig.backgroundColor && useThemeOptionsStore().dark === 'dark') {
         chartConfig.backgroundColor = '#121212'
       }
       return {

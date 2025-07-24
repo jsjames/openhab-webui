@@ -108,17 +108,15 @@
 import CardMixin from './card-mixin';
 import { f7, theme } from 'framework7-vue';
 
-import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { mapStores } from 'pinia';
 
 export default {
   mixins: [CardMixin],
   props: ['headerHeight'],
-  data() {
-    return {
-      themeOptions: themeOptionsStore(),
-    };
+  computed: {
+    ...mapStores(useThemeOptionsStore)
   },
-  methods: {},
   asyncComputed: {
     backgroundImageUrl() {
       if (this.config.backgroundImage) {

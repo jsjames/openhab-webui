@@ -111,7 +111,8 @@ import OpenhabJsDefs from '@/assets/openhab-js-tern-defs.json';
 //TODO-V3 import pythonHint from '../editor/hint-python';
 
 import openhab from '@/js/openhab';
-import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { mapStores } from "pinia";
 
 // Adapted from https://github.com/lkcampbell/brackets-indent-guides (MIT)
 let indentGuidesOverlay = {
@@ -165,7 +166,6 @@ export default {
     return {
       code: this.value,
       itemsCache: [],
-      themeOptions: themeOptionsStore(),
       cmOptions: {
         tabSize: 4,
         line: true,
@@ -449,7 +449,7 @@ export default {
   computed: {
     extensions() {
       const extensions = [ closeBrackets(), codeFolding() ]
-      if( themeOptionsStore().dark === 'dark')
+      if( useThemeOptionsStore().dark === 'dark')
         extensions.push(gruvboxDark)
       extensions.push(this.getCMModeExtension(this.mode))
 
@@ -458,6 +458,7 @@ export default {
     codemirror() {
       return this.$refs.cm.codemirror;
     },
+    ...mapStores(useThemeOptionsStore)
   },
   mounted() {},
 };

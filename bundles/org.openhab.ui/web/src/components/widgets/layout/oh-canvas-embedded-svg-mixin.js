@@ -163,8 +163,8 @@ export default {
         const items = stateItems || (actionItem ? [actionItem] : [])
         if (items.length === 0) continue
         for (const item of items) {
-          if (!this.$store.getters.isItemTracked(item))
-            this.$store.commit('addToTrackingList', item)
+          if (!useStatesStore().isItemTracked(item)) useStatesStore().addToTrackingList(item)
+          // TODO-V3
           const unsubscribe = this.$store.subscribe((mutation, state) => {
             if (mutation.type === 'setItemState' && mutation.payload.itemName === item) {
               this.applyStateToSvgElement(
@@ -179,7 +179,7 @@ export default {
         }
       }
 
-      this.$store.dispatch('updateTrackingList')
+      useStatesStore().updateTrackingList()
       console.info('Successfully setup embedded SVG state tracking.')
     },
     /**

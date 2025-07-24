@@ -3,7 +3,7 @@
     v-if="init"
     :style="{
       visibility:
-        $store.getters.user || $store.getters.page('overview') || communicationFailureMsg
+        userStore.user || $store.getters.page('overview') || communicationFailureMsg
           ? ''
           : 'hidden',
     }"
@@ -51,11 +51,11 @@
           </f7-list-item>
         </f7-list>
         <f7-block-title
-          v-if="$store.getters.isAdmin"
+          v-if="userStore.isAdmin()"
           >{{  $t('sidebar.administration') }}</f7-block-title
         >
         <!-- Settings -->
-        <f7-list class="admin-links" v-if="$store.getters.isAdmin">
+        <f7-list class="admin-links" v-if="userStore.isAdmin()">
           <f7-list-item
             link="/settings/"
             :title="$t('sidebar.settings')"
@@ -326,11 +326,10 @@
           <div class="account" v-if="ready && $store.getters.apiEndpoint('auth')">
             <div class="display-flex justify-content-center">
               <div
-                class="hint-signin"
                 v-if="
-                  !$store.getters.user &&
-                  !$store.getters.pages.filter(p => p.uid !== 'overview').length
-                ">
+                  !userStore.user &&
+                  !$store.getters.pages.filter(p => p.uid !== 'overview').length"
+                class="hint-signin">
                 <em>{{ $t('sidebar.tip.signIn') }}<br /><f7-icon f7="arrow_down" size="20" /></em>
               </div>
               <f7-button
@@ -342,9 +341,9 @@
                 icon-size="43"
                 :tooltip="$t('sidebar.unlockAdmin')" />
             </div>
-            <f7-list v-if="$store.getters.user" media-list>
+            <f7-list v-if="userStore.user" media-list>
               <f7-list-item
-                :title="$store.getters.user.name"
+                :title="userStore.user.name"
                 :footer="serverDisplayUrl"
                 io="f7:person_alt_circle_fill"
                 link="/profile/"
@@ -531,8 +530,9 @@ import dayjsLocales from 'dayjs/locale.json';
 import { AddonIcons, AddonTitles } from '@/assets/addon-store';
 import { on } from 'dom7';
 
-import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
 import { useStatesStore } from './js/stores/states';
+import { useUserStore } from './js/stores/user';
 
 export default {
   mixins: [auth, i18n_mixin, connectionHealth, sseEvents],
@@ -627,7 +627,7 @@ export default {
       activeToolTab: 'pin',
       activeHelpTab: 'current',
       developerSearch: null,
-      currentUrl: '',
+      currentUrl: ''
     };
   },
   i18n: {
@@ -657,7 +657,7 @@ export default {
     serverDisplayUrl() {
       return window.location.origin;
     },
-    ...mapStores(themeOptionsStore),
+    ...mapStores(useThemeOptionsStore, useUserStore)
   },
   watch: {
     'useStatesStore().sseConnected': {
@@ -756,7 +756,7 @@ export default {
           // store the REST API services present on the system
           this.$store.dispatch('loadRootResource', { rootResponse });
           this.updateLocale();
-          if (!this.$store.getters.apiEndpoint('auth')) this.$store.commit('setNoAuth', true);
+          if (!this.$store.getters.apiEndpoint('auth')) useUserStore().setNoAuth(true);
           return rootResponse;
         })
         .then(rootResponse => {
@@ -813,9 +813,9 @@ export default {
         });
     },
     pageIsVisible(page) {
-      if (!page.config.visibleTo) return true;
-      if (this.$store.getters.noAuth) return true;
-      const user = this.$store.getters.user;
+      if (!page.config.visibleTo) return true
+      if (useUserStore().noAuth) return true
+      const user = useUserStore().user
       if (!user) return false;
       if (user.roles && user.roles.some(r => page.config.visibleTo.indexOf('role:' + r) >= 0))
         return true;
@@ -840,43 +840,43 @@ export default {
       }
     },
     updateThemeOptions() {
-      this.themeOptionsStore.dark =
+      useThemeOptionsStore().dark =
         localStorage.getItem('openhab.ui:theme.dark') ||
         (window.OHApp && window.OHApp.preferDarkMode
           ? window.OHApp.preferDarkMode().toString()
           : f7.darkTheme
             ? 'dark'
             : 'light');
-      this.themeOptionsStore.bars = localStorage.getItem('openhab.ui:theme.bars') || 'light';
-      this.themeOptionsStore.homeNavbar =
+      useThemeOptionsStore().bars = localStorage.getItem('openhab.ui:theme.bars') || 'light';
+      useThemeOptionsStore().homeNavbar =
         localStorage.getItem('openhab.ui:theme.home.navbar') || 'default';
-      this.themeOptionsStore.homeBackground =
+      useThemeOptionsStore().homeBackground =
         localStorage.getItem('openhab.ui:theme.home.background') || 'default';
-      this.themeOptionsStore.expandableCardAnimation =
+      useThemeOptionsStore().expandableCardAnimation =
         localStorage.getItem('openhab.ui:theme.home.cardanimation') || 'default';
-      if (this.themeOptionsStore.dark === 'dark') {
+      if (useThemeOptionsStore().dark === 'dark') {
         Dom7('html').addClass('theme-dark');
       } else {
         Dom7('html').removeClass('theme-dark');
       }
 
       // Not sure why the classes are not getting appliced to the app element via binding
-      if (this.themeOptionsStore.bars === 'filled') {
+      if (useThemeOptionsStore().bars === 'filled') {
         Dom7('html').addClass('theme-filled');
       } else {
         Dom7('html').removeClass('theme-filled');
       }
-      if (this.themeOptionsStore.pageTransitionAnimation === 'disabled') {
+      if (useThemeOptionsStore().pageTransitionAnimation === 'disabled') {
         Dom7('html').addClass('no-page-transitions');
       }
       if (localStorage.getItem('openhab.ui:panel.visibleBreakpointDisabled') === 'true') {
         this.visibleBreakpointDisabled = true;
         // nextTick(() => f7.panel.get("left").disableVisibleBreakpoint());
       }
-      this.themeOptionsStore.blocklyRenderer = localStorage.getItem('openhab.ui:blockly.renderer');
+      useThemeOptionsStore().blocklyRenderer = localStorage.getItem('openhab.ui:blockly.renderer');
     },
     toggleDeveloperDock() {
-      if (!this.$store.getters.isAdmin) return;
+      if (!useUserStore().isAdmin()) return;
       this.showDeveloperDock = !this.showDeveloperDock;
       if (this.showDeveloperDock) useStatesStore().startTrackingStates()
       this.$store.commit('setDeveloperDock', this.showDeveloperDock);
@@ -995,7 +995,7 @@ export default {
     this.AddonTitles = AddonTitles;
 
     // special treatment for this option because it's needed to configure the app initialization
-    this.themeOptionsStore.pageTransitionAnimation =
+    useThemeOptionsStore().pageTransitionAnimation =
       localStorage.getItem('openhab.ui:theme.pagetransition') || 'default';
 
     // load 2-way communication for native wrappers

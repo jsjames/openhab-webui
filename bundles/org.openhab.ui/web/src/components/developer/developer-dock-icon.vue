@@ -11,6 +11,7 @@
 
 <script>
 import { f7 } from 'framework7-vue';
+import { useUserStore } from '@/js/stores/user';
 
 export default {
   data() {
@@ -20,7 +21,7 @@ export default {
   },
   computed: {
     iconVisible() {
-      return this.$store.getters.isAdmin && f7.width >= 1280;
+      return useUserStore().isAdmin() && f7.width >= 1280;
     },
   },
 };

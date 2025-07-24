@@ -5,7 +5,7 @@ import buildInfo from '@/assets/build-info'
 import components from './modules/components'
 import model from './modules/model'
 import semantics from './modules/semantics'
-import user from './modules/user'
+// import user from './modules/user'
 import { convertJavaLocale } from '@/js/i18n'
 
 // const debug = import.meta.env.DEV
@@ -14,8 +14,8 @@ export const store = createStore({
   modules: {
     components,
     model,
-    semantics,
-    user
+    semantics
+    // user
   },
   state: {
     apiVersion: null,

@@ -175,7 +175,9 @@ import ThemeSwitcher from '../components/theme-switcher.vue';
 import YAML from 'yaml';
 import { loadLocaleMessages } from '@/js/i18n';
 import { f7, theme } from 'framework7-vue';
-import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { useUserStore } from '@/js/stores/user';
+import { mapStores } from 'pinia';
 
 import reloadMixin from '../components/reload-mixin.js';
 import { onMounted } from 'vue';
@@ -189,8 +191,7 @@ export default {
     return {
       systemInfo: null,
       textualSystemInfoOpened: false,
-      bindings: null,
-      themeOptions: themeOptionsStore(),
+      bindings: null
     };
   },
   i18n: {
@@ -231,10 +232,11 @@ export default {
         timestamp: new Date(),
       });
     },
+    ...mapStores(useThemeOptionsStore)
   },
   methods: {
     beforePageIn() {
-      if (this.$store.getters.isAdmin) {
+      if (useUserStore().isAdmin()) {
         this.$oh.api.get('/rest/systeminfo').then(data => {
           this.systemInfo = data.systemInfo;
         });

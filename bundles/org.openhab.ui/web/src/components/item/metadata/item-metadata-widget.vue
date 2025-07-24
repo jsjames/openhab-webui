@@ -116,6 +116,8 @@ import itemDefaultCellComponent from '@/components/widgets/standard/cell/default
 import { VisibilityGroup, VisibilityParameters } from '@/assets/definitions/widgets/visibility';
 import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
 
+import { useStatesStore } from '@/js/stores/states';
+
 import { utils } from 'framework7';
 
 export default {
@@ -193,7 +195,7 @@ export default {
     setPreviewContext() {
       // create new object to be reactive
       this.previewContext = {};
-      this.previewContext.store = this.$store.getters.trackedItems;
+      this.previewContext.store = useStatesStore().trackedItems;
       this.previewContext.vars = this.widgetVars;
 
       if (this.namespace === 'listWidget') {

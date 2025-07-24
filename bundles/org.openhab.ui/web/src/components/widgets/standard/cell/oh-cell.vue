@@ -6,7 +6,7 @@
     :swipeToClose="!(noSwipeToClose || config.swipeToClose === false)"
     :backdrop="config.backdrop === undefined || config.backdrop"
     :animate="
-      config.animate === false || themeOptions.expandableCardAnimation === 'disabled'
+      config.animate === false || themeOptionsStore.expandableCardAnimation === 'disabled'
         ? false
         : undefined
     "
@@ -193,7 +193,8 @@ import { OhCellDefinition } from '@/assets/definitions/widgets/standard/cells';
 import OhTrend from '../../system/oh-trend.vue';
 import { Dom7, utils } from 'framework7';
 import { f7 } from 'framework7-vue';
-import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { mapStores } from 'pinia';
 
 export default {
   mixins: [mixin, actionsMixin],
@@ -206,8 +207,7 @@ export default {
     return {
       transitioning: false,
       opened: false,
-      cardId: utils.id(),
-      themeOptions: themeOptionsStore(),
+      cardId: utils.id()
     };
   },
   mounted() {
@@ -259,6 +259,7 @@ export default {
       }
       return false;
     },
+    ...mapStores(useThemeOptionsStore),
   },
   methods: {
     click(evt) {

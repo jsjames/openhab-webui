@@ -3,6 +3,9 @@ import { f7, f7ready } from 'framework7-vue'
 
 import { useStatesStore } from '@/js/stores/states'
 
+let unsubscribeAction = null
+let unsubscribeMutation = null
+
 export default {
   mixins: [reloadMixin],
   data() {
@@ -46,7 +49,7 @@ export default {
   mounted() {
     f7ready(f7 => {
       //TODO-V3 - finish implementing in pinia
-      useStatesStore().$subscribe((mutation, state) => {
+      unsubscribeMutation = useStatesStore().$subscribe((mutation, state) => {
         if (!(this.ready && !window.OHApp && f7)) {
           // mutation.type === 'sseConnected' is used to avoid the initial call
           return
@@ -74,32 +77,49 @@ export default {
       })
     })
 
-    //TODO-V3 - need to adjust for pinia
-    this.$store.subscribeAction({
-      error: (action, state, error) => {
-        if (action.type === 'sendCommand') {
-          let reloadButton = true
-          let msg = this.$t('error.communicationFailure')
-          switch (error) {
-            case 404:
-            case 'Not Found':
-              msg = this.$t('error.itemNotFound').replace('%s', action.payload.itemName)
-              reloadButton = false
-              return this.displayFailureToast(msg, reloadButton)
+    // TODO-V3 - test
+    unsubscribeAction = useStatesStore().$onAction(
+      ({
+        name, // name of the action
+        store, // store instance, same as `someStore`
+        args, // array of parameters passed to the action
+        after, // hook after the action returns or resolves
+        onError // hook if the action throws or rejects
+      }) => {
+        onError(error => {
+          if (name === 'sendCommand') {
+            let reloadButton = true
+            let msg = this.$t('error.communicationFailure')
+            switch (error) {
+              case 404:
+              case 'Not Found':
+                msg = this.$t('error.itemNotFound').replace('%s', action.payload.itemName)
+                reloadButton = false
+                return this.displayFailureToast(msg, reloadButton)
+            }
+            if (this.communicationFailureToast === null) {
+              this.communicationFailureToast = this.displayFailureToast(
+                this.$t('error.communicationFailure'),
+                true,
+                true
+              )
+              this.communicationFailureToast.on('closed', () => {
+                this.communicationFailureToast = null
+              })
+            }
           }
-          if (this.communicationFailureToast === null) {
-            this.communicationFailureToast = this.displayFailureToast(
-              this.$t('error.communicationFailure'),
-              true,
-              true
-            )
-            this.communicationFailureToast.on('closed', () => {
-              this.communicationFailureToast = null
-            })
-          }
-        }
+        })
       }
-    })
+    )
   },
-  unmounted() {}
+  unmounted() {
+    if (unsubscribeMutation) {
+      unsubscribeMutation()
+      unsubscribeMutation = null
+    }
+    if (unsubscribeAction) {
+      unsubscribeAction()
+      unsubscribeAction = null
+    }
+  }
 }

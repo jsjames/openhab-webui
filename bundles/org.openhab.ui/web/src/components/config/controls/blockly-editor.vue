@@ -1209,7 +1209,8 @@ import { f7 } from 'framework7-vue';
 import defineOHBlocks from '@/assets/definitions/blockly';
 import { defineLibraryToolboxCategory } from '@/assets/definitions/blockly/libraries';
 import { theme } from 'framework7-vue';
-import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { mapStores } from 'pinia';
 
 //TODO-V3 Vue.config.ignoredElements = ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep'];
 
@@ -1227,19 +1228,19 @@ export default {
       persistenceServices: [],
       transformationServices: [],
       loading: true,
-      ready: false,
-      themeOptions: themeOptionsStore(),
+      ready: false
     };
   },
   computed: {
     cssVars() {
       return {
-        '--blockly-ws-search-bg-color': this.themeOptions.dark === 'dark' ? '#1e1e1e' : 'white',
+        '--blockly-ws-search-bg-color': useThemeOptionsStore().dark === 'dark' ? '#1e1e1e' : 'white',
         '--blockly-ws-search-border-color':
-          this.themeOptions.dark === 'dark' ? 'lightgrey' : 'grey',
-        '--blockly-ws-search-text-color': this.themeOptions.dark === 'dark' ? 'white' : 'black',
+          useThemeOptionsStore().dark === 'dark' ? 'lightgrey' : 'grey',
+        '--blockly-ws-search-text-color': useThemeOptionsStore().dark === 'dark' ? 'white' : 'black',
       };
     },
+    ...mapStores(useThemeOptionsStore)
   },
   mounted() {
     this.load();

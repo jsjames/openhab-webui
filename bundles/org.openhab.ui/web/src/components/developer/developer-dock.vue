@@ -126,7 +126,8 @@ import DeveloperSidebar from './developer-sidebar.vue';
 import HelpSidebar from './help-sidebar.vue';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
-import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { mapStores } from 'pinia';
 
 export default {
   props: ['dock', 'helpTab', 'toolTab', 'searchFor'],
@@ -137,8 +138,7 @@ export default {
   data() {
     return {
       f7,
-      ready: false,
-      themeOptions: themeOptionsStore(),
+      ready: false
     };
   },
   computed: {
@@ -160,6 +160,7 @@ export default {
     activeToolTab() {
       return this.toolTab || 'pin';
     },
+    ...mapStores(useThemeOptionsStore)
   },
   created() {
     nextTick(() => {

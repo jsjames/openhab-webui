@@ -23,7 +23,7 @@
               <div v-if="addon.verifiedAuthor" class="addon-header-subtitle">
                 {{ addon.author }}
                 <f7-icon
-                  :color="themeOptions.dark === 'dark' ? 'white' : 'blue'"
+                  :color="themeOptionsStore.dark === 'dark' ? 'white' : 'blue'"
                   f7="checkmark_seal_fill" />
               </div>
               <div
@@ -218,7 +218,8 @@ import AddonStatsLine from '@/components/addons/addon-stats-line.vue';
 import AddonInfoTable from '@/components/addons/addon-info-table.vue';
 import AddonLogo from '@/components/addons/addon-logo.vue';
 import { f7 } from 'framework7-vue';
-import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { mapStores } from 'pinia';
 
 export default {
   mixins: [AddonStoreMixin],
@@ -234,8 +235,7 @@ export default {
       ready: false,
       descriptionReady: false,
       parsedDescription: '',
-      descriptionExpanded: false,
-      themeOptions: themeOptionsStore(),
+      descriptionExpanded: false
     };
   },
   computed: {
@@ -286,6 +286,7 @@ export default {
       let splitted = this.addon.uid.split(':');
       return splitted.length < 2 || splitted[0] !== 'eclipse';
     },
+    ...mapStores(useThemeOptionsStore)
   },
   methods: {
     onPageBeforeIn() {

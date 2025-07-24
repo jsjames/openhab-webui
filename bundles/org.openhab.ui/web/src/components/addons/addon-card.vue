@@ -130,7 +130,7 @@
 import AddonStatsLine from './addon-stats-line.vue';
 import AddonLogo from '@/components/addons/addon-logo.vue';
 import { f7 } from 'framework7-vue';
-import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
 
 export default {
   props: ['addon', 'headline', 'installActionText', 'lazyLogo'],
@@ -141,7 +141,7 @@ export default {
   },
   data() {
     return {
-      themeOptions: themeOptionsStore(),
+      themeOptions: useThemeOptionsStore(),
     };
   },
   computed: {

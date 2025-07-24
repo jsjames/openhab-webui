@@ -50,7 +50,8 @@
 import Blockly from 'blockly';
 //TODO-V3 import Vue from 'vue';
 import { f7, theme } from 'framework7-vue';
-import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { mapStores } from 'pinia';
 
 // TODO-V3 Vue.config.ignoredElements = ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep'];
 export default {
@@ -59,9 +60,11 @@ export default {
     return {
       workspace: null,
       definitionError: null,
-      currentBlock: null,
-      themeOptions: themeOptionsStore(),
+      currentBlock: null
     };
+  },
+  computed: {
+    ...mapStores(useThemeOptionsStore)
   },
   mounted() {
     this.initWorkspace();
@@ -75,7 +78,7 @@ export default {
   methods: {
     initWorkspace() {
       this.workspace = Blockly.inject(this.$refs.blockPreview, {
-        theme: this.themeOptions.dark === 'dark' ? 'dark' : undefined,
+        theme: this.themeOptionsStore.dark === 'dark' ? 'dark' : undefined,
         trashcan: false,
         readOnly: false,
       });

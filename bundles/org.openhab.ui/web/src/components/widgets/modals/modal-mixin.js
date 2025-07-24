@@ -1,5 +1,5 @@
 import OhLayoutPage from '@/components/widgets/layout/oh-layout-page.vue'
-import { use } from 'marked'
+import { useUserStore } from '@/js/stores/user'
 import { defineAsyncComponent } from 'vue'
 
 export default {
@@ -73,7 +73,7 @@ export default {
     visibleToCurrentUser() {
       // widgets in modals cannot be restricted (this is by design)
       if (!this.page || !this.page.config || !this.page.config.visibleTo) return true
-      const user = this.$store.getters.user
+      const user = useUserStore().user
       if (!user) return false
       if (user.roles && user.roles.some(r => this.page.config.visibleTo.indexOf('role:' + r) >= 0))
         return true

@@ -1,6 +1,6 @@
 <template>
   <div :style="pageStyle">
-    <div class="hint-apps" v-if="!overviewPage && !$store.getters.user && !showHABot">
+    <div class="hint-apps" v-if="!overviewPage && !userStore.user && !showHABot">
       <p>
         <em
           ><f7-icon
@@ -32,7 +32,7 @@
     <div class="empty-overview" v-else-if="!inChatSession">
       <empty-state-placeholder icon="house" title="overview.title" text="overview.text" />
       <f7-row
-        v-if="!$store.getters.isAdmin || f7.width < 1280"
+        v-if="!userStore.isAdmin() || f7.width < 1280"
         class="display-flex justify-content-center">
         <f7-button
           large
@@ -89,6 +89,10 @@ import OhLayoutPage from '@/components/widgets/layout/oh-layout-page.vue';
 import { defineAsyncComponent } from 'vue';
 import { f7 } from 'framework7-vue';
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import { useStatesStore } from '@/js/stores/states';
+import { useUserStore } from '@/js/stores/user';
+
+import { mapStores } from 'pinia';
 
 export default {
   props: ['context', 'allowChat'],
@@ -103,7 +107,7 @@ export default {
     return {
       inChatSession: false,
       ready: true,
-      f7,
+      f7
     };
   },
   computed: {
@@ -139,6 +143,7 @@ export default {
       if (!this.overviewPage) return null;
       return this.overviewPage.config.style;
     },
+    ...mapStores(useUserStore)
   },
   methods: {
     onCommand(itemName, command) {

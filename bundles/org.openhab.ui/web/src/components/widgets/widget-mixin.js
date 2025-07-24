@@ -4,7 +4,9 @@ import scope from '@/js/scope-css'
 import WidgetExpressionMixin from '@/components/widgets/widget-expression-mixin'
 import { utils } from 'framework7'
 
-import { themeOptionsStore } from '@/js/stores/theme-options'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { useUserStore } from '@/js/stores/user'
+import { mapStores } from 'pinia'
 
 export default {
   mixins: [WidgetExpressionMixin],
@@ -14,8 +16,7 @@ export default {
       vars: this.context ? this.context.vars : {},
       ctxVars: this.context ? this.context.ctxVars : {},
       widgetVars: {},
-      varScope: null,
-      themeOptions: themeOptionsStore()
+      varScope: null
     }
   },
   computed: {
@@ -73,7 +74,7 @@ export default {
       if (visible === undefined && visibleTo === undefined) return true
       if (visible === false || visible === 'false') return false
       if (visibleTo) {
-        const user = this.$store.getters.user
+        const user = useUserStore().user
         if (!user) return false
         if (user.roles && user.roles.some(r => visibleTo.indexOf('role:' + r) >= 0)) return true
         return visibleTo.indexOf('user:' + user.name) >= 0
@@ -82,7 +83,8 @@ export default {
     },
     hasAction() {
       return this.config && (this.config.action || this.config.actionPropsParameterGroup)
-    }
+    },
+    ...mapStores(useThemeOptionsStore)
   },
   mounted() {
     if (this.context?.component?.config?.stylesheet) {

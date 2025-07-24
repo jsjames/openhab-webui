@@ -203,11 +203,11 @@ export default {
       return this.page?.config.label;
     },
     isAdmin() {
-      return this.page && this.$store.getters.isAdmin;
+      return this.page && useUserStore().isAdmin();
     },
     visibleToCurrentUser() {
       if (!this.page || !this.page.config || !this.page.config.visibleTo) return true;
-      const user = this.$store.getters.user;
+      const user = useUserStore().user
       if (!user) return false;
       if (user.roles && user.roles.some(r => this.page.config.visibleTo.indexOf('role:' + r) >= 0))
         return true;

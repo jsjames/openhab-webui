@@ -30,7 +30,8 @@ import { GraphChart } from 'echarts/charts';
 import { TooltipComponent, ToolboxComponent } from 'echarts/components';
 import VChart from 'vue-echarts';
 import { f7, theme } from 'framework7-vue';
-import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { mapStores } from 'pinia';
 
 use([CanvasRenderer, GraphChart, TooltipComponent, ToolboxComponent]);
 
@@ -41,11 +42,6 @@ export default {
   props: ['bridgeUID'],
   components: {
     chart: VChart,
-  },
-  data() {
-    return {
-      themeOptions: themeOptionsStore(),
-    };
   },
   computed: {
     finalOptions() {
@@ -60,6 +56,7 @@ export default {
         series: this.series,
       };
     },
+    ...mapStores(useThemeOptionsStore)
   },
   asyncComputed: {
     series() {

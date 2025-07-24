@@ -11,7 +11,7 @@ interface State {
   pageTransitionAnimation: 'disabled' | 'enabled'
 }
 
-export const themeOptionsStore = defineStore('themeOptions', () => {
+export const useThemeOptionsStore = defineStore('themeOptions', () => {
   const state = ref<State>({
     dark: 'light',
     bars: 'light',

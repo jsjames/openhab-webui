@@ -18,6 +18,7 @@ import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { nextTick } from 'vue';
 import { theme } from 'framework7-vue';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
@@ -40,14 +41,13 @@ export default {
       zoom: 1,
       center: latLng(48, 6),
       // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      url: `https://a.basemaps.cartocdn.com/${this.themeOptions.dark}_all/{z}/{x}/{y}.png`,
+      url: `https://a.basemaps.cartocdn.com/${useThemeOptionsStore().dark}_all/{z}/{x}/{y}.png`,
       attribution:
         '&copy; <a class="external" target="_blank" href="http://osm.org/copyright">OpenStreetMap</a>, &copy; <a class="external" target="_blank" href="https://carto.com/attribution/">CARTO</a>',
       marker: null,
       mapOptions: {
         zoomSnap: 0.5,
-      },
-      themeOptions: themeOptionsStore(),
+      }
     };
   },
   mounted() {

@@ -183,7 +183,9 @@
 <script>
 import auth from '@/components/auth-mixin.js';
 import { loadLocaleMessages } from '@/js/i18n';
+import { useUserStore } from '@/js/stores/user';
 import { f7, theme } from 'framework7-vue';
+import { use } from 'marked';
 
 export default {
   mixins: [auth],
@@ -192,7 +194,7 @@ export default {
   },
   data() {
     return {
-      user: this.$store.getters.user,
+      user: useUserStore().user,
       sessions: [],
       apiTokens: [],
 

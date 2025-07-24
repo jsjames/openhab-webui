@@ -36,7 +36,7 @@
       <f7-nav-right>
         <developer-dock-icon />
         <f7-link
-          v-if="this.$store.getters.isAdmin"
+          v-if="userStore.isAdmin"
           icon-ios="f7:pencil"
           icon-aurora="f7:pencil"
           icon-md="material:edit"
@@ -196,8 +196,9 @@ import { utils } from 'framework7';
 import { mapStores } from 'pinia';
 
 import HomeCards from './home/homecards-mixin';
-import { themeOptionsStore } from '@/js/stores/theme-options';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
 import { useStatesStore } from '@/js/stores/states';
+import { useUserStore } from '@/js/stores/user';
 
 export default {
   props: {
@@ -219,7 +220,7 @@ export default {
       showPinToHome: false,
       showExitToApp: false,
       currentTab: this.initialTab || 'overview',
-      overviewPageKey: utils.id(),
+      overviewPageKey: utils.id()
     };
   },
   computed: {
@@ -232,7 +233,7 @@ export default {
       };
     },
     simpleNavbar() {
-      const homeNavbar = this.themeOptionsStore.homeNavbar;
+      const homeNavbar = useThemeOptionsStore().homeNavbar;
       if (homeNavbar !== 'default') return homeNavbar === 'simple';
       if (this.$device.desktop) {
         return this.homePageComponent?.config?.simpleNavbarDesktopDefault === true;
@@ -241,7 +242,7 @@ export default {
       }
     },
     standardBackground() {
-      const homeBackground = this.themeOptionsStore.homeBackground;
+      const homeBackground = useThemeOptionsStore().homeBackground;
       if (homeBackground !== 'default') return homeBackground === 'standard';
       if (this.$device.desktop) {
         return this.homePageComponent?.config?.standardBackgroundDesktopDefault === true;
@@ -264,7 +265,7 @@ export default {
       // Note: User configuration takes precedence over role configuration
       const visibleTo = this.homePageComponent.config.displayModelCardsTo;
       if (visibleTo === undefined || !visibleTo.length) return true;
-      const user = this.$store.getters.user;
+      const user = useUserStore().user;
       if (!user) return false;
       if (user.roles && user.roles.some(r => visibleTo.indexOf('role:' + r) >= 0)) return true;
       if (visibleTo.indexOf('user:' + user.name) >= 0) return true;
@@ -274,7 +275,7 @@ export default {
       if (!this.homePageComponent) return true;
       const visibleTo = this.homePageComponent.config.allowChatInputTo;
       if (visibleTo === undefined || !visibleTo.length) return true;
-      const user = this.$store.getters.user;
+      const user = useUserStore().user;
       if (!user) return false;
       if (user.roles && user.roles.some(r => visibleTo.indexOf('role:' + r) >= 0)) return true;
       if (visibleTo.indexOf('user:' + user.name) >= 0) return true;
@@ -294,7 +295,7 @@ export default {
           return this.$t('home.overview.title');
       }
     },
-    ...mapStores(themeOptionsStore),
+    ...mapStores(useThemeOptionsStore, useUserStore)
   },
   watch: {
     ready(val, oldVal) {

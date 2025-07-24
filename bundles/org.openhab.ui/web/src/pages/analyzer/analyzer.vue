@@ -2,7 +2,7 @@
   <f7-page class="analyzer-content">
     <f7-navbar :title="titleDisplayText" :back-link="$t('analyzer.back')">
       <f7-nav-right>
-        <f7-link v-if="$store.getters.isAdmin" icon-md="material:save" @click="savePage">
+        <f7-link v-if="userStore.isAdmin()" icon-md="material:save" @click="savePage">
           {{ theme.md ? '' : $t('analyzer.save') }}
         </f7-link>
       </f7-nav-right>
@@ -454,6 +454,9 @@ import { utils } from 'framework7';
 import { f7, theme } from 'framework7-vue';
 import { nextTick, defineAsyncComponent } from 'vue';
 
+import { useUserStore } from '@/js/stores/user';
+import { mapStores } from 'pinia';
+
 export default {
   components: {
     'oh-chart-page': defineAsyncComponent(
@@ -493,7 +496,7 @@ export default {
       controlsOpened: false,
       controlsTab: 'series',
       itemsPickerKey: utils.id(),
-      chartKey: utils.id(),
+      chartKey: utils.id()
     };
   },
   i18n: {
@@ -547,6 +550,7 @@ export default {
           };
       }
     },
+    ...mapStores(useUserStore)
   },
   methods: {
     onClose() {
@@ -789,7 +793,7 @@ export default {
       this.controlsOpened = true;
     },
     savePage() {
-      if (!this.$store.getters.isAdmin) return; // shouldn't get here if not an admin
+      if (!useUserStore().isAdmin()) return; // shouldn't get here if not an admin
 
       const self = this;
       f7.dialog.prompt(

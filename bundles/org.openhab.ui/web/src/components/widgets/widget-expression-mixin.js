@@ -10,8 +10,9 @@ import isTomorrow from 'dayjs/plugin/isTomorrow'
 import { f7, theme } from 'framework7-vue'
 import { nextTick } from 'vue'
 
-import { themeOptionsStore } from '@/js/stores/theme-options'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
 import { useStatesStore } from '@/js/stores/states'
+import { useUserStore } from '@/js/stores/user'
 
 import jsepRegex from '@jsep-plugin/regex'
 import jsepArrow from '@jsep-plugin/arrow'
@@ -113,12 +114,12 @@ export default {
             Math,
             Number,
             theme: theme,
-            themeOptions: themeOptionsStore(),
+            themeOptions: useThemeOptionsStore(),
             device: this.$device,
             screen: this.screenInfo,
             JSON,
             dayjs,
-            user: this.$store.getters.user
+            user: useUserStore().user
           })
         } catch (e) {
           return e

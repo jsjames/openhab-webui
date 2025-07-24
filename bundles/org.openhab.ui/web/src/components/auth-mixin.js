@@ -8,6 +8,8 @@ import {
   storeBasicCredentials
 } from '@/js/openhab/auth'
 
+import { useUserStore } from '@/js/stores/user'
+
 export default {
   data() {
     return {
@@ -66,7 +68,7 @@ export default {
               return this.$oh.auth.setAccessToken(resp.access_token, this.$oh.api).then(() => {
                 // schedule the next token refresh when 95% of this token's lifetime has elapsed, i.e. 3 minutes before a 1-hour token is due to expire
                 setTimeout(this.refreshAccessToken, resp.expires_in * 950)
-                this.$store.commit('setUser', { user: resp.user })
+                useUserStore().setUser(resp.user)
 
                 const nextRoute = authState.indexOf('setup') === 0 ? '/setup-wizard/' : '/'
                 f7.views.main.router.navigate(nextRoute, {
@@ -112,7 +114,7 @@ export default {
               // also make sure to check the token and renew it when the app becomes visible again
               this.currentTokenExpireTime = new Date().getTime() + resp.expires_in * 950
               document.addEventListener('visibilitychange', this.checkTokenAfterVisibilityChange)
-              this.$store.commit('setUser', { user: resp.user })
+              useUserStore().setUser(resp.user)
               resolve(resp)
             })
           })
@@ -149,13 +151,13 @@ export default {
           .then(data => {
             console.log('Logged out')
             this.$oh.auth.clearAccessToken()
-            this.$store.commit('setUser', { user: null })
+            useUserStore().setUser(null)
             resolve()
           })
           .catch(err => {
             console.log('Failed to log out', err)
             this.$oh.auth.clearAccessToken()
-            this.$store.commit('setUser', { user: null })
+            useUserStore().setUser(null)
             reject(err)
           })
       })
