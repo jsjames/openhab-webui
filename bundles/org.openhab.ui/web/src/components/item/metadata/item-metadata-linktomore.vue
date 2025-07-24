@@ -19,7 +19,7 @@
               external
               color="blue"
               target="_blank"
-              :href="$store.state.websiteUrl + '/docs/apps/android.html#device-controls'"
+              :href="runtimeStore.websiteUrl + '/docs/apps/android.html#device-controls'"
               >Read the docs.</f7-link
             >
           </small>
@@ -31,10 +31,15 @@
 
 <script>
 import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
+import { useRuntimeStore } from '@/js/stores/runtime';
+import { mapStores } from 'pinia';
 
 export default {
   props: ['itemName', 'metadata'],
   mixins: [ItemMetadataMixin],
+  computed: {
+    ...mapStores(useRuntimeStore)
+  },
   methods: {
     updateValue(ev) {
       this.metadata.value = ev.target.value;

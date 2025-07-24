@@ -22,7 +22,7 @@
       </f7-nav-left>
       <f7-nav-title-large v-if="!simpleNavbar" class="home-title-large">
         <span class="today">{{
-          new Date().toLocaleString($store.getters.locale, {
+          new Date().toLocaleString(runtimeStore.locale, {
             weekday: 'long',
             day: 'numeric',
             month: 'long',
@@ -63,7 +63,7 @@
           icon-md="material:exit_to_app"
           :tooltip="$t('home.otherApps')"
           panel-open="right"
-          @click="$store.state.developerDock ? f7.emit('toggle-developer-dock') : ''" />
+          @click="runtimeStore.developerDock ? f7.emit('toggle-developer-dock') : ''" />
       </f7-nav-right>
     </f7-navbar>
     <f7-toolbar tabbar labels bottom v-if="tabsVisible">
@@ -200,6 +200,7 @@ import { useThemeOptionsStore } from '@/js/stores/theme-options';
 import { useStatesStore } from '@/js/stores/states';
 import { useUserStore } from '@/js/stores/user';
 import { useComponentsStore } from '@/js/stores/components';
+import { useRuntimeStore } from '@/js/stores/runtime';
 
 export default {
   props: {
@@ -226,7 +227,7 @@ export default {
   },
   computed: {
     ready() {
-      return this.$store.state.apiVersion > 0;
+      return useRuntimeStore().apiVersion > 0;
     },
     context() {
       return {
@@ -296,7 +297,7 @@ export default {
           return this.$t('home.overview.title');
       }
     },
-    ...mapStores(useThemeOptionsStore, useUserStore)
+    ...mapStores(useThemeOptionsStore, useUserStore, useRuntimeStore)
   },
   watch: {
     ready(val, oldVal) {

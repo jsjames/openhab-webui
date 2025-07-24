@@ -175,7 +175,7 @@
             icon-md="f7:question_circle"
             icon-aurora="f7:question_circle"
             color="blue"
-            :href="$store.state.websiteUrl + documentationLink(mode)"
+            :href="runtimeStore.websiteUrl + documentationLink(mode)"
             target="_blank"
             external />
           <f7-link
@@ -344,6 +344,9 @@ import ModuleDescriptionSuggestions from '../module-description-suggestions';
 import DirtyMixin from '../../dirty-mixin';
 import AUTOMATION_LANGUAGES from '@/assets/automation-languages';
 
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
+
 export default {
   mixins: [RuleStatus, ModuleDescriptionSuggestions, DirtyMixin],
   components: {
@@ -438,6 +441,7 @@ export default {
     isJsAvailable() {
       return this.isMimeTypeAvailable(this.GRAALJS_MIME_TYPE);
     },
+    ...mapStores(useRuntimeStore)
   },
   watch: {
     // handle the script if not in Blockly
@@ -872,9 +876,9 @@ export default {
     onBlocklyMounted() {
       this.blocklyRenderer = this.$refs.blocklyEditor.getCurrentRenderer();
       this.blocklyRenderers = this.$refs.blocklyEditor.getRenderers();
-      if (this.$store.state.pagePath.indexOf('?blockly') < 0) {
+      if (useRuntimeStore().pagePath.indexOf('?blockly') < 0) {
         // A hint for 'help-sidebar.vue' to differentiate blockly vs normal script
-        this.$store.commit('setPagePath', this.$store.state.pagePath + '?blockly');
+        useRuntimeStore().pagePath = useRuntimeStore().pagePath + '?blockly';
       }
     },
     onBlocklyReady() {

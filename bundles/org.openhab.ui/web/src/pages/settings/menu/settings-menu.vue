@@ -36,7 +36,7 @@
           <f7-block-title>Configuration</f7-block-title>
           <f7-list media-list class="search-list">
             <f7-list-item
-              v-if="$store.getters.apiEndpoint('things')"
+              v-if="runtimeStore.apiEndpoint('things')"
               media-item
               link="things/"
               title="Things"
@@ -49,7 +49,7 @@
               </template>
             </f7-list-item>
             <f7-list-item
-              v-if="$store.getters.apiEndpoint('items')"
+              v-if="runtimeStore.apiEndpoint('items')"
               media-item
               link="model/"
               title="Model"
@@ -60,7 +60,7 @@
               </template>
             </f7-list-item>
             <f7-list-item
-              v-if="$store.getters.apiEndpoint('items')"
+              v-if="runtimeStore.apiEndpoint('items')"
               media-item
               link="items/"
               title="Items"
@@ -72,7 +72,7 @@
               </template>
             </f7-list-item>
             <f7-list-item
-              v-if="$store.getters.apiEndpoint('ui')"
+              v-if="runtimeStore.apiEndpoint('ui')"
               link="pages/"
               title="Pages"
               :after="componentsStore.pages.length + sitemapsCount"
@@ -85,7 +85,7 @@
           </f7-list>
           <f7-list media-list class="search-list">
             <f7-list-item
-              v-if="$store.getters.apiEndpoint('transformations')"
+              v-if="runtimeStore.apiEndpoint('transformations')"
               media-item
               link="transformations/"
               title="Transformations"
@@ -107,7 +107,7 @@
               </template>
             </f7-list-item>
           </f7-list>
-          <f7-block-title v-if="$store.getters.apiEndpoint('rules')"> Automation </f7-block-title>
+          <f7-block-title v-if="runtimeStore.apiEndpoint('rules')"> Automation </f7-block-title>
           <f7-list media-list class="search-list">
             <f7-list-item
               media-item
@@ -255,7 +255,9 @@
 import AddonSection from './addon-section.vue';
 import { f7, theme } from 'framework7-vue';
 import { useComponentsStore } from '@/js/stores/components';
+import { useRuntimeStore } from '@/js/stores/runtime';
 import { mapStores } from 'pinia';
+import { use } from 'marked';
 
 export default {
   components: {
@@ -317,7 +319,7 @@ export default {
   },
   computed: {
     apiEndpoints() {
-      return this.$store.state.apiEndpoints;
+      return useRuntimeStore().apiEndpoints;
     },
     systemSettings() {
       if (this.expandedTypes.systemSettingsExpanded) return this.systemServices;
@@ -330,7 +332,7 @@ export default {
       const problemCount = this.orphanLinkCount + this.semanticsProblemCount;
       return problemCount.toString();
     },
-    ...mapStores(useComponentsStore)
+    ...mapStores(useComponentsStore, useRuntimeStore)
   },
   watch: {
     apiEndpoints: {
@@ -348,7 +350,7 @@ export default {
       if (!this.apiEndpoints) return;
 
       // can be done in parallel!
-      if (this.$store.getters.apiEndpoint('services')) {
+      if (useRuntimeStore().apiEndpoint('services')) {
         this.$oh.api.get('/rest/services').then(data => {
           this.systemServices = data
             .filter(s => s.category === 'system' && s.id !== 'org.openhab.persistence')
@@ -359,7 +361,7 @@ export default {
           this.servicesLoaded = true;
         });
       }
-      if (this.$store.getters.apiEndpoint('addons')) {
+      if (useRuntimeStore().apiEndpoint('addons')) {
         this.$oh.api.get('/rest/addons?serviceId=all').then(data => {
           this.addonsInstalled = data
             .filter(
@@ -384,35 +386,35 @@ export default {
     },
     loadCounters() {
       if (!this.apiEndpoints) return;
-      if (this.$store.getters.apiEndpoint('links'))
+      if (useRuntimeStore().apiEndpoint('links'))
         this.$oh.api.get('/rest/links/orphans').then(data => {
           this.orphanLinkCount = data.length;
         });
-      if (this.$store.getters.apiEndpoint('items'))
+      if (useRuntimeStore().apiEndpoint('items'))
         this.$oh.api.get('/rest/items/semantics/health').then(data => {
           this.semanticsProblemCount = data.length;
         });
-      if (this.$store.getters.apiEndpoint('inbox'))
+      if (useRuntimeStore().apiEndpoint('inbox'))
         this.$oh.api.get('/rest/inbox?includeIgnored=false').then(data => {
           this.inboxCount = data.filter(e => e.flag === 'NEW').length.toString();
         });
-      if (this.$store.getters.apiEndpoint('things'))
+      if (useRuntimeStore().apiEndpoint('things'))
         this.$oh.api.get('/rest/things?staticDataOnly=true').then(data => {
           this.thingsCount = data.length.toString();
         });
-      if (this.$store.getters.apiEndpoint('items'))
+      if (useRuntimeStore().apiEndpoint('items'))
         this.$oh.api.get('/rest/items?staticDataOnly=true').then(data => {
           this.itemsCount = data.length.toString();
         });
-      if (this.$store.getters.apiEndpoint('ui'))
+      if (useRuntimeStore().apiEndpoint('ui'))
         this.$oh.api.get('/rest/ui/components/system:sitemap').then(data => {
           this.sitemapsCount = data.length;
         });
-      if (this.$store.getters.apiEndpoint('transformations'))
+      if (useRuntimeStore().apiEndpoint('transformations'))
         this.$oh.api.get('/rest/transformations').then(data => {
           this.transformationsCount = data.length.toString();
         });
-      if (this.$store.getters.apiEndpoint('rules')) {
+      if (useRuntimeStore().apiEndpoint('rules')) {
         this.$oh.api.get('/rest/rules?staticDataOnly=true').then(data => {
           this.rulesCount = data
             .filter(r => r.tags.indexOf('Scene') < 0 && r.tags.indexOf('Script') < 0)

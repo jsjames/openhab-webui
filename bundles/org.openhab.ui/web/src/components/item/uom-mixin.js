@@ -1,9 +1,10 @@
 import { Units, MetricPrefixes, BinaryPrefixes } from '@/assets/units'
+import { useRuntimeStore } from '@/stores/runtime'
 
 export default {
   data() {
     return {
-      measurementSystem: this.$store.state.measurementSystem,
+      measurementSystem: useRuntimeStore().measurementSystem,
       dimensions: [],
       dimensionsReady: false
     }

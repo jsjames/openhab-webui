@@ -44,7 +44,7 @@
                   external
                   color="blue"
                   target="_blank"
-                  :href="`${$store.state.websiteUrl}/link/persistence`">
+                  :href="`${runtimeStore.websiteUrl}/link/persistence`">
                   Learn more about persistence.
                 </f7-link>
               </f7-block-footer>
@@ -424,6 +424,9 @@ import StrategyPicker from '@/pages/settings/persistence/strategy-picker.vue';
 import ConfigurationPopup from '@/pages/settings/persistence/configuration-popup.vue';
 import FilterPopup from '@/pages/settings/persistence/filter-popup.vue';
 
+import { useRuntimeStore } from '@/js/stores/runtimem'
+import { mapStores } from 'pinia'
+
 export default {
   mixins: [DirtyMixin],
   components: {
@@ -485,6 +488,7 @@ export default {
     currentItemsWithAlias() {
       return Object.keys(this.persistence.aliases).sort();
     },
+    ...mapStores(useRuntimeStore)
   },
   watch: {
     persistence: {

@@ -242,6 +242,7 @@ import itemDefaultListComponent from '@/components/widgets/standard/list/default
 import itemDefaultCellComponent from '@/components/widgets/standard/cell/default-cell-item';
 
 import { compareItems } from '@/components/widgets/widget-order';
+import { useComponentsStore } from '@/js/stores/components';
 
 export default {
   mixins: [PageDesigner, actionsMixin],
@@ -358,7 +359,7 @@ export default {
               onClick: () => doAddWidget(stdWidgets[k].widget().name),
             };
           });
-        const customWidgetOptions = this.$store.state.components.widgets
+        const customWidgetOptions = useComponentsStore().widgets
           .map(w => {
             return {
               text: w.uid,

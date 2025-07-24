@@ -55,6 +55,7 @@
 
 <script>
 import { f7 } from 'framework7-vue';
+import { useRuntimeStore } from '@/js/stores/runtime';
 
 export default {
   data() {
@@ -73,7 +74,7 @@ export default {
   },
   computed: {
     apiEndpoints() {
-      return this.$store.state.apiEndpoints;
+      return useRuntimeStore().apiEndpoints;
     },
   },
   watch: {
@@ -84,12 +85,12 @@ export default {
   methods: {
     loadCounters() {
       if (!this.apiEndpoints) return;
-      if (this.$store.getters.apiEndpoint('links')) {
+      if (useRuntimeStore().apiEndpoint('links')) {
         this.$oh.api.get('/rest/links/orphans').then(data => {
           this.orphanLinksCount = data.length || 0;
         });
       }
-      if (this.$store.getters.apiEndpoint('items')) {
+      if (useRuntimeStore().apiEndpoint('items')) {
         this.$oh.api.get('/rest/items/semantics/health').then(data => {
           this.semanticsProblemCount = data.length || 0;
         });

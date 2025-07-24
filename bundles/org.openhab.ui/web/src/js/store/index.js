@@ -12,7 +12,8 @@ export const store = createStore({
   modules: {
     model,
     semantics
-  },
+  }
+  /*
   state: {
     apiVersion: null,
     measurementSystem: null,
@@ -58,6 +59,7 @@ export const store = createStore({
       commit('setRootResource', { rootResponse })
     }
   }
+  */
   // strict: debug
 })
 

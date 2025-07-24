@@ -111,7 +111,7 @@
                     <div
                       style="height: 100%; height: 32px"
                       class="display-flex float-right flex-direction-column justify-content-center">
-                      <f7-toggle color="blue" :checked="$store.state.developerDock ? true : null" />
+                      <f7-toggle color="blue" :checked="runtimeStore.developerDock ? true : null" />
                     </div>
                   </template>
                 </f7-list-item>
@@ -244,6 +244,9 @@
 import FileDefinition from '@/pages/settings/file-definition-mixin';
 import { f7 } from 'framework7-vue';
 
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
+
 export default {
   mixins: [FileDefinition],
   components: {},
@@ -259,6 +262,9 @@ export default {
       split: this.$device.desktop ? 'vertical' : 'horizontal',
       logLevel: localStorage.getItem('openhab.ui:logLevel') || 'INFO',
     };
+  },
+  computed: {
+    ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageBeforeRemove() {

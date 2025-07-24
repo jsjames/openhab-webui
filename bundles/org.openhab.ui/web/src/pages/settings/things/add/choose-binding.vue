@@ -53,7 +53,7 @@
         </f7-list>
       </f7-col>
     </f7-block>
-    <f7-block class="block-narrow" v-if="$store.getters.apiEndpoint('addons')">
+    <f7-block class="block-narrow" v-if="runtimeStore.apiEndpoint('addons')">
       <f7-col v-if="bindings.length">
         <f7-list>
           <f7-list-button color="blue" title="Install More Bindings" href="/addons/binding/" />
@@ -71,6 +71,9 @@ import { nextTick, defineAsyncComponent } from 'vue';
 import { theme } from 'framework7-vue';
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
+import { useRuntimeStore } from '@/composables/runtime-store';
+import { mapStores } from 'pinia';
+
 export default {
   components: {
     'empty-state-placeholder': EmptyStatePlaceholder
@@ -86,6 +89,9 @@ export default {
       bindings: [],
       inbox: [],
     };
+  },
+  computed: {
+    ...mapStores(useRuntimeStore),
   },
   methods: {
     onPageAfterIn() {

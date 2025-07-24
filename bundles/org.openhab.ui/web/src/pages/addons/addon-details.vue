@@ -219,6 +219,7 @@ import AddonInfoTable from '@/components/addons/addon-info-table.vue';
 import AddonLogo from '@/components/addons/addon-logo.vue';
 import { f7 } from 'framework7-vue';
 import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { useRuntimeStore } from '@/js/stores/runtime';
 import { mapStores } from 'pinia';
 
 export default {
@@ -277,7 +278,7 @@ export default {
       if (this.serviceId && this.serviceId !== 'karaf')
         return this.addon.link ? this.addon.link : '';
       return (
-        this.$store.state.websiteUrl +
+        useRuntimeStore().websiteUrl +
         `/addons/${this.addon.type.replace('misc', 'integrations').replace('binding', 'bindings').replace('transformation', 'transformations')}` +
         `/${this.addon.id}`
       );
@@ -320,12 +321,12 @@ export default {
       if (this.addon.author === 'openHAB') {
         // assuming the add-on is an official one (distribution), try to fetch the documentation from GitHub
         let docsBranch = 'final';
-        if (this.$store.state.runtimeInfo.buildString === 'Release Build')
+        if (useRuntimeStore().runtimeInfo.buildString === 'Release Build')
           docsBranch = 'final-stable';
         let addonTypeFolder = '_addons_' + this.addon.type;
         if (this.addon.type === 'misc') addonTypeFolder = '_addons_io';
         if (this.addon.type !== 'automation') addonTypeFolder += 's';
-        let docSrcUrl = `${this.$store.state.docSrcUrl}/${addonTypeFolder}/${this.addon.id}`;
+        let docSrcUrl = `${useRuntimeStore().docSrcUrl}/${addonTypeFolder}/${this.addon.id}`;
 
         fetch(docSrcUrl + '/readme.md')
           .then(readme => {

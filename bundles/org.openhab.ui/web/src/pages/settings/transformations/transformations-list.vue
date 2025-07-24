@@ -147,7 +147,7 @@
           fill
           color="blue"
           external
-          :href="`${this.$store.state.websiteUrl}/link/transformations`"
+          :href="`${runtimeStore.websiteUrl}/link/transformations`"
           target="_blank"
           :text="$t('home.overview.button.documentation')" />
       </f7-row>
@@ -174,6 +174,9 @@ import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+
+import { useRuntimeStore } from '@/js/stores/runtime';
+import { mapStores } from 'pinia';
 
 export default {
   props: {
@@ -233,6 +236,7 @@ export default {
           }, {});
       }
     },
+    ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageAfterIn() {

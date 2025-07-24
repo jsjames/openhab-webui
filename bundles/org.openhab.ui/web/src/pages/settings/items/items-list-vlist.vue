@@ -173,7 +173,7 @@
           fill
           color="blue"
           external
-          :href="`${$store.state.websiteUrl}/link/items`"
+          :href="`${runtimeStore.websiteUrl}/link/items`"
           target="_blank"
           :text="$t('home.overview.button.documentation')" />
       </f7-row>
@@ -211,7 +211,9 @@ import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
 import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
+import { useRuntimeStore } from '@/js/stores/runtime';
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import { mapStores } from 'pinia'
 
 const lastSearchQueryStore = useLastSearchQueryStore();
 
@@ -459,6 +461,7 @@ export default {
       }
       return title;
     },
+    ...mapStores(useRuntimeStore)
   },
 };
 </script>

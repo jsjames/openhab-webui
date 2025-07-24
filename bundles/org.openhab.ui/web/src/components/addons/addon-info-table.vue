@@ -43,6 +43,8 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 import { ContentTypes, Formats } from '@/assets/addon-store';
+import { useRuntimeStore } from '@/js/stores/runtime';
+import { mapStores } from 'pinia';
 
 export default {
   props: ['addon'],
@@ -156,7 +158,7 @@ export default {
           id: 'documentationLink',
           title: 'Documentation',
           afterIcon: 'question_circle_fill',
-          linkUrl: `${this.$store.state.websiteUrl}/addons/${this.addon.type.replace('misc', 'integrations').replace('binding', 'bindings').replace('transformation', 'transformations')}/${this.addon.id}`, // this.addon.link
+          linkUrl: `${runtimeStore().websiteUrl}/addons/${this.addon.type.replace('misc', 'integrations').replace('binding', 'bindings').replace('transformation', 'transformations')}/${this.addon.id}`, // this.addon.link
         });
 
         let repository;
@@ -197,6 +199,7 @@ export default {
 
       return info;
     },
+    ...mapStores(useRuntimeStore)
   },
 };
 </script>

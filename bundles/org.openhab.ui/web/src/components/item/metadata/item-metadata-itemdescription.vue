@@ -118,7 +118,7 @@ export default {
         .join('\n');
     },
     docLink() {
-      const docUrl = `${this.$store.state.websiteUrl}/link/thing`;
+      const docUrl = `${runtimeStore.websiteUrl}/link/thing`;
       if (this.namespace === 'stateDescription') {
         return docUrl + '#state-description';
       } else {

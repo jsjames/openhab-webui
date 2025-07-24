@@ -48,7 +48,7 @@
         color="blue"
         external
         target="_blank"
-        :href="`${$store.state.websiteUrl}/link/google-assistant`">
+        :href="`${runtimeStore.websiteUrl}/link/google-assistant`">
         Google Assistant Integration Documentation
       </f7-link>
     </p>
@@ -60,6 +60,9 @@ import GoogleDefinitions from '@/assets/definitions/metadata/ga';
 import ConfigSheet from '@/components/config/config-sheet.vue';
 import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
 import { utils } from 'framework7';
+
+import { useRuntimeStore } from '@/js/stores/runtime';
+import { mapStores } from 'pinia';
 
 export default {
   props: ['itemName', 'metadata'],
@@ -89,6 +92,7 @@ export default {
         GoogleDefinitions['attribute:' + this.metadata.value]
       );
     },
+    ...mapStores(useRuntimeStore)
   },
   methods: {
     isSelected(cl) {

@@ -79,7 +79,7 @@
             external
             color="blue"
             target="_blank"
-            :href="`${$store.state.websiteUrl}/link/profiles`">
+            :href="`${runtime.websiteUrl}/link/profiles`">
             Learn more about profiles.
           </f7-link>
         </f7-block-footer>
@@ -143,6 +143,8 @@ import fastDeepEqual from 'fast-deep-equal/es6';
 import { f7, theme } from 'framework7-vue';
 
 import { useStatesStore } from '@/js/stores/states';
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
 
 export default {
   mixins: [ThingStatus, LinkMixin, DirtyMixin],
@@ -183,6 +185,7 @@ export default {
         store: useStatesStore().trackedItems,
       };
     },
+    ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageBeforeIn(event) {

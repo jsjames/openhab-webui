@@ -115,7 +115,7 @@
             external
             color="blue"
             target="_blank"
-            :href="`${$store.state.websiteUrl}/link/profiles`">
+            :href="`${runtimeStore.websiteUrl}/link/profiles`">
             Learn more about profiles.
           </f7-link>
         </f7-block-footer>
@@ -196,6 +196,9 @@ import * as Types from '@/assets/item-types.js';
 import ItemMixin from '@/components/item/item-mixin';
 import uomMixin from '@/components/item/uom-mixin';
 import LinkMixin from '@/pages/settings/things/link/link-mixin';
+
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
 
 export default {
   mixins: [ItemMixin, uomMixin, LinkMixin],

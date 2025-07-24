@@ -15,6 +15,9 @@
 </template>
 
 <script>
+import { useRuntimeStore } from '@/stores/runtime';
+import { mapStores } from '@/stores/map';
+
 const renderer = {
   list(body, ordered, start) {
     return `<ul style="padding-left: 20px">${body}</ul>`;
@@ -32,9 +35,10 @@ export default {
   },
   computed: {
     localUrl() {
-      if (!this.$store.state.pagePath.endsWith('/')) return '/';
-      return this.$store.state.pagePath;
+      if (!useRuntimeStore().pagePath.endsWith('/')) return '/';
+      return useRuntimeStore().pagePath;
     },
+    ...mapStores(useRuntimeStore),
   },
   watch: {
     path() {
@@ -54,7 +58,7 @@ export default {
         return;
       }
       console.debug('Sidebar Help: Docs not found in cache, loading from GitHub ...');
-      fetch(this.$store.state.docSrcUrl + '/mainui' + this.path + '.md')
+      fetch(useRuntimeStore().docSrcUrl + '/mainui' + this.path + '.md')
         .then(response => {
           if (response.status === 404) {
             this.parsedDocs =
@@ -94,7 +98,7 @@ export default {
                 // Fix {{base}} and /docs anchor href for doc pages
                 body = body.replace(
                   /<a href="(%7B%7Bbase%7D%7D|\/docs)/gm,
-                  `<a class="external" target="_blank" href="${this.$store.state.websiteUrl}/docs`
+                  `<a class="external" target="_blank" href="${runtimeStore.websiteUrl}/docs`
                 );
                 // Fix local folder anchor href: Rewrite folder to /folder/
                 body = body.replace(/(<a href=")([A-z-]+)(")/gm, '$1' + this.localUrl + '$2/$3');

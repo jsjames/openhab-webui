@@ -78,7 +78,7 @@
           icon-md="f7:question_circle"
           icon-aurora="f7:question_circle"
           color="blue"
-          :href="$store.state.websiteUrl + DocumentationLinks[transformation.type]"
+          :href="runtimeStore.websiteUrl + DocumentationLinks[transformation.type]"
           target="_blank"
           external />
         <f7-link
@@ -180,6 +180,9 @@ import TransformationGeneralSettings from '@/pages/settings/transformations/tran
 import { CodeSnippets, EditorModes, DocumentationLinks } from '@/assets/transformations.js';
 import ClipboardIcon from '@/components/util/clipboard-icon.vue';
 
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
+
 export default {
   mixins: [DirtyMixin],
   components: {
@@ -244,6 +247,7 @@ export default {
     itemStateTransformationCode() {
       return `${this.transformation.type.toUpperCase()}(${this.transformation.uid}):%s`;
     },
+    ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageAfterIn() {

@@ -26,7 +26,7 @@
                     v-if="instruct.button"
                     :external="true"
                     :title="instruct.button.title"
-                    :href="$store.state.websiteUrl + '/' + instruct.button.link"
+                    :href="runtimeStore.websiteUrl + '/' + instruct.button.link"
                     target="_blank" />
                 </f7-list>
               </f7-accordion-content>
@@ -62,7 +62,7 @@
                     <f7-link
                       external
                       target="_blank"
-                      :href="$store.state.websiteUrl + '/' + faq.doclink">
+                      :href="runtimeStore.websiteUrl + '/' + faq.doclink">
                       Full Help Docs
                     </f7-link>
                   </p>
@@ -82,7 +82,7 @@
             <f7-list-item
               v-for="addon in addons"
               :key="addon.uid"
-              :link="addon.link.replace('https://www.openhab.org', $store.state.websiteUrl)"
+              :link="addon.link.replace('https://www.openhab.org', runtimeStore.websiteUrl)"
               :external="true"
               target="_blank"
               :title="addon.label.replaceAll(/Binding|Transformation|Persistence/gi, '')"
@@ -115,13 +115,13 @@
               <f7-link
                 external
                 target="_blank"
-                :href="`${$store.state.websiteUrl}/link/docs`"
+                :href="`${runtimeStore.websiteUrl}/link/docs`"
                 :text="$t('about.documentation')" />
             </li>
             <li>
               <f7-link
                 external
-                :href="`${$store.state.websiteUrl}/link/tutorial`"
+                :href="`${runtimeStore.websiteUrl}/link/tutorial`"
                 target="_blank"
                 :text="$t('home.overview.button.tutorial')" />
             </li>
@@ -180,6 +180,9 @@
 import { loadLocaleMessages } from '@/js/i18n';
 import Context from '@/components/developer/help/context.vue';
 
+import { useRuntimeStore } from '@/stores/runtime';
+import { mapStores } from 'pinia';
+
 export default {
   components: {
     Context,
@@ -210,7 +213,7 @@ export default {
   },
   computed: {
     contextPath() {
-      const path = this.$store.state.pagePath;
+      const path = useRuntimeStore().pagePath;
 
       // script editor docs
       if (/\/settings\/(scripts\/[A-z0-9]+|rules\/[A-z0-9]+\/script)/.test(path)) {
@@ -237,6 +240,7 @@ export default {
       // default docs
       return '/index';
     },
+    ...mapStores(useRuntimeStore)
   },
   i18n: {
     messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/about/*.json')),

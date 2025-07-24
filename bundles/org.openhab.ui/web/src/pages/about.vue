@@ -19,11 +19,11 @@
               type="image/svg+xml"
               width="96"
               class="padding float-right" />
-            <h2 v-if="$store.state.runtimeInfo" class="block-title-medium">
-              openHAB {{ $store.state.runtimeInfo.version }}<br />
-              <small>{{ $store.state.runtimeInfo.buildString }}</small>
+            <h2 v-if="runtimeStore.runtimeInfo" class="block-title-medium">
+              openHAB {{ runtimeStore.runtimeInfo.version }}<br />
+              <small>{{ runtimeStore.runtimeInfo.buildString }}</small>
             </h2>
-            <p v-if="$store.state.uiInfo.commit">Main UI Commit {{ $store.state.uiInfo.commit }}</p>
+            <p v-if="runtimeStore.uiInfo.commit">Main UI Commit {{ runtimeStore.uiInfo.commit }}</p>
             <p>
               <f7-link
                 external
@@ -177,6 +177,7 @@ import { loadLocaleMessages } from '@/js/i18n';
 import { f7, theme } from 'framework7-vue';
 import { useThemeOptionsStore } from '@/js/stores/theme-options';
 import { useUserStore } from '@/js/stores/user';
+import { useRuntimeStore } from '@/js/stores/runtime.js';
 import { mapStores } from 'pinia';
 
 import reloadMixin from '../components/reload-mixin.js';
@@ -201,8 +202,8 @@ export default {
     textualSystemInfo() {
       if (!this.textualSystemInfoOpened) return ''
       return YAML.stringify({
-        runtimeInfo: this.$store.state.runtimeInfo,
-        locale: this.$store.getters.locale,
+        runtimeInfo: useRuntimeStore().runtimeInfo,
+        locale: useRuntimeStore().locale || 'default',
         systemInfo: this.systemInfo,
         addons: this.addons,
         clientInfo: {
@@ -232,7 +233,7 @@ export default {
         timestamp: new Date(),
       });
     },
-    ...mapStores(useThemeOptionsStore)
+    ...mapStores(useThemeOptionsStore, useRuntimeStore)
   },
   methods: {
     beforePageIn() {

@@ -31,7 +31,7 @@
           </div>
         </f7-link>
         <f7-list v-if="ready">
-          <f7-list-item v-if="$store.getters.apiEndpoint('ui') && (!pages || !pages.length)">
+          <f7-list-item v-if="runtimeStore.apiEndpoint('ui') && (!pages || !pages.length)">
             <span
               ><em>{{ $t('sidebar.noPages') }}</em></span
             >
@@ -81,7 +81,7 @@
           <li v-if="currentPath.settings">
             <ul class="menu-sublinks">
               <f7-list-item
-                v-if="$store.getters.apiEndpoint('things')"
+                v-if="runtimeStore.apiEndpoint('things')"
                 link="/settings/things/"
                 title="Things"
                 view=".view-main"
@@ -94,7 +94,7 @@
                 </template>
               </f7-list-item>
               <f7-list-item
-                v-if="$store.getters.apiEndpoint('items')"
+                v-if="runtimeStore.apiEndpoint('items')"
                 link="/settings/model/"
                 title="Model"
                 view=".view-main"
@@ -107,7 +107,7 @@
                 </template>
               </f7-list-item>
               <f7-list-item
-                v-if="$store.getters.apiEndpoint('items')"
+                v-if="runtimeStore.apiEndpoint('items')"
                 link="/settings/items/"
                 title="Items"
                 view=".view-main"
@@ -120,7 +120,7 @@
                 </template>
               </f7-list-item>
               <f7-list-item
-                v-if="$store.getters.apiEndpoint('ui')"
+                v-if="runtimeStore.apiEndpoint('ui')"
                 link="/settings/pages/"
                 title="Pages"
                 view=".view-main"
@@ -133,7 +133,7 @@
                 </template>
               </f7-list-item>
               <f7-list-item
-                v-if="$store.getters.apiEndpoint('rules')"
+                v-if="runtimeStore.apiEndpoint('rules')"
                 link="/settings/rules/"
                 title="Rules"
                 view=".view-main"
@@ -146,7 +146,7 @@
                 </template>
               </f7-list-item>
               <f7-list-item
-                v-if="$store.getters.apiEndpoint('rules')"
+                v-if="runtimeStore.apiEndpoint('rules')"
                 link="/settings/scenes/"
                 title="Scenes"
                 view=".view-main"
@@ -159,7 +159,7 @@
                 </template>
               </f7-list-item>
               <f7-list-item
-                v-if="$store.getters.apiEndpoint('rules')"
+                v-if="runtimeStore.apiEndpoint('rules')"
                 link="/settings/scripts/"
                 title="Scripts"
                 view=".view-main"
@@ -172,7 +172,7 @@
                 </template>
               </f7-list-item>
               <f7-list-item
-                v-if="$store.getters.apiEndpoint('rules')"
+                v-if="runtimeStore.apiEndpoint('rules')"
                 link="/settings/schedule/"
                 title="Schedule"
                 view=".view-main"
@@ -203,7 +203,7 @@
                 color="gray" />
             </template>
           </f7-list-item>
-          <li v-if="currentPath.addons && $store.getters.apiEndpoint('addons')">
+          <li v-if="currentPath.addons && runtimeStore.apiEndpoint('addons')">
             <ul class="menu-sublinks">
               <f7-list-item
                 v-for="section in Object.keys(AddonTitles)"
@@ -240,7 +240,7 @@
           <li v-if="currentPath.developer">
             <ul class="menu-sublinks">
               <f7-list-item
-                v-if="$store.getters.apiEndpoint('ui')"
+                v-if="runtimeStore.apiEndpoint('ui')"
                 link="/developer/widgets/"
                 title="Widgets"
                 view=".view-main"
@@ -253,7 +253,7 @@
                 </template>
               </f7-list-item>
               <f7-list-item
-                v-if="$store.getters.apiEndpoint('ui')"
+                v-if="runtimeStore.apiEndpoint('ui')"
                 link="/developer/blocks/"
                 title="Block Libraries"
                 view=".view-main"
@@ -294,7 +294,7 @@
                 </template>
               </f7-list-item>
               <!-- <f7-list-item link="" @click="f7.emit('toggleDeveloperDock')" title="Dock" view=".view-main" panel-close :animate="false" no-chevron>
-                <f7-icon :f7="$store.state.developerDock ? 'wrench_fill' : 'wrench'" color="gray" />
+                <f7-icon :f7="runtimeStore.developerDock ? 'wrench_fill' : 'wrench'" color="gray" />
               </f7-list-item> -->
             </ul>
           </li>
@@ -323,7 +323,7 @@
         </f7-link>
 
         <template #fixed>
-          <div class="account" v-if="ready && $store.getters.apiEndpoint('auth')">
+          <div class="account" v-if="ready && runtimeStore.apiEndpoint('auth')">
             <div class="display-flex justify-content-center">
               <div
                 v-if="
@@ -534,6 +534,7 @@ import { useThemeOptionsStore } from '@/js/stores/theme-options';
 import { useStatesStore } from './js/stores/states';
 import { useUserStore } from './js/stores/user';
 import { useComponentsStore } from './js/stores/components';
+import { useRuntimeStore } from './js/stores/runtime';
 
 export default {
   mixins: [auth, i18n_mixin, connectionHealth, sseEvents],
@@ -658,7 +659,7 @@ export default {
     serverDisplayUrl() {
       return window.location.origin;
     },
-    ...mapStores(useThemeOptionsStore, useUserStore, useComponentsStore)
+    ...mapStores(useThemeOptionsStore, useUserStore, useComponentsStore, useRuntimeStore)
   },
   watch: {
     'useStatesStore().sseConnected': {
@@ -755,13 +756,13 @@ export default {
         .then(res => res.data)
         .then(rootResponse => {
           // store the REST API services present on the system
-          this.$store.dispatch('loadRootResource', { rootResponse });
+          useRuntimeStore().loadRootResource(rootResponse)
           this.updateLocale();
-          if (!this.$store.getters.apiEndpoint('auth')) useUserStore().setNoAuth(true);
+          if (!useRuntimeStore().apiEndpoint('auth')) useUserStore().setNoAuth(true);
           return rootResponse;
         })
         .then(rootResponse => {
-          const locale = this.$store.getters.locale.toLocaleLowerCase();
+          const locale = useRuntimeStore().locale?.toLocaleLowerCase() | 'default';
           let dayjsLocalePromise = Promise.resolve(null);
           // try to resolve the dayjs file to load if it exists
           if (locale) {
@@ -779,7 +780,7 @@ export default {
           // load the pages & widgets, only if the 'ui' endpoint exists (or empty arrays otherwise)
           // load the semantic tags
           return Promise.all([
-            ...(this.$store.getters.apiEndpoint('ui')
+            ...(useRuntimeStore().apiEndpoint('ui')
               ? [
                   this.$oh.api.get('/rest/ui/components/ui:page'),
                   this.$oh.api.get('/rest/ui/components/ui:widget'),
@@ -880,7 +881,7 @@ export default {
       if (!useUserStore().isAdmin()) return;
       this.showDeveloperDock = !this.showDeveloperDock;
       if (this.showDeveloperDock) useStatesStore().startTrackingStates()
-      this.$store.commit('setDeveloperDock', this.showDeveloperDock);
+      useRuntimeStore().setDeveloperDock(this.showDeveloperDock);
     },
     selectDeveloperDock(dockOpts) {
       if (dockOpts) {
@@ -927,7 +928,7 @@ export default {
     },
     updateUrl(newUrl) {
       this.currentUrl = newUrl;
-      this.$store.commit('setPagePath', this.currentUrl);
+      useRuntimeStore().pagePath = this.currentUrl;
     },
     updateTitle() {
       const title = [this.f7params.name]; // ['openHAB']
@@ -1052,7 +1053,7 @@ export default {
               this.loadData().then(() => {
                 if (
                   !refreshToken &&
-                  this.$store.getters.apiEndpoint('ui') &&
+                  useRuntimeStore().apiEndpoint('ui') &&
                   !useComponentsStore().page('overview')
                 ) {
                   // as there is no overview page, assume the setup wizard hasn't run yet so launch it right away

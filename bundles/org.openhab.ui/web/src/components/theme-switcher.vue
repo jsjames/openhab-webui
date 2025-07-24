@@ -81,7 +81,7 @@
                 :key="background" />
             </f7-segmented>
           </f7-list-item>
-          <f7-list-item v-show="$store.getters.apiEndpoint('habot')">
+          <f7-list-item v-show="runtimeStore.apiEndpoint('habot')">
             <span>{{ $t('about.miscellaneous.home.hideChatInput') }}</span>
             <f7-toggle
               :checked="hideChatInput == 'true' ? true : null"
@@ -128,6 +128,9 @@
 <script>
 import { loadLocaleMessages } from '@/js/i18n';
 import ItemPicker from '@/components/config/controls/item-picker.vue';
+import { useRuntimeStore } from '@/stores/runtime';
+
+import { mapStores } from 'pinia';
 
 export default {
   components: {
@@ -218,6 +221,7 @@ export default {
     commandItem() {
       return localStorage.getItem('openhab.ui:commandItem') || '';
     },
+    ...mapStores(useRuntimeStore)
   },
 };
 </script>

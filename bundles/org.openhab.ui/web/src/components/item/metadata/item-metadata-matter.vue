@@ -110,7 +110,7 @@
           color="blue"
           external
           target="_blank"
-          :href="`${$store.state.websiteUrl}/link/matter`">
+          :href="`${runtimeStore.websiteUrl}/link/matter`">
           Matter integration documentation
         </f7-link>
       </p>
@@ -133,6 +133,8 @@ import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
 import { map } from '../../../../node_modules/yaml/dist/schema/common/map';
 import { f7 } from 'framework7-vue';
 import { utils } from 'framework7';
+import { runtimeStore, useRuntimeStore } from '@/js/stores/runtime';
+import { mapStores } from 'pinia';
 
 export default {
   name: 'item-metadata-matter',
@@ -219,6 +221,7 @@ export default {
         })
         .concat(matterParameters.global || []);
     },
+    ...mapStores(useRuntimeStore)
   },
   methods: {
     getAvailableDeviceTypes() {

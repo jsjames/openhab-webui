@@ -109,6 +109,9 @@ import ConfigSheet from '@/components/config/config-sheet.vue';
 import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
 import { utils } from 'framework7';
 
+import { useRuntimeStore } from '@/js/stores/runtime';
+import { mapStores } from '@/js/stores/map';
+
 export default {
   props: ['item', 'metadata'],
   mixins: [ItemMetadataMixin],
@@ -121,7 +124,7 @@ export default {
       itemType: this.item.groupType || this.item.type,
       multiple: !!this.metadata.value && this.metadata.value.indexOf(',') > 0,
       classSelectKey: utils.id(),
-      docUrl: `${this.$store.state.websiteUrl}/link/alexa`,
+      docUrl: `${runtimeStore.websiteUrl}/link/alexa`,
       ready: false,
     };
   },
@@ -220,6 +223,7 @@ export default {
         return `${this.docUrl}#device-types`;
       }
     },
+    ...mapStores(useRuntimeStore)
   },
   methods: {
     isSelected(cl) {

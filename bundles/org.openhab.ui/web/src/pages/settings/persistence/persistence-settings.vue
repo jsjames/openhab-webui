@@ -64,7 +64,7 @@
           fill
           color="blue"
           external
-          :href="`${$store.state.websiteUrl}/link/persistence`"
+          :href="`${runtimeStore.websiteUrl}/link/persistence`"
           target="_blank"
           :text="$t('home.overview.button.documentation')" />
         <span style="width: 8px" />
@@ -91,6 +91,9 @@ import { nextTick } from 'vue';
 import { defineAsyncComponent } from 'vue';
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
+
 export default {
   mixins: [DirtyMixin],
   components: {
@@ -109,6 +112,9 @@ export default {
       configDescriptions: null,
       config: null,
     };
+  },
+  computed: {
+    ...mapStores(useRuntimeStore)
   },
   watch: {
     config: {

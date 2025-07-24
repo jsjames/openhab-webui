@@ -57,11 +57,11 @@
                 :title="session.clientId"
                 :subtitle="
                   $t('profile.sessions.created') +
-                  new Date(session.createdTime).toLocaleString($store.getters.locale)
+                  new Date(session.createdTime).toLocaleString(runtimeStore.locale | 'default')
                 "
                 :text="
                   $t('profile.sessions.lastRefreshed') +
-                  new Date(session.lastRefreshTime).toLocaleString($store.getters.locale)
+                  new Date(session.lastRefreshTime).toLocaleString(runtimeStore.locale | 'default')
                 ">
                 <template #media>
                   <f7-link
@@ -111,7 +111,7 @@
                 :title="apiToken.name"
                 :subtitle="
                   $t('profile.apiTokens.created') +
-                  new Date(apiToken.createdTime).toLocaleString($store.getters.locale)
+                  new Date(apiToken.createdTime).toLocaleString(runtimeStore.locale | 'default')
                 "
                 :text="$t('profile.apiTokens.validForScope') + (apiToken.scope || 'N/A')">
                 <f7-link
@@ -184,8 +184,10 @@
 import auth from '@/components/auth-mixin.js';
 import { loadLocaleMessages } from '@/js/i18n';
 import { useUserStore } from '@/js/stores/user';
+import { useRuntimeStore } from '@/js/stores/runtime';
 import { f7, theme } from 'framework7-vue';
-import { use } from 'marked';
+
+import { mapStore } from 'pinia'
 
 export default {
   mixins: [auth],
@@ -214,6 +216,7 @@ export default {
           ? this.sessions.slice(this.sessions.length - 10, this.sessions.length)
           : [];
     },
+    ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageBeforeIn() {

@@ -39,7 +39,7 @@
           fill
           color="blue"
           external
-          :href="`${$store.state.websiteUrl}/link/docs`"
+          :href="`${runtimeStore.websiteUrl}/link/docs`"
           target="_blank"
           :text="$t('home.overview.button.documentation')" />
         <span style="width: 8px" />
@@ -47,7 +47,7 @@
           large
           color="blue"
           external
-          :href="`${$store.state.websiteUrl}/link/tutorial`"
+          :href="`${runtimeStore.websiteUrl}/link/tutorial`"
           target="_blank"
           :text="$t('home.overview.button.tutorial')" />
       </f7-row>
@@ -92,6 +92,7 @@ import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 import { useStatesStore } from '@/js/stores/states';
 import { useUserStore } from '@/js/stores/user';
 import { useComponentsStore } from '@/js/stores/components';
+import { useRuntimeStore } from '@/js/stores/runtime';
 
 import { mapStores } from 'pinia';
 
@@ -114,7 +115,7 @@ export default {
   computed: {
     showHABot() {
       return (
-        this.$store.getters.apiEndpoint('habot') &&
+        useRuntimeStore().apiEndpoint('habot') &&
         this.allowChat &&
         localStorage.getItem('openhab.ui:theme.home.hidechatinput') !== 'true'
       );
@@ -144,7 +145,7 @@ export default {
       if (!this.overviewPage) return null;
       return this.overviewPage.config.style;
     },
-    ...mapStores(useUserStore)
+    ...mapStores(useUserStore, useRuntimeStore)
   },
   methods: {
     onCommand(itemName, command) {

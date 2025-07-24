@@ -18,7 +18,7 @@
     <f7-toolbar v-show="f7.width < 1024 || !leftPanelOpened" tabbar bottom>
       <f7-link
         tab-link
-        :tab-link-active="$store.state.pagePath === '/addons/'"
+        :tab-link-active="runtimeStore.pagePath === '/addons/'"
         href="/addons/"
         icon-ios="f7:bag_fill"
         icon-aurora="f7:bag_fill"
@@ -27,7 +27,7 @@
         v-for="section in Object.keys(AddonTitles)"
         :key="section"
         tab-link
-        :tab-link-active="$store.state.pagePath === `/addons/${section}/`"
+        :tab-link-active="runtimeStore.pagePath === `/addons/${section}/`"
         :href="`/addons/${section}`"
         :icon-ios="`f7:${AddonIcons[section]}`"
         :icon-aurora="`f7:${AddonIcons[section]}`"
@@ -352,6 +352,9 @@ import {
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 
+import { useRuntimeStore } from '@/js/stores/runtime';
+import { mapStores } from 'pinia'
+
 export default {
   mixins: [AddonStoreMixin],
   props: {
@@ -425,6 +428,7 @@ export default {
     connectionTypes() {
       return this.AddonConnectionTypes[this.connectionType].values;
     },
+    ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageAfterIn() {

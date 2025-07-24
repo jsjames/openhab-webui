@@ -93,7 +93,7 @@
         color="blue"
         external
         target="_blank"
-        :href="`${$store.state.websiteUrl}/link/homekit`">
+        :href="`${runtimeStore.websiteUrl}/link/homekit`">
         HomeKit integration documentation
       </f7-link>
     </p>
@@ -109,6 +109,9 @@ import {
 import ConfigSheet from '@/components/config/config-sheet.vue';
 import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
 import { utils } from 'framework7';
+
+import { useRuntimeStore } from '@/js/stores/runtime';
+import { mapStores } from 'pinia';
 
 export default {
   props: ['item', 'itemName', 'metadata'],
@@ -166,6 +169,7 @@ export default {
       }
       return [];
     },
+    ...mapStores(useRuntimeStore)
   },
 
   methods: {

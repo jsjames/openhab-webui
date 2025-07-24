@@ -1,10 +1,12 @@
 import { f7 } from 'framework7-vue'
 import { i18n, loadLocaleMessages } from '@/js/i18n'
 
+import { useRuntimeStore } from '@/js/stores/runtime'
+
 export default {
   methods: {
     updateLocale() {
-      i18n.global.locale = this.$store.getters.locale
+      i18n.global.locale = useRuntimeStore().locale | 'default'
 
       loadLocaleMessages(import.meta.glob('/src/assets/i18n/common/*.json'))
         .then(messages => {

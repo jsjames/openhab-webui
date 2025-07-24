@@ -161,7 +161,7 @@
           fill
           color="blue"
           external
-          :href="`${$store.state.websiteUrl}/link/${type.toLowerCase()}`"
+          :href="`${runtimeStore.websiteUrl}/link/${type.toLowerCase()}`"
           target="_blank"
           :text="$t('home.overview.button.documentation')" />
       </f7-row>
@@ -305,8 +305,10 @@ import RuleStatus from '@/components/rule/rule-status-mixin';
 import { Dom7 } from 'framework7';
 
 import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
-const lastSearchQueryStore = useLastSearchQueryStore();
+import { useRuntimeStore } from '@/js/stores/runtime'
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+
+import { mapStores } from 'pinia'
 
 export default {
   mixins: [RuleStatus],
@@ -434,6 +436,7 @@ export default {
     canRegenerate() {
       return this.regeneratableItemsCount > 0;
     },
+    ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageAfterIn() {
@@ -441,14 +444,14 @@ export default {
     },
     onPageBeforeOut() {
       this.stopEventSource();
-      //TODO-V3 lastSearchQueryStore.lastRulesSearchQuery[this.type] = this.$refs.searchbar?.$el.f7Searchbar.query;
+      //TODO-V3 useLastSearchQueryStore().lastRulesSearchQuery[this.type] = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load() {
       if (this.loading) return;
       this.loading = true;
 
       if (this.initSearchbar)
-        lastSearchQueryStore.lastRulesSearchQuery[this.type] = this.$refs.searchbar?.$el.f7Searchbar.query;
+        useLastSearchQueryStore().lastRulesSearchQuery[this.type] = this.$refs.searchbar?.$el.f7Searchbar.query;
       this.initSearchbar = false;
 
       this.selectedItems = [];
@@ -517,7 +520,7 @@ export default {
               this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
             }
             this.$refs.searchbar?.$el.f7Searchbar.search(
-              lastSearchQueryStore.lastRulesSearchQuery[this.type] || ''
+              useLastSearchQueryStore().lastRulesSearchQuery[this.type] || ''
             );
           });
 

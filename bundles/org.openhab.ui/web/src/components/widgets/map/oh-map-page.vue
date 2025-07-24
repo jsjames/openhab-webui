@@ -40,6 +40,7 @@ import 'leaflet/dist/leaflet.css';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { mapStores } from '@/js/stores/map';
 
 import { OhMapPageDefinition } from '@/assets/definitions/widgets/map';
 
@@ -74,7 +75,7 @@ export default {
         ? latLng(this.context.component.config.initialCenter.split(','))
         : latLng(48, 6),
       // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      url: `https://a.basemaps.cartocdn.com/${useThemeOptionsStore().dark}_all/{z}/{x}/{y}.png`,
+      url: `https://a.basemaps.cartocdn.com/${themeOptionsStore().dark}_all/{z}/{x}/{y}.png`,
       attribution:
         '&copy; <a class="external" target="_blank" href="http://osm.org/copyright">OpenStreetMap</a>, &copy; <a class="external" target="_blank" href="https://carto.com/attribution/">CARTO</a>',
       showMap: true
@@ -101,6 +102,7 @@ export default {
           : {}
       );
     },
+    ...mapStores(useThemeOptionsStore)
   },
   methods: {
     setBackgroundLayer() {

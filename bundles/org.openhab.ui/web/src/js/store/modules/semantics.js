@@ -1,6 +1,8 @@
 import { i18n } from '@/js/i18n'
 import api from '@/js/openhab/api'
 
+import { useRuntimeStore } from '@/js/store/runtime'
+
 const state = {
   Locations: [],
   Equipment: [],
@@ -44,9 +46,9 @@ const mutations = {
 }
 
 const actions = {
-  loadSemantics(context) {
+  async loadSemantics(context) {
     console.debug('Loading semantic tags ...')
-    if (this.getters.apiEndpoint('tags')) {
+    if (useRuntimeStore().apiEndpoint('tags')) {
       return api
         .get('/rest/tags')
         .then(tags => {

@@ -1210,6 +1210,7 @@ import defineOHBlocks from '@/assets/definitions/blockly';
 import { defineLibraryToolboxCategory } from '@/assets/definitions/blockly/libraries';
 import { theme } from 'framework7-vue';
 import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { useRuntimeStore } from '@/js/stores/runtime';
 import { mapStores } from 'pinia';
 
 //TODO-V3 Vue.config.ignoredElements = ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep'];
@@ -1392,7 +1393,7 @@ export default {
       this.workspace.addChangeListener(this.onChange);
 
       this.workspace.helpurlPrefix =
-        this.$store.state.runtimeInfo.buildString === 'Release Build' ? 'next' : 'www';
+        useRuntimeStore().runtimeInfo.buildString === 'Release Build' ? 'next' : 'www';
       this.workspace.registerButtonCallback('ohBlocklyHelp', function (button) {
         window.open(
           `https://${button.targetWorkspace.helpurlPrefix}.openhab.org/docs/${button.info.helpurl}`,

@@ -421,6 +421,8 @@ import { f7, theme } from 'framework7-vue';
 import { nextTick, defineAsyncComponent } from 'vue';
 import { i18n } from '@/js/i18n';
 
+import { useRuntimeStore } from '@/js/stores/runtime';
+
 export default {
   mixins: [i18n_mixin],
   components: {
@@ -503,7 +505,7 @@ export default {
   },
   watch: {
     locale(val) {
-      this.$store.commit('setLocale', this.locale);
+      useRuntimeStore().locale = this.locale
       this.updateLocale();
       // this.$i18n.locale = val
       i18n.global.locale = val;
