@@ -91,6 +91,7 @@ import { f7 } from 'framework7-vue';
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 import { useStatesStore } from '@/js/stores/states';
 import { useUserStore } from '@/js/stores/user';
+import { useComponentsStore } from '@/js/stores/components';
 
 import { mapStores } from 'pinia';
 
@@ -119,7 +120,7 @@ export default {
       );
     },
     overviewPage() {
-      const page = this.$store.getters.page('overview');
+      const page = useComponentsStore().page('overview');
       if (page) {
         if (page.component === 'oh-layout-page') return page;
         if (page.slots) {

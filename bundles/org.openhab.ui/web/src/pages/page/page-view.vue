@@ -120,6 +120,8 @@ import { f7, theme } from 'framework7-vue';
 import { defineAsyncComponent } from 'vue';
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 import { useStatesStore } from '@/js/stores/states';
+import { useComponentsStore } from '@/js/stores/components';
+import { useUserStore } from '@/js/stores/user';
 
 export default {
   mixins: [WidgetExpressionMixin, actionsMixin],
@@ -194,7 +196,7 @@ export default {
       };
     },
     page() {
-      return this.$store.getters.page(this.uid);
+      return useComponentsStore().page(this.uid);
     },
     pageType() {
       return this.getPageType(this.page);
@@ -263,7 +265,7 @@ export default {
     },
     tabContext(tab) {
       const page = tab.config.page
-        ? this.$store.getters.page(tab.config.page.replace('page:', ''))
+        ? useComponentsStore().page(tab.config.page.replace('page:', ''))
         : tab.component;
       const context = {
         component: page,
@@ -291,7 +293,7 @@ export default {
         return tab.component;
       }
 
-      const page = this.$store.getters.page(tab.config.page.replace('page:', ''));
+      const page = useComponentsStore().page(tab.config.page.replace('page:', ''));
       return page.component;
     },
     tabEvaluateExpression(tab, idx, key) {
@@ -315,7 +317,7 @@ export default {
                   'page:',
                   ''
                 );
-                const tabPage = this.$store.getters.page(tabPageUid);
+                const tabPage = useComponentsStore().page(tabPageUid);
                 const tabPageType = this.getPageType(tabPage);
                 this.f7router.navigate('/settings/pages/' + tabPageType + '/' + tabPageUid);
               },

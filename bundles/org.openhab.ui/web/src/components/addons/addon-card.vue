@@ -32,7 +32,7 @@
           <f7-icon
             v-if="addon.verifiedAuthor"
             size="15"
-            :color="themeOptions.dark === 'dark' ? 'white' : 'blue'"
+            :color="themeOptionsStore.dark === 'dark' ? 'white' : 'blue'"
             f7="checkmark_seal_fill"
             style="margin-top: -3px" />
         </div>
@@ -131,6 +131,7 @@ import AddonStatsLine from './addon-stats-line.vue';
 import AddonLogo from '@/components/addons/addon-logo.vue';
 import { f7 } from 'framework7-vue';
 import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { mapStores } from 'pinia';
 
 export default {
   props: ['addon', 'headline', 'installActionText', 'lazyLogo'],
@@ -138,11 +139,6 @@ export default {
   components: {
     AddonLogo,
     AddonStatsLine,
-  },
-  data() {
-    return {
-      themeOptions: useThemeOptionsStore(),
-    };
   },
   computed: {
     autoHeadline() {
@@ -170,6 +166,7 @@ export default {
       let splitted = this.addon.uid.split(':');
       return splitted.length < 2 || splitted[0] !== 'eclipse';
     },
+    ...mapStores(useThemeOptionsStore)
   },
   methods: {
     buttonClicked() {

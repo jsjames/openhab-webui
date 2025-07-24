@@ -1,5 +1,6 @@
 import OhLayoutPage from '@/components/widgets/layout/oh-layout-page.vue'
 import { useUserStore } from '@/js/stores/user'
+import { useComponentsStore } from '@/js/stores/components'
 import { defineAsyncComponent } from 'vue'
 
 export default {
@@ -49,11 +50,11 @@ export default {
       return pageComponent.config.style
     },
     page() {
-      return this.uid.startsWith('page:') ? this.$store.getters.page(this.uid.substring(5)) : null
+      return this.uid.startsWith('page:') ? useComponentsStore().page(this.uid.substring(5)) : null
     },
     widget() {
       return this.uid.startsWith('widget:')
-        ? this.$store.getters.widget(this.uid.substring(7))
+        ? useComponentsStore().widget(this.uid.substring(7))
         : null
     },
     standard() {
@@ -88,7 +89,7 @@ export default {
       this.ctxVars = {}
     },
     tabContext(tab) {
-      const page = this.$store.getters.page(tab.config.page.replace('page:', ''))
+      const page = useComponentsStore().page(tab.config.page.replace('page:', ''))
       return {
         component: page,
         root: page,
@@ -98,7 +99,7 @@ export default {
       }
     },
     tabComponent(tab) {
-      const page = this.$store.getters.page(tab.config.page.replace('page:', ''))
+      const page = useComponentsStore().page(tab.config.page.replace('page:', ''))
       return page.component
     }
   }

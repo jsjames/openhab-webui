@@ -16,7 +16,7 @@
           :selected="value === null || value === undefined ? true : null" />
         <optgroup v-if="configDescription.context.indexOf('page') >= 0" label="Pages">
           <option
-            v-for="option in $store.getters.pages"
+            v-for="option in componentsStore.pages"
             :value="'page:' + option.uid"
             :key="option.uid"
             :selected="isSelected(option, 'page') ? true : null">
@@ -25,7 +25,7 @@
         </optgroup>
         <optgroup v-if="configDescription.context.indexOf('widget') >= 0" label="Widgets">
           <option
-            v-for="option in $store.getters.widgets"
+            v-for="option in componentsStore.widgets"
             :value="'widget:' + option.uid"
             :key="option.uid"
             :selected="isSelected(option, 'widget') ? true : null">
@@ -39,6 +39,8 @@
 
 <script>
 import { f7 } from 'framework7-vue';
+import { useComponentsStore } from '@/js/stores/components';
+import { mapStores } from 'pinia';
 
 export default {
   props: ['configDescription', 'value'],
@@ -49,6 +51,9 @@ export default {
         view: f7 ? f7.view.main : null,
       },
     };
+  },
+  computed: {
+    ...mapStores(useComponentsStore),
   },
   created() {
     this.smartSelectParams.openIn = 'popup';

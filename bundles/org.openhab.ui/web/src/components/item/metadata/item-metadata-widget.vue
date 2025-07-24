@@ -55,7 +55,7 @@
               {{ widget.label }}
             </option>
           </optgroup>
-          <optgroup v-if="$store.getters.widgets.length" label="Personal Widgets">
+          <optgroup v-if="componentsStore.widgets.length" label="Personal Widgets">
             <option
               v-for="widget in personalWidgets"
               :value="'widget:' + widget.uid"
@@ -117,8 +117,11 @@ import { VisibilityGroup, VisibilityParameters } from '@/assets/definitions/widg
 import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
 
 import { useStatesStore } from '@/js/stores/states';
+import { useComponentsStore } from '@/js/stores/components';
 
 import { utils } from 'framework7';
+import { map } from 'node_modules/yaml/dist/schema/common/map';
+import { use } from 'marked';
 
 export default {
   props: ['item', 'metadata', 'namespace'],
@@ -162,10 +165,11 @@ export default {
   },
   computed: {
     personalWidgets() {
-      return [...this.$store.getters.widgets].sort((a, b) => {
+      return [...useComponentsStore().widgets].sort((a, b) => {
         return a.uid.localeCompare(b.uid);
       });
     },
+    ...mapStores(useComponentsStore)
   },
   mounted() {
     this.$store.dispatch('startTrackingStates');
@@ -241,7 +245,7 @@ export default {
     setConfigDescriptions() {
       let desc = {};
       if (!this.currentComponent || !this.currentComponent.component) return desc;
-      const widget = this.$store.getters.widgets.find(
+      const widget = useComponentsStore().widget.find(
         w => w.uid === this.currentComponent.component.replace('widget:', '')
       );
       if (widget && widget.props) desc = Object.assign({}, widget.props);

@@ -6,6 +6,7 @@ import { utils } from 'framework7'
 
 import { useThemeOptionsStore } from '@/js/stores/theme-options'
 import { useUserStore } from '@/js/stores/user'
+import { useComponentsStore } from '@/js/stores/components'
 import { mapStores } from 'pinia'
 
 export default {
@@ -25,7 +26,7 @@ export default {
     },
     childWidgetComponentType() {
       if (!this.componentType.startsWith('widget:')) return null
-      const widget = this.$store.getters.widget(this.componentType.substring(7))
+      const widget = useComponentsStore().widget(this.componentType.substring(7))
       if (!widget) {
         console.warn('widget not found, cannot render: ' + this.componentType)
       }
@@ -127,7 +128,7 @@ export default {
     },
     childWidgetContext() {
       if (!this.componentType.startsWith('widget:')) return null
-      let widget = this.$store.getters.widget(this.componentType.substring(7))
+      let widget = useComponentsStore().widget(this.componentType.substring(7))
       if (!widget) {
         console.warn('widget not found, cannot render: ' + this.componentType)
       }

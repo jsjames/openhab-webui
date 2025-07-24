@@ -104,7 +104,7 @@ export default {
       })
     },
     iconColor () {
-      return (this.tag.editable || this.picker) ? (f7.data.themeOptions.dark === 'dark' ? 'white' : 'black') : 'gray'
+      return (this.tag.editable || this.picker) ? (f7.data.themeOptionsStore.dark === 'dark' ? 'white' : 'black') : 'gray'
     },
     canHaveChildren () {
       return (this.children.length > 0 || this.moveState.moving) === true

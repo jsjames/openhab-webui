@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { useComponentsStore } from '@/js/stores/components';
 import PropsEditorPopup from './props-editor-popup.vue';
 import { f7 } from 'framework7-vue';
 
@@ -37,14 +38,14 @@ export default {
     props() {
       if (!this.configureTarget) return null;
       if (this.configureTarget.indexOf('page:') === 0) {
-        const page = this.$store.getters.page(this.configureTarget.substring(5));
+        const page = useComponentsStore().page(this.configureTarget.substring(5));
         if (!page) {
           console.warn('Page not found: ' + this.configureTarget);
           return;
         }
         return page.props;
       } else if (this.configureTarget.indexOf('widget:') === 0) {
-        const widget = this.$store.getters.widget(this.configureTarget.substring(7));
+        const widget = useComponentsStore().widget(this.configureTarget.substring(7));
         if (!widget) {
           console.warn('Widget not found: ' + this.configureTarget);
           return;

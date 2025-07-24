@@ -59,7 +59,7 @@
         &nbsp;{{ $t('dialogs.enable') }}&nbsp;{{ enablableItems }}
       </f7-link>
       <f7-link
-        :color="$f7.data.themeOptions.dark === 'dark' ? 'purple' : 'deeppurple'"
+        :color="$f7.data.themeOptionsStore.dark === 'dark' ? 'purple' : 'deeppurple'"
         v-show="selectedItems.length && canRegenerate"
         v-if="!theme.md && !showScenes"
         class="enable"

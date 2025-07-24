@@ -10,6 +10,7 @@ import WidgetCodePopup from '@/components/pagedesigner/widget-code-popup.vue'
 import DirtyMixin from '../dirty-mixin'
 
 import { useStatesStore } from '@/js/stores/states'
+import { useComponentsStore } from '@/js/stores/components'
 
 export default {
   mixins: [DirtyMixin],
@@ -36,7 +37,7 @@ export default {
   },
   computed: {
     ready() {
-      return this.pageReady && this.$store.state.components.widgets != null
+      return this.pageReady && useComponentsStore().widgets != null
     },
     context() {
       return {
@@ -153,7 +154,7 @@ export default {
         return
       }
       if (this.createMode) {
-        if (this.$store.getters.page(this.page.uid)) {
+        if (useComponentsStore().page(this.page.uid)) {
           f7.dialog.alert('A page with this ID already exists')
           return
         }
@@ -238,7 +239,7 @@ export default {
       this.currentWidget = null
       let widgetDefinition
       if (componentType.indexOf('widget:') === 0) {
-        this.currentWidget = this.$store.getters.widget(componentType.substring(7))
+        this.currentWidget = useComponentsStore().widget(componentType.substring(7))
       } else {
         // getWidgetDefinition should be defined locally in the page designers SFCs
         widgetDefinition = this.getWidgetDefinition(componentType)

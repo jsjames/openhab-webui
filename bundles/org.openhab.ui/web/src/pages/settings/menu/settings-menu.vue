@@ -75,7 +75,7 @@
               v-if="$store.getters.apiEndpoint('ui')"
               link="pages/"
               title="Pages"
-              :after="$store.getters.pages.length + sitemapsCount"
+              :after="componentsStore.pages.length + sitemapsCount"
               badge-color="blue"
               :footer="objectsSubtitles.pages">
               <template #media>
@@ -254,6 +254,8 @@
 <script>
 import AddonSection from './addon-section.vue';
 import { f7, theme } from 'framework7-vue';
+import { useComponentsStore } from '@/js/stores/components';
+import { mapStores } from 'pinia';
 
 export default {
   components: {
@@ -328,6 +330,7 @@ export default {
       const problemCount = this.orphanLinkCount + this.semanticsProblemCount;
       return problemCount.toString();
     },
+    ...mapStores(useComponentsStore)
   },
   watch: {
     apiEndpoints: {

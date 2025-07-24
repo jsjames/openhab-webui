@@ -139,7 +139,6 @@ export function isLoggedIn() {
 }
 
 export function isAdmin() {
-  debugger
   const user = useUserStore().user
   return user && user.roles && user.roles.indexOf('administrator') >= 0
 }

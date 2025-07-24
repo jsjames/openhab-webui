@@ -1316,7 +1316,7 @@ export default {
           blockDragger: MultiselectBlockDragger,
         },
         horizontalLayout: !this.$device.desktop,
-        theme: this.themeOptions.dark === 'dark' ? DarkTheme : undefined,
+        theme: this.themeOptionsStore.dark === 'dark' ? DarkTheme : undefined,
         zoom: {
           controls: true,
           wheel: true,
@@ -1444,10 +1444,10 @@ export default {
       return renderers;
     },
     getCurrentRenderer() {
-      return this.themeOptions.blocklyRenderer;
+      return this.themeOptionsStore.blocklyRenderer;
     },
     changeRenderer(newRenderer) {
-      this.themeOptions.blocklyRenderer = newRenderer;
+      this.themeOptionsStore.blocklyRenderer = newRenderer;
       localStorage.setItem('openhab.ui:blockly.renderer', newRenderer);
 
       const dom = Blockly.Xml.workspaceToDom(this.workspace);

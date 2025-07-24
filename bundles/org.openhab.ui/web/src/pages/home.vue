@@ -199,6 +199,7 @@ import HomeCards from './home/homecards-mixin';
 import { useThemeOptionsStore } from '@/js/stores/theme-options';
 import { useStatesStore } from '@/js/stores/states';
 import { useUserStore } from '@/js/stores/user';
+import { useComponentsStore } from '@/js/stores/components';
 
 export default {
   props: {
@@ -251,7 +252,7 @@ export default {
       }
     },
     homePageComponent() {
-      const page = this.$store.getters.page('home');
+      const page = useComponentsStore().page('home');
       if (!page) return null;
       if (page.component !== 'oh-home-page') return null;
       return page;

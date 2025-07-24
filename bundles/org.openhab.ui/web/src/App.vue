@@ -3,7 +3,7 @@
     v-if="init"
     :style="{
       visibility:
-        userStore.user || $store.getters.page('overview') || communicationFailureMsg
+        userStore.user || componentsStore.page('overview') || communicationFailureMsg
           ? ''
           : 'hidden',
     }"
@@ -328,7 +328,7 @@
               <div
                 v-if="
                   !userStore.user &&
-                  !$store.getters.pages.filter(p => p.uid !== 'overview').length"
+                  !componentsStore.pages.filter(p => p.uid !== 'overview').length"
                 class="hint-signin">
                 <em>{{ $t('sidebar.tip.signIn') }}<br /><f7-icon f7="arrow_down" size="20" /></em>
               </div>
@@ -533,6 +533,7 @@ import { on } from 'dom7';
 import { useThemeOptionsStore } from '@/js/stores/theme-options';
 import { useStatesStore } from './js/stores/states';
 import { useUserStore } from './js/stores/user';
+import { useComponentsStore } from './js/stores/components';
 
 export default {
   mixins: [auth, i18n_mixin, connectionHealth, sseEvents],
@@ -657,7 +658,7 @@ export default {
     serverDisplayUrl() {
       return window.location.origin;
     },
-    ...mapStores(useThemeOptionsStore, useUserStore)
+    ...mapStores(useThemeOptionsStore, useUserStore, useComponentsStore)
   },
   watch: {
     'useStatesStore().sseConnected': {
@@ -790,8 +791,8 @@ export default {
         })
         .then(data => {
           // store the pages & widgets
-          this.$store.commit('setPages', { pages: data[0] });
-          this.$store.commit('setWidgets', { widgets: data[1] });
+          useComponentsStore().setPages(data[0]);
+          useComponentsStore().setWidgets(data[1]);
           this.pages = data[0]
             .filter(p => p.config.sidebar && this.pageIsVisible(p))
             .sort((p1, p2) => {
@@ -937,9 +938,9 @@ export default {
 
       // Some special cases where the title should be different
       if (this.currentPath.page) {
-        title.unshift(this.$store.getters.page(this.currentPath.page?.$key)?.config?.label);
+        title.unshift(useComponentsStore().page(this.currentPath.page?.$key)?.config?.label);
       } else if (this.currentPath.overview) {
-        const config = this.$store.getters.page('overview')?.config;
+        const config = useComponentsStore().page('overview')?.config;
         const localizedTitle = this.$t(`home.${this.currentPath.$key}.title`);
         title.unshift(
           config?.browserTitle || (config?.label === 'Overview' ? localizedTitle : config?.label)
@@ -1052,7 +1053,7 @@ export default {
                 if (
                   !refreshToken &&
                   this.$store.getters.apiEndpoint('ui') &&
-                  !this.$store.getters.page('overview')
+                  !useComponentsStore().page('overview')
                 ) {
                   // as there is no overview page, assume the setup wizard hasn't run yet so launch it right away
                   this.authorize(true);

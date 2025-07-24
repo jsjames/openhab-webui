@@ -455,6 +455,7 @@ import { f7, theme } from 'framework7-vue';
 import { nextTick, defineAsyncComponent } from 'vue';
 
 import { useUserStore } from '@/js/stores/user';
+import { useComponentsStore } from '@/js/stores/components';
 import { mapStores } from 'pinia';
 
 export default {
@@ -804,7 +805,7 @@ export default {
             self.f7.dialog.alert(this.$t('analyzer.dialogs.save.invalid'));
             return;
           }
-          if (self.$store.getters.page(uid)) {
+          if (useComponentsStore().page(uid)) {
             self.f7.dialog.confirm(
               this.$t('analyzer.dialogs.save.replace.message', { uid }),
               this.$t('analyzer.dialogs.save.replace.title'),
