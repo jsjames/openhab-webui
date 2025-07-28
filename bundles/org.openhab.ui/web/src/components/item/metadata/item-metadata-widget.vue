@@ -121,7 +121,6 @@ import { useComponentsStore } from '@/js/stores/components';
 
 import { utils } from 'framework7';
 import { map } from 'node_modules/yaml/dist/schema/common/map';
-import { use } from 'marked';
 
 export default {
   props: ['item', 'metadata', 'namespace'],
@@ -172,7 +171,7 @@ export default {
     ...mapStores(useComponentsStore)
   },
   mounted() {
-    this.$store.dispatch('startTrackingStates');
+    useStatesStore().startTrackingStates()
     // copy the item & remove the metadata to get the default widget
     const defaultItem = Object.assign({}, this.item);
     if (defaultItem.metadata) {
@@ -190,7 +189,7 @@ export default {
     });
   },
   beforeUnmount() {
-    this.$store.dispatch('stopTrackingStates');
+    useStatesStore().stopTrackingStates()
   },
   methods: {
     isSelected(cl) {

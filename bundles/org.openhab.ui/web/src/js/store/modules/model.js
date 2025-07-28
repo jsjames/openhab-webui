@@ -3,11 +3,11 @@ import { authorize } from '@/js/openhab/auth'
 import { i18n } from '@/js/i18n'
 import { compareItems } from '@/components/widgets/widget-order'
 
-function compareObjects(o1, o2) {
+function _compareObjects(o1, o2) {
   return compareItems(o1.item || o1, o2.item || o2)
 }
 
-function buildModelCard(type, source, key) {
+function _buildModelCard(type, source, key) {
   switch (type) {
     case 'location':
       let defaultLocationTitle = source.item.label || source.item.name
@@ -195,13 +195,13 @@ const actions = {
           }, {})
 
         const model = {}
-        model.locations = locations.map(l => buildModelCard('location', l, l.item.name))
+        model.locations = locations.map(l => _buildModelCard('location', l, l.item.name))
         model.equipment = Object.keys(equipment)
           .sort((a, b) => i18n.global.t(a).localeCompare(i18n.global.t(b)))
-          .map(k => buildModelCard('equipment', equipment[k], k))
+          .map(k => _buildModelCard('equipment', equipment[k], k))
         model.properties = Object.keys(properties)
           .sort((a, b) => i18n.global.t(a).localeCompare(i18n.global.t(b)))
-          .map(k => buildModelCard('property', properties[k], k))
+          .map(k => _buildModelCard('property', properties[k], k))
 
         // console.log('model', model)
         context.commit('setSemanticModel', model)

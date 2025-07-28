@@ -154,6 +154,8 @@ import uomMixin from '@/components/item/uom-mixin';
 
 import cloneDeep from 'lodash/cloneDeep';
 
+import { useSemanticsStore } from '@/js/stores/semantics'
+
 export default {
   mixins: [uomMixin],
   props: [
@@ -327,7 +329,7 @@ export default {
         type: channel.itemType,
         unit: this.channelUnit(channel, channelType),
         stateDescriptionPattern: '',
-        tags: defaultTags.find(t => this.$store.getters.semanticClasses.Points.indexOf(t) >= 0)
+        tags: defaultTags.find(t => useSemanticsStore().Points.indexOf(t) >= 0)
           ? defaultTags
           : [...defaultTags, 'Point'],
       };
@@ -368,12 +370,12 @@ export default {
         item.tags = [];
       }
       const hasPointTag = item.tags.find(
-        t => this.$store.getters.semanticClasses.Points.indexOf(t) >= 0
+        t => useSemanticsStore().Points.indexOf(t) >= 0
       );
       if (!hasPointTag) {
         const defaultTags = channel.defaultTags.length > 0 ? channel.defaultTags : channelType.tags;
         item.tags = defaultTags.find(
-          t => this.$store.getters.semanticClasses.Points.indexOf(t) >= 0
+          t => useSemanticsStore().Points.indexOf(t) >= 0
         )
           ? [...item.tags, ...defaultTags]
           : [...item.tags, ...defaultTags, 'Point'];

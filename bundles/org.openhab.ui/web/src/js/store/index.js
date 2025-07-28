@@ -3,7 +3,6 @@ import { createStore } from 'vuex'
 import buildInfo from '@/assets/build-info'
 
 import model from './modules/model'
-import semantics from './modules/semantics'
 import { convertJavaLocale } from '@/js/i18n'
 
 // const debug = import.meta.env.DEV
@@ -11,7 +10,6 @@ import { convertJavaLocale } from '@/js/i18n'
 export const store = createStore({
   modules: {
     model,
-    semantics
   }
   /*
   state: {

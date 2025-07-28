@@ -531,10 +531,11 @@ import { AddonIcons, AddonTitles } from '@/assets/addon-store';
 import { on } from 'dom7';
 
 import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { useStatesStore } from './js/stores/states';
-import { useUserStore } from './js/stores/user';
-import { useComponentsStore } from './js/stores/components';
-import { useRuntimeStore } from './js/stores/runtime';
+import { useStatesStore } from '@/js/stores/states';
+import { useUserStore } from '@/js/stores/user';
+import { useComponentsStore } from '@/js/stores/components';
+import { useRuntimeStore } from '@/js/stores/runtime';
+import { useSemanticsStore } from '@/js/stores/semantics'
 
 export default {
   mixins: [auth, i18n_mixin, connectionHealth, sseEvents],
@@ -787,7 +788,7 @@ export default {
                 ]
               : [Promise.resolve([]), Promise.resolve([])]),
             dayjsLocalePromise,
-            this.$store.dispatch('loadSemantics'),
+            useSemanticsStore().loadSemantics()
           ]);
         })
         .then(data => {

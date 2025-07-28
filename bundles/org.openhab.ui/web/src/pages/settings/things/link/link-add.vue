@@ -198,6 +198,7 @@ import uomMixin from '@/components/item/uom-mixin';
 import LinkMixin from '@/pages/settings/things/link/link-mixin';
 
 import { useRuntimeStore } from '@/js/stores/runtime'
+import { useSemanticsStore } from '@/js/stores/semantics';
 import { mapStores } from 'pinia'
 
 export default {
@@ -283,7 +284,7 @@ export default {
         groupNames: [],
         type: this.channel.itemType || 'Switch',
         unit: this.linkUnit(),
-        tags: defaultTags.find(t => this.$store.getters.semanticClasses.Points.indexOf(t) >= 0)
+        tags: defaultTags.find(t => useSemanticsStore().Points.indexOf(t) >= 0)
           ? defaultTags
           : [...defaultTags, 'Point'],
       };

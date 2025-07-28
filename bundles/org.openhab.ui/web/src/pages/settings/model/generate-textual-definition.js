@@ -1,6 +1,5 @@
-import store from '@/js/store'
-
 import utils from '@/js/openhab/utils'
+import { useSemanticsStore } from '@/js/stores/semantics'
 
 /**
  * Generate a textual definition for the items provided by the "add from thing" page,
@@ -58,7 +57,7 @@ export default (
       groupNames: parentGroupsForPoints,
       category: channelType ? channelType.category : '',
       type: channel.itemType,
-      tags: defaultTags.find(t => store.getters.semanticClasses.Points.indexOf(t) >= 0)
+      tags: defaultTags.find(t => useSemanticsStore().Points.indexOf(t) >= 0)
         ? defaultTags
         : [...defaultTags, 'Point']
     }

@@ -44,6 +44,8 @@ import SemanticsPickerPopup from '@/components/tags/semantics-picker-popup.vue';
 import { nextTick } from 'vue';
 import { f7 } from 'framework7-vue';
 
+import { useSemanticsStore } from '@/js/stores/semantics'
+
 export default {
   mixins: [TagMixin],
   props: ['item', 'createMode', 'hideNone'],
@@ -92,11 +94,11 @@ export default {
     },
     tagWithHierarchy(tag) {
       if (!tag) return null;
-      let parentTagId = this.semanticClasses.Tags.find(t => t.name === tag).parent;
+      let parentTagId = useSemanticsStore().Tags.find(t => t.name === tag).parent;
       if (!parentTagId) return null; // no parent tag, so this is the root class
       let value = tag;
       while (parentTagId) {
-        const parentTag = this.semanticClasses.Tags.find(t => t.uid === parentTagId);
+        const parentTag = useSemanticsStore().Tags.find(t => t.uid === parentTagId);
         parentTagId = parentTag.parent;
         if (parentTagId) {
           value = parentTag.name + '->' + value;

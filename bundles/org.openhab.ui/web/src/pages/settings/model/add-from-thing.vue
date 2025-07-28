@@ -155,6 +155,8 @@ import generateTextualDefinition from './generate-textual-definition';
 
 import cloneDeep from 'lodash/cloneDeep';
 
+import { useSemanticsStore } from '@/js/stores/semantics';
+
 export default {
   mixins: [ThingStatus, ItemMixin],
   components: {
@@ -193,7 +195,7 @@ export default {
       return this.items.filter(i => {
         return (
           i.type === 'Group' &&
-          !i.tags.find(t => this.$store.getters.semanticClasses.Locations.indexOf(t) >= 0)
+          !i.tags.find(t => useSemanticsStore().Locations.indexOf(t) >= 0)
         );
       });
     },
@@ -261,7 +263,7 @@ export default {
         item.tags = [];
       }
       const hasEquipmentTag = item.tags.find(
-        t => this.$store.getters.semanticClasses.Equipment.indexOf(t) >= 0
+        t => useSemanticsStore().Equipment.indexOf(t) >= 0
       );
       if (!hasEquipmentTag) {
         item.tags.push(this.selectedThing.semanticEquipmentTag || 'Equipment');

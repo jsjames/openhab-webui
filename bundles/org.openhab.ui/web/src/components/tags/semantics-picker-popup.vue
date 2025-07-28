@@ -76,6 +76,7 @@
 <script>
 import SemanticsTreeview from '@/components/tags/semantics-treeview.vue'
 import { theme } from 'framework7-vue'
+import { useSemanticsStore } from '@/js/stores/semantics'
 
 export default {
   components: {
@@ -90,7 +91,6 @@ export default {
   },
   data () {
     return {
-      semanticClasses: this.$store.getters.semanticClasses,
       expanded: false,
       expandedTags: [],
       showNames: false,
@@ -103,13 +103,13 @@ export default {
   },
   computed: {
     semanticTags () {
-      return this.semanticClasses.Tags.map((t) => {
+      return useSemanticsStore().Tags.map((t) => {
         const tag = {
           uid: t.uid,
           name: t.name,
-          label: this.semanticClasses.Labels[t.name],
+          label: useSemanticsStore().Labels[t.name],
           description: t.description,
-          synonyms: this.semanticClasses.Synonyms[t.name],
+          synonyms: useSemanticsStore().Synonyms[t.name],
           parent: t.parent
         }
         return tag
@@ -118,9 +118,9 @@ export default {
     selectedClass () {
       const selectedTag = this.semanticTags.find((t) => t.name === (this.semanticClass || this.semanticProperty)) || { uid: 'None', label: 'None' }
       const tagName = selectedTag?.name
-      if (this.semanticClasses.Locations.indexOf(tagName) >= 0) return 'Location'
-      if (this.semanticClasses.Equipment.indexOf(tagName) >= 0) return 'Equipment'
-      if (this.semanticClasses.Points.indexOf(tagName) >= 0) return 'Point'
+      if (useSemanticsStore().Locations.indexOf(tagName) >= 0) return 'Location'
+      if (useSemanticsStore().Equipment.indexOf(tagName) >= 0) return 'Equipment'
+      if (useSemanticsStore().Points.indexOf(tagName) >= 0) return 'Point'
       return ''
     }
   },
@@ -187,7 +187,7 @@ export default {
       if (this.classMode && this.item.tags && (!tag.name || tag.uid.split('_')[0] !== 'Point')) {
         const tags = [...this.item.tags]
         tags.forEach((t) => {
-          if (this.semanticClasses.Properties.indexOf(t) >= 0) {
+          if (useSemanticsStore().Properties.indexOf(t) >= 0) {
             const index = this.item.tags.indexOf(t)
             this.item.tags.splice(index, 1)
           }

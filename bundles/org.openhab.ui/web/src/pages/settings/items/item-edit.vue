@@ -116,6 +116,8 @@ import ItemForm from '@/components/item/item-form.vue';
 import DirtyMixin from '../dirty-mixin';
 import ItemMixin from '@/components/item/item-mixin';
 
+import { useSemanticsStore } from '@/js/stores/semantics';
+
 export default {
   mixins: [DirtyMixin, ItemMixin],
   props: {
@@ -145,7 +147,6 @@ export default {
       itemYaml: '',
       items: [],
       types: Types,
-      semanticClasses: this.$store.getters.semanticClasses,
       semanticClass: '',
       semanticProperty: '',
       pendingTag: '',

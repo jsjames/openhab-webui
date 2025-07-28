@@ -373,6 +373,8 @@ import SemanticsTreeview from '@/components/tags/semantics-treeview.vue'
 import TagMixin from '@/components/tags/tag-mixin'
 import DirtyMixin from '@/pages/settings/dirty-mixin'
 
+import { useSemanticsStore } from '@/js/stores/semantics'
+
 export default {
   mixins: [DirtyMixin, TagMixin],
   components: {
@@ -462,13 +464,13 @@ export default {
       if (this.loading) return
       this.loading = true
 
-      const tags = this.semanticClasses.Tags.map((t) => {
+      const tags = useSemanticsStore().Tags.map((t) => {
         return {
           uid: t.uid,
           name: t.name,
-          label: this.semanticClasses.Labels[t.name],
+          label: useSemanticsStore().Labels[t.name],
           description: t.description,
-          synonyms: this.semanticClasses.Synonyms[t.name],
+          synonyms: useSemanticsStore().Synonyms[t.name],
           editable: t.editable,
           parent: t.parent
         }
@@ -491,9 +493,9 @@ export default {
       }
 
       const editableTags = this.semanticTags.filter((t) => t.editable)
-      const addedTags = editableTags.filter((t) => !this.semanticClasses.Tags.find((c) => c.uid === t.uid))
-      const modifiedTags = editableTags.filter((t) => this.semanticClasses.Tags.find((c) => (c.uid === t.uid) && !fastDeepEqual(c, t)))
-      const removedTags = this.semanticClasses.Tags.filter((c) => !this.semanticTags.find((t) => t.uid === c.uid))
+      const addedTags = editableTags.filter((t) => !useSemanticsStore().Tags.find((c) => c.uid === t.uid))
+      const modifiedTags = editableTags.filter((t) => useSemanticsStore().Tags.find((c) => (c.uid === t.uid) && !fastDeepEqual(c, t)))
+      const removedTags = useSemanticsStore().Tags.filter((c) => !this.semanticTags.find((t) => t.uid === c.uid))
       console.log(addedTags[0], removedTags[0])
 
       if (addedTags.some((t) => {
@@ -501,7 +503,7 @@ export default {
           f7.dialog.alert(`${t.name}: Tag name and label required`)
           return true
         }
-        if (this.semanticClasses.Tags.find((c) => c.name === t.name) && !removedTags.find((r) => r.name === t.name)) {
+        if (useSemanticsStore().Tags.find((c) => c.name === t.name) && !removedTags.find((r) => r.name === t.name)) {
           f7.dialog.alert(`${t.name}: Tag names must be unique`)
           return true
         }
@@ -534,7 +536,7 @@ export default {
           console.debug('Successfully changed tags')
         }
         this.dirty = false
-        this.$store.dispatch('loadSemantics').then(() => {
+        useSemanticsStore().loadSemantics().then(() => {
           this.load()
         })
       } catch (error) {
