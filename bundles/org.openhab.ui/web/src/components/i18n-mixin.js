@@ -6,8 +6,6 @@ import { useRuntimeStore } from '@/js/stores/runtime'
 export default {
   methods: {
     updateLocale() {
-      i18n.global.locale = useRuntimeStore().locale | 'default'
-
       loadLocaleMessages(import.meta.glob('/src/assets/i18n/common/*.json'))
         .then(messages => {
           for (let locale in messages) {

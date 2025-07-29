@@ -719,7 +719,7 @@
     overflow-x hidden
 .md .developer-sidebar-content
   margin-top 0
-.theme-dark
+.dark
   .developer-sidebar
     &.page
       background #232323 !important

@@ -16,8 +16,10 @@ import Framework7 from 'framework7/lite-bundle'
 import Framework7Vue, { registerComponents } from 'framework7-vue/bundle'
 import { getDevice } from 'framework7'
 
+// Import Framework7-Vue with helper to register all components
+
 // Import Framework7 Styles
-import 'framework7/framework7-bundle.css'
+import 'framework7/css/bundle'
 
 // Import Icons and App Custom Styles
 import '@/css/icons.css'

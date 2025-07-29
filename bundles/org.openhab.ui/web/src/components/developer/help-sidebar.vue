@@ -158,7 +158,7 @@
     overflow-x hidden
 .md .help-sidebar-content
   margin-top 0
-.theme-dark
+.dark
   .help-sidebar
     &.page
       background #232323 !important

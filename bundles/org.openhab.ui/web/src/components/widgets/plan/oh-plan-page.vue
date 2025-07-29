@@ -63,7 +63,7 @@
     background-color white
   &.oh-plan-black-background
     background-color black
-.theme-dark
+.dark
   .oh-plan-page-lmap
     &.oh-plan-blackwhite-background
       background-color black
@@ -94,7 +94,7 @@ dark-tooltip()
 .oh-plan-tooltip-black
   dark-tooltip()
 
-.theme-dark
+.dark
   .oh-plan-tooltip-blackwhite
     dark-tooltip()
 </style>

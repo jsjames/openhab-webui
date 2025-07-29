@@ -124,10 +124,10 @@ html
 .md .title-large-text
   font-weight bold !important
 
-:root .theme-dark
+:root .dark
   color-scheme dark
 
-.theme-dark .home-tabs
+.dark .home-tabs
   --f7-bars-bg-color rgb(32, 32, 33)
   --f7-bars-text-color #fff
   --f7-bars-link-color #fff
@@ -259,20 +259,20 @@ html
   text-align center
   line-height 32px
 
-/* TODO-V3 - JJ: I think this should be as below to make sure the page is formated correctly since .theme-dark does not 
+/* TODO-V3 - JJ: I think this should be as below to make sure the page is formated correctly since .dark does not 
    get applied to framework7-root */
-#framework7-root:not(.theme-dark) .page-home:not(.standard-background),
-#framework7-root:not(.theme-dark) .page-about:not(.standard-background),
-#framework7-root:not(.theme-dark) .page-addon-store:not(.standard-background),
-#framework7-root:not(.theme-dark) .page-addon-details:not(.standard-background),
+#framework7-root:not(.dark) .page-home:not(.standard-background),
+#framework7-root:not(.dark) .page-about:not(.standard-background),
+#framework7-root:not(.dark) .page-addon-store:not(.standard-background),
+#framework7-root:not(.dark) .page-addon-details:not(.standard-background),
   --f7-page-bg-color #fff
-//#framework7-root:not(.theme-dark) .page-settings 
+//#framework7-root:not(.dark) .page-settings 
 
-html:not(.theme-dark) .page
-html:not(.theme-dark) .page-home:not(.standard-background),
-html:not(.theme-dark) .page-about:not(.standard-background),
-html:not(.theme-dark) .page-addon-store:not(.standard-background),
-html:not(.theme-dark) .page-addon-details:not(.standard-background),
+html:not(.dark) .page
+html:not(.dark) .page-home:not(.standard-background),
+html:not(.dark) .page-about:not(.standard-background),
+html:not(.dark) .page-addon-store:not(.standard-background),
+html:not(.dark) .page-addon-details:not(.standard-background),
   --f7-page-bg-color #fff
 
 // disable blur on card backdrop (poor performance - update: seems fixed)

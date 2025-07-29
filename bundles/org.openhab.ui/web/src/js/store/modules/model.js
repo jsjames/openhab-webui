@@ -158,7 +158,7 @@ const actions = {
           .forEach(item => sortModel(item))
 
         // get the location items
-        const locations = filteredItems.locations.sort(compareObjects).map(l => {
+        const locations = filteredItems.locations.sort(_compareObjects).map(l => {
           return {
             item: l,
             properties: l.points,
@@ -174,7 +174,7 @@ const actions = {
 
         // get the equipment items
         const equipment = filteredItems.equipment
-          .sort(compareObjects)
+          .sort(_compareObjects)
           .reduce((prev, item, i, properties) => {
             const equipmentType = item.metadata.semantics.value
               .substring(item.metadata.semantics.value.lastIndexOf('_'))
@@ -186,7 +186,7 @@ const actions = {
 
         // get the property items
         const properties = filteredItems.properties
-          .sort(compareObjects)
+          .sort(_compareObjects)
           .reduce((prev, item, i, properties) => {
             const property = item.metadata.semantics.config.relatesTo.split('_')[1]
             if (!prev[property]) prev[property] = []

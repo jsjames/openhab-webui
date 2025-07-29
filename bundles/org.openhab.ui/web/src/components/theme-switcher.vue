@@ -294,7 +294,7 @@ export default {
   background #f7f7f8
   border-color rgba(0,0,0,0.1)
 
-.theme-dark .nav-bars-picker-empty .demo-navbar
+.dark .nav-bars-picker-empty .demo-navbar
   background #1b1b1b
   border-color #282829
 

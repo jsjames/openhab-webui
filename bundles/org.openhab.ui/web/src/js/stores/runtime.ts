@@ -32,7 +32,7 @@ export const useRuntimeStore = defineStore('runtime', () => {
   const apiVersion = ref<number | null>(null)
   const measurementSystem = ref<'SI' | 'US' | null>(null)
   const apiEndpoints = ref<Endpoint[] | null>(null)
-  const locale = ref<string | null>(null)
+  const locale = ref<string>('default')
   const runtimeInfo = ref<Object | null>(null)
   const UIInfo = ref<UIInfo>({ commit: buildInfo.commit })
   const websiteUrl = ref<string | null>(null)

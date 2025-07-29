@@ -1,41 +1,26 @@
 import { defineStore } from 'pinia'
-import { reactive, nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import openhab from '@/js/openhab'
 
-interface State {
-  trackedItems: Object | null
-  items: Array<string>
-  trackingList: Array<string>
-  itemStates: Map<string, Object>
-  trackerConnectionId: string | null
-  trackerEventSource: EventSource | null
-  pendingTrackingListUpdate: boolean
-  keepConnectionOpen: boolean
-  sseConnected: boolean
-}
-
 export const useStatesStore = defineStore('states', () => {
-  const state = reactive<State>({
-    trackedItems: null,
-    items: [],
-    trackingList: [],
-    itemStates: new Map<string, Object>(),
-    trackerConnectionId: null,
-    trackerEventSource: null,
-    pendingTrackingListUpdate: false,
-    keepConnectionOpen: false,
-    sseConnected: false
-  })
+  const trackedItems = ref<Object | null>(null)
+  const items = ref<Array<string>>([])
+  const trackingList = ref<Array<string>>([])
+  const itemStates = ref<Map<string, Object>>(new Map())
+  const trackerConnectionId = ref<string | null>(null)
+  const trackerEventSource = ref<EventSource | null>(null)
+  const pendingTrackingListUpdate = ref<boolean>(false)
+  const keepConnectionOpen = ref<boolean>(false)
+  const sseConnected = ref<boolean>(false)
 
   const handler: ProxyHandler<Object> = {
     get(obj: Object, prop: string | symbol, receiver: any): Object | undefined {
-      if (prop === '_keys') return Object.keys(state.itemStates)
+      if (prop === '_keys') return Object.keys(itemStates.value)
       if (prop === '__ob__') return (obj as any).__ob__
 
       // to avoid the Vue devtools requesting invalid items in development
       if (
         [
-          'state',
           'getters',
           '_vm',
           'toJSON',
@@ -54,13 +39,13 @@ export const useStatesStore = defineStore('states', () => {
         addToTrackingList(itemName.toString())
 
         // Return the previous state anyway even if it might be outdated (it will be refreshed quickly after)
-        if (!state.itemStates.has(itemName)) {
+        if (!itemStates.value.has(itemName)) {
           setItemState(itemName, { state: '-' })
         }
 
         updateTrackingList()
       }
-      return state.itemStates.get(itemName)
+      return itemStates.value.get(itemName)
     },
     set(obj: Object, prop: string | symbol, value: any): boolean {
       setItemState(prop.toString(), { state: '-' })
@@ -68,7 +53,7 @@ export const useStatesStore = defineStore('states', () => {
     }
   }
 
-  state.trackedItems = new Proxy({}, handler)
+  trackedItems.value = new Proxy({}, handler)
 
   function initializeTrackingStore() {
     console.debug('Initializing state tracking store')
@@ -76,21 +61,21 @@ export const useStatesStore = defineStore('states', () => {
 
   function startTrackingStates() {
     console.debug('Start tracking states')
-    if (state.keepConnectionOpen && state.trackerEventSource) return
+    if (keepConnectionOpen.value && trackerEventSource.value) return
     clearTrackingList()
-    if (state.trackerEventSource) {
+    if (trackerEventSource.value) {
       console.debug('Closing existing state tracker connection')
-      openhab.sse.close(state.trackerEventSource, null)
+      openhab.sse.close(trackerEventSource.value, null)
       clearStateTracker()
     }
     const eventSource = openhab.sse.connectStateTracker(
       '/rest/events/states',
       connectionId => {
         // only one state tracker at any given time!
-        state.trackerConnectionId = connectionId
-        const trackingListJson = JSON.stringify(state.trackingList)
+        trackerConnectionId.value = connectionId
+        const trackingListJson = JSON.stringify(trackingList.value)
         console.debug(
-          `Setting initial tracking list (${state.trackingList.length} tracked Items): ` +
+          `Setting initial tracking list (${trackingList.value.length} tracked Items): ` +
             trackingListJson
         )
         openhab.api.postPlain(
@@ -100,7 +85,7 @@ export const useStatesStore = defineStore('states', () => {
           'application/json',
           null
         )
-        state.sseConnected = true
+        sseConnected.value = true
       },
       updates => {
         for (const item in updates) {
@@ -108,21 +93,21 @@ export const useStatesStore = defineStore('states', () => {
         }
       },
       () => {
-        state.sseConnected = false
+        sseConnected.value = false
       },
       healthy => {
-        state.sseConnected = healthy
+        sseConnected.value = healthy
       }
     )
-    state.trackerEventSource = eventSource
+    trackerEventSource.value = eventSource
   }
 
   function stopTrackingStates() {
     console.debug('Stop tracking states')
-    if (state.keepConnectionOpen) return
+    if (keepConnectionOpen.value) return
     clearTrackingList()
-    if (state.trackerEventSource) {
-      openhab.sse.close(state.trackerEventSource)
+    if (trackerEventSource.value) {
+      openhab.sse.close(trackerEventSource.value)
     }
     clearStateTracker()
   }
@@ -142,41 +127,41 @@ export const useStatesStore = defineStore('states', () => {
   }
 
   function isItemTracked(itemName: string) {
-    return state.trackingList.includes(itemName)
+    return trackingList.value.includes(itemName)
   }
 
   function addToTrackingList(itemName: string) {
-    state.trackingList.push(itemName)
+    trackingList.value.push(itemName)
   }
 
   function clearTrackingList() {
-    state.trackingList = []
+    trackingList.value = []
   }
 
   function clearStateTracker() {
-    state.trackingList = []
-    state.trackerConnectionId = null
-    state.trackerEventSource = null
+    trackingList.value = []
+    trackerConnectionId.value = null
+    trackerEventSource.value = null
   }
 
   function updateTrackingList() {
-    if (!state.trackerConnectionId || state.pendingTrackingListUpdate) {
+    if (!trackerConnectionId.value || pendingTrackingListUpdate.value) {
       return
     }
 
-    state.pendingTrackingListUpdate = true
+    pendingTrackingListUpdate.value = true
     nextTick(() => {
-      state.pendingTrackingListUpdate = false
-      if (!state.trackerConnectionId) {
+      pendingTrackingListUpdate.value = false
+      if (!trackerConnectionId.value) {
         return
       }
-      const trackingListJson = JSON.stringify(state.trackingList)
+      const trackingListJson = JSON.stringify(trackingList.value)
       console.debug(
-        `Updating tracking list (${state.trackingList.length} tracked Items): ` + trackingListJson
+        `Updating tracking list (${trackingList.value.length} tracked Items): ` + trackingListJson
       )
 
       openhab.api.postPlain(
-        '/rest/events/states/' + state.trackerConnectionId,
+        '/rest/events/states/' + trackerConnectionId.value,
         trackingListJson,
         'text/plain',
         'application/json',
@@ -190,23 +175,32 @@ export const useStatesStore = defineStore('states', () => {
     if (!isItemTracked(itemName)) {
       addToTrackingList(itemName)
 
-      if (!state.itemStates.has(itemName)) {
+      if (!itemStates.value.has(itemName)) {
         setItemState(itemName, { state: '-' })
       }
 
       updateTrackingList()
     }
 
-    return state.itemStates.get(itemName)
+    return itemStates.value.get(itemName)
   }
 
   function setItemState(itemName: string, itemState: Object) {
-    state.itemStates.set(itemName, itemState)
+    itemStates.value.set(itemName, itemState)
     return true
   }
 
   return {
-    ...state,
+    trackedItems,
+    items,
+    trackingList,
+    itemStates,
+    trackerConnectionId,
+    trackerEventSource,
+    pendingTrackingListUpdate,
+    keepConnectionOpen,
+    sseConnected,
+
     startTrackingStates,
     stopTrackingStates,
     setItemState,

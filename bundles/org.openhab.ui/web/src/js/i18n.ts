@@ -2,7 +2,7 @@ import { createI18n } from 'vue-i18n'
 import type { I18n } from 'vue-i18n'
 
 export async function loadLocaleMessages(scopes: { [key: string]: () => Promise<any> }) {
-  const locale = import.meta.env.VUE_APP_I18N_LOCALE || 'en'
+  const locale = i18n.global.locale
 
   const allMessages: { [key: string]: any } = {}
 

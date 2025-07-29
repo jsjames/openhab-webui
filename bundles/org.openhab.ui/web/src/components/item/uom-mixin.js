@@ -1,5 +1,5 @@
 import { Units, MetricPrefixes, BinaryPrefixes } from '@/assets/units'
-import { useRuntimeStore } from '@/stores/runtime'
+import { useRuntimeStore } from '@/js/stores/runtime'
 
 export default {
   data() {

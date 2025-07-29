@@ -8,7 +8,7 @@
           : 'hidden',
     }"
     :class="{
-      'theme-dark': themeOptionsStore.dark === 'dark',
+      'dark': themeOptionsStore.dark === 'dark',
       'theme-filled': themeOptionsStore.bars === 'filled',
     }"
     v-bind="f7params">
@@ -481,7 +481,7 @@
     .breakpoint-pin
       opacity 0.75
 
-.theme-dark
+.dark
   .panel-left
     .page
       background #232323 !important
@@ -571,7 +571,7 @@ export default {
         // theme: (document.documentURI && document.documentURI.indexOf('?theme=ios') > 0) ? 'ios'
         //   : (document.documentURI && document.documentURI.indexOf('?theme=md') > 0) ? 'md'
         //     : 'auto', // Automatic theme detection
-        autoDarkTheme: !localStorage.getItem('openhab.ui:theme.dark'),
+        autoDarkMode: !localStorage.getItem('openhab.ui:theme.dark'),
         // App routes
         routes,
         view: {
@@ -847,7 +847,7 @@ export default {
         localStorage.getItem('openhab.ui:theme.dark') ||
         (window.OHApp && window.OHApp.preferDarkMode
           ? window.OHApp.preferDarkMode().toString()
-          : f7.darkTheme
+          : f7.darkMode
             ? 'dark'
             : 'light');
       useThemeOptionsStore().bars = localStorage.getItem('openhab.ui:theme.bars') || 'light';
@@ -858,9 +858,9 @@ export default {
       useThemeOptionsStore().expandableCardAnimation =
         localStorage.getItem('openhab.ui:theme.home.cardanimation') || 'default';
       if (useThemeOptionsStore().dark === 'dark') {
-        Dom7('html').addClass('theme-dark');
+        Dom7('html').addClass('dark');
       } else {
-        Dom7('html').removeClass('theme-dark');
+        Dom7('html').removeClass('dark');
       }
 
       // Not sure why the classes are not getting appliced to the app element via binding
@@ -1093,7 +1093,7 @@ export default {
         this.loadData();
       });
 
-      f7.on('darkThemeChange', () => {
+      f7.on('darkModeChange', () => {
         this.updateThemeOptions();
       });
 
