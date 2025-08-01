@@ -1,6 +1,7 @@
 <template>
   <f7-app
     v-if="init"
+    v-bind="f7params"
     :style="{
       visibility:
         userStore.user || componentsStore.page('overview') || communicationFailureMsg
@@ -8,10 +9,8 @@
           : 'hidden',
     }"
     :class="{
-      'dark': themeOptionsStore.dark === 'dark',
-      'theme-filled': themeOptionsStore.bars === 'filled',
-    }"
-    v-bind="f7params">
+      dark: themeOptionsStore.dark,
+    }">
     <!-- Left Panel -->
     <f7-panel
       v-show="ready"
@@ -318,7 +317,10 @@
         </f7-list>
         <f7-link class="breakpoint-pin" @click="toggleVisibleBreakpoint">
           <template #media>
-            <f7-icon size="14" :f7="visibleBreakpointDisabled ? 'pin_slash' : 'pin'" color="gray" />
+            <f7-icon
+              size="14"
+              :f7="themeOptionsStore.visibleBreakpointDisabled ? 'pin_slash' : 'pin'"
+              color="gray" />
           </template>
         </f7-link>
 
@@ -328,7 +330,7 @@
               <div
                 v-if="
                   !userStore.user &&
-                  !componentsStore.pages.filter(p => p.uid !== 'overview').length"
+                  !componentsStore.pages().filter(p => p.uid !== 'overview').length"
                 class="hint-signin">
                 <em>{{ $t('sidebar.tip.signIn') }}<br /><f7-icon f7="arrow_down" size="20" /></em>
               </div>
@@ -405,13 +407,13 @@
 
     <f7-view
       main
-      browser-history
+      browserHistory
       browserHistorySeparator=""
       v-show="ready"
       class="safe-areas"
       url="/"
       :master-detail-breakpoint="960"
-      :animate="themeOptionsStore.pageTransitionAnimation !== 'disabled'" />
+      :animate="themeOptionsStore.disablePageTransitionAnimation ? null : true" />
   </f7-app>
 </template>
 
@@ -622,7 +624,6 @@ export default {
 
       pages: null,
       showSidebar: true,
-      visibleBreakpointDisabled: false,
       loggedIn: false,
 
       showDeveloperDock: false,
@@ -660,7 +661,7 @@ export default {
     serverDisplayUrl() {
       return window.location.origin;
     },
-    ...mapStores(useThemeOptionsStore, useUserStore, useComponentsStore, useRuntimeStore)
+    ...mapStores(useThemeOptionsStore, useComponentsStore, useUserStore, useRuntimeStore)
   },
   watch: {
     'useStatesStore().sseConnected': {
@@ -843,40 +844,7 @@ export default {
       }
     },
     updateThemeOptions() {
-      useThemeOptionsStore().dark =
-        localStorage.getItem('openhab.ui:theme.dark') ||
-        (window.OHApp && window.OHApp.preferDarkMode
-          ? window.OHApp.preferDarkMode().toString()
-          : f7.darkMode
-            ? 'dark'
-            : 'light');
-      useThemeOptionsStore().bars = localStorage.getItem('openhab.ui:theme.bars') || 'light';
-      useThemeOptionsStore().homeNavbar =
-        localStorage.getItem('openhab.ui:theme.home.navbar') || 'default';
-      useThemeOptionsStore().homeBackground =
-        localStorage.getItem('openhab.ui:theme.home.background') || 'default';
-      useThemeOptionsStore().expandableCardAnimation =
-        localStorage.getItem('openhab.ui:theme.home.cardanimation') || 'default';
-      if (useThemeOptionsStore().dark === 'dark') {
-        Dom7('html').addClass('dark');
-      } else {
-        Dom7('html').removeClass('dark');
-      }
-
-      // Not sure why the classes are not getting appliced to the app element via binding
-      if (useThemeOptionsStore().bars === 'filled') {
-        Dom7('html').addClass('theme-filled');
-      } else {
-        Dom7('html').removeClass('theme-filled');
-      }
-      if (useThemeOptionsStore().pageTransitionAnimation === 'disabled') {
-        Dom7('html').addClass('no-page-transitions');
-      }
-      if (localStorage.getItem('openhab.ui:panel.visibleBreakpointDisabled') === 'true') {
-        this.visibleBreakpointDisabled = true;
-        // nextTick(() => f7.panel.get("left").disableVisibleBreakpoint());
-      }
-      useThemeOptionsStore().blocklyRenderer = localStorage.getItem('openhab.ui:blockly.renderer');
+      useThemeOptionsStore().updateClasses()
     },
     toggleDeveloperDock() {
       if (!useUserStore().isAdmin()) return;
@@ -904,11 +872,7 @@ export default {
     },
     toggleVisibleBreakpoint() {
       f7.panel.get('left').toggleVisibleBreakpoint();
-      this.visibleBreakpointDisabled = f7.panel.get('left').visibleBreakpointDisabled;
-      localStorage.setItem(
-        'openhab.ui:panel.visibleBreakpointDisabled',
-        this.visibleBreakpointDisabled
-      );
+      useThemeOptionsStore().visibleBreakpointDisabled = f7.panel.get('left').visibleBreakpointDisabled;
     },
     keyDown(ev) {
       if (ev.shiftKey && ev.altKey) {
@@ -928,14 +892,14 @@ export default {
       }
     },
     updateUrl(newUrl) {
-      this.currentUrl = newUrl;
-      useRuntimeStore().pagePath = this.currentUrl;
+      console.log('Updating URL to:', newUrl)
+      this.currentUrl = newUrl
+      useRuntimeStore().pagePath = this.currentUrl
     },
     updateTitle() {
       const title = [this.f7params.name]; // ['openHAB']
       const navbarTitle = () => {
-        const navbar = this.$refs['navbar'];
-        return navbar && navbar[0] ? navbar[0].textContent : '';
+        Dom7(".page-current .navbar .title")?.[0]?.textContent;
       };
 
       // Some special cases where the title should be different
@@ -980,15 +944,13 @@ export default {
           title.unshift(path?.$key);
         }
 
-        /* TODO-V3
-        let currentSection = this.$refs(".currentsection .item-title")?.[0] ?.textContent;
+        let currentSection = Dom7(".currentsection .item-title")?.[0] ?.textContent;
         if (this.currentPath.settings?.transformations) {
           currentSection = "Transformations";
         } else if (this.currentPath.settings?.persistence) {
           currentSection = "Persistence";
         }
         title.unshift(currentSection);
-        */
       }
       document.title = title.filter(t => t).join(' - ');
     },
@@ -998,8 +960,10 @@ export default {
     this.AddonTitles = AddonTitles;
 
     // special treatment for this option because it's needed to configure the app initialization
+    /*
     useThemeOptionsStore().pageTransitionAnimation =
-      localStorage.getItem('openhab.ui:theme.pagetransition') || 'default';
+      localStorage.getItem('openhab.ui:theme.pagetransition') || 'enabled';
+    */
 
     // load 2-way communication for native wrappers
     if (window.OHApp) {
@@ -1065,20 +1029,28 @@ export default {
           });
       }
 
+      f7.on('routeChange', (route) => {
+        console.log('Route changed:', route.url);
+        console.log('Browser history state:', history.state); // Native browser history state
+      });
+
       f7.on('pageBeforeIn', page => {
-        if (page.route && page.route.url) {
-          this.updateUrl(page.route.url);
-        }
+        // if (page.route && page.route.url) {
+          // this.updateUrl(page.route.url);
+        // }
       });
 
       f7.on('pageAfterIn', page => {
-        nextTick(this.updateTitle);
+        console.log("Current URL:", page.route.url);
+        console.log("Full route object:", page.route);
+        // nextTick(this.updateTitle);
       });
 
       // needed by updateCurrentUrl() inside addon-store onTabShow()
       f7.on('routeUrlUpdate', (newRoute, router) => {
-        this.updateUrl(newRoute.url);
-        nextTick(this.updateTitle);
+        console.log('Route URL updated:', newRoute.url);
+        // this.updateUrl(newRoute.url);
+        // nextTick(this.updateTitle);
       });
 
       f7.on('sidebar-refresh', () => {

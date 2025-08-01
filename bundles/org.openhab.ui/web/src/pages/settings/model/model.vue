@@ -1,7 +1,6 @@
 <template>
   <f7-page
     name="Model"
-    :stacked="true"
     @page:afterin="onPageAfterIn"
     @page:beforeout="onPageBeforeOut"
     @click="selectItem(null)">
@@ -96,9 +95,9 @@
         @click="detailsOpened = true"
         icon-f7="chevron_up" />
     </f7-toolbar>
-
     <f7-block v-if="!ready" class="text-align-center">
       <f7-preloader />
+      <div>{{ ready }}</div>
       <div>Loading...</div>
     </f7-block>
     <f7-block v-else class="semantic-tree-wrapper" :class="{ 'sheet-opened': detailsOpened }">
@@ -366,17 +365,19 @@
 </style>
 
 <script>
-import ModelDetailsPane from '@/components/model/details-pane.vue';
-import ModelTreeview from '@/components/model/model-treeview.vue';
 import AddFromThing from './add-from-thing.vue';
 import AddFromTemplate from './add-from-template.vue';
 import { utils } from 'framework7';
 import { f7, theme } from 'framework7-vue';
 import { nextTick, defineAsyncComponent } from 'vue';
+import { mapState } from 'pinia';
 
-import { useModelStore } from '@/js/stores/models';
+import { useRuntimeStore } from '@/js/stores/runtime';
 import { useStatesStore } from '@/js/stores/states';
+import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
 
+import ModelDetailsPane from '@/components/model/details-pane.vue';
+import ModelTreeview from '@/components/model/model-treeview.vue';
 import ItemStatePreview from '@/components/item/item-state-preview.vue';
 import ItemDetails from '@/components/model/item-details.vue';
 import MetadataMenu from '@/components/item/metadata/item-metadata-menu.vue';
@@ -384,8 +385,6 @@ import LinkDetails from '@/components/model/link-details.vue';
 
 import ModelMixin from '@/pages/settings/model/model-mixin';
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
-
-const modelStore = useModelStore();
 
 export default {
   props: {
@@ -401,22 +400,17 @@ export default {
     MetadataMenu,
     LinkDetails,
   },
-  setup() {
-    return { theme };
-  },
   data() {
     return {
       f7,
-      includeItemName: modelStore.state.includeItemName || false,
-      includeItemTags: modelStore.state.includeItemTags || false,
-      expanded: modelStore.state.expanded || false,
       newItem: null,
       newItemParent: null,
       initSearchbar: false,
       detailsOpened: false,
       detailsTab: 'state',
       eventSource: null,
-      itemDetailsKey: f7.utils.id(),
+      itemDetailsKey: utils.id(),
+      theme
     };
   },
   computed: {
@@ -437,9 +431,15 @@ export default {
         ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))'
         : 'Search';
     },
+    ...mapState(useRuntimeStore, {
+      includeItemName: "modelPicker.includeItemName",
+      includeItemTags: "modelPicker.includeItemTags",
+      expanded: "modelPicker.expanded"
+    }),
   },
   methods: {
     onPageAfterIn() {
+      console.log('Model page in');
       useStatesStore().startTrackingStates();
       if (this.selectedItem) {
         this.update();
@@ -448,10 +448,11 @@ export default {
       }
     },
     onPageBeforeOut() {
+      console.log('Model page out');
       this.detailsOpened = false;
       useStatesStore().stopTrackingStates();
       this.stopEventSource();
-      modelStore.lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+      useLastSearchQueryStore().lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     modelItem(item) {
       const modelItem = {
@@ -480,7 +481,7 @@ export default {
     },
     load() {
       if (this.initSearchbar)
-        modelStore.lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+        useLastSearchQueryStore().lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
       this.initSearchbar = false;
 
       this.loadModel().then(() => {
@@ -489,13 +490,15 @@ export default {
           if (this.$device.desktop && this.$refs.searchbar) {
             this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
           }
-          this.$refs.searchbar?.$el.f7Searchbar.search(modelStore.lastModelSearchQuery || '');
+          this.$refs.searchbar?.$el.f7Searchbar.search(useLastSearchQueryStore().lastModelSearchQuery || '');
           this.restoreExpanded();
         });
         if (!this.eventSource) this.startEventSource();
+        console.log('Model loaded');
       });
     },
     update() {
+      console.log('Model update');
       this.previousSelection = this.selectedItem;
       this.newItem = null;
       this.load();

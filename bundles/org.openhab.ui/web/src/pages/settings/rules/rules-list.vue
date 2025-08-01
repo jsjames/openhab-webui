@@ -24,7 +24,7 @@
     </f7-navbar>
     <f7-toolbar
       class="contextual-toolbar"
-      :class="{ navbar: theme.md, 'tabbar-labels': $f7.width < 480 }"
+      :class="{ navbar: theme.md, 'tabbar-labels': f7.width < 480 }"
       v-if="showCheckboxes"
       bottom-ios
       bottom-aurora>
@@ -59,7 +59,7 @@
         &nbsp;{{ $t('dialogs.enable') }}&nbsp;{{ enablableItems }}
       </f7-link>
       <f7-link
-        :color="$f7.data.themeOptionsStore.dark === 'dark' ? 'purple' : 'deeppurple'"
+        :color="f7.data.themeOptionsStore.dark === 'dark' ? 'purple' : 'deeppurple'"
         v-show="selectedItems.length && canRegenerate"
         v-if="!theme.md && !showScenes"
         class="enable"

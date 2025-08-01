@@ -257,7 +257,6 @@ import { f7, theme } from 'framework7-vue';
 import { useComponentsStore } from '@/js/stores/components';
 import { useRuntimeStore } from '@/js/stores/runtime';
 import { mapStores } from 'pinia';
-import { use } from 'marked';
 
 export default {
   components: {

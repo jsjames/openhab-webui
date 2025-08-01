@@ -1,21 +1,20 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-interface State {
-  lastItemSearchQuery: string
-  lastThingsSearchQuery: string
-  lastPagesSearchQuery: string
-  lastScheduleSearchQuery: string
-  lastRulesSearchQuery: Object
-}
-
 export const useLastSearchQueryStore = defineStore('lastSearchQuery', () => {
-  const state = ref<State>({
-    lastItemSearchQuery: '',
-    lastThingsSearchQuery: '',
-    lastPagesSearchQuery: '',
-    lastScheduleSearchQuery: '',
-    lastRulesSearchQuery: {}
-  })
-  return { state }
+  const lastItemSearchQuery = ref<string>('')
+  const lastThingsSearchQuery = ref<string>('')
+  const lastPagesSearchQuery = ref<string>('')
+  const lastScheduleSearchQuery = ref<string>('')
+  const lastModelSearchQuery = ref<string>('')
+  const lastRulesSearchQuery = ref<Object>({})
+
+  return {
+    lastItemSearchQuery,
+    lastThingsSearchQuery,
+    lastPagesSearchQuery,
+    lastScheduleSearchQuery,
+    lastModelSearchQuery,
+    lastRulesSearchQuery
+  }
 })

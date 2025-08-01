@@ -6,9 +6,9 @@
     :swipeToClose="!(noSwipeToClose || config.swipeToClose === false)"
     :backdrop="config.backdrop === undefined || config.backdrop"
     :animate="
-      config.animate === false || themeOptionsStore.expandableCardAnimation === 'disabled'
+      config.animate === false || themeOptionsStore.disableExpandableCardAnimation
         ? false
-        : undefined
+        : null
     "
     @card:open="cellOpen"
     @card:opened="cellOpened"

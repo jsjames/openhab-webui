@@ -13,7 +13,7 @@ TODO
 - [] MED - Codemirror - codemirror is basically in place, but many of the addon features need to be added
 - [] MED - Blockly test/update? Haven't looked at yet.
 - [x] MED - enable strict for typescript - done, required for building
-- [] MED - Websocket proxy through vite (Developer Tools/Log Viewer) not working
+- [x] MED - Websocket proxy through vite (Developer Tools/Log Viewer) not working
 - [] LOW - Update storage from vuex to pinia
 
 BUGS

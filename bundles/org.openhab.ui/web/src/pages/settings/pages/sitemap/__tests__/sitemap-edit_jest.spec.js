@@ -11,7 +11,7 @@ describe('SitemapEdit', () => {
   let wrapper = null
 
   // hack to define the f7 objects (either real or mocks/stubs) used in the component
-  Object.defineProperty(localVue.prototype, '$f7', {
+  Object.defineProperty(localVue.prototype, 'f7', {
     get() {
       return {
         utils: Framework7.utils,

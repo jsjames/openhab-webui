@@ -140,6 +140,7 @@
 </style>
 
 <script>
+import { theme } from 'framework7-vue';
 import ThingPicker from '@/components/config/controls/thing-picker.vue';
 import ModelPickerPopup from '@/components/model/model-picker-popup.vue';
 import ChannelList from '@/components/thing/channel-list.vue';

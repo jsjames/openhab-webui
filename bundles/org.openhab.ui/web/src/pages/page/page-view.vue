@@ -122,6 +122,7 @@ import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 import { useStatesStore } from '@/js/stores/states';
 import { useComponentsStore } from '@/js/stores/components';
 import { useUserStore } from '@/js/stores/user';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
 
 export default {
   mixins: [WidgetExpressionMixin, actionsMixin],
@@ -338,7 +339,7 @@ export default {
           if (fullscreen) {
             f7.panel.get('left').disableVisibleBreakpoint();
           } else {
-            if (localStorage.getItem('openhab.ui:panel.visibleBreakpointDisabled') !== 'true') {
+            if (!useThemeOptionsStore().visibleBreakpointDisabled) {
               f7.panel.get('left').enableVisibleBreakpoint();
             }
           }

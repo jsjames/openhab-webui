@@ -20,7 +20,7 @@ import { nextTick } from 'vue';
 import { theme } from 'framework7-vue';
 import { useThemeOptionsStore } from '@/js/stores/theme-options';
 
-import { mapStores } from '@/js/stores/map';
+import { mapStores } from 'pinia';
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({

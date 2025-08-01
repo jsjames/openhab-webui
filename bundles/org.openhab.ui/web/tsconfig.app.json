@@ -20,6 +20,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "src/App.vue",
-    "src/css/app.styl"
+    "src/css/app.styl",
+    "node_modules/framework7/**/*.d.ts"
   ]
 }

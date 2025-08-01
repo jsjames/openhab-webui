@@ -5,7 +5,7 @@
     ref="card"
     class="model-card"
     :class="type + '-card'"
-    :animate="themeOptionsStore.expandableCardAnimation !== 'disabled'"
+    :animate="themeOptionsStore.disableExpandableCardAnimation ? null : true"
     card-tablet-fullscreen
     @card:opened="cardOpening"
     @card:closed="cardClosed">

@@ -260,10 +260,10 @@ export default [
     path: '/settings/',
     beforeEnter: [enforceAdminForRoute],
     async: loadAsync(SettingsMenuPage),
-    keepAlive: true,
+    // keepAlive: true,  // keepAlive is not supported for async routes
     routes: [
       {
-        path: 'items',
+        path: 'items/',
         beforeEnter: [enforceAdminForRoute],
         async: loadAsync(ItemsListPage),
         routes: [
@@ -304,7 +304,7 @@ export default [
         ]
       },
       {
-        path: 'pages',
+        path: 'pages/',
         async: loadAsync(PagesListPage),
         beforeEnter: [enforceAdminForRoute],
         routes: [
@@ -356,7 +356,8 @@ export default [
       {
         path: 'things/',
         beforeEnter: [enforceAdminForRoute],
-        async: loadAsync(ThingsListPage),
+        // async: loadAsync(ThingsListPage),
+        asyncComponent: ThingsListPage,
         routes: [
           {
             path: 'add',

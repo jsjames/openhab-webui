@@ -1449,7 +1449,6 @@ export default {
     },
     changeRenderer(newRenderer) {
       this.themeOptionsStore.blocklyRenderer = newRenderer;
-      localStorage.setItem('openhab.ui:blockly.renderer', newRenderer);
 
       const dom = Blockly.Xml.workspaceToDom(this.workspace);
       this.workspace.dispose();

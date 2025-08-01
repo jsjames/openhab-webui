@@ -10,31 +10,32 @@ interface Page {
 }
 
 export const useComponentsStore = defineStore('components', () => {
-  const widgetsRef = ref<Widget[]>([])
-  const pagesRef = ref<Page[]>([])
+  const _widgets = ref<Widget[]>([])
+  const _pages = ref<Page[]>([])
 
   function widget(uid: string) {
-    return widgetsRef.value.find(widget => widget.uid === uid)
+    return _widgets.value.find(widget => widget.uid === uid)
   }
 
   function widgets() {
-    return [...widgetsRef.value].sort((a, b) => a.uid.localeCompare(b.uid))
+    return _widgets.value.sort((a, b) => a.uid.localeCompare(b.uid))
   }
 
   function page(uid: string) {
-    return pagesRef.value.find(page => page.uid === uid)
+    return _pages.value.find(page => page.uid === uid)
   }
 
-  function pages() {
-    return [...pagesRef.value].sort((a, b) => a.uid.localeCompare(b.uid))
+  function pages(): Page[] {
+    const pages = _pages.value.sort((a, b) => a.uid.localeCompare(b.uid))
+    return pages
   }
 
   function setWidgets(newWidgets: Widget[]) {
-    widgetsRef.value = newWidgets
+    _widgets.value = newWidgets
   }
 
   function setPages(newPages: Page[]) {
-    pagesRef.value = newPages
+    _pages.value = newPages
   }
 
   return { widget, widgets, page, pages, setWidgets, setPages }

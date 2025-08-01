@@ -46,7 +46,7 @@ export const useSemanticsStore = defineStore('semantics', () => {
       Synonyms.value[t.name] = t.synonyms || []
     }
     // Save labels as i18n messages
-    i18n.global.mergeLocaleMessage(i18n.global.locale, Labels.value)
+    i18n.global.mergeLocaleMessage(i18n.global.locale as string, Labels.value)
   }
 
   async function loadSemantics() {

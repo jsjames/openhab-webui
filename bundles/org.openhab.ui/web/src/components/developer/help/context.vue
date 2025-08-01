@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import { useRuntimeStore } from '@/stores/runtime';
-import { mapStores } from '@/stores/map';
+import { useRuntimeStore } from '@/js/stores/runtime';
+import { mapStores } from 'pinia'
 
 const renderer = {
   list(body, ordered, start) {

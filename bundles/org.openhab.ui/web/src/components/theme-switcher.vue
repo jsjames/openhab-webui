@@ -21,34 +21,28 @@
     </f7-row>
     <f7-block-title>{{  $t('about.darkMode') }}</f7-block-title>
     <f7-row>
-      <f7-col width="33" class="theme-picker auto" @click="setThemeDark('auto')">
+      <f7-col width="33" class="theme-picker auto" @click="dark='auto'">
         <span class="text-color-gray">{{ $t('about.darkMode.auto') }}</span>
-        <f7-checkbox checked disabled v-if="darkMode === 'auto'" />
+        <f7-checkbox checked disabled v-if="dark === 'auto'" />
       </f7-col>
-      <f7-col width="33" class="bg-color-white theme-picker" @click="setThemeDark('light')">
+      <f7-col width="33" class="bg-color-white theme-picker" @click="dark='light'">
         <span class="text-color-gray">{{ $t('about.darkMode.light') }}</span>
-        <f7-checkbox checked disabled v-if="darkMode === 'light'" />
+        <f7-checkbox checked disabled v-if="dark === 'light'" />
       </f7-col>
-      <f7-col width="33" class="bg-color-black theme-picker" @click="setThemeDark('dark')">
+      <f7-col width="33" class="bg-color-black theme-picker" @click="dark='dark'">
         <span class="text-color-gray">{{ $t('about.darkMode.dark') }}</span>
-        <f7-checkbox checked disabled v-if="darkMode === 'dark'" />
+        <f7-checkbox checked disabled v-if="dark === 'dark'" />
       </f7-col>
     </f7-row>
     <f7-block-title>{{  $t('about.navigationBarsStyle') }}</f7-block-title>
     <f7-row>
-      <f7-col
-        width="50"
-        class="nav-bars-picker nav-bars-picker-empty"
-        @click="setBarsStyle('light')">
+      <f7-col width="50" class="nav-bars-picker nav-bars-picker-empty" @click="bars='light'">
         <div class="demo-navbar" />
-        <f7-checkbox checked disabled v-if="barsStyle === 'light'" />
+        <f7-checkbox checked disabled v-if="bars === 'light'" />
       </f7-col>
-      <f7-col
-        width="50"
-        class="nav-bars-picker nav-bars-picker-fill"
-        @click="setBarsStyle('filled')">
+      <f7-col width="50" class="nav-bars-picker nav-bars-picker-fill" @click="bars='filled'">
         <div class="demo-navbar" />
-        <f7-checkbox checked disabled v-if="barsStyle === 'filled'" />
+        <f7-checkbox checked disabled v-if="bars === 'filled'" />
       </f7-col>
     </f7-row>
 
@@ -63,7 +57,8 @@
                 v-for="navbarstyle in ['default', 'simple', 'large']"
                 outline
                 small
-                :active="homePageNavbarStyle === navbarstyle"
+                :active="homeNavBar === navbarstyle"
+                @click="homeNavBar = navbarstyle"
                 :text="$t('about.miscellaneous.home.navbar.' + navbarstyle)"
                 :key="navbarstyle" />
             </f7-segmented>
@@ -75,35 +70,27 @@
                 v-for="background in ['default', 'standard', 'white']"
                 outline
                 small
-                :active="homePageBackground === background"
-                @click="setHomePageBackground(background)"
+                :active="homeBackground === background"
+                @click="homeBackground = background"
                 :text="$t('about.miscellaneous.home.background.' + background)"
                 :key="background" />
             </f7-segmented>
           </f7-list-item>
           <f7-list-item v-show="runtimeStore.apiEndpoint('habot')">
             <span>{{ $t('about.miscellaneous.home.hideChatInput') }}</span>
-            <f7-toggle
-              :checked="hideChatInput == 'true' ? true : null"
-              @toggle:change="setHideChatInput" />
+            <f7-toggle v-model:checked="hideChatInput" />
           </f7-list-item>
           <f7-list-item>
             <span>{{ $t('about.miscellaneous.home.disableCardExpansionAnimation') }}</span>
-            <f7-toggle
-              :checked="expandableCardsAnimation === 'disabled' ? true : null"
-              @toggle:change="setExpandableCardAnimation" />
+            <f7-toggle v-model:checked="disableExpandableCardAnimation" />
           </f7-list-item>
           <f7-list-item>
             <span>{{ $t('about.miscellaneous.theme.disablePageTransition') }}</span>
-            <f7-toggle
-              :checked="pageTransitionAnimation === 'disabled' ? true : null"
-              @toggle:change="setPageTransitionAnimation" />
+            <f7-toggle v-model:checked="disablePageTransitionAnimation" />
           </f7-list-item>
           <f7-list-item>
             <span>{{ $t('about.miscellaneous.webaudio.enable') }}</span>
-            <f7-toggle
-              :checked="webAudio === 'enabled' ? true : null"
-              @toggle:change="setWebAudio" />
+            <f7-toggle v-model:checked="webAudio" />
           </f7-list-item>
           <div>
             <item-picker
@@ -128,9 +115,10 @@
 <script>
 import { loadLocaleMessages } from '@/js/i18n';
 import ItemPicker from '@/components/config/controls/item-picker.vue';
-import { useRuntimeStore } from '@/stores/runtime';
+import { useRuntimeStore } from '@/js/stores/runtime';
 
-import { mapStores } from 'pinia';
+import { mapStores, mapWritableState } from 'pinia';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
 
 export default {
   components: {
@@ -146,43 +134,6 @@ export default {
       localStorage.removeItem('openhab.ui:theme.bars'); // reset the bars to their default when switching themes
       location.reload();
     },
-    setThemeDark(value) {
-      if (value === 'auto') {
-        localStorage.removeItem('openhab.ui:theme.dark');
-      } else {
-        localStorage.setItem('openhab.ui:theme.dark', value);
-      }
-      localStorage.removeItem('openhab.ui:theme.bars'); // reset the bars to their default when switching dark mode
-      location.reload();
-    },
-    setBarsStyle(value) {
-      localStorage.setItem('openhab.ui:theme.bars', value);
-      location.reload();
-    },
-    setHomePageNavbarStyle(value) {
-      localStorage.setItem('openhab.ui:theme.home.navbar', value);
-      location.reload();
-    },
-    setHomePageBackground(value) {
-      localStorage.setItem('openhab.ui:theme.home.background', value);
-      location.reload();
-    },
-    setHideChatInput(value) {
-      localStorage.setItem('openhab.ui:theme.home.hidechatinput', value ? 'true' : 'false');
-      location.reload();
-    },
-    setExpandableCardAnimation(value) {
-      localStorage.setItem('openhab.ui:theme.home.cardanimation', value ? 'disabled' : 'default');
-      location.reload();
-    },
-    setPageTransitionAnimation(value) {
-      localStorage.setItem('openhab.ui:theme.pagetransition', value ? 'disabled' : 'default');
-      location.reload();
-    },
-    setWebAudio(value) {
-      localStorage.setItem('openhab.ui:webaudio.enable', value ? 'enabled' : 'default');
-      location.reload();
-    },
     setCommandItem(value) {
       localStorage.setItem('openhab.ui:commandItem', value);
       setTimeout(() => {
@@ -194,34 +145,11 @@ export default {
     theme() {
       return localStorage.getItem('openhab.ui:theme') || 'auto';
     },
-    darkMode() {
-      return localStorage.getItem('openhab.ui:theme.dark') || 'auto';
-    },
-    barsStyle() {
-      return localStorage.getItem('openhab.ui:theme.bars') || 'light';
-    },
-    homePageNavbarStyle() {
-      return localStorage.getItem('openhab.ui:theme.home.navbar') || 'default';
-    },
-    homePageBackground() {
-      return localStorage.getItem('openhab.ui:theme.home.background') || 'default';
-    },
-    hideChatInput() {
-      return localStorage.getItem('openhab.ui:theme.home.hidechatinput') || 'default';
-    },
-    expandableCardsAnimation() {
-      return localStorage.getItem('openhab.ui:theme.home.cardanimation') || 'default';
-    },
-    pageTransitionAnimation() {
-      return localStorage.getItem('openhab.ui:theme.pagetransition') || 'default';
-    },
-    webAudio() {
-      return localStorage.getItem('openhab.ui:webaudio.enable') || 'default';
-    },
     commandItem() {
       return localStorage.getItem('openhab.ui:commandItem') || '';
     },
-    ...mapStores(useRuntimeStore)
+    ...mapStores(useRuntimeStore),
+    ...mapWritableState(useThemeOptionsStore, [ 'disablePageTransitionAnimation', 'dark', 'bars', 'homeNavBar', 'homeBackground', 'hideChatInput', 'disableExpandableCardAnimation', 'webAudio' ]),
   },
 };
 </script>

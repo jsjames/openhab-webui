@@ -25,6 +25,8 @@ import itemDefaultStandaloneComponent from '@/components/widgets/standard/defaul
 import itemDefaultListComponent from '@/components/widgets/standard/list/default-list-item';
 import { compareItems } from '@/components/widgets/widget-order';
 
+import { useStatesStore } from '@/js/stores/states';
+
 export default {
   props: {
     groupItem: String,

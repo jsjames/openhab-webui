@@ -4,7 +4,6 @@ import '@/js/monkeypatch'
 
 // Import Vue
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 
 // Import globally registered components
 import OHIconComponent from './components/widgets/system/oh-icon.vue'
@@ -12,13 +11,13 @@ import GenericWidgetComponent from './components/widgets/generic-widget-componen
 import DeveloperDockIcon from './components/developer/developer-dock-icon.vue'
 
 // Import Framework7
+// @ts-ignore   TODO-V3
 import Framework7 from 'framework7/lite-bundle'
+// @ts-ignore   TODO-V3
 import Framework7Vue, { registerComponents } from 'framework7-vue/bundle'
+// @ts-ignore   TODO-V3
 import { getDevice } from 'framework7'
-
-// Import Framework7-Vue with helper to register all components
-
-// Import Framework7 Styles
+// @ts-ignore   TODO-V3
 import 'framework7/css/bundle'
 
 // Import Icons and App Custom Styles
@@ -48,15 +47,13 @@ import { store } from '@/js/store/index'
 // initialize i18n
 import { i18n } from '@/js/i18n'
 
-// Import vuetrend
-//import Trend from 'vue3trend'
-
 // Import Fullscreen Plugin
 import fullscreen from 'vue-fullscreen'
 
 // Import clipboard plugin
 import VueClipboard from 'vue3-clipboard'
 
+import { createPinia } from 'pinia'
 const pinia = createPinia()
 const app = createApp(App)
 
@@ -66,9 +63,9 @@ registerComponents(app)
 app.config.globalProperties.$oh = openhab
 app.config.globalProperties.$device = getDevice()
 
+app.use(pinia)
 app.use(i18n)
 app.use(store)
-app.use(pinia)
 app.use(AsyncComputed)
 app.use(fullscreen)
 app.use(VueClipboard, {

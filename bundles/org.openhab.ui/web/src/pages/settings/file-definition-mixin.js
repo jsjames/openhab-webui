@@ -9,7 +9,7 @@ function executeFileDefinitionCopy(
   fileFormatLabel,
   mediaType
 ) {
-  const progressDialog = vueInstance.$f7.dialog.progress(
+  const progressDialog = vueInstance.f7.dialog.progress(
     `Loading ${objectTypeLabel} ${fileFormatLabel} definition...`
   )
 
@@ -21,7 +21,7 @@ function executeFileDefinitionCopy(
     .then(definition => {
       progressDialog.close()
       if (vueInstance.$clipboard(definition)) {
-        vueInstance.$f7.toast
+        vueInstance.f7.toast
           .create({
             text: `${objectTypeLabel} ${fileFormatLabel} definition copied to clipboard:\n${copiedObjectsLabel}`,
             destroyOnClose: true,
@@ -29,7 +29,7 @@ function executeFileDefinitionCopy(
           })
           .open()
       } else {
-        vueInstance.$f7.dialog.alert(
+        vueInstance.f7.dialog.alert(
           `Error copying ${objectTypeLabel} ${fileFormatLabel} definition to the clipboard`,
           'Error'
         )
@@ -37,7 +37,7 @@ function executeFileDefinitionCopy(
     })
     .catch(error => {
       progressDialog.close()
-      vueInstance.$f7.dialog.alert(
+      vueInstance.f7.dialog.alert(
         `Error loading ${objectTypeLabel} ${fileFormatLabel} definition: ${error}`,
         'Error'
       )

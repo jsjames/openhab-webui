@@ -143,12 +143,12 @@ export function isAdmin() {
   return user && user.roles && user.roles.indexOf('administrator') >= 0
 }
 
-export function enforceAdminForRoute(context) {
+export function enforceAdminForRoute({ resolve, reject }) {
   if (!isAdmin()) {
-    context.reject()
+    reject()
     authorize()
   } else {
-    context.resolve()
+    resolve()
   }
 }
 

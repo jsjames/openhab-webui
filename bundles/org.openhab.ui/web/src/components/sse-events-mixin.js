@@ -2,6 +2,8 @@ import OhPopup from '@/components/widgets/modals/oh-popup.vue'
 import OhSheet from '@/components/widgets/modals/oh-sheet.vue'
 import OhPopover from '@/components/widgets/modals/oh-popover.vue'
 
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+
 export default {
   data() {
     return {
@@ -16,7 +18,7 @@ export default {
       const commandItem = localStorage.getItem('openhab.ui:commandItem')
       const topicCommand = `openhab/items/${commandItem || ''}/command`
       let topics = null
-      if (localStorage.getItem('openhab.ui:webaudio.enable') === 'enabled') {
+      if (useThemeOptionsStore().webAudio) {
         topics = topicAudio
       }
       if (commandItem) {

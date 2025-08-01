@@ -180,7 +180,7 @@
 import { loadLocaleMessages } from '@/js/i18n';
 import Context from '@/components/developer/help/context.vue';
 
-import { useRuntimeStore } from '@/stores/runtime';
+import { useRuntimeStore } from '@/js/stores/runtime';
 import { mapStores } from 'pinia';
 
 export default {

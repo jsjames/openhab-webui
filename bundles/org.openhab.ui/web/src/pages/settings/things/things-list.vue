@@ -236,22 +236,20 @@
       </f7-row>
     </f7-block>
 
-    <template #fixed>
-      <f7-fab position="right-bottom" color="blue" href="add">
-        <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
-        <!-- <f7-fab-buttons position="top">
+    <f7-fab position="right-bottom" color="blue" href="add">
+      <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
+      <!-- <f7-fab-buttons position="top">
         <f7-fab-button label="Scan and add to Inbox">S</f7-fab-button>
         <f7-fab-button label="Add thing manually">M</f7-fab-button>
       </f7-fab-buttons> -->
-      </f7-fab>
-      <f7-fab
-        position="center-bottom"
-        :text="`Inbox (${inboxCount})`"
-        :color="inboxCount > 0 ? 'red' : 'gray'"
-        href="inbox">
-        <f7-icon f7="tray" />
-      </f7-fab>
-    </template>
+    </f7-fab>
+    <f7-fab
+      position="center-bottom"
+      :text="`Inbox (${inboxCount})`"
+      :color="inboxCount > 0 ? 'red' : 'gray'"
+      href="inbox">
+      <f7-icon f7="tray" />
+    </f7-fab>
   </f7-page>
 </template>
 

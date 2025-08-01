@@ -110,7 +110,7 @@ import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
 import { utils } from 'framework7';
 
 import { useRuntimeStore } from '@/js/stores/runtime';
-import { mapStores } from '@/js/stores/map';
+import { mapStores } from 'pinia';
 
 export default {
   props: ['item', 'metadata'],

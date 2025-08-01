@@ -118,9 +118,9 @@ import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
 
 import { useStatesStore } from '@/js/stores/states';
 import { useComponentsStore } from '@/js/stores/components';
+import { mapStores } from 'pinia';
 
 import { utils } from 'framework7';
-import { map } from 'node_modules/yaml/dist/schema/common/map';
 
 export default {
   props: ['item', 'metadata', 'namespace'],

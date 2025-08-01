@@ -14,7 +14,7 @@ export const useStatesStore = defineStore('states', () => {
   const sseConnected = ref<boolean>(false)
 
   const handler: ProxyHandler<Object> = {
-    get(obj: Object, prop: string | symbol, receiver: any): Object | undefined {
+    get(obj: Object, prop: string | symbol): Object | undefined {
       if (prop === '_keys') return Object.keys(itemStates.value)
       if (prop === '__ob__') return (obj as any).__ob__
 
@@ -47,7 +47,7 @@ export const useStatesStore = defineStore('states', () => {
       }
       return itemStates.value.get(itemName)
     },
-    set(obj: Object, prop: string | symbol, value: any): boolean {
+    set(prop: string | symbol): boolean {
       setItemState(prop.toString(), { state: '-' })
       return true
     }

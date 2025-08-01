@@ -71,7 +71,7 @@ import { nextTick, defineAsyncComponent } from 'vue';
 import { theme } from 'framework7-vue';
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
-import { useRuntimeStore } from '@/composables/runtime-store';
+import { useRuntimeStore } from '@/js/stores/runtime';
 import { mapStores } from 'pinia';
 
 export default {

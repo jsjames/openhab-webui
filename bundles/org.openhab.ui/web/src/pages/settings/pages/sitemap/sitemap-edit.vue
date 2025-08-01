@@ -486,7 +486,7 @@ import { utils } from 'framework7';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 
-import { useSitemapStore } from '@/js/stores/sitemap';
+import { useRuntimeStore } from '@/js/stores/runtime';
 
 import SitemapCode from '@/components/pagedesigner/sitemap/sitemap-code.vue';
 import WidgetDetails from '@/components/pagedesigner/sitemap/widget-details.vue';
@@ -495,8 +495,6 @@ import SitemapTreeviewItem from '@/components/pagedesigner/sitemap/treeview-item
 import SitemapMixin from '@/components/pagedesigner/sitemap/sitemap-mixin';
 import DirtyMixin from '@/pages/settings/dirty-mixin';
 import fastDeepEqual from 'fast-deep-equal/es6';
-
-const sitemapStore = useSitemapStore();
 
 export default {
   mixins: [DirtyMixin, SitemapMixin],
@@ -518,7 +516,6 @@ export default {
   },
   data() {
     return {
-      includeItemName: sitemapStore.includeItemName || false,
       ready: false,
       loading: false,
       sitemap: {
@@ -556,6 +553,7 @@ export default {
       if (!this.selectedWidget) return;
       return this.allowedWidgetTypes(this.selectedWidget);
     },
+    ...mapState(useRuntimeStore, { includesItemNames: 'sitemapIncludesItemNames' }),
   },
   watch: {
     sitemap: {
@@ -643,7 +641,6 @@ export default {
     },
     toggleItemName() {
       this.includeItemName = !this.includeItemName;
-      sitemapStore.includeItemName = this.includeItemName;
       this.load();
     },
     save(stay, force) {

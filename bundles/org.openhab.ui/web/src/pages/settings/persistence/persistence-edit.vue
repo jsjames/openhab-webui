@@ -424,7 +424,7 @@ import StrategyPicker from '@/pages/settings/persistence/strategy-picker.vue';
 import ConfigurationPopup from '@/pages/settings/persistence/configuration-popup.vue';
 import FilterPopup from '@/pages/settings/persistence/filter-popup.vue';
 
-import { useRuntimeStore } from '@/js/stores/runtimem'
+import { useRuntimeStore } from '@/js/stores/runtime'
 import { mapStores } from 'pinia'
 
 export default {

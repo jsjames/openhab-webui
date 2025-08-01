@@ -34,11 +34,15 @@ export const useRuntimeStore = defineStore('runtime', () => {
   const apiEndpoints = ref<Endpoint[] | null>(null)
   const locale = ref<string>('default')
   const runtimeInfo = ref<Object | null>(null)
-  const UIInfo = ref<UIInfo>({ commit: buildInfo.commit })
+  const uiInfo = ref<UIInfo>({ commit: buildInfo.commit })
   const websiteUrl = ref<string | null>(null)
   const docSrcUrl = ref<string | null>(null)
   const developerDock = ref<Boolean>(false)
   const pagePath = ref<string | null>(null)
+  const sitemapIncludesItemNames = ref<boolean>(false)
+  const modelPickerIncludeItemName = ref<boolean>(false)
+  const modelPickerIncludeItemTag = ref<boolean>(false)
+  const modelPickerExpanded = ref<boolean>(false)
 
   function apiEndpoint(type: string): string | null {
     return !apiEndpoints ? null : apiEndpoints.value?.find(e => e.type === type)?.url || null
@@ -70,11 +74,15 @@ export const useRuntimeStore = defineStore('runtime', () => {
     apiEndpoint,
     locale,
     runtimeInfo,
-    UIInfo,
+    uiInfo,
     websiteUrl,
     docSrcUrl,
     developerDock,
     pagePath,
+    modelPickerIncludeItemName,
+    modelPickerIncludeItemTag,
+    modelPickerExpanded,
+    sitemapIncludesItemNames,
 
     setDeveloperDock,
     loadRootResource

@@ -138,10 +138,9 @@ import ModelTreeview from '@/components/model/model-treeview.vue';
 import ModelMixin from '@/pages/settings/model/model-mixin';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
+import { mapState } from 'pinia';
 
-import { useModelPickerStore } from '@/js/stores/model-picker';
-
-const modelPickerStore = useModelPickerStore();
+import { useRuntimeStore } from '@/js/stores/runtime';
 
 export default {
   mixins: [ModelMixin],
@@ -166,9 +165,6 @@ export default {
     return {
       f7,
       initSearchbar: false,
-      includeItemName: modelPickerStore.includeItemName || false,
-      includeItemTags: modelPickerStore.includeItemTags || false,
-      expanded: modelPickerStore.expanded || false,
       doubleClickStarted: null,
       doubleClickItem: null,
       checkedItems: [],
@@ -188,6 +184,11 @@ export default {
         ].flat();
       }
     },
+    ...mapState(useRuntimeStore, {
+      includeItemName: 'sitemapIncludesItemNames',
+      includeItemTag: 'sitemapIncludesItemTags',
+      expanded: 'sitemapExpanded',
+    }),
   },
   methods: {
     onOpen() {
@@ -291,17 +292,14 @@ export default {
     },
     toggleItemName() {
       this.includeItemName = !this.includeItemName;
-      modelPickerStore.includeItemName = this.includeItemName;
       this.load();
     },
     toggleItemTags() {
       this.includeItemTags = !this.includeItemTags;
-      modelPickerStore.includeItemTags = this.includeItemTags;
       this.load();
     },
     toggleExpanded() {
       this.expanded = !this.expanded;
-      modelPickerStore.expanded = this.expanded;
       this.applyExpandedOption();
     },
   },

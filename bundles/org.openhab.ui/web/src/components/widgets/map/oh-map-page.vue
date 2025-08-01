@@ -40,7 +40,7 @@ import 'leaflet/dist/leaflet.css';
 import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { mapStores } from '@/js/stores/map';
+import { mapStores } from 'pinia';
 
 import { OhMapPageDefinition } from '@/assets/definitions/widgets/map';
 

@@ -1,7 +1,6 @@
 <template>
   <f7-page
     name="HomePage"
-    stacked
     class="page-home"
     :class="{ 'standard-background': standardBackground }"
     @page:init="onPageInit"
@@ -235,8 +234,8 @@ export default {
       };
     },
     simpleNavbar() {
-      const homeNavbar = useThemeOptionsStore().homeNavbar;
-      if (homeNavbar !== 'default') return homeNavbar === 'simple';
+      const homeNavBar = useThemeOptionsStore().homeNavBar;
+      if (homeNavBar !== 'default') return homeNavBar === 'simple';
       if (this.$device.desktop) {
         return this.homePageComponent?.config?.simpleNavbarDesktopDefault === true;
       } else {

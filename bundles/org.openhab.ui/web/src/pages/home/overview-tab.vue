@@ -93,6 +93,7 @@ import { useStatesStore } from '@/js/stores/states';
 import { useUserStore } from '@/js/stores/user';
 import { useComponentsStore } from '@/js/stores/components';
 import { useRuntimeStore } from '@/js/stores/runtime';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
 
 import { mapStores } from 'pinia';
 
@@ -117,7 +118,7 @@ export default {
       return (
         useRuntimeStore().apiEndpoint('habot') &&
         this.allowChat &&
-        localStorage.getItem('openhab.ui:theme.home.hidechatinput') !== 'true'
+        !useThemeOptionsStore().hideChatInput
       );
     },
     overviewPage() {
