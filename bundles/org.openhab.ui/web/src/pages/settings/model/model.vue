@@ -97,7 +97,6 @@
     </f7-toolbar>
     <f7-block v-if="!ready" class="text-align-center">
       <f7-preloader />
-      <div>{{ ready }}</div>
       <div>Loading...</div>
     </f7-block>
     <f7-block v-else class="semantic-tree-wrapper" :class="{ 'sheet-opened': detailsOpened }">

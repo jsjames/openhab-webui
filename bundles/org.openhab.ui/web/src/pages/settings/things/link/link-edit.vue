@@ -79,7 +79,7 @@
             external
             color="blue"
             target="_blank"
-            :href="`${runtime.websiteUrl}/link/profiles`">
+            :href="`${runtimeStore.websiteUrl}/link/profiles`">
             Learn more about profiles.
           </f7-link>
         </f7-block-footer>

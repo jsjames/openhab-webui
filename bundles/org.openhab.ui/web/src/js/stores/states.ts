@@ -55,10 +55,6 @@ export const useStatesStore = defineStore('states', () => {
 
   trackedItems.value = new Proxy({}, handler)
 
-  function initializeTrackingStore() {
-    console.debug('Initializing state tracking store')
-  }
-
   function startTrackingStates() {
     console.debug('Start tracking states')
     if (keepConnectionOpen.value && trackerEventSource.value) return
@@ -85,6 +81,7 @@ export const useStatesStore = defineStore('states', () => {
           'application/json',
           null
         )
+        console.log(`State tracker connection established with ID: ${connectionId}`)
         sseConnected.value = true
       },
       updates => {
@@ -121,7 +118,7 @@ export const useStatesStore = defineStore('states', () => {
       '/rest/items/' + itemName,
       command,
       'text/plain',
-      'text/plain', //JJ should this be 'application/json'?
+      'text/plain', //JJ shouldn't this be 'application/json'?
       null
     )
   }
@@ -207,7 +204,6 @@ export const useStatesStore = defineStore('states', () => {
     isItemTracked,
     getTrackedItem,
     addToTrackingList,
-    sendCommand,
-    initializeTrackingStore
+    sendCommand
   }
 })

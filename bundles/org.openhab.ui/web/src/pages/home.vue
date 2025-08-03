@@ -307,8 +307,6 @@ export default {
   },
   methods: {
     onPageBeforeIn() {
-      this.f7router.updateCurrentUrl('/' + this.currentTab);
-      this.f7router.url = '/' + this.currentTab;
       this.overviewPageKey = utils.id();
     },
     onPageAfterIn() {

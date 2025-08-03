@@ -123,7 +123,7 @@ export default {
     opened: Boolean,
     extensible: Boolean,
     context: Object,
-    f7router: Object,
+    f7router: Object
   },
   emits: ['channel-updated'],
   data() {

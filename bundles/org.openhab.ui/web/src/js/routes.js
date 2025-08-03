@@ -5,6 +5,7 @@ import NotFoundPage from '../pages/not-found.vue'
 import PageViewPage from '../pages/page/page-view.vue'
 import AnalyzerPopup from '../pages/analyzer/analyzer-popup.vue'
 import { AddonTitles } from '@/assets/addon-store'
+import { id } from 'framework7/shared/utils'
 
 const AboutPage = () => import(/* webpackChunkName: "about-page" */ '../pages/about.vue')
 const UserProfilePage = () => import(/* webpackChunkName: "profile-page" */ '../pages/profile.vue')
@@ -175,10 +176,12 @@ const loadAsync = (page, props) => {
 export default [
   {
     path: '/',
-    component: HomePage,
-    // keepAlive: true,
-    options: {
-      transition: 'f7-dive'
+    beforeEnter: function (context) {
+      context.reject()
+      this.navigate('/overview/')
+      // keepAlive: true,
+      // options: {
+      // transition: 'f7-dive'
     },
     routes: [
       {
@@ -398,7 +401,7 @@ export default [
         ]
       },
       {
-        path: 'model',
+        path: 'model/',
         beforeEnter: [enforceAdminForRoute],
         async: loadAsync(SemanticModelPage)
       },

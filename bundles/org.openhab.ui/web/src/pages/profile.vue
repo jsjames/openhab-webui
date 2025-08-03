@@ -187,7 +187,7 @@ import { useUserStore } from '@/js/stores/user';
 import { useRuntimeStore } from '@/js/stores/runtime';
 import { f7, theme } from 'framework7-vue';
 
-import { mapStore } from 'pinia'
+import { mapStores } from 'pinia'
 
 export default {
   mixins: [auth],

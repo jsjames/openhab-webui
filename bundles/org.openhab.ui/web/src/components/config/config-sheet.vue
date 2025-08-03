@@ -80,6 +80,7 @@
 <script>
 import { actionParams } from '@/assets/definitions/widgets/actions';
 import { defineAsyncComponent } from 'vue';
+import { f7 } from 'framework7-vue';
 
 export default {
   props: {

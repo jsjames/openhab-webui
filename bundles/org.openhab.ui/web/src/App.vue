@@ -406,13 +406,14 @@
     </f7-block>
 
     <f7-view
-      main
-      browserHistory
-      browserHistorySeparator=""
-      v-show="ready"
-      class="safe-areas"
       url="/"
+      :main="true"
+      class="safe-areas"
       :master-detail-breakpoint="960"
+      :browser-history="true"
+      browser-history-separator=""
+      browser-history-root=""
+      v-show="ready"
       :animate="themeOptionsStore.disablePageTransitionAnimation ? null : true" />
   </f7-app>
 </template>
@@ -576,13 +577,6 @@ export default {
         autoDarkMode: !localStorage.getItem('openhab.ui:theme.dark'),
         // App routes
         routes,
-        view: {
-          // disable f7 swipeback on iOS because it's handled natively by Safari
-          iosSwipeBack: !this.$device.ios,
-          auroraSwipeBack: !this.$device.ios,
-          pushState: true,
-          pushStateSeparator: '',
-        },
         // Enable panel left visibility breakpoint
         panel: {
           leftBreakpoint: 960,
@@ -612,13 +606,6 @@ export default {
           threshold: 50,
           sequential: false,
         },
-
-        // smartSelect: {
-        //   routableModals: !this.$device.firefox && !this.$device.edge
-        // },
-        // colorPickers: {
-        //   routableModals: !this.$device.firefox && !this.$device.edge
-        // }
       },
       user: null,
 
@@ -907,7 +894,8 @@ export default {
         title.unshift(useComponentsStore().page(this.currentPath.page?.$key)?.config?.label);
       } else if (this.currentPath.overview) {
         const config = useComponentsStore().page('overview')?.config;
-        const localizedTitle = this.$t(`home.${this.currentPath.$key}.title`);
+        //JJ const localizedTitle = this.$t(`home.${this.currentPath.$key}.title`);
+        const localizedTitle = "TBD"
         title.unshift(
           config?.browserTitle || (config?.label === 'Overview' ? localizedTitle : config?.label)
         );
@@ -1035,22 +1023,23 @@ export default {
       });
 
       f7.on('pageBeforeIn', page => {
-        // if (page.route && page.route.url) {
-          // this.updateUrl(page.route.url);
-        // }
+        if (page.route && page.route.url) {
+          console.log("pageBeforeIn: current URL:", page.route.url);
+          this.updateUrl(page.route.url);
+        }
       });
 
       f7.on('pageAfterIn', page => {
-        console.log("Current URL:", page.route.url);
+        console.log("pageAfterIn: current URL:", page.route.url);
         console.log("Full route object:", page.route);
-        // nextTick(this.updateTitle);
+        nextTick(this.updateTitle);
       });
 
       // needed by updateCurrentUrl() inside addon-store onTabShow()
       f7.on('routeUrlUpdate', (newRoute, router) => {
         console.log('Route URL updated:', newRoute.url);
-        // this.updateUrl(newRoute.url);
-        // nextTick(this.updateTitle);
+        this.updateUrl(newRoute.url);
+        nextTick(this.updateTitle);
       });
 
       f7.on('sidebar-refresh', () => {

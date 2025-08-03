@@ -14,16 +14,16 @@ TODO
 - [] MED - Blockly test/update? Haven't looked at yet.
 - [x] MED - enable strict for typescript - done, required for building
 - [x] MED - Websocket proxy through vite (Developer Tools/Log Viewer) not working
-- [] LOW - Update storage from vuex to pinia
+- [] LOW - Update storage from vuex to pinia - all done with the exception of model store
 
 BUGS
 
 - [x] bars theme-filled applied to app class, but does not change navbar style. It seems in vue3 (contrary to documentation that I can find), that f7-app classes will not be applied. So, added code to add to the html element at the top.
 - [] vue3-masonry-css is buggy especially when you change the window width??
-- [] There are two home pages created in the DOM under the view? Removing the "stacked" setting addresses this, but that breaks other things.
+- [x] There are two home pages created in the DOM under the view? Removing the "stacked" setting addresses this, but that breaks other things. (This was fixed by updating the routing mechanism for the root page - adding a beforeEnter)
 - [] on item-detail->oh-label-card->oh-trend - the width setting is only correct AFTER the page is display - doesn't seem to be reactive
-- [] back button on settings/items/item-details does not work
-- [] farci i18n file under setup-wizard causes vite json error
+- [] back button from settings/items, settings/things, settings/model - the URL in the address bar does not change.
+- [x] farci i18n file under setup-wizard causes vite json error - { variable names } in json were translated to farci
 
 NOTES
 

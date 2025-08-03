@@ -74,6 +74,7 @@
                   :channel="channel"
                   :extensible="extensible"
                   :context="context"
+                  :f7router="f7router"
                   @channel-updated="e => $emit('channels-updated', e)" />
               </template>
               <template #default="{ channelType, channel }" v-else-if="multipleLinksMode">
@@ -158,19 +159,20 @@ import { useSemanticsStore } from '@/js/stores/semantics'
 
 export default {
   mixins: [uomMixin],
-  props: [
-    'thingType',
-    'thing',
-    'channelTypes',
-    'items',
-    'pickerMode',
-    'multipleLinksMode',
-    'itemTypeFilter',
-    'newItemsPrefix',
-    'newItems',
-    'updatedItems',
-    'context',
-  ],
+  props: {
+    'thingType': Object,
+    'thing': Object,
+    'channelTypes': Array,
+    'items': Array,
+    'pickerMode': Boolean,
+    'multipleLinksMode': Boolean,
+    'itemTypeFilter': String,
+    'newItemsPrefix': String,
+    'newItems': Array,
+    'updatedItems': Array,
+    'context': Object,
+    'f7router': Object
+  },
   components: {
     ChannelGroup,
     ChannelLink,

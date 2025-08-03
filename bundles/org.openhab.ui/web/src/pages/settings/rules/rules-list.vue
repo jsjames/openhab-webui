@@ -233,35 +233,34 @@
               :badge="showScenes ? '' : ruleStatusBadgeText(ruleStatuses[rule.uid])"
               :badge-color="ruleStatusBadgeColor(ruleStatuses[rule.uid])">
               <template #footer>
-              <div class="footer-inner">
-                <f7-chip
-                  v-if="rule.templateUID"
-                  :text="templateName(rule)"
-                  @click.ctrl="e => templateClick(e, true, rule)"
-                  @click.meta="e => templateClick(e, true, rule)"
-                  @click.exact="e => templateClick(e, false, rule)"
-                  media-bg-color="orange"
-                  style="margin-right: 2px">
-                  <template #media>
-                    <f7-icon
-                      ios="f7:doc_on_doc_fill"
-                      md="material:file_copy"
-                      aurora="f7:doc_on_doc_fill" />
-                  </template>
-                </f7-chip>
-                <f7-chip
-                  v-for="tag in displayedTags(rule)"
-                  :key="tag"
-                  :text="tag"
-                  media-bg-color="blue"
-                  style="margin-right: 6px">
-                  <template #media>
-                    <f7-icon ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
-                  </template>
-                </f7-chip>
-              </div>
+                <div class="footer-inner">
+                  <f7-chip
+                    v-if="rule.templateUID"
+                    :text="templateName(rule)"
+                    @click.ctrl="e => templateClick(e, true, rule)"
+                    @click.meta="e => templateClick(e, true, rule)"
+                    @click.exact="e => templateClick(e, false, rule)"
+                    media-bg-color="orange"
+                    style="margin-right: 2px">
+                    <template #media>
+                      <f7-icon
+                        ios="f7:doc_on_doc_fill"
+                        md="material:file_copy"
+                        aurora="f7:doc_on_doc_fill" />
+                    </template>
+                  </f7-chip>
+                  <f7-chip
+                    v-for="tag in displayedTags(rule)"
+                    :key="tag"
+                    :text="tag"
+                    media-bg-color="blue"
+                    style="margin-right: 6px">
+                    <template #media>
+                      <f7-icon ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
+                    </template>
+                  </f7-chip>
+                </div>
               </template>
-              <template v-if="showCheckboxes" #media>
               <!-- <span slot="media" class="item-initial">{{initial}}</span> -->
               <template v-if="rule.editable === false" #after-title>
                 <f7-icon f7="lock_fill" size="1rem" color="gray" />

@@ -40,15 +40,7 @@
             <f7-input
               type="select"
               :value="loggerPackage.level"
-<<<<<<< HEAD
-              @input="loggerPackage.level = $event.target.value"
-            >
-=======
-              @input="
-                loggerPackage.level = $event.target.value;
-                loggerPackage.changed = true;
-              ">
->>>>>>> Formatting, address window.getComputedStyle issue.
+              @input="loggerPackage.level = $event.target.value">
               <option value="DEFAULT">Default</option>
               <option value="TRACE">Trace</option>
               <option value="DEBUG">Debug</option>
