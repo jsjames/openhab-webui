@@ -6,7 +6,7 @@
  * Refer to {@see itemContextLabel} for valid options.
  */
 
-import { useSemanticsStore } from "@/js/stores/semantics"
+import { useSemanticsStore } from '@/js/stores/semantics'
 
 export default function itemDefaultListComponent(item, footer) {
   const stateDescription = item.stateDescription || {}

@@ -24,6 +24,7 @@ BUGS
 - [] on item-detail->oh-label-card->oh-trend - the width setting is only correct AFTER the page is display - doesn't seem to be reactive
 - [] back button from settings/items, settings/things, settings/model - the URL in the address bar does not change.
 - [x] farci i18n file under setup-wizard causes vite json error - { variable names } in json were translated to farci
+- [x] fix auto dark mode, import echart dark theme
 
 NOTES
 

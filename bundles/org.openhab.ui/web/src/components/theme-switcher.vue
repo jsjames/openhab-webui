@@ -21,17 +21,23 @@
     </f7-row>
     <f7-block-title>{{  $t('about.darkMode') }}</f7-block-title>
     <f7-row>
-      <f7-col width="33" class="theme-picker auto" @click="dark='auto'">
+      <f7-col width="33" class="theme-picker auto" @click="themeOptionsStore.setDarkMode('auto')">
         <span class="text-color-gray">{{ $t('about.darkMode.auto') }}</span>
-        <f7-checkbox checked disabled v-if="dark === 'auto'" />
+        <f7-checkbox checked disabled v-if="themeOptionsStore.storedDarkMode === 'auto'" />
       </f7-col>
-      <f7-col width="33" class="bg-color-white theme-picker" @click="dark='light'">
+      <f7-col
+        width="33"
+        class="bg-color-white theme-picker"
+        @click="themeOptionsStore.setDarkMode('light')">
         <span class="text-color-gray">{{ $t('about.darkMode.light') }}</span>
-        <f7-checkbox checked disabled v-if="dark === 'light'" />
+        <f7-checkbox checked disabled v-if="themeOptionsStore.storedDarkMode === 'light'" />
       </f7-col>
-      <f7-col width="33" class="bg-color-black theme-picker" @click="dark='dark'">
+      <f7-col
+        width="33"
+        class="bg-color-black theme-picker"
+        @click="themeOptionsStore.setDarkMode('dark')">
         <span class="text-color-gray">{{ $t('about.darkMode.dark') }}</span>
-        <f7-checkbox checked disabled v-if="dark === 'dark'" />
+        <f7-checkbox checked disabled v-if="themeOptionsStore.storedDarkMode === 'dark'" />
       </f7-col>
     </f7-row>
     <f7-block-title>{{  $t('about.navigationBarsStyle') }}</f7-block-title>
@@ -148,8 +154,8 @@ export default {
     commandItem() {
       return localStorage.getItem('openhab.ui:commandItem') || '';
     },
-    ...mapStores(useRuntimeStore),
-    ...mapWritableState(useThemeOptionsStore, [ 'disablePageTransitionAnimation', 'dark', 'bars', 'homeNavBar', 'homeBackground', 'hideChatInput', 'disableExpandableCardAnimation', 'webAudio' ]),
+    ...mapStores(useRuntimeStore, useThemeOptionsStore),
+    ...mapWritableState(useThemeOptionsStore, [ 'disablePageTransitionAnimation',  'bars', 'homeNavBar', 'homeBackground', 'hideChatInput', 'disableExpandableCardAnimation', 'webAudio' ]),
   },
 };
 </script>

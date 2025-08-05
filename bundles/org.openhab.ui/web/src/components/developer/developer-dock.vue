@@ -3,7 +3,7 @@
     <f7-navbar
       :title="title"
       :subtitle="subtitle"
-      :color="themeOptionsStore.dark === 'dark' ? '' : 'black'" />
+      :color="themeOptionsStore.darkMode() === 'dark' ? '' : 'black'" />
     <f7-segmented
       strong
       tag="p"

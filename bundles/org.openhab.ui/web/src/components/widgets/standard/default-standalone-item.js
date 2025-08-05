@@ -3,7 +3,7 @@
    in the "widget" metadata namespace of the item
  */
 
-import { useSemanticsStore } from "@/js/stores/semantics"
+import { useSemanticsStore } from '@/js/stores/semantics'
 
 export default function itemDefaultStandaloneComponent(item) {
   const stateDescription = item.stateDescription || {}

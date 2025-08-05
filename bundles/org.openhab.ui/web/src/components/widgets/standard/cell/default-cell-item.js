@@ -3,7 +3,7 @@
    in the "cellWidget" metadata namespace of the item
  */
 
-import { useSemanticsStore } from "@/js/stores/semantics"
+import { useSemanticsStore } from '@/js/stores/semantics'
 
 export default function itemDefaultCellComponent(item, itemNameAsFooter) {
   const stateDescription = item.stateDescription || {}

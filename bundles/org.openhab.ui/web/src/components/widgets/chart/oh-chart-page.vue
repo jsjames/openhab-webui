@@ -3,7 +3,7 @@
     ref="chart"
     class="oh-chart-page-chart"
     :class="{ 'with-tabbar': context.tab, 'with-toolbar': context.analyzer }"
-    :style="themeOptionsStore.dark === 'dark' ? 'background-color: black;' : 'background-color: white;'"
+    :style="themeOptionsStore.darkMode() === 'dark' ? 'background-color: black;' : 'background-color: white;'"
     :context="this.context" />
 </template>
 

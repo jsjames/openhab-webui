@@ -123,12 +123,14 @@
 <script>
 import mixin from '../widget-mixin';
 import OhPlaceholderWidget from './oh-placeholder-widget.vue';
-// import { MasonryGrid, MasonryGridItem } from "vue3-masonry-css";
+import { MasonryGrid, MasonryGridItem } from "vue3-masonry-css";
 
 export default {
   mixins: [mixin],
   components: {
     OhPlaceholderWidget,
+    MasonryGrid,
+    MasonryGridItem
   },
 };
 </script>

@@ -2,28 +2,22 @@ import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
 // @ts-ignore   TODO-V3
 import { Dom7 } from 'framework7/lite-bundle'
+import { f7 } from 'framework7-vue'
 
 declare global {
   interface Window {
     OHApp?: {
-      preferDarkMode?: () => boolean
+      preferDarkMode: () => boolean
     }
   }
 }
 
 export const useThemeOptionsStore = defineStore('themeOptions', () => {
-  const _storedDark = localStorage.getItem('openhab.ui:theme.dark') || 'light'
-  /* TODO-V3
-    (window.OHApp && window.OHApp.preferDarkMode
-      ? window.OHApp.preferDarkMode().toString()
-      : f7.darkMode
-        ? 'dark'
-        : 'light')
-        */
-  const dark = ref<'auto' | 'dark' | 'light'>(
-    ['auto', 'dark', 'light'].includes(_storedDark)
-      ? (_storedDark as 'auto' | 'dark' | 'light')
-      : 'light'
+  const _storedDarkMode = localStorage.getItem('openhab.ui:theme.dark')
+  const storedDarkMode = ref<'auto' | 'dark' | 'light'>(
+    _storedDarkMode === 'auto' || _storedDarkMode === 'dark' || _storedDarkMode === 'light'
+      ? _storedDarkMode
+      : 'auto'
   )
 
   const _storedBars = localStorage.getItem('openhab.ui:theme.bars') || 'light'
@@ -67,15 +61,32 @@ export const useThemeOptionsStore = defineStore('themeOptions', () => {
     localStorage.getItem('openhab.ui:panel.visibleBreakpointDisabled') === 'true'
   )
 
-  watch(dark, newValue => {
-    if (newValue === 'auto') {
+  function darkMode() {
+    if (storedDarkMode.value === 'auto') {
+      return window.OHApp ? window.OHApp.preferDarkMode() : f7.darkMode ? 'dark' : 'light'
+    }
+
+    return storedDarkMode.value
+  }
+
+  function setDarkMode(value: 'auto' | 'dark' | 'light') {
+    storedDarkMode.value = value
+
+    if (value === 'auto') {
+      f7.enableAutoDarkMode()
       localStorage.removeItem('openhab.ui:theme.dark')
     } else {
-      localStorage.setItem('openhab.ui:theme.dark', newValue)
+      f7.disableAutoDarkMode()
+      localStorage.setItem('openhab.ui:theme.dark', value)
     }
+
     bars.value = 'light' // Reset bars to light when dark mode changes
     updateClasses()
-  })
+  }
+
+  function isAutoDarkMode() {
+    return storedDarkMode.value === 'auto'
+  }
 
   watch(bars, newValue => {
     localStorage.setItem('openhab.ui:theme.bars', newValue)
@@ -116,7 +127,7 @@ export const useThemeOptionsStore = defineStore('themeOptions', () => {
   })
 
   function updateClasses() {
-    if (dark.value === 'dark') {
+    if (darkMode() === 'dark') {
       Dom7('html').addClass('dark')
     } else {
       Dom7('html').removeClass('dark')
@@ -134,7 +145,10 @@ export const useThemeOptionsStore = defineStore('themeOptions', () => {
   }
 
   return {
-    dark,
+    storedDarkMode,
+    darkMode,
+    setDarkMode,
+    isAutoDarkMode,
     bars,
     homeNavBar,
     homeBackground,

@@ -340,7 +340,7 @@ export default [
         ]
       },
       {
-        path: 'health',
+        path: 'health/',
         beforeEnter: [enforceAdminForRoute],
         async: loadAsync(HealthOverviewPage),
         routes: [

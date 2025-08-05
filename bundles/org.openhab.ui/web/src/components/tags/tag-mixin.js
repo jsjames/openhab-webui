@@ -1,4 +1,4 @@
-import { useSemanticsStore } from "@/js/stores/semantics"
+import { useSemanticsStore } from '@/js/stores/semantics'
 
 export default {
   methods: {
@@ -7,7 +7,7 @@ export default {
         useSemanticsStore().Locations,
         useSemanticsStore().Equipment,
         useSemanticsStore().Points,
-        useSemanticsStore().Properties,
+        useSemanticsStore().Properties
       ].some(t => t.indexOf(tag) >= 0)
     },
     semanticType(tag) {

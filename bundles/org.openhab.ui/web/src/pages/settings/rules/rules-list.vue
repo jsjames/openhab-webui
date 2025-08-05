@@ -59,7 +59,7 @@
         &nbsp;{{ $t('dialogs.enable') }}&nbsp;{{ enablableItems }}
       </f7-link>
       <f7-link
-        :color="f7.data.themeOptionsStore.dark === 'dark' ? 'purple' : 'deeppurple'"
+        :color="themeOptionsStore.darkMode() === 'dark' ? 'purple' : 'deeppurple'"
         v-show="selectedItems.length && canRegenerate"
         v-if="!theme.md && !showScenes"
         class="enable"
@@ -109,9 +109,9 @@
       ref="listIndex"
       v-if="$refs.rulesList"
       v-show="!$device.desktop"
+      :listEl="$refs.rulesList ? Dom7($refs.rulesList.$el) : undefined"
       :scroll-list="true"
       :label="true" />
-    <!--TODO-V3 part of above :listEl="$refs.rulesList ? Dom7($refs.rulesList.$el) : undefined" -->
 
     <f7-list class="searchbar-not-found">
       <f7-list-item title="Nothing found" />
@@ -304,6 +304,7 @@ import RuleStatus from '@/components/rule/rule-status-mixin';
 import { Dom7 } from 'framework7';
 
 import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
 import { useRuntimeStore } from '@/js/stores/runtime'
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
 
@@ -338,6 +339,7 @@ export default {
       showCheckboxes: false,
       eventSource: null,
       templates: null,
+      Dom7
     };
   },
   computed: {
@@ -389,10 +391,6 @@ export default {
         ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))'
         : 'Search';
     },
-    enablableItems() {
-      if (!this.selectedItems || !this.selectedItems.length) return 0;
-      return this.selectedItems.filter(i => this.isRuleStatusDisabled(this.ruleStatuses[i])).length;
-    },
     allSelected() {
       return this.selectedItems.length === this.filteredRules.length;
     },
@@ -407,6 +405,20 @@ export default {
         title += `, ${this.selectedItems.length} selected`;
       }
       return title;
+    },
+    enablableItems() {
+      if (!this.selectedItems || !this.selectedItems.length) return 0;
+      return this.selectedItems.filter((i) =>
+        this.isRuleStatusDisabled(this.ruleStatuses[i])
+      ).length;
+    },
+    disablableItems() {
+      if (!this.selectedItems || !this.selectedItems.length) return 0;
+      return this.selectedItems.filter(
+        (i) =>
+          this.ruleStatuses[i] &&
+          !this.isRuleStatusDisabled(this.ruleStatuses[i])
+      ).length;
     },
     regeneratableItemsCount() {
       return this.regeneratableItems.length;
@@ -435,7 +447,7 @@ export default {
     canRegenerate() {
       return this.regeneratableItemsCount > 0;
     },
-    ...mapStores(useRuntimeStore)
+    ...mapStores(useRuntimeStore, useThemeOptionsStore)
   },
   methods: {
     onPageAfterIn() {
@@ -514,7 +526,7 @@ export default {
           this.noRuleEngine = false;
 
           nextTick(() => {
-            if (this.$refs.listIndex) this.$refs.listIndex.$el.update();
+            if (this.$refs.listIndex) this.$refs.listIndex.$el.f7ListIndex.update();
             if (this.$device.desktop && this.$refs.searchbar) {
               this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
             }

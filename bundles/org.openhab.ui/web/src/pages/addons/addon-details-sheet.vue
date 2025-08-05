@@ -141,7 +141,7 @@ export default {
           this.bindingInfo = {};
           return;
         }
-        self.f7.preloader.show();
+        f7.preloader.show();
         this.$oh.api
           .get(
             '/rest/addons/' + this.addonId + (this.serviceId ? '?serviceId=' + this.serviceId : '')
@@ -149,14 +149,14 @@ export default {
           .then(data => {
             this.addon = data;
 
-            self.f7.preloader.hide();
+            f7.preloader.hide();
             setTimeout(() => {
-              if (!this.noDetails) self.$refs.sheet.f7Sheet.setSwipeStep();
-              self.$refs.sheet.f7Sheet.open();
+              if (!this.noDetails) this.$refs.sheet.$el.f7Modal.setSwipeStep();
+              this.$refs.sheet.$el.f7Modal.open();
             });
           });
       } else {
-        self.$refs.sheet.f7Sheet.close();
+        this.$refs.sheet.$el.f7Modal.close();
       }
     },
   },
@@ -189,7 +189,7 @@ export default {
   methods: {
     toggleSwipeStep() {
       const self = this;
-      self.$refs.sheet.f7Sheet.stepToggle('.demo-sheet-swipe-to-step');
+      self.$refs.sheet.$el.f7Modal.stepToggle('.demo-sheet-swipe-to-step');
     },
     install() {
       this.$oh.api

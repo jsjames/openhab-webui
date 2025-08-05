@@ -23,7 +23,7 @@
               <div v-if="addon.verifiedAuthor" class="addon-header-subtitle">
                 {{ addon.author }}
                 <f7-icon
-                  :color="themeOptionsStore.dark === 'dark' ? 'white' : 'blue'"
+                  :color="themeOptionsStore.darkMode() === 'dark' ? 'white' : 'blue'"
                   f7="checkmark_seal_fill" />
               </div>
               <div

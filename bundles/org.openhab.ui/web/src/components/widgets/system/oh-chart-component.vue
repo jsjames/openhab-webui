@@ -10,7 +10,7 @@
       class="oh-chart"
       @click="handleClick"
       :class="{ 'with-tabbar': context.tab, 'with-toolbar': context.analyzer }"
-      :theme="themeOptionsStore.dark === 'dark' ? 'dark' : undefined"
+      :theme="themeOptionsStore.darkMode() === 'dark' ? 'dark' : undefined"
       autoresize />
     <f7-menu class="padding float-right" v-if="periodVisible">
       <f7-menu-item @click="earlierPeriod()" icon-f7="chevron_left" />
@@ -68,7 +68,7 @@ import mixin from '../widget-mixin';
 import chart from '../chart/chart-mixin';
 import { actionsMixin } from '../widget-actions';
 import { i18n } from '@/js/i18n';
-import { f7 } from 'framework7-vue';
+import { f7, theme } from 'framework7-vue';
 import { nextTick } from 'vue';
 
 import dayjs from 'dayjs';
@@ -77,6 +77,10 @@ dayjs.extend(LocalizedFormat);
 
 import { use, registerLocale } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
+import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { mapStores } from 'pinia';
+
+import { registerTheme } from 'echarts/core';
 import {
   LineChart,
   BarChart,
@@ -103,6 +107,7 @@ import {
   CalendarComponent,
 } from 'echarts/components';
 import VChart from 'vue-echarts';
+import 'echarts/theme/dark.js'; // Import dark theme
 
 use([
   CanvasRenderer,
@@ -184,6 +189,7 @@ export default {
           return startTime.format('ll');
       }
     },
+    ...mapStores(useThemeOptionsStore),
   },
   data() {
     return {
@@ -196,6 +202,7 @@ export default {
   },
   created() {
     this.ECHARTS_LOCALE = ECHARTS_LOCALE;
+    registerTheme('dark', theme.dark);
   },
   beforeUnmount() {
     if (this.calendarPicker) this.calendarPicker.destroy();

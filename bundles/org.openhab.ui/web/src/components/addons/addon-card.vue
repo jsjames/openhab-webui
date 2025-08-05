@@ -32,7 +32,7 @@
           <f7-icon
             v-if="addon.verifiedAuthor"
             size="15"
-            :color="themeOptionsStore.dark === 'dark' ? 'white' : 'blue'"
+            :color="themeOptionsStore.darkMode() === 'dark' ? 'white' : 'blue'"
             f7="checkmark_seal_fill"
             style="margin-top: -3px" />
         </div>

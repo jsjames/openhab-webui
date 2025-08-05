@@ -69,7 +69,7 @@
               <!-- <f7-toggle class="enable-toggle"></f7-toggle> -->
               <f7-link
                 v-if="canRegenerate"
-                :color="f7.data.themeOptionsStore.dark === 'dark' ? 'purple' : 'deeppurple'"
+                :color="f7.data.themeOptionsStore.darkMode() === 'dark' ? 'purple' : 'deeppurple'"
                 :tooltip="'Regenerate from template'"
                 icon-md="f7:arrow_2_circlepath"
                 icon-ios="f7:arrow_2_circlepath"

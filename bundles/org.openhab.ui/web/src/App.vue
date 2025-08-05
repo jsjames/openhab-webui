@@ -7,9 +7,6 @@
         userStore.user || componentsStore.page('overview') || communicationFailureMsg
           ? ''
           : 'hidden',
-    }"
-    :class="{
-      dark: themeOptionsStore.dark,
     }">
     <!-- Left Panel -->
     <f7-panel
@@ -22,7 +19,7 @@
         <f7-link href="/overview" class="openhab-logo no-ripple" panel-close>
           <div class="logo-inner">
             <img
-              v-if="themeOptionsStore.dark === 'dark'"
+              v-if="themeOptionsStore.darkMode() === 'dark'"
               src="/images/openhab-logo-white.svg"
               type="image/svg+xml"
               width="196px" />
@@ -574,7 +571,7 @@ export default {
         // theme: (document.documentURI && document.documentURI.indexOf('?theme=ios') > 0) ? 'ios'
         //   : (document.documentURI && document.documentURI.indexOf('?theme=md') > 0) ? 'md'
         //     : 'auto', // Automatic theme detection
-        autoDarkMode: !localStorage.getItem('openhab.ui:theme.dark'),
+        autoDarkMode: useThemeOptionsStore().isAutoDarkMode(),
         // App routes
         routes,
         // Enable panel left visibility breakpoint
@@ -894,8 +891,7 @@ export default {
         title.unshift(useComponentsStore().page(this.currentPath.page?.$key)?.config?.label);
       } else if (this.currentPath.overview) {
         const config = useComponentsStore().page('overview')?.config;
-        //JJ const localizedTitle = this.$t(`home.${this.currentPath.$key}.title`);
-        const localizedTitle = "TBD"
+        const localizedTitle = this.$t(`home.${this.currentPath.$key}.title`);
         title.unshift(
           config?.browserTitle || (config?.label === 'Overview' ? localizedTitle : config?.label)
         );

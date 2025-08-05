@@ -81,7 +81,6 @@ export const useStatesStore = defineStore('states', () => {
           'application/json',
           null
         )
-        console.log(`State tracker connection established with ID: ${connectionId}`)
         sseConnected.value = true
       },
       updates => {
