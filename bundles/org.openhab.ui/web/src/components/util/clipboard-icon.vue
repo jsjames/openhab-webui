@@ -6,7 +6,7 @@
     :size="size ? size : 12"
     v-clipboard="value"
     v-clipboard:success="success"
-    @click="(e) => e.stopPropagation()" />
+    @click.stop />
 </template>
 
 <style lang="stylus">
