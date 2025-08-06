@@ -9,7 +9,7 @@ function executeFileDefinitionCopy(
   fileFormatLabel,
   mediaType
 ) {
-  const progressDialog = vueInstance.f7.dialog.progress(
+  const progressDialog = f7.dialog.progress(
     `Loading ${objectTypeLabel} ${fileFormatLabel} definition...`
   )
 
@@ -20,24 +20,25 @@ function executeFileDefinitionCopy(
     .postPlain(path, data, 'text', 'application/json', headers)
     .then(definition => {
       progressDialog.close()
-      if (vueInstance.$clipboard(definition)) {
-        vueInstance.f7.toast
-          .create({
+      vueInstance.$copyText(definition, undefined, (error, success) => {
+        if (error) {
+          f7.dialog.alert(
+           `Error copying ${objectTypeLabel} ${fileFormatLabel} definition to the clipboard`,
+            'Error'
+          )
+          console.error(error)
+        } else if (success) {
+          f7.toast.create({
             text: `${objectTypeLabel} ${fileFormatLabel} definition copied to clipboard:\n${copiedObjectsLabel}`,
             destroyOnClose: true,
             closeTimeout: 2000
-          })
-          .open()
-      } else {
-        vueInstance.f7.dialog.alert(
-          `Error copying ${objectTypeLabel} ${fileFormatLabel} definition to the clipboard`,
-          'Error'
-        )
-      }
+          }).open()
+        }
+      })
     })
     .catch(error => {
       progressDialog.close()
-      vueInstance.f7.dialog.alert(
+      f7.dialog.alert(
         `Error loading ${objectTypeLabel} ${fileFormatLabel} definition: ${error}`,
         'Error'
       )
