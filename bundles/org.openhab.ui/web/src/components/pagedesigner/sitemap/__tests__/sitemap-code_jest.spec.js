@@ -1,24 +1,21 @@
 import SitemapCode from '../sitemap-code.vue'
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Framework7 from 'framework7'
-import Framework7Vue from 'f7vue'
+import { shallowMount } from '@vue/test-utils'
 
 describe('SitemapCode', () => {
-  const localVue = createLocalVue()
-  Framework7.use(Framework7Vue)
   let wrapper = null
 
   beforeEach(() => {
     wrapper = shallowMount(SitemapCode, {
-      localVue,
-      propsData: {
+      props: {
         sitemap: { uid: 'test', config: { label: 'Test' } }
       },
-      stubs: ['editor']
+      global: {
+        stubs: ['editor']
+      }
     })
   })
 
-  afterEach(() => wrapper.destroy())
+  afterEach(() => wrapper.unmount())
 
   it('has generated a sitemap definition from the component', () => {
     expect(wrapper.vm.sitemapDsl).toBeDefined()
