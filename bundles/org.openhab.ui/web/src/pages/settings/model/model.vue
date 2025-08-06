@@ -2,8 +2,7 @@
   <f7-page
     name="Model"
     @page:afterin="onPageAfterIn"
-    @page:beforeout="onPageBeforeOut"
-    @click="selectItem(null)">
+    @page:beforeout="onPageBeforeOut">
     <f7-navbar
       title="Semantic Model"
       back-link="Settings"
@@ -122,7 +121,7 @@
               :includeItemTags="includeItemTags"
               :canDragDrop="true"
               @selected="selectItem"
-              :selected="selectedItem ? true : null"
+              :selected="selectedItem"
               @reload="load" />
           </f7-block>
         </f7-col>
@@ -529,6 +528,7 @@ export default {
       this.eventSource = null
     },
     selectItem(item) {
+      console.log('selectItem called with:', item)
       this.selectedItem = item
       if (this.newItem && (!item || item.item.name !== this.newItem.name)) {
         this.newItem = null

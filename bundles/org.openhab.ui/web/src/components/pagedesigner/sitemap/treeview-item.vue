@@ -35,7 +35,7 @@
         :parentWidget="widget"
         :itemsList="items"
         @selected="event => $emit('selected', event)"
-        :selected="selected ? true : null"
+        :selected="selected"
         :sitemap="localSitemap"
         :moveState="localMoveState" />
     </draggable>
