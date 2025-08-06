@@ -30,7 +30,7 @@
         :canDragDrop="canDragDrop"
         :moveState="moveState"
         @selected="nodeSelected"
-        :selected="selected ? true : null"
+        :selected="selected"
         @checked="(item, check) => $emit('checked', item, check)"
         @reload="$emit('reload')" />
       <!-- Drop zone for adding at root level -->

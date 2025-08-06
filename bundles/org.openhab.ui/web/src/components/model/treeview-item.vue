@@ -40,7 +40,7 @@
           :parentNode="model"
           :rootNode="rootNode"
           @selected="event => $emit('selected', event)"
-          :selected="selected ? true : null"
+          :selected="selected"
           :includeItemName="includeItemName"
           :includeItemTags="includeItemTags"
           :canDragDrop="canDragDrop"
@@ -87,6 +87,7 @@
 import ItemMixin from '@/components/item/item-mixin'
 import ModelDragDropMixin from '@/pages/settings/model/model-dragdrop-mixin'
 import { VueDraggableNext as Draggable } from 'vue-draggable-next'
+import Dom7 from 'dom7'
 
 export default {
   name: 'model-treeview-item',
@@ -147,6 +148,7 @@ export default {
         Dom7(event.target).is('input')
       )
         return
+      console.log('Model treeview item selected:', this.model)
       this.$emit('selected', this.model)
       if (this.model.checkable && !this.children.length)
         this.check({ target: { checked: !this.model.checked } })
