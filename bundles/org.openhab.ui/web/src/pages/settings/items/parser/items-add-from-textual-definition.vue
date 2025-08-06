@@ -179,7 +179,7 @@
 
 <script>
 import { Parser, Grammar } from 'nearley'
-import grammar from '@/assets/items-lexer.nearley?raw'
+import grammar from '@/assets/items-lexer.nearley.js'
 import { f7, theme } from 'framework7-vue'
 import { defineAsyncComponent } from 'vue'
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
