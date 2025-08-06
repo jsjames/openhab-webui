@@ -42,9 +42,9 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import { actionsMixin } from '@/components/widgets/widget-actions';
-import { OhCardDefinition } from '@/assets/definitions/widgets/standard/cards';
+import mixin from '../widget-mixin'
+import { actionsMixin } from '@/components/widgets/widget-actions'
+import { OhCardDefinition } from '@/assets/definitions/widgets/standard/cards'
 
 export default {
   mixins: [mixin, actionsMixin],
@@ -56,9 +56,9 @@ export default {
       return [
         ...(this.hasAction ? ['card-link'] : []),
         ...(Array.isArray(this.contentClass) ? this.contentClass : ['padding']),
-        ...(Array.isArray(this.config.contentClass) ? this.config.contentClass : []),
-      ];
-    },
-  },
-};
+        ...(Array.isArray(this.config.contentClass) ? this.config.contentClass : [])
+      ]
+    }
+  }
+}
 </script>

@@ -14,18 +14,18 @@
 </template>
 
 <script>
-import { theme } from 'framework7-vue';
+import { theme } from 'framework7-vue'
 
 export default {
   props: ['configDescription', 'value'],
   emits: ['input'],
   setup() {
-    return { theme };
+    return { theme }
   },
   methods: {
     updateValue(event) {
-      this.$emit('input', event.target.value);
-    },
-  },
-};
+      this.$emit('input', event.target.value)
+    }
+  }
+}
 </script>

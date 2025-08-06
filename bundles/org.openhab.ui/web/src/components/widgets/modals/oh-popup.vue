@@ -56,9 +56,9 @@
 </style>
 
 <script>
-import modal from './modal-mixin';
-import { defineAsyncComponent } from 'vue';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import modal from './modal-mixin'
+import { defineAsyncComponent } from 'vue'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
 export default {
   mixins: [modal],
@@ -69,6 +69,6 @@ export default {
   },
   components: {
     'empty-state-placeholder': EmptyStatePlaceholder
-  },
-};
+  }
+}
 </script>

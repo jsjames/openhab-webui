@@ -8,7 +8,9 @@
     <f7-page class="code-editor-content">
       <f7-navbar :title="title">
         <f7-nav-right>
-          <f7-link class="popup-close" @click="update"> Close </f7-link>
+          <f7-link class="popup-close" @click="update">
+            Close
+          </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <editor v-if="showEditor" v-model="code" :mode="mode || ''" />
@@ -22,30 +24,30 @@
 </style>
 
 <script>
-import f7 from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
+import f7 from 'framework7-vue'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   components: {
     editor: defineAsyncComponent(
       () => import(/* webpackChunkName: "script-editor" */ './script-editor.vue')
-    ),
+    )
   },
   props: ['title', 'value', 'mode', 'opened', 'fullscreen', 'popupId'],
   data() {
     return {
       code: this.value,
-      showEditor: false,
-    };
+      showEditor: false
+    }
   },
   methods: {
     popupClosed() {
-      f7.emit('script-editor-closed');
-      this.showEditor = false;
+      f7.emit('script-editor-closed')
+      this.showEditor = false
     },
     update() {
-      f7.emit('script-editor-update', this.code);
-    },
-  },
-};
+      f7.emit('script-editor-update', this.code)
+    }
+  }
+}
 </script>

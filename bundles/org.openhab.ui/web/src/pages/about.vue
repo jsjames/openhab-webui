@@ -18,12 +18,14 @@
               src="../res/icons/favicon.svg"
               type="image/svg+xml"
               width="96"
-              class="padding float-right" />
+              class="padding float-right">
             <h2 v-if="runtimeStore.runtimeInfo" class="block-title-medium">
-              openHAB {{ runtimeStore.runtimeInfo.version }}<br />
+              openHAB {{ runtimeStore.runtimeInfo.version }}<br>
               <small>{{ runtimeStore.runtimeInfo.buildString }}</small>
             </h2>
-            <p v-if="runtimeStore.uiInfo.commit">Main UI Commit {{ runtimeStore.uiInfo.commit }}</p>
+            <p v-if="runtimeStore.uiInfo.commit">
+              Main UI Commit {{ runtimeStore.uiInfo.commit }}
+            </p>
             <p>
               <f7-link
                 external
@@ -102,17 +104,21 @@
         </f7-col>
       </f7-row>
 
-      <f7-block-title
-        ><h4>{{ $t('about.appearanceOptions') }}</h4></f7-block-title
-      >
+      <f7-block-title>
+        <h4>{{ $t('about.appearanceOptions') }}</h4>
+      </f7-block-title>
       <theme-switcher />
 
       <f7-block-title>
         <h4>{{ $t('about.reload') }}</h4>
       </f7-block-title>
       <f7-col v-if="showCachePurgeOption">
-        <p class="padding-horizontal">{{ $t('about.reload.purgeExplanation1') }}</p>
-        <p class="padding-horizontal">{{ $t('about.reload.purgeExplanation2') }}</p>
+        <p class="padding-horizontal">
+          {{ $t('about.reload.purgeExplanation1') }}
+        </p>
+        <p class="padding-horizontal">
+          {{ $t('about.reload.purgeExplanation2') }}
+        </p>
       </f7-col>
       <f7-col>
         <f7-list>
@@ -171,32 +177,32 @@ textarea.textual-systeminfo
 </style>
 
 <script>
-import ThemeSwitcher from '../components/theme-switcher.vue';
-import YAML from 'yaml';
-import { loadLocaleMessages } from '@/js/i18n';
-import { f7, theme } from 'framework7-vue';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { useUserStore } from '@/js/stores/user';
-import { useRuntimeStore } from '@/js/stores/runtime.js';
-import { mapStores } from 'pinia';
+import ThemeSwitcher from '../components/theme-switcher.vue'
+import YAML from 'yaml'
+import { loadLocaleMessages } from '@/js/i18n'
+import { f7, theme } from 'framework7-vue'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { useUserStore } from '@/js/stores/user'
+import { useRuntimeStore } from '@/js/stores/runtime.js'
+import { mapStores } from 'pinia'
 
-import reloadMixin from '../components/reload-mixin.js';
-import { onMounted } from 'vue';
+import reloadMixin from '../components/reload-mixin.js'
+import { onMounted } from 'vue'
 
 export default {
   mixins: [reloadMixin],
   components: {
-    ThemeSwitcher,
+    ThemeSwitcher
   },
   data() {
     return {
       systemInfo: null,
       textualSystemInfoOpened: false,
       bindings: null
-    };
+    }
   },
   i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/about/*.json')),
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/about/*.json'))
   },
   computed: {
     textualSystemInfo() {
@@ -208,7 +214,7 @@ export default {
         addons: this.addons,
         clientInfo: {
           device: Object.assign({}, this.$device, {
-            prefersColorScheme: this.$device.prefersColorScheme(),
+            prefersColorScheme: this.$device.prefersColorScheme()
           }),
           isSecureContext: window.isSecureContext,
           locationbarVisible: window.locationbar ? window.locationbar.visible : 'N/A',
@@ -220,18 +226,18 @@ export default {
             language: navigator.language,
             languages: navigator.languages,
             onLine: navigator.onLine,
-            platform: navigator.platform,
+            platform: navigator.platform
           },
           screen: {
             width: window.screen.width,
             height: window.screen.height,
-            colorDepth: window.screen.colorDepth,
+            colorDepth: window.screen.colorDepth
           },
           support: f7.support,
-          userAgent: window.navigator.userAgent,
+          userAgent: window.navigator.userAgent
         },
-        timestamp: new Date(),
-      });
+        timestamp: new Date()
+      })
     },
     ...mapStores(useThemeOptionsStore, useRuntimeStore)
   },
@@ -239,29 +245,29 @@ export default {
     beforePageIn() {
       if (useUserStore().isAdmin()) {
         this.$oh.api.get('/rest/systeminfo').then(data => {
-          this.systemInfo = data.systemInfo;
-        });
+          this.systemInfo = data.systemInfo
+        })
         this.$oh.api.get('/rest/addons').then(data => {
           this.addons = data
             .filter(a => a.installed)
             .map(a => a.uid)
-            .sort();
-        });
+            .sort()
+        })
       }
-      this.checkPurgeServiceWorkerAndCachesAvailable();
+      this.checkPurgeServiceWorkerAndCachesAvailable()
     },
     copyTextualSystemInfo() {
-      let el = document.getElementById('textual-systeminfo');
-      el.select();
-      document.execCommand('copy');
+      let el = document.getElementById('textual-systeminfo')
+      el.select()
+      document.execCommand('copy')
       f7.toast
         .create({
           text: 'Copied to clipboard',
           destroyOnClose: true,
-          closeTimeout: 2000,
+          closeTimeout: 2000
         })
-        .open();
-    },
-  },
-};
+        .open()
+    }
+  }
+}
 </script>

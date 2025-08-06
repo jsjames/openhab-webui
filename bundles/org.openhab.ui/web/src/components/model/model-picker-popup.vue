@@ -134,13 +134,13 @@
 </style>
 
 <script>
-import ModelTreeview from '@/components/model/model-treeview.vue';
-import ModelMixin from '@/pages/settings/model/model-mixin';
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
-import { mapState } from 'pinia';
+import ModelTreeview from '@/components/model/model-treeview.vue'
+import ModelMixin from '@/pages/settings/model/model-mixin'
+import { f7, theme } from 'framework7-vue'
+import { nextTick } from 'vue'
+import { mapState } from 'pinia'
 
-import { useRuntimeStore } from '@/js/stores/runtime';
+import { useRuntimeStore } from '@/js/stores/runtime'
 
 export default {
   mixins: [ModelMixin],
@@ -152,14 +152,14 @@ export default {
     'editableOnly',
     'allowEmpty',
     'popupTitle',
-    'actionLabel',
+    'actionLabel'
   ],
   components: {
-    ModelTreeview,
+    ModelTreeview
   },
   emits: ['closed', 'input', 'model-picker-closed', 'items-picked'],
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -167,51 +167,51 @@ export default {
       initSearchbar: false,
       doubleClickStarted: null,
       doubleClickItem: null,
-      checkedItems: [],
-    };
+      checkedItems: []
+    }
   },
   computed: {
     rootNodes() {
       if (this.semanticOnly) {
-        return [this.rootLocations, this.rootEquipment, !this.groupsOnly ? this.rootPoints : []];
+        return [this.rootLocations, this.rootEquipment, !this.groupsOnly ? this.rootPoints : []]
       } else {
         return [
           this.rootLocations,
           this.rootEquipment,
           !this.groupsOnly ? this.rootPoints : [],
           this.rootGroups,
-          !this.groupsOnly ? this.rootItems : [],
-        ].flat();
+          !this.groupsOnly ? this.rootItems : []
+        ].flat()
       }
     },
     ...mapState(useRuntimeStore, {
       includeItemName: 'sitemapIncludesItemNames',
       includeItemTag: 'sitemapIncludesItemTags',
-      expanded: 'sitemapExpanded',
-    }),
+      expanded: 'sitemapExpanded'
+    })
   },
   methods: {
     onOpen() {
-      this.selectedItem = null;
-      this.initSearchbar = false;
-      this.checkedItems = [];
-      this.load();
+      this.selectedItem = null
+      this.initSearchbar = false
+      this.checkedItems = []
+      this.load()
     },
     onClose() {
-      this.ready = false;
-      this.$emit('closed');
-      f7.emit('model-picker-closed');
+      this.ready = false
+      this.$emit('closed')
+      f7.emit('model-picker-closed')
     },
     pickItems() {
-      let pickedItems;
+      let pickedItems
       if (this.multiple) {
-        pickedItems = this.checkedItems.map(i => i.item);
+        pickedItems = this.checkedItems.map(i => i.item)
       } else {
-        pickedItems = this.selectedItem ? this.selectedItem.item : null;
+        pickedItems = this.selectedItem ? this.selectedItem.item : null
       }
-      this.$emit('input', pickedItems);
-      f7.emit('items-picked', pickedItems);
-      this.$refs.modelPicker.close();
+      this.$emit('input', pickedItems)
+      f7.emit('items-picked', pickedItems)
+      this.$refs.modelPicker.close()
     },
     modelItem(item) {
       const modelItem = {
@@ -224,22 +224,22 @@ export default {
           equipment: [],
           points: [],
           groups: [],
-          items: [],
-        },
-      };
+          items: []
+        }
+      }
       // force the selection of the placeholder for a item being created
       if (item.created === false) {
-        this.selectItem(modelItem);
+        this.selectItem(modelItem)
       }
       if (this.previousSelection && item.name === this.previousSelection.item.name) {
-        this.selectedItem = parent;
-        this.previousSelection = null;
-        this.selectItem(modelItem);
+        this.selectedItem = parent
+        this.previousSelection = null
+        this.selectItem(modelItem)
       }
 
-      modelItem.checkable = this.multiple;
+      modelItem.checkable = this.multiple
       if (!this.multiple && this.value === item.name) {
-        this.selectItem(modelItem);
+        this.selectItem(modelItem)
       } else if (
         this.multiple &&
         Array.isArray(this.value) &&
@@ -247,61 +247,61 @@ export default {
           typeof i === 'string' ? i === item.name : i.name === item.name
         ) >= 0
       ) {
-        modelItem.checked = true;
-        this.checkedItems.push(modelItem);
+        modelItem.checked = true
+        this.checkedItems.push(modelItem)
       }
 
-      return modelItem;
+      return modelItem
     },
     load() {
       this.loadModel().then(() => {
         nextTick(() => {
-          this.initSearchbar = true;
-          this.restoreExpanded();
-          this.expandSelected();
-        });
-      });
+          this.initSearchbar = true
+          this.restoreExpanded()
+          this.expandSelected()
+        })
+      })
     },
     selectItem(item) {
       if (!this.multiple) {
-        this.selectedItem = item;
+        this.selectedItem = item
         if (this.doubleClickStarted && this.doubleClickItem === item) {
-          this.pickItems();
+          this.pickItems()
         } else {
           this.doubleClickStarted = setTimeout(() => {
-            this.doubleClickStarted = null;
-          }, 500);
-          this.doubleClickItem = item;
+            this.doubleClickStarted = null
+          }, 500)
+          this.doubleClickItem = item
         }
       } else if (item.children && item.opened !== undefined) {
-        item.opened = !item.opened;
+        item.opened = !item.opened
       }
     },
     checkItem(item, check) {
       if (check) {
-        this.checkedItems.push(item);
+        this.checkedItems.push(item)
       } else {
-        this.checkedItems.splice(this.checkedItems.indexOf(item), 1);
+        this.checkedItems.splice(this.checkedItems.indexOf(item), 1)
       }
     },
     toggleNonSemantic() {
-      this.rootGroups = [];
-      this.rootItems = [];
-      this.includeNonSemantic = !this.includeNonSemantic;
-      this.load();
+      this.rootGroups = []
+      this.rootItems = []
+      this.includeNonSemantic = !this.includeNonSemantic
+      this.load()
     },
     toggleItemName() {
-      this.includeItemName = !this.includeItemName;
-      this.load();
+      this.includeItemName = !this.includeItemName
+      this.load()
     },
     toggleItemTags() {
-      this.includeItemTags = !this.includeItemTags;
-      this.load();
+      this.includeItemTags = !this.includeItemTags
+      this.load()
     },
     toggleExpanded() {
-      this.expanded = !this.expanded;
-      this.applyExpandedOption();
-    },
-  },
-};
+      this.expanded = !this.expanded
+      this.applyExpandedOption()
+    }
+  }
+}
 </script>

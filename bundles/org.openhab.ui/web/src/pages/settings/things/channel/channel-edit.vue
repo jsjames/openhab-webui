@@ -9,7 +9,9 @@
             icon-only
             tooltip="Channels of Things defined in a .things file are not editable from this screen" />
           <f7-link @click="save()" v-else-if="theme.md" icon-md="material:save" icon-only />
-          <f7-link @click="save()" v-else> Done </f7-link>
+          <f7-link @click="save()" v-else>
+            Done
+          </f7-link>
         </template>
       </f7-nav-right>
     </f7-navbar>
@@ -23,9 +25,13 @@
           :disabled="!thing.editable ? true : null" />
       </f7-col>
       <f7-col v-if="channelType != null">
-        <f7-block-title v-if="configDescription.parameters"> Configuration </f7-block-title>
+        <f7-block-title v-if="configDescription.parameters">
+          Configuration
+        </f7-block-title>
         <f7-block-footer v-else-if="noConfig" class="padding">
-          This channel has no configuration.<br /><br /><f7-link back> Go Back </f7-link>
+          This channel has no configuration.<br><br><f7-link back>
+            Go Back
+          </f7-link>
         </f7-block-footer>
         <config-sheet
           :parameter-groups="configDescription.parameterGroups"
@@ -38,14 +44,14 @@
 </template>
 
 <script>
-import ChannelGeneralSettings from '@/pages/settings/things/channel/channel-general-settings.vue';
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import { f7, theme } from 'framework7-vue';
+import ChannelGeneralSettings from '@/pages/settings/things/channel/channel-general-settings.vue'
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import { f7, theme } from 'framework7-vue'
 
 export default {
   components: {
     ChannelGeneralSettings,
-    ConfigSheet,
+    ConfigSheet
   },
   props: {
     thing: Object,
@@ -54,43 +60,43 @@ export default {
     channelType: Object,
     channelId: String,
     f7router: Object,
-    f7route: Object,
+    f7route: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
       configDescription: {},
       config: {},
-      noConfig: false,
-    };
+      noConfig: false
+    }
   },
   methods: {
     onPageAfterIn(event) {
-      this.config = Object.assign({}, this.channel.configuration);
+      this.config = Object.assign({}, this.channel.configuration)
       this.$oh.api
         .get(
           `/rest/config-descriptions/channel:${this.thing.UID}:${this.channelId.replace('#', '%23')}`
         )
         .then(ct => {
-          this.configDescription = ct;
+          this.configDescription = ct
         })
         .catch(err => {
           if (err === 'Not Found' || err === 404) {
-            this.noConfig = true;
+            this.noConfig = true
           }
-        });
+        })
     },
     save() {
       let finalChannel = Object.assign({}, this.channel, {
-        configuration: this.config,
-      });
-      this.f7route.route.context.finalChannel = finalChannel;
-      this.f7router.back();
+        configuration: this.config
+      })
+      this.f7route.route.context.finalChannel = finalChannel
+      this.f7router.back()
       // this.$emit('channelAddComplete', finalChannel)
       // f7.view.main.emit('complete', finalChannel)
-    },
-  },
-};
+    }
+  }
+}
 </script>

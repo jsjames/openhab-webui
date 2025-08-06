@@ -95,11 +95,11 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import { OhListDefinition } from '@/assets/definitions/widgets/system';
+import mixin from '../widget-mixin'
+import { OhListDefinition } from '@/assets/definitions/widgets/system'
 
 export default {
   mixins: [mixin],
-  widget: OhListDefinition,
-};
+  widget: OhListDefinition
+}
 </script>

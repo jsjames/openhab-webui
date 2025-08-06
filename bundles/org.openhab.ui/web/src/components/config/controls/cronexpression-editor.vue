@@ -5,7 +5,9 @@
     <f7-page class="cron-select-content">
       <f7-navbar :title="'Cron: ' + cron" :subtitle="translation">
         <f7-nav-right>
-          <f7-link class="popup-close" @click="change"> Done </f7-link>
+          <f7-link class="popup-close" @click="change">
+            Done
+          </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <f7-toolbar tabbar position="top">
@@ -647,9 +649,9 @@
 </style>
 
 <script>
-import Labels from '@/assets/i18n/cron/en.js';
-import cronstrue from 'cronstrue';
-import { f7 } from 'framework7-vue';
+import Labels from '@/assets/i18n/cron/en.js'
+import cronstrue from 'cronstrue'
+import { f7 } from 'framework7-vue'
 
 export default {
   name: 'vueCron',
@@ -664,7 +666,7 @@ export default {
         incrementIncrement: 5,
         rangeStart: 1,
         rangeEnd: 1,
-        specificSpecific: [0],
+        specificSpecific: [0]
       },
       minute: {
         cronEvery: 3,
@@ -672,7 +674,7 @@ export default {
         incrementIncrement: 5,
         rangeStart: 1,
         rangeEnd: 1,
-        specificSpecific: [0],
+        specificSpecific: [0]
       },
       hour: {
         cronEvery: 3,
@@ -680,7 +682,7 @@ export default {
         incrementIncrement: 5,
         rangeStart: 1,
         rangeEnd: 1,
-        specificSpecific: [8],
+        specificSpecific: [8]
       },
       day: {
         cronEvery: 1,
@@ -691,7 +693,7 @@ export default {
         specificSpecific: [],
         cronLastSpecificDomDay: 1,
         cronDaysBeforeEomMinus: 1,
-        cronDaysNearestWeekday: 1,
+        cronDaysNearestWeekday: 1
       },
       week: {
         cronEvery: 1,
@@ -699,7 +701,7 @@ export default {
         incrementIncrement: 1,
         specificSpecific: [],
         cronNthDayDay: 1,
-        cronNthDayNth: 1,
+        cronNthDayNth: 1
       },
       month: {
         cronEvery: 1,
@@ -707,7 +709,7 @@ export default {
         incrementIncrement: 5,
         rangeStart: 1,
         rangeEnd: 1,
-        specificSpecific: [],
+        specificSpecific: []
       },
       year: {
         cronEvery: 1,
@@ -715,7 +717,7 @@ export default {
         incrementIncrement: 1,
         rangeStart: 2019,
         rangeEnd: 2019,
-        specificSpecific: [],
+        specificSpecific: []
       },
       output: {
         second: 1,
@@ -724,241 +726,241 @@ export default {
         day: 1,
         month: 1,
         Week: 1,
-        year: 1,
-      },
-    };
+        year: 1
+      }
+    }
   },
   watch: {
     value() {
-      this.rest(this.$data);
-    },
+      this.rest(this.$data)
+    }
   },
   computed: {
     text() {
-      return Labels;
+      return Labels
     },
     secondsText() {
-      let seconds = '';
-      let cronEvery = this.second.cronEvery;
+      let seconds = ''
+      let cronEvery = this.second.cronEvery
       switch (cronEvery.toString()) {
         case '1':
-          seconds = '*';
-          break;
+          seconds = '*'
+          break
         case '2':
-          seconds = this.second.incrementStart + '/' + this.second.incrementIncrement;
-          break;
+          seconds = this.second.incrementStart + '/' + this.second.incrementIncrement
+          break
         case '3':
           this.second.specificSpecific.forEach(val => {
-            seconds += val + ',';
-          });
-          seconds = seconds.slice(0, -1);
-          break;
+            seconds += val + ','
+          })
+          seconds = seconds.slice(0, -1)
+          break
         case '4':
-          seconds = this.second.rangeStart + '-' + this.second.rangeEnd;
-          break;
+          seconds = this.second.rangeStart + '-' + this.second.rangeEnd
+          break
       }
-      return seconds;
+      return seconds
     },
     minutesText() {
-      let minutes = '';
-      let cronEvery = this.minute.cronEvery;
+      let minutes = ''
+      let cronEvery = this.minute.cronEvery
       switch (cronEvery.toString()) {
         case '1':
-          minutes = '*';
-          break;
+          minutes = '*'
+          break
         case '2':
-          minutes = this.minute.incrementStart + '/' + this.minute.incrementIncrement;
-          break;
+          minutes = this.minute.incrementStart + '/' + this.minute.incrementIncrement
+          break
         case '3':
           this.minute.specificSpecific.forEach(val => {
-            minutes += val + ',';
-          });
-          minutes = minutes.slice(0, -1);
-          break;
+            minutes += val + ','
+          })
+          minutes = minutes.slice(0, -1)
+          break
         case '4':
-          minutes = this.minute.rangeStart + '-' + this.minute.rangeEnd;
-          break;
+          minutes = this.minute.rangeStart + '-' + this.minute.rangeEnd
+          break
       }
-      return minutes;
+      return minutes
     },
     hoursText() {
-      let hours = '';
-      let cronEvery = this.hour.cronEvery;
+      let hours = ''
+      let cronEvery = this.hour.cronEvery
       switch (cronEvery.toString()) {
         case '1':
-          hours = '*';
-          break;
+          hours = '*'
+          break
         case '2':
-          hours = this.hour.incrementStart + '/' + this.hour.incrementIncrement;
-          break;
+          hours = this.hour.incrementStart + '/' + this.hour.incrementIncrement
+          break
         case '3':
           this.hour.specificSpecific.forEach(val => {
-            hours += val + ',';
-          });
-          hours = hours.slice(0, -1);
-          break;
+            hours += val + ','
+          })
+          hours = hours.slice(0, -1)
+          break
         case '4':
-          hours = this.hour.rangeStart + '-' + this.hour.rangeEnd;
-          break;
+          hours = this.hour.rangeStart + '-' + this.hour.rangeEnd
+          break
       }
-      return hours;
+      return hours
     },
     daysText() {
-      let days = '';
-      let cronEvery = this.day.cronEvery;
+      let days = ''
+      let cronEvery = this.day.cronEvery
       switch (cronEvery.toString()) {
         case '1':
-          break;
+          break
         case '2':
         case '4':
         case '11':
-          days = '?';
-          break;
+          days = '?'
+          break
         case '3':
-          days = this.day.incrementStart + '/' + this.day.incrementIncrement;
-          break;
+          days = this.day.incrementStart + '/' + this.day.incrementIncrement
+          break
         case '5':
           this.day.specificSpecific.forEach(val => {
-            days += val + ',';
-          });
-          days = days.slice(0, -1);
-          break;
+            days += val + ','
+          })
+          days = days.slice(0, -1)
+          break
         case '6':
-          days = 'L';
-          break;
+          days = 'L'
+          break
         case '7':
-          days = 'LW';
-          break;
+          days = 'LW'
+          break
         case '8':
-          break;
+          break
         case '9':
-          days = 'L-' + this.day.cronDaysBeforeEomMinus;
-          break;
+          days = 'L-' + this.day.cronDaysBeforeEomMinus
+          break
         case '10':
-          days = this.day.cronDaysNearestWeekday + 'W';
-          break;
+          days = this.day.cronDaysNearestWeekday + 'W'
+          break
       }
-      return days;
+      return days
     },
     weeksText() {
-      let weeks = '';
-      let cronEvery = this.day.cronEvery;
+      let weeks = ''
+      let cronEvery = this.day.cronEvery
       switch (cronEvery.toString()) {
         case '1':
         case '3':
         case '5':
-          weeks = '?';
-          break;
+          weeks = '?'
+          break
         case '2':
-          weeks = this.week.incrementStart + '/' + this.week.incrementIncrement;
-          break;
+          weeks = this.week.incrementStart + '/' + this.week.incrementIncrement
+          break
         case '4':
           this.week.specificSpecific.forEach(val => {
-            weeks += val + ',';
-          });
-          weeks = weeks.slice(0, -1);
-          break;
+            weeks += val + ','
+          })
+          weeks = weeks.slice(0, -1)
+          break
         case '6':
         case '7':
         case '9':
         case '10':
-          weeks = '?';
-          break;
+          weeks = '?'
+          break
         case '8':
-          weeks = this.day.cronLastSpecificDomDay + 'L';
-          break;
+          weeks = this.day.cronLastSpecificDomDay + 'L'
+          break
         case '11':
-          weeks = this.week.cronNthDayDay + '#' + this.week.cronNthDayNth;
-          break;
+          weeks = this.week.cronNthDayDay + '#' + this.week.cronNthDayNth
+          break
       }
-      return weeks;
+      return weeks
     },
     monthsText() {
-      let months = '';
-      let cronEvery = this.month.cronEvery;
+      let months = ''
+      let cronEvery = this.month.cronEvery
       switch (cronEvery.toString()) {
         case '1':
-          months = '*';
-          break;
+          months = '*'
+          break
         case '2':
-          months = this.month.incrementStart + '/' + this.month.incrementIncrement;
-          break;
+          months = this.month.incrementStart + '/' + this.month.incrementIncrement
+          break
         case '3':
           this.month.specificSpecific.forEach(val => {
-            months += val + ',';
-          });
-          months = months.slice(0, -1);
-          break;
+            months += val + ','
+          })
+          months = months.slice(0, -1)
+          break
         case '4':
-          months = this.month.rangeStart + '-' + this.month.rangeEnd;
-          break;
+          months = this.month.rangeStart + '-' + this.month.rangeEnd
+          break
       }
-      return months;
+      return months
     },
     yearsText() {
-      let years = '';
-      let cronEvery = this.year.cronEvery;
+      let years = ''
+      let cronEvery = this.year.cronEvery
       switch (cronEvery.toString()) {
         case '1':
-          years = '*';
-          break;
+          years = '*'
+          break
         case '2':
-          years = this.year.incrementStart + '/' + this.year.incrementIncrement;
-          break;
+          years = this.year.incrementStart + '/' + this.year.incrementIncrement
+          break
         case '3':
           this.year.specificSpecific.forEach(val => {
-            years += val + ',';
-          });
-          years = years.slice(0, -1);
-          break;
+            years += val + ','
+          })
+          years = years.slice(0, -1)
+          break
         case '4':
-          years = this.year.rangeStart + '-' + this.year.rangeEnd;
-          break;
+          years = this.year.rangeStart + '-' + this.year.rangeEnd
+          break
       }
-      return years;
+      return years
     },
     cron() {
       return `${this.secondsText || '*'} ${this.minutesText || '*'} ${
         this.hoursText || '*'
       } ${this.daysText || '*'} ${
         this.monthsText || '*'
-      } ${this.weeksText || '?'} ${this.yearsText || '*'}`;
+      } ${this.weeksText || '?'} ${this.yearsText || '*'}`
     },
     translation() {
       return cronstrue.toString(this.cron, {
         use24HourTimeFormat: true,
-        dayOfWeekStartIndexZero: false,
-      });
-    },
+        dayOfWeekStartIndexZero: false
+      })
+    }
   },
   methods: {
     getValue() {
-      return this.cron;
+      return this.cron
     },
     change() {
-      f7.emit('cron-editor-update', this.cron);
+      f7.emit('cron-editor-update', this.cron)
     },
     close() {
-      f7.emit('cron-editor-closed');
+      f7.emit('cron-editor-closed')
     },
     rest(data) {
       for (let i in data) {
-        if (i === 'currentTab') continue;
+        if (i === 'currentTab') continue
         if (data[i] instanceof Object) {
-          this.rest(data[i]);
+          this.rest(data[i])
         } else {
           switch (typeof data[i]) {
             case 'object':
-              data[i] = [];
-              break;
+              data[i] = []
+              break
             case 'string':
-              data[i] = '';
-              break;
+              data[i] = ''
+              break
           }
         }
       }
-    },
+    }
   },
-  mounted() {},
-};
+  mounted() {}
+}
 </script>

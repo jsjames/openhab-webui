@@ -78,9 +78,9 @@
 </style>
 
 <script>
-import { actionParams } from '@/assets/definitions/widgets/actions';
-import { defineAsyncComponent } from 'vue';
-import { f7 } from 'framework7-vue';
+import { actionParams } from '@/assets/definitions/widgets/actions'
+import { defineAsyncComponent } from 'vue'
+import { f7 } from 'framework7-vue'
 
 export default {
   props: {
@@ -89,54 +89,54 @@ export default {
     configuration: Object,
     status: Array,
     readOnly: Boolean,
-    setEmptyConfigAsNull: Boolean,
+    setEmptyConfigAsNull: Boolean
   },
   emits: ['updated'],
   components: {
     'config-parameter': defineAsyncComponent(
       () => import(/* webpackChunkName: "config-parameter" */ './config-parameter.vue')
-    ),
+    )
   },
   data() {
     return {
-      showAdvanced: false,
-    };
+      showAdvanced: false
+    }
   },
   computed: {
     configurationWithDefaults() {
-      const conf = Object.assign({}, this.configuration);
+      const conf = Object.assign({}, this.configuration)
       this.parameters.forEach(p => {
         if (conf[p.name] === undefined && p.default !== undefined) {
           if (typeof p.default === 'function') {
-            conf[p.name] = p.default(this.configuration);
+            conf[p.name] = p.default(this.configuration)
           } else if (p.multiple) {
-            conf[p.name] = p.defaultValues;
+            conf[p.name] = p.defaultValues
           } else {
-            conf[p.name] = p.default;
+            conf[p.name] = p.default
           }
         }
-      });
-      return conf;
+      })
+      return conf
     },
     hasAdvanced() {
-      return this.parameters.length > 0 && this.parameters.some(p => p.advanced);
+      return this.parameters.length > 0 && this.parameters.some(p => p.advanced)
     },
     displayedParameters() {
       function notNullNotUndefined(value) {
-        return value !== null && value !== undefined;
+        return value !== null && value !== undefined
       }
 
-      if (!this.parameters.length) return [];
-      let finalParameters = [...this.parameters];
+      if (!this.parameters.length) return []
+      let finalParameters = [...this.parameters]
       if (this.parameterGroups && this.parameterGroups.some(g => g.context === 'action')) {
         this.parameterGroups
           .filter(g => g.context === 'action')
           .forEach(g => {
-            const prefix = g.name.replace(/action/gi, '');
-            finalParameters = [...finalParameters, ...actionParams(g.name, prefix)];
-          });
+            const prefix = g.name.replace(/action/gi, '')
+            finalParameters = [...finalParameters, ...actionParams(g.name, prefix)]
+          })
       }
-      if (this.showAdvanced) return finalParameters; // show all parameters
+      if (this.showAdvanced) return finalParameters // show all parameters
       // exclude advanced parameters:
       return finalParameters.filter(
         p =>
@@ -146,15 +146,15 @@ export default {
           (notNullNotUndefined(p.default) &&
             notNullNotUndefined(this.configuration[p.name]) &&
             this.configuration[p.name].toString() !== p.default)
-      );
-    },
+      )
+    }
   },
   methods: {
     isValid() {
-      return f7.input.validateInputs(this.$refs.sheet.$el);
+      return f7.input.validateInputs(this.$refs.sheet.$el)
     },
     toggleAdvanced(event) {
-      this.showAdvanced = !this.showAdvanced; // event.target.checked
+      this.showAdvanced = !this.showAdvanced // event.target.checked
     },
     updateParameter(parameter, value) {
       if (
@@ -166,20 +166,20 @@ export default {
       ) {
         if (this.setEmptyConfigAsNull) {
           // deleting the parameter sometimes lead to saves not updating it, so set it explicitely to null
-          this.configuration[parameter.name] = null;
+          this.configuration[parameter.name] = null
         } else {
-          delete this.configuration[parameter.name];
+          delete this.configuration[parameter.name]
         }
       } else {
-        this.configuration[parameter.name] = value;
+        this.configuration[parameter.name] = value
       }
-      console.debug(JSON.stringify(this.configuration));
-      this.$emit('updated');
+      console.debug(JSON.stringify(this.configuration))
+      this.$emit('updated')
     },
     parameterStatus(parameter) {
-      if (!this.status || !this.status.length) return null;
-      return this.status.find(ps => ps.parameterName === parameter.name);
-    },
-  },
-};
+      if (!this.status || !this.status.length) return null
+      return this.status.find(ps => ps.parameterName === parameter.name)
+    }
+  }
+}
 </script>

@@ -47,57 +47,57 @@
 </style>
 
 <script>
-import { useStatesStore } from '@/js/stores/states';
-import mixin from '../widget-mixin';
-import { OhRollershutterDefinition } from '@/assets/definitions/widgets/system';
+import { useStatesStore } from '@/js/stores/states'
+import mixin from '../widget-mixin'
+import { OhRollershutterDefinition } from '@/assets/definitions/widgets/system'
 
 export default {
   mixins: [mixin],
   widget: OhRollershutterDefinition,
   mounted() {
-    delete this.config.value;
+    delete this.config.value
   },
   computed: {
     state() {
       return (
         this.context.store[this.config.item].displayState ||
         this.context.store[this.config.item].state
-      );
+      )
     },
     upIcon(theme) {
-      const dir = this.config.vertical ? 'left' : 'up';
-      const style = this.config.dirIconsStyle || 'arrowtriangle_{dir}';
-      return 'f7:' + style.replace('{dir}', dir);
+      const dir = this.config.vertical ? 'left' : 'up'
+      const style = this.config.dirIconsStyle || 'arrowtriangle_{dir}'
+      return 'f7:' + style.replace('{dir}', dir)
     },
     downIcon(theme) {
-      const dir = this.config.vertical ? 'right' : 'down';
-      const style = this.config.dirIconsStyle || 'arrowtriangle_{dir}';
-      return 'f7:' + style.replace('{dir}', dir);
+      const dir = this.config.vertical ? 'right' : 'down'
+      const style = this.config.dirIconsStyle || 'arrowtriangle_{dir}'
+      return 'f7:' + style.replace('{dir}', dir)
     },
     stopIcon(theme) {
-      const style = this.config.stopIconStyle || 'stop';
-      return 'f7:' + style;
-    },
+      const style = this.config.stopIconStyle || 'stop'
+      return 'f7:' + style
+    }
   },
   methods: {
     up(value) {
       useStatesStore().sendCommand(
         this.config.item,
         'UP'
-      );
+      )
     },
     down(value) {
       useStatesStore().sendCommand(
         this.config.item,
         'DOWN'
-      );
+      )
     },
     stop(value) {
       useStatesStore().sendCommand(
         this.config.item,
         'STOP'
-      );
-    },
-  },
-};
+      )
+    }
+  }
+}
 </script>

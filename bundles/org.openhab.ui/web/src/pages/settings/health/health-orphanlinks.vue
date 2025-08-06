@@ -14,8 +14,8 @@
       <f7-col>
         <f7-block-footer class="padding-horizontal">
           Orphan links are items pointing to non-existent thing channels or vice versa.
-          <br />
-          <br />
+          <br>
+          <br>
           Note that only the links of managed Items can be purged, not links defined in
           <code>.items</code> files - these must be fixed manually in the corresponding file. The
           latter are marked with <f7-icon f7="lock_fill" size="1rem" color="gray" />.
@@ -76,6 +76,8 @@
   </f7-page>
 </template>
 
+<style></style>
+
 <script>
 export default {
   data() {
@@ -87,48 +89,46 @@ export default {
       orphanLinkProblemExplanation: {
         THING_CHANNEL_MISSING: 'The item is linked to a thing channel that does not exist',
         ITEM_MISSING: 'The item does not exist',
-        ITEM_AND_THING_CHANNEL_MISSING: 'Neither the item nor thing channel exists',
-      },
-    };
+        ITEM_AND_THING_CHANNEL_MISSING: 'Neither the item nor thing channel exists'
+      }
+    }
   },
   computed: {
     purgeableLinksCount() {
-      return this.orphanLinks.filter(l => l.itemChannelLink.editable).length;
-    },
+      return this.orphanLinks.filter(l => l.itemChannelLink.editable).length
+    }
   },
   methods: {
     onPageAfterIn() {
-      this.load();
+      this.load()
     },
     load() {
-      this.loading = true;
+      this.loading = true
       this.$oh.api.get('/rest/links/orphans').then(data => {
-        this.orphanLinks = data;
-        this.loading = false;
-        this.ready = true;
-      });
+        this.orphanLinks = data
+        this.loading = false
+        this.ready = true
+      })
     },
     getLinkForProblem(orphanLink) {
       if (orphanLink.problem === 'THING_CHANNEL_MISSING') {
-        return '/settings/items/' + orphanLink.itemChannelLink.itemName;
+        return '/settings/items/' + orphanLink.itemChannelLink.itemName
       }
-      return null;
+      return null
     },
     purgeAllManaged() {
-      this.loading = true;
+      this.loading = true
       this.$oh.api
         .post('/rest/links/purge')
         .catch(e => {
           // ignore parseerror due to empty response
-          if (e === 'parseerror') return;
-          console.error(e);
+          if (e === 'parseerror') return
+          console.error(e)
         })
         .finally(() => {
-          this.load();
-        });
-    },
-  },
-};
+          this.load()
+        })
+    }
+  }
+}
 </script>
-
-<style></style>

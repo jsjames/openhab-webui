@@ -15,7 +15,9 @@
         </f7-nav-left>
         <f7-nav-title>Set Component Props</f7-nav-title>
         <f7-nav-right>
-          <f7-link class="popup-close" @click="updateProps"> Done </f7-link>
+          <f7-link class="popup-close" @click="updateProps">
+            Done
+          </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <f7-block v-if="props">
@@ -31,23 +33,23 @@
 </template>
 
 <script>
-import { f7 } from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
+import { f7 } from 'framework7-vue'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   components: {
     'config-sheet': defineAsyncComponent(
       () => import(/* webpackChunkName: "config-sheet" */ '@/components/config/config-sheet.vue')
-    ),
+    )
   },
   props: ['props', 'config'],
   methods: {
     propsSheetClosed() {
-      f7.emit('props-editor-closed');
+      f7.emit('props-editor-closed')
     },
     updateProps() {
-      f7.emit('props-editor-update', this.config);
-    },
-  },
-};
+      f7.emit('props-editor-update', this.config)
+    }
+  }
+}
 </script>

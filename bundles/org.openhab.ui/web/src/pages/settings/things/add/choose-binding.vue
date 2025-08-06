@@ -60,26 +60,28 @@
         </f7-list>
       </f7-col>
       <f7-row v-else-if="ready" class="display-flex justify-content-center">
-        <f7-button large fill color="blue" href="/addons/binding/"> Install Bindings </f7-button>
+        <f7-button large fill color="blue" href="/addons/binding/">
+          Install Bindings
+        </f7-button>
       </f7-row>
     </f7-block>
   </f7-page>
 </template>
 
 <script>
-import { nextTick, defineAsyncComponent } from 'vue';
-import { theme } from 'framework7-vue';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import { nextTick, defineAsyncComponent } from 'vue'
+import { theme } from 'framework7-vue'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { mapStores } from 'pinia';
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
 
 export default {
   components: {
     'empty-state-placeholder': EmptyStatePlaceholder
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -87,33 +89,33 @@ export default {
       loading: false,
       initSearchbar: false,
       bindings: [],
-      inbox: [],
-    };
+      inbox: []
+    }
   },
   computed: {
-    ...mapStores(useRuntimeStore),
+    ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageAfterIn() {
-      this.loading = true;
+      this.loading = true
       this.$oh.api.get('/rest/addons?serviceId=all').then(data => {
         let installedBindings = data.filter(
           addon => addon.type === 'binding' && addon.installed === true
-        );
-        this.bindings = installedBindings.sort((a, b) => a.label.localeCompare(b.label));
-        this.loading = false;
-        this.initSearchbar = true;
-        this.ready = true;
+        )
+        this.bindings = installedBindings.sort((a, b) => a.label.localeCompare(b.label))
+        this.loading = false
+        this.initSearchbar = true
+        this.ready = true
         nextTick(() => {
           if (this.$device.desktop && this.$refs.searchbar) {
-            this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
+            this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus()
           }
-        });
-      });
+        })
+      })
       this.$oh.api.get('/rest/inbox?includeIgnored=false').then(data => {
-        this.inbox = data;
-      });
-    },
-  },
-};
+        this.inbox = data
+      })
+    }
+  }
+}
 </script>

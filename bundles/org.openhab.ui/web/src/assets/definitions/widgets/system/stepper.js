@@ -8,7 +8,7 @@ export default () => [
   pd(
     'offset',
     'Offset',
-    "Offset to be applied to the Item's state (e.g. Item state = 2; offset = 20; stepper behaves as Item state would be 22)"
+    'Offset to be applied to the Item\'s state (e.g. Item state = 2; offset = 20; stepper behaves as Item state would be 22)'
   ),
   pb('buttonsOnly', 'Buttons Only', 'Display the buttons without the value in the middle'),
   pb(

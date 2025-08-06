@@ -17,13 +17,13 @@
       <f7-link
         @click="switchTab('design', fromYaml)"
         :tab-link-active="currentTab === 'design'"
-        class="tab-link">
+        tab-link="#design">
         Design
       </f7-link>
       <f7-link
         @click="switchTab('code', toYaml)"
         :tab-link-active="currentTab === 'code'"
-        class="tab-link">
+        tab-link="#code">
         Code
       </f7-link>
     </f7-toolbar>
@@ -153,19 +153,19 @@
 </style>
 
 <script>
-import PageDesignerMixin from '@/pages/settings/pages/pagedesigner-mixin';
-import WidgetExpressionMixin from '@/components/widgets/widget-expression-mixin';
-import { utils } from 'framework7';
-import { f7, theme } from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
+import PageDesignerMixin from '@/pages/settings/pages/pagedesigner-mixin'
+import WidgetExpressionMixin from '@/components/widgets/widget-expression-mixin'
+import { utils } from 'framework7'
+import { f7, theme } from 'framework7-vue'
+import { defineAsyncComponent } from 'vue'
 
-import YAML from 'yaml';
+import YAML from 'yaml'
 
-import { OhTabDefinition } from '@/assets/definitions/widgets/tabs';
+import { OhTabDefinition } from '@/assets/definitions/widgets/tabs'
 
-import PageSettings from '@/components/pagedesigner/page-settings.vue';
+import PageSettings from '@/components/pagedesigner/page-settings.vue'
 
-const ConfigurableWidgets = { OhTabDefinition };
+const ConfigurableWidgets = { OhTabDefinition }
 
 export default {
   mixins: [PageDesignerMixin, WidgetExpressionMixin],
@@ -176,11 +176,11 @@ export default {
           /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
         )
     ),
-    PageSettings,
+    PageSettings
   },
   props: ['createMode', 'uid'],
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -189,42 +189,42 @@ export default {
         component: 'oh-tabs-page',
         config: {},
         tags: [],
-        slots: { default: [] },
-      },
-    };
+        slots: { default: [] }
+      }
+    }
   },
   methods: {
     addWidget(component, widgetType, parentContext, slot) {
-      if (!slot) slot = 'default';
-      if (!component.slots) component.slots = {};
-      if (!component.slots[slot]) component.slots[slot] = [];
+      if (!slot) slot = 'default'
+      if (!component.slots) component.slots = {}
+      if (!component.slots[slot]) component.slots[slot] = []
       if (widgetType) {
         component.slots[slot].push({
           component: widgetType,
           config: {
             title: 'New Tab',
-            icon: 'f7:squares_below_rectangle',
+            icon: 'f7:squares_below_rectangle'
           },
-          slots: { default: [] },
-        });
-        this.forceUpdate();
+          slots: { default: [] }
+        })
+        this.forceUpdate()
       }
     },
     getWidgetDefinition(componentType) {
       const definition = Object.values(ConfigurableWidgets).find(
         wd => typeof wd === 'function' && wd().name === componentType
-      );
-      if (!definition) return null;
-      return definition();
+      )
+      if (!definition) return null
+      return definition()
     },
     configureTab(ev, tab, context) {
-      let el = ev.target;
-      ev.cancelBubble = true;
+      let el = ev.target
+      ev.cancelBubble = true
       while (!el.classList.contains('media-item')) {
-        if (el && el.classList.contains('menu')) return;
-        el = el.parentElement;
+        if (el && el.classList.contains('menu')) return
+        el = el.parentElement
       }
-      this.context.editmode.configureWidget(tab, context);
+      this.context.editmode.configureWidget(tab, context)
     },
     tabEvaluateExpression(tab, idx, key) {
       return this.evaluateExpression(
@@ -232,26 +232,26 @@ export default {
         tab.config[key],
         this.context,
         tab.config.pageConfig
-      );
+      )
     },
     toYaml() {
       this.pageYaml = YAML.stringify({
         config: this.page.config,
-        tabs: this.page.slots.default,
-      });
+        tabs: this.page.slots.default
+      })
     },
     fromYaml() {
       try {
-        const updatedPage = YAML.parse(this.pageYaml);
-        this.page.config = updatedPage.config;
-        this.page.slots.default = updatedPage.tabs;
-        this.forceUpdate();
-        return true;
+        const updatedPage = YAML.parse(this.pageYaml)
+        this.page.config = updatedPage.config
+        this.page.slots.default = updatedPage.tabs
+        this.forceUpdate()
+        return true
       } catch (e) {
-        f7.dialog.alert(e).open();
-        return false;
+        f7.dialog.alert(e).open()
+        return false
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

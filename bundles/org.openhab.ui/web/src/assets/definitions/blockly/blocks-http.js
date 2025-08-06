@@ -332,9 +332,9 @@ export default function (f7) {
   function encodeParams(params) {
     return javascriptGenerator.provideFunction_('encodeParams', [
       'function encodeParams(params) {',
-      "    if ((typeof params === 'string') || (params instanceof String)) return params;",
+      '    if ((typeof params === \'string\') || (params instanceof String)) return params;',
       '    const encodedParams = Object.entries(params).map(([key, value]) => [key, encodeURIComponent(value)]);',
-      "    return encodedParams.map(p => p.join('=')).join('&');",
+      '    return encodedParams.map(p => p.join(\'=\')).join(\'&\');',
       '}'
     ])
   }
@@ -342,7 +342,7 @@ export default function (f7) {
   function toJSONString(params) {
     return javascriptGenerator.provideFunction_('toJSONString', [
       'function toJSONString(params) {',
-      "    if ((typeof params === 'string') || (params instanceof String)) return params;",
+      '    if ((typeof params === \'string\') || (params instanceof String)) return params;',
       '    return JSON.stringify(params).replace(/^"+/, \'["\').replace(/"+$/, \'"]\');',
       '}'
     ])

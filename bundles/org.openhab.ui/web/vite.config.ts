@@ -3,7 +3,6 @@ import vue from '@vitejs/plugin-vue'
 import vueDevtools from 'vite-plugin-vue-devtools'
 import { visualizer } from 'rollup-plugin-visualizer'
 import vitePluginTopLevelAwait from 'vite-plugin-top-level-await'
-// import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import { resolve } from 'path'
 
 const projectRootDir = resolve(__dirname)
@@ -14,7 +13,13 @@ const maven = process.env.MAVEN || false
 const outPath = maven ? '../target/classes/app' : 'www'
 
 export default defineConfig({
-  plugins: [vue(), vueDevtools(), visualizer({ open: true }), vitePluginTopLevelAwait()],
+  plugins: [vue({
+    template: {
+      compilerOptions: {
+        isCustomElement: (tag) => ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep', 'shadow'].includes(tag) // blockly custom elements
+      }
+    }
+  }), vueDevtools(), visualizer({ open: true }), vitePluginTopLevelAwait()],
   server: {
     port: 8080,
     proxy: {
@@ -66,7 +71,8 @@ export default defineConfig({
   },
   build: {
     outDir: resolve(outPath),
-    emptyOutDir: true
+    emptyOutDir: true,
+    target: ['chrome107', 'edge107', 'firefox104', 'safari11.1']
   },
   resolve: {
     alias: {

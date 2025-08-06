@@ -111,14 +111,14 @@
 </style>
 
 <script>
-import mixin from '@/components/widgets/widget-mixin';
+import mixin from '@/components/widgets/widget-mixin'
 import itemDefaultListComponent, {
-  equipmentListComponent,
-} from '@/components/widgets/standard/list/default-list-item';
-import CardMixin from './card-mixin';
-import ModelCard from './model-card.vue';
-import StatusBadge from './glance/location/status-badge.vue';
-import MeasurementBadge from './glance/location/measurement-badge.vue';
+  equipmentListComponent
+} from '@/components/widgets/standard/list/default-list-item'
+import CardMixin from './card-mixin'
+import ModelCard from './model-card.vue'
+import StatusBadge from './glance/location/status-badge.vue'
+import MeasurementBadge from './glance/location/measurement-badge.vue'
 
 export default {
   mixins: [mixin, CardMixin],
@@ -126,19 +126,19 @@ export default {
   components: {
     ModelCard,
     StatusBadge,
-    MeasurementBadge,
+    MeasurementBadge
   },
   data() {
     return {
       activeTab:
         this.element.equipment.length === 0 && this.element.properties.length > 0
           ? 'properties'
-          : 'equipment',
-    };
+          : 'equipment'
+    }
   },
   computed: {
     badgeOverrides() {
-      return this.config.badges || this.context.badgeOverrides;
+      return this.config.badges || this.context.badgeOverrides
     },
     propertiesListContext() {
       return {
@@ -146,20 +146,20 @@ export default {
         component: {
           component: 'oh-list',
           config: {
-            mediaList: true,
+            mediaList: true
           },
           slots: {
-            default: this.element.properties.map(i => itemDefaultListComponent(i)),
-          },
-        },
-      };
+            default: this.element.properties.map(i => itemDefaultListComponent(i))
+          }
+        }
+      }
     },
     equipmentListContext() {
       return {
         store: useStatesStore().trackedItems,
-        component: equipmentListComponent(this.element.item.equipment, this.tabContext, true),
-      };
-    },
-  },
-};
+        component: equipmentListComponent(this.element.item.equipment, this.tabContext, true)
+      }
+    }
+  }
+}
 </script>

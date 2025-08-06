@@ -13,7 +13,7 @@ export default () => [
   pt(
     'unit',
     'Unit',
-    "Unit for the command sent and also append to the label while dragging the cursor, leave empty to use Item's unit"
+    'Unit for the command sent and also append to the label while dragging the cursor, leave empty to use Item\'s unit'
   ),
   pb(
     'ignoreDisplayState',

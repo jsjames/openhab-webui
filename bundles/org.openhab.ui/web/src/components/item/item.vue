@@ -41,19 +41,19 @@
 </template>
 
 <script>
-import ItemMixin from '@/components/item/item-mixin';
+import ItemMixin from '@/components/item/item-mixin'
 
 export default {
   mixins: [ItemMixin],
   props: ['item', 'context', 'noState', 'noType', 'noIcon', 'noTags', 'link'],
   computed: {
     state() {
-      if (this.noState) return;
-      if (!this.context || !this.context.store) return this.item.state;
+      if (this.noState) return
+      if (!this.context || !this.context.store) return this.item.state
       return (
         this.context.store[this.item.name].displayState || this.context.store[this.item.name].state
-      );
-    },
-  },
-};
+      )
+    }
+  }
+}
 </script>

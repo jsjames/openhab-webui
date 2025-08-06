@@ -47,16 +47,16 @@
 </style>
 
 <script>
-import mixin from '../../widget-mixin';
-import { OhRollershutterCellDefinition } from '@/assets/definitions/widgets/standard/cells';
-import OhCell from './oh-cell.vue';
-import OhRollershutter from '../../system/oh-rollershutter.vue';
+import mixin from '../../widget-mixin'
+import { OhRollershutterCellDefinition } from '@/assets/definitions/widgets/standard/cells'
+import OhCell from './oh-cell.vue'
+import OhRollershutter from '../../system/oh-rollershutter.vue'
 
 export default {
   mixins: [mixin],
   components: {
     OhCell,
-    OhRollershutter,
+    OhRollershutter
   },
   widget: OhRollershutterCellDefinition,
   computed: {
@@ -65,11 +65,11 @@ export default {
         component: {
           component: 'oh-rollershutter',
           config: Object.assign({}, this.context.component.config, {
-            vertical: true,
-          }),
-        },
-      });
-    },
-  },
-};
+            vertical: true
+          })
+        }
+      })
+    }
+  }
+}
 </script>

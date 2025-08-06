@@ -13,7 +13,9 @@
       type="text">
       <template #slot-content-end>
         <div class="padding-left">
-          <f7-button @click="openMapPicker"> <f7-icon f7="placemark" /> Map </f7-button>
+          <f7-button @click="openMapPicker">
+            <f7-icon f7="placemark" /> Map
+          </f7-button>
         </div>
       </template>
     </f7-list-input>
@@ -23,50 +25,50 @@
 <style lang="stylus"></style>
 
 <script>
-import LocationPickerPopup from './location-picker-popup.vue';
-import { f7, theme } from 'framework7-vue';
+import LocationPickerPopup from './location-picker-popup.vue'
+import { f7, theme } from 'framework7-vue'
 
 export default {
   props: {
     configDescription: String,
     value: Object,
     placeholder: String,
-    f7router: Object,
+    f7router: Object
   },
   emits: ['input'],
   setup: () => {
-    return { theme };
+    return { theme }
   },
   methods: {
     updateValue(position) {
-      this.$emit('input', position);
+      this.$emit('input', position)
     },
     openMapPicker() {
       const popup = {
-        component: LocationPickerPopup,
-      };
+        component: LocationPickerPopup
+      }
 
       this.f7router.navigate(
         {
           url: 'pick-location',
           route: {
             path: 'pick-location',
-            popup,
-          },
+            popup
+          }
         },
         {
           props: {
             value: this.value,
-            title: this.configDescription.label,
-          },
+            title: this.configDescription.label
+          }
         }
-      );
+      )
 
-      f7.once('location-update', this.updateValue);
+      f7.once('location-update', this.updateValue)
       f7.once('location-picker-closed', () => {
-        f7.off('location-update', this.updateValue);
-      });
-    },
-  },
-};
+        f7.off('location-update', this.updateValue)
+      })
+    }
+  }
+}
 </script>

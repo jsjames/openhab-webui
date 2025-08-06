@@ -24,6 +24,6 @@
 
 <script>
 export default {
-  props: ['addon', 'iconSize'],
-};
+  props: ['addon', 'iconSize']
+}
 </script>

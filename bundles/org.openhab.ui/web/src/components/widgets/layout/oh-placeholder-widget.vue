@@ -25,6 +25,6 @@
 </style>
 <script>
 export default {
-  emits: ['click'],
-};
+  emits: ['click']
+}
 </script>

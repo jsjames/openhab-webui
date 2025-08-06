@@ -107,7 +107,9 @@
               </template>
             </f7-list-item>
           </f7-list>
-          <f7-block-title v-if="runtimeStore.apiEndpoint('rules')"> Automation </f7-block-title>
+          <f7-block-title v-if="runtimeStore.apiEndpoint('rules')">
+            Automation
+          </f7-block-title>
           <f7-list media-list class="search-list">
             <f7-list-item
               media-item
@@ -251,19 +253,36 @@
   </f7-page>
 </template>
 
+<style lang="stylus">
+.device-desktop .settings-menu
+  --f7-list-item-footer-line-height 1.3
+  @media (min-width 1450px)
+    .row
+      width 1065px
+      max-width 100%
+    .settings-col
+      width 33%
+.settings-menu .icon
+  color var(--f7-color-blue)
+.theme-filled .settings-menu .icon
+  color var(--f7-color-gray) !important
+.aurora .settings-menu .icon
+  font-size 24px
+</style>
+
 <script>
-import AddonSection from './addon-section.vue';
-import { f7, theme } from 'framework7-vue';
-import { useComponentsStore } from '@/js/stores/components';
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { mapStores } from 'pinia';
+import AddonSection from './addon-section.vue'
+import { f7, theme } from 'framework7-vue'
+import { useComponentsStore } from '@/js/stores/components'
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
 
 export default {
   components: {
-    AddonSection,
+    AddonSection
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -285,7 +304,7 @@ export default {
         rules: 'Automate with triggers and actions',
         scenes: 'Store a set of desired states to recall',
         scripts: 'Rules dedicated to running code',
-        schedule: 'View upcoming time-based rules',
+        schedule: 'View upcoming time-based rules'
       },
       inboxCount: '',
       thingsCount: '',
@@ -307,29 +326,29 @@ export default {
         'org.openhab.jsonaddonservice',
         'org.openhab.inbox',
         'org.openhab.sitemap',
-        'org.openhab.lsp',
+        'org.openhab.lsp'
       ],
 
       expandedTypes: {
         systemSettingsExpanded: f7.width >= 1450,
-        addonsExpanded: false,
-      },
-    };
+        addonsExpanded: false
+      }
+    }
   },
   computed: {
     apiEndpoints() {
-      return useRuntimeStore().apiEndpoints;
+      return useRuntimeStore().apiEndpoints
     },
     systemSettings() {
-      if (this.expandedTypes.systemSettingsExpanded) return this.systemServices;
+      if (this.expandedTypes.systemSettingsExpanded) return this.systemServices
       return this.systemServices.map(service => {
-        const hide = this.advancedSystemServices.includes(service.id);
-        return Object.assign({ hidden: hide }, service);
-      });
+        const hide = this.advancedSystemServices.includes(service.id)
+        return Object.assign({ hidden: hide }, service)
+      })
     },
     healthCount() {
-      const problemCount = this.orphanLinkCount + this.semanticsProblemCount;
-      return problemCount.toString();
+      const problemCount = this.orphanLinkCount + this.semanticsProblemCount
+      return problemCount.toString()
     },
     ...mapStores(useComponentsStore, useRuntimeStore)
   },
@@ -337,28 +356,28 @@ export default {
     apiEndpoints: {
       handler(newValue, oldValue) {
         if (newValue !== oldValue) {
-          this.loadMenu();
-          this.loadCounters();
+          this.loadMenu()
+          this.loadCounters()
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     loadMenu() {
-      if (!this.apiEndpoints) return;
+      if (!this.apiEndpoints) return
 
       // can be done in parallel!
       if (useRuntimeStore().apiEndpoint('services')) {
         this.$oh.api.get('/rest/services').then(data => {
           this.systemServices = data
             .filter(s => s.category === 'system' && s.id !== 'org.openhab.persistence')
-            .sort((s1, s2) => this.sortByLabel(s1, s2));
+            .sort((s1, s2) => this.sortByLabel(s1, s2))
           this.addonsServices = data
             .filter(s => s.category !== 'system')
-            .sort((s1, s2) => this.sortByLabel(s1, s2));
-          this.servicesLoaded = true;
-        });
+            .sort((s1, s2) => this.sortByLabel(s1, s2))
+          this.servicesLoaded = true
+        })
       }
       if (useRuntimeStore().apiEndpoint('addons')) {
         this.$oh.api.get('/rest/addons?serviceId=all').then(data => {
@@ -369,90 +388,73 @@ export default {
                 ![
                   'application/vnd.openhab.ruletemplate',
                   'application/vnd.openhab.uicomponent;type=widget',
-                  'application/vnd.openhab.uicomponent;type=blocks',
+                  'application/vnd.openhab.uicomponent;type=blocks'
                 ].includes(a.contentType)
             )
-            .sort((s1, s2) => this.sortByLabel(s1, s2));
+            .sort((s1, s2) => this.sortByLabel(s1, s2))
           this.persistenceAddonsInstalled = this.addonsInstalled.filter(
             a => a.installed && a.type === 'persistence'
-          );
-          this.addonsLoaded = true;
-        });
+          )
+          this.addonsLoaded = true
+        })
       }
     },
     sortByLabel(s1, s2) {
-      return s1.label.toLowerCase() > s2.label.toLowerCase() ? 1 : -1;
+      return s1.label.toLowerCase() > s2.label.toLowerCase() ? 1 : -1
     },
     loadCounters() {
-      if (!this.apiEndpoints) return;
+      if (!this.apiEndpoints) return
       if (useRuntimeStore().apiEndpoint('links'))
         this.$oh.api.get('/rest/links/orphans').then(data => {
-          this.orphanLinkCount = data.length;
-        });
+          this.orphanLinkCount = data.length
+        })
       if (useRuntimeStore().apiEndpoint('items'))
         this.$oh.api.get('/rest/items/semantics/health').then(data => {
-          this.semanticsProblemCount = data.length;
-        });
+          this.semanticsProblemCount = data.length
+        })
       if (useRuntimeStore().apiEndpoint('inbox'))
         this.$oh.api.get('/rest/inbox?includeIgnored=false').then(data => {
-          this.inboxCount = data.filter(e => e.flag === 'NEW').length.toString();
-        });
+          this.inboxCount = data.filter(e => e.flag === 'NEW').length.toString()
+        })
       if (useRuntimeStore().apiEndpoint('things'))
         this.$oh.api.get('/rest/things?staticDataOnly=true').then(data => {
-          this.thingsCount = data.length.toString();
-        });
+          this.thingsCount = data.length.toString()
+        })
       if (useRuntimeStore().apiEndpoint('items'))
         this.$oh.api.get('/rest/items?staticDataOnly=true').then(data => {
-          this.itemsCount = data.length.toString();
-        });
+          this.itemsCount = data.length.toString()
+        })
       if (useRuntimeStore().apiEndpoint('ui'))
         this.$oh.api.get('/rest/ui/components/system:sitemap').then(data => {
-          this.sitemapsCount = data.length;
-        });
+          this.sitemapsCount = data.length
+        })
       if (useRuntimeStore().apiEndpoint('transformations'))
         this.$oh.api.get('/rest/transformations').then(data => {
-          this.transformationsCount = data.length.toString();
-        });
+          this.transformationsCount = data.length.toString()
+        })
       if (useRuntimeStore().apiEndpoint('rules')) {
         this.$oh.api.get('/rest/rules?staticDataOnly=true').then(data => {
           this.rulesCount = data
             .filter(r => r.tags.indexOf('Scene') < 0 && r.tags.indexOf('Script') < 0)
-            .length.toString();
-          this.scenesCount = data.filter(r => r.tags.indexOf('Scene') >= 0).length.toString();
-          this.scriptsCount = data.filter(r => r.tags.indexOf('Script') >= 0).length.toString();
-        });
+            .length.toString()
+          this.scenesCount = data.filter(r => r.tags.indexOf('Scene') >= 0).length.toString()
+          this.scriptsCount = data.filter(r => r.tags.indexOf('Script') >= 0).length.toString()
+        })
       }
     },
     expand(type) {
-      this.expandedTypes[type] = true;
+      this.expandedTypes[type] = true
     },
     expandAll() {
-      Object.keys(this.expandedTypes).forEach(type => this.expand(type));
+      Object.keys(this.expandedTypes).forEach(type => this.expand(type))
     },
     onPageInit() {
-      this.loadMenu();
+      this.loadMenu()
     },
     onPageAfterIn() {
       // this.loadMenu()
-      this.loadCounters();
-    },
-  },
-};
+      this.loadCounters()
+    }
+  }
+}
 </script>
-
-<style lang="stylus">
-.device-desktop .settings-menu
-  --f7-list-item-footer-line-height 1.3
-  @media (min-width 1450px)
-    .row
-      width 1065px
-      max-width 100%
-    .settings-col
-      width 33%
-.settings-menu .icon
-  color var(--f7-color-blue)
-.theme-filled .settings-menu .icon
-  color var(--f7-color-gray) !important
-.aurora .settings-menu .icon
-  font-size 24px
-</style>

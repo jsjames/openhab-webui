@@ -64,11 +64,11 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import { LMarker, LTooltip, LIcon, LPopup } from '@vue-leaflet/vue-leaflet';
-import { actionsMixin } from '../widget-actions';
-import { OhPlanMarkerDefinition } from '@/assets/definitions/widgets/plan';
-import { f7 } from 'framework7-vue';
+import mixin from '../widget-mixin'
+import { LMarker, LTooltip, LIcon, LPopup } from '@vue-leaflet/vue-leaflet'
+import { actionsMixin } from '../widget-actions'
+import { OhPlanMarkerDefinition } from '@/assets/definitions/widgets/plan'
+import { f7 } from 'framework7-vue'
 
 export default {
   mixins: [mixin, actionsMixin],
@@ -76,81 +76,81 @@ export default {
     LMarker,
     LTooltip,
     LIcon,
-    LPopup,
+    LPopup
   },
   widget: OhPlanMarkerDefinition,
   emits: ['update'],
   data() {
     return {
       markerKey: 'marker-' + f7.utils.id(),
-      dragging: false,
-    };
+      dragging: false
+    }
   },
   computed: {
     coords() {
-      return this.config.coords ? this.config.coords.split(',') : [250, 250];
+      return this.config.coords ? this.config.coords.split(',') : [250, 250]
     },
     hasIcon() {
-      return this.config.icon;
+      return this.config.icon
     },
     tooltipOptions() {
       return {
         permanent: this.config.tooltipPermanent,
         direction: this.config.tooltipDirection || 'auto',
         offset: [this.config.tooltipOffsetX || 0, this.config.tooltipOffsetY || 0],
-        opacity: this.config.tooltipOpacity || 0.9,
-      };
+        opacity: this.config.tooltipOpacity || 0.9
+      }
     },
     state() {
       if (this.config.item) {
-        return this.context.store[this.config.item].state;
+        return this.context.store[this.config.item].state
       }
-      return null;
+      return null
     },
     tooltipStyle() {
       return Object.assign(
         {
           fontSize: this.config.tooltipFontSize,
-          color: this.config.tooltipColor,
+          color: this.config.tooltipColor
         },
         this.config.tooltipStyle
-      );
+      )
     },
     iconStyle() {
       return Object.assign(
         {
-          transform: 'rotate(' + this.config.iconRotation + 'deg)',
+          transform: 'rotate(' + this.config.iconRotation + 'deg)'
         },
         this.config.iconStyle
-      );
-    },
+      )
+    }
   },
   asyncComputed: {
     tooltip() {
       if (this.config.tooltip) {
-        return this.config.tooltip;
+        return this.config.tooltip
       } else if (this.config.item) {
-        const itemState = this.context.store[this.config.item];
-        if (itemState && itemState.displayState) return itemState.displayState;
-        return itemState.state;
+        const itemState = this.context.store[this.config.item]
+        if (itemState && itemState.displayState) return itemState.displayState
+        return itemState.state
       }
-      return null;
-    },
+      return null
+    }
   },
   methods: {
     onMove(latlng) {
-      this.context.component.config.coords = [latlng.lat, latlng.lng].join(',');
+      this.context.component.config.coords = [latlng.lat, latlng.lng].join(',')
     },
     onClick(event) {
       if (this.context.editmode) {
         // this.context.editmode.configureWidget(this.context.component, this.context.parent)
       } else {
-        this.performAction(event);
+        this.performAction(event)
       }
-    },
+    }
   },
   mounted() {
-    this.$emit('update', this.coords);
-  },
-};
+    this.$emit('update', this.coords)
+  }
+}
 </script>

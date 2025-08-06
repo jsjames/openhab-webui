@@ -15,13 +15,13 @@
       <f7-link
         @click="switchTab('design', fromYaml)"
         :tab-link-active="currentTab === 'design'"
-        class="tab-link">
+        tab-link="#design">
         Design
       </f7-link>
       <f7-link
         @click="switchTab('code', toYaml)"
         :tab-link-active="currentTab === 'code'"
-        class="tab-link">
+        tab-link="#code">
         Code
       </f7-link>
     </f7-toolbar>
@@ -192,28 +192,28 @@
 </style>
 
 <script>
-import PageDesigner from '../pagedesigner-mixin';
-import { utils } from 'framework7';
-import { f7, theme } from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
+import PageDesigner from '../pagedesigner-mixin'
+import { utils } from 'framework7'
+import { f7, theme } from 'framework7-vue'
+import { defineAsyncComponent } from 'vue'
 
-import YAML from 'yaml';
+import YAML from 'yaml'
 
-import { TileLayer } from 'leaflet';
-import 'leaflet-providers';
+import { TileLayer } from 'leaflet'
+import 'leaflet-providers'
 
-import OhMapPage from '@/components/widgets/map/oh-map-page.vue';
-import OhMapMarker from '@/components/widgets/map/oh-map-marker.vue';
-import OhMapCircleMarker from '@/components/widgets/map/oh-map-circle-marker.vue';
+import OhMapPage from '@/components/widgets/map/oh-map-page.vue'
+import OhMapMarker from '@/components/widgets/map/oh-map-marker.vue'
+import OhMapCircleMarker from '@/components/widgets/map/oh-map-circle-marker.vue'
 
 const ConfigurableWidgets = {
   OhMapMarker,
-  OhMapCircleMarker,
-};
+  OhMapCircleMarker
+}
 
-import PageSettings from '@/components/pagedesigner/page-settings.vue';
+import PageSettings from '@/components/pagedesigner/page-settings.vue'
 
-import ConfigSheet from '@/components/config/config-sheet.vue';
+import ConfigSheet from '@/components/config/config-sheet.vue'
 
 export default {
   mixins: [PageDesigner],
@@ -226,11 +226,11 @@ export default {
     ),
     OhMapPage,
     PageSettings,
-    ConfigSheet,
+    ConfigSheet
   },
   props: ['createMode', 'uid'],
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     // populate the list of tile providers with variants
@@ -246,39 +246,39 @@ export default {
         'OpenRailwayMap',
         'OpenFireMap',
         'SafeCast',
-        'WaymarkedTrails.(hiking|cycling|mtb|slopes|riding|skating)',
-      ];
+        'WaymarkedTrails.(hiking|cycling|mtb|slopes|riding|skating)'
+      ]
 
-      return providerName.match('(' + overlayPatterns.join('|') + ')') !== null;
-    };
-    const tileProviders = TileLayer.Provider.providers;
-    let pageWidgetDefinition = OhMapPage.widget();
-    let tileLayerProviderOptions = [];
-    let overlayTileLayerProviderOptions = [];
+      return providerName.match('(' + overlayPatterns.join('|') + ')') !== null
+    }
+    const tileProviders = TileLayer.Provider.providers
+    let pageWidgetDefinition = OhMapPage.widget()
+    let tileLayerProviderOptions = []
+    let overlayTileLayerProviderOptions = []
     for (const providerKey in tileProviders) {
-      let option, options;
+      let option, options
       if (tileProviders[providerKey].variants) {
         for (const providerVariantKey in tileProviders[providerKey].variants) {
-          option = providerKey + '.' + providerVariantKey;
-          options = isOverlay(option) ? overlayTileLayerProviderOptions : tileLayerProviderOptions;
-          options.push({ value: option, label: option });
+          option = providerKey + '.' + providerVariantKey
+          options = isOverlay(option) ? overlayTileLayerProviderOptions : tileLayerProviderOptions
+          options.push({ value: option, label: option })
         }
       } else {
-        option = providerKey;
-        options = isOverlay(option) ? overlayTileLayerProviderOptions : tileLayerProviderOptions;
-        options.push({ value: option, label: option });
+        option = providerKey
+        options = isOverlay(option) ? overlayTileLayerProviderOptions : tileLayerProviderOptions
+        options.push({ value: option, label: option })
       }
     }
     const tileProviderParam = pageWidgetDefinition.props.parameters.find(
       p => p.name === 'tileLayerProvider'
-    );
-    tileProviderParam.limitToOptions = true;
-    tileProviderParam.options = tileLayerProviderOptions;
+    )
+    tileProviderParam.limitToOptions = true
+    tileProviderParam.options = tileLayerProviderOptions
     const overlayTileProviderParam = pageWidgetDefinition.props.parameters.find(
       p => p.name === 'overlayTileLayerProvider'
-    );
-    overlayTileProviderParam.limitToOptions = true;
-    overlayTileProviderParam.options = overlayTileLayerProviderOptions;
+    )
+    overlayTileProviderParam.limitToOptions = true
+    overlayTileProviderParam.options = overlayTileLayerProviderOptions
 
     return {
       pageWidgetDefinition,
@@ -288,70 +288,70 @@ export default {
         component: 'oh-map-page',
         config: {},
         tags: [],
-        slots: { default: [] },
-      },
-    };
+        slots: { default: [] }
+      }
+    }
   },
   methods: {
     markerDefaultIcon(marker) {
       const widgetDefinition = Object.values(ConfigurableWidgets).find(
         c => c.widget && typeof c.widget === 'function' && c.widget().name === marker.component
-      );
+      )
       if (widgetDefinition) {
-        return widgetDefinition.widget().icon;
+        return widgetDefinition.widget().icon
       }
-      return null;
+      return null
     },
     addWidget(component, widgetType, parentContext, slot) {
-      if (!slot) slot = 'default';
-      if (!component.slots) component.slots = {};
-      if (!component.slots[slot]) component.slots[slot] = [];
+      if (!slot) slot = 'default'
+      if (!component.slots) component.slots = {}
+      if (!component.slots[slot]) component.slots[slot] = []
       if (widgetType) {
         component.slots[slot].push({
           component: widgetType,
           config: {
-            label: 'New Marker',
+            label: 'New Marker'
           },
-          slots: { default: [] },
-        });
-        this.forceUpdate();
+          slots: { default: [] }
+        })
+        this.forceUpdate()
       }
     },
     getWidgetDefinition(componentType) {
       const component = Object.values(ConfigurableWidgets).find(
         w => w.widget && typeof w.widget === 'function' && w.widget().name === componentType
-      );
-      if (!component) return null;
-      return component.widget();
+      )
+      if (!component) return null
+      return component.widget()
     },
     configureMarker(ev, marker, context) {
-      let el = ev.target;
-      ev.cancelBubble = true;
+      let el = ev.target
+      ev.cancelBubble = true
       while (!el.classList.contains('media-item')) {
-        if (el && el.classList.contains('menu')) return;
-        el = el.parentElement;
+        if (el && el.classList.contains('menu')) return
+        el = el.parentElement
       }
-      this.context.editmode.configureWidget(marker, context);
+      this.context.editmode.configureWidget(marker, context)
     },
     toYaml() {
       this.pageYaml = YAML.stringify({
         component: this.page.component,
         config: this.page.config,
-        markers: this.page.slots.default,
-      });
+        markers: this.page.slots.default
+      })
     },
     fromYaml() {
       try {
-        const updatedPage = YAML.parse(this.pageYaml);
-        this.page.config = updatedPage.config;
-        this.page.slots.default = updatedPage.markers;
-        this.forceUpdate();
-        return true;
+        const updatedPage = YAML.parse(this.pageYaml)
+        this.page.config = updatedPage.config
+        this.page.slots.default = updatedPage.markers
+        this.forceUpdate()
+        return true
       } catch (e) {
-        f7.dialog.alert(e).open();
-        return false;
+        f7.dialog.alert(e).open()
+        return false
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

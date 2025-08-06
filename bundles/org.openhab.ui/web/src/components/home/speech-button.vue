@@ -30,7 +30,7 @@
 </style>
 
 <script>
-import { f7 } from 'framework7-vue';
+import { f7 } from 'framework7-vue'
 
 export default {
   props: ['lang'],
@@ -39,22 +39,22 @@ export default {
     return {
       supported: this.$oh.speech.isRecognitionSupported(),
       listening: false,
-      activity: false,
-    };
+      activity: false
+    }
   },
   methods: {
     toggleSpeech() {
-      const self = this;
-      if (!this.supported) return;
+      const self = this
+      if (!this.supported) return
       if (!this.listening) {
         // FIXME
-        const locale = this.lang === 'en' ? 'en-US' : this.lang + '-' + this.lang.toUpperCase();
+        const locale = this.lang === 'en' ? 'en-US' : this.lang + '-' + this.lang.toUpperCase()
 
         this.$oh.speech.startRecognition(
           locale,
           // start
           ev => {
-            this.listening = true;
+            this.listening = true
           },
           // error
           ev => {
@@ -64,30 +64,30 @@ export default {
                 text: ev.error,
                 position: 'center',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
+              .open()
           },
           // activity
           ev => {
-            if (ev.type === 'soundstart') self.activity = true;
-            if (ev.type === 'soundend') self.activity = false;
+            if (ev.type === 'soundstart') self.activity = true
+            if (ev.type === 'soundend') self.activity = false
           },
           // result
           result => {
-            self.$emit('result', result);
+            self.$emit('result', result)
           },
           // end
           ev => {
-            self.listening = false;
-            self.activity = false;
-            this.$oh.speech.stopRecognition();
+            self.listening = false
+            self.activity = false
+            this.$oh.speech.stopRecognition()
           }
-        );
+        )
       } else {
-        this.$oh.speech.stopRecognition();
+        this.$oh.speech.stopRecognition()
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <f7-block-title medium> Do </f7-block-title>
+    <f7-block-title medium>
+      Do
+    </f7-block-title>
     <f7-list v-if="editable">
       <f7-list-item
         radio
@@ -39,22 +41,21 @@
     </f7-list>
     <f7-block v-else>
       {{ parsedAction.action === 'state' ? 'Update state to' : 'Send command' }}
-      <strong>{{ parsedAction.value || 'UNDEF' }}</strong
-      ><br />
+      <strong>{{ parsedAction.value || 'UNDEF' }}</strong><br>
       {{
         `${ignoreStateUpdates ? 'Ignore state updates' : ''}${ignoreCommands && ignoreCommands ? ', ' : ''}${ignoreCommands ? 'Ignore commands' : ''}`
       }}
     </f7-block>
     <f7-block-footer class="param-description padding-left">
-      <small
-        >After a different command or state update is received, perform the chosen action when the
+      <small>After a different command or state update is received, perform the chosen action when the
         duration specified below has passed. The timer is reset if another state update or command
         is received before it expires. If the ignore state updates checkbox is set, only state
         changes and commands will reset the timer. If the ignore commands checkbox is set, only
-        state updates and state changes will reset the timer.</small
-      >
+        state updates and state changes will reset the timer.</small>
     </f7-block-footer>
-    <f7-block-title medium> After </f7-block-title>
+    <f7-block-title medium>
+      After
+    </f7-block-title>
     <f7-list>
       <f7-list-input
         :floating-label="theme.md"
@@ -73,71 +74,69 @@
       </f7-list-item>
     </f7-list>
     <f7-block-footer class="param-description padding-left">
-      <small
-        >Delay to wait before the timer expires and the action specified above is performed.</small
-      >
+      <small>Delay to wait before the timer expires and the action specified above is performed.</small>
     </f7-block-footer>
   </div>
 </template>
 
 <script>
-import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
-import { f7, theme } from 'framework7-vue';
+import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
+import { f7, theme } from 'framework7-vue'
 
 export default {
   props: ['itemName', 'metadata'],
   mixins: [ItemMetadataMixin],
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
-    return {};
+    return {}
   },
   computed: {
     sanitizedDuration() {
-      return this.sanitizeDuration(this.metadata.value);
+      return this.sanitizeDuration(this.metadata.value)
     },
     sanitizedAction() {
-      if (!this.metadata.value) return '';
-      let action = this.metadata.value.split(',')[1];
-      if (!action) return '';
-      return action.trim().replace(/\s/g, '');
+      if (!this.metadata.value) return ''
+      let action = this.metadata.value.split(',')[1]
+      if (!action) return ''
+      return action.trim().replace(/\s/g, '')
     },
     parsedTimerParts() {
-      if (!this.sanitizedDuration) return ['0', '0', '0'];
-      let match = this.sanitizedDuration.match(/(\d+h)*(\d+m)*(\d+s)*/);
+      if (!this.sanitizedDuration) return ['0', '0', '0']
+      let match = this.sanitizedDuration.match(/(\d+h)*(\d+m)*(\d+s)*/)
 
-      let hours = match[1] ? match[1].replace('h', '') : '0';
-      let minutes = match[2] ? match[2].replace('m', '') : '0';
-      let seconds = match[3] ? match[3].replace('s', '') : '0';
+      let hours = match[1] ? match[1].replace('h', '') : '0'
+      let minutes = match[2] ? match[2].replace('m', '') : '0'
+      let seconds = match[3] ? match[3].replace('s', '') : '0'
 
-      return [hours, minutes, seconds];
+      return [hours, minutes, seconds]
     },
     parsedAction() {
-      if (!this.sanitizedAction) return { action: 'state', value: '' };
-      const action = this.sanitizedAction.indexOf('command=') === 0 ? 'command' : 'state';
-      const value = this.sanitizedAction.replace('state=', '').replace('command=', '');
-      return { action, value };
+      if (!this.sanitizedAction) return { action: 'state', value: '' }
+      const action = this.sanitizedAction.indexOf('command=') === 0 ? 'command' : 'state'
+      const value = this.sanitizedAction.replace('state=', '').replace('command=', '')
+      return { action, value }
     },
     ignoreStateUpdates() {
-      let configValue = this.metadata.config['ignoreStateUpdates'];
-      if (!configValue) return false;
-      return typeof configValue === 'string' ? configValue === 'true' : configValue;
+      let configValue = this.metadata.config['ignoreStateUpdates']
+      if (!configValue) return false
+      return typeof configValue === 'string' ? configValue === 'true' : configValue
     },
     ignoreCommands() {
-      let configValue = this.metadata.config['ignoreCommands'];
-      if (!configValue) return false;
-      return typeof configValue === 'string' ? configValue === 'true' : configValue;
-    },
+      let configValue = this.metadata.config['ignoreCommands']
+      if (!configValue) return false
+      return typeof configValue === 'string' ? configValue === 'true' : configValue
+    }
   },
   mounted() {
-    const self = this;
-    const inputControl = this.$refs.duration;
-    const containerControl = this.$refs.picker;
-    if (!inputControl || !inputControl.$el || !containerControl) return;
-    const inputElement = Dom7(inputControl.$el).find('input');
+    const self = this
+    const inputControl = this.$refs.duration
+    const containerControl = this.$refs.picker
+    if (!inputControl || !inputControl.$el || !containerControl) return
+    const inputElement = Dom7(inputControl.$el).find('input')
 
-    if (!this.editable) return;
+    if (!this.editable) return
     this.picker = f7.picker.create({
       containerEl: containerControl,
       inputEl: inputElement,
@@ -146,89 +145,89 @@ export default {
       rotateEffect: true,
       value: this.parsedTimerParts,
       formatValue: function (values, displayValues) {
-        return displayValues[0] + 'h' + displayValues[1] + 'm' + displayValues[2] + 's';
+        return displayValues[0] + 'h' + displayValues[1] + 'm' + displayValues[2] + 's'
       },
       cols: [
         // Hours
         {
           values: (function () {
-            let arr = [];
+            let arr = []
             for (let i = 0; i <= 99; i++) {
-              arr.push(i.toString());
+              arr.push(i.toString())
             }
-            return arr;
-          })(),
+            return arr
+          })()
         },
         // Divider
         {
           divider: true,
-          content: 'h',
+          content: 'h'
         },
         // Minutes
         {
           values: (function () {
-            let arr = [];
+            let arr = []
             for (let i = 0; i <= 59; i++) {
-              arr.push(i.toString());
+              arr.push(i.toString())
             }
-            return arr;
-          })(),
+            return arr
+          })()
         },
         // Divider
         {
           divider: true,
-          content: 'm',
+          content: 'm'
         },
         // Seconds
         {
           values: (function () {
-            let arr = [];
+            let arr = []
             for (let i = 0; i <= 59; i++) {
-              arr.push(i.toString());
+              arr.push(i.toString())
             }
-            return arr;
-          })(),
+            return arr
+          })()
         },
         // Divider
         {
           divider: true,
-          content: 's',
-        },
+          content: 's'
+        }
       ],
       on: {
         change: function (picker, values, displayValues) {
           self.updateDuration(
             displayValues[0] + 'h' + displayValues[1] + 'm' + displayValues[2] + 's'
-          );
-        },
-      },
-    });
+          )
+        }
+      }
+    })
   },
   watch: {
     parsedTimerParts(val) {
-      this.picker.setValue(val);
-    },
+      this.picker.setValue(val)
+    }
   },
   methods: {
     sanitizeDuration(value) {
-      if (!value) return '';
-      return value.split(',')[0].trim().replace(/\s/g, '');
+      if (!value) return ''
+      return value.split(',')[0].trim().replace(/\s/g, '')
     },
     updateDuration(value) {
-      if (!value) return;
+      if (!value) return
       this.metadata.value =
-        this.sanitizeDuration(value) + (this.sanitizedAction ? ',' + this.sanitizedAction : '');
+        this.sanitizeDuration(value) + (this.sanitizedAction ? ',' + this.sanitizedAction : '')
     },
     updateAction(value) {
-      if (!value) return;
-      const action = (value === 'command' ? 'command=' : '') + this.parsedAction.value;
-      this.metadata.value = this.sanitizedDuration + (action ? ',' + action : '');
+      if (!value) return
+      const action = (value === 'command' ? 'command=' : '') + this.parsedAction.value
+      this.metadata.value = this.sanitizedDuration + (action ? ',' + action : '')
     },
     updateActionValue(value) {
-      if (!value) return;
-      const action = (this.parsedAction.action === 'command' ? 'command=' : '') + value.trim();
-      this.metadata.value = this.sanitizedDuration + (action ? ',' + action : '');
-    },
-  },
-};
+      if (!value) return
+      const action = (this.parsedAction.action === 'command' ? 'command=' : '') + value.trim()
+      this.metadata.value = this.sanitizedDuration + (action ? ',' + action : '')
+    }
+  }
+}
 </script>

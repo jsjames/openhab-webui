@@ -15,13 +15,13 @@
       <f7-link
         @click="switchTab('design', fromYaml)"
         :tab-link-active="currentTab === 'design'"
-        class="tab-link">
+        tab-link="#design">
         Design
       </f7-link>
       <f7-link
         @click="switchTab('code', toYaml)"
         :tab-link-active="currentTab === 'code'"
-        class="tab-link">
+        tab-link="#code">
         Code
       </f7-link>
     </f7-toolbar>
@@ -57,7 +57,9 @@
               :configuration="page.config"
               @updated="dirty = true" />
 
-            <f7-block-title class="padding-bottom"> Markers </f7-block-title>
+            <f7-block-title class="padding-bottom">
+              Markers
+            </f7-block-title>
             <f7-menu v-if="clipboardType === 'oh-plan-marker'" class="padding-bottom">
               <f7-menu-item style="margin-left: auto" icon-f7="square_on_square" dropdown>
                 <f7-menu-dropdown right>
@@ -194,23 +196,23 @@
 </style>
 
 <script>
-import PageDesigner from '../pagedesigner-mixin';
-import { utils } from 'framework7';
-import { f7, theme } from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
+import PageDesigner from '../pagedesigner-mixin'
+import { utils } from 'framework7'
+import { f7, theme } from 'framework7-vue'
+import { defineAsyncComponent } from 'vue'
 
-import YAML from 'yaml';
+import YAML from 'yaml'
 
-import OhPlanPage from '@/components/widgets/plan/oh-plan-page.vue';
-import OhPlanMarker from '@/components/widgets/plan/oh-plan-marker.vue';
+import OhPlanPage from '@/components/widgets/plan/oh-plan-page.vue'
+import OhPlanMarker from '@/components/widgets/plan/oh-plan-marker.vue'
 
 const ConfigurableWidgets = {
-  OhPlanMarker,
-};
+  OhPlanMarker
+}
 
-import PageSettings from '@/components/pagedesigner/page-settings.vue';
+import PageSettings from '@/components/pagedesigner/page-settings.vue'
 
-import ConfigSheet from '@/components/config/config-sheet.vue';
+import ConfigSheet from '@/components/config/config-sheet.vue'
 
 export default {
   mixins: [PageDesigner],
@@ -223,11 +225,11 @@ export default {
     ),
     OhPlanPage,
     PageSettings,
-    ConfigSheet,
+    ConfigSheet
   },
   props: ['createMode', 'uid'],
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -238,69 +240,69 @@ export default {
         component: 'oh-plan-page',
         config: {},
         tags: [],
-        slots: { default: [] },
-      },
-    };
+        slots: { default: [] }
+      }
+    }
   },
   methods: {
     markerDefaultIcon(marker) {
       const widgetDefinition = Object.values(ConfigurableWidgets).find(
         c => c.widget && typeof c.widget === 'function' && c.widget().name === marker.component
-      );
+      )
       if (widgetDefinition) {
-        return widgetDefinition.widget().icon;
+        return widgetDefinition.widget().icon
       }
-      return null;
+      return null
     },
     addWidget(component, widgetType, parentContext, slot) {
-      if (!slot) slot = 'default';
-      if (!component.slots) component.slots = {};
-      if (!component.slots[slot]) component.slots[slot] = [];
+      if (!slot) slot = 'default'
+      if (!component.slots) component.slots = {}
+      if (!component.slots[slot]) component.slots[slot] = []
       if (widgetType) {
         component.slots[slot].push({
           component: widgetType,
           config: {
-            name: 'New Marker',
+            name: 'New Marker'
           },
-          slots: { default: [] },
-        });
-        this.forceUpdate();
+          slots: { default: [] }
+        })
+        this.forceUpdate()
       }
     },
     getWidgetDefinition(componentType) {
       const component = Object.values(ConfigurableWidgets).find(
         w => w.widget && typeof w.widget === 'function' && w.widget().name === componentType
-      );
-      if (!component) return null;
-      return component.widget();
+      )
+      if (!component) return null
+      return component.widget()
     },
     configureMarker(ev, marker, context) {
-      let el = ev.target;
-      ev.cancelBubble = true;
+      let el = ev.target
+      ev.cancelBubble = true
       while (!el.classList.contains('media-item')) {
-        if (el && el.classList.contains('menu')) return;
-        el = el.parentElement;
+        if (el && el.classList.contains('menu')) return
+        el = el.parentElement
       }
-      this.context.editmode.configureWidget(marker, context);
+      this.context.editmode.configureWidget(marker, context)
     },
     toYaml() {
       this.pageYaml = YAML.stringify({
         config: this.page.config,
-        markers: this.page.slots.default,
-      });
+        markers: this.page.slots.default
+      })
     },
     fromYaml() {
       try {
-        const updatedPage = YAML.parse(this.pageYaml);
-        this.page.config = updatedPage.config;
-        this.page.slots.default = updatedPage.markers;
-        this.forceUpdate();
-        return true;
+        const updatedPage = YAML.parse(this.pageYaml)
+        this.page.config = updatedPage.config
+        this.page.slots.default = updatedPage.markers
+        this.forceUpdate()
+        return true
       } catch (e) {
-        f7.dialog.alert(e).open();
-        return false;
+        f7.dialog.alert(e).open()
+        return false
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

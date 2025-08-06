@@ -3,45 +3,47 @@
     <f7-list-item :title="configDescription.label">
       <template #after>
         <f7-button v-if="$device.desktop" @click="openPopup(true)" icon-material="fullscreen" />
-        <f7-button @click="openPopup(false)"> Edit script </f7-button>
+        <f7-button @click="openPopup(false)">
+          Edit script
+        </f7-button>
       </template>
     </f7-list-item>
   </ul>
 </template>
 
 <script>
-import ScriptEditorPopup from './script-editor-popup.vue';
-import { f7 } from 'framework7-vue';
+import ScriptEditorPopup from './script-editor-popup.vue'
+import { f7 } from 'framework7-vue'
 
 export default {
   props: {
     configDescription: String,
     configuration: Object,
     value: String,
-    f7router: Object,
+    f7router: Object
   },
   emits: ['input'],
   data() {
-    return {};
+    return {}
   },
   methods: {
     updateCode(code) {
-      this.$emit('input', code);
+      this.$emit('input', code)
     },
     openPopup(fullscreen) {
-      this.fullscreen = fullscreen;
+      this.fullscreen = fullscreen
 
       const popup = {
-        component: ScriptEditorPopup,
-      };
+        component: ScriptEditorPopup
+      }
 
       this.f7router.navigate(
         {
           url: 'script-edit',
           route: {
             path: 'script-edit',
-            popup,
-          },
+            popup
+          }
         },
         {
           props: {
@@ -49,16 +51,16 @@ export default {
             // use the "type" parameter as the mode if found (for rule modules)
             mode: this.configuration && this.configuration.type ? this.configuration.type : '',
             fullscreen,
-            value: this.value,
-          },
+            value: this.value
+          }
         }
-      );
+      )
 
-      f7.once('script-editor-update', this.updateCode);
+      f7.once('script-editor-update', this.updateCode)
       f7.once('script-editor-closed', () => {
-        f7.off('script-editor-update', this.updateCode);
-      });
-    },
-  },
-};
+        f7.off('script-editor-update', this.updateCode)
+      })
+    }
+  }
+}
 </script>

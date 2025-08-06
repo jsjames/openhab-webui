@@ -16,7 +16,9 @@
 
     <f7-block form v-if="ready && persistenceList.length" class="block-narrow">
       <f7-col>
-        <f7-block-title medium> General Settings </f7-block-title>
+        <f7-block-title medium>
+          General Settings
+        </f7-block-title>
         <config-sheet
           :parameter-groups="configDescriptions.parameterGroups"
           :parameters="configDescriptions.parameters"
@@ -26,7 +28,9 @@
     </f7-block>
     <f7-block v-if="ready && persistenceList.length" class="block-narrow">
       <f7-col>
-        <f7-block-title medium> Configure Persistence Policies </f7-block-title>
+        <f7-block-title medium>
+          Configure Persistence Policies
+        </f7-block-title>
         <f7-list>
           <f7-list-item
             v-for="persistence in persistenceList"
@@ -84,12 +88,11 @@
 </style>
 
 <script>
-import DirtyMixin from '../dirty-mixin';
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
-import { defineAsyncComponent } from 'vue';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import DirtyMixin from '../dirty-mixin'
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
 import { useRuntimeStore } from '@/js/stores/runtime'
 import { mapStores } from 'pinia'
@@ -101,7 +104,7 @@ export default {
     ConfigSheet
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -110,8 +113,8 @@ export default {
       serviceId: 'org.openhab.persistence',
       persistenceList: [],
       configDescriptions: null,
-      config: null,
-    };
+      config: null
+    }
   },
   computed: {
     ...mapStores(useRuntimeStore)
@@ -120,45 +123,45 @@ export default {
     config: {
       handler: function () {
         if (!this.loading) {
-          this.dirty = true;
+          this.dirty = true
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     onPageAfterIn() {
       if (window) {
-        window.addEventListener('keydown', this.keyDown);
+        window.addEventListener('keydown', this.keyDown)
       }
-      this.load();
+      this.load()
     },
     onPageBeforeOut() {
       if (window) {
-        window.removeEventListener('keydown', this.keyDown);
+        window.removeEventListener('keydown', this.keyDown)
       }
     },
     load() {
-      if (this.loading) return;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
 
       this.$oh.api.get('/rest/persistence').then(data => {
-        this.persistenceList = data;
-      });
+        this.persistenceList = data
+      })
       this.$oh.api.get('/rest/services/' + this.serviceId).then(data => {
         if (data.configDescriptionURI) {
           this.$oh.api.get('/rest/config-descriptions/' + data.configDescriptionURI).then(data2 => {
-            this.configDescriptions = data2;
+            this.configDescriptions = data2
             this.$oh.api.get('/rest/services/' + this.serviceId + '/config').then(data3 => {
-              this.config = data3;
+              this.config = data3
               nextTick(() => {
-                this.loading = false;
-                this.ready = true;
-              });
-            });
-          });
+                this.loading = false
+                this.ready = true
+              })
+            })
+          })
         }
-      });
+      })
     },
     save() {
       this.$oh.api.put('/rest/services/' + this.serviceId + '/config', this.config).then(() => {
@@ -166,23 +169,23 @@ export default {
           .create({
             text: 'Default persistence setting saved',
             destroyOnClose: true,
-            closeTimeout: 2000,
+            closeTimeout: 2000
           })
-          .open();
-      });
-      this.dirty = false;
+          .open()
+      })
+      this.dirty = false
     },
     keyDown(ev) {
       if ((ev.ctrlKey || ev.metaKey) && !(ev.altKey || ev.shiftKey)) {
         switch (ev.keyCode) {
           case 83:
-            this.save();
-            ev.stopPropagation();
-            ev.preventDefault();
-            break;
+            this.save()
+            ev.stopPropagation()
+            ev.preventDefault()
+            break
         }
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

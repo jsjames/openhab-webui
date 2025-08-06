@@ -1,6 +1,6 @@
 'use strict'
 
-import escaper from 'escaper'
+import { replace as escaperReplace, paste as escaperPaste } from 'escaper'
 import slugify from 'slugify'
 
 import stripComments from 'strip-css-comments'
@@ -73,12 +73,12 @@ function replace(css, replacer) {
   css = stripComments(css)
 
   // escape strings etc.
-  css = escaper.replace(css, true, arr)
+  css = escaperReplace(css, true, arr)
 
   css = css.replace(/([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)/g, replacer)
 
   // insert comments, strings etc. back
-  css = escaper.paste(css, arr)
+  css = escaperPaste(css, arr)
 
   return css
 }

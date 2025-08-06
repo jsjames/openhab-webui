@@ -1,13 +1,14 @@
 TODO
 
 - [x] HIGH - production build scripts and reporting
-- [] HIGH - no babel support - is this needed moving forward? - Vite has built-in support for this
+- [x] HIGH - no babel support - is this needed moving forward? - Vite has built-in support for this.
 - [x] HIGH - dynamic imports for i18n, node_modules needs to be looked at - currently hacked to get running
 - [x] HIGH - vuetrend does not support vue 3 - vue3trend does exist
-- [] HIGH - Cypress - haven't even looked at this or testing yet
+- [x] HIGH - Cypress - haven't even looked at this or testing yet - removed
 - [] HIGH - Swiper-slide needs to be retrofited with new (https://v6.framework7.io/vue/migration-from-v5#swiper)
 - [] HIGH - decide on prettier or other formatter? which rules (currently I just have used default rules)
 - [] HIGH - TODO-V3 comments in code need to be cleaned up / examined
+- [] HIGH - Jest --> Vitest
 - [x] HIGH - vuex reactive items are not getting updated
 - [x] HIGH - add support for Codemirror v6
 - [] MED - Codemirror - codemirror is basically in place, but many of the addon features need to be added

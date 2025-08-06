@@ -47,7 +47,7 @@ export default {
     'iconF7',
     'configureLabel',
     'removeLabel',
-    'parentSlot',
-  ],
-};
+    'parentSlot'
+  ]
+}
 </script>

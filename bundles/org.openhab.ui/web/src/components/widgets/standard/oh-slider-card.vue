@@ -21,17 +21,17 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import OhCard from '@/components/widgets/standard/oh-card.vue';
-import OhSlider from '../system/oh-slider.vue';
-import { OhSliderCardDefinition } from '@/assets/definitions/widgets/standard/cards';
+import mixin from '../widget-mixin'
+import OhCard from '@/components/widgets/standard/oh-card.vue'
+import OhSlider from '../system/oh-slider.vue'
+import { OhSliderCardDefinition } from '@/assets/definitions/widgets/standard/cards'
 
 export default {
   mixins: [mixin],
   components: {
     OhCard,
-    OhSlider,
+    OhSlider
   },
-  widget: OhSliderCardDefinition,
-};
+  widget: OhSliderCardDefinition
+}
 </script>

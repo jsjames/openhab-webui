@@ -3,23 +3,24 @@ import vue from 'eslint-plugin-vue'
 import globals from 'globals'
 import js from '@eslint/js'
 import vueI18n from '@intlify/eslint-plugin-vue-i18n'
+import importPlugin from 'eslint-plugin-import'
 
 // import standard from "@vue/eslint-config-standard";
 // import ts from "@typescript-eslint/parser"
 
 // const _import = require("eslint-plugin-import");
-// const cypress = require("eslint-plugin-cypress");
 // const es = require("eslint-plugin-es");
 
 import { fixupPluginRules } from '@eslint/compat'
 
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
-import eslintConfigPrettier from 'eslint-config-prettier/flat'
+// import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+// import eslintConfigPrettier from 'eslint-config-prettier/flat'
 
 export default [
   ...vue.configs['flat/recommended'],
-  eslintPluginPrettierRecommended,
+  // eslintPluginPrettierRecommended,
   ...vueI18n.configs.recommended,
+  importPlugin.flatConfigs.recommended,
   {
     files: ['**/*.js', '**/*.mjs', '**/*.vue', '**.ts', '**/*.tsx', '**/*.json'],
     languageOptions: {
@@ -34,7 +35,6 @@ export default [
       }
     },
     // 'js.configs.recommended',
-    // "plugin:cypress/recommended",
     // "plugin:@typescript-eslint/recommended",
     rules: {
       'arrow-parens': 'off',
@@ -43,45 +43,37 @@ export default [
       'dot-notation': 'off',
       'eol-last': 'error',
       'generator-star-spacing': 'off',
-      // "import/default": "error",
-      // "import/export": "error",
-      // "import/extensions": "off",
-      // "import/first": "off",
-      // "import/named": "error",
-      // "import/namespace": "error",
-      // "import/no-extraneous-dependencies": "off",
-      // "import/no-unresolved": "off",
-
-      indent: [
-        'error',
-        2,
-        {
-          SwitchCase: 1
-        }
-      ],
-
+      'semi': ['error', 'never'],
+      'import/default': 'error',
+      'import/export': 'error',
+      'import/extensions': 'off',
+      'import/first': 'off',
+      'import/named': 'error',
+      'import/namespace': 'error',
+      'import/no-extraneous-dependencies': 'off',
+      'import/no-unresolved': 'off',
+      'indent': ['error', 2, { 'SwitchCase': 1 }],
       'jsx-quotes': 'error',
       'linebreak-style': 'off',
       'multiline-ternary': 'off',
       'no-case-declarations': 'off',
       'no-console': 'off',
       'no-debugger': 'off',
-      // "es/no-regexp-lookbehind-assertions": "error",
+      // 'es/no-regexp-lookbehind-assertions': 'error', // Supported in Safari  >= 16.4, which breaks iOS 15.x.
       'no-trailing-spaces': 'error',
       'no-unsafe-optional-chaining': 'error',
       'no-whitespace-before-property': 'error',
       'one-var': 'off',
       'prefer-promise-reject-errors': 'off',
       'quote-props': 'off',
-      quotes: ['error', 'single'],
+      'quotes': ['error', 'single'],
       'space-in-parens': 'error',
       'vue/attribute-hyphenation': 'off',
       'vue/attributes-order': 'off',
       'vue/component-definition-name-casing': 'off',
       'vue/first-attribute-linebreak': 'off',
-
-      // 'vue/html-closing-bracket-spacing': 'off',
-      // 'vue/singleline-html-element-content-newline': 'off',
+      'vue/html-closing-bracket-newline': ['error', { 'singleline': 'never', 'multiline': 'never' }],
+      'vue/html-closing-bracket-spacing': 'error',
       'vue/html-indent': 'error',
       'vue/html-quotes': 'error',
       'vue/html-self-closing': 'error',
@@ -90,13 +82,15 @@ export default [
       'vue/multi-word-component-names': 'off',
       'vue/mustache-interpolation-spacing': 'error',
       'vue/no-multi-spaces': 'error',
-      'vue/block-order': 'off',
       'vue/no-v-html': 'off',
       'vue/singleline-html-element-content-newline': 'error',
       'vue/v-on-style': 'error',
       'vue/v-slot-style': 'error',
-      camelcase: 'off',
-      'vue/no-deprecated-slot-attribute': 'off',
+
+    // The following rules should be activated successively. Due to the large amount
+    // of required changes, the activations should be clustered in several pull requests.
+      'camelcase': 'off',
+      'no-empty': ['off', { 'allowEmptyCatch': true }],
 
       'no-empty': [
         'off',
@@ -108,14 +102,7 @@ export default [
       'no-unused-vars': 'off',
       'no-useless-catch': 'off',
       'prefer-const': 'off',
-
-      'vue/component-tags-order': [
-        'off',
-        {
-          order: ['template', 'script', 'style']
-        }
-      ],
-
+      'vue/block-order': ['error', { 'order': [ [ 'template', 'style' ], 'script' ] } ],
       'vue/no-mutating-props': 'off',
       'vue/no-parsing-error': 'off',
       'vue/no-template-shadow': 'off',
@@ -135,6 +122,6 @@ export default [
       }
     }
   },
-  eslintConfigPrettier, // This is the Prettier config that disables all ESLint rules that conflict with Prettier
+  // eslintConfigPrettier, // This is the Prettier config that disables all ESLint rules that conflict with Prettier
   globalIgnores(['dist', 'build', 'public'])
 ]

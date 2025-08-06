@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import mixin from '../../widget-mixin';
-import OhListItem from './oh-list-item.vue';
-import { OhColorpickerItemDefinition } from '@/assets/definitions/widgets/standard/listitems';
+import mixin from '../../widget-mixin'
+import OhListItem from './oh-list-item.vue'
+import { OhColorpickerItemDefinition } from '@/assets/definitions/widgets/standard/listitems'
 
 export default {
   components: {
-    OhListItem,
+    OhListItem
   },
   mixins: [mixin],
   widget: OhColorpickerItemDefinition,
@@ -28,16 +28,16 @@ export default {
       return {
         component: 'oh-colorpicker',
         config: Object.assign({}, this.config, {
-          openIn: this.config.openIn || 'auto',
-        }),
-      };
+          openIn: this.config.openIn || 'auto'
+        })
+      }
     },
     switchComponent() {
       return {
         component: 'oh-toggle',
-        config: this.config,
-      };
-    },
-  },
-};
+        config: this.config
+      }
+    }
+  }
+}
 </script>

@@ -68,11 +68,11 @@
 </style>
 
 <script>
-import ClipboardIcon from '@/components/util/clipboard-icon.vue';
+import ClipboardIcon from '@/components/util/clipboard-icon.vue'
 export default {
   props: ['channel', 'channelType', 'createMode', 'disabled'],
   components: {
-    ClipboardIcon,
-  },
-};
+    ClipboardIcon
+  }
+}
 </script>

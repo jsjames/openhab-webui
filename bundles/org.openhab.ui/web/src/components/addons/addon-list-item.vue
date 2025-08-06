@@ -78,32 +78,32 @@
 </style>
 
 <script>
-import AddonStatsLine from './addon-stats-line.vue';
-import AddonLogo from '@/components/addons/addon-logo.vue';
-import { f7 } from 'framework7-vue';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { mapStores } from 'pinia';
+import AddonStatsLine from './addon-stats-line.vue'
+import AddonLogo from '@/components/addons/addon-logo.vue'
+import { f7 } from 'framework7-vue'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { mapStores } from 'pinia'
 
 export default {
   props: ['addon', 'installActionText'],
   emits: ['addon-button-click'],
   components: {
     AddonLogo,
-    AddonStatsLine,
+    AddonStatsLine
   },
   data() {
   },
   computed: {
     showInstallActions() {
-      let splitted = this.addon.uid.split(':');
-      return splitted.length < 2 || splitted[0] !== 'eclipse';
+      let splitted = this.addon.uid.split(':')
+      return splitted.length < 2 || splitted[0] !== 'eclipse'
     },
     ...mapStores(useThemeOptionsStore)
   },
   methods: {
     buttonClicked() {
-      this.$emit('addon-button-click', this.addon);
-    },
-  },
-};
+      this.$emit('addon-button-click', this.addon)
+    }
+  }
+}
 </script>

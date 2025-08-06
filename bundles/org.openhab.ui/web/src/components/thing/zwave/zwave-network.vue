@@ -24,24 +24,24 @@
 
 <script>
 // import ECharts modules manually to reduce bundle size
-import { use } from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
-import { GraphChart } from 'echarts/charts';
-import { TooltipComponent, ToolboxComponent } from 'echarts/components';
-import VChart from 'vue-echarts';
-import { f7, theme } from 'framework7-vue';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { mapStores } from 'pinia';
+import { use } from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
+import { GraphChart } from 'echarts/charts'
+import { TooltipComponent, ToolboxComponent } from 'echarts/components'
+import VChart from 'vue-echarts'
+import { f7, theme } from 'framework7-vue'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { mapStores } from 'pinia'
 
-use([CanvasRenderer, GraphChart, TooltipComponent, ToolboxComponent]);
+use([CanvasRenderer, GraphChart, TooltipComponent, ToolboxComponent])
 
-import ThingStatus from '@/components/thing/thing-status-mixin';
+import ThingStatus from '@/components/thing/thing-status-mixin'
 
 export default {
   mixins: [ThingStatus],
   props: ['bridgeUID'],
   components: {
-    chart: VChart,
+    chart: VChart
   },
   computed: {
     finalOptions() {
@@ -50,11 +50,11 @@ export default {
           formatter: '{b}: {c}',
           confine: true,
           x: 10,
-          y: 10,
+          y: 10
         },
         backgroundColor: this.themeOptionsStore.darkMode() === 'dark' ? '#121212' : undefined,
-        series: this.series,
-      };
+        series: this.series
+      }
     },
     ...mapStores(useThemeOptionsStore)
   },
@@ -68,13 +68,13 @@ export default {
           gravity: 0.9,
           repulsion: 2000,
           edgeLength: 120,
-          layoutAnimation: false,
+          layoutAnimation: false
         },
         data: [],
         links: [],
         label: {
           fontSize: 16,
-          show: true,
+          show: true
         },
         // label: {
         //   emphasis: {
@@ -87,19 +87,19 @@ export default {
         lineStyle: {
           width: 1,
           curveness: 0.3,
-          opacity: 0.7,
+          opacity: 0.7
         },
         emphasis: {
           lineStyle: {
             width: 6,
-            focus: 'adjacency',
-          },
+            focus: 'adjacency'
+          }
         },
         symbolSize: 28,
         itemStyle: {
-          color: 'blue',
-        },
-      };
+          color: 'blue'
+        }
+      }
       return this.$oh.api.get('/rest/things').then(data => {
         let zWaveNodes = data.filter(
           t =>
@@ -107,14 +107,14 @@ export default {
             t.properties &&
             t.properties.zwave_nodeid &&
             t.properties.zwave_neighbours
-        );
-        const links = [];
+        )
+        const links = []
 
         zWaveNodes.forEach(t => {
-          let nodeid = t.properties.zwave_nodeid;
-          let bridgeUID = t.bridgeUID;
-          let listening = t.properties.zwave_listening === 'true';
-          links.push([nodeid, t.properties.zwave_neighbours ? t.properties.zwave_neighbours : '']);
+          let nodeid = t.properties.zwave_nodeid
+          let bridgeUID = t.bridgeUID
+          let listening = t.properties.zwave_listening === 'true'
+          links.push([nodeid, t.properties.zwave_neighbours ? t.properties.zwave_neighbours : ''])
           serie.data.push({
             name: nodeid,
             value: t.label,
@@ -122,15 +122,15 @@ export default {
             itemStyle: {
               color: this.thingStatusBadgeColor(t.statusInfo),
               borderColor: !bridgeUID ? 'orange' : listening ? 'yellow' : 'none',
-              borderWidth: 3,
-            },
-          });
-        });
+              borderWidth: 3
+            }
+          })
+        })
         links.forEach(l => {
-          const nodeid = l[0];
-          const neighbours = l[1];
+          const nodeid = l[0]
+          const neighbours = l[1]
           neighbours.split(',').forEach(n => {
-            let returnlink = serie.links.find(l => l.target === nodeid && l.source === n);
+            let returnlink = serie.links.find(l => l.target === nodeid && l.source === n)
             if (!returnlink) {
               serie.links.push({
                 source: nodeid,
@@ -139,20 +139,20 @@ export default {
                 symbolSize: [4, 10],
                 value: 'Unidirectional',
                 lineStyle: {
-                  type: 'dashed',
-                },
-              });
+                  type: 'dashed'
+                }
+              })
             } else {
-              returnlink.symbol = null;
-              returnlink.value = 'Bidirectional';
-              returnlink.lineStyle.type = 'solid';
+              returnlink.symbol = null
+              returnlink.value = 'Bidirectional'
+              returnlink.lineStyle.type = 'solid'
             }
-          });
-        });
+          })
+        })
 
-        return [serie];
-      });
-    },
-  },
-};
+        return [serie]
+      })
+    }
+  }
+}
 </script>

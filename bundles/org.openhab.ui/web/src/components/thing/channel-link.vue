@@ -10,9 +10,13 @@
           </div>
           <div class="item-inner searchbar-ignore">
             <div class="item-title-row searchbar-ignore">
-              <div class="item-title searchbar-ignore">Item Title</div>
+              <div class="item-title searchbar-ignore">
+                Item Title
+              </div>
             </div>
-            <div class="item-subtitle searchbar-ignore">Item Subtitle</div>
+            <div class="item-subtitle searchbar-ignore">
+              Item Subtitle
+            </div>
             <div class="item-text searchbar-ignore">
               Item text goes here, and it will be rendered as gray box too.
             </div>
@@ -105,13 +109,13 @@
 </style>
 
 <script>
-import AddLinkPage from '@/pages/settings/things/link/link-add.vue';
-import ConfigureLinkPage from '@/pages/settings/things/link/link-edit.vue';
-import ConfigureChannelPage from '@/pages/settings/things/channel/channel-edit.vue';
-import DuplicateChannelPage from '@/pages/settings/things/channel/channel-duplicate.vue';
-import { f7 } from 'framework7-vue';
+import AddLinkPage from '@/pages/settings/things/link/link-add.vue'
+import ConfigureLinkPage from '@/pages/settings/things/link/link-edit.vue'
+import ConfigureChannelPage from '@/pages/settings/things/channel/channel-edit.vue'
+import DuplicateChannelPage from '@/pages/settings/things/channel/channel-duplicate.vue'
+import { f7 } from 'framework7-vue'
 
-import ItemMixin from '@/components/item/item-mixin';
+import ItemMixin from '@/components/item/item-mixin'
 
 export default {
   mixins: [ItemMixin],
@@ -131,35 +135,35 @@ export default {
       ready: false,
       loading: false,
       links: [],
-      channelKind: '',
-    };
+      channelKind: ''
+    }
   },
   methods: {
     buildLinks() {
       if (this.channel) {
-        this.channelKind = this.channel.kind;
-        let links = [];
-        let promises = [];
-        this.loading = true;
+        this.channelKind = this.channel.kind
+        let links = []
+        let promises = []
+        this.loading = true
         this.channel.linkedItems.forEach(itemName => {
           let link = {
             itemName,
-            item: { name: itemName },
-          };
-          links.push(link);
+            item: { name: itemName }
+          }
+          links.push(link)
           const fetchItem = this.$oh.api.get(
             '/rest/items/' + link.itemName + '?metadata=semantics'
-          );
+          )
           fetchItem.then(i => {
-            link.item = i;
-          });
-          promises.push(fetchItem);
-        });
+            link.item = i
+          })
+          promises.push(fetchItem)
+        })
         Promise.all(promises).then(() => {
-          this.links = links;
-          this.ready = true;
-          this.loading = false;
-        });
+          this.links = links
+          this.ready = true
+          this.loading = false
+        })
       }
     },
     addLink() {
@@ -168,20 +172,20 @@ export default {
           url: 'links/new',
           route: {
             component: AddLinkPage,
-            path: 'links/new',
-          },
+            path: 'links/new'
+          }
         },
         {
           props: {
             thing: this.thing,
             channel: this.thing.channels.find(c => c.id === this.channelId),
-            channelType: this.channelType,
-          },
+            channelType: this.channelType
+          }
         }
-      );
+      )
     },
     configureLink(link) {
-      const path = 'links/' + link.itemName + '/' + this.channelId;
+      const path = 'links/' + link.itemName + '/' + this.channelId
       this.f7router.navigate(
         {
           url: path,
@@ -190,9 +194,9 @@ export default {
             path,
             props: {},
             on: {
-              pageAfterOut(event, page) {},
-            },
-          },
+              pageAfterOut(event, page) {}
+            }
+          }
         },
         {
           props: {
@@ -200,14 +204,14 @@ export default {
             channel: this.thing.channels.find(c => c.id === this.channelId),
             channelType: this.channelType,
             item: link.item,
-            source: 'thing',
-          },
+            source: 'thing'
+          }
         }
-      );
+      )
     },
     configureChannel() {
-      const self = this;
-      const path = 'channels/' + this.channelId + '/edit';
+      const self = this
+      const path = 'channels/' + this.channelId + '/edit'
       this.f7router.navigate(
         {
           url: path,
@@ -215,37 +219,37 @@ export default {
             component: ConfigureChannelPage,
             path,
             context: {
-              operation: 'edit-channel',
+              operation: 'edit-channel'
             },
             on: {
               pageAfterOut(event, page) {
-                const context = page.route.route.context;
-                const finalChannel = context.finalChannel;
+                const context = page.route.route.context
+                const finalChannel = context.finalChannel
                 if (finalChannel) {
                   // replace the channel in-place
-                  const idx = self.thing.channels.findIndex(c => c.uid === finalChannel.uid);
-                  this.thing.channels[idx] = finalChannel;
-                  self.$emit('channel-updated', true);
+                  const idx = self.thing.channels.findIndex(c => c.uid === finalChannel.uid)
+                  this.thing.channels[idx] = finalChannel
+                  self.$emit('channel-updated', true)
                 } else {
-                  self.$emit('channel-updated', false);
+                  self.$emit('channel-updated', false)
                 }
-              },
-            },
-          },
+              }
+            }
+          }
         },
         {
           props: {
             thing: this.thing,
             channel: this.channel,
             channelType: this.channelType,
-            channelId: this.channelId,
-          },
+            channelId: this.channelId
+          }
         }
-      );
+      )
     },
     duplicateChannel() {
-      const self = this;
-      const path = 'channels/' + this.channelId + '/edit';
+      const self = this
+      const path = 'channels/' + this.channelId + '/edit'
       this.f7router.navigate(
         {
           url: path,
@@ -253,62 +257,62 @@ export default {
             component: DuplicateChannelPage,
             path,
             context: {
-              operation: 'duplicate-channel',
+              operation: 'duplicate-channel'
             },
             on: {
               pageAfterOut(event, page) {
-                const context = page.route.route.context;
-                const finalChannel = context.finalChannel;
+                const context = page.route.route.context
+                const finalChannel = context.finalChannel
                 if (finalChannel) {
-                  self.thing.channels.push(finalChannel);
-                  self.$emit('channel-updated', true);
+                  self.thing.channels.push(finalChannel)
+                  self.$emit('channel-updated', true)
                 } else {
-                  self.$emit('channel-updated', false);
+                  self.$emit('channel-updated', false)
                 }
-              },
-            },
-          },
+              }
+            }
+          }
         },
         {
           props: {
             thing: this.thing,
             channel: this.channel,
             channelType: this.channelType,
-            channelId: this.channelId,
-          },
+            channelId: this.channelId
+          }
         }
-      );
+      )
     },
     removeChannel() {
-      const self = this;
+      const self = this
 
       if (this.links.length > 0) {
-        f7.dialog.alert('Please unlink all items to the channel before removing it');
-        return;
+        f7.dialog.alert('Please unlink all items to the channel before removing it')
+        return
       }
 
       f7.dialog.confirm(
         `Are you sure you want to remove the ${self.channel.label} channel from ${this.thing.label}?`,
         'Remove channel',
         () => {
-          const idx = self.thing.channels.findIndex(c => c.uid === self.channel.uid);
-          self.thing.channels.splice(idx, 1);
-          self.$emit('channel-updated', true);
+          const idx = self.thing.channels.findIndex(c => c.uid === self.channel.uid)
+          self.thing.channels.splice(idx, 1)
+          self.$emit('channel-updated', true)
         }
-      );
-    },
+      )
+    }
   },
   watch: {
     opened(isOpen) {
       if (isOpen) {
-        this.buildLinks();
+        this.buildLinks()
       }
     },
     thing() {
       if (this.opened) {
-        this.buildLinks();
+        this.buildLinks()
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

@@ -51,19 +51,19 @@ export default {
         editmode:
           !this.previewMode || this.forceEditMode
             ? {
-                addWidget: this.addWidget,
-                configureWidget: this.configureWidget,
-                configureSlot: this.configureSlot,
-                editWidgetCode: this.editWidgetCode,
-                cutWidget: this.cutWidget,
-                copyWidget: this.copyWidget,
-                pasteWidget: this.pasteWidget,
-                moveWidgetUp: this.moveWidgetUp,
-                moveWidgetDown: this.moveWidgetDown,
-                sendWidgetToBack: this.sendWidgetToBack,
-                bringWidgetToFront: this.bringWidgetToFront,
-                removeWidget: this.removeWidget
-              }
+              addWidget: this.addWidget,
+              configureWidget: this.configureWidget,
+              configureSlot: this.configureSlot,
+              editWidgetCode: this.editWidgetCode,
+              cutWidget: this.cutWidget,
+              copyWidget: this.copyWidget,
+              pasteWidget: this.pasteWidget,
+              moveWidgetUp: this.moveWidgetUp,
+              moveWidgetDown: this.moveWidgetDown,
+              sendWidgetToBack: this.sendWidgetToBack,
+              bringWidgetToFront: this.bringWidgetToFront,
+              removeWidget: this.removeWidget
+            }
             : null,
         clipboardtype: this.clipboardType
       }
@@ -171,11 +171,11 @@ export default {
 
       const promise = this.createMode
         ? this.$oh.api.postPlain(
-            '/rest/ui/components/ui:page',
-            JSON.stringify(this.page),
-            'text/plain',
-            'application/json'
-          )
+          '/rest/ui/components/ui:page',
+          JSON.stringify(this.page),
+          'text/plain',
+          'application/json'
+        )
         : this.$oh.api.put('/rest/ui/components/ui:page/' + this.page.uid, this.page)
       promise
         .then(data => {

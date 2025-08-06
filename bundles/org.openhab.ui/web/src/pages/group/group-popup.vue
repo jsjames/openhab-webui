@@ -21,24 +21,24 @@
 </style>
 
 <script>
-import itemDefaultStandaloneComponent from '@/components/widgets/standard/default-standalone-item';
-import itemDefaultListComponent from '@/components/widgets/standard/list/default-list-item';
-import { compareItems } from '@/components/widgets/widget-order';
+import itemDefaultStandaloneComponent from '@/components/widgets/standard/default-standalone-item'
+import itemDefaultListComponent from '@/components/widgets/standard/list/default-list-item'
+import { compareItems } from '@/components/widgets/widget-order'
 
-import { useStatesStore } from '@/js/stores/states';
+import { useStatesStore } from '@/js/stores/states'
 
 export default {
   props: {
-    groupItem: String,
+    groupItem: String
   },
   data() {
     return {
-      item: null,
-    };
+      item: null
+    }
   },
   computed: {
     context() {
-      if (!this.item) return null;
+      if (!this.item) return null
 
       if (this.item.members && this.item.members.length > 0) {
         return {
@@ -46,62 +46,62 @@ export default {
           component: {
             component: 'oh-list-card',
             config: {
-              mediaList: true,
+              mediaList: true
             },
             slots: {
-              default: this.item.members.map(i => itemDefaultListComponent(i)),
-            },
-          },
-        };
+              default: this.item.members.map(i => itemDefaultListComponent(i))
+            }
+          }
+        }
       } else if (this.item.type === 'Group') {
         return {
           component: {
             component: 'Label',
             config: {
               class: ['padding', 'text-align-center'],
-              text: 'This group has no members.',
-            },
-          },
-        };
+              text: 'This group has no members.'
+            }
+          }
+        }
       } else {
         return {
           store: useStatesStore().trackedItems,
-          component: itemDefaultStandaloneComponent(this.item),
-        };
+          component: itemDefaultStandaloneComponent(this.item)
+        }
       }
     },
     groupControlContext() {
-      if (!this.item || !this.item.groupType || this.item.groupType === '') return null;
+      if (!this.item || !this.item.groupType || this.item.groupType === '') return null
 
       // make a fake item of the group's base type to build the standalone widget for the group
-      const itemAsBaseType = Object.assign({}, this.item);
-      itemAsBaseType.type = itemAsBaseType.groupType;
-      itemAsBaseType.groupType = undefined;
+      const itemAsBaseType = Object.assign({}, this.item)
+      itemAsBaseType.type = itemAsBaseType.groupType
+      itemAsBaseType.groupType = undefined
 
       return {
         store: useStatesStore().trackedItems,
-        component: itemDefaultStandaloneComponent(itemAsBaseType),
-      };
+        component: itemDefaultStandaloneComponent(itemAsBaseType)
+      }
     },
     ready() {
-      return this.context !== null;
-    },
+      return this.context !== null
+    }
   },
   methods: {
     onOpen() {
-      this.load();
+      this.load()
     },
     onClose() {},
     load() {
-      console.log('groupItem', this.groupItem);
+      console.log('groupItem', this.groupItem)
       this.$oh.api
         .get(`/rest/items/${this.groupItem}?metadata=semantics,widget,listWidget,widgetOrder`)
         .then(data => {
-          this.item = data;
+          this.item = data
           // array is sorted in-place
-          this.item.members.sort(compareItems);
-        });
-    },
-  },
-};
+          this.item.members.sort(compareItems)
+        })
+    }
+  }
+}
 </script>

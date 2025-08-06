@@ -50,10 +50,10 @@
 </style>
 
 <script>
-import { Parser, Grammar } from 'nearley';
-import grammar from '@/assets/sitemap-lexer.nearley?raw';
-import dslUtil from './dslUtil';
-import { defineAsyncComponent } from 'vue';
+import { Parser, Grammar } from 'nearley'
+import grammar from '@/assets/sitemap-lexer.nearley?raw'
+import dslUtil from './dslUtil'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   components: {
@@ -62,38 +62,38 @@ export default {
         import(
           /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
         )
-    ),
+    )
   },
   props: ['sitemap'],
   emits: ['updated'],
   data() {
     return {
-      sitemapDsl: '',
-    };
+      sitemapDsl: ''
+    }
   },
   created() {
-    this.sitemapDsl = dslUtil.toDsl(this.sitemap);
+    this.sitemapDsl = dslUtil.toDsl(this.sitemap)
   },
   methods: {
     updateSitemap(value) {
-      this.sitemapDsl = value;
-      const parsed = this.parsedSitemap;
+      this.sitemapDsl = value
+      const parsed = this.parsedSitemap
       if (!parsed.error) {
-        this.$emit('updated', parsed);
+        this.$emit('updated', parsed)
       }
-    },
+    }
   },
   computed: {
     parsedSitemap() {
       try {
-        const parser = new Parser(Grammar.fromCompiled(grammar));
-        parser.feed(this.sitemapDsl.trim().replace(/\t/g, ' '));
-        if (!parser.results.length) return { error: 'Unable to parse, check your input' };
-        return parser.results[0];
+        const parser = new Parser(Grammar.fromCompiled(grammar))
+        parser.feed(this.sitemapDsl.trim().replace(/\t/g, ' '))
+        if (!parser.results.length) return { error: 'Unable to parse, check your input' }
+        return parser.results[0]
       } catch (e) {
-        return { error: e };
+        return { error: e }
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

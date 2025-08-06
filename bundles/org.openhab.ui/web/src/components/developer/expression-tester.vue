@@ -1,6 +1,8 @@
 <template>
   <f7-block class="no-margin no-padding">
-    <f7-block-title class="padding-horizontal"> Widgets Expression Tester </f7-block-title>
+    <f7-block-title class="padding-horizontal">
+      Widgets Expression Tester
+    </f7-block-title>
     <f7-list media-list>
       <f7-list-input
         type="textarea"
@@ -18,14 +20,14 @@
 </template>
 
 <script>
-import Mixin from '@/components/widgets/widget-mixin';
+import Mixin from '@/components/widgets/widget-mixin'
 
 export default {
   mixins: [Mixin],
   data() {
     return {
-      testExpression: '',
-    };
+      testExpression: ''
+    }
   },
   computed: {
     context() {
@@ -33,18 +35,18 @@ export default {
         component: {
           config: {
             style: {
-              fontFamily: 'monospace',
+              fontFamily: 'monospace'
             },
             noBorder: true,
             noShadow: true,
-            text: this.testExpression.toString(),
-          },
+            text: this.testExpression.toString()
+          }
         },
         editmode: true,
         vars: {},
-        store: useStatesStore().trackedItems,
-      };
-    },
-  },
-};
+        store: useStatesStore().trackedItems
+      }
+    }
+  }
+}
 </script>

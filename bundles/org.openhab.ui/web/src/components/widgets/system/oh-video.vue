@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import { OhVideoDefinition } from '@/assets/definitions/widgets/system';
-import { utils } from 'framework7';
-import { defineAsyncComponent } from 'vue';
+import mixin from '../widget-mixin'
+import { OhVideoDefinition } from '@/assets/definitions/widgets/system'
+import { utils } from 'framework7'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   mixins: [mixin],
@@ -34,42 +34,42 @@ export default {
     ),
     'oh-video-webrtc': defineAsyncComponent(
       () => import(/* webpackChunkName: "oh-video-webrtc" */ './oh-video-webrtc.vue')
-    ),
+    )
   },
   data() {
     return {
       t: utils.id(),
-      src: null,
-    };
+      src: null
+    }
   },
   watch: {
     itemState(value) {
       if (value) {
-        this.loadItemURL();
+        this.loadItemURL()
       }
-    },
+    }
   },
   computed: {
     itemState() {
       if (this.config.item) {
-        return utils.id() + '|' + this.context.store[this.config.item].state;
+        return utils.id() + '|' + this.context.store[this.config.item].state
       }
-      return null;
-    },
+      return null
+    }
   },
   mounted() {
     if (this.config.item) {
-      this.loadItemURL();
+      this.loadItemURL()
     } else {
-      this.src = this.config.url;
+      this.src = this.config.url
     }
   },
   methods: {
     loadItemURL() {
       this.$oh.api.getPlain(`/rest/items/${this.config.item}/state`, 'text/plain').then(data => {
-        this.src = data;
-      });
-    },
-  },
-};
+        this.src = data
+      })
+    }
+  }
+}
 </script>

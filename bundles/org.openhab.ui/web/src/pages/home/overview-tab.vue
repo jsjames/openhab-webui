@@ -2,12 +2,10 @@
   <div :style="pageStyle">
     <div class="hint-apps" v-if="!overviewPage && !userStore.user && !showHABot">
       <p>
-        <em
-          ><f7-icon
-            class="float-right margin-left margin-bottom"
-            f7="arrow_turn_right_up"
-            size="20" />{{ $t('home.tip.otherApps') }}</em
-        >
+        <em><f7-icon
+          class="float-right margin-left margin-bottom"
+          f7="arrow_turn_right_up"
+          size="20" />{{ $t('home.tip.otherApps') }}</em>
       </p>
     </div>
     <f7-block class="block-narrow">
@@ -85,17 +83,17 @@
 </style>
 
 <script>
-import OhLayoutPage from '@/components/widgets/layout/oh-layout-page.vue';
-import { defineAsyncComponent } from 'vue';
-import { f7 } from 'framework7-vue';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
-import { useStatesStore } from '@/js/stores/states';
-import { useUserStore } from '@/js/stores/user';
-import { useComponentsStore } from '@/js/stores/components';
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import OhLayoutPage from '@/components/widgets/layout/oh-layout-page.vue'
+import { defineAsyncComponent } from 'vue'
+import { f7 } from 'framework7-vue'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
+import { useStatesStore } from '@/js/stores/states'
+import { useUserStore } from '@/js/stores/user'
+import { useComponentsStore } from '@/js/stores/components'
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
 
-import { mapStores } from 'pinia';
+import { mapStores } from 'pinia'
 
 export default {
   props: ['context', 'allowChat'],
@@ -104,14 +102,14 @@ export default {
     'empty-state-placeholder': EmptyStatePlaceholder,
     habot: defineAsyncComponent(
       () => import(/* webpackChunkName: "habot" */ '../../components/home/habot.vue')
-    ),
+    )
   },
   data() {
     return {
       inChatSession: false,
       ready: true,
       f7
-    };
+    }
   },
   computed: {
     showHABot() {
@@ -119,18 +117,18 @@ export default {
         useRuntimeStore().apiEndpoint('habot') &&
         this.allowChat &&
         !useThemeOptionsStore().hideChatInput
-      );
+      )
     },
     overviewPage() {
-      const page = useComponentsStore().page('overview');
+      const page = useComponentsStore().page('overview')
       if (page) {
-        if (page.component === 'oh-layout-page') return page;
+        if (page.component === 'oh-layout-page') return page
         if (page.slots) {
-          if (page.slots.default && page.slots.default.length) return page;
-          if (page.slots.masonry || page.slots.canvas || page.slots.grid) return page;
+          if (page.slots.default && page.slots.default.length) return page
+          if (page.slots.masonry || page.slots.canvas || page.slots.grid) return page
         }
       }
-      return null;
+      return null
     },
     overviewPageContext() {
       return {
@@ -139,19 +137,19 @@ export default {
         vars:
           this.overviewPage && this.overviewPage.config && this.overviewPage.config.defineVars
             ? this.overviewPage.config.defineVars
-            : {},
-      };
+            : {}
+      }
     },
     pageStyle() {
-      if (!this.overviewPage) return null;
-      return this.overviewPage.config.style;
+      if (!this.overviewPage) return null
+      return this.overviewPage.config.style
     },
     ...mapStores(useUserStore, useRuntimeStore)
   },
   methods: {
     onCommand(itemName, command) {
-      useStatesStore().sendCommand(itemName, command);
-    },
-  },
-};
+      useStatesStore().sendCommand(itemName, command)
+    }
+  }
+}
 </script>

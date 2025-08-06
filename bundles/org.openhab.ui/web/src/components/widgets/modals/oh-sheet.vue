@@ -9,7 +9,9 @@
         }}
       </div>
       <div class="right">
-        <f7-link sheet-close> Close </f7-link>
+        <f7-link sheet-close>
+          Close
+        </f7-link>
       </div>
     </f7-toolbar>
 
@@ -32,14 +34,14 @@
 </style>
 
 <script>
-import modal from './modal-mixin';
-import { defineAsyncComponent } from 'vue';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import modal from './modal-mixin'
+import { defineAsyncComponent } from 'vue'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
 export default {
   mixins: [modal],
   components: {
     'empty-state-placeholder': EmptyStatePlaceholder
-  },
-};
+  }
+}
 </script>

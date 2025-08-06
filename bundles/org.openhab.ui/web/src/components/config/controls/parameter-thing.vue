@@ -9,18 +9,18 @@
 </template>
 
 <script>
-import ThingPicker from './thing-picker.vue';
+import ThingPicker from './thing-picker.vue'
 
 export default {
   props: ['configDescription', 'value'],
   emits: ['input'],
   components: {
-    ThingPicker,
+    ThingPicker
   },
   methods: {
     updateValue(value) {
-      this.$emit('input', value);
-    },
-  },
-};
+      this.$emit('input', value)
+    }
+  }
+}
 </script>

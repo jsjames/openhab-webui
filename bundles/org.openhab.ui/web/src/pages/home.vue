@@ -188,29 +188,29 @@
 </style>
 
 <script>
-import OverviewTab from './home/overview-tab.vue';
-import ModelTab from './home/model-tab.vue';
-import { f7, theme } from 'framework7-vue';
-import { utils } from 'framework7';
-import { mapStores } from 'pinia';
+import OverviewTab from './home/overview-tab.vue'
+import ModelTab from './home/model-tab.vue'
+import { f7, theme } from 'framework7-vue'
+import { utils } from 'framework7'
+import { mapStores } from 'pinia'
 
-import HomeCards from './home/homecards-mixin';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { useStatesStore } from '@/js/stores/states';
-import { useUserStore } from '@/js/stores/user';
-import { useComponentsStore } from '@/js/stores/components';
-import { useRuntimeStore } from '@/js/stores/runtime';
+import HomeCards from './home/homecards-mixin'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { useStatesStore } from '@/js/stores/states'
+import { useUserStore } from '@/js/stores/user'
+import { useComponentsStore } from '@/js/stores/components'
+import { useRuntimeStore } from '@/js/stores/runtime'
 
 export default {
   props: {
     initialTab: String,
     f7route: Object,
-    f7router: Object,
+    f7router: Object
   },
   mixins: [HomeCards],
   components: {
     OverviewTab,
-    ModelTab,
+    ModelTab
   },
   data() {
     return {
@@ -222,78 +222,78 @@ export default {
       showExitToApp: false,
       currentTab: this.initialTab || 'overview',
       overviewPageKey: utils.id()
-    };
+    }
   },
   computed: {
     ready() {
-      return useRuntimeStore().apiVersion > 0;
+      return useRuntimeStore().apiVersion > 0
     },
     context() {
       return {
-        store: useStatesStore().trackedItems,
-      };
+        store: useStatesStore().trackedItems
+      }
     },
     simpleNavbar() {
-      const homeNavBar = useThemeOptionsStore().homeNavBar;
-      if (homeNavBar !== 'default') return homeNavBar === 'simple';
+      const homeNavBar = useThemeOptionsStore().homeNavBar
+      if (homeNavBar !== 'default') return homeNavBar === 'simple'
       if (this.$device.desktop) {
-        return this.homePageComponent?.config?.simpleNavbarDesktopDefault === true;
+        return this.homePageComponent?.config?.simpleNavbarDesktopDefault === true
       } else {
-        return this.homePageComponent?.config?.simpleNavbarMobileDefault === true;
+        return this.homePageComponent?.config?.simpleNavbarMobileDefault === true
       }
     },
     standardBackground() {
-      const homeBackground = useThemeOptionsStore().homeBackground;
-      if (homeBackground !== 'default') return homeBackground === 'standard';
+      const homeBackground = useThemeOptionsStore().homeBackground
+      if (homeBackground !== 'default') return homeBackground === 'standard'
       if (this.$device.desktop) {
-        return this.homePageComponent?.config?.standardBackgroundDesktopDefault === true;
+        return this.homePageComponent?.config?.standardBackgroundDesktopDefault === true
       } else {
-        return this.homePageComponent?.config?.standardBackgroundMobileDefault === true;
+        return this.homePageComponent?.config?.standardBackgroundMobileDefault === true
       }
     },
     homePageComponent() {
-      const page = useComponentsStore().page('home');
-      if (!page) return null;
-      if (page.component !== 'oh-home-page') return null;
-      return page;
+      const page = useComponentsStore().page('home')
+      if (!page) return null
+      if (page.component !== 'oh-home-page') return null
+      return page
     },
     tabsVisible() {
       // Show the tabs bar if the home page component is unavailable
-      if (!this.homePageComponent) return true;
+      if (!this.homePageComponent) return true
       // Hide the tabs bar if all model tabs are hidden
-      if (this.homePageComponent.config?.hiddenModelTabs?.length === 3) return false;
+      if (this.homePageComponent.config?.hiddenModelTabs?.length === 3) return false
       // Hide the tabs bar if model cards are restricted to a role and/or users and the current users doesn't satisfy the requirements
       // Note: User configuration takes precedence over role configuration
-      const visibleTo = this.homePageComponent.config.displayModelCardsTo;
-      if (visibleTo === undefined || !visibleTo.length) return true;
-      const user = useUserStore().user;
-      if (!user) return false;
-      if (user.roles && user.roles.some(r => visibleTo.indexOf('role:' + r) >= 0)) return true;
-      if (visibleTo.indexOf('user:' + user.name) >= 0) return true;
-      return false;
+      const visibleTo = this.homePageComponent.config.displayModelCardsTo
+      if (visibleTo === undefined || !visibleTo.length) return true
+      const user = useUserStore().user
+      if (!user) return false
+      if (user.roles && user.roles.some(r => visibleTo.indexOf('role:' + r) >= 0)) return true
+      if (visibleTo.indexOf('user:' + user.name) >= 0) return true
+      return false
     },
     allowChat() {
-      if (!this.homePageComponent) return true;
-      const visibleTo = this.homePageComponent.config.allowChatInputTo;
-      if (visibleTo === undefined || !visibleTo.length) return true;
-      const user = useUserStore().user;
-      if (!user) return false;
-      if (user.roles && user.roles.some(r => visibleTo.indexOf('role:' + r) >= 0)) return true;
-      if (visibleTo.indexOf('user:' + user.name) >= 0) return true;
-      return false;
+      if (!this.homePageComponent) return true
+      const visibleTo = this.homePageComponent.config.allowChatInputTo
+      if (visibleTo === undefined || !visibleTo.length) return true
+      const user = useUserStore().user
+      if (!user) return false
+      if (user.roles && user.roles.some(r => visibleTo.indexOf('role:' + r) >= 0)) return true
+      if (visibleTo.indexOf('user:' + user.name) >= 0) return true
+      return false
     },
     title() {
       switch (this.currentTab) {
         case 'overview':
-          return this.$t('home.overview.title');
+          return this.$t('home.overview.title')
         case 'locations':
-          return this.$t('home.locations.title');
+          return this.$t('home.locations.title')
         case 'equipment':
-          return this.$t('home.equipment.title');
+          return this.$t('home.equipment.title')
         case 'properties':
-          return this.$t('home.properties.title');
+          return this.$t('home.properties.title')
         default:
-          return this.$t('home.overview.title');
+          return this.$t('home.overview.title')
       }
     },
     ...mapStores(useThemeOptionsStore, useUserStore, useRuntimeStore)
@@ -301,41 +301,41 @@ export default {
   watch: {
     ready(val, oldVal) {
       if (val && !oldVal) {
-        useStatesStore().startTrackingStates();
+        useStatesStore().startTrackingStates()
       }
-    },
+    }
   },
   methods: {
     onPageBeforeIn() {
-      this.overviewPageKey = utils.id();
+      this.overviewPageKey = utils.id()
     },
     onPageAfterIn() {
       if (this.ready) {
-        useStatesStore().startTrackingStates();
+        useStatesStore().startTrackingStates()
       }
     },
     onPageBeforeOut() {
-      useStatesStore().stopTrackingStates();
+      useStatesStore().stopTrackingStates()
     },
     onPageInit() {
       if (window.OHApp) {
-        if (window.OHApp.pinToHome) this.showPinToHome = true;
-        if (window.OHApp.exitToApp) this.showExitToApp = true;
+        if (window.OHApp.pinToHome) this.showPinToHome = true
+        if (window.OHApp.exitToApp) this.showExitToApp = true
       }
     },
     pinToHome() {
-      window.OHApp.pinToHome();
+      window.OHApp.pinToHome()
     },
     exitToApp() {
-      window.OHApp.exitToApp();
+      window.OHApp.exitToApp()
     },
     tabVisible(tab) {
-      if (!this.tabsVisible) return false;
-      if (!this.homePageComponent) return true;
-      const hiddenTabs = this.homePageComponent.config.hiddenModelTabs;
-      if (hiddenTabs === undefined || !hiddenTabs.length) return true;
-      return hiddenTabs.indexOf(tab) < 0;
-    },
-  },
-};
+      if (!this.tabsVisible) return false
+      if (!this.homePageComponent) return true
+      const hiddenTabs = this.homePageComponent.config.hiddenModelTabs
+      if (hiddenTabs === undefined || !hiddenTabs.length) return true
+      return hiddenTabs.indexOf(tab) < 0
+    }
+  }
+}
 </script>

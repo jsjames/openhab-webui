@@ -14,13 +14,13 @@
       <f7-link
         @click="currentTab = 'menu'"
         :tab-link-active="currentTab === 'menu'"
-        class="tab-link">
+        tab-link="#menu-tab">
         Expert Features
       </f7-link>
       <f7-link
         @click="currentTab = 'debug'"
         :tab-link-active="currentTab === 'debug'"
-        class="tab-link">
+        tab-link="#debug-tab">
         Debug
       </f7-link>
     </f7-toolbar>
@@ -143,12 +143,24 @@
                     <f7-icon f7="exclamationmark_circle" color="gray" />
                   </template>
                   <select v-model="logLevel" @change="onLogLevelChange">
-                    <option value="TRACE">Trace</option>
-                    <option value="DEBUG">Debug</option>
-                    <option value="INFO">Info</option>
-                    <option value="WARN">Warn</option>
-                    <option value="ERROR">Error</option>
-                    <option value="OFF">Off</option>
+                    <option value="TRACE">
+                      Trace
+                    </option>
+                    <option value="DEBUG">
+                      Debug
+                    </option>
+                    <option value="INFO">
+                      Info
+                    </option>
+                    <option value="WARN">
+                      Warn
+                    </option>
+                    <option value="ERROR">
+                      Error
+                    </option>
+                    <option value="OFF">
+                      Off
+                    </option>
                   </select>
                 </f7-list-item>
               </f7-list>
@@ -170,7 +182,9 @@
           <f7-row>
             <f7-col>
               <f7-block>
-                <f7-block-title class="after-big-title"> Test SSE connection </f7-block-title>
+                <f7-block-title class="after-big-title">
+                  Test SSE connection
+                </f7-block-title>
                 <f7-button text="Stream Events" @click="startSSE()" v-if="!sseClient" />
                 <f7-button text="Stop Streaming" @click="stopSSE()" v-if="sseClient" />
                 <f7-list media-list>
@@ -190,7 +204,9 @@
           <f7-row>
             <f7-col>
               <f7-block>
-                <f7-block-title class="after-big-title"> Test WebSocket connection </f7-block-title>
+                <f7-block-title class="after-big-title">
+                  Test WebSocket connection
+                </f7-block-title>
                 <f7-button text="Stream Events" @click="startWS()" v-if="!wsClient" />
                 <f7-button text="Stop Streaming" @click="stopWS()" v-if="wsClient" />
                 <f7-list media-list>
@@ -221,7 +237,7 @@
                     :info="iconUrl"
                     clear-button>
                     <template #media>
-                      <img :src="iconUrl" width="44" />
+                      <img :src="iconUrl" width="44">
                     </template>
                   </f7-list-input>
                 </f7-list>
@@ -241,8 +257,8 @@
 </style>
 
 <script>
-import FileDefinition from '@/pages/settings/file-definition-mixin';
-import { f7 } from 'framework7-vue';
+import FileDefinition from '@/pages/settings/file-definition-mixin'
+import { f7 } from 'framework7-vue'
 
 import { useRuntimeStore } from '@/js/stores/runtime'
 import { mapStores } from 'pinia'
@@ -260,48 +276,48 @@ export default {
       wsEvents: [],
       icon: 'lightbulb',
       split: this.$device.desktop ? 'vertical' : 'horizontal',
-      logLevel: localStorage.getItem('openhab.ui:logLevel') || 'INFO',
-    };
+      logLevel: localStorage.getItem('openhab.ui:logLevel') || 'INFO'
+    }
   },
   computed: {
     ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageBeforeRemove() {
-      if (this.sseClient) this.$oh.sse.close(this.sseClient);
+      if (this.sseClient) this.$oh.sse.close(this.sseClient)
     },
     startSSE() {
       this.sseClient = this.$oh.sse.connect('/rest/events', '', event => {
-        event.time = new Date();
-        this.sseEvents.unshift(...[event]);
-        this.sseEvents.splice(5);
-      });
+        event.time = new Date()
+        this.sseEvents.unshift(...[event])
+        this.sseEvents.splice(5)
+      })
     },
     stopSSE() {
-      this.$oh.sse.close(this.sseClient);
-      this.sseClient = null;
-      this.sseEvents = [];
+      this.$oh.sse.close(this.sseClient)
+      this.sseClient = null
+      this.sseEvents = []
     },
     startWS() {
       this.wsClient = this.$oh.ws.events([], event => {
-        event.time = new Date();
-        this.wsEvents.unshift(...[event]);
-        this.wsEvents.splice(5);
-      });
+        event.time = new Date()
+        this.wsEvents.unshift(...[event])
+        this.wsEvents.splice(5)
+      })
     },
     stopWS() {
-      this.$oh.ws.close(this.wsClient);
-      this.wsClient = null;
-      this.wsEvents = [];
+      this.$oh.ws.close(this.wsClient)
+      this.wsClient = null
+      this.wsEvents = []
     },
     onLogLevelChange() {
-      window.setLogLevel(this.logLevel);
-    },
+      window.setLogLevel(this.logLevel)
+    }
   },
   asyncComputed: {
     iconUrl() {
-      return this.$oh.media.getIcon(this.icon);
-    },
-  },
-};
+      return this.$oh.media.getIcon(this.icon)
+    }
+  }
+}
 </script>

@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import { f7 } from 'framework7-vue';
-import { nextTick } from 'vue';
+import { f7 } from 'framework7-vue'
+import { nextTick } from 'vue'
 
 export default {
   props: [
@@ -35,7 +35,7 @@ export default {
     'required',
     'filterType',
     'filterUid',
-    'openOnReady',
+    'openOnReady'
   ],
   emits: ['input'],
   data() {
@@ -56,7 +56,7 @@ export default {
                 ? this.things[index - 1].location +
                   '<i class="icon f7-icons color-gray" style="width: 16px; height: 16px; font-size: 16px;">placemark</i>'
                 : ''
-              : '';
+              : ''
           return `
                 <li class="media-item">
                   <label class="item-${item.radio ? 'radio' : 'checkbox'} item-content">
@@ -68,46 +68,46 @@ export default {
                     </div>
                   </label>
                 </li>
-              `;
-        },
-      },
-    };
+              `
+        }
+      }
+    }
   },
   created() {
-    this.smartSelectParams.closeOnSelect = !this.multiple;
+    this.smartSelectParams.closeOnSelect = !this.multiple
     this.$oh.api.get('/rest/things?staticDataOnly=true').then(data => {
       this.things = data.sort((a, b) => {
-        const labelA = a.label || a.UID;
-        const labelB = b.label || b.UID;
-        return labelA.localeCompare(labelB);
-      });
+        const labelA = a.label || a.UID
+        const labelB = b.label || b.UID
+        return labelA.localeCompare(labelB)
+      })
       if (this.filterType) {
-        this.things = this.things.filter(i => this.filterType.indexOf(i.thingTypeUID) >= 0);
+        this.things = this.things.filter(i => this.filterType.indexOf(i.thingTypeUID) >= 0)
         if (this.things.length < 5) {
-          this.smartSelectParams.openIn = 'sheet';
-          this.smartSelectParams.searchbar = false;
+          this.smartSelectParams.openIn = 'sheet'
+          this.smartSelectParams.searchbar = false
         }
       }
       if (this.filterUid && this.filterUid.length) {
-        this.things = this.things.filter(t => this.filterUid.indexOf(t.UID) >= 0);
+        this.things = this.things.filter(t => this.filterUid.indexOf(t.UID) >= 0)
       }
-      this.ready = true;
+      this.ready = true
       if (this.openOnReady) {
         nextTick(() => {
-          this.$refs.smartSelect.f7SmartSelect.open();
-        });
+          this.$refs.smartSelect.$el.f7SmartSelect.open()
+        })
       }
-    });
+    })
   },
   methods: {
     open() {
-      this.$refs.smartSelect.f7SmartSelect.open();
+      this.$refs.smartSelect.$el.f7SmartSelect.open()
     },
     select(e) {
-      f7.input.validateInputs(this.$refs.smartSelect.$el);
-      this.$emit('input', e.target.value);
-      f7.emit('thing-picked', e.target.value);
-    },
-  },
-};
+      f7.input.validateInputs(this.$refs.smartSelect.$el)
+      this.$emit('input', e.target.value)
+      f7.emit('thing-picked', e.target.value)
+    }
+  }
+}
 </script>

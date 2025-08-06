@@ -8,9 +8,9 @@
     backdrop>
     <div class="sheet-modal-swipe-step">
       <div v-if="!noDetails" class="swipe-handler" @click="toggleSwipeStep" />
-      <f7-block-title
-        ><strong>{{ addon.label }}</strong></f7-block-title
-      >
+      <f7-block-title>
+        <strong>{{ addon.label }}</strong>
+      </f7-block-title>
       <f7-block v-if="state === 'UNINSTALLED'">
         <div v-if="addon.verifiedAuthor" class="text-color-green display-flex align-items-center">
           <f7-icon f7="checkmark_shield" class="margin-right" />
@@ -32,16 +32,14 @@
           v-if="showUnpublishedWarning"
           class="display-flex align-items-center text-color-red">
           This add-on has not been published to the Marketplace. DO NOT install this add-on, unless
-          for debugging purposes if you are the author or a marketplace curator!<br /><br />
+          for debugging purposes if you are the author or a marketplace curator!<br><br>
           Please make sure "Show Unpublished Entries" is not inadvertently turned on in Settings >
           Community Marketplace.
         </f7-block-footer>
         <f7-block-footer v-if="showUnverifiedAuthorWarning" class="display-flex align-items-center">
-          <small
-            >Adding this type of add-on from unknown providers can harm your system because its code
+          <small>Adding this type of add-on from unknown providers can harm your system because its code
             might not have been properly reviewed. Make sure you trust the source and understand the
-            risks before installing this add-on.</small
-          >
+            risks before installing this add-on.</small>
         </f7-block-footer>
       </f7-block>
       <f7-block>
@@ -117,54 +115,54 @@
 </style>
 
 <script>
-import AddonInfoTable from '@/components/addons/addon-info-table.vue';
-import { f7 } from 'framework7-vue';
+import AddonInfoTable from '@/components/addons/addon-info-table.vue'
+import { f7 } from 'framework7-vue'
 
 export default {
   props: ['addonId', 'serviceId', 'opened', 'noDetails'],
   components: {
-    AddonInfoTable,
+    AddonInfoTable
   },
   emits: ['closed', 'install', 'uninstall'],
   data() {
     return {
       addon: {},
-      bindingInfo: {},
-    };
+      bindingInfo: {}
+    }
   },
   watch: {
     opened(state) {
-      let self = this;
+      let self = this
       if (state) {
         if (!this.addonId) {
-          this.addon = {};
-          this.bindingInfo = {};
-          return;
+          this.addon = {}
+          this.bindingInfo = {}
+          return
         }
-        f7.preloader.show();
+        f7.preloader.show()
         this.$oh.api
           .get(
             '/rest/addons/' + this.addonId + (this.serviceId ? '?serviceId=' + this.serviceId : '')
           )
           .then(data => {
-            this.addon = data;
+            this.addon = data
 
-            f7.preloader.hide();
+            f7.preloader.hide()
             setTimeout(() => {
-              if (!this.noDetails) this.$refs.sheet.$el.f7Modal.setSwipeStep();
-              this.$refs.sheet.$el.f7Modal.open();
-            });
-          });
+              if (!this.noDetails) this.$refs.sheet.$el.f7Modal.setSwipeStep()
+              this.$refs.sheet.$el.f7Modal.open()
+            })
+          })
       } else {
-        this.$refs.sheet.$el.f7Modal.close();
+        this.$refs.sheet.$el.f7Modal.close()
       }
-    },
+    }
   },
   computed: {
     state() {
       // TODO: figure out somehow whether the addon is BEING installed/uninstalled.
-      if (!this.addon) return 'UNKNOWN';
-      return this.addon.installed ? 'INSTALLED' : 'UNINSTALLED';
+      if (!this.addon) return 'UNKNOWN'
+      return this.addon.installed ? 'INSTALLED' : 'UNINSTALLED'
     },
     installableAddon() {
       return (
@@ -172,10 +170,10 @@ export default {
         this.addon.contentType &&
         (this.addon.contentType === 'application/vnd.openhab.bundle' ||
           this.addon.contentType.indexOf('application/vnd.openhab.feature') === 0)
-      );
+      )
     },
     showUnverifiedAuthorWarning() {
-      return this.addon && !this.addon.verifiedAuthor && this.installableAddon;
+      return this.addon && !this.addon.verifiedAuthor && this.installableAddon
     },
     showUnpublishedWarning() {
       return (
@@ -183,13 +181,13 @@ export default {
         this.addon.properties &&
         this.addon.properties.tags &&
         this.addon.properties.tags.indexOf('published') < 0
-      );
-    },
+      )
+    }
   },
   methods: {
     toggleSwipeStep() {
-      const self = this;
-      self.$refs.sheet.$el.f7Modal.stepToggle('.demo-sheet-swipe-to-step');
+      const self = this
+      self.$refs.sheet.$el.f7Modal.stepToggle('.demo-sheet-swipe-to-step')
     },
     install() {
       this.$oh.api
@@ -202,8 +200,8 @@ export default {
           'text'
         )
         .then(data => {
-          this.$emit('install', this.addon);
-        });
+          this.$emit('install', this.addon)
+        })
     },
     uninstall() {
       this.$oh.api
@@ -216,9 +214,9 @@ export default {
           'text'
         )
         .then(data => {
-          this.$emit('uninstall', this.addon);
-        });
-    },
-  },
-};
+          this.$emit('uninstall', this.addon)
+        })
+    }
+  }
+}
 </script>

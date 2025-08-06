@@ -3,14 +3,18 @@
     <f7-navbar title="Add Locations from Template" back-link="Back">
       <f7-nav-right class="if-not-aurora">
         <f7-link @click="add()" v-if="theme.md" icon-md="material:save" icon-only />
-        <f7-link @click="add()" v-if="!theme.md"> Add </f7-link>
+        <f7-link @click="add()" v-if="!theme.md">
+          Add
+        </f7-link>
       </f7-nav-right>
     </f7-navbar>
 
     <f7-block class="block-narrow">
       <f7-col>
         <f7-block class="no-padding">
-          <f7-block-title class="padding-horizontal"> Location Template </f7-block-title>
+          <f7-block-title class="padding-horizontal">
+            Location Template
+          </f7-block-title>
           <f7-list>
             <f7-list-item
               radio
@@ -36,7 +40,9 @@
           </f7-block-footer>
         </f7-block>
         <f7-block class="no-padding">
-          <f7-block-title class="padding-horizontal"> Item Name Prefix </f7-block-title>
+          <f7-block-title class="padding-horizontal">
+            Item Name Prefix
+          </f7-block-title>
           <f7-list>
             <f7-list-input
               label="Prefix"
@@ -124,25 +130,25 @@
 </style>
 
 <script>
-import ModelTreeview from '@/components/model/model-treeview.vue';
-import { f7, theme } from 'framework7-vue';
+import ModelTreeview from '@/components/model/model-treeview.vue'
+import { f7, theme } from 'framework7-vue'
 
-import { compareItems } from '@/components/widgets/widget-order';
+import { compareItems } from '@/components/widgets/widget-order'
 
 function compareModelItems(o1, o2) {
-  return compareItems(o1.item || o1, o2.item || o2);
+  return compareItems(o1.item || o1, o2.item || o2)
 }
 
 export default {
   props: {
     itemList: Array,
-    f7router: Object,
+    f7router: Object
   },
   components: {
-    ModelTreeview,
+    ModelTreeview
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -152,8 +158,8 @@ export default {
       selectedTemplate: null,
       currentModel: null, // cache for computed rootLocations
       prefix: null,
-      prefixErrorMessage: null,
-    };
+      prefixErrorMessage: null
+    }
   },
   computed: {
     locations() {
@@ -162,13 +168,13 @@ export default {
           ? 'lApartment'
           : this.selectedTemplate === 1
             ? 'lHouse'
-            : 'lFloor_Ground';
+            : 'lFloor_Ground'
       const floor2 =
         this.selectedTemplate === 0
           ? 'lApartment'
           : this.selectedTemplate === 1
             ? 'lHouse'
-            : 'lFloor_Second';
+            : 'lFloor_Second'
 
       return [
         {
@@ -176,9 +182,9 @@ export default {
             semantics: {
               value: 'Location_Indoor_Room_Bathroom',
               config: {
-                isPartOf: floor2,
-              },
-            },
+                isPartOf: floor2
+              }
+            }
           },
           type: 'Group',
           name: 'lBathroom2',
@@ -186,16 +192,16 @@ export default {
           category: 'bath',
           tags: ['Bathroom'],
           groupNames: [floor2],
-          templates: 4,
+          templates: 4
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Building',
               config: {
-                isPartOf: 'lProperty',
-              },
-            },
+                isPartOf: 'lProperty'
+              }
+            }
           },
           type: 'Group',
           name: 'lApartment',
@@ -203,16 +209,16 @@ export default {
           category: 'corridor',
           tags: ['Building'],
           groupNames: ['lProperty'],
-          templates: 1,
+          templates: 1
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Building',
               config: {
-                isPartOf: 'lProperty',
-              },
-            },
+                isPartOf: 'lProperty'
+              }
+            }
           },
           type: 'Group',
           name: 'lHouse',
@@ -220,13 +226,13 @@ export default {
           category: 'house',
           tags: ['Building'],
           groupNames: ['lProperty'],
-          templates: 6,
+          templates: 6
         },
         {
           metadata: {
             semantics: {
-              value: 'Location',
-            },
+              value: 'Location'
+            }
           },
           type: 'Group',
           name: 'lProperty',
@@ -234,16 +240,16 @@ export default {
           category: 'none',
           tags: ['Location'],
           groupNames: [],
-          templates: 7,
+          templates: 7
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Room_Kitchen',
               config: {
-                isPartOf: floor1,
-              },
-            },
+                isPartOf: floor1
+              }
+            }
           },
           type: 'Group',
           name: 'lKitchen',
@@ -251,16 +257,16 @@ export default {
           category: 'kitchen',
           tags: ['Kitchen'],
           groupNames: [floor1],
-          templates: 7,
+          templates: 7
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Building_Garage',
               config: {
-                isPartOf: floor1,
-              },
-            },
+                isPartOf: floor1
+              }
+            }
           },
           type: 'Group',
           name: 'lGarage',
@@ -268,16 +274,16 @@ export default {
           category: 'garage',
           tags: ['Garage'],
           groupNames: [floor1],
-          templates: 6,
+          templates: 6
         },
         {
           metadata: {
             semantics: {
               value: 'Location',
               config: {
-                isPartOf: 'lProperty',
-              },
-            },
+                isPartOf: 'lProperty'
+              }
+            }
           },
           type: 'Group',
           name: 'lBackYard',
@@ -285,16 +291,16 @@ export default {
           category: 'garden',
           tags: ['Location'],
           groupNames: ['lProperty'],
-          templates: 6,
+          templates: 6
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Room_Entry',
               config: {
-                isPartOf: floor1,
-              },
-            },
+                isPartOf: floor1
+              }
+            }
           },
           type: 'Group',
           name: 'lEntry',
@@ -302,16 +308,16 @@ export default {
           category: 'corridor',
           tags: ['Entry'],
           groupNames: [floor1],
-          templates: 7,
+          templates: 7
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Room_LivingRoom',
               config: {
-                isPartOf: floor1,
-              },
-            },
+                isPartOf: floor1
+              }
+            }
           },
           type: 'Group',
           name: 'lLivingRoom',
@@ -319,16 +325,16 @@ export default {
           category: 'sofa',
           tags: ['LivingRoom'],
           groupNames: [floor1],
-          templates: 7,
+          templates: 7
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Floor',
               config: {
-                isPartOf: 'lHouse',
-              },
-            },
+                isPartOf: 'lHouse'
+              }
+            }
           },
           type: 'Group',
           name: 'lFloor_Ground',
@@ -336,16 +342,16 @@ export default {
           category: 'groundfloor',
           tags: ['Floor'],
           groupNames: ['lHouse'],
-          templates: 4,
+          templates: 4
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Room_DiningRoom',
               config: {
-                isPartOf: floor1,
-              },
-            },
+                isPartOf: floor1
+              }
+            }
           },
           type: 'Group',
           name: 'lDiningRoom',
@@ -353,16 +359,16 @@ export default {
           category: 'none',
           tags: ['DiningRoom'],
           groupNames: [floor1],
-          templates: 6,
+          templates: 6
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Room_Office',
               config: {
-                isPartOf: floor2,
-              },
-            },
+                isPartOf: floor2
+              }
+            }
           },
           type: 'Group',
           name: 'lOffice',
@@ -370,16 +376,16 @@ export default {
           category: 'office',
           tags: ['Office'],
           groupNames: [floor2],
-          templates: 4,
+          templates: 4
         },
         {
           metadata: {
             semantics: {
               value: 'Location',
               config: {
-                isPartOf: 'lProperty',
-              },
-            },
+                isPartOf: 'lProperty'
+              }
+            }
           },
           type: 'Group',
           name: 'lFrontYard',
@@ -387,16 +393,16 @@ export default {
           category: 'lawnmower',
           tags: ['Location'],
           groupNames: ['lProperty'],
-          templates: 6,
+          templates: 6
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Room_Bedroom',
               config: {
-                isPartOf: floor2,
-              },
-            },
+                isPartOf: floor2
+              }
+            }
           },
           type: 'Group',
           name: 'lBedroom1',
@@ -404,16 +410,16 @@ export default {
           category: 'bedroom_blue',
           tags: ['Bedroom'],
           groupNames: [floor2],
-          templates: 7,
+          templates: 7
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Room_Bedroom',
               config: {
-                isPartOf: floor2,
-              },
-            },
+                isPartOf: floor2
+              }
+            }
           },
           type: 'Group',
           name: 'lBedroom2',
@@ -421,16 +427,16 @@ export default {
           category: 'bedroom_red',
           tags: ['Bedroom'],
           groupNames: [floor2],
-          templates: 6,
+          templates: 6
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Room_Bathroom',
               config: {
-                isPartOf: floor1,
-              },
-            },
+                isPartOf: floor1
+              }
+            }
           },
           type: 'Group',
           name: 'lBathroom1',
@@ -438,16 +444,16 @@ export default {
           category: 'bath',
           tags: ['Bathroom'],
           groupNames: [floor1],
-          templates: 7,
+          templates: 7
         },
         {
           metadata: {
             semantics: {
               value: 'Location_Indoor_Floor',
               config: {
-                isPartOf: 'lHouse',
-              },
-            },
+                isPartOf: 'lHouse'
+              }
+            }
           },
           type: 'Group',
           name: 'lFloor_Second',
@@ -455,13 +461,13 @@ export default {
           category: 'firstfloor',
           tags: ['Floor'],
           groupNames: ['lHouse'],
-          templates: 4,
-        },
-      ];
+          templates: 4
+        }
+      ]
     },
     rootLocations() {
       if (this.currentModel) {
-        return this.currentModel;
+        return this.currentModel
       }
       const newModel = this.locations
         .filter(
@@ -470,12 +476,12 @@ export default {
             i.templates & (1 << this.selectedTemplate)
         )
         .map(this.modelItem)
-        .sort(compareModelItems);
-      newModel.forEach(this.getChildren);
-      this.currentModel = newModel; // eslint-disable-line vue/no-side-effects-in-computed-properties
+        .sort(compareModelItems)
+      newModel.forEach(this.getChildren)
+      this.currentModel = newModel // eslint-disable-line vue/no-side-effects-in-computed-properties
 
-      return newModel;
-    },
+      return newModel
+    }
   },
   methods: {
     modelItem(item) {
@@ -490,24 +496,24 @@ export default {
           equipment: [],
           points: [],
           groups: [],
-          items: [],
-        },
-      };
-      if (this.previousSelection && item.name === this.previousSelection.item.name) {
-        this.selectedItem = parent;
-        this.previousSelection = null;
-        this.selectItem(modelItem);
+          items: []
+        }
       }
-      this.checkedItems.push(modelItem);
+      if (this.previousSelection && item.name === this.previousSelection.item.name) {
+        this.selectedItem = parent
+        this.previousSelection = null
+        this.selectItem(modelItem)
+      }
+      this.checkedItems.push(modelItem)
 
-      return modelItem;
+      return modelItem
     },
     getChildren(parent) {
       // restore previous selection
       if (this.previousSelection && parent.item.name === this.previousSelection.item.name) {
-        this.selectedItem = parent;
-        this.previousSelection = null;
-        this.selectItem(parent);
+        this.selectedItem = parent
+        this.previousSelection = null
+        this.selectItem(parent)
       }
 
       parent.children.locations = this.locations
@@ -518,122 +524,122 @@ export default {
             i.templates & (1 << this.selectedTemplate)
         )
         .map(this.modelItem)
-        .sort(compareModelItems);
-      parent.children.locations.forEach(this.getChildren);
+        .sort(compareModelItems)
+      parent.children.locations.forEach(this.getChildren)
     },
     selectItem(item) {
       if (item.children && item.opened !== undefined) {
-        item.opened = !item.opened;
+        item.opened = !item.opened
       }
     },
     findLocation(searchNode, name) {
       if (searchNode.item.name === name) {
-        return searchNode;
+        return searchNode
       } else if (searchNode.children.locations != null) {
-        let foundNode = null;
-        const childList = searchNode.children.locations;
+        let foundNode = null
+        const childList = searchNode.children.locations
         for (let i = 0; i < childList.length; i++) {
-          foundNode = this.findLocation(childList[i], name);
+          foundNode = this.findLocation(childList[i], name)
           if (foundNode) {
-            return foundNode;
+            return foundNode
           }
         }
-        return null;
+        return null
       }
-      return null;
+      return null
     },
     checkItem(item, check) {
       if (check) {
-        this.checkedItems.push(item);
+        this.checkedItems.push(item)
         if (item.item.groupNames.length > 0) {
-          const parentNode = this.findLocation(this.rootLocations[0], item.item.groupNames[0]);
+          const parentNode = this.findLocation(this.rootLocations[0], item.item.groupNames[0])
           if (parentNode && !parentNode.checked) {
-            parentNode.checked = true;
-            this.checkItem(parentNode, true);
+            parentNode.checked = true
+            this.checkItem(parentNode, true)
           }
         }
       } else {
-        this.checkedItems.splice(this.checkedItems.indexOf(item), 1);
+        this.checkedItems.splice(this.checkedItems.indexOf(item), 1)
         item.children.locations.forEach(i => {
           if (i.checked) {
-            i.checked = false;
-            this.checkItem(i, false);
+            i.checked = false
+            this.checkItem(i, false)
           }
-        });
+        })
       }
     },
     onSelectTemplate(template) {
-      this.checkItem = [];
-      this.currentModel = null;
-      this.selectedTemplate = template;
+      this.checkItem = []
+      this.currentModel = null
+      this.selectedTemplate = template
     },
     add() {
       if (this.prefixErrorMessage) {
-        f7.dialog.alert('Invalid prefix for item names');
-        return;
+        f7.dialog.alert('Invalid prefix for item names')
+        return
       }
       if (this.prefix) {
         this.checkedItems.forEach(i => {
-          i.item.name = this.prefix + i.item.name.substr(1);
+          i.item.name = this.prefix + i.item.name.substr(1)
           if (i.item.groupNames.length > 0) {
-            i.item.groupNames[0] = this.prefix + i.item.groupNames[0].substr(1);
+            i.item.groupNames[0] = this.prefix + i.item.groupNames[0].substr(1)
           }
-        });
+        })
       }
-      const existingNames = this.itemList.map(i => i.name);
+      const existingNames = this.itemList.map(i => i.name)
       if (this.checkedItems.length === 0) {
-        f7.dialog.alert('Please select some locations');
+        f7.dialog.alert('Please select some locations')
       } else if (this.checkedItems.some(i => existingNames.includes(i.item.name))) {
         f7.dialog.confirm(
           'Some Item names already exist. Continuing will overwrite those Items. Continue?',
           'Warning',
           () => {
-            this.doAdd();
+            this.doAdd()
           }
-        );
+        )
       } else {
-        this.doAdd();
+        this.doAdd()
       }
     },
     doAdd() {
-      const dialog = f7.dialog.progress('Creating template...');
-      const payload = this.checkedItems.map(i => i.item);
+      const dialog = f7.dialog.progress('Creating template...')
+      const payload = this.checkedItems.map(i => i.item)
 
       this.$oh.api
         .put('/rest/items/', payload)
         .then(data => {
-          dialog.setText('Creating Items...');
-          dialog.setProgress(50);
+          dialog.setText('Creating Items...')
+          dialog.setProgress(50)
         })
         .catch(err => {
-          dialog.close();
-          console.error(err);
-          f7.dialog.alert('An error occurred while creating the model items: ' + err);
+          dialog.close()
+          console.error(err)
+          f7.dialog.alert('An error occurred while creating the model items: ' + err)
         })
         .then(data => {
-          dialog.setProgress(100);
+          dialog.setProgress(100)
           f7.toast
             .create({
               text: 'Model created',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          dialog.close();
-          this.f7router.back();
-        });
+            .open()
+          dialog.close()
+          this.f7router.back()
+        })
     },
     onPrefixInput(event) {
-      this.prefix = event.target.value;
-      this.validatePrefix(this.prefix);
+      this.prefix = event.target.value
+      this.validatePrefix(this.prefix)
     },
     validatePrefix(prefix) {
       if (prefix && !/^[A-Za-z0-9_]+$/.test(prefix)) {
-        this.prefixErrorMessage = 'A-Z,a-z,0-9,_ only';
+        this.prefixErrorMessage = 'A-Z,a-z,0-9,_ only'
       } else {
-        this.prefixErrorMessage = '';
+        this.prefixErrorMessage = ''
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

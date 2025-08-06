@@ -7,22 +7,22 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import OhCard from '@/components/widgets/standard/oh-card.vue';
-import OhColorpicker from '../system/oh-colorpicker.vue';
-import { OhColorpickerCardDefinition } from '@/assets/definitions/widgets/standard/cards';
+import mixin from '../widget-mixin'
+import OhCard from '@/components/widgets/standard/oh-card.vue'
+import OhColorpicker from '../system/oh-colorpicker.vue'
+import { OhColorpickerCardDefinition } from '@/assets/definitions/widgets/standard/cards'
 
 export default {
   mixins: [mixin],
   components: {
     OhCard,
-    OhColorpicker,
+    OhColorpicker
   },
   widget: OhColorpickerCardDefinition,
   data() {
     return {
-      value: Math.random(),
-    };
-  },
-};
+      value: Math.random()
+    }
+  }
+}
 </script>

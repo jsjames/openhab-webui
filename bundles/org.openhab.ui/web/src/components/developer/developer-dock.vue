@@ -122,50 +122,50 @@
 </style>
 
 <script>
-import DeveloperSidebar from './developer-sidebar.vue';
-import HelpSidebar from './help-sidebar.vue';
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { mapStores } from 'pinia';
+import DeveloperSidebar from './developer-sidebar.vue'
+import HelpSidebar from './help-sidebar.vue'
+import { f7, theme } from 'framework7-vue'
+import { nextTick } from 'vue'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { mapStores } from 'pinia'
 
 export default {
   props: ['dock', 'helpTab', 'toolTab', 'searchFor'],
   components: {
     DeveloperSidebar,
-    HelpSidebar,
+    HelpSidebar
   },
   data() {
     return {
       f7,
       ready: false
-    };
+    }
   },
   computed: {
     // work-around styling issues when lazy-loading the developer-dock by setting (sub)title after component creation
     title() {
-      if (!this.ready) return '';
-      return 'Developer Sidebar';
+      if (!this.ready) return ''
+      return 'Developer Sidebar'
     },
     subtitle() {
-      if (!this.ready) return '';
-      return '(Shift+Alt+D)';
+      if (!this.ready) return ''
+      return '(Shift+Alt+D)'
     },
     dockView() {
-      return this.dock;
+      return this.dock
     },
     activeHelpTab() {
-      return this.helpTab || 'current';
+      return this.helpTab || 'current'
     },
     activeToolTab() {
-      return this.toolTab || 'pin';
+      return this.toolTab || 'pin'
     },
     ...mapStores(useThemeOptionsStore)
   },
   created() {
     nextTick(() => {
-      this.ready = true;
-    });
-  },
-};
+      this.ready = true
+    })
+  }
+}
 </script>

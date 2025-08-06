@@ -1,4 +1,4 @@
-import expr from 'jse-eval'
+import expr, { addUnaryOp, evaluate, parse } from 'jse-eval'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import calendar from 'dayjs/plugin/calendar'
@@ -20,16 +20,16 @@ import jsepObject from '@jsep-plugin/object'
 import jsepTemplate from '@jsep-plugin/template'
 expr.jsep.plugins.register(jsepRegex, jsepArrow, jsepObject, jsepTemplate)
 
-expr.addUnaryOp('@', itemName => {
+addUnaryOp('@', itemName => {
   if (itemName === undefined) return '-'
   const item = useStatesStore().trackedItems[itemName]
   return item.displayState !== undefined ? item.displayState : item.state
 })
-expr.addUnaryOp('@@', itemName => {
+addUnaryOp('@@', itemName => {
   if (itemName === undefined) return '-'
   return useStatesStore().trackedItems[itemName].state
 })
-expr.addUnaryOp('#', itemName => {
+addUnaryOp('#', itemName => {
   if (itemName === undefined) return undefined
   return useStatesStore().trackedItems[itemName].numericState
 })
@@ -103,9 +103,9 @@ export default {
           // we cache the parsed abstract tree to prevent it from being parsed again at runtime
           // in we're edit mode according to the context do not cache because the expression is subject to change
           if (!this.exprAst[key] || ctx.editmode) {
-            this.exprAst[key] = expr.parse(value.substring(1))
+            this.exprAst[key] = parse(value.substring(1))
           }
-          return expr.evaluate(this.exprAst[key], {
+          return evaluate(this.exprAst[key], {
             items: ctx.store,
             props: props || this.props,
             config: ctx.component.config,

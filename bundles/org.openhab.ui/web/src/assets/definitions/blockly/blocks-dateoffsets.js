@@ -17,7 +17,7 @@ export default function (f7) {
       this.appendDummyInput().appendField('today')
       this.setOutput(true, 'DayOffset')
       this.setColour(70)
-      this.setTooltip("today's date for Ephemeris check block")
+      this.setTooltip('today\'s date for Ephemeris check block')
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-date-handling.html#today'
       )
@@ -159,7 +159,7 @@ export default function (f7) {
       this.setOutput(true, 'ZonedDateTime')
       this.setColour(70)
       this.setTooltip(
-        "Creates a ZonedDateTime based on the given input for date and time with nanos set to 0 and the system's time-zone. The values need to be valid.\nReturns: ZonedDateTime"
+        'Creates a ZonedDateTime based on the given input for date and time with nanos set to 0 and the system\'s time-zone. The values need to be valid.\nReturns: ZonedDateTime'
       )
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-date-handling.html#datetime-with-date-and-time-values'

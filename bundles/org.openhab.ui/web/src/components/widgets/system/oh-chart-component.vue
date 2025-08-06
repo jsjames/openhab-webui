@@ -19,7 +19,7 @@
         :text="fixedPeriodLabel"
         type="text"
         @click="pickFixedStartDate">
-        <input ref="calendarInput" type="text" style="width: 40px; height: 0; visibility: hidden" />
+        <input ref="calendarInput" type="text" style="width: 40px; height: 0; visibility: hidden">
       </f7-menu-item>
       <f7-menu-item v-else dropdown :text="period">
         <f7-menu-dropdown right>
@@ -64,23 +64,22 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import chart from '../chart/chart-mixin';
-import { actionsMixin } from '../widget-actions';
-import { i18n } from '@/js/i18n';
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
+import mixin from '../widget-mixin'
+import chart from '../chart/chart-mixin'
+import { actionsMixin } from '../widget-actions'
+import { i18n } from '@/js/i18n'
+import { f7, theme } from 'framework7-vue'
+import { nextTick } from 'vue'
 
-import dayjs from 'dayjs';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
-dayjs.extend(LocalizedFormat);
+import dayjs from 'dayjs'
+import LocalizedFormat from 'dayjs/plugin/localizedFormat'
+dayjs.extend(LocalizedFormat)
 
-import { use, registerLocale } from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { mapStores } from 'pinia';
+import { use, registerLocale, registerTheme } from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { mapStores } from 'pinia'
 
-import { registerTheme } from 'echarts/core';
 import {
   LineChart,
   BarChart,
@@ -88,9 +87,9 @@ import {
   HeatmapChart,
   PieChart,
   ScatterChart,
-  CustomChart,
-} from 'echarts/charts';
-import { LabelLayout } from 'echarts/features';
+  CustomChart
+} from 'echarts/charts'
+import { LabelLayout } from 'echarts/features'
 import {
   TitleComponent,
   LegendComponent,
@@ -104,10 +103,10 @@ import {
   MarkPointComponent,
   MarkAreaComponent,
   VisualMapComponent,
-  CalendarComponent,
-} from 'echarts/components';
-import VChart from 'vue-echarts';
-import 'echarts/theme/dark.js'; // Import dark theme
+  CalendarComponent
+} from 'echarts/components'
+import VChart from 'vue-echarts'
+import 'echarts/theme/dark.js' // Import dark theme
 
 use([
   CanvasRenderer,
@@ -131,30 +130,30 @@ use([
   MarkAreaComponent,
   VisualMapComponent,
   CalendarComponent,
-  LabelLayout,
-]);
+  LabelLayout
+])
 
-const ECHARTS_LOCALE = i18n.global.locale.split('-')[0].toUpperCase();
+const ECHARTS_LOCALE = i18n.global.locale.split('-')[0].toUpperCase()
 
 //TODO-V3  import(`./node_modules/echarts/i18n/lang${ECHARTS_LOCALE}-obj.js` /* @vite-ignore */)
 import('echarts/i18n/langEN-obj.js' /* @vite-ignore */)
   .then(lang => {
-    console.info(`Registering ECharts locale ${ECHARTS_LOCALE}`);
-    registerLocale(ECHARTS_LOCALE, lang.default);
+    console.info(`Registering ECharts locale ${ECHARTS_LOCALE}`)
+    registerLocale(ECHARTS_LOCALE, lang.default)
   })
   .catch(() => {
-    console.warn(`No ECharts locale found for ${ECHARTS_LOCALE}`);
-  });
+    console.warn(`No ECharts locale found for ${ECHARTS_LOCALE}`)
+  })
 
 export default {
   mixins: [mixin, chart, actionsMixin],
   components: {
-    chart: VChart,
+    chart: VChart
   },
   computed: {
     activeHeight() {
-      const config = this.config || {};
-      return config.height || '300px';
+      const config = this.config || {}
+      return config.height || '300px'
     },
     periodVisible() {
       if (!this.config || this.config.periodVisible === undefined) {
@@ -164,48 +163,48 @@ export default {
           Array.isArray(this.context.component.slots.series) &&
           this.context.component.slots.series.length
         ) {
-          return this.context.component.slots.series[0].component !== 'oh-data-series';
+          return this.context.component.slots.series[0].component !== 'oh-data-series'
         }
-        return true;
+        return true
       }
-      return this.config.periodVisible;
+      return this.config.periodVisible
     },
     fixedPeriodLabel() {
-      const startTime = this.startTime;
-      if (!this.startTime) return '';
+      const startTime = this.startTime
+      if (!this.startTime) return ''
       switch (this.context.component.config.chartType) {
         case 'hour':
-          return startTime.format('lll');
+          return startTime.format('lll')
         case 'day':
-          return startTime.format('ll');
+          return startTime.format('ll')
         case 'week':
         case 'isoWeek':
-          return startTime.format('ll');
+          return startTime.format('ll')
         case 'month':
-          return startTime.format('MMM YYYY');
+          return startTime.format('MMM YYYY')
         case 'year':
-          return startTime.format('YYYY');
+          return startTime.format('YYYY')
         default:
-          return startTime.format('ll');
+          return startTime.format('ll')
       }
     },
-    ...mapStores(useThemeOptionsStore),
+    ...mapStores(useThemeOptionsStore)
   },
   data() {
     return {
       ready: false,
-      calendarPicker: null,
-    };
+      calendarPicker: null
+    }
   },
   mounted() {
-    this.ready = true;
+    this.ready = true
   },
   created() {
-    this.ECHARTS_LOCALE = ECHARTS_LOCALE;
-    registerTheme('dark', theme.dark);
+    this.ECHARTS_LOCALE = ECHARTS_LOCALE
+    registerTheme('dark', theme.dark)
   },
   beforeUnmount() {
-    if (this.calendarPicker) this.calendarPicker.destroy();
+    if (this.calendarPicker) this.calendarPicker.destroy()
   },
   methods: {
     handleClick(evt) {
@@ -216,33 +215,33 @@ export default {
           Array.isArray(this.context.component.slots.series) &&
           this.context.component.slots.series.length
         ) {
-          let series = this.context.component.slots.series[evt.seriesIndex];
-          this.performAction(evt.event, null, series.config, null);
+          let series = this.context.component.slots.series[evt.seriesIndex]
+          this.performAction(evt.event, null, series.config, null)
         }
       }
     },
     pickFixedStartDate(evt) {
-      const self = this;
-      const value = this.startTime.toDate();
+      const self = this
+      const value = this.startTime.toDate()
       this.calendarPicker = f7.calendar.create({
         inputEl: this.$refs.calendarInput,
         value: [value],
         on: {
           change(calendar, value) {
-            if (value.length < 1) return;
-            if (dayjs(value[0]).isSame(self.startTime)) return;
-            self.setDate(value[0]);
-          },
-        },
-      });
-      this.calendarPicker.open();
+            if (value.length < 1) return
+            if (dayjs(value[0]).isSame(self.startTime)) return
+            self.setDate(value[0])
+          }
+        }
+      })
+      this.calendarPicker.open()
     },
     forceRerender() {
-      this.ready = false;
+      this.ready = false
       nextTick(() => {
-        this.ready = true;
-      });
-    },
-  },
-};
+        this.ready = true
+      })
+    }
+  }
+}
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="oh-row">
-    <hr v-if="context.editmode" style="opacity: 0.5; border-top: 1px #777 dashed" />
+    <hr v-if="context.editmode" style="opacity: 0.5; border-top: 1px #777 dashed">
     <div width="100%" v-if="context.editmode">
       <f7-menu class="configure-layout-menu margin-bottom padding-horizontal">
         <f7-menu-item
@@ -71,16 +71,16 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import OhGridCol from './oh-grid-col.vue';
+import mixin from '../widget-mixin'
+import OhGridCol from './oh-grid-col.vue'
 
-import { OhGridRowDefinition } from '@/assets/definitions/widgets/layout';
+import { OhGridRowDefinition } from '@/assets/definitions/widgets/layout'
 
 export default {
   mixins: [mixin],
   components: {
-    OhGridCol,
+    OhGridCol
   },
-  widget: OhGridRowDefinition,
-};
+  widget: OhGridRowDefinition
+}
 </script>

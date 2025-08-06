@@ -76,7 +76,9 @@
           </f7-nav-left>
           <f7-nav-title>Set Widget Props</f7-nav-title>
           <f7-nav-right>
-            <f7-link @click="updateWidgetProps"> Done </f7-link>
+            <f7-link @click="updateWidgetProps">
+              Done
+            </f7-link>
           </f7-nav-right>
         </f7-navbar>
         <f7-block v-if="widget.props">
@@ -127,19 +129,18 @@
 </style>
 
 <script>
-import YAML from 'yaml';
-import { utils } from 'framework7';
-import { theme } from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
-import { nextTick } from 'vue';
+import YAML from 'yaml'
+import { utils } from 'framework7'
+import { theme } from 'framework7-vue'
+import { defineAsyncComponent, nextTick } from 'vue'
 
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import DirtyMixin from '@/pages/settings/dirty-mixin';
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import DirtyMixin from '@/pages/settings/dirty-mixin'
 
-import * as StandardListWidgets from '@/components/widgets/standard/list';
-import { useStatesStore } from '@/js/stores/states';
+import * as StandardListWidgets from '@/components/widgets/standard/list'
+import { useStatesStore } from '@/js/stores/states'
 
-const toStringOptions = { toStringDefaults: { lineWidth: 0 } };
+const toStringOptions = { toStringDefaults: { lineWidth: 0 } }
 
 export default {
   mixins: [DirtyMixin],
@@ -150,16 +151,16 @@ export default {
           /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
         )
     ),
-    ConfigSheet,
+    ConfigSheet
   },
   props: {
     uid: String,
     createMode: Boolean,
     f7router: Object,
-    f7route: Object,
+    f7route: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -176,8 +177,8 @@ export default {
       widgetPropsOpened: false,
       standardListWidgets: Object.values(StandardListWidgets)
         .filter(c => c.widget && typeof c.widget === 'function')
-        .map(c => c.widget().name),
-    };
+        .map(c => c.widget().name)
+    }
   },
   computed: {
     context() {
@@ -187,32 +188,32 @@ export default {
           this.standardListWidgets.includes(this.widget.component) ||
           this.widget.component.startsWith('f7-list-item')
             ? {
-                component: 'oh-list-card',
-                config: {
-                  mediaList: true,
-                },
-                slots: {
-                  default: [this.widget],
-                },
+              component: 'oh-list-card',
+              config: {
+                mediaList: true
+              },
+              slots: {
+                default: [this.widget]
               }
+            }
             : this.widget,
         store: useStatesStore().trackedItems,
         props: this.props,
         vars: this.vars,
-        ctxVars: this.ctxVars,
-      };
+        ctxVars: this.ctxVars
+      }
     },
     widget() {
       try {
-        if (!this.widgetDefinition) return {};
+        if (!this.widgetDefinition) return {}
         return YAML.parse(this.widgetDefinition, {
           prettyErrors: true,
-          toStringOptions,
-        });
+          toStringOptions
+        })
       } catch (e) {
-        return { component: 'Error', config: { error: e.message } };
+        return { component: 'Error', config: { error: e.message } }
       }
-    },
+    }
   },
   watch: {
     // widgetDefinition () {
@@ -222,47 +223,47 @@ export default {
   methods: {
     onPageAfterIn() {
       if (window) {
-        window.addEventListener('keydown', this.keyDown);
+        window.addEventListener('keydown', this.keyDown)
       }
-      useStatesStore().startTrackingStates();
-      this.load();
+      useStatesStore().startTrackingStates()
+      this.load()
     },
     onPageBeforeOut() {
       if (window) {
-        window.removeEventListener('keydown', this.keyDown);
+        window.removeEventListener('keydown', this.keyDown)
       }
-      useStatesStore().stopTrackingStates();
+      useStatesStore().stopTrackingStates()
     },
     onEditorInput(value) {
-      this.widgetDefinition = value;
+      this.widgetDefinition = value
       if (!this.loading) {
-        this.dirty = true;
+        this.dirty = true
       }
     },
     keyDown(ev) {
       if ((ev.ctrlKey || ev.metaKey) && !(ev.altKey || ev.shiftKey)) {
         switch (ev.keyCode) {
           case 80:
-            this.widgetPropsOpened = true;
-            ev.stopPropagation();
-            ev.preventDefault();
-            break;
+            this.widgetPropsOpened = true
+            ev.stopPropagation()
+            ev.preventDefault()
+            break
           case 82:
-            this.redrawWidget();
-            ev.stopPropagation();
-            ev.preventDefault();
-            break;
+            this.redrawWidget()
+            ev.stopPropagation()
+            ev.preventDefault()
+            break
           case 83:
-            this.save(!this.createMode);
-            ev.stopPropagation();
-            ev.preventDefault();
-            break;
+            this.save(!this.createMode)
+            ev.stopPropagation()
+            ev.preventDefault()
+            break
         }
       }
     },
     load() {
-      if (this.loading) return;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
       if (this.createMode) {
         this.widgetDefinition = YAML.stringify(
           {
@@ -274,48 +275,48 @@ export default {
                   name: 'prop1',
                   label: 'Prop 1',
                   type: 'TEXT',
-                  description: 'A text prop',
+                  description: 'A text prop'
                 },
                 {
                   name: 'item',
                   label: 'Item',
                   type: 'TEXT',
                   context: 'item',
-                  description: 'An item to control',
-                },
-              ],
+                  description: 'An item to control'
+                }
+              ]
             },
             tags: [],
             component: 'f7-card',
             config: {
               title: '=(props.item) ? "State of " + props.item : "Set props to test!"',
               footer: '=props.prop1',
-              content: '=items[props.item].displayState || items[props.item].state',
-            },
+              content: '=items[props.item].displayState || items[props.item].state'
+            }
           },
           { toStringOptions }
-        );
+        )
         nextTick(() => {
-          this.loading = false;
-          this.ready = true;
-        });
+          this.loading = false
+          this.ready = true
+        })
       } else {
         this.$oh.api.get('/rest/ui/components/ui:widget/' + this.uid).then(data => {
-          this.widgetDefinition = YAML.stringify(data, { toStringOptions });
+          this.widgetDefinition = YAML.stringify(data, { toStringOptions })
           nextTick(() => {
-            this.loading = false;
-            this.ready = true;
-          });
-        });
+            this.loading = false
+            this.ready = true
+          })
+        })
       }
     },
     save(stay) {
       if (!this.widget.uid) {
-        f7.dialog.alert('Please give an UID to the widget');
-        return;
+        f7.dialog.alert('Please give an UID to the widget')
+        return
       } else if (!/^[A-Za-z0-9_-]+$/.test(this.widget.uid)) {
-        f7.dialog.alert('Widget UID is only allowed to contain A-Z,a-z,0-9,_,-');
-        return;
+        f7.dialog.alert('Widget UID is only allowed to contain A-Z,a-z,0-9,_,-')
+        return
       }
       // if (!this.widget.config.label) {
       //   f7.dialog.alert('Please give a label to the widget')
@@ -324,43 +325,43 @@ export default {
       if (!this.createMode && this.uid !== this.widget.uid) {
         f7.dialog.alert(
           'You cannot change the ID of an existing widget. Duplicate it with the new ID then delete this one.'
-        );
-        return;
+        )
+        return
       }
 
       const promise = this.createMode
         ? this.$oh.api.postPlain(
-            '/rest/ui/components/ui:widget',
-            JSON.stringify(this.widget),
-            'text/plain',
-            'application/json'
-          )
-        : this.$oh.api.put('/rest/ui/components/ui:widget/' + this.widget.uid, this.widget);
+          '/rest/ui/components/ui:widget',
+          JSON.stringify(this.widget),
+          'text/plain',
+          'application/json'
+        )
+        : this.$oh.api.put('/rest/ui/components/ui:widget/' + this.widget.uid, this.widget)
       promise
         .then(data => {
-          this.dirty = false;
+          this.dirty = false
           if (this.createMode) {
             f7.toast
               .create({
                 text: 'Widget created',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
+              .open()
             this.f7router.navigate(this.f7route.url.replace('/add', '/' + this.widget.uid), {
-              reloadCurrent: true,
-            });
-            this.load();
+              reloadCurrent: true
+            })
+            this.load()
           } else {
             f7.toast
               .create({
                 text: 'Widget updated',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
+              .open()
           }
-          f7.emit('sidebar-refresh', null);
+          f7.emit('sidebar-refresh', null)
           // if (!stay) this.f7router.back()
         })
         .catch(err => {
@@ -368,17 +369,17 @@ export default {
             .create({
               text: 'Error while saving page: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     onCommand(itemName, cmd) {
-      useStatesStore().sendCommand(itemName, cmd);
+      useStatesStore().sendCommand(itemName, cmd)
     },
     redrawWidget() {
-      this.ctxVars = {};
-      this.widgetKey = f7.utils.id();
+      this.ctxVars = {}
+      this.widgetKey = f7.utils.id()
       // const wd = this.widgetDefinition
       // this.widgetDefinition = 'component: Label\nnconfig: { text: "Redrawing..."}'
       // nextTick(() => {
@@ -386,11 +387,11 @@ export default {
       // })
     },
     widgetPropsClosed() {
-      this.widgetPropsOpened = false;
+      this.widgetPropsOpened = false
     },
     updateWidgetProps() {
-      this.widgetPropsClosed();
-    },
-  },
-};
+      this.widgetPropsClosed()
+    }
+  }
+}
 </script>

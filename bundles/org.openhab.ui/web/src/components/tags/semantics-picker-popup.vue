@@ -3,7 +3,9 @@
     <f7-page>
       <f7-navbar :title="propertyMode ? 'Semantic Property' : 'Semantic Class'">
         <f7-nav-right>
-          <f7-link @click="onClose"> Close </f7-link>
+          <f7-link @click="onClose">
+            Close
+          </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <f7-subnavbar :inner="false">
@@ -149,7 +151,7 @@ export default {
     expandToSelection () {
       this.selectedTag?.parent?.split('_').reduce((prev, p) => {
         const parent = (prev ? (prev + '_') : '') + p
-        this.expandedTags[parent] = true;
+        this.expandedTags[parent] = true
         return parent
       }, '')
     },

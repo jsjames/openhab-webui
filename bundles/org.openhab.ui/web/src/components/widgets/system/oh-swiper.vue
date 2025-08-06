@@ -9,8 +9,8 @@
     <template
       v-if="
         context.component.slots &&
-        context.component.slots.slides &&
-        Array.isArray(context.component.slots.slides)
+          context.component.slots.slides &&
+          Array.isArray(context.component.slots.slides)
       ">
       <generic-widget-component
         v-for="(slide, idx) in context.component.slots.slides"
@@ -37,24 +37,24 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import { OhSwiperDefinition } from '@/assets/definitions/widgets/system';
+import mixin from '../widget-mixin'
+import { OhSwiperDefinition } from '@/assets/definitions/widgets/system'
 
-import OhSwiperSlide from './oh-swiper-slide.vue';
-import OhPlaceholderWidget from '../layout/oh-placeholder-widget.vue';
+import OhSwiperSlide from './oh-swiper-slide.vue'
+import OhPlaceholderWidget from '../layout/oh-placeholder-widget.vue'
 
 export default {
   mixins: [mixin],
   components: {
     OhSwiperSlide,
-    OhPlaceholderWidget,
+    OhPlaceholderWidget
   },
   widget: OhSwiperDefinition,
   computed: {
     slides() {
-      if (!this.context.component.slots || !this.context.component.slots.default) return [];
-      return this.context.component.slots.default;
-    },
-  },
-};
+      if (!this.context.component.slots || !this.context.component.slots.default) return []
+      return this.context.component.slots.default
+    }
+  }
+}
 </script>

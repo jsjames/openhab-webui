@@ -83,7 +83,7 @@ export default () => [
   pb(
     'fragment',
     'No container (fragment)',
-    "Render all children directly under the repeater's parent, without any container"
+    'Render all children directly under the repeater\'s parent, without any container'
   ),
   pb(
     'cacheSource',

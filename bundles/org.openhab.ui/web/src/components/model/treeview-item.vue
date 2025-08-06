@@ -84,9 +84,9 @@
 </template>
 
 <script>
-import ItemMixin from '@/components/item/item-mixin';
-import ModelDragDropMixin from '@/pages/settings/model/model-dragdrop-mixin';
-import { VueDraggableNext as Draggable } from 'vue-draggable-next';
+import ItemMixin from '@/components/item/item-mixin'
+import ModelDragDropMixin from '@/pages/settings/model/model-dragdrop-mixin'
+import { VueDraggableNext as Draggable } from 'vue-draggable-next'
 
 export default {
   name: 'model-treeview-item',
@@ -98,64 +98,64 @@ export default {
     'selected',
     'includeItemName',
     'includeItemTags',
-    'canDragDrop',
+    'canDragDrop'
   ],
   emits: ['reload', 'selected', 'checked'],
   components: {
     Draggable,
-    ModelTreeviewItem: 'model-treeview-item',
+    ModelTreeviewItem: 'model-treeview-item'
   },
   computed: {
     label() {
-      const item = this.model.item;
-      if (item.created === false) return '(New Item)';
-      if (item.label) return this.includeItemName ? `${item.label} (${item.name})` : item.label;
-      return item.name;
+      const item = this.model.item
+      if (item.created === false) return '(New Item)'
+      if (item.label) return this.includeItemName ? `${item.label} (${item.name})` : item.label
+      return item.name
     },
     className() {
-      if (!this.model.item.metadata || !this.model.item.metadata.semantics) return '';
-      const semantics = this.model.item.metadata.semantics;
+      if (!this.model.item.metadata || !this.model.item.metadata.semantics) return ''
+      const semantics = this.model.item.metadata.semantics
       const property =
-        semantics.config && semantics.config.relatesTo ? semantics.config.relatesTo : null;
+        semantics.config && semantics.config.relatesTo ? semantics.config.relatesTo : null
       return (
         this.model.class.substring(this.model.class.lastIndexOf('_') + 1) +
         (property ? ' (' + property.replace('Property_', '') + ')' : '')
-      );
-    },
+      )
+    }
   },
   methods: {
     icon(theme) {
       if (this.model.class?.indexOf('Location') === 0) {
-        return theme === 'md' ? 'material:place' : 'f7:placemark';
+        return theme === 'md' ? 'material:place' : 'f7:placemark'
       } else if (this.model.class?.indexOf('Equipment') === 0) {
-        return theme === 'md' ? 'material:payments' : 'f7:cube_box';
+        return theme === 'md' ? 'material:payments' : 'f7:cube_box'
       } else if (this.model.class?.indexOf('Point') === 0) {
-        return theme === 'md' ? 'material:flash_on' : 'f7:bolt_fill';
+        return theme === 'md' ? 'material:flash_on' : 'f7:bolt_fill'
       } else if (this.model.item.type === 'Group') {
-        return theme === 'md' ? 'material:folder' : 'f7:folder';
+        return theme === 'md' ? 'material:folder' : 'f7:folder'
       } else {
-        return 'material:label_outline';
+        return 'material:label_outline'
       }
     },
     select(event) {
-      let self = this;
-      if (self.dragDropActive) return; // avoid opening item properties during drag drop
-      if (Dom7(event.target).is('.treeview-toggle')) return;
+      let self = this
+      if (self.dragDropActive) return // avoid opening item properties during drag drop
+      if (Dom7(event.target).is('.treeview-toggle')) return
       if (
         Dom7(event.target).is('.checkbox') ||
         Dom7(event.target).is('.icon-checkbox') ||
         Dom7(event.target).is('input')
       )
-        return;
-      this.$emit('selected', this.model);
+        return
+      this.$emit('selected', this.model)
       if (this.model.checkable && !this.children.length)
-        this.check({ target: { checked: !this.model.checked } });
+        this.check({ target: { checked: !this.model.checked } })
     },
     check(event) {
-      if (this.model.disabled) return;
-      this.model.checked = event.target.checked;
-      this.$emit('checked', this.model, event.target.checked);
-    },
-  },
-};
+      if (this.model.disabled) return
+      this.model.checked = event.target.checked
+      this.$emit('checked', this.model, event.target.checked)
+    }
+  }
+}
 </script>

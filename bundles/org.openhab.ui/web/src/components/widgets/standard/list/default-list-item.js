@@ -279,14 +279,14 @@ export function itemAccordionEquipmentComponent(item, config, hasLocationContext
   // Try to promote main item based on widgetOrder metadata
   let promoted = config.equipmentPromoteMain
     ? item.points.find(p => {
-        return (
-          p.metadata &&
+      return (
+        p.metadata &&
           p.metadata.widgetOrder &&
           p.metadata.widgetOrder &&
           p.metadata.widgetOrder.value &&
           +p.metadata.widgetOrder.value === 0
-        )
-      })
+      )
+    })
     : null
 
   let c = promoted

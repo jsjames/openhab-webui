@@ -399,7 +399,7 @@ const inputSourceTypeParameter = {
   limitToOptions: true,
   options: [
     { value: 'OTHER', label: 'Other' },
-    { value: 'HOME_SCREEN', label: "Television's built in home screen" },
+    { value: 'HOME_SCREEN', label: 'Television\'s built in home screen' },
     { value: 'TUNER', label: 'Tuner' },
     { value: 'HDMI', label: 'HDMI connection' },
     { value: 'COMPOSITE_VIDEO', label: 'Composite video connection' },
@@ -773,7 +773,7 @@ export const homekitParameters = {
   ],
   'InputSource.InputSourceType': [
     m('OTHER', 'TEXT', 'OTHER', 'Value for other connection type'),
-    m('HOME_SCREEN', 'TEXT', 'HOME_SCREEN', "Value for television's built in home screen"),
+    m('HOME_SCREEN', 'TEXT', 'HOME_SCREEN', 'Value for television\'s built in home screen'),
     m('TUNER', 'TEXT', 'TUNER', 'Value for tuner'),
     m('HDMI', 'TEXT', 'HDMI', 'Value for HDMI connection'),
     m('COMPOSITE_VIDEO', 'TEXT', 'COMPOSITE_VIDEO', 'Value for composite video connection'),
@@ -884,8 +884,8 @@ export const homekitParameters = {
   ],
   'Television.PowerMode': [
     invertedParameter,
-    m('SHOW', 'TEXT', 'SHOW', "Show the television's menu"),
-    m('HIDE', 'TEXT', 'HIDE', "hide the television's menu")
+    m('SHOW', 'TEXT', 'SHOW', 'Show the television\'s menu'),
+    m('HIDE', 'TEXT', 'HIDE', 'hide the television\'s menu')
   ],
   'Television.SleepDiscoveryMode': [
     invertedParameter,

@@ -22,9 +22,9 @@
               tooltip="Fix ID"
               v-if="
                 createMode &&
-                nameErrorMessage &&
-                !nameErrorMessage.includes('exists') &&
-                item.name.trim()
+                  nameErrorMessage &&
+                  !nameErrorMessage.includes('exists') &&
+                  item.name.trim()
               "
               @click="$oh.utils.normalizeInput('#input')" />
           </template>
@@ -115,11 +115,13 @@
           :clear-button="createMode" />
 
         <!-- Group Item Form -->
-        <group-form
-          ref="groupForm"
-          v-if="itemType === 'Group'"
-          :item="item"
-          :createMode="createMode" />
+        <div>
+          <group-form
+            ref="groupForm"
+            v-if="itemType === 'Group'"
+            :item="item"
+            :createMode="createMode" />
+        </div>
       </f7-list-group>
       <f7-list-group v-if="!hideCategory">
         <f7-list-input
@@ -152,7 +154,9 @@
       :createMode="createMode"
       :hide-none="forceSemantics" />
     <f7-list inline-labels no-hairline-md>
-      <tag-input title="Non-Semantic Tags" :disabled="!editable ? true : null" :item="item" />
+      <div>
+        <tag-input title="Non-Semantic Tags" :disabled="!editable ? true : null" :item="item" />
+      </div>
     </f7-list>
     <f7-list inline-labels no-hairline-md>
       <f7-list-item title="Parent Groups" :badge="numberOfGroups" />
@@ -175,15 +179,17 @@
           </div>
         </template>
       </f7-list-item>
-      <item-picker
-        v-if="editable"
-        title="Select"
-        :value="item.groupNames"
-        :items="items"
-        @input="value => (this.item.groupNames = value)"
-        :multiple="true"
-        filterType="Group"
-        :set-value-text="false" />
+      <div>
+        <item-picker
+          v-if="editable"
+          title="Select"
+          :value="item.groupNames"
+          :items="items"
+          @input="value => (this.item.groupNames = value)"
+          :multiple="true"
+          filterType="Group"
+          :set-value-text="false" />
+      </div>
     </f7-list>
   </div>
 </template>
@@ -197,16 +203,17 @@
 </style>
 
 <script>
-import SemanticsPicker from '@/components/tags/semantics-picker.vue';
-import ItemPicker from '@/components/config/controls/item-picker.vue';
-import GroupForm from '@/components/item/group-form.vue';
-import TagInput from '@/components/tags/tag-input.vue';
-import * as types from '@/assets/item-types.js';
-import { Categories } from '@/assets/categories.js';
-import { f7 } from 'framework7-vue';
+import SemanticsPicker from '@/components/tags/semantics-picker.vue'
+import ItemPicker from '@/components/config/controls/item-picker.vue'
+import GroupForm from '@/components/item/group-form.vue'
+import TagInput from '@/components/tags/tag-input.vue'
+import * as types from '@/assets/item-types.js'
+import { Categories } from '@/assets/categories.js'
+import { f7 } from 'framework7-vue'
+import { Dom7 } from 'framework7'
 
-import ItemMixin from '@/components/item/item-mixin';
-import uomMixin from '@/components/item/uom-mixin';
+import ItemMixin from '@/components/item/item-mixin'
+import uomMixin from '@/components/item/uom-mixin'
 
 export default {
   mixins: [ItemMixin, uomMixin],
@@ -219,13 +226,13 @@ export default {
     'hideSemantics',
     'forceSemantics',
     'unitHint',
-    'stateDescription',
+    'stateDescription'
   ],
   components: {
     SemanticsPicker,
     ItemPicker,
     GroupForm,
-    TagInput,
+    TagInput
   },
   data() {
     return {
@@ -237,163 +244,163 @@ export default {
         !this.createMode && this.item.type.split(':').length > 1
           ? this.item.type.split(':')[1]
           : '',
-      oldItemUnit: !this.createMode ? this.item.unitSymbol || '' : '',
-    };
+      oldItemUnit: !this.createMode ? this.item.unitSymbol || '' : ''
+    }
   },
   watch: {
     dimensionsReady(newValue, oldValue) {
-      if (oldValue === false && newValue === true) this.initializeAutocompleteUnit();
-    },
+      if (oldValue === false && newValue === true) this.initializeAutocompleteUnit()
+    }
   },
   computed: {
     editable() {
-      return this.createMode || (this.item && this.item.editable);
+      return this.createMode || (this.item && this.item.editable)
     },
     numberOfGroups() {
-      return this.item.groupNames?.length.toString() || '0';
+      return this.item.groupNames?.length.toString() || '0'
     },
     itemType: {
       get() {
-        return this.item.type.split(':')[0];
+        return this.item.type.split(':')[0]
       },
       set(newType) {
-        this.item.type = newType;
-      },
+        this.item.type = newType
+      }
     },
     itemDimension: {
       get() {
-        const parts = this.item.type.split(':');
-        return parts.length > 1 ? parts[1] : '';
+        const parts = this.item.type.split(':')
+        return parts.length > 1 ? parts[1] : ''
       },
       set(newDimension) {
         if (!newDimension) {
-          this.item.type = 'Number';
-          return;
+          this.item.type = 'Number'
+          return
         }
-        const dimension = this.dimensions.find(d => d.name === newDimension);
-        this.item.type = 'Number:' + dimension.name;
-        this.itemUnit = this.unitHint ? this.unitHint : this.getUnitHint(dimension.name);
-      },
+        const dimension = this.dimensions.find(d => d.name === newDimension)
+        this.item.type = 'Number:' + dimension.name
+        this.itemUnit = this.unitHint ? this.unitHint : this.getUnitHint(dimension.name)
+      }
     },
     itemUnit: {
       get() {
-        return this.unit;
+        return this.unit
       },
       set(newUnit) {
-        this.item.unit = newUnit;
-      },
+        this.item.unit = newUnit
+      }
     },
     itemCategory: {
       get() {
-        return this.item.category || '';
+        return this.item.category || ''
       },
       set(newCategory) {
-        this.item.category = newCategory;
-      },
+        this.item.category = newCategory
+      }
     },
     nameErrorMessage() {
-      return this.validateItemName(this.item.name);
+      return this.validateItemName(this.item.name)
     },
     stateDescriptionPattern: {
       get() {
-        if (this.item.stateDescriptionPattern) return this.item.stateDescriptionPattern;
+        if (this.item.stateDescriptionPattern) return this.item.stateDescriptionPattern
         return (
           this.item.metadata?.stateDescription?.config.pattern ||
           this.stateDescription ||
           (this.createMode ? '%.0f %unit%' : '')
-        );
+        )
       },
       set(newPattern) {
-        this.item.stateDescriptionPattern = newPattern;
-      },
-    },
+        this.item.stateDescriptionPattern = newPattern
+      }
+    }
   },
   methods: {
     typeChanged() {
-      if (this.$refs.groupForm && this.$refs.groupForm.typeChanged()) return true;
-      if (!this.oldItemType) return false;
-      return this.oldItemType !== this.itemType;
+      if (this.$refs.groupForm && this.$refs.groupForm.typeChanged()) return true
+      if (!this.oldItemType) return false
+      return this.oldItemType !== this.itemType
     },
     dimensionChanged() {
-      if (this.$refs.groupForm && this.$refs.groupForm.dimensionChanged()) return true;
-      if (!this.oldItemDimension) return false;
-      return this.oldItemDimension !== this.dimension;
+      if (this.$refs.groupForm && this.$refs.groupForm.dimensionChanged()) return true
+      if (!this.oldItemDimension) return false
+      return this.oldItemDimension !== this.dimension
     },
     unitChanged() {
-      if (this.$refs.groupForm && this.$refs.groupForm.unitChanged()) return true;
-      return this.oldItemUnit && this.item.unit && this.oldItemUnit !== this.item.unit;
+      if (this.$refs.groupForm && this.$refs.groupForm.unitChanged()) return true
+      return this.oldItemUnit && this.item.unit && this.oldItemUnit !== this.item.unit
     },
     revertChange() {
       if (this.itemType === 'Group') {
-        this.$refs.groupForm.revertChange();
-        return;
+        this.$refs.groupForm.revertChange()
+        return
       }
       if (!this.oldItemDimension) {
-        this.item.type = this.oldItemType;
-        this.item.unit = '';
+        this.item.type = this.oldItemType
+        this.item.unit = ''
       } else {
-        this.item.type = this.oldItemType + ':' + this.oldItemDimension;
-        this.item.unit = this.oldItemUnit;
+        this.item.type = this.oldItemType + ':' + this.oldItemDimension
+        this.item.unit = this.oldItemUnit
       }
     },
     initializeAutocompleteUnit() {
-      if (this.hideType) return;
-      const self = this;
-      const unitControl = this.$refs.unit;
-      if (!unitControl || !unitControl.$el) return;
-      const inputElement = Dom7(unitControl.$el).find('input');
+      if (this.hideType) return
+      const self = this
+      const unitControl = this.$refs.unit
+      if (!unitControl || !unitControl.$el) return
+      const inputElement = Dom7(unitControl.$el).find('input')
       this.unitAutocomplete = f7.autocomplete.create({
         inputEl: inputElement,
         openIn: 'dropdown',
         dropdownPlaceholderText: self.itemDimension ? self.getUnitHint(self.itemDimension) : '',
         source(query, render) {
           if (!self.itemDimension) {
-            render([]);
+            render([])
           }
           // item.unit can be set to unitHint from channel type, make sure it is at beginning of list
-          let curatedUnits = self.itemDimension ? self.getUnitList(self.itemDimension) : [];
+          let curatedUnits = self.itemDimension ? self.getUnitList(self.itemDimension) : []
           if (self.item.unit) {
-            curatedUnits = [...new Set([self.item.unit].concat(curatedUnits))];
+            curatedUnits = [...new Set([self.item.unit].concat(curatedUnits))]
           }
-          let allUnits = self.itemDimension ? self.getFullUnitList(self.itemDimension) : [];
+          let allUnits = self.itemDimension ? self.getFullUnitList(self.itemDimension) : []
           if (!query || !query.length) {
             // Render curated list by default
-            render(curatedUnits);
+            render(curatedUnits)
           } else {
-            let units = curatedUnits.filter(u => u.indexOf(query) >= 0);
+            let units = curatedUnits.filter(u => u.indexOf(query) >= 0)
             if (units.length) {
               // Show full curated list if in curated list
-              render(curatedUnits);
+              render(curatedUnits)
             } else {
               // If no match filter on full list
-              render(allUnits.filter(u => u.indexOf(query) >= 0));
+              render(allUnits.filter(u => u.indexOf(query) >= 0))
             }
           }
-        },
-      });
+        }
+      })
     },
     initializeAutocompleteCategory() {
-      if (this.hideCategory) return;
-      const categoryControl = this.$refs.category;
-      if (!categoryControl || !categoryControl.$el) return;
-      const inputElement = Dom7(categoryControl.$el).find('input');
+      if (this.hideCategory) return
+      const categoryControl = this.$refs.category
+      if (!categoryControl || !categoryControl.$el) return
+      const inputElement = Dom7(categoryControl.$el).find('input')
       this.categoryAutocomplete = f7.autocomplete.create({
         inputEl: inputElement,
         openIn: 'dropdown',
         source(query, render) {
           if (!query || !query.length) {
-            render([]);
+            render([])
           } else {
-            render(Categories.filter(c => c.toLowerCase().indexOf(query.toLowerCase()) >= 0));
+            render(Categories.filter(c => c.toLowerCase().indexOf(query.toLowerCase()) >= 0))
           }
-        },
-      });
+        }
+      })
     },
     deleteGroup(event) {
-      const group = event.target.previousSibling.innerText;
-      const groupIndex = this.item.groupNames.indexOf(group);
+      const group = event.target.previousSibling.innerText
+      const groupIndex = this.item.groupNames.indexOf(group)
       if (groupIndex >= 0) {
-        this.item.groupNames.splice(groupIndex, 1);
+        this.item.groupNames.splice(groupIndex, 1)
       }
     },
     updateLabel(event) {
@@ -401,17 +408,17 @@ export default {
         this.createMode &&
         (!this.item.name || this.item.name === this.$oh.utils.normalizeLabel(this.item.label))
       ) {
-        const inputElement = document.getElementById('input');
-        inputElement.value = this.$oh.utils.normalizeLabel(event.target.value);
-        inputElement.dispatchEvent(new Event('input'));
+        const inputElement = document.getElementById('input')
+        inputElement.value = this.$oh.utils.normalizeLabel(event.target.value)
+        inputElement.dispatchEvent(new Event('input'))
       }
-      this.item.label = event.target.value;
-    },
+      this.item.label = event.target.value
+    }
   },
   mounted() {
-    if (!this.item) return;
-    this.initializeAutocompleteCategory();
-    if (this.dimensionsReady) this.initializeAutocompleteUnit();
+    if (!this.item) return
+    this.initializeAutocompleteCategory()
+    if (this.dimensionsReady) this.initializeAutocompleteUnit()
     if (
       this.createMode &&
       this.stateDescription &&
@@ -419,18 +426,18 @@ export default {
     ) {
       // If there is a state description from the channel type that is different from the default,
       // set it as the item state description
-      this.item.stateDescriptionPattern = this.stateDescription;
+      this.item.stateDescriptionPattern = this.stateDescription
     }
   },
   beforeUnmount() {
     if (this.unitAutocomplete) {
-      f7.autocomplete.destroy(this.unitAutocomplete);
-      this.unitAutocomplete = null;
+      f7.autocomplete.destroy(this.unitAutocomplete)
+      this.unitAutocomplete = null
     }
     if (this.categoryAutocomplete) {
-      f7.autocomplete.destroy(this.categoryAutocomplete);
-      this.categoryAutocomplete = null;
+      f7.autocomplete.destroy(this.categoryAutocomplete)
+      this.categoryAutocomplete = null
     }
-  },
-};
+  }
+}
 </script>

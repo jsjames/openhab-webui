@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import ModelTab from '@/pages/home/model-tab.vue';
+import ModelTab from '@/pages/home/model-tab.vue'
 
 export default {
   props: ['context'],
-  components: { ModelTab },
-};
+  components: { ModelTab }
+}
 </script>

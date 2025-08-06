@@ -64,16 +64,16 @@
 </style>
 
 <script>
-import mixin from '../../widget-mixin';
-import { OhSliderCellDefinition } from '@/assets/definitions/widgets/standard/cells';
-import OhCell from './oh-cell.vue';
-import OhSlider from '../../system/oh-slider.vue';
+import mixin from '../../widget-mixin'
+import { OhSliderCellDefinition } from '@/assets/definitions/widgets/standard/cells'
+import OhCell from './oh-cell.vue'
+import OhSlider from '../../system/oh-slider.vue'
 
 export default {
   mixins: [mixin],
   components: {
     OhCell,
-    OhSlider,
+    OhSlider
   },
   widget: OhSliderCellDefinition,
   computed: {
@@ -84,11 +84,11 @@ export default {
           config: Object.assign({}, this.context.component.config, {
             vertical: true,
             label: true,
-            scale: true,
-          }),
-        },
-      });
-    },
-  },
-};
+            scale: true
+          })
+        }
+      })
+    }
+  }
+}
 </script>

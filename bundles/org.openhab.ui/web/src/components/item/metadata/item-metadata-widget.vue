@@ -10,10 +10,8 @@
     </f7-block>
 
     <f7-block-header v-if="!editable" class="padding-horizontal">
-      <b style="color: var(--f7-theme-color) !important"
-        >INFO: This metadata is not editable as it has not been created through the UI. <br />You
-        can try out changes here, but you cannot save them.</b
-      >
+      <b style="color: var(--f7-theme-color) !important">INFO: This metadata is not editable as it has not been created through the UI. <br>You
+        can try out changes here, but you cannot save them.</b>
     </f7-block-header>
     <f7-list v-if="defaultComponent.component">
       <f7-list-item
@@ -27,7 +25,9 @@
         }"
         ref="widgets">
         <select name="widgets" @change="updateComponent">
-          <option value="">Default ({{ defaultComponent.component }})</option>
+          <option value="">
+            Default ({{ defaultComponent.component }})
+          </option>
           <optgroup label="Standard Library (List)" v-if="namespace === 'listWidget'">
             <option
               v-for="widget in standardListWidgets"
@@ -102,31 +102,31 @@
 </style>
 
 <script>
-import ConfigSheet from '@/components/config/config-sheet.vue';
+import ConfigSheet from '@/components/config/config-sheet.vue'
 
-import * as SystemWidgets from '@/components/widgets/system';
-import * as StandardWidgets from '@/components/widgets/standard';
-import * as StandardListWidgets from '@/components/widgets/standard/list';
-import * as StandardCellWidgets from '@/components/widgets/standard/cell';
+import * as SystemWidgets from '@/components/widgets/system'
+import * as StandardWidgets from '@/components/widgets/standard'
+import * as StandardListWidgets from '@/components/widgets/standard/list'
+import * as StandardCellWidgets from '@/components/widgets/standard/cell'
 
-import itemDefaultStandaloneComponent from '@/components/widgets/standard/default-standalone-item';
-import itemDefaultListComponent from '@/components/widgets/standard/list/default-list-item';
-import itemDefaultCellComponent from '@/components/widgets/standard/cell/default-cell-item';
+import itemDefaultStandaloneComponent from '@/components/widgets/standard/default-standalone-item'
+import itemDefaultListComponent from '@/components/widgets/standard/list/default-list-item'
+import itemDefaultCellComponent from '@/components/widgets/standard/cell/default-cell-item'
 
-import { VisibilityGroup, VisibilityParameters } from '@/assets/definitions/widgets/visibility';
-import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
+import { VisibilityGroup, VisibilityParameters } from '@/assets/definitions/widgets/visibility'
+import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
 
-import { useStatesStore } from '@/js/stores/states';
-import { useComponentsStore } from '@/js/stores/components';
-import { mapStores } from 'pinia';
+import { useStatesStore } from '@/js/stores/states'
+import { useComponentsStore } from '@/js/stores/components'
+import { mapStores } from 'pinia'
 
-import { utils } from 'framework7';
+import { utils } from 'framework7'
 
 export default {
   props: ['item', 'metadata', 'namespace'],
   mixins: [ItemMetadataMixin],
   components: {
-    ConfigSheet,
+    ConfigSheet
   },
   data() {
     return {
@@ -138,183 +138,183 @@ export default {
         .filter(c => c.widget)
         .map(c => c.widget())
         .sort((a, b) => {
-          return a.name.localeCompare(b.name);
+          return a.name.localeCompare(b.name)
         }),
       standardListWidgets: Object.values(StandardListWidgets)
         .filter(c => c.widget && typeof c.widget === 'function')
         .map(c => c.widget())
         .sort((a, b) => {
-          return a.name.localeCompare(b.name);
+          return a.name.localeCompare(b.name)
         }),
       standardCellWidgets: Object.values(StandardCellWidgets)
         .filter(c => c.widget && typeof c.widget === 'function')
         .map(c => c.widget())
         .sort((a, b) => {
-          return a.name.localeCompare(b.name);
+          return a.name.localeCompare(b.name)
         }),
       systemWidgets: Object.values(SystemWidgets)
         .filter(c => c.widget & (typeof c.widget === 'function'))
         .map(c => c.widget())
         .sort((a, b) => {
-          return a.name.localeCompare(b.name);
+          return a.name.localeCompare(b.name)
         }),
       widgetVars: {},
-      configDescriptions: {},
-    };
+      configDescriptions: {}
+    }
   },
   computed: {
     personalWidgets() {
       return [...useComponentsStore().widgets].sort((a, b) => {
-        return a.uid.localeCompare(b.uid);
-      });
+        return a.uid.localeCompare(b.uid)
+      })
     },
     ...mapStores(useComponentsStore)
   },
   mounted() {
     useStatesStore().startTrackingStates()
     // copy the item & remove the metadata to get the default widget
-    const defaultItem = Object.assign({}, this.item);
+    const defaultItem = Object.assign({}, this.item)
     if (defaultItem.metadata) {
-      delete defaultItem.metadata[this.namespace];
+      delete defaultItem.metadata[this.namespace]
     }
     this.defaultComponent =
       this.namespace === 'cellWidget'
         ? itemDefaultCellComponent(defaultItem)
         : this.namespace === 'listWidget'
           ? itemDefaultListComponent(defaultItem)
-          : itemDefaultStandaloneComponent(defaultItem);
+          : itemDefaultStandaloneComponent(defaultItem)
 
     nextTick(() => {
-      this.updateComponent();
-    });
+      this.updateComponent()
+    })
   },
   beforeUnmount() {
     useStatesStore().stopTrackingStates()
   },
   methods: {
     isSelected(cl) {
-      return this.component === cl;
+      return this.component === cl
     },
     setPreviewContext() {
       // create new object to be reactive
-      this.previewContext = {};
-      this.previewContext.store = useStatesStore().trackedItems;
-      this.previewContext.vars = this.widgetVars;
+      this.previewContext = {}
+      this.previewContext.store = useStatesStore().trackedItems
+      this.previewContext.vars = this.widgetVars
 
       if (this.namespace === 'listWidget') {
         this.previewContext.component = {
           component: 'oh-list-card',
           config: {
-            mediaList: true,
+            mediaList: true
           },
           slots: {
-            default: [this.currentComponent],
-          },
-        };
+            default: [this.currentComponent]
+          }
+        }
       } else if (this.namespace === 'cellWidget') {
         this.previewContext.component = {
           component: 'oh-grid-cells',
           config: {},
           slots: {
-            default: [this.currentComponent],
-          },
-        };
+            default: [this.currentComponent]
+          }
+        }
       } else {
-        this.previewContext.component = this.currentComponent;
+        this.previewContext.component = this.currentComponent
       }
     },
     setCurrentComponent() {
       if (!this.metadata.value || this.metadata.value === ' ') {
-        this.currentComponent = Object.assign({}, this.defaultComponent);
+        this.currentComponent = Object.assign({}, this.defaultComponent)
         if (typeof this.metadata.config === 'object') {
           this.currentComponent.config = Object.assign(
             {},
             this.currentComponent.config,
             this.metadata.config
-          );
+          )
         }
       } else {
         this.currentComponent = {
           component: this.metadata.value,
-          config: Object.assign({}, this.metadata.config || {}),
-        };
-        if (!this.currentComponent.config.item) this.currentComponent.config.item = this.item.name;
+          config: Object.assign({}, this.metadata.config || {})
+        }
+        if (!this.currentComponent.config.item) this.currentComponent.config.item = this.item.name
       }
     },
     setConfigDescriptions() {
-      let desc = {};
-      if (!this.currentComponent || !this.currentComponent.component) return desc;
+      let desc = {}
+      if (!this.currentComponent || !this.currentComponent.component) return desc
       const widget = useComponentsStore().widget.find(
         w => w.uid === this.currentComponent.component.replace('widget:', '')
-      );
-      if (widget && widget.props) desc = Object.assign({}, widget.props);
+      )
+      if (widget && widget.props) desc = Object.assign({}, widget.props)
 
       if (this.namespace === 'listWidget') {
         const standardListItemWidget = this.standardListWidgets.find(
           w => w.name === this.currentComponent.component
-        );
+        )
         if (standardListItemWidget && standardListItemWidget.props)
-          desc = Object.assign({}, standardListItemWidget.props);
+          desc = Object.assign({}, standardListItemWidget.props)
       } else if (this.namespace === 'cellWidget') {
         const standardCellWidget = this.standardCellWidgets.find(
           w => w.name === this.currentComponent.component
-        );
+        )
         if (standardCellWidget && standardCellWidget.props)
-          desc = Object.assign({}, standardCellWidget.props);
+          desc = Object.assign({}, standardCellWidget.props)
       } else {
         const standardWidget = this.standardWidgets.find(
           w => w.name === this.currentComponent.component
-        );
-        if (standardWidget && standardWidget.props) desc = Object.assign({}, standardWidget.props);
+        )
+        if (standardWidget && standardWidget.props) desc = Object.assign({}, standardWidget.props)
       }
 
-      if (!desc.parameters) desc.parameters = [];
-      if (!desc.parameterGroups) desc.parameterGroups = [];
+      if (!desc.parameters) desc.parameters = []
+      if (!desc.parameterGroups) desc.parameterGroups = []
 
       if (desc.parameters.length && (!this.metadata.value || this.metadata.value === ' ')) {
         // for the default system-suggested widget, take the default config and put it as default value
         for (const key in this.defaultComponent.config) {
-          const parameter = desc.parameters.find(p => p.name === key);
-          if (parameter) parameter.default = this.defaultComponent.config[key];
+          const parameter = desc.parameters.find(p => p.name === key)
+          if (parameter) parameter.default = this.defaultComponent.config[key]
         }
       } else {
         // for user-specified widgets, set a default value for the 'item' parameter only
-        const itemParameter = desc.parameters.find(p => p.name === 'item');
-        if (itemParameter) itemParameter.default = this.item.name;
+        const itemParameter = desc.parameters.find(p => p.name === 'item')
+        if (itemParameter) itemParameter.default = this.item.name
       }
 
       if (
         !desc.parameterGroups.length ||
         desc.parameterGroups[desc.parameterGroups.length - 1].name !== 'visibility'
       ) {
-        desc.parameterGroups.push(VisibilityGroup());
-        desc.parameters.push(...VisibilityParameters());
+        desc.parameterGroups.push(VisibilityGroup())
+        desc.parameters.push(...VisibilityParameters())
       }
 
-      this.configDescriptions = desc;
+      this.configDescriptions = desc
     },
     updateComponent() {
-      const value = this.$refs.widgets.f7SmartSelect.getValue();
-      this.metadata.value = value || ' '; // ' ' is used to indicate the default widget
-      this.setCurrentComponent();
-      this.setConfigDescriptions();
-      this.setPreviewContext();
+      const value = this.$refs.widgets.f7SmartSelect.getValue()
+      this.metadata.value = value || ' ' // ' ' is used to indicate the default widget
+      this.setCurrentComponent()
+      this.setConfigDescriptions()
+      this.setPreviewContext()
     },
     widgetConfigUpdated() {
       for (let key in this.metadata.config) {
         // set to '' when the default defines the option but the metadata doesn't (null would be better but the API then removes it)
         if (!this.metadata.config[key] && typeof this.defaultComponent.config[key] === 'string')
-          this.metadata.config.key = '';
+          this.metadata.config.key = ''
         else if (this.metadata.config[key] === undefined || this.metadata.config[key] === null)
-          delete this.metadata.config[key];
+          delete this.metadata.config[key]
 
         if (key === 'visibleTo' && this.metadata.config.visibleTo.length === 0)
-          delete this.metadata.config.visibleTo;
+          delete this.metadata.config.visibleTo
       }
-      Object.assign(this.currentComponent.config, this.metadata.config || {});
-      this.setPreviewContext();
-      this.previewWidgetKey = utils.id();
-    },
-  },
-};
+      Object.assign(this.currentComponent.config, this.metadata.config || {})
+      this.setPreviewContext()
+      this.previewWidgetKey = utils.id()
+    }
+  }
+}
 </script>

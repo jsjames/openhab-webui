@@ -11,7 +11,7 @@
     <f7-tabs animated>
       <f7-tab id="intro" ref="intro" tab-active>
         <f7-login-screen-title>
-          <img class="intro-logo" src="@/images/openhab-logo.svg" type="image/svg+xml" />
+          <img class="intro-logo" src="@/images/openhab-logo.svg" type="image/svg+xml">
         </f7-login-screen-title>
         <f7-list form style="margin-top: 4rem" v-if="i18nReady">
           <f7-list-item
@@ -109,7 +109,7 @@
           </f7-login-screen-title>
         </f7-block>
         <f7-block strong>
-          {{ $t('setupwizard.location.header1') }}<br />{{ $t('setupwizard.location.header2') }}
+          {{ $t('setupwizard.location.header1') }}<br>{{ $t('setupwizard.location.header2') }}
         </f7-block>
         <f7-list>
           <parameter-location
@@ -209,8 +209,8 @@
             icon-md="material:arrow_back"
             :tab-link="
               networkConfigDescription &&
-              networkConfigDescription.options &&
-              networkConfigDescription.options.length > 1
+                networkConfigDescription.options &&
+                networkConfigDescription.options.length > 1
                 ? '#network'
                 : '#location'
             "
@@ -277,16 +277,15 @@
           </f7-login-screen-title>
         </f7-block>
         <f7-block strong>
-          {{ $t('setupwizard.addons.header1') }}<br />{{ $t('setupwizard.addons.header2') }}<br />{{
+          {{ $t('setupwizard.addons.header1') }}<br>{{ $t('setupwizard.addons.header2') }}<br>{{
             $t('setupwizard.addons.header3')
           }}
-          <br /><br />
+          <br><br>
           <a
             class="text-color-blue external"
             target="_blank"
             href="https://www.openhab.org/addons/">
-            {{ $t('setupwizard.addons.browseAddonsOnWebsite') }}</a
-          >
+            {{ $t('setupwizard.addons.browseAddonsOnWebsite') }}</a>
         </f7-block>
         <f7-block class="padding">
           <f7-block v-if="waitingForAddonSuggestions">
@@ -308,7 +307,7 @@
             <f7-button
               v-if="
                 addonSuggestionsReady &&
-                toInstallAddons.filter(a => !preSelectedAddon(a) && !a.installed).length > 0
+                  toInstallAddons.filter(a => !preSelectedAddon(a) && !a.installed).length > 0
               "
               large
               fill
@@ -414,14 +413,13 @@
 </style>
 
 <script>
-import i18n_mixin from '@/components/i18n-mixin';
-import { loadLocaleMessages } from '@/js/i18n';
-import AddonsSetupWizard from '@/components/addons/addons-setup-wizard.vue';
-import { f7, theme } from 'framework7-vue';
-import { nextTick, defineAsyncComponent } from 'vue';
-import { i18n } from '@/js/i18n';
+import i18n_mixin from '@/components/i18n-mixin'
+import { loadLocaleMessages } from '@/js/i18n'
+import AddonsSetupWizard from '@/components/addons/addons-setup-wizard.vue'
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
 
-import { useRuntimeStore } from '@/js/stores/runtime';
+import { useRuntimeStore } from '@/js/stores/runtime'
 
 export default {
   mixins: [i18n_mixin],
@@ -432,10 +430,10 @@ export default {
     'parameter-options': defineAsyncComponent(
       () => import('@/components/config/controls/parameter-options.vue')
     ),
-    AddonsSetupWizard,
+    AddonsSetupWizard
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -462,7 +460,7 @@ export default {
         'persistence-inmemory',
         'automation-jsscripting',
         'ui-basic',
-        'binding-astro',
+        'binding-astro'
       ],
       // addon types that can be selected in wizard before main addon selection step, to be excluded from main selection step, pre-defined
       preSelectingAddonTypes: ['persistence'],
@@ -473,24 +471,24 @@ export default {
       // final list of addons to install
       toInstallAddons: [],
       installingAddons: false,
-      bindingInstalled: false,
-    };
+      bindingInstalled: false
+    }
   },
   i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/setup-wizard/*.json')),
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/setup-wizard/*.json'))
   },
   computed: {
     locale() {
-      if (!this.language) return null;
-      if (!this.region) return this.language;
-      return this.language + '-' + this.region.toLowerCase();
+      if (!this.language) return null
+      if (!this.region) return this.language
+      return this.language + '-' + this.region.toLowerCase()
     },
     /**
      * Add-ons that can be selected in the main add-on selection step, with add-on types handled before the main selection step excluded.
      * @returns {*[]}
      */
     mainAddons() {
-      return this.addons.filter(a => !this.preSelectingAddonTypes.includes(a.type));
+      return this.addons.filter(a => !this.preSelectingAddonTypes.includes(a.type))
     },
     /**
      * Add-ons that are currently selected in the main add-on selection step, with installed and pre-selected add-ons excluded.
@@ -499,17 +497,17 @@ export default {
     mainAddonSelection() {
       const addons = this.selectedAddons
         .concat(this.toInstallAddons)
-        .filter(a => !a.installed && !this.preSelectedAddon(a));
-      return [...new Set(addons)];
-    },
+        .filter(a => !a.installed && !this.preSelectedAddon(a))
+      return [...new Set(addons)]
+    }
   },
   watch: {
     locale(val) {
       useRuntimeStore().locale = this.locale
-      this.updateLocale();
+      this.updateLocale()
       // this.$i18n.locale = val
-      i18n.global.locale = val;
-    },
+      i18n.global.locale = val
+    }
   },
   methods: {
     beginsetup() {
@@ -517,128 +515,128 @@ export default {
         .put('/rest/services/org.openhab.i18n/config', {
           language: this.language,
           region: this.region,
-          timezone: this.timezone,
+          timezone: this.timezone
         })
         .then(() => {
-          f7.emit('locale-changed');
-          this.$refs.location.show();
-        });
+          f7.emit('locale-changed')
+          this.$refs.location.show()
+        })
     },
     getCurrentPosition() {
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
           position => {
-            this.location = position.coords.latitude + ',' + position.coords.longitude;
+            this.location = position.coords.latitude + ',' + position.coords.longitude
           },
           error => {
-            f7.dialog.alert(error.message, this.t('setupwizard.location.retrieveFromDevice.error'));
+            f7.dialog.alert(error.message, this.t('setupwizard.location.retrieveFromDevice.error'))
           }
-        );
+        )
       } else {
         f7.dialog.alert(
           this.t('setupwizard.location.retrieveFromDevice.notAvailable.message'),
           this.t('setupwizard.location.retrieveFromDevice.notAvailable.title')
-        );
+        )
       }
     },
     skipsetup() {
-      const self = this;
+      const self = this
       f7.dialog.confirm(
         this.t('setupwizard.skipSetup.confirm.message'),
         this.t('setupwizard.skipSetup.confirm.title'),
         () => {
-          self.f7.panel.get('left').enableVisibleBreakpoint();
+          self.f7.panel.get('left').enableVisibleBreakpoint()
           nextTick(() => {
             self.f7.views.main.router.navigate('/', {
               transition: 'f7-circle',
-              clearPreviousHistory: true,
-            });
-          });
+              clearPreviousHistory: true
+            })
+          })
         }
-      );
+      )
     },
     setLocation() {
       this.$oh.api
         .put('/rest/services/org.openhab.i18n/config', {
-          location: this.location,
+          location: this.location
         })
         .then(() => {
-          this.showNetwork();
-        });
+          this.showNetwork()
+        })
     },
     skipLocation() {
-      this.showNetwork();
+      this.showNetwork()
     },
     showNetwork() {
       if (this.networkConfigDescription?.options?.length > 1) {
-        this.$refs.network.show();
+        this.$refs.network.show()
       } else {
-        this.skipNetwork();
+        this.skipNetwork()
       }
     },
     changeNetwork(newNetwork) {
       if (newNetwork && this.network !== newNetwork) {
-        this.networkChanged = true;
-        this.network = newNetwork;
+        this.networkChanged = true
+        this.network = newNetwork
       }
     },
     setNetwork() {
       if (this.networkChanged) {
         this.$oh.api
           .put('/rest/services/org.openhab.network/config', {
-            primaryAddress: this.network,
+            primaryAddress: this.network
           })
           .then(() => {
-            this.addonSuggestionsReady = false;
-            this.getSuggestedAddons();
-            this.showPersistence();
-          });
+            this.addonSuggestionsReady = false
+            this.getSuggestedAddons()
+            this.showPersistence()
+          })
       } else {
-        this.skipNetwork();
+        this.skipNetwork()
       }
     },
     skipNetwork() {
-      this.getSuggestedAddons();
-      this.showPersistence();
+      this.getSuggestedAddons()
+      this.showPersistence()
     },
     showPersistence() {
       if (this.addonSuggestionsReady) {
-        this.updateAddonSelection([], this.recommendedAddonsByType('persistence'));
+        this.updateAddonSelection([], this.recommendedAddonsByType('persistence'))
       } else {
         f7.once('addon-suggestions-ready', () => {
-          this.updateAddonSelection([], this.recommendedAddonsByType('persistence'));
-        });
+          this.updateAddonSelection([], this.recommendedAddonsByType('persistence'))
+        })
       }
-      this.$refs.persistence.show();
+      this.$refs.persistence.show()
     },
     selectPersistence() {
-      this.showAddons();
+      this.showAddons()
     },
     skipPersistence() {
       if (this.addonSuggestionsReady) {
-        this.updateAddonSelection(this.recommendedAddonsByType('persistence'), []);
+        this.updateAddonSelection(this.recommendedAddonsByType('persistence'), [])
       } else {
         f7.once('addon-suggestions-ready', () => {
-          this.updateAddonSelection(this.recommendedAddonsByType('persistence'), []);
-        });
+          this.updateAddonSelection(this.recommendedAddonsByType('persistence'), [])
+        })
       }
-      this.showAddons();
+      this.showAddons()
     },
     showAddons() {
       if (this.addonSuggestionsReady) {
         this.updateAddonSelection(
           [],
           this.selectedAddons.filter(a => !this.preSelectedAddon(a))
-        );
+        )
       } else {
         f7.once('addon-suggestions-ready', () => {
           this.updateAddonSelection(
             [],
             this.selectedAddons.filter(a => !this.preSelectedAddon(a))
-          );
-        });
+          )
+        })
       }
-      this.$refs.addons.show();
+      this.$refs.addons.show()
     },
     /**
      * Manages the loading process of suggested add-ons.
@@ -648,33 +646,33 @@ export default {
      * Also handle the loading progress bar.
      */
     getSuggestedAddons() {
-      if (this.addonSuggestionsReady) return;
-      const self = this;
-      let progress = 0;
+      if (this.addonSuggestionsReady) return
+      const self = this
+      let progress = 0
       function loading() {
         self.waitingTimeout = setTimeout(() => {
-          const progressBefore = progress;
-          progress += 10;
-          self.f7.progressbar.set('#suggestions-progress-bar-persistence', progress);
-          self.f7.progressbar.set('#suggestions-progress-bar-addons', progress);
+          const progressBefore = progress
+          progress += 10
+          self.f7.progressbar.set('#suggestions-progress-bar-persistence', progress)
+          self.f7.progressbar.set('#suggestions-progress-bar-addons', progress)
           if (progressBefore < 100) {
-            loading();
+            loading()
           } else {
-            self.getSuggestions();
-            self.waitingForAddonSuggestions = false;
+            self.getSuggestions()
+            self.waitingForAddonSuggestions = false
           }
-        }, 1000);
+        }, 1000)
       }
       if (this.networkChanged) {
         // wait 10 seconds for suggestions to refresh after network scan
-        this.networkChanged = false;
-        this.waitingForAddonSuggestions = true;
-        f7.progressbar.set('#suggestions-progress-bar-persistence', 0);
-        f7.progressbar.set('#suggestions-progress-bar-addons', 0);
-        clearTimeout(this.waitingTimeout);
-        loading();
+        this.networkChanged = false
+        this.waitingForAddonSuggestions = true
+        f7.progressbar.set('#suggestions-progress-bar-persistence', 0)
+        f7.progressbar.set('#suggestions-progress-bar-addons', 0)
+        clearTimeout(this.waitingTimeout)
+        loading()
       } else if (!this.waitingForAddonSuggestions) {
-        this.getSuggestions();
+        this.getSuggestions()
       }
     },
     /**
@@ -685,51 +683,51 @@ export default {
      * @emits addon-suggestions-ready once add-on suggestions are ready
      */
     getSuggestions() {
-      const self = this;
+      const self = this
       self.$oh.api.get('/rest/addons/suggestions').then(suggestions => {
-        const suggestedAddons = suggestions.flatMap(s => s.id);
+        const suggestedAddons = suggestions.flatMap(s => s.id)
         self.selectedAddons = self.addons
           .filter(a => self.recommendedAddons.includes(a.uid) || suggestedAddons.includes(a.id))
-          .sort((a, b) => a.uid.toUpperCase().localeCompare(b.uid.toUpperCase()));
-        self.addonSuggestionsReady = true;
-        self.f7.emit('addon-suggestions-ready');
-      });
+          .sort((a, b) => a.uid.toUpperCase().localeCompare(b.uid.toUpperCase()))
+        self.addonSuggestionsReady = true
+        self.f7.emit('addon-suggestions-ready')
+      })
     },
     preSelectedAddon(addon) {
       return (
         this.preSelectingAddonTypes.includes(addon.type) ||
         this.preSelectingAddons.includes(addon.uid)
-      );
+      )
     },
     recommendedAddonsByType(type) {
-      return this.addons.filter(a => a.type === type && this.recommendedAddons.includes(a.uid));
+      return this.addons.filter(a => a.type === type && this.recommendedAddons.includes(a.uid))
     },
     updateAddonSelection(oldSelected, newSelected) {
       console.debug(
         'Updating add-on selection:',
         oldSelected.map(a => a.uid),
         newSelected.map(a => a.uid)
-      );
-      const addons = this.toInstallAddons.filter(a => !oldSelected.includes(a)).concat(newSelected);
-      this.toInstallAddons = [...new Set(addons)];
+      )
+      const addons = this.toInstallAddons.filter(a => !oldSelected.includes(a)).concat(newSelected)
+      this.toInstallAddons = [...new Set(addons)]
       console.log(
         'Add-ons to install:',
         this.toInstallAddons.map(a => a.uid)
-      );
+      )
     },
     installAddons() {
-      const self = this;
-      const checkInterval = 2; // check the add-ons statuses every 2 seconds
+      const self = this
+      const checkInterval = 2 // check the add-ons statuses every 2 seconds
 
-      this.toInstallAddons = this.toInstallAddons.filter(a => !a.installed);
-      this.installingAddons = true;
-      this.$refs.wait.show(false);
+      this.toInstallAddons = this.toInstallAddons.filter(a => !a.installed)
+      this.installingAddons = true
+      this.$refs.wait.show(false)
 
-      this.bindingInstalled = this.toInstallAddons.find(a => a.type === 'binding');
-      const addonsCount = this.toInstallAddons.length;
-      let progress = 0;
+      this.bindingInstalled = this.toInstallAddons.find(a => a.type === 'binding')
+      const addonsCount = this.toInstallAddons.length
+      let progress = 0
 
-      const progressDialog = f7.dialog.progress(this.t('setupwizard.addons.installing'), progress);
+      const progressDialog = f7.dialog.progress(this.t('setupwizard.addons.installing'), progress)
 
       const checkAddonStatus = function (addon) {
         return new Promise((resolve, reject) => {
@@ -737,112 +735,112 @@ export default {
             .get('/rest/addons/' + addon.uid)
             .then(data => {
               if (data.installed) {
-                console.log(`Add-on ${addon.uid} installed!`);
-                resolve(data);
+                console.log(`Add-on ${addon.uid} installed!`)
+                resolve(data)
               } else {
                 console.log(
                   `Add-on ${addon.uid} still not installed. Trying again in ${checkInterval} secs...`
-                );
-                reject(data);
+                )
+                reject(data)
               }
             })
             .catch(err => {
               console.log(
                 `Error while querying API to check addon: ${addon.uid}: ${err}'. Trying again in ${checkInterval} secs...`
-              );
-              reject(err);
-            });
-        });
-      };
+              )
+              reject(err)
+            })
+        })
+      }
 
       const installNextAddon = function () {
         // no more add-ons to install => go to next screen
         if (!self.toInstallAddons.length) {
-          progressDialog.close();
-          progressDialog.destroy();
-          self.showFinish();
-          return;
+          progressDialog.close()
+          progressDialog.destroy()
+          self.showFinish()
+          return
         }
 
         // install next add-on
         progressDialog.setText(
           self.t('setupwizard.addons.progress', {
             current: addonsCount - self.toInstallAddons.length + 1,
-            total: addonsCount,
+            total: addonsCount
           })
-        );
+        )
         progressDialog.setProgress(
           ((addonsCount - self.toInstallAddons.length + 1) / addonsCount) * 100
-        );
-        const addon = self.toInstallAddons.shift();
-        console.log('Installing add-on: ' + addon.uid);
+        )
+        const addon = self.toInstallAddons.shift()
+        console.log('Installing add-on: ' + addon.uid)
         progressDialog.setTitle(
           self.t('setupwizard.addons.installingAddon', { addon: addon.label })
-        );
+        )
 
         self.$oh.api.post('/rest/addons/' + addon.uid + '/install', {}, 'text').then(() => {
           const checkTimer = setInterval(() => {
             checkAddonStatus(addon)
               .then(() => {
-                clearInterval(checkTimer);
-                installNextAddon();
+                clearInterval(checkTimer)
+                installNextAddon()
               })
               .catch(() => {
                 // just keep going... TODO: implement failure mechanism after a number of failed checks?
-              });
-          }, checkInterval * 1000);
-        });
-      };
+              })
+          }, checkInterval * 1000)
+        })
+      }
 
-      progressDialog.open();
-      installNextAddon();
+      progressDialog.open()
+      installNextAddon()
     },
     skipAddons() {
-      this.updateAddonSelection(this.mainAddons, []);
+      this.updateAddonSelection(this.mainAddons, [])
       if (this.toInstallAddons.filter(a => !a.installed).length) {
-        this.installAddons();
-        return;
+        this.installAddons()
+        return
       }
-      this.showFinish();
+      this.showFinish()
     },
     showFinish() {
-      this.$refs.finish.show();
+      this.$refs.finish.show()
     },
     finish() {
-      f7.panel.get('left').enableVisibleBreakpoint();
+      f7.panel.get('left').enableVisibleBreakpoint()
       nextTick(() => {
         f7.views.main.router.navigate('/', {
           transition: 'f7-circle',
-          clearPreviousHistory: true,
-        });
+          clearPreviousHistory: true
+        })
         if (f7.width >= 1280) {
-          f7.emit('select-developer-dock', { dock: 'help', helpTab: 'quick' });
+          f7.emit('select-developer-dock', { dock: 'help', helpTab: 'quick' })
         }
-      });
+      })
     },
     pageBeforeIn() {
-      f7.panel.get('left').disableVisibleBreakpoint();
+      f7.panel.get('left').disableVisibleBreakpoint()
     },
     pageBeforeOut() {
-      f7.panel.get('left').enableVisibleBreakpoint();
+      f7.panel.get('left').enableVisibleBreakpoint()
       // create the overview page to prevent this setup wizard from being launched again
       this.$oh.api
         .post('/rest/ui/components/ui:page', {
           uid: 'overview',
           component: 'oh-layout-page',
           config: {
-            label: 'Overview',
+            label: 'Overview'
           },
           slots: {
             default: [],
-            masonry: null,
-          },
+            masonry: null
+          }
         })
         .then(() => {
           // this will force the pages to be refreshed
-          f7.emit('sidebar-refresh', null);
-        });
-    },
+          f7.emit('sidebar-refresh', null)
+        })
+    }
   },
   mounted() {
     const promises = [
@@ -850,45 +848,45 @@ export default {
       this.$oh.api.get('/rest/services/org.openhab.i18n/config'),
       this.$oh.api.get('/rest/config-descriptions/system:network'),
       this.$oh.api.get('/rest/services/org.openhab.network/config'),
-      this.$oh.api.get('/rest/addons'),
-    ];
+      this.$oh.api.get('/rest/addons')
+    ]
 
     Promise.all(promises).then(data => {
       // i18n config descriptions
-      this.availableLanguages = data[0].parameters.find(p => p.name === 'language').options;
-      this.availableRegions = data[0].parameters.find(p => p.name === 'region').options;
-      this.availableTimezones = data[0].parameters.find(p => p.name === 'timezone').options;
+      this.availableLanguages = data[0].parameters.find(p => p.name === 'language').options
+      this.availableRegions = data[0].parameters.find(p => p.name === 'region').options
+      this.availableTimezones = data[0].parameters.find(p => p.name === 'timezone').options
 
       if (Intl && Intl.DateTimeFormat().resolvedOptions()) {
-        const intlOptions = Intl.DateTimeFormat().resolvedOptions();
+        const intlOptions = Intl.DateTimeFormat().resolvedOptions()
         if (intlOptions.locale) {
-          this.language = intlOptions.locale.split('-')[0];
-          if (intlOptions.locale.split('-')[1]) this.region = intlOptions.locale.split('-')[1];
+          this.language = intlOptions.locale.split('-')[0]
+          if (intlOptions.locale.split('-')[1]) this.region = intlOptions.locale.split('-')[1]
         }
         if (intlOptions.timeZone) {
           if (this.availableTimezones.find(tz => tz.value === intlOptions.timeZone))
-            this.timezone = intlOptions.timeZone;
+            this.timezone = intlOptions.timeZone
         }
       }
 
       // i18n config
-      if (data[1].language) this.language = data[1].language;
-      if (data[1].location) this.location = data[1].location;
-      if (data[1].region) this.region = data[1].region;
-      if (data[1].timezone) this.timezone = data[1].timezone;
+      if (data[1].language) this.language = data[1].language
+      if (data[1].location) this.location = data[1].location
+      if (data[1].region) this.region = data[1].region
+      if (data[1].timezone) this.timezone = data[1].timezone
 
-      this.i18nReady = true;
+      this.i18nReady = true
 
       // network config description & config
-      this.networkConfigDescription = data[2].parameters.find(p => p.name === 'primaryAddress');
-      this.network = data[3].primaryAddress;
-      this.networksReady = true;
+      this.networkConfigDescription = data[2].parameters.find(p => p.name === 'primaryAddress')
+      this.network = data[3].primaryAddress
+      this.networksReady = true
 
       // addons
       this.addons = data[4].sort((a, b) =>
         a.label.toUpperCase().localeCompare(b.label.toUpperCase())
-      );
-    });
-  },
-};
+      )
+    })
+  }
+}
 </script>

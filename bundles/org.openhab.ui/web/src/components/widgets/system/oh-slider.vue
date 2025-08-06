@@ -18,30 +18,30 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import slideMixin from './slide-mixin';
-import { OhSliderDefinition } from '@/assets/definitions/widgets/system';
+import mixin from '../widget-mixin'
+import slideMixin from './slide-mixin'
+import { OhSliderDefinition } from '@/assets/definitions/widgets/system'
 
 export default {
   mixins: [mixin, slideMixin],
   widget: OhSliderDefinition,
   data() {
     return {
-      sliderValue: null,
-    };
+      sliderValue: null
+    }
   },
   watch: {
     value(newValue) {
       if (!isNaN(newValue)) {
-        this.sliderValue = newValue;
+        this.sliderValue = newValue
       }
-    },
+    }
   },
   created() {
     if (!isNaN(this.value)) {
-      this.sliderValue = this.value;
+      this.sliderValue = this.value
     } else {
-      this.sliderValue = this.config.min || this.config.max || 0;
+      this.sliderValue = this.config.min || this.config.max || 0
     }
   },
   mounted() {
@@ -52,32 +52,32 @@ export default {
         this.$refs.rangeslider.$el.f7Range.calcSize()
         this.$refs.rangeslider.$el.f7Range.layout()
       }
-    }, 0);
+    }, 0)
   },
   methods: {
     formatLabel(value) {
-      return this.toStepFixed(value) + (this.unit ? ' ' + this.unit : '');
+      return this.toStepFixed(value) + (this.unit ? ' ' + this.unit : '')
     },
     formatScaleLabel(value) {
-      return this.toStepFixed(value);
+      return this.toStepFixed(value)
     },
     toStepFixed(value) {
       // uses the number of decimals in the step config to round the provided number
       const nbDecimals = this.config.step
         ? Number(this.config.step).toString().replace(',', '.').split('.')[1]?.length
-        : 0;
-      return parseFloat(Number(value).toFixed(nbDecimals ?? 0));
+        : 0
+      return parseFloat(Number(value).toFixed(nbDecimals ?? 0))
     },
     onChange(newValue) {
-      if (isNaN(this.value)) return;
-      const tsf = this.toStepFixed(newValue);
+      if (isNaN(this.value)) return
+      const tsf = this.toStepFixed(newValue)
       // Do NOT send command if sliderValue is smaller than real value +-step
       if (Math.abs(tsf - this.value) < (this.config.step || 1)) {
-        this.sliderValue = this.value;
+        this.sliderValue = this.value
       } else {
-        this.sendCommandDebounced(tsf);
+        this.sendCommandDebounced(tsf)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

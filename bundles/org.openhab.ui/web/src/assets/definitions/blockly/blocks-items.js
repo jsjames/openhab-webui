@@ -130,11 +130,11 @@ export default function (f7) {
       tagNames = tagNames.split(',').map(tagElement => tagElement.trim())
       for (let i = 0; i < tagNames.length; i++) {
         if (i > 0) {
-          tags += "','"
+          tags += '\',\''
         }
         tags += tagNames[i]
       }
-      tags = "'" + tags + "'"
+      tags = '\'' + tags + '\''
     }
     return [`items.getItemsByTag(${tags})`, 0]
   }
@@ -229,7 +229,7 @@ export default function (f7) {
       this.setOutput(true, 'String')
       this.setColour(0)
       this.setTooltip(
-        "Retrieve a specific attribute from the item. Note that groups and tags return a list and should be used with the loops-block 'for each item ... in list'. "
+        'Retrieve a specific attribute from the item. Note that groups and tags return a list and should be used with the loops-block \'for each item ... in list\'. '
       )
       this.setTooltip(function () {
         const attributeName = block.getFieldValue('attributeName')
@@ -238,9 +238,9 @@ export default function (f7) {
           Label: 'label of the Item (string)',
           State: 'state of the Item (string)',
           Category: 'category of the Item (string)',
-          Tags: "tags of the Item (list of strings -> should be used with the loops-block 'for each item ... in list')",
+          Tags: 'tags of the Item (list of strings -> should be used with the loops-block \'for each item ... in list\')',
           GroupNames:
-            "groups of the Item (list of strings -> should be used with the loops-block 'for each item ... in list')",
+            'groups of the Item (list of strings -> should be used with the loops-block \'for each item ... in list\')',
           Type: 'type of the Item (string)',
           NumericState: 'numeric state of the Item (number)',
           QuantityState: 'Unit of Measurement / quantity state of Item (Quantity)',

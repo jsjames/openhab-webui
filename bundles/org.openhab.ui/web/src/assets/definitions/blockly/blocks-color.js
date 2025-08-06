@@ -19,7 +19,7 @@ export default function (f7) {
       this.setOutput(true, 'String')
       this.setColour('%{BKY_COLOUR_HUE}')
       this.setTooltip(
-        "converts a colour's hex rgb representation to openHAB's hue-saturation-brightness string"
+        'converts a colour\'s hex rgb representation to openHAB\'s hue-saturation-brightness string'
       )
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/rules-blockly-standard-ext.html#create-hsb-color-from-rgb-color-openhabblocks-color.js'
@@ -94,11 +94,11 @@ export default function (f7) {
     const hsbConversion = javascriptGenerator.provideFunction_('colorHexToHSB', [
       'function ' + javascriptGenerator.FUNCTION_NAME_PLACEHOLDER_ + ' (hexColor) {',
       '  var rgb = /^#?([a-f\\d]{2})([a-f\\d]{2})([a-f\\d]{2})$/i.exec(hexColor);',
-      "  if (!rgb) return '';",
+      '  if (!rgb) return \'\';',
       '  var r = parseInt(rgb[1], 16) / 255, g = parseInt(rgb[2], 16) / 255, b = parseInt(rgb[3], 16) / 255;',
       '  var v = Math.max(r, g, b), n = v - Math.min(r, g, b);',
       '  var h = n === 0 ? 0 : n && v === r ? (g - b) / n : v === g ? 2 + (b - r) / n : 4 + (r - g) / n;',
-      "  return [60 * (h < 0 ? h + 6 : h), v && (n / v) * 100, v * 100].join(',');",
+      '  return [60 * (h < 0 ? h + 6 : h), v && (n / v) * 100, v * 100].join(\',\');',
       '}'
     ])
     return hsbConversion

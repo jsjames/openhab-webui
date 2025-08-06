@@ -19,7 +19,9 @@
         <f7-nav-title v-else-if="readOnly">
           View {{ SectionLabels[currentSection][1] }}
         </f7-nav-title>
-        <f7-nav-title v-else> Edit {{ SectionLabels[currentSection][1] }} </f7-nav-title>
+        <f7-nav-title v-else>
+          Edit {{ SectionLabels[currentSection][1] }}
+        </f7-nav-title>
         <f7-nav-right>
           <f7-link v-if="!readOnly && currentRuleModuleType && dirty" @click="updateModuleConfig">
             {{ $t('dialogs.save') }}
@@ -141,7 +143,9 @@
         <f7-col
           v-if="ruleModule && currentRuleModuleType && (!ruleModule.new || advancedTypePicker)"
           class="margin-top">
-          <f7-block-title style="margin-bottom: 0"> Configuration </f7-block-title>
+          <f7-block-title style="margin-bottom: 0">
+            Configuration
+          </f7-block-title>
           <config-sheet
             v-if="!(ruleModule.configuration && ruleModule.configuration.blockSource)"
             :key="currentSection + ruleModule.id"
@@ -152,7 +156,9 @@
             :readOnly="readOnly"
             @updated="dirty = true" />
           <f7-block v-else>
-            <f7-button @click="editBlockly" color="blue" outline fill> Edit Blockly </f7-button>
+            <f7-button @click="editBlockly" color="blue" outline fill>
+              Edit Blockly
+            </f7-button>
           </f7-block>
         </f7-col>
       </f7-block>
@@ -161,16 +167,16 @@
 </template>
 
 <script>
-import cloneDeep from 'lodash/cloneDeep';
-import fastDeepEqual from 'fast-deep-equal/es6';
-import { f7 } from 'framework7-vue';
+import cloneDeep from 'lodash/cloneDeep'
+import fastDeepEqual from 'fast-deep-equal/es6'
+import { f7 } from 'framework7-vue'
 
-import DirtyMixin from '../dirty-mixin';
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import TriggerModuleWizard from '@/components/rule/trigger-module-wizard.vue';
-import ConditionModuleWizard from '@/components/rule/condition-module-wizard.vue';
-import ActionModuleWizard from '@/components/rule/action-module-wizard.vue';
-import ModuleDescriptionSuggestions from './module-description-suggestions';
+import DirtyMixin from '../dirty-mixin'
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import TriggerModuleWizard from '@/components/rule/trigger-module-wizard.vue'
+import ConditionModuleWizard from '@/components/rule/condition-module-wizard.vue'
+import ActionModuleWizard from '@/components/rule/action-module-wizard.vue'
+import ModuleDescriptionSuggestions from './module-description-suggestions'
 
 export default {
   mixins: [ModuleDescriptionSuggestions, DirtyMixin],
@@ -178,7 +184,7 @@ export default {
     TriggerModuleWizard,
     ConditionModuleWizard,
     ActionModuleWizard,
-    ConfigSheet,
+    ConfigSheet
   },
   props: ['rule', 'ruleModule', 'ruleModuleType', 'moduleTypes', 'currentSection', 'readOnly'],
   emits: ['module-update', 'edit-new-script'],
@@ -186,105 +192,105 @@ export default {
     return {
       f7,
       currentRuleModuleType: this.ruleModuleType,
-      advancedTypePicker: false,
-    };
+      advancedTypePicker: false
+    }
   },
   computed: {
     moduleTitleSuggestion() {
-      if (!this.ruleModule || !this.currentRuleModuleType) return 'Title';
-      return this.suggestedModuleTitle(this.ruleModule, this.currentRuleModuleType);
+      if (!this.ruleModule || !this.currentRuleModuleType) return 'Title'
+      return this.suggestedModuleTitle(this.ruleModule, this.currentRuleModuleType)
     },
     moduleDescriptionSuggestion() {
-      if (!this.ruleModule || !this.currentRuleModuleType) return 'Description';
-      return this.suggestedModuleDescription(this.ruleModule, this.currentRuleModuleType);
-    },
+      if (!this.ruleModule || !this.currentRuleModuleType) return 'Description'
+      return this.suggestedModuleDescription(this.ruleModule, this.currentRuleModuleType)
+    }
   },
   watch: {
     ruleModule: {
       handler: function () {
-        this.dirty = !fastDeepEqual(this.ruleModule, this.originalModule);
+        this.dirty = !fastDeepEqual(this.ruleModule, this.originalModule)
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     setModuleType(val, clearConfig) {
       const moduleType =
         typeof val === 'string'
           ? this.moduleTypes[this.currentSection].find(t => t.uid === val)
-          : val;
-      this.ruleModule.type = moduleType.uid;
-      this.currentModuleType = moduleType;
-      if (clearConfig) this.ruleModule.configuration = {};
-      this.ruleModule.label = this.ruleModule.description = '';
+          : val
+      this.ruleModule.type = moduleType.uid
+      this.currentModuleType = moduleType
+      if (clearConfig) this.ruleModule.configuration = {}
+      this.ruleModule.label = this.ruleModule.description = ''
     },
     moduleConfigClosed() {
-      f7.emit('rule-module-config-closed');
+      f7.emit('rule-module-config-closed')
     },
     updateModuleConfig() {
       if (this.$refs.parameters && !this.$refs.parameters.isValid()) {
-        f7.dialog.alert('Please review the configuration and correct validation errors');
-        return;
+        f7.dialog.alert('Please review the configuration and correct validation errors')
+        return
       }
-      f7.emit('rule-module-config-update', this.ruleModule);
-      this.$refs.modulePopup.close();
+      f7.emit('rule-module-config-update', this.ruleModule)
+      this.$refs.modulePopup.close()
     },
     editBlockly() {
-      this.updateModuleConfig();
+      this.updateModuleConfig()
       f7.views.main.router.navigate(
         `/settings/rules/${this.rule.uid}/script/${this.ruleModule.id}`
-      );
+      )
     },
     startScripting(language) {
-      const contentType = language === 'blockly' ? 'application/javascript' : language;
-      this.ruleModule.configuration.type = contentType;
-      this.ruleModule.configuration.script = '';
+      const contentType = language === 'blockly' ? 'application/javascript' : language
+      this.ruleModule.configuration.type = contentType
+      this.ruleModule.configuration.script = ''
       if (language === 'blockly') {
         // initialize an empty blockly source
         this.ruleModule.configuration.blockSource =
-          '<xml xmlns="https://developers.google.com/blockly/xml"></xml>';
+          '<xml xmlns="https://developers.google.com/blockly/xml"></xml>'
       }
-      f7.emit('edit-new-script', this.ruleModule);
-      this.$refs.modulePopup.close();
+      f7.emit('edit-new-script', this.ruleModule)
+      this.$refs.modulePopup.close()
     },
     groupedModuleTypes(section) {
-      const moduleTypes = this.moduleTypes[section].filter(t => t.visibility === 'VISIBLE');
+      const moduleTypes = this.moduleTypes[section].filter(t => t.visibility === 'VISIBLE')
       let moduleTypesByScope = moduleTypes.reduce((prev, type, i, types) => {
-        const scope = type.uid.split('.')[0];
+        const scope = type.uid.split('.')[0]
         if (!prev[scope]) {
-          prev[scope] = [type];
+          prev[scope] = [type]
         } else {
-          prev[scope] = [...prev[scope], type].sort((t1, t2) => t1.label.localeCompare(t2.label));
+          prev[scope] = [...prev[scope], type].sort((t1, t2) => t1.label.localeCompare(t2.label))
         }
-        return prev;
-      }, {});
+        return prev
+      }, {})
       return Object.keys(moduleTypesByScope)
         .sort((s1, s2) => (s1 === 'core' ? -1 : s2 === 'core' ? 1 : s1.localeCompare(s2)))
         .reduce((prev, key) => {
-          prev[key] = moduleTypesByScope[key];
-          return prev;
-        }, {});
+          prev[key] = moduleTypesByScope[key]
+          return prev
+        }, {})
     },
     onBackClicked() {
       if (this.dirty) {
-        this.confirmLeaveWithoutSaving(this.$refs.modulePopup.close);
+        this.confirmLeaveWithoutSaving(this.$refs.modulePopup.close)
       } else {
-        this.$refs.modulePopup.close();
+        this.$refs.modulePopup.close()
       }
     },
     close() {
-      this.$refs.modulePopup.close();
-    },
+      this.$refs.modulePopup.close()
+    }
   },
   created() {
     this.SectionLabels = {
       triggers: ['When', 'Trigger'],
       actions: ['Then', 'Action'],
-      conditions: ['But only if', 'Condition'],
-    };
+      conditions: ['But only if', 'Condition']
+    }
   },
   mounted() {
-    this.originalModule = cloneDeep(this.ruleModule);
-  },
-};
+    this.originalModule = cloneDeep(this.ruleModule)
+  }
+}
 </script>

@@ -36,31 +36,31 @@
 </style>
 
 <script>
-import mixin from '@/components/widgets/widget-mixin';
-import { equipmentListComponent } from '@/components/widgets/standard/list/default-list-item';
-import CardMixin from './card-mixin';
-import ModelCard from './model-card.vue';
+import mixin from '@/components/widgets/widget-mixin'
+import { equipmentListComponent } from '@/components/widgets/standard/list/default-list-item'
+import CardMixin from './card-mixin'
+import ModelCard from './model-card.vue'
 
-import { useStatesStore } from '@/js/stores/states';
+import { useStatesStore } from '@/js/stores/states'
 
 export default {
   mixins: [mixin, CardMixin],
   props: ['tabContext'],
   components: {
-    ModelCard,
+    ModelCard
   },
   computed: {
     listContext() {
-      const contextLabelDefaults = { contextLabelSource: 'path' };
+      const contextLabelDefaults = { contextLabelSource: 'path' }
       return {
         store: useStatesStore().trackedItems,
         component: equipmentListComponent(
           this.element.equipment,
           { ...contextLabelDefaults, ...this.tabContext },
           false
-        ),
-      };
-    },
-  },
-};
+        )
+      }
+    }
+  }
+}
 </script>

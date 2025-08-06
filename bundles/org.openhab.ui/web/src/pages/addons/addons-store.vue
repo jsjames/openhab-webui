@@ -95,7 +95,9 @@
         '{{ this.$refs.storeSearchbar.$el.f7Searchbar.query }}' not found in
         {{ currentTab === 'main' ? 'any' : currentTab }} add-ons
         <div class="flex-shrink-0 if-aurora display-flex justify-content-center">
-          <f7-button color="blue" fill raised @click="clearSearch"> Clear Search </f7-button>
+          <f7-button color="blue" fill raised @click="clearSearch">
+            Clear Search
+          </f7-button>
         </div>
       </f7-block>
       <addons-section
@@ -104,10 +106,10 @@
         :addons="searchResults"
         :title="
           'Found: ' +
-          searchResults.length +
-          (currentTab == 'main' ? '' : ' ' + currentTab) +
-          ' add-on' +
-          (searchResults.length === 1 ? '' : 's')
+            searchResults.length +
+            (currentTab == 'main' ? '' : ' ' + currentTab) +
+            ' add-on' +
+            (searchResults.length === 1 ? '' : 's')
         "
         @addon-button-click="addonButtonClick" />
     </div>
@@ -340,32 +342,32 @@
 </style>
 
 <script>
-import AddonStoreMixin from './addon-store-mixin';
-import AddonsSection from '@/components/addons/addons-section.vue';
+import AddonStoreMixin from './addon-store-mixin'
+import AddonsSection from '@/components/addons/addons-section.vue'
 import {
   AddonIcons,
   AddonTitles,
   AddonSuggestionLabels,
   AddonConnectionTypes,
-  AddonRegionTypes,
-} from '@/assets/addon-store';
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
+  AddonRegionTypes
+} from '@/assets/addon-store'
+import { f7, theme } from 'framework7-vue'
+import { nextTick } from 'vue'
 
-import { useRuntimeStore } from '@/js/stores/runtime';
+import { useRuntimeStore } from '@/js/stores/runtime'
 import { mapStores } from 'pinia'
 
 export default {
   mixins: [AddonStoreMixin],
   props: {
     searchFor: String,
-    f7router: Object,
+    f7router: Object
   },
   components: {
-    AddonsSection,
+    AddonsSection
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -380,164 +382,164 @@ export default {
       connectionType: 'cloud',
       regionType: 'exclude_other',
       region: null,
-      regionReady: false,
-    };
+      regionReady: false
+    }
   },
   computed: {
     allAddons() {
       return Object.keys(this.addons)
         .flatMap(k => this.addons[k])
-        .filter(a => this.isInFilter(a));
+        .filter(a => this.isInFilter(a))
     },
     installedAddons() {
-      return this.allAddons.filter(a => a.installed);
+      return this.allAddons.filter(a => a.installed)
     },
     suggestedAddons() {
       return this.allAddons
         .filter(a => !a.installed && this.suggestions.some(s => s.id === a.id))
-        .filter(a => this.isInFilter(a));
+        .filter(a => this.isInFilter(a))
     },
     unsuggestedAddons() {
       return this.allAddons
         .filter(a => !this.suggestedAddons.includes(a))
-        .filter(a => this.isInFilter(a));
+        .filter(a => this.isInFilter(a))
     },
     officialAddons() {
       return Object.keys(this.addons)
         .filter(k => k === 'eclipse' || k === 'karaf')
         .flatMap(k => this.addons[k])
         .filter(a => this.isInFilter(a))
-        .filter(a => !this.suggestedAddons.includes(a));
+        .filter(a => !this.suggestedAddons.includes(a))
     },
     marketplaceAddons() {
       return this.addons.marketplace
         .filter(a => !this.suggestedAddons.includes(a))
-        .filter(a => this.isInFilter(a));
+        .filter(a => this.isInFilter(a))
     },
     otherAddons() {
       return Object.keys(this.addons)
         .filter(k => k !== 'eclipse' && k !== 'karaf' && k !== 'marketplace')
         .flatMap(k => this.addons[k])
         .filter(a => this.isInFilter(a))
-        .filter(a => !this.suggestedAddons.includes(a));
+        .filter(a => !this.suggestedAddons.includes(a))
     },
     pageTitle() {
-      if (!AddonTitles[this.currentTab]) return 'Add-on Store';
-      return AddonTitles[this.currentTab].replace(/s$/, '') + ' Add-ons';
+      if (!AddonTitles[this.currentTab]) return 'Add-on Store'
+      return AddonTitles[this.currentTab].replace(/s$/, '') + ' Add-ons'
     },
     connectionTypes() {
-      return this.AddonConnectionTypes[this.connectionType].values;
+      return this.AddonConnectionTypes[this.connectionType].values
     },
     ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageAfterIn() {
-      this.load();
+      this.load()
     },
     onPageBeforeOut() {
-      this.stopEventSource();
-      f7.panel.get('left').off('opened closed', this.updateLeftPanelVisibility);
+      this.stopEventSource()
+      f7.panel.get('left').off('opened closed', this.updateLeftPanelVisibility)
     },
     updateLeftPanelVisibility() {
-      this.leftPanelOpened = f7.panel.get('left').opened;
+      this.leftPanelOpened = f7.panel.get('left').opened
     },
     load() {
       if (this.searchFor) {
         // Show this in the searchbar while the page is loading
-        this.$refs.storeSearchbar.$el.f7Searchbar.$inputEl.val(this.searchFor);
+        this.$refs.storeSearchbar.$el.f7Searchbar.$inputEl.val(this.searchFor)
       }
-      this.updateLeftPanelVisibility();
-      f7.panel.get('left').on('opened closed', this.updateLeftPanelVisibility);
-      this.stopEventSource();
+      this.updateLeftPanelVisibility()
+      f7.panel.get('left').on('opened closed', this.updateLeftPanelVisibility)
+      this.stopEventSource()
       this.$oh.api.get('/rest/services/org.openhab.i18n/config').then(data => {
         if (data.region) {
-          this.region = data.region;
-          this.regionReady = true;
+          this.region = data.region
+          this.regionReady = true
         }
-      });
+      })
       this.$oh.api.get('/rest/addons/suggestions').then(data => {
-        this.suggestions = data;
-      });
+        this.suggestions = data
+      })
       this.$oh.api.get('/rest/addons/services').then(data => {
-        this.services = data;
+        this.services = data
         Promise.all(
           this.services.map(s => this.$oh.api.get('/rest/addons?serviceId=' + s.id))
         ).then(data2 => {
           data2.forEach((addons, idx) => {
-            this.addons[data[idx].id] = data2[idx];
-          });
-          this.ready = true;
-          this.startEventSource();
+            this.addons[data[idx].id] = data2[idx]
+          })
+          this.ready = true
+          this.startEventSource()
           nextTick(() => {
-            f7.lazy.create('.page-addon-store');
+            f7.lazy.create('.page-addon-store')
             if (this.searchFor) {
-              this.$refs.storeSearchbar.search(this.searchFor);
+              this.$refs.storeSearchbar.search(this.searchFor)
             }
-          });
-        });
-      });
+          })
+        })
+      })
     },
     addonButtonClick(addon) {
       const serviceId =
-        addon.uid.indexOf(':') > 0 ? addon.uid.substring(0, addon.uid.indexOf(':')) : undefined;
-      this.openAddonPopup(addon.uid, serviceId, addon);
+        addon.uid.indexOf(':') > 0 ? addon.uid.substring(0, addon.uid.indexOf(':')) : undefined
+      this.openAddonPopup(addon.uid, serviceId, addon)
     },
     onTabShow(tab) {
-      this.currentTab = tab.id;
+      this.currentTab = tab.id
 
-      const section = tab.id === 'main' ? '' : tab.id + '/';
-      this.f7router.updateCurrentUrl('/addons/' + section);
-      this.f7router.url = '/' + this.currentTab;
+      const section = tab.id === 'main' ? '' : tab.id + '/'
+      this.f7router.updateCurrentUrl('/addons/' + section)
+      this.f7router.url = '/' + this.currentTab
 
-      this.clearSearch();
+      this.clearSearch()
 
       nextTick(() => {
-        f7.lazy.create('.page-addon-store');
-      });
+        f7.lazy.create('.page-addon-store')
+      })
     },
     search(searchbar, query, previousQuery) {
-      if (!this.ready) return;
+      if (!this.ready) return
 
-      query = query.trim();
+      query = query.trim()
       if (!query) {
-        this.clearSearch();
-        return;
+        this.clearSearch()
+        return
       }
 
-      let results = this.allAddons;
+      let results = this.allAddons
       if (this.currentTab !== 'main') {
-        results = results.filter(a => a.type === this.currentTab);
+        results = results.filter(a => a.type === this.currentTab)
       }
-      query = query.toLowerCase();
+      query = query.toLowerCase()
       results = results.filter(
         a =>
           a.id.includes(query) ||
           a.label.toLowerCase().includes(query) ||
           a.description?.toLowerCase()?.includes(query)
-      );
+      )
 
-      this.query = query;
-      this.searchResults = results;
+      this.query = query
+      this.searchResults = results
       setTimeout(() => {
-        f7.lazy.create('.page-addon-store');
-      }, 100);
+        f7.lazy.create('.page-addon-store')
+      }, 100)
     },
     clearSearch(searchbar, previousQuery) {
-      this.$refs.storeSearchbar.$el.f7Searchbar.$inputEl.val('');
-      this.query = null;
-      this.searchResults = null;
+      this.$refs.storeSearchbar.$el.f7Searchbar.$inputEl.val('')
+      this.query = null
+      this.searchResults = null
       if (this.$device.desktop) {
         nextTick(() => {
-          this.$refs.storeSearchbar.$el.f7Searchbar.$inputEl.focus();
-        });
+          this.$refs.storeSearchbar.$el.f7Searchbar.$inputEl.focus()
+        })
       }
     },
     updateFilter(filter, value) {
-      this[filter] = value;
+      this[filter] = value
       if (this.query) {
         nextTick(() => {
-          this.search(undefined, this.query);
-        });
+          this.search(undefined, this.query)
+        })
       }
     },
     isInFilter(addon) {
@@ -546,37 +548,37 @@ export default {
       // No connection or countries field is available for these addons.
       const isLibraryContentType = [
         'application/vnd.openhab.ruletemplate',
-        'application/vnd.openhab.uicomponent',
-      ].includes(addon.contentType.split(';')[0]);
+        'application/vnd.openhab.uicomponent'
+      ].includes(addon.contentType.split(';')[0])
       // Note only the addons from the distribution currently have the connection attribute.
       // Therefore marketplace or alternative store addons will only be visible with a selection that allows cloud connections.
       const isInConnectionFilter = isLibraryContentType
         ? true
-        : this.connectionTypes.includes(addon.connection) || this.connectionTypes.includes('cloud');
+        : this.connectionTypes.includes(addon.connection) || this.connectionTypes.includes('cloud')
       // Filter according to region/country. Don't filter if no region/country set for OH.
       // Note only the addons from the distribution currently have the countries attribute.
-      let isInRegionFilter = true;
+      let isInRegionFilter = true
       if (this.regionReady) {
         if (this.regionType === 'exclude_other') {
           isInRegionFilter =
             addon.countries.length > 0
               ? addon.countries.map(c => c.toUpperCase()).includes(this.region.toUpperCase())
-              : true;
+              : true
         } else if (this.regionType === 'only_region') {
           isInRegionFilter = addon.countries
             .map(c => c.toUpperCase())
-            .includes(this.region.toUpperCase());
+            .includes(this.region.toUpperCase())
         }
       }
-      return isInConnectionFilter && isInRegionFilter;
-    },
+      return isInConnectionFilter && isInRegionFilter
+    }
   },
   created() {
-    this.AddonIcons = AddonIcons;
-    this.AddonTitles = AddonTitles;
-    this.SuggestionLabels = AddonSuggestionLabels;
-    this.AddonConnectionTypes = AddonConnectionTypes;
-    this.AddonRegionTypes = AddonRegionTypes;
-  },
-};
+    this.AddonIcons = AddonIcons
+    this.AddonTitles = AddonTitles
+    this.SuggestionLabels = AddonSuggestionLabels
+    this.AddonConnectionTypes = AddonConnectionTypes
+    this.AddonRegionTypes = AddonRegionTypes
+  }
+}
 </script>

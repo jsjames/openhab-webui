@@ -113,23 +113,23 @@
 </style>
 
 <script>
-import PageDesigner from '../pagedesigner-mixin';
-import { f7, theme } from 'framework7-vue';
-import { utils } from 'framework7';
-import { defineAsyncComponent } from 'vue';
+import PageDesigner from '../pagedesigner-mixin'
+import { f7, theme } from 'framework7-vue'
+import { utils } from 'framework7'
+import { defineAsyncComponent } from 'vue'
 
-import YAML from 'yaml';
+import YAML from 'yaml'
 
-import OhChartPage from '@/components/widgets/chart/oh-chart-page.vue';
+import OhChartPage from '@/components/widgets/chart/oh-chart-page.vue'
 
-import PageSettings from '@/components/pagedesigner/page-settings.vue';
+import PageSettings from '@/components/pagedesigner/page-settings.vue'
 
-import ChartDesigner from '@/components/pagedesigner/chart/chart-designer.vue';
-import ChartWidgetsDefinitions from '@/assets/definitions/widgets/chart/index';
+import ChartDesigner from '@/components/pagedesigner/chart/chart-designer.vue'
+import ChartWidgetsDefinitions from '@/assets/definitions/widgets/chart/index'
 
-import ConfigSheet from '@/components/config/config-sheet.vue';
+import ConfigSheet from '@/components/config/config-sheet.vue'
 
-import WidgetSlotConfigPopup from '@/components/pagedesigner/widget-slot-config-popup.vue';
+import WidgetSlotConfigPopup from '@/components/pagedesigner/widget-slot-config-popup.vue'
 
 export default {
   mixins: [PageDesigner],
@@ -143,15 +143,15 @@ export default {
     OhChartPage,
     PageSettings,
     ChartDesigner,
-    ConfigSheet,
+    ConfigSheet
   },
   props: {
     createMode: Boolean,
     uid: String,
-    f7router: Object,
+    f7router: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -161,78 +161,78 @@ export default {
         component: 'oh-chart-page',
         config: {},
         tags: [],
-        slots: { grid: [], xAxis: [], yAxis: [], series: [] },
+        slots: { grid: [], xAxis: [], yAxis: [], series: [] }
       },
       currentSlot: null,
       currentSlotParent: null,
       currentSlotConfig: null,
       currentSlotDefaultComponentType: null,
-      widgetSlotConfigOpened: false,
-    };
+      widgetSlotConfigOpened: false
+    }
   },
   methods: {
     addWidget(component, widgetType, parentContext, slot) {
-      if (!slot) slot = 'default';
-      if (!component.slots) component.slots = {};
-      if (!component.slots[slot]) component.slots[slot] = [];
+      if (!slot) slot = 'default'
+      if (!component.slots) component.slots = {}
+      if (!component.slots[slot]) component.slots[slot] = []
       if (widgetType) {
         component.slots[slot].push({
           component: widgetType,
           config: {},
-          slots: { default: [] },
-        });
-        this.forceUpdate();
+          slots: { default: [] }
+        })
+        this.forceUpdate()
       }
     },
     widgetConfigClosed() {
-      this.currentComponent = null;
-      this.currentWidget = null;
-      this.currentSlot = null;
-      this.currentSlotParent = null;
-      this.currentSlotConfig = null;
-      this.widgetConfigOpened = false;
-      this.widgetSlotConfigOpened = false;
+      this.currentComponent = null
+      this.currentWidget = null
+      this.currentSlot = null
+      this.currentSlotParent = null
+      this.currentSlotConfig = null
+      this.widgetConfigOpened = false
+      this.widgetSlotConfigOpened = false
     },
     updateWidgetSlotConfig() {
-      this.currentSlotParent.slots[this.currentSlot] = this.currentSlotConfig;
-      this.forceUpdate();
-      this.widgetConfigClosed();
+      this.currentSlotParent.slots[this.currentSlot] = this.currentSlotConfig
+      this.forceUpdate()
+      this.widgetConfigClosed()
     },
     getWidgetDefinition(componentType) {
-      return ChartWidgetsDefinitions[componentType];
+      return ChartWidgetsDefinitions[componentType]
     },
     configureSlot(component, slotName, defaultSlotComponentType) {
-      this.currentSlotParent = component;
-      this.currentWidget = null;
-      this.currentSlot = slotName;
-      this.currentSlotDefaultComponentType = defaultSlotComponentType;
+      this.currentSlotParent = component
+      this.currentWidget = null
+      this.currentSlot = slotName
+      this.currentSlotDefaultComponentType = defaultSlotComponentType
       if (
         this.currentSlotParent.slots[slotName] &&
         this.currentSlotParent.slots[slotName].length > 0
       ) {
-        this.currentSlotConfig = JSON.parse(JSON.stringify(this.currentSlotParent.slots[slotName]));
+        this.currentSlotConfig = JSON.parse(JSON.stringify(this.currentSlotParent.slots[slotName]))
       } else {
         this.currentSlotConfig = [
           {
             component: defaultSlotComponentType,
             config: {
-              show: true,
-            },
-          },
-        ];
+              show: true
+            }
+          }
+        ]
       }
 
       const popup = {
-        component: WidgetSlotConfigPopup,
-      };
+        component: WidgetSlotConfigPopup
+      }
 
       this.f7router.navigate(
         {
           url: 'configure-slot',
           route: {
             path: 'configure-slot',
-            popup,
-          },
+            popup
+          }
         },
         {
           props: {
@@ -242,44 +242,44 @@ export default {
             removeComponentFromSlot: this.removeComponentFromSlot,
             editWidgetCode: this.editWidgetCode,
             currentSlotDefaultComponentType: this.currentSlotDefaultComponentType,
-            initialConfig: { show: true },
-          },
+            initialConfig: { show: true }
+          }
         }
-      );
+      )
 
-      f7.once('widget-slot-config-update', this.updateWidgetSlotConfig);
+      f7.once('widget-slot-config-update', this.updateWidgetSlotConfig)
       f7.once('widget-slot-config-closed', () => {
-        f7.off('widget-slot-config-update', this.updateWidgetSlotConfig);
-        this.widgetConfigClosed();
-      });
+        f7.off('widget-slot-config-update', this.updateWidgetSlotConfig)
+        this.widgetConfigClosed()
+      })
     },
     removeComponentFromSlot(component, slot) {
-      slot.splice(slot.indexOf(component), 1);
+      slot.splice(slot.indexOf(component), 1)
       if (this.widgetSlotConfigOpened && slot.length === 0) {
-        this.currentSlotParent.slots[this.currentSlot] = undefined;
-        delete this.currentSlotParent.slots[this.currentSlot];
-        this.widgetConfigClosed();
+        this.currentSlotParent.slots[this.currentSlot] = undefined
+        delete this.currentSlotParent.slots[this.currentSlot]
+        this.widgetConfigClosed()
       }
-      this.forceUpdate();
+      this.forceUpdate()
     },
     toYaml() {
       this.pageYaml = YAML.stringify({
         config: this.page.config,
-        slots: this.page.slots,
-      });
+        slots: this.page.slots
+      })
     },
     fromYaml() {
       try {
-        const updatedPage = YAML.parse(this.pageYaml);
-        this.page.config = updatedPage.config;
-        this.page.slots = updatedPage.slots;
-        this.forceUpdate();
-        return true;
+        const updatedPage = YAML.parse(this.pageYaml)
+        this.page.config = updatedPage.config
+        this.page.slots = updatedPage.slots
+        this.forceUpdate()
+        return true
       } catch (e) {
-        f7.dialog.alert(e).open();
-        return false;
+        f7.dialog.alert(e).open()
+        return false
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

@@ -261,25 +261,25 @@
 </style>
 
 <script>
-import { Categories } from '@/assets/categories.js';
-import ItemPicker from '@/components/config/controls/item-picker.vue';
-import PersistencePicker from '@/components/config/controls/persistence-picker.vue';
-import SitemapMixin from '@/components/pagedesigner/sitemap/sitemap-mixin';
-import { f7 } from 'framework7-vue';
+import { Categories } from '@/assets/categories.js'
+import ItemPicker from '@/components/config/controls/item-picker.vue'
+import PersistencePicker from '@/components/config/controls/persistence-picker.vue'
+import SitemapMixin from '@/components/pagedesigner/sitemap/sitemap-mixin'
+import { f7 } from 'framework7-vue'
 
 export default {
   mixins: [SitemapMixin],
   components: {
     ItemPicker,
-    PersistencePicker,
+    PersistencePicker
   },
   props: ['widget', 'createMode'],
   emits: ['moveup', 'movedown', 'duplicate', 'remove'],
   data() {
     return {
       iconInputId: '',
-      iconAutocomplete: null,
-    };
+      iconAutocomplete: null
+    }
   },
   methods: {
     initializeAutocomplete(inputElement) {
@@ -288,39 +288,39 @@ export default {
         openIn: 'dropdown',
         source(query, render) {
           if (!query || !query.length) {
-            render([]);
+            render([])
           } else {
-            render(Categories.filter(c => c.toLowerCase().indexOf(query.toLowerCase()) >= 0));
+            render(Categories.filter(c => c.toLowerCase().indexOf(query.toLowerCase()) >= 0))
           }
-        },
-      });
+        }
+      })
     },
     supports(parameter) {
-      if (!this.ADDITIONAL_CONTROLS[this.widget.component]) return false;
-      return this.ADDITIONAL_CONTROLS[this.widget.component].indexOf(parameter) >= 0;
+      if (!this.ADDITIONAL_CONTROLS[this.widget.component]) return false
+      return this.ADDITIONAL_CONTROLS[this.widget.component].indexOf(parameter) >= 0
     },
     updateParameter(parameter, $event) {
-      let value = $event.target.value;
+      let value = $event.target.value
       if (value && $event.target.type === 'number' && !isNaN(value)) {
-        value = parseFloat(value);
+        value = parseFloat(value)
       }
-      this.widget.config[parameter] = value;
+      this.widget.config[parameter] = value
     },
     remove() {
-      this.$emit('remove');
-    },
+      this.$emit('remove')
+    }
   },
   mounted() {
-    if (!this.widget) return;
-    const iconControl = this.$refs.icon;
-    if (!iconControl || !iconControl.$el) return;
-    const inputElement = Dom7(iconControl.$el).find('input');
-    this.initializeAutocomplete(inputElement);
+    if (!this.widget) return
+    const iconControl = this.$refs.icon
+    if (!iconControl || !iconControl.$el) return
+    const inputElement = Dom7(iconControl.$el).find('input')
+    this.initializeAutocomplete(inputElement)
   },
   beforeUnmount() {
     if (this.iconControl) {
-      f7.autocomplete.destroy(this.iconControl);
+      f7.autocomplete.destroy(this.iconControl)
     }
-  },
-};
+  }
+}
 </script>

@@ -73,7 +73,9 @@
         icon-md="material:close"
         icon-color="white"
         @click="showCheckboxes = false" />
-      <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
+      <div class="title" v-if="theme.md">
+        {{ selectedItems.length }} selected
+      </div>
       <div class="right" v-if="theme.md">
         <f7-link
           v-show="selectedItems.length"
@@ -259,33 +261,32 @@
 </style>
 
 <script>
-import ThingStatus from '@/components/thing/thing-status-mixin';
-import ClipboardIcon from '@/components/util/clipboard-icon.vue';
-import FileDefinition from '@/pages/settings/file-definition-mixin';
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
-import { defineAsyncComponent } from 'vue';
-import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
+import ThingStatus from '@/components/thing/thing-status-mixin'
+import ClipboardIcon from '@/components/util/clipboard-icon.vue'
+import FileDefinition from '@/pages/settings/file-definition-mixin'
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
+import { useLastSearchQueryStore } from '@/js/stores/last-search-query'
 import { useRuntimeStore } from '@/js/stores/runtime'
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
 import { mapStores } from 'pinia'
 
-const lastSearchQueryStore = useLastSearchQueryStore();
+const lastSearchQueryStore = useLastSearchQueryStore()
 
 export default {
   mixins: [ThingStatus, FileDefinition],
   props: {
     searchFor: String,
     f7route: Object,
-    f7router: Object,
+    f7router: Object
   },
   components: {
     'empty-state-placeholder': EmptyStatePlaceholder,
     ClipboardIcon
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -301,219 +302,219 @@ export default {
       showCheckboxes: false,
       groupBy: 'alphabetical',
       showNoLocation: false,
-      eventSource: null,
-    };
+      eventSource: null
+    }
   },
   computed: {
     indexedThings() {
-      const things = this.filteredThings;
+      const things = this.filteredThings
       if (this.groupBy === 'alphabetical') {
         return things.reduce((prev, thing, i, things) => {
-          const initial = (thing.label || thing.UID).substring(0, 1).toUpperCase();
+          const initial = (thing.label || thing.UID).substring(0, 1).toUpperCase()
           if (!prev[initial]) {
-            prev[initial] = [];
+            prev[initial] = []
           }
-          prev[initial].push(thing);
+          prev[initial].push(thing)
 
-          return prev;
-        }, {});
+          return prev
+        }, {})
       } else if (this.groupBy === 'binding') {
         const bindingGroups = things.reduce((prev, thing, i, things) => {
-          const binding = thing.thingTypeUID.split(':')[0];
+          const binding = thing.thingTypeUID.split(':')[0]
           if (!prev[binding]) {
-            prev[binding] = [];
+            prev[binding] = []
           }
-          prev[binding].push(thing);
+          prev[binding].push(thing)
 
-          return prev;
-        }, {});
+          return prev
+        }, {})
         return Object.keys(bindingGroups)
           .sort((a, b) => a.localeCompare(b))
           .reduce((objEntries, key) => {
-            objEntries[key] = bindingGroups[key];
-            return objEntries;
-          }, {});
+            objEntries[key] = bindingGroups[key]
+            return objEntries
+          }, {})
       } else {
         const locationGroups = things.reduce((prev, thing, i, things) => {
-          if (!thing.location && !this.showNoLocation) return prev;
-          const location = thing.location || '- No location -';
+          if (!thing.location && !this.showNoLocation) return prev
+          const location = thing.location || '- No location -'
           if (!prev[location]) {
-            prev[location] = [];
+            prev[location] = []
           }
-          prev[location].push(thing);
+          prev[location].push(thing)
 
-          return prev;
-        }, {});
+          return prev
+        }, {})
         return Object.keys(locationGroups)
           .sort((a, b) => a.localeCompare(b))
           .reduce((objEntries, key) => {
-            objEntries[key] = locationGroups[key];
-            return objEntries;
-          }, {});
+            objEntries[key] = locationGroups[key]
+            return objEntries
+          }, {})
       }
     },
     thingsCount() {
-      let sum = 0;
+      let sum = 0
       Object.keys(this.indexedThings).forEach(key => {
-        sum = sum + this.indexedThings[key].length;
-      });
-      return sum;
+        sum = sum + this.indexedThings[key].length
+      })
+      return sum
     },
     inboxCount() {
-      return this.inbox.length;
+      return this.inbox.length
     },
     allSelected() {
-      return this.selectedItems.length === this.filteredThings.length;
+      return this.selectedItems.length === this.filteredThings.length
     },
     searchPlaceholder() {
       return window.innerWidth >= 1280
         ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))'
-        : 'Search';
+        : 'Search'
     },
     listTitle() {
-      let title = this.filteredThings.length;
+      let title = this.filteredThings.length
       if (this.searchQuery) {
-        title += ` of ${this.things.length} Things found`;
+        title += ` of ${this.things.length} Things found`
       } else {
-        title += ' Things';
+        title += ' Things'
       }
       if (this.selectedItems.length > 0) {
-        title += `, ${this.selectedItems.length} selected`;
+        title += `, ${this.selectedItems.length} selected`
       }
-      return title;
+      return title
     },
     ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageAfterIn() {
-      this.load();
+      this.load()
     },
     onPageBeforeOut() {
-      this.stopEventSource();
-      lastSearchQueryStore.lastThingsSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+      this.stopEventSource()
+      lastSearchQueryStore.lastThingsSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query
     },
     load() {
-      if (this.loading) return;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
 
-      if (this.initSeachbar) lastSearchQueryStore.lastThingsSearchQuery = this.$refs.searchbar?.query;
-      this.initSeachbar = false;
+      if (this.initSeachbar) lastSearchQueryStore.lastThingsSearchQuery = this.$refs.searchbar?.query
+      this.initSeachbar = false
 
       if (this.searchFor) {
-        this.$refs.searchbar?.$inputEl.val(this.searchFor);
+        this.$refs.searchbar?.$inputEl.val(this.searchFor)
       }
 
       this.$oh.api.get('/rest/things?summary=true').then(data => {
-        this.things = data.sort((a, b) => (a.label || a.UID).localeCompare(b.label || a.UID));
-        this.filteredThings = this.things;
-        this.initSeachbar = true;
-        this.loading = false;
-        this.ready = true;
+        this.things = data.sort((a, b) => (a.label || a.UID).localeCompare(b.label || a.UID))
+        this.filteredThings = this.things
+        this.initSeachbar = true
+        this.loading = false
+        this.ready = true
         nextTick(() => {
-          if (this.$refs.listIndex) this.$refs.listIndex.update();
+          if (this.$refs.listIndex) this.$refs.listIndex.update()
           if (this.$device.desktop && this.$refs.searchbar) {
-            this.$refs.searchbar.$el.focus();
+            this.$refs.searchbar.$el.focus()
           }
           this.$refs.searchbar?.search(
             this.searchFor || lastSearchQueryStore.lastThingsSearchQuery || ''
-          );
-        });
-        if (!this.eventSource) this.startEventSource();
-      });
-      this.loadInbox();
+          )
+        })
+        if (!this.eventSource) this.startEventSource()
+      })
+      this.loadInbox()
     },
     loadInbox() {
       this.$oh.api.get('/rest/inbox?includeIgnored=false').then(data => {
-        this.inbox = data;
-      });
+        this.inbox = data
+      })
     },
     switchGroupOrder(groupBy) {
-      this.groupBy = groupBy;
-      const searchbar = this.$refs.searchbar.$el.f7Searchbar;
-      const filterQuery = searchbar.query;
+      this.groupBy = groupBy
+      const searchbar = this.$refs.searchbar.$el.f7Searchbar
+      const filterQuery = searchbar.query
       nextTick(() => {
         if (filterQuery) {
-          searchbar.clear();
-          searchbar.search(filterQuery);
+          searchbar.clear()
+          searchbar.search(filterQuery)
         }
-        if (groupBy === 'alphabetical') this.$refs.listIndex.update();
-      });
+        if (groupBy === 'alphabetical') this.$refs.listIndex.update()
+      })
     },
     toggleShowNoLocation() {
-      this.showNoLocation = !this.showNoLocation;
+      this.showNoLocation = !this.showNoLocation
     },
     toggleCheck() {
-      this.showCheckboxes = !this.showCheckboxes;
+      this.showCheckboxes = !this.showCheckboxes
     },
     selectDeselectAll() {
       if (this.selectedItems.length === this.filteredThings.length) {
-        this.selectedItems = [];
+        this.selectedItems = []
       } else {
-        this.selectedItems = this.filteredThings.map(t => t.UID);
+        this.selectedItems = this.filteredThings.map(t => t.UID)
       }
     },
     search(searchbar, query, previousQuery) {
-      this.searchQuery = query.trim().toLowerCase();
+      this.searchQuery = query.trim().toLowerCase()
       const searchTerms = this.searchQuery
         .split(',')
         .map(s => s.trim())
-        .filter(s => s);
+        .filter(s => s)
       if (!searchTerms.length) {
-        this.clearSearch();
-        return;
+        this.clearSearch()
+        return
       }
       this.filteredThings = this.things.filter(thing => {
         let haystack = [
           thing.UID,
           thing.label,
           thing.location,
-          this.thingStatusBadgeText(thing.statusInfo),
+          this.thingStatusBadgeText(thing.statusInfo)
         ]
           .filter(h => h)
           .join('|')
-          .toLowerCase();
-        return searchTerms.some(t => haystack.includes(t));
-      });
+          .toLowerCase()
+        return searchTerms.some(t => haystack.includes(t))
+      })
       this.selectedItems = this.selectedItems.filter(i =>
         this.filteredThings.find(thing => thing.UID === i)
-      );
+      )
     },
     clearSearch() {
-      this.searchQuery = null;
-      this.filteredThings = this.things;
+      this.searchQuery = null
+      this.filteredThings = this.things
     },
     isChecked(item) {
-      return this.selectedItems.indexOf(item) >= 0;
+      return this.selectedItems.indexOf(item) >= 0
     },
     click(event, item) {
       if (this.showCheckboxes) {
-        this.toggleItemCheck(event, item.UID, item);
+        this.toggleItemCheck(event, item.UID, item)
       } else {
-        this.f7router.navigate(item.UID);
+        this.f7router.navigate(item.UID)
       }
     },
     ctrlClick(event, item) {
-      this.toggleItemCheck(event, item.UID, item);
-      if (!this.selectedItems.length) this.showCheckboxes = false;
+      this.toggleItemCheck(event, item.UID, item)
+      if (!this.selectedItems.length) this.showCheckboxes = false
     },
     toggleItemCheck(event, item) {
-      if (!this.showCheckboxes) this.showCheckboxes = true;
+      if (!this.showCheckboxes) this.showCheckboxes = true
       if (this.isChecked(item)) {
-        this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
+        this.selectedItems.splice(this.selectedItems.indexOf(item), 1)
       } else {
-        this.selectedItems.push(item);
+        this.selectedItems.push(item)
       }
     },
     removeSelected() {
-      const vm = this;
+      const vm = this
 
       f7.dialog.confirm(
         `Remove ${this.selectedItems.length} selected things?`,
         'Remove Things',
         () => {
-          vm.doRemoveSelected();
+          vm.doRemoveSelected()
         }
-      );
+      )
     },
     doRemoveSelected() {
       if (
@@ -521,95 +522,95 @@ export default {
       ) {
         f7.dialog.alert(
           'Some of the selected things are not modifiable because they have been provisioned by files'
-        );
-        return;
+        )
+        return
       }
 
-      let dialog = f7.dialog.progress('Deleting Things...');
+      let dialog = f7.dialog.progress('Deleting Things...')
 
-      const promises = this.selectedItems.map(i => this.$oh.api.delete('/rest/things/' + i));
+      const promises = this.selectedItems.map(i => this.$oh.api.delete('/rest/things/' + i))
       Promise.all(promises)
         .then(data => {
           f7.toast
             .create({
               text: 'Things removed',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.selectedItems = [];
-          dialog.close();
-          this.load();
+            .open()
+          this.selectedItems = []
+          dialog.close()
+          this.load()
         })
         .catch(err => {
-          dialog.close();
-          this.load();
-          console.error(err);
-          f7.dialog.alert('An error occurred while deleting: ' + err);
-        });
+          dialog.close()
+          this.load()
+          console.error(err)
+          f7.dialog.alert('An error occurred while deleting: ' + err)
+        })
     },
     doDisableEnableSelected(enable) {
-      let dialog = f7.dialog.progress('Please Wait...');
+      let dialog = f7.dialog.progress('Please Wait...')
 
       const promises = this.selectedItems.map(i =>
         this.$oh.api.putPlain('/rest/things/' + i + '/enable', enable.toString())
-      );
+      )
       Promise.all(promises)
         .then(data => {
           f7.toast
             .create({
               text: enable ? 'Things enabled' : 'Things disabled',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.selectedItems = [];
-          dialog.close();
-          this.load();
+            .open()
+          this.selectedItems = []
+          dialog.close()
+          this.load()
         })
         .catch(err => {
-          dialog.close();
-          this.load();
-          console.error(err);
-          f7.dialog.alert('An error occurred while enabling/disabling: ' + err);
-        });
+          dialog.close()
+          this.load()
+          console.error(err)
+          f7.dialog.alert('An error occurred while enabling/disabling: ' + err)
+        })
     },
     startEventSource() {
       this.eventSource = this.$oh.sse.connect(
         '/rest/events?topics=openhab/things/*/added,openhab/things/*/removed,openhab/things/*/updated,openhab/things/*/status,openhab/inbox/*/added,openhab/inbox/*/removed',
         null,
         event => {
-          const topicParts = event.topic.split('/');
+          const topicParts = event.topic.split('/')
           if (topicParts[1] === 'inbox') {
-            this.loadInbox();
+            this.loadInbox()
           } else {
             switch (topicParts[3]) {
               case 'status':
-                const updatedThing = this.things.find(t => t.UID === topicParts[2]);
-                const newStatus = JSON.parse(event.payload);
+                const updatedThing = this.things.find(t => t.UID === topicParts[2])
+                const newStatus = JSON.parse(event.payload)
                 if (updatedThing) {
                   if (updatedThing.statusInfo.status !== newStatus.status)
-                    updatedThing.statusInfo.status = newStatus.status;
+                    updatedThing.statusInfo.status = newStatus.status
                   if (updatedThing.statusInfo.statusDetail !== newStatus.statusDetail)
-                    updatedThing.statusInfo.statusDetail = newStatus.statusDetail;
+                    updatedThing.statusInfo.statusDetail = newStatus.statusDetail
                   if (updatedThing.statusInfo.description !== newStatus.description)
-                    updatedThing.statusInfo.description = newStatus.description;
+                    updatedThing.statusInfo.description = newStatus.description
                 }
-                break;
+                break
               case 'added':
               case 'removed':
               case 'updated':
-                this.load();
-                break;
+                this.load()
+                break
             }
           }
         }
-      );
+      )
     },
     stopEventSource() {
-      this.$oh.sse.close(this.eventSource);
-      this.eventSource = null;
-    },
-  },
-};
+      this.$oh.sse.close(this.eventSource)
+      this.eventSource = null
+    }
+  }
+}
 </script>

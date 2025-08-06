@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { f7 } from 'framework7-vue';
+import { f7 } from 'framework7-vue'
 
 export default {
   props: ['title', 'name', 'value', 'multiple', 'required'],
@@ -35,27 +35,27 @@ export default {
       icons: {},
       smartSelectParams: {
         view: f7.view.main,
-        openIn: 'popover',
-      },
-    };
+        openIn: 'popover'
+      }
+    }
   },
   created() {
-    this.smartSelectParams.closeOnSelect = !this.multiple;
+    this.smartSelectParams.closeOnSelect = !this.multiple
     // TODO use a Vuex store
     this.$oh.api.get('/rest/persistence').then(data => {
       this.services = data.sort((a, b) => {
-        const labelA = a.label;
-        const labelB = b.label;
-        return labelA.localeCompare(labelB);
-      });
-      this.ready = true;
-    });
+        const labelA = a.label
+        const labelB = b.label
+        return labelA.localeCompare(labelB)
+      })
+      this.ready = true
+    })
   },
   methods: {
     select(e) {
-      f7.input.validateInputs(this.$refs.smartSelect.$el);
-      this.$emit('input', e.target.value);
-    },
-  },
-};
+      f7.input.validateInputs(this.$refs.smartSelect.$el)
+      this.$emit('input', e.target.value)
+    }
+  }
+}
 </script>

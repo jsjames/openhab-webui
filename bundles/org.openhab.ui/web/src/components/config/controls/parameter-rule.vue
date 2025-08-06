@@ -8,18 +8,18 @@
 </template>
 
 <script>
-import RulePicker from './rule-picker.vue';
+import RulePicker from './rule-picker.vue'
 
 export default {
   props: ['configDescription', 'value'],
   emits: ['input'],
   components: {
-    RulePicker,
+    RulePicker
   },
   methods: {
     updateValue(value) {
-      this.$emit('input', value);
-    },
-  },
-};
+      this.$emit('input', value)
+    }
+  }
+}
 </script>

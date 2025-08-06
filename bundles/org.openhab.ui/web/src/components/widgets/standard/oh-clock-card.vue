@@ -39,18 +39,18 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import { actionsMixin } from '../widget-actions';
-import OhCard from '@/components/widgets/standard/oh-card.vue';
-import OhClock from '../system/oh-clock.vue';
-import { OhClockCardDefinition } from '@/assets/definitions/widgets/standard/cards';
+import mixin from '../widget-mixin'
+import { actionsMixin } from '../widget-actions'
+import OhCard from '@/components/widgets/standard/oh-card.vue'
+import OhClock from '../system/oh-clock.vue'
+import { OhClockCardDefinition } from '@/assets/definitions/widgets/standard/cards'
 
 export default {
   mixins: [mixin, actionsMixin],
   components: {
     OhCard,
-    OhClock,
+    OhClock
   },
-  widget: OhClockCardDefinition,
-};
+  widget: OhClockCardDefinition
+}
 </script>

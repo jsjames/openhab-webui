@@ -187,19 +187,19 @@
 </style>
 
 <script>
-import mixin from '../../widget-mixin';
-import { actionsMixin } from '../../widget-actions';
-import { OhCellDefinition } from '@/assets/definitions/widgets/standard/cells';
-import OhTrend from '../../system/oh-trend.vue';
-import { Dom7, utils } from 'framework7';
-import { f7 } from 'framework7-vue';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { mapStores } from 'pinia';
+import mixin from '../../widget-mixin'
+import { actionsMixin } from '../../widget-actions'
+import { OhCellDefinition } from '@/assets/definitions/widgets/standard/cells'
+import OhTrend from '../../system/oh-trend.vue'
+import { Dom7, utils } from 'framework7'
+import { f7 } from 'framework7-vue'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { mapStores } from 'pinia'
 
 export default {
   mixins: [mixin, actionsMixin],
   components: {
-    OhTrend,
+    OhTrend
   },
   widget: OhCellDefinition,
   props: ['noSwipeToClose', 'state'],
@@ -208,31 +208,31 @@ export default {
       transitioning: false,
       opened: false,
       cardId: utils.id()
-    };
+    }
   },
   mounted() {
-    Dom7(this.$refs.card.$el).on('click', this.click);
-    Dom7(this.$refs.card.$el).on('taphold', this.openCell);
-    Dom7(this.$refs.card.$el).on('contextmenu', this.openCell);
-    window.addEventListener('popstate', this.back);
+    Dom7(this.$refs.card.$el).on('click', this.click)
+    Dom7(this.$refs.card.$el).on('taphold', this.openCell)
+    Dom7(this.$refs.card.$el).on('contextmenu', this.openCell)
+    window.addEventListener('popstate', this.back)
   },
   beforeUnmount() {
-    Dom7(this.$refs.card.$el).off('click');
-    Dom7(this.$refs.card.$el).off('taphold');
-    Dom7(this.$refs.card.$el).off('contextmenu');
-    window.removeEventListener('popstate', this.back);
+    Dom7(this.$refs.card.$el).off('click')
+    Dom7(this.$refs.card.$el).off('taphold')
+    Dom7(this.$refs.card.$el).off('contextmenu')
+    window.removeEventListener('popstate', this.back)
   },
   computed: {
     header() {
-      if (this.config.header) return this.config.header;
+      if (this.config.header) return this.config.header
       if (this.config.item && this.config.stateAsHeader) {
-        if (this.state) return this.state;
+        if (this.state) return this.state
         return (
           this.context.store[this.config.item].displayState ||
           this.context.store[this.config.item].state
-        );
+        )
       }
-      return null;
+      return null
     },
     hasExpandedControls() {
       return (
@@ -241,25 +241,25 @@ export default {
           (this.context.component.slots &&
             this.context.component.slots.default &&
             this.context.component.slots.default.length > 0))
-      );
+      )
     },
     isOn() {
-      if (this.config.on !== undefined) return this.config.on;
+      if (this.config.on !== undefined) return this.config.on
       if (this.config.item) {
-        const itemState = this.context.store[this.config.item].state;
-        if (itemState === 'ON') return true;
-        if (itemState === 'OFF') return false;
-        const stateParts = itemState.split(',');
+        const itemState = this.context.store[this.config.item].state
+        if (itemState === 'ON') return true
+        if (itemState === 'OFF') return false
+        const stateParts = itemState.split(',')
         if (stateParts.length === 3) {
-          return parseFloat(stateParts[2]) > 0;
+          return parseFloat(stateParts[2]) > 0
         } else {
-          if (!isNaN(parseFloat(stateParts[0]))) return parseFloat(stateParts[2]) > 0;
+          if (!isNaN(parseFloat(stateParts[0]))) return parseFloat(stateParts[2]) > 0
         }
-        return stateParts[0];
+        return stateParts[0]
       }
-      return false;
+      return false
     },
-    ...mapStores(useThemeOptionsStore),
+    ...mapStores(useThemeOptionsStore)
   },
   methods: {
     click(evt) {
@@ -269,54 +269,54 @@ export default {
         (Dom7(evt.target.parentElement).hasClass('cell-open-button') ||
           Dom7(evt.target.parentElement).hasClass('cell-close-button'))
       ) {
-        return;
+        return
       }
-      if (this.opened) return;
+      if (this.opened) return
       if (this.hasAction) {
-        this.performAction();
+        this.performAction()
       } else {
-        this.openCell();
+        this.openCell()
       }
-      return false;
+      return false
     },
     openCell(evt) {
-      if (evt && evt.preventDefault) evt.preventDefault();
-      if (this.context.editmode) return false;
-      if (!this.hasExpandedControls) return false;
-      f7.card.open(this.$refs.card.$el);
+      if (evt && evt.preventDefault) evt.preventDefault()
+      if (this.context.editmode) return false
+      if (!this.hasExpandedControls) return false
+      f7.card.open(this.$refs.card.$el)
       history.pushState(
         { cardId: this.cardId },
         null,
         window.location.href.split('#cell=')[0] +
           '#' +
           f7.utils.serializeObject({ cell: this.cardId })
-      );
-      return false;
+      )
+      return false
     },
     closeCell() {
-      if (this.context.editmode) return;
+      if (this.context.editmode) return
       setTimeout(() => {
-        f7.card.close(this.$refs.card.$el);
-      }, 100);
+        f7.card.close(this.$refs.card.$el)
+      }, 100)
     },
     cellOpen() {
-      this.transitioning = true;
+      this.transitioning = true
     },
     cellOpened() {
-      this.transitioning = false;
-      this.opened = true;
+      this.transitioning = false
+      this.opened = true
     },
     cellClose() {
-      if (history.state.cardId && history.state.cardId === this.cardId) history.back();
-      this.transitioning = true;
-      this.opened = false;
+      if (history.state.cardId && history.state.cardId === this.cardId) history.back()
+      this.transitioning = true
+      this.opened = false
     },
     cellClosed() {
-      this.transitioning = false;
+      this.transitioning = false
     },
     back(evt) {
-      if (this.opened) this.closeCell();
-    },
-  },
-};
+      if (this.opened) this.closeCell()
+    }
+  }
+}
 </script>

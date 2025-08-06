@@ -13,7 +13,7 @@
       :style="imgStyle"
       ref="svgLogo"
       :src="imageUrl('svg')"
-      :data-src="imageUrl('svg')" />
+      :data-src="imageUrl('svg')">
     <img
       v-else-if="!pngLogoError"
       class="logo"
@@ -21,15 +21,15 @@
       ref="pngLogo"
       :src="imageUrl('png')"
       @load="logoLoaded = true"
-      @error="pngLogoError = true" />
+      @error="pngLogoError = true">
   </div>
 </template>
 
 <script>
-import { AddonIcons } from '@/assets/addon-store';
-import Dom7 from 'dom7';
+import { AddonIcons } from '@/assets/addon-store'
+import Dom7 from 'dom7'
 
-import { useRuntimeStore } from '@/js/stores/runtime';
+import { useRuntimeStore } from '@/js/stores/runtime'
 
 export default {
   props: ['addon', 'size', 'lazy'],
@@ -38,32 +38,32 @@ export default {
       addonIcon: AddonIcons[this.addon.type],
       logoLoaded: false,
       svgLogoError: false,
-      pngLogoError: false,
-    };
+      pngLogoError: false
+    }
   },
   computed: {
     imgStyle() {
       return {
-        visibility: this.logoLoaded ? 'visible' : 'hidden',
-      };
-    },
+        visibility: this.logoLoaded ? 'visible' : 'hidden'
+      }
+    }
   },
   methods: {
     imageUrl(type) {
-      if (this.addon.imageLink) return this.addon.imageLink.replace(/^\/\//, 'https://');
-      let docsBranch = 'final';
+      if (this.addon.imageLink) return this.addon.imageLink.replace(/^\/\//, 'https://')
+      let docsBranch = 'final'
       if (useRuntimeStore().runtimeInfo.buildString === 'Release Build')
-        docsBranch = 'final-stable';
-      return `https://raw.githubusercontent.com/openhab/openhab-docs/${docsBranch}/images/addons/${this.addon.id}.${type}`;
-    },
+        docsBranch = 'final-stable'
+      return `https://raw.githubusercontent.com/openhab/openhab-docs/${docsBranch}/images/addons/${this.addon.id}.${type}`
+    }
   },
   mounted() {
     Dom7(this.$refs.svgLogo).once(this.lazy ? 'lazy:loaded' : 'load', e => {
-      this.logoLoaded = true;
-    });
+      this.logoLoaded = true
+    })
     Dom7(this.$refs.svgLogo).once(this.lazy ? 'lazy:error' : 'error', e => {
-      this.svgLogoError = true;
-    });
-  },
-};
+      this.svgLogoError = true
+    })
+  }
+}
 </script>

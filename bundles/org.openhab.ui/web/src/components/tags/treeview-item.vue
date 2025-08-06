@@ -40,27 +40,33 @@
         :moveState="moveState"
         :class="{ 'non-draggable': !childTag.editable }" />
     </draggable>
-    <div v-if="showSynonyms" slot="label" class="synonyms-class">
-      {{ synonyms }}
-    </div>
-    <f7-radio
-      slot="content-start"
-      name="semantic-tag-radio"
-      v-if="picker"
-      :checked="selected"
-      @change="select" />
-    <f7-badge
-      v-if="tag.description"
-      slot="content-end"
-      class="semantic-tag-tooltip-badge"
-      :tooltip="tooltip">
-      <f7-icon
-        class="tooltip-icon"
-        f7="info_circle"
-        ios="f7:info_circle"
-        md="material:info"
-        color="gray" />
-    </f7-badge>
+    <template #label>
+      <div v-if="showSynonyms" class="synonyms-class">
+        {{ synonyms }}
+      </div>
+    </template>
+    <template #content-start>
+      <f7-radio
+
+        name="semantic-tag-radio"
+        v-if="picker"
+        :checked="selected"
+        @change="select" />
+    </template>
+    <template #content-end>
+      <f7-badge
+        v-if="tag.description"
+
+        class="semantic-tag-tooltip-badge"
+        :tooltip="tooltip">
+        <f7-icon
+          class="tooltip-icon"
+          f7="info_circle"
+          ios="f7:info_circle"
+          md="material:info"
+          color="gray" />
+      </f7-badge>
+    </template>
   </f7-treeview-item>
 </template>
 

@@ -16,9 +16,15 @@
         </f7-nav-left>
         <f7-nav-title>Edit {{ widget.label || widget.uid }}{{ dirtyIndicator }}</f7-nav-title>
         <f7-nav-right>
-          <f7-link v-if="dirty" @click="reset"> Reset </f7-link>
-          <f7-link v-if="dirty" @click="save"> Save </f7-link>
-          <f7-link v-else popup-close> Close </f7-link>
+          <f7-link v-if="dirty" @click="reset">
+            Reset
+          </f7-link>
+          <f7-link v-if="dirty" @click="save">
+            Save
+          </f7-link>
+          <f7-link v-else popup-close>
+            Close
+          </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <f7-block v-if="widget.props && config" class="no-margin no-padding">
@@ -40,18 +46,18 @@
 </style>
 
 <script>
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import DirtyMixin from '@/pages/settings/dirty-mixin';
-import cloneDeep from 'lodash/cloneDeep';
-import fastDeepEqual from 'fast-deep-equal/es6';
-import MovablePopupMixin from '@/pages/settings/movable-popup-mixin';
-import { f7 } from 'framework7-vue';
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import DirtyMixin from '@/pages/settings/dirty-mixin'
+import cloneDeep from 'lodash/cloneDeep'
+import fastDeepEqual from 'fast-deep-equal/es6'
+import MovablePopupMixin from '@/pages/settings/movable-popup-mixin'
+import { f7 } from 'framework7-vue'
 
 export default {
   mixins: [DirtyMixin, MovablePopupMixin],
   props: ['opened', 'component', 'widget'],
   components: {
-    ConfigSheet,
+    ConfigSheet
   },
   emits: ['closed', 'update'],
   data() {
@@ -59,69 +65,69 @@ export default {
       originalConfig: null,
       updateTimer: null,
       leaveCancelled: false,
-      config: null,
-    };
+      config: null
+    }
   },
   methods: {
     widgetConfigOpened() {
-      this.config = cloneDeep(this.component.config);
-      this.originalConfig = cloneDeep(this.component.config);
-      this.initializeMovablePopup(this.$refs.widgetConfig, this.$refs.navbar);
-      window.addEventListener('keydown', this.onKeydown);
+      this.config = cloneDeep(this.component.config)
+      this.originalConfig = cloneDeep(this.component.config)
+      this.initializeMovablePopup(this.$refs.widgetConfig, this.$refs.navbar)
+      window.addEventListener('keydown', this.onKeydown)
     },
     widgetConfigClosed() {
-      this.cleanupMovablePopup();
-      window.removeEventListener('keydown', this.onKeydown);
-      f7.emit('widget-config-closed');
-      this.$emit('closed');
+      this.cleanupMovablePopup()
+      window.removeEventListener('keydown', this.onKeydown)
+      f7.emit('widget-config-closed')
+      this.$emit('closed')
     },
     onKeydown(evt) {
       if (evt.key === 'Escape' && !this.leaveCancelled) {
-        this.closeWithDirtyCheck();
+        this.closeWithDirtyCheck()
       }
     },
     closeWithDirtyCheck() {
       if (this.dirty) {
         const dialog = this.confirmLeaveWithoutSaving(
           () => {
-            this.updateWidgetConfig(this.originalConfig);
-            this.$refs.widgetConfig.close();
+            this.updateWidgetConfig(this.originalConfig)
+            this.$refs.widgetConfig.close()
           },
           () => {
             // prevent re-triggering the confirm dialog when ESC is pressed to close the dialog
-            this.leaveCancelled = true;
+            this.leaveCancelled = true
             setTimeout(() => {
-              this.leaveCancelled = false;
-            }, 100);
+              this.leaveCancelled = false
+            }, 100)
           }
-        );
+        )
       } else {
-        this.$refs.widgetConfig.close();
+        this.$refs.widgetConfig.close()
       }
     },
     reset() {
       f7.dialog.confirm('Do you want to revert your changes?', 'Revert Changes', () => {
-        this.config = cloneDeep(this.originalConfig);
-        this.updateWidgetConfig(this.originalConfig);
-        this.dirty = false;
-      });
+        this.config = cloneDeep(this.originalConfig)
+        this.updateWidgetConfig(this.originalConfig)
+        this.dirty = false
+      })
     },
     save() {
-      this.updateWidgetConfig(this.config);
-      this.$refs.widgetConfig.close();
+      this.updateWidgetConfig(this.config)
+      this.$refs.widgetConfig.close()
     },
     updateWidgetConfig(config) {
-      const newConfig = cloneDeep(config);
-      f7.emit('widget-config-update', newConfig);
-      this.$emit('update', newConfig);
+      const newConfig = cloneDeep(config)
+      f7.emit('widget-config-update', newConfig)
+      this.$emit('update', newConfig)
     },
     updated() {
-      this.dirty = !fastDeepEqual(this.config, this.originalConfig);
-      clearTimeout(this.updateTimer);
+      this.dirty = !fastDeepEqual(this.config, this.originalConfig)
+      clearTimeout(this.updateTimer)
       this.updateTimer = setTimeout(() => {
-        this.updateWidgetConfig(this.config);
-      }, 500);
-    },
-  },
-};
+        this.updateWidgetConfig(this.config)
+      }, 500)
+    }
+  }
+}
 </script>

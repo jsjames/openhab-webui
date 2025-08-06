@@ -146,14 +146,14 @@
 </style>
 
 <script>
-import ChannelGroup from './channel-group.vue';
-import ChannelLink from './channel-link.vue';
-import ItemForm from '@/components/item/item-form.vue';
-import ItemPicker from '@/components/config/controls/item-picker.vue';
+import ChannelGroup from './channel-group.vue'
+import ChannelLink from './channel-link.vue'
+import ItemForm from '@/components/item/item-form.vue'
+import ItemPicker from '@/components/config/controls/item-picker.vue'
 
-import uomMixin from '@/components/item/uom-mixin';
+import uomMixin from '@/components/item/uom-mixin'
 
-import cloneDeep from 'lodash/cloneDeep';
+import cloneDeep from 'lodash/cloneDeep'
 
 import { useSemanticsStore } from '@/js/stores/semantics'
 
@@ -177,7 +177,7 @@ export default {
     ChannelGroup,
     ChannelLink,
     ItemForm,
-    ItemPicker,
+    ItemPicker
   },
   emits: ['channels-updated', 'selected'],
   data() {
@@ -188,40 +188,40 @@ export default {
       openedChannel: null,
       selectedChannel: null,
       selectedChannels: [],
-      channelTypesMap: new Map(this.channelTypes.map(ct => [ct.UID, ct])),
-    };
+      channelTypesMap: new Map(this.channelTypes.map(ct => [ct.UID, ct]))
+    }
   },
   watch: {
     newItemsPrefix() {
       this.newItems.forEach(i => {
-        i.name = this.newItemName(i.channel, i.channelType);
-      });
-    },
+        i.name = this.newItemName(i.channel, i.channelType)
+      })
+    }
   },
   computed: {
     isExtensible() {
-      return this.thingType.extensibleChannelTypeIds.length > 0;
+      return this.thingType.extensibleChannelTypeIds.length > 0
     },
     channelGroups() {
-      if (!this.thing || !this.thingType || !this.channelTypes) return {};
+      if (!this.thing || !this.thingType || !this.channelTypes) return {}
       let groups = this.thingType.channelGroups.map(g => {
         return {
           id: g.id,
           label: g.label,
           description: g.description,
-          channels: [],
-        };
-      });
-      groups.push({ id: '', channels: [] });
+          channels: []
+        }
+      })
+      groups.push({ id: '', channels: [] })
 
       try {
         this.thing.channels.forEach(c => {
-          let groupIndex = groups.findIndex(g => g.id === c.id.split('#')[0]);
-          if (groupIndex < 0) groupIndex = groups.length - 1;
-          let channelType = this.channelTypesMap.get(c.channelTypeUID);
+          let groupIndex = groups.findIndex(g => g.id === c.id.split('#')[0])
+          if (groupIndex < 0) groupIndex = groups.length - 1
+          let channelType = this.channelTypesMap.get(c.channelTypeUID)
           if (!channelType) {
-            console.warn('Channel type ' + c.channelTypeUID + ' not found for channel ' + c.id);
-            return;
+            console.warn('Channel type ' + c.channelTypeUID + ' not found for channel ' + c.id)
+            return
           }
           if (this.showAdvanced || !channelType.advanced) {
             if (
@@ -234,94 +234,94 @@ export default {
                 channelType,
                 extensible:
                   this.thingType.extensibleChannelTypeIds.indexOf(c.channelTypeUID.split(':')[1]) >=
-                  0,
-              });
+                  0
+              })
             }
           }
-          if (channelType.advanced) groups[groupIndex].hasAdvanced = true;
-        });
+          if (channelType.advanced) groups[groupIndex].hasAdvanced = true
+        })
       } catch (e) {
-        console.warn(e);
+        console.warn(e)
       }
 
-      return groups;
+      return groups
     },
     hasAdvanced() {
-      return this.channelGroups.some(g => g.hasAdvanced);
-    },
+      return this.channelGroups.some(g => g.hasAdvanced)
+    }
   },
   methods: {
     toggleAdvanced(event) {
-      this.showAdvanced = !this.showAdvanced; // event.target.checked
+      this.showAdvanced = !this.showAdvanced // event.target.checked
     },
     toggleLinkFilter(val) {
-      this.showLinked = val;
-      const searchbar = this.$refs.searchbar.$el.f7Searchbar;
-      const filterQuery = searchbar.query;
+      this.showLinked = val
+      const searchbar = this.$refs.searchbar.$el.f7Searchbar
+      const filterQuery = searchbar.query
       nextTick(() => {
         if (filterQuery) {
-          searchbar.clear();
-          searchbar.search(filterQuery);
+          searchbar.clear()
+          searchbar.search(filterQuery)
         }
-      });
+      })
     },
     selectChannel(channel, channelType) {
       if (this.pickerMode) {
-        this.selectedChannel = channel;
+        this.selectedChannel = channel
       } else if (this.multipleLinksMode) {
-        this.toggleItemCheck(channel, channelType);
+        this.toggleItemCheck(channel, channelType)
       }
-      this.$emit('selected', channel, channelType);
+      this.$emit('selected', channel, channelType)
     },
     isChecked(channel) {
-      return this.selectedChannels.indexOf(channel) >= 0;
+      return this.selectedChannels.indexOf(channel) >= 0
     },
     hasLinks(channel) {
-      return channel.linkedItems && channel.linkedItems.length > 0;
+      return channel.linkedItems && channel.linkedItems.length > 0
     },
     toggleItemCheck(channel, channelType) {
       if (this.isChecked(channel)) {
-        this.selectedChannels.splice(this.selectedChannels.indexOf(channel), 1);
+        this.selectedChannels.splice(this.selectedChannels.indexOf(channel), 1)
         this.newItems.splice(
           this.newItems.findIndex(i => i.channel === channel),
           1
-        );
-        this.updatedItems.splice(this.updatedItems.findIndex(i => i.channel === channel));
+        )
+        this.updatedItems.splice(this.updatedItems.findIndex(i => i.channel === channel))
       } else {
-        this.selectedChannels.push(channel);
-        this.createNewItem(channel, channelType);
+        this.selectedChannels.push(channel)
+        this.createNewItem(channel, channelType)
       }
     },
     channelUnit(channel, channelType) {
       const dimension = channel.itemType.startsWith('Number:')
         ? channel.itemType.split(':')[1]
-        : '';
-      return dimension ? this.getUnitHint(dimension, channelType) : '';
+        : ''
+      return dimension ? this.getUnitHint(dimension, channelType) : ''
     },
     stateDescription(channelType) {
-      return channelType?.stateDescription?.pattern;
+      return channelType?.stateDescription?.pattern
     },
     toggleAllChecks(checked) {
       this.thing.channels.forEach(c => {
-        const channelType = this.channelTypesMap.get(c.channelTypeUID);
-        if (!channelType) return;
-        if (channelType.advanced && !this.showAdvanced) return;
-        if (this.showLinked === true && !this.hasLinks(c)) return;
-        if (this.showLinked === false && this.hasLinks(c)) return;
-        if (this.isChecked(c) === checked) return;
-        this.toggleItemCheck(c, channelType);
-      });
+        const channelType = this.channelTypesMap.get(c.channelTypeUID)
+        if (!channelType) return
+        if (channelType.advanced && !this.showAdvanced) return
+        if (this.showLinked === true && !this.hasLinks(c)) return
+        if (this.showLinked === false && this.hasLinks(c)) return
+        if (this.isChecked(c) === checked) return
+        this.toggleItemCheck(c, channelType)
+      })
       Dom7(this.$refs.channelList.$el)
         .find('input[type="checkbox"]')
         .forEach(i => {
-          Dom7(i).prop('checked', checked);
-        });
+          Dom7(i).prop('checked', checked)
+        })
     },
     newItem(channel) {
-      return this.newItems.find(i => i.channel === channel);
+      return this.newItems.find(i => i.channel === channel)
     },
     createNewItem(channel, channelType) {
-      const defaultTags = channel.defaultTags.length > 0 ? channel.defaultTags : channelType.tags;
+      const defaultTags = channel.defaultTags.length > 0 ? channel.defaultTags : channelType.tags
       const newItem = {
         channel,
         channelType,
@@ -333,14 +333,14 @@ export default {
         stateDescriptionPattern: '',
         tags: defaultTags.find(t => useSemanticsStore().Points.indexOf(t) >= 0)
           ? defaultTags
-          : [...defaultTags, 'Point'],
-      };
-      this.newItems.push(newItem);
+          : [...defaultTags, 'Point']
+      }
+      this.newItems.push(newItem)
     },
     newItemName(channel, channelType) {
-      let name = this.newItemsPrefix || this.$oh.utils.normalizeLabel(this.thing.label);
-      name += '_';
-      let suffix = channel.label || channelType.label || channel.id;
+      let name = this.newItemsPrefix || this.$oh.utils.normalizeLabel(this.thing.label)
+      name += '_'
+      let suffix = channel.label || channelType.label || channel.id
       if (
         this.thing.channels.filter(
           c =>
@@ -352,45 +352,45 @@ export default {
       ) {
         suffix = channel.id
           .replace('#', '_')
-          .replace(/(^\w{1})|(_+\w{1})/g, letter => letter.toUpperCase());
+          .replace(/(^\w{1})|(_+\w{1})/g, letter => letter.toUpperCase())
       }
-      name += this.$oh.utils.normalizeLabel(suffix);
-      return name;
+      name += this.$oh.utils.normalizeLabel(suffix)
+      return name
     },
     selectExistingItem(value, channel, channelType) {
-      const item = cloneDeep(this.items.find(i => i.name === value));
+      const item = cloneDeep(this.items.find(i => i.name === value))
       if (!item) {
         this.updatedItems.splice(
           this.updatedItems.findIndex(i => i.channel === channel),
           1
-        );
-        this.createNewItem(channel, channelType);
-        return;
+        )
+        this.createNewItem(channel, channelType)
+        return
       }
-      item.channel = channel;
+      item.channel = channel
       if (!item.tags) {
-        item.tags = [];
+        item.tags = []
       }
       const hasPointTag = item.tags.find(
         t => useSemanticsStore().Points.indexOf(t) >= 0
-      );
+      )
       if (!hasPointTag) {
-        const defaultTags = channel.defaultTags.length > 0 ? channel.defaultTags : channelType.tags;
+        const defaultTags = channel.defaultTags.length > 0 ? channel.defaultTags : channelType.tags
         item.tags = defaultTags.find(
           t => useSemanticsStore().Points.indexOf(t) >= 0
         )
           ? [...item.tags, ...defaultTags]
-          : [...item.tags, ...defaultTags, 'Point'];
+          : [...item.tags, ...defaultTags, 'Point']
       }
-      this.updatedItems.push(item);
+      this.updatedItems.push(item)
     },
     selectedItem(channel) {
-      return this.updatedItems.find(i => i.channel === channel);
+      return this.updatedItems.find(i => i.channel === channel)
     },
     channelOpened(payload) {
-      this.openedChannelId = payload.channelId;
-      this.openedChannel = payload.channel;
-    },
-  },
-};
+      this.openedChannelId = payload.channelId
+      this.openedChannel = payload.channel
+    }
+  }
+}
 </script>

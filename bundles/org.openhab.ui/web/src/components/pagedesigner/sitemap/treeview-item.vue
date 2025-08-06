@@ -58,8 +58,8 @@
 </style>
 
 <script>
-import SitemapMixin from '@/components/pagedesigner/sitemap/sitemap-mixin';
-import { VueDraggableNext as Draggable } from 'vue-draggable-next';
+import SitemapMixin from '@/components/pagedesigner/sitemap/sitemap-mixin'
+import { VueDraggableNext as Draggable } from 'vue-draggable-next'
 
 export default {
   name: 'sitemap-treeview-item',
@@ -71,81 +71,81 @@ export default {
     'itemsList',
     'selected',
     'sitemap',
-    'moveState',
+    'moveState'
   ],
   components: {
     Draggable,
-    SitemapTreeviewItem: 'sitemap-treeview-item',
+    SitemapTreeviewItem: 'sitemap-treeview-item'
   },
   emits: ['selected'],
   data() {
     return {
       localSitemap: this.sitemap ? this.sitemap : this.widget,
-      localMoveState: this.moveState ? this.moveState : {},
-    };
+      localMoveState: this.moveState ? this.moveState : {}
+    }
   },
   methods: {
     subtitle() {
-      return this.widgetTypeLabel() + this.widgetConfigDescription(this.includeItemName);
+      return this.widgetTypeLabel() + this.widgetConfigDescription(this.includeItemName)
     },
     select(event) {
-      let self = this;
-      if (Dom7(event.target).is('.treeview-toggle')) return;
-      this.$emit('selected', [this.widget, this.parentWidget]);
+      let self = this
+      if (Dom7(event.target).is('.treeview-toggle')) return
+      this.$emit('selected', [this.widget, this.parentWidget])
     },
     onStart(event) {
-      console.debug('Drag start event:', event);
-      this.localMoveState.moving = true;
-      this.localMoveState.widget = this.widget.slots.widgets[event.oldIndex];
-      this.localMoveState.newParent = this.parentWidget;
+      console.debug('Drag start event:', event)
+      this.localMoveState.moving = true
+      this.localMoveState.widget = this.widget.slots.widgets[event.oldIndex]
+      this.localMoveState.newParent = this.parentWidget
     },
     onMove(event) {
-      console.debug('Drag move event:', event);
-      const newParent = event.relatedContext?.element?.parent;
+      console.debug('Drag move event:', event)
+      const newParent = event.relatedContext?.element?.parent
       if (newParent) {
-        this.localMoveState.newParent = newParent;
+        this.localMoveState.newParent = newParent
       }
     },
     onEnd(event) {
-      console.debug('Drag end event:', event);
-      const widget = this.localMoveState.widget;
-      const parentWidget = this.localMoveState.newParent;
+      console.debug('Drag end event:', event)
+      const widget = this.localMoveState.widget
+      const parentWidget = this.localMoveState.newParent
       if (widget && parentWidget) {
-        widget.parent = parentWidget;
+        widget.parent = parentWidget
       }
-      this.localMoveState.moving = false;
-      this.localMoveState.widget = null;
-      this.localMoveState.newParent = null;
+      this.localMoveState.moving = false
+      this.localMoveState.widget = null
+      this.localMoveState.newParent = null
     },
     dropAllowed(widget) {
-      if (!this.canAddChildren(widget)) return false;
+      if (!this.canAddChildren(widget)) return false
       if (
         !this.localMoveState.widget ||
         this.allowedWidgetTypes(widget)
           .map(wt => wt.type)
           .includes(this.localMoveState.widget.component)
       ) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     setWidgetClosed(closed) {
-      this.widget.closed = closed;
-    },
+      this.widget.closed = closed
+    }
   },
   computed: {
     iconColor() {
-      return '';
+      return ''
     },
     children() {
-      return this.widget.slots?.widgets || [];
+      return this.widget.slots?.widgets || []
     },
     canHaveChildren() {
       return (
         (this.LINKABLE_WIDGET_TYPES.includes(this.widget.component) &&
           (this.children.length > 0 || this.localMoveState.moving)) === true
-      );
-    },
-  },
-};
+      )
+    }
+  }
+}
 </script>

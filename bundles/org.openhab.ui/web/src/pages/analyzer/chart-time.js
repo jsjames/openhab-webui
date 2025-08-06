@@ -85,20 +85,20 @@ export default {
       const markLine =
         seriesOptions.markers === 'avg' || seriesOptions.markers === 'all'
           ? {
-              data: [{ type: 'average' }]
-            }
+            data: [{ type: 'average' }]
+          }
           : undefined
       const markPoint =
         seriesOptions.markers === 'min-max' || seriesOptions.markers === 'all'
           ? {
-              label: {
-                backgroundColor: 'auto'
-              },
-              data: [
-                { type: 'min', name: 'min' },
-                { type: 'max', name: 'max' }
-              ]
-            }
+            label: {
+              backgroundColor: 'auto'
+            },
+            data: [
+              { type: 'min', name: 'min' },
+              { type: 'max', name: 'max' }
+            ]
+          }
           : undefined
 
       return {

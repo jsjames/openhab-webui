@@ -63,8 +63,8 @@
 </style>
 
 <script>
-import ModelPickerPopup from '@/components/model/model-picker-popup.vue';
-import { f7, theme } from 'framework7-vue';
+import ModelPickerPopup from '@/components/model/model-picker-popup.vue'
+import { f7, theme } from 'framework7-vue'
 
 export default {
   props: [
@@ -84,7 +84,7 @@ export default {
     'iosIcon',
     'mdIcon',
     'textColor',
-    'hideIcon',
+    'hideIcon'
   ],
   emits: ['input', 'item-selected'],
   data() {
@@ -101,86 +101,86 @@ export default {
         searchbar: true,
         searchbarPlaceholder: this.$t('dialogs.search.items'),
         virtualList: true,
-        virtualListHeight: theme.aurora ? 32 : undefined,
-      },
-    };
+        virtualListHeight: theme.aurora ? 32 : undefined
+      }
+    }
   },
   created() {
-    this.smartSelectParams.closeOnSelect = !this.multiple;
-    if (this.setValueText === false) this.smartSelectParams.setValueText = false;
+    this.smartSelectParams.closeOnSelect = !this.multiple
+    if (this.setValueText === false) this.smartSelectParams.setValueText = false
     if (!this.items || !this.items.length) {
       this.$oh.api.get('/rest/items?staticDataOnly=true').then(items => {
-        this.sortAndFilterItems(items);
-      });
+        this.sortAndFilterItems(items)
+      })
     } else {
-      this.sortAndFilterItems(this.items);
+      this.sortAndFilterItems(this.items)
     }
   },
   methods: {
     sortAndFilterItems(items) {
       this.preparedItems = items.sort((a, b) => {
-        const labelA = a.label || a.name;
-        const labelB = b.label || b.name;
-        return labelA.localeCompare(labelB);
-      });
+        const labelA = a.label || a.name
+        const labelB = b.label || b.name
+        return labelA.localeCompare(labelB)
+      })
       if (this.filterType && this.filterType.length) {
         if (Array.isArray(this.filterType)) {
           this.preparedItems = this.preparedItems.filter(
             i =>
               this.filterType.includes(i.type.split(':', 1)[0]) ||
               (i.type === 'Group' && this.filterType.includes(i.groupType))
-          );
+          )
         } else {
           this.preparedItems = this.preparedItems.filter(
             i =>
               i.type === this.filterType ||
               (i.type === 'Group' && this.filterType.includes(i.groupType))
-          );
+          )
         }
       }
       if (this.editableOnly) {
-        this.preparedItems = this.preparedItems.filter(i => i.editable);
+        this.preparedItems = this.preparedItems.filter(i => i.editable)
       }
-      this.ready = true;
+      this.ready = true
     },
     select(e) {
-      f7.input.validateInputs(this.$refs.smartSelect.$el);
-      const value = this.$refs.smartSelect.f7SmartSelect.getValue();
-      this.$emit('input', value);
+      f7.input.validateInputs(this.$refs.smartSelect.$el)
+      const value = this.$refs.smartSelect.$el.f7SmartSelect.getValue()
+      this.$emit('input', value)
       if (!this.multiple)
         this.$emit(
           'item-selected',
           this.preparedItems.find(i => i.name === value)
-        );
+        )
     },
     updateFromModelPicker(value) {
       if (this.multiple) {
         this.$emit(
           'input',
           value.map(i => i.name)
-        );
+        )
       } else {
-        this.$emit('input', value.name);
-        this.$emit('item-selected', value);
+        this.$emit('input', value.name)
+        this.$emit('item-selected', value)
       }
-      this.ready = false;
+      this.ready = false
       nextTick(() => {
-        this.ready = true;
-      });
+        this.ready = true
+      })
     },
     pickFromModel(evt) {
-      evt.cancelBubble = true;
+      evt.cancelBubble = true
       const popup = {
-        component: ModelPickerPopup,
-      };
+        component: ModelPickerPopup
+      }
 
       props.f7router.navigate(
         {
           url: 'pick-from-model',
           route: {
             path: 'pick-from-model',
-            popup,
-          },
+            popup
+          }
         },
         {
           props: {
@@ -189,16 +189,16 @@ export default {
             allowEmpty: true,
             popupTitle: this.title,
             groupsOnly: this.filterType && this.filterType === 'Group',
-            editableOnly: this.editableOnly,
-          },
+            editableOnly: this.editableOnly
+          }
         }
-      );
+      )
 
-      f7.once('items-picked', this.updateFromModelPicker);
+      f7.once('items-picked', this.updateFromModelPicker)
       f7.once('model-picker-closed', () => {
-        f7.off('items-picked', this.updateFromModelPicker);
-      });
-    },
-  },
-};
+        f7.off('items-picked', this.updateFromModelPicker)
+      })
+    }
+  }
+}
 </script>

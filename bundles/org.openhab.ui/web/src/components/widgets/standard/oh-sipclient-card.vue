@@ -7,17 +7,17 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import OhCard from '@/components/widgets/standard/oh-card.vue';
-import OhSipclient from '../system/oh-sipclient.vue';
-import { OhSIPClientCardDefinition } from '@/assets/definitions/widgets/standard/cards';
+import mixin from '../widget-mixin'
+import OhCard from '@/components/widgets/standard/oh-card.vue'
+import OhSipclient from '../system/oh-sipclient.vue'
+import { OhSIPClientCardDefinition } from '@/assets/definitions/widgets/standard/cards'
 
 export default {
   mixins: [mixin],
   components: {
     OhCard,
-    OhSipclient,
+    OhSipclient
   },
-  widget: OhSIPClientCardDefinition,
-};
+  widget: OhSIPClientCardDefinition
+}
 </script>

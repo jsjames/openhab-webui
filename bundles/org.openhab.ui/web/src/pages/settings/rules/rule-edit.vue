@@ -37,21 +37,21 @@
       <f7-link
         @click="switchTab('design', fromYaml)"
         :tab-link-active="currentTab === 'design'"
-        class="tab-link">
+        tab-link="#design">
         Design
       </f7-link>
       <f7-link
         v-if="ready && !(hasSource && hasOpaqueModule)"
         @click="switchTab('code', toYaml)"
         :tab-link-active="currentTab === 'code'"
-        class="tab-link">
+        tab-link="#code">
         Code
       </f7-link>
       <f7-link
         v-if="ready && hasSource"
         @click="switchTab('source')"
         :tab-link-active="currentTab === 'source'"
-        class="tab-link">
+        tab-link="#source">
         Source
       </f7-link>
     </f7-toolbar>
@@ -80,7 +80,7 @@
                 :color="rule.status.statusDetail === 'DISABLED' ? 'orange' : 'gray'"
                 :tooltip="
                   (rule.status.statusDetail === 'DISABLED' ? 'Enable' : 'Disable') +
-                  ($device.desktop ? ' (Ctrl-D)' : '')
+                    ($device.desktop ? ' (Ctrl-D)' : '')
                 "
                 icon-ios="f7:pause_circle"
                 icon-md="f7:pause_circle"
@@ -105,7 +105,7 @@
               <strong>{{
                 rule.status.statusDetail !== 'NONE' ? rule.status.statusDetail : '&nbsp;'
               }}</strong>
-              <br />
+              <br>
               <div v-if="rule.status.description">
                 {{ rule.status.description }}
               </div>
@@ -122,7 +122,7 @@
             <f7-chip class="margin-left" text="________" />
             <div>
               <strong>____ _______</strong>
-              <br />
+              <br>
             </div>
           </f7-col>
         </f7-block>
@@ -143,7 +143,9 @@
           <f7-col
             v-if="createMode && templates.length > 0 && !ruleCopy"
             class="new-rule-from-template">
-            <f7-block-title medium class="margin-bottom"> Create from Template </f7-block-title>
+            <f7-block-title medium class="margin-bottom">
+              Create from Template
+            </f7-block-title>
             <f7-list media-list>
               <f7-list-item
                 title="No template"
@@ -154,7 +156,9 @@
                 :value="''"
                 @change="selectTemplate(null)" />
             </f7-list>
-            <f7-block-footer class="margin-left"> or choose a rule template: </f7-block-footer>
+            <f7-block-footer class="margin-left">
+              or choose a rule template:
+            </f7-block-footer>
             <f7-list media-list>
               <f7-list-item
                 :key="template.uid"
@@ -185,7 +189,9 @@
               :configuration="rule.configuration" />
           </f7-col>
           <f7-col v-else-if="currentTemplate && stubMode" class="show-associated-template">
-            <f7-block-title medium class="margin-vertical padding-top"> Template </f7-block-title>
+            <f7-block-title medium class="margin-vertical padding-top">
+              Template
+            </f7-block-title>
             <f7-list media-list>
               <f7-list-item
                 :title="currentTemplate.label"
@@ -211,7 +217,9 @@
           <f7-col
             v-else-if="currentTemplate && createMode && ruleCopy?.templateUID"
             class="select-integrate-template">
-            <f7-block-title medium class="margin-vertical padding-top"> Template </f7-block-title>
+            <f7-block-title medium class="margin-vertical padding-top">
+              Template
+            </f7-block-title>
             <f7-list media-list>
               <f7-list-item
                 :title="'Keep template: ' + currentTemplate.label"
@@ -435,22 +443,22 @@
 </style>
 
 <script>
-import YAML from 'yaml';
-import cloneDeep from 'lodash/cloneDeep';
-import fastDeepEqual from 'fast-deep-equal/es6';
-import { f7, theme } from 'framework7-vue';
-import { nextTick, defineAsyncComponent } from 'vue';
+import YAML from 'yaml'
+import cloneDeep from 'lodash/cloneDeep'
+import fastDeepEqual from 'fast-deep-equal/es6'
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
 
-import RuleModulePopup from './rule-module-popup.vue';
+import RuleModulePopup from './rule-module-popup.vue'
 
-import RuleMixin from './rule-edit-mixin';
-import ModuleDescriptionSuggestions from './module-description-suggestions';
-import RuleStatus from '@/components/rule/rule-status-mixin';
-import DirtyMixin from '../dirty-mixin';
+import RuleMixin from './rule-edit-mixin'
+import ModuleDescriptionSuggestions from './module-description-suggestions'
+import RuleStatus from '@/components/rule/rule-status-mixin'
+import DirtyMixin from '../dirty-mixin'
 
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import RuleGeneralSettings from '@/components/rule/rule-general-settings.vue';
-import AUTOMATION_LANGUAGES from '@/assets/automation-languages';
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import RuleGeneralSettings from '@/components/rule/rule-general-settings.vue'
+import AUTOMATION_LANGUAGES from '@/assets/automation-languages'
 
 export default {
   mixins: [RuleMixin, ModuleDescriptionSuggestions, RuleStatus, DirtyMixin],
@@ -462,7 +470,7 @@ export default {
         import(
           /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
         )
-    ),
+    )
   },
   props: {
     ruleId: String,
@@ -471,10 +479,10 @@ export default {
     stubMode: Boolean,
     schedule: Object,
     f7router: Object,
-    f7route: Object,
+    f7route: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -484,8 +492,8 @@ export default {
         conditions: [
           'But only if',
           'Conditions that must be matched for the actions of this rule to run',
-          'Add Condition',
-        ],
+          'Add Condition'
+        ]
       },
 
       ready: false,
@@ -497,7 +505,7 @@ export default {
       moduleTypes: {
         actions: [],
         conditions: [],
-        triggers: [],
+        triggers: []
       },
       currentSection: 'actions',
       currentModuleType: null,
@@ -510,8 +518,8 @@ export default {
       scriptCode: '',
       cronExpression: null,
       templates: null,
-      currentTemplate: null,
-    };
+      currentTemplate: null
+    }
   },
   watch: {
     rule: {
@@ -520,45 +528,45 @@ export default {
           // ignore changes during loading
           // create rule object clone in order to be able to delete status part
           // which can change from eventsource but doesn't mean a rule modification
-          let ruleClone = cloneDeep(this.rule);
-          delete ruleClone.status;
-          delete this.savedRule.status;
+          let ruleClone = cloneDeep(this.rule)
+          delete ruleClone.status
+          delete this.savedRule.status
 
-          this.dirty = !fastDeepEqual(ruleClone, this.savedRule);
+          this.dirty = !fastDeepEqual(ruleClone, this.savedRule)
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     load() {
-      if (this.loading) return;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
 
       const loadingFinished = () => {
         nextTick(() => {
-          this.savedRule = cloneDeep(this.rule);
-          this.ready = true;
-          this.loading = false;
+          this.savedRule = cloneDeep(this.rule)
+          this.ready = true
+          this.loading = false
           if (!this.createMode && !this.stubMode && this.hasOpaqueModule && this.hasSource) {
-            this.switchTab('source');
+            this.switchTab('source')
           }
-        });
-      };
+        })
+      }
 
       this.$oh.api.get('/rest/module-types?asMap=true').then(data => {
-        this.moduleTypes = data;
+        this.moduleTypes = data
         if (this.createMode) {
-          let newRule;
+          let newRule
           if (this.ruleCopy) {
-            newRule = cloneDeep(this.ruleCopy);
-            newRule.uid = f7.utils.id();
+            newRule = cloneDeep(this.ruleCopy)
+            newRule.uid = f7.utils.id()
             if (newRule.templateUID) {
-              newRule.triggers = [];
-              newRule.actions = [];
-              newRule.conditions = [];
+              newRule.triggers = []
+              newRule.actions = []
+              newRule.conditions = []
               if (newRule.templateState === 'instantiated') {
-                newRule.templateState = 'pending';
+                newRule.templateState = 'pending'
               }
             }
           } else {
@@ -573,144 +581,144 @@ export default {
               templateUID: null,
               visibility: 'VISIBLE',
               status: {
-                status: 'NEW',
-              },
-            };
+                status: 'NEW'
+              }
+            }
           }
-          this.rule = newRule;
+          this.rule = newRule
           this.$oh.api.get('/rest/templates').then(templateData => {
-            this.templates = templateData;
+            this.templates = templateData
             if (newRule.templateUID) {
               const currentTemplate = templateData.find(t => t.uid === newRule.templateUID) || {
                 uid: newRule.templateUID,
-                label: newRule.templateUID,
-              };
-              this.currentTemplate = currentTemplate;
+                label: newRule.templateUID
+              }
+              this.currentTemplate = currentTemplate
             }
-            loadingFinished();
-          });
+            loadingFinished()
+          })
           // no need for an event source, the rule doesn't exist yet
         } else if (this.stubMode) {
           if (!this.ruleCopy || !this.ruleCopy.templateUID) {
             f7.toast
               .create({
                 text: !this.ruleCopy
-                  ? "Failed to create rule stub because there's no source rule"
-                  : "Failed to create rule stub because there's no template UID",
+                  ? 'Failed to create rule stub because there\'s no source rule'
+                  : 'Failed to create rule stub because there\'s no template UID',
                 destroyOnClose: true,
-                closeTimeout: 4000,
+                closeTimeout: 4000
               })
-              .open();
-            this.f7router.back();
+              .open()
+            this.f7router.back()
           }
-          const ruleStub = this.ruleCopy;
-          ruleStub.triggers = [];
-          ruleStub.actions = [];
-          ruleStub.conditions = [];
-          ruleStub.templateState = 'pending';
-          this.rule = ruleStub;
+          const ruleStub = this.ruleCopy
+          ruleStub.triggers = []
+          ruleStub.actions = []
+          ruleStub.conditions = []
+          ruleStub.templateState = 'pending'
+          this.rule = ruleStub
           this.$oh.api.get('/rest/templates').then(templateData => {
-            this.templates = templateData;
-            let template = this.templates.find(t => t.uid === ruleStub.templateUID);
+            this.templates = templateData
+            let template = this.templates.find(t => t.uid === ruleStub.templateUID)
             if (!template) {
               f7.toast
                 .create({
                   text: 'Template "' + ruleStub.templateUID + '" not found',
                   destroyOnClose: true,
-                  closeTimeout: 4000,
+                  closeTimeout: 4000
                 })
-                .open();
-              this.f7router.back();
+                .open()
+              this.f7router.back()
             }
-            this.currentTemplate = template;
-            loadingFinished();
-          });
+            this.currentTemplate = template
+            loadingFinished()
+          })
           // no need for an event source, we're going to overwrite the existing rule
         } else {
           this.$oh.api.get('/rest/rules/' + this.ruleId).then(data2 => {
-            this.rule = data2;
+            this.rule = data2
             if (data2.templateUID) {
               this.$oh.api.get('/rest/templates').then(templateData => {
-                this.templates = templateData;
-                if (!this.eventSource) this.startEventSource();
-                loadingFinished();
-              });
+                this.templates = templateData
+                if (!this.eventSource) this.startEventSource()
+                loadingFinished()
+              })
             } else {
-              if (!this.eventSource) this.startEventSource();
-              loadingFinished();
+              if (!this.eventSource) this.startEventSource()
+              loadingFinished()
             }
-          });
+          })
         }
-      });
+      })
     },
     save(noToast) {
-      if (!this.isEditable) return Promise.reject();
+      if (!this.isEditable) return Promise.reject()
       if (this.currentTab === 'code') {
         if (!this.fromYaml()) {
-          return Promise.reject();
+          return Promise.reject()
         }
       }
       if (!this.rule.uid) {
-        f7.dialog.alert('Please give an ID to the rule');
-        return Promise.reject();
+        f7.dialog.alert('Please give an ID to the rule')
+        return Promise.reject()
       }
       if (!this.rule.name) {
-        f7.dialog.alert('Please give a name to the rule');
-        return Promise.reject();
+        f7.dialog.alert('Please give a name to the rule')
+        return Promise.reject()
       }
       const promise = this.createMode
         ? this.$oh.api.postPlain(
-            '/rest/rules',
-            JSON.stringify(this.rule),
-            'text/plain',
-            'application/json'
-          )
-        : this.$oh.api.put('/rest/rules/' + this.rule.uid, this.rule);
+          '/rest/rules',
+          JSON.stringify(this.rule),
+          'text/plain',
+          'application/json'
+        )
+        : this.$oh.api.put('/rest/rules/' + this.rule.uid, this.rule)
       return promise
         .then(data => {
-          this.dirty = false;
+          this.dirty = false
           if (this.createMode) {
             f7.toast
               .create({
                 text: 'Rule created',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
+              .open()
             this.f7router.navigate(
               this.f7route.url
                 .replace('/add', '/' + this.rule.uid)
                 .replace('/duplicate', '/' + this.rule.uid)
                 .replace('/schedule/', '/rules/'),
               { reloadCurrent: true }
-            );
-            this.load();
+            )
+            this.load()
           } else if (this.stubMode) {
             f7.toast
               .create({
                 text: 'Rule regenerated',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
+              .open()
             this.f7router.navigate(
               this.f7route.url
                 .replace('/stub', '/' + this.rule.uid)
                 .replace('/schedule/', '/rules/'),
               { reloadCurrent: true }
-            );
-            this.load();
+            )
+            this.load()
           } else {
             if (!noToast) {
               f7.toast
                 .create({
                   text: 'Rule updated',
                   destroyOnClose: true,
-                  closeTimeout: 2000,
+                  closeTimeout: 2000
                 })
-                .open();
+                .open()
             }
-            this.savedRule = cloneDeep(this.rule);
+            this.savedRule = cloneDeep(this.rule)
           }
           // if (!stay) this.f7router.back()
         })
@@ -719,29 +727,29 @@ export default {
             .create({
               text: 'Error while saving rule: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     duplicateRule() {
-      let ruleClone = cloneDeep(this.rule);
-      ruleClone.name = (ruleClone.name || '') + ' copy';
-      ruleClone.editable = true;
+      let ruleClone = cloneDeep(this.rule)
+      ruleClone.name = (ruleClone.name || '') + ' copy'
+      ruleClone.editable = true
       this.f7router.navigate(
         {
-          url: '/settings/rules/duplicate',
+          url: '/settings/rules/duplicate'
         },
         {
           props: {
-            ruleCopy: ruleClone,
-          },
+            ruleCopy: ruleClone
+          }
         }
-      );
+      )
     },
     regenerateFromTemplate() {
       if (this.isEditable) {
-        this.createStub();
+        this.createStub()
       } else {
         this.$oh.api
           .postPlain('/rest/rules/' + this.rule.uid + '/regenerate')
@@ -750,10 +758,10 @@ export default {
               .create({
                 text: 'Rule regenerated from template',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
-            this.load();
+              .open()
+            this.load()
           })
           .catch(err => {
             f7.dialog.alert(
@@ -761,44 +769,44 @@ export default {
                 this.rule.uid +
                 '" from template: ' +
                 err
-            );
-          });
+            )
+          })
       }
     },
     createStub() {
-      let ruleClone = cloneDeep(this.rule);
+      let ruleClone = cloneDeep(this.rule)
       this.f7router.navigate(
         {
-          url: '/settings/rules/stub',
+          url: '/settings/rules/stub'
         },
         {
           reloadCurrent: true,
           props: {
-            ruleCopy: ruleClone,
-          },
+            ruleCopy: ruleClone
+          }
         }
-      );
+      )
     },
     runNow() {
-      if (this.createMode) return;
+      if (this.createMode) return
       if (this.rule.status.status === 'RUNNING' || this.rule.status.status === 'UNINITIALIZED') {
         return f7.toast
           .create({
             text: `Rule cannot be run ${this.rule.status.status === 'RUNNING' ? 'while already running, please wait' : 'if it is uninitialized'}!`,
             destroyOnClose: true,
-            closeTimeout: 2000,
+            closeTimeout: 2000
           })
-          .open();
+          .open()
       }
       f7.toast
         .create({
           text: 'Running rule',
           destroyOnClose: true,
-          closeTimeout: 2000,
+          closeTimeout: 2000
         })
-        .open();
+        .open()
 
-      const savePromise = this.isEditable && this.dirty ? this.save(true) : Promise.resolve();
+      const savePromise = this.isEditable && this.dirty ? this.save(true) : Promise.resolve()
 
       savePromise.then(() => {
         this.$oh.api.postPlain('/rest/rules/' + this.rule.uid + '/runnow', '').catch(err => {
@@ -806,96 +814,96 @@ export default {
             .create({
               text: 'Error while running rule: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
-      });
+            .open()
+        })
+      })
     },
     deleteRule() {
       f7.dialog.confirm(`Are you sure you want to delete ${this.rule.name}?`, 'Delete Rule', () => {
         this.$oh.api.delete('/rest/rules/' + this.rule.uid).then(() => {
-          this.dirty = false;
-          this.f7router.back('/settings/rules/', { force: true });
-        });
-      });
+          this.dirty = false
+          this.f7router.back('/settings/rules/', { force: true })
+        })
+      })
     },
     selectTemplate(uid) {
-      this.rule.configuration = {};
-      this.rule.triggers = [];
-      this.rule.conditions = [];
-      this.rule.actions = [];
+      this.rule.configuration = {}
+      this.rule.triggers = []
+      this.rule.conditions = []
+      this.rule.actions = []
       if (!uid) {
-        this.currentTemplate = null;
-        return;
+        this.currentTemplate = null
+        return
       }
-      this.currentTemplate = this.templates.find(t => t.uid === uid);
-      this.rule.templateUID = uid;
-      this.rule.templateState = 'pending';
+      this.currentTemplate = this.templates.find(t => t.uid === uid)
+      this.rule.templateUID = uid
+      this.rule.templateState = 'pending'
     },
     keepTemplate(keep) {
-      if (!this.ruleCopy) return;
-      let newRule = this.rule;
+      if (!this.ruleCopy) return
+      let newRule = this.rule
       if (keep) {
-        newRule.triggers = [];
-        newRule.actions = [];
-        newRule.conditions = [];
-        newRule.configuration = this.ruleCopy.configuration;
-        newRule.templateUID = this.ruleCopy.templateUID;
-        newRule.templateState = 'pending';
+        newRule.triggers = []
+        newRule.actions = []
+        newRule.conditions = []
+        newRule.configuration = this.ruleCopy.configuration
+        newRule.templateUID = this.ruleCopy.templateUID
+        newRule.templateState = 'pending'
         if (!newRule.tags?.some(t => t.indexOf('marketplace:') === 0)) {
-          const tag = this.ruleCopy.tags?.find(t => t.indexOf('marketplace:') === 0);
+          const tag = this.ruleCopy.tags?.find(t => t.indexOf('marketplace:') === 0)
           if (tag) {
             if (!newRule.tags) {
-              newRule.tags = [tag];
+              newRule.tags = [tag]
             } else {
-              newRule.tags.push(tag);
+              newRule.tags.push(tag)
             }
           }
         }
       } else {
-        newRule.triggers = this.ruleCopy.triggers;
-        newRule.actions = this.ruleCopy.actions;
-        newRule.conditions = this.ruleCopy.conditions;
-        newRule.configuration = {};
-        newRule.templateUID = null;
-        newRule.templateState = 'no-template';
+        newRule.triggers = this.ruleCopy.triggers
+        newRule.actions = this.ruleCopy.actions
+        newRule.conditions = this.ruleCopy.conditions
+        newRule.configuration = {}
+        newRule.templateUID = null
+        newRule.templateState = 'no-template'
         if (newRule.tags) {
-          newRule.tags = newRule.tags.filter(t => t.indexOf('marketplace:') !== 0);
+          newRule.tags = newRule.tags.filter(t => t.indexOf('marketplace:') !== 0)
         }
       }
-      this.rule = newRule;
+      this.rule = newRule
     },
     editModule(ev, section, mod) {
-      if (this.showModuleControls || this.isOpaqueModule(mod)) return;
-      let swipeoutElement = ev.target;
-      ev.cancelBubble = true;
+      if (this.showModuleControls || this.isOpaqueModule(mod)) return
+      let swipeoutElement = ev.target
+      ev.cancelBubble = true
       while (!swipeoutElement.classList.contains('swipeout')) {
-        swipeoutElement = swipeoutElement.parentElement;
+        swipeoutElement = swipeoutElement.parentElement
       }
-      if (swipeoutElement && swipeoutElement.classList.contains('swipeout-opened')) return;
+      if (swipeoutElement && swipeoutElement.classList.contains('swipeout-opened')) return
 
       if (mod.type && mod.type.indexOf('script') === 0) {
-        this.editScriptDirect(ev, mod);
-        return;
+        this.editScriptDirect(ev, mod)
+        return
       }
 
-      this.currentSection = section;
-      this.currentModule = Object.assign({}, mod);
-      if (!this.currentModule.label) this.currentModule.label = '';
-      if (!this.currentModule.description) this.currentModule.description = '';
-      this.currentModuleType = this.moduleTypes[section].find(m => m.uid === mod.type);
+      this.currentSection = section
+      this.currentModule = Object.assign({}, mod)
+      if (!this.currentModule.label) this.currentModule.label = ''
+      if (!this.currentModule.description) this.currentModule.description = ''
+      this.currentModuleType = this.moduleTypes[section].find(m => m.uid === mod.type)
 
       const popup = {
-        component: RuleModulePopup,
-      };
+        component: RuleModulePopup
+      }
       this.f7router.navigate(
         {
           url: 'module-config',
           route: {
             path: 'module-config',
-            popup,
-          },
+            popup
+          }
         },
         {
           props: {
@@ -904,35 +912,35 @@ export default {
             ruleModule: this.currentModule,
             ruleModuleType: this.currentModuleType,
             moduleTypes: this.moduleTypes,
-            readOnly: !this.isEditable,
-          },
+            readOnly: !this.isEditable
+          }
         }
-      );
+      )
 
       if (this.isEditable) {
-        f7.once('rule-module-config', this.saveModule);
+        f7.once('rule-module-config', this.saveModule)
         f7.once('rule-module-config-closed', () => {
-          f7.off('rule-module-config', this.saveModule);
-          this.moduleConfigClosed();
-        });
+          f7.off('rule-module-config', this.saveModule)
+          this.moduleConfigClosed()
+        })
       }
     },
     deleteModule(ev, section, mod) {
-      let swipeoutElement = ev.target;
-      if (!this.isEditable) return;
-      ev.cancelBubble = true;
+      let swipeoutElement = ev.target
+      if (!this.isEditable) return
+      ev.cancelBubble = true
       while (!swipeoutElement.classList.contains('swipeout')) {
-        swipeoutElement = swipeoutElement.parentElement;
+        swipeoutElement = swipeoutElement.parentElement
       }
       f7.swipeout.delete(swipeoutElement, () => {
-        const idx = this.rule[section].findIndex(m => m.id === mod.id);
-        this.rule[section].splice(idx, 1);
-      });
+        const idx = this.rule[section].findIndex(m => m.id === mod.id)
+        this.rule[section].splice(idx, 1)
+      })
     },
     addModule(section) {
-      if (this.showModuleControls) return;
-      if (!this.isEditable) return;
-      let moduleId = 1;
+      if (this.showModuleControls) return
+      if (!this.isEditable) return
+      let moduleId = 1
       for (
         ;
         ['triggers', 'actions', 'conditions'].some(s =>
@@ -940,92 +948,92 @@ export default {
         );
         moduleId++
       );
-      console.debug('new moduleId=' + moduleId);
+      console.debug('new moduleId=' + moduleId)
       const newModule = {
         id: moduleId.toString(),
         configuration: {},
         description: '',
         label: '',
         type: '',
-        new: true,
-      };
+        new: true
+      }
 
       // this.rule[section].push(newModule)
-      this.currentSection = section;
-      this.currentModule = newModule;
-      this.currentModuleType = null;
+      this.currentSection = section
+      this.currentModule = newModule
+      this.currentModuleType = null
 
       const popup = {
-        component: RuleModulePopup,
-      };
+        component: RuleModulePopup
+      }
       this.f7router.navigate(
         {
           url: 'module-config',
           route: {
             path: 'module-config',
-            popup,
-          },
+            popup
+          }
         },
         {
           props: {
             currentSection: this.currentSection,
             ruleModule: this.currentModule,
             ruleModuleType: this.currentModuleType,
-            moduleTypes: this.moduleTypes,
-          },
+            moduleTypes: this.moduleTypes
+          }
         }
-      );
+      )
 
-      f7.once('rule-module-config', this.saveModule);
-      f7.once('edit-new-script', this.saveAndEditNewScript);
+      f7.once('rule-module-config', this.saveModule)
+      f7.once('edit-new-script', this.saveAndEditNewScript)
       f7.once('rule-module-config-closed', () => {
-        f7.off('rule-module-config', this.saveModule);
-        f7.off('edit-new-script', this.saveAndEditNewScript);
-        this.moduleConfigClosed();
-      });
+        f7.off('rule-module-config', this.saveModule)
+        f7.off('edit-new-script', this.saveAndEditNewScript)
+        this.moduleConfigClosed()
+      })
     },
     reorderModule(ev, section) {
-      const newSection = [...this.rule[section]];
-      newSection.splice(ev.to, 0, newSection.splice(ev.from, 1)[0]);
-      this.rule.section = newSection;
+      const newSection = [...this.rule[section]]
+      newSection.splice(ev.to, 0, newSection.splice(ev.from, 1)[0])
+      this.rule.section = newSection
     },
     saveModule(updatedModule) {
-      if (!updatedModule.type) return;
-      if (!updatedModule.label) delete updatedModule.label;
-      if (!updatedModule.description) delete updatedModule.description;
+      if (!updatedModule.type) return
+      if (!updatedModule.label) delete updatedModule.label
+      if (!updatedModule.description) delete updatedModule.description
       if (updatedModule.new) {
-        delete updatedModule.new;
-        this.rule[this.currentSection].push(updatedModule);
+        delete updatedModule.new
+        this.rule[this.currentSection].push(updatedModule)
       } else {
-        const idx = this.rule[this.currentSection].findIndex(m => m.id === updatedModule.id);
-        this.rule[this.currentSection][idx] = updatedModule;
+        const idx = this.rule[this.currentSection].findIndex(m => m.id === updatedModule.id)
+        this.rule[this.currentSection][idx] = updatedModule
       }
     },
     saveAndEditNewScript(updatedModule) {
-      this.saveModule(updatedModule);
+      this.saveModule(updatedModule)
       this.save().then(() => {
         this.f7router.navigate('/settings/rules/' + this.rule.uid + '/script/' + updatedModule.id, {
-          transition: theme.aurora ? 'f7-cover-v' : '',
-        });
-      });
+          transition: theme.aurora ? 'f7-cover-v' : ''
+        })
+      })
     },
     moduleConfigClosed() {
-      this.currentModule = null;
-      this.currentModuleType = null;
+      this.currentModule = null
+      this.currentModuleType = null
     },
     editScriptDirect(ev, mod) {
-      ev.cancelBubble = true;
-      this.currentModule = mod;
-      this.currentModuleType = mod.type;
-      this.scriptCode = mod.configuration.script;
+      ev.cancelBubble = true
+      this.currentModule = mod
+      this.currentModuleType = mod.type
+      this.scriptCode = mod.configuration.script
 
       const updatePromise =
-        (this.rule.editable || this.createMode) && this.dirty ? this.save() : Promise.resolve();
+        (this.rule.editable || this.createMode) && this.dirty ? this.save() : Promise.resolve()
       updatePromise.then(() => {
         this.f7router.navigate('/settings/rules/' + this.rule.uid + '/script/' + mod.id, {
-          transition: theme.aurora ? 'f7-cover-v' : '',
-        });
-      });
+          transition: theme.aurora ? 'f7-cover-v' : ''
+        })
+      })
     },
     toYaml() {
       this.ruleYaml = YAML.stringify(
@@ -1033,23 +1041,23 @@ export default {
           configuration: this.rule.configuration,
           triggers: this.rule.triggers,
           conditions: this.rule.conditions,
-          actions: this.rule.actions,
+          actions: this.rule.actions
         },
         this.isEditable ? undefined : this.replacer
-      );
+      )
     },
     fromYaml() {
-      if (!this.isEditable || !this.ruleYaml) return;
+      if (!this.isEditable || !this.ruleYaml) return
       try {
-        const updatedRule = YAML.parse(this.ruleYaml);
-        this.rule.configuration = updatedRule.configuration;
-        this.rule.triggers = updatedRule.triggers;
-        this.rule.conditions = updatedRule.conditions;
-        this.rule.actions = updatedRule.actions;
-        return true;
+        const updatedRule = YAML.parse(this.ruleYaml)
+        this.rule.configuration = updatedRule.configuration
+        this.rule.triggers = updatedRule.triggers
+        this.rule.conditions = updatedRule.conditions
+        this.rule.actions = updatedRule.actions
+        return true
       } catch (e) {
-        f7.dialog.alert(e).open();
-        return false;
+        f7.dialog.alert(e).open()
+        return false
       }
     },
     /**
@@ -1061,9 +1069,9 @@ export default {
     replacer(key, value) {
       switch (key) {
         case 'script':
-          return value ? value.replaceAll(/(\r\n|\r)/g, '\n') : value;
+          return value ? value.replaceAll(/(\r\n|\r)/g, '\n') : value
         default:
-          return value;
+          return value
       }
     },
     /**
@@ -1073,24 +1081,24 @@ export default {
      * @param module the module to evaluate
      */
     isOpaqueModule(module) {
-      if (!module?.type) return false;
+      if (!module?.type) return false
       return (
         module.type === 'jsr223.ScriptedAction' ||
         module.type === 'jsr223.ScriptedCondition' ||
         module.type === 'jsr223.ScriptedTrigger'
-      );
-    },
+      )
+    }
   },
   computed: {
     hasTemplate() {
-      return this.rule && (this.stubMode || this.currentTemplate !== null);
+      return this.rule && (this.stubMode || this.currentTemplate !== null)
     },
     templateName() {
       if (!this.rule || !this.rule.templateUID || !this.templates) {
-        return undefined;
+        return undefined
       }
-      let result = this.templates.find(t => t.uid === this.rule.templateUID);
-      return result ? result.label : this.rule.templateUID;
+      let result = this.templates.find(t => t.uid === this.rule.templateUID)
+      return result ? result.label : this.rule.templateUID
     },
     canRegenerate() {
       if (
@@ -1100,71 +1108,71 @@ export default {
         this.rule.templateState === 'no-template' ||
         this.rule.templateState === 'template-missing'
       ) {
-        return false;
+        return false
       }
-      return this.templates ? this.templates.some(t => t.uid === this.rule.templateUID) : false;
+      return this.templates ? this.templates.some(t => t.uid === this.rule.templateUID) : false
     },
     hasOpaqueModule() {
-      return this.opaqueModules.length > 0;
+      return this.opaqueModules.length > 0
     },
     opaqueModulesTypeText() {
-      const result = this.opaqueModulesType;
-      return result ? AUTOMATION_LANGUAGES[result]?.name || result : result;
+      const result = this.opaqueModulesType
+      return result ? AUTOMATION_LANGUAGES[result]?.name || result : result
     },
     opaqueModulesType() {
-      const modules = this.opaqueModules;
-      if (!modules || !modules.length) return undefined;
+      const modules = this.opaqueModules
+      if (!modules || !modules.length) return undefined
       // "Opaque modules" implies that the rule is created through JSR223.
       // The assumption is therefore that all opaque module types are of the same type/scripting language.
-      return modules.find(m => m.configuration?.type)?.configuration?.type;
+      return modules.find(m => m.configuration?.type)?.configuration?.type
     },
     opaqueModules() {
-      if (!this.rule) return [];
+      if (!this.rule) return []
       return [
         ...(this.rule.actions || []),
         this.rule.triggers || [],
-        this.rule.conditions || [],
-      ].filter(m => this.isOpaqueModule(m));
+        this.rule.conditions || []
+      ].filter(m => this.isOpaqueModule(m))
     },
     hasSource() {
-      const sourceContainer = this.sourceSource;
-      return sourceContainer ? sourceContainer.source || sourceContainer.script : false;
+      const sourceContainer = this.sourceSource
+      return sourceContainer ? sourceContainer.source || sourceContainer.script : false
     },
     source() {
-      const sourceContainer = this.sourceSource;
-      if (!sourceContainer) return '';
-      return sourceContainer.source || sourceContainer.script || '';
+      const sourceContainer = this.sourceSource
+      if (!sourceContainer) return ''
+      return sourceContainer.source || sourceContainer.script || ''
     },
     sourceTypeText() {
-      const result = this.sourceType;
-      return result ? AUTOMATION_LANGUAGES[result]?.name || result : result;
+      const result = this.sourceType
+      return result ? AUTOMATION_LANGUAGES[result]?.name || result : result
     },
     sourceType() {
-      const sourceContainer = this.sourceSource;
-      return sourceContainer ? sourceContainer.sourceType || sourceContainer.type : undefined;
+      const sourceContainer = this.sourceSource
+      return sourceContainer ? sourceContainer.sourceType || sourceContainer.type : undefined
     },
     sourceSource() {
-      if (!this.rule) return undefined;
+      if (!this.rule) return undefined
       if (this.rule.configuration?.source) {
-        return this.rule.configuration;
+        return this.rule.configuration
       }
       if (this.rule.actions?.length) {
         for (const action of this.rule.actions) {
           if (this.isOpaqueModule(action)) {
-            return action.configuration;
+            return action.configuration
           }
         }
       }
-      return undefined;
+      return undefined
     },
     templateTopicLink() {
-      if (!this.currentTemplate) return null;
-      if (!this.currentTemplate.tags) return null;
-      const marketplaceTag = this.currentTemplate.tags.find(t => t.indexOf('marketplace:') === 0);
+      if (!this.currentTemplate) return null
+      if (!this.currentTemplate.tags) return null
+      const marketplaceTag = this.currentTemplate.tags.find(t => t.indexOf('marketplace:') === 0)
       if (marketplaceTag)
-        return 'https://community.openhab.org/t/' + marketplaceTag.replace('marketplace:', '');
-      return null;
-    },
-  },
-};
+        return 'https://community.openhab.org/t/' + marketplaceTag.replace('marketplace:', '')
+      return null
+    }
+  }
+}
 </script>

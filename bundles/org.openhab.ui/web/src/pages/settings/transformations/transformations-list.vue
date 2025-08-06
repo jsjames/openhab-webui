@@ -45,7 +45,9 @@
         icon-md="material:close"
         icon-color="white"
         @click="showCheckboxes = false" />
-      <div class="title" v-if="theme.md">{{ selectedTransformations.length }} selected</div>
+      <div class="title" v-if="theme.md">
+        {{ selectedTransformations.length }} selected
+      </div>
       <div class="right" v-if="theme.md">
         <f7-link
           v-show="selectedTransformations.length"
@@ -169,25 +171,24 @@
 </style>
 
 <script>
-import ClipboardIcon from '@/components/util/clipboard-icon.vue';
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
-import { defineAsyncComponent } from 'vue';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import ClipboardIcon from '@/components/util/clipboard-icon.vue'
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { mapStores } from 'pinia';
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
 
 export default {
   props: {
-    f7router: Object,
+    f7router: Object
   },
   components: {
     'empty-state-placeholder': EmptyStatePlaceholder,
-    ClipboardIcon,
+    ClipboardIcon
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -199,148 +200,148 @@ export default {
       selectedTransformations: [],
       groupBy: 'alphabetical',
       showCheckboxes: false,
-      searchQuery: '',    // TODO-V3 - don't think this has ever been implemented
-    };
+      searchQuery: ''    // TODO-V3 - don't think this has ever been implemented
+    }
   },
   computed: {
     indexedTransformations() {
       if (this.groupBy === 'alphabetical') {
         return this.transformations.reduce((prev, transformation, i, transformations) => {
-          const label = transformation.label || transformation.uid;
-          const initial = label.substring(0, 1).toUpperCase();
+          const label = transformation.label || transformation.uid
+          const initial = label.substring(0, 1).toUpperCase()
           if (!prev[initial]) {
-            prev[initial] = [];
+            prev[initial] = []
           }
-          prev[initial].push(transformation);
+          prev[initial].push(transformation)
 
-          return prev;
-        }, {});
+          return prev
+        }, {})
       } else {
         const typeGroups = this.transformations.reduce(
           (prev, transformation, i, transformations) => {
-            const type = transformation.type.toUpperCase();
+            const type = transformation.type.toUpperCase()
             if (!prev[type]) {
-              prev[type] = [];
+              prev[type] = []
             }
-            prev[type].push(transformation);
+            prev[type].push(transformation)
 
-            return prev;
+            return prev
           },
           {}
-        );
+        )
         return Object.keys(typeGroups)
           .sort((a, b) => a.localeCompare(b))
           .reduce((objEntries, key) => {
-            objEntries[key] = typeGroups[key];
-            return objEntries;
-          }, {});
+            objEntries[key] = typeGroups[key]
+            return objEntries
+          }, {})
       }
     },
     ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageAfterIn() {
-      this.load();
+      this.load()
     },
     onPageAfterOut() {},
     load() {
-      if (this.loading) return;
-      this.loading = true;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
+      this.loading = true
       this.$oh.api.get('/rest/transformations').then(data => {
         this.transformations = data.sort((a, b) =>
           (a.label || a.uid).localeCompare(b.label || a.uid)
-        );
-        this.loading = false;
-        this.ready = true;
+        )
+        this.loading = false
+        this.ready = true
         setTimeout(() => {
-          this.initSearchbar = true;
-          if (this.$refs.listIndex) this.$refs.listIndex.update();
+          this.initSearchbar = true
+          if (this.$refs.listIndex) this.$refs.listIndex.update()
           if (this.$device.desktop && this.$refs.searchbar)
-            this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
-        });
-      });
+            this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus()
+        })
+      })
     },
     switchGroupOrder(groupBy) {
-      this.groupBy = groupBy;
-      const searchbar = this.$refs.searchbar.$el.f7Searchbar;
-      const filterQuery = searchbar.query;
+      this.groupBy = groupBy
+      const searchbar = this.$refs.searchbar.$el.f7Searchbar
+      const filterQuery = searchbar.query
       nextTick(() => {
         if (filterQuery) {
-          searchbar.clear();
-          searchbar.search(filterQuery);
+          searchbar.clear()
+          searchbar.search(filterQuery)
         }
-        if (groupBy === 'alphabetical') this.$refs.listIndex.update();
-      });
+        if (groupBy === 'alphabetical') this.$refs.listIndex.update()
+      })
     },
     toggleCheck() {
-      this.showCheckboxes = !this.showCheckboxes;
+      this.showCheckboxes = !this.showCheckboxes
     },
     isChecked(transformation) {
-      return this.selectedTransformations.indexOf(transformation) >= 0;
+      return this.selectedTransformations.indexOf(transformation) >= 0
     },
     click(event, transformation) {
       if (this.showCheckboxes) {
-        this.toggleTransformationCheck(event, transformation.uid, transformation);
+        this.toggleTransformationCheck(event, transformation.uid, transformation)
       } else {
-        this.f7router.navigate(transformation.uid);
+        this.f7router.navigate(transformation.uid)
       }
     },
     ctrlClick(event, transformation) {
-      this.toggleTransformationCheck(event, transformation.uid, transformation);
-      if (!this.selectedTransformations.length) this.showCheckboxes = false;
+      this.toggleTransformationCheck(event, transformation.uid, transformation)
+      if (!this.selectedTransformations.length) this.showCheckboxes = false
     },
     toggleTransformationCheck(event, transformationUid, transformation) {
-      if (!transformation.editable) return;
-      if (!this.showCheckboxes) this.showCheckboxes = true;
+      if (!transformation.editable) return
+      if (!this.showCheckboxes) this.showCheckboxes = true
       if (this.isChecked(transformationUid)) {
         this.selectedTransformations.splice(
           this.selectedTransformations.indexOf(transformationUid),
           1
-        );
+        )
       } else {
-        this.selectedTransformations.push(transformationUid);
+        this.selectedTransformations.push(transformationUid)
       }
     },
     removeSelected() {
-      const vm = this;
+      const vm = this
 
       f7.dialog.confirm(
         `Remove ${this.selectedTransformations.length} selected transformations?`,
         'Remove Transformations',
         () => {
-          vm.doRemoveSelected();
+          vm.doRemoveSelected()
         }
-      );
+      )
     },
     doRemoveSelected() {
-      let dialog = f7.dialog.progress('Deleting Transformations...');
+      let dialog = f7.dialog.progress('Deleting Transformations...')
 
       const promises = this.selectedTransformations.map(p => {
-        return this.$oh.api.delete('/rest/transformations/' + p);
-      });
+        return this.$oh.api.delete('/rest/transformations/' + p)
+      })
       Promise.all(promises)
         .then(data => {
           f7.toast
             .create({
               text: 'Transformations removed',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.selectedTransformations = [];
-          dialog.close();
-          this.load();
-          f7.emit('sidebar-refresh', null); // for what?
+            .open()
+          this.selectedTransformations = []
+          dialog.close()
+          this.load()
+          f7.emit('sidebar-refresh', null) // for what?
         })
         .catch(err => {
-          dialog.close();
-          this.load();
-          console.error(err);
-          f7.dialog.alert('An error occurred while deleting: ' + err);
-          f7.emit('sidebar-refresh', null); // for what?
-        });
-    },
-  },
-};
+          dialog.close()
+          this.load()
+          console.error(err)
+          f7.dialog.alert('An error occurred while deleting: ' + err)
+          f7.emit('sidebar-refresh', null) // for what?
+        })
+    }
+  }
+}
 </script>

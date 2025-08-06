@@ -19,7 +19,9 @@
           {{ itemName }}
         </f7-nav-title>
         <f7-nav-right>
-          <f7-link @click="updateItemConfig" popup-close> Done </f7-link>
+          <f7-link @click="updateItemConfig" popup-close>
+            Done
+          </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <f7-toolbar bottom>
@@ -133,8 +135,8 @@
 </style>
 
 <script>
-import { f7 } from 'framework7-vue';
-import { nextTick } from 'vue';
+import { f7 } from 'framework7-vue'
+import { nextTick } from 'vue'
 
 export default {
   components: {},
@@ -147,43 +149,43 @@ export default {
       item: null,
       command: null,
       colorpicker: null,
-      control: null,
-    };
+      control: null
+    }
   },
   methods: {
     itemConfigOpened() {
-      this.itemName = this.module.configuration.itemName;
-      this.command = this.module.configuration.command;
+      this.itemName = this.module.configuration.itemName
+      this.command = this.module.configuration.command
       this.$oh.api.get('/rest/items/' + this.itemName).then(item => {
-        this.item = item;
-        this.initializeControl();
-        this.ready = true;
-      });
+        this.item = item
+        this.initializeControl()
+        this.ready = true
+      })
     },
     itemConfigClosed() {
-      if (this.colorpicker) this.colorpicker.destroy();
-      f7.emit('scene-item-config-closed');
-      this.$emit('closed');
+      if (this.colorpicker) this.colorpicker.destroy()
+      f7.emit('scene-item-config-closed')
+      this.$emit('closed')
     },
     updateItemConfig() {
-      if (this.colorpicker) this.colorpicker.destroy();
-      f7.emit('scene-item-config-update', [this.itemName, this.command]);
-      this.$emit('update', [this.itemName, this.command]);
-      this.itemConfigClosed();
+      if (this.colorpicker) this.colorpicker.destroy()
+      f7.emit('scene-item-config-update', [this.itemName, this.command])
+      this.$emit('update', [this.itemName, this.command])
+      this.itemConfigClosed()
     },
     updateCommandFromCurrentState() {
       this.$oh.api
         .getPlain('/rest/items/' + this.itemName + '/state?metadata=semantics,widget')
         .then(state => {
-          this.command = state;
+          this.command = state
           f7.toast
             .create({
               text: `Updated desired state of ${this.itemName} to ${state}`,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     testCommand() {
       this.$oh.api
@@ -193,16 +195,16 @@ export default {
             .create({
               text: `Sent comment ${this.command} to ${this.itemName}`,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     initializeControl() {
-      if (this.item.commandDescription && this.item.commandDescription.commandOptions) return; // no control if command options
+      if (this.item.commandDescription && this.item.commandDescription.commandOptions) return // no control if command options
       if (this.item.type === 'Color' || this.item.groupType === 'Color') {
-        this.control = 'colorpicker';
-        const vm = this;
+        this.control = 'colorpicker'
+        const vm = this
         nextTick(() => {
           this.colorpicker = f7.colorPicker.create(
             Object.assign({}, this.config, {
@@ -211,23 +213,23 @@ export default {
               value: this.command.split(',').length === 3 ? { hsb: this.color } : null,
               on: {
                 change(colorpicker, value) {
-                  let command = [...value.hsb];
-                  command[0] = Math.round(command[0]) % 360;
-                  command[1] = Math.round(command[1] * 100);
-                  command[2] = Math.round(command[2] * 100);
-                  command = command.join(',');
-                  vm.command = command;
-                },
-              },
+                  let command = [...value.hsb]
+                  command[0] = Math.round(command[0]) % 360
+                  command[1] = Math.round(command[1] * 100)
+                  command[2] = Math.round(command[2] * 100)
+                  command = command.join(',')
+                  vm.command = command
+                }
+              }
             })
-          );
-        });
+          )
+        })
       } else if (this.item.type === 'Switch' || this.item.groupType === 'Switch') {
-        this.control = 'toggle';
+        this.control = 'toggle'
       } else if (this.item.type === 'Dimmer' || this.item.groupType === 'Dimmer') {
-        this.control = 'slider';
+        this.control = 'slider'
       } else if (this.item.type === 'Rollershutter' || this.item.groupType === 'Rollershutter') {
-        this.control = 'rollershutter';
+        this.control = 'rollershutter'
       } else if (this.item.type === 'Number' || this.item.groupType === 'Number') {
         if (
           this.item.tags.find(t =>
@@ -237,73 +239,73 @@ export default {
               'Brightness',
               'Level',
               'SoundVolume',
-              'Setpoint',
+              'Setpoint'
             ].includes(t)
           )
         ) {
-          this.control = 'slider';
+          this.control = 'slider'
         }
       }
-    },
+    }
   },
   computed: {
     commandSuggestions() {
-      if (!this.item) return [];
+      if (!this.item) return []
       let type =
-        this.item.type === 'Group' && this.item.groupType ? this.item.groupType : this.item.type;
+        this.item.type === 'Group' && this.item.groupType ? this.item.groupType : this.item.type
 
       if (this.item.commandDescription && this.item.commandDescription.commandOptions) {
-        return this.item.commandDescription.commandOptions;
+        return this.item.commandDescription.commandOptions
       }
       if (type === 'Switch') {
         return ['ON', 'OFF'].map(c => {
-          return { command: c, label: c };
-        });
+          return { command: c, label: c }
+        })
       }
       if (type === 'Rollershutter') {
         return ['UP', 'DOWN', 'STOP'].map(c => {
-          return { command: c, label: c };
-        });
+          return { command: c, label: c }
+        })
       }
       if (type === 'Contact') {
         return ['UP', 'DOWN', 'STOP'].map(c => {
-          return { command: c, label: c };
-        });
+          return { command: c, label: c }
+        })
       }
       if (type === 'Color') {
         return ['ON', 'OFF'].map(c => {
-          return { command: c, label: c };
-        });
+          return { command: c, label: c }
+        })
       }
 
-      return [];
+      return []
     },
     color() {
       if (this.item.type === 'Color' && this.command && this.command.split(',').length === 3) {
-        let color = this.command.split(',');
-        color[0] = parseInt(color[0]);
-        color[1] = color[1] / 100;
-        color[2] = color[2] / 100;
-        return color;
+        let color = this.command.split(',')
+        color[0] = parseInt(color[0])
+        color[1] = color[1] / 100
+        color[2] = color[2] / 100
+        return color
       }
-      return null;
+      return null
     },
     sliderConfig() {
-      if (!this.item) return {};
+      if (!this.item) return {}
       const sd = this.item.stateDescription || {
         minimum: 0,
         maximum: 100,
-        step: 1,
-      };
+        step: 1
+      }
       return {
         vertical: true,
         label: true,
         scale: true,
         min: sd.minimum,
         max: sd.maximum,
-        step: sd.step,
-      };
-    },
-  },
-};
+        step: sd.step
+      }
+    }
+  }
+}
 </script>

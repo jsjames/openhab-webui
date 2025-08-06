@@ -18,7 +18,9 @@
     </f7-list>
     <f7-block class="block-narrow searchbar-found">
       <f7-col>
-        <f7-block-title v-if="!ready"> Loading... </f7-block-title>
+        <f7-block-title v-if="!ready">
+          Loading...
+        </f7-block-title>
         <f7-block-title v-else>
           {{ addons.length }} add-on{{ addons.length > 1 ? 's' : '' }} available
         </f7-block-title>
@@ -55,17 +57,19 @@
   </f7-page>
 </template>
 
+<style></style>
+
 <script>
-import AddonDetailsSheet from './addon-details-sheet.vue';
-import { f7, theme } from 'framework7-vue';
+import AddonDetailsSheet from './addon-details-sheet.vue'
+import { f7, theme } from 'framework7-vue'
 
 export default {
   components: {
-    AddonDetailsSheet,
+    AddonDetailsSheet
   },
   props: ['addonType'],
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -74,17 +78,17 @@ export default {
       ready: false,
       initSearchbar: false,
       addonPopupOpened: false,
-      currentlyInstalling: [],
-    };
+      currentlyInstalling: []
+    }
   },
   methods: {
     openAddonPopup(addonId) {
-      this.currentAddonId = addonId;
-      this.addonPopupOpened = true;
+      this.currentAddonId = addonId
+      this.addonPopupOpened = true
     },
     onPageAfterIn() {
-      this.currentlyInstalling = [];
-      this.load();
+      this.currentlyInstalling = []
+      this.load()
     },
     load() {
       this.$oh.api
@@ -92,62 +96,60 @@ export default {
         .then(data => {
           this.addons = data
             .filter(addon => !addon.installed && addon.type === this.addonType)
-            .sort((a, b) => a.label.toUpperCase().localeCompare(b.label.toUpperCase()));
-          this.ready = true;
+            .sort((a, b) => a.label.toUpperCase().localeCompare(b.label.toUpperCase()))
+          this.ready = true
           setTimeout(() => {
-            this.initSearchbar = true;
-          });
-          this.startEventSource();
+            this.initSearchbar = true
+          })
+          this.startEventSource()
         })
         .catch(err => {
           // sometimes we get 502 errors ('Jersey is not ready yet!'), keep trying
-          console.log('Error while accessing the API, retrying every 5 seconds: ', err);
-          setTimeout(this.load, 5000);
-        });
+          console.log('Error while accessing the API, retrying every 5 seconds: ', err)
+          setTimeout(this.load, 5000)
+        })
     },
     installAddon(addon) {
-      this.addonPopupOpened = false;
-      this.currentlyInstalling.push(addon.uid);
+      this.addonPopupOpened = false
+      this.currentlyInstalling.push(addon.uid)
     },
     startEventSource() {
       this.eventSource = this.$oh.sse.connect(
         '/rest/events?topics=openhab/addons/*/*',
         null,
         event => {
-          const topicParts = event.topic.split('/');
+          const topicParts = event.topic.split('/')
           switch (topicParts[3]) {
             case 'installed':
             case 'uninstalled':
-              this.stopEventSource();
-              this.load();
-              f7.emit('addon-change', null);
-              break;
+              this.stopEventSource()
+              this.load()
+              f7.emit('addon-change', null)
+              break
             case 'failed':
               f7.toast
                 .create({
                   text: `Installation of add-on ${topicParts[2]} failed`,
                   closeButton: true,
-                  destroyOnClose: true,
+                  destroyOnClose: true
                 })
-                .open();
-              this.stopEventSource();
-              this.load();
-              break;
+                .open()
+              this.stopEventSource()
+              this.load()
+              break
           }
         },
         () => {
           // in case of error, maybe the SSE connection was closed by the add-ons change itself - try reloading to refresh
-          this.stopEventSource();
-          this.load();
+          this.stopEventSource()
+          this.load()
         }
-      );
+      )
     },
     stopEventSource() {
-      this.$oh.sse.close(this.eventSource);
-      this.eventSource = null;
-    },
-  },
-};
+      this.$oh.sse.close(this.eventSource)
+      this.eventSource = null
+    }
+  }
+}
 </script>
-
-<style></style>

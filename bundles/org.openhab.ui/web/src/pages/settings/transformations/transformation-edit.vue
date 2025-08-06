@@ -169,16 +169,16 @@
 </style>
 
 <script>
-import cloneDeep from 'lodash/cloneDeep';
-import fastDeepEqual from 'fast-deep-equal/es6';
-import { utils } from 'framework7';
-import { f7, theme } from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
+import cloneDeep from 'lodash/cloneDeep'
+import fastDeepEqual from 'fast-deep-equal/es6'
+import { utils } from 'framework7'
+import { f7, theme } from 'framework7-vue'
+import { defineAsyncComponent } from 'vue'
 
-import DirtyMixin from '../dirty-mixin';
-import TransformationGeneralSettings from '@/pages/settings/transformations/transformation-general-settings.vue';
-import { CodeSnippets, EditorModes, DocumentationLinks } from '@/assets/transformations.js';
-import ClipboardIcon from '@/components/util/clipboard-icon.vue';
+import DirtyMixin from '../dirty-mixin'
+import TransformationGeneralSettings from '@/pages/settings/transformations/transformation-general-settings.vue'
+import { CodeSnippets, EditorModes, DocumentationLinks } from '@/assets/transformations.js'
+import ClipboardIcon from '@/components/util/clipboard-icon.vue'
 
 import { useRuntimeStore } from '@/js/stores/runtime'
 import { mapStores } from 'pinia'
@@ -199,16 +199,16 @@ export default {
         import(
           /* webpackChunkName: "blockly-editor" */ '@/components/config/controls/blockly-editor.vue'
         )
-    ),
+    )
   },
   props: {
     transformationId: String,
     createMode: Boolean,
     f7router: Object,
-    f7route: Object,
+    f7route: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -221,50 +221,50 @@ export default {
       language: '',
       detailsOpened: false,
       editorMode: '',
-      blocklyCodePreview: false,
-    };
+      blocklyCodePreview: false
+    }
   },
   watch: {
     transformation: {
       handler: function () {
         if (!this.loading) {
           // ignore changes during loading
-          this.dirty = !fastDeepEqual(this.transformation, this.savedTransformation);
+          this.dirty = !fastDeepEqual(this.transformation, this.savedTransformation)
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   computed: {
     isEditable() {
-      return this.transformation && this.transformation.editable !== false;
+      return this.transformation && this.transformation.editable !== false
     },
     isBlockly() {
       // TODO: Enable Blockly after blocks have been adjusted
       // return this.transformation.configuration && this.transformation.configuration.blockSource
-      return false;
+      return false
     },
     itemStateTransformationCode() {
-      return `${this.transformation.type.toUpperCase()}(${this.transformation.uid}):%s`;
+      return `${this.transformation.type.toUpperCase()}(${this.transformation.uid}):%s`
     },
     ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageAfterIn() {
-      if (this.ready) return;
+      if (this.ready) return
       if (this.createMode) {
-        this.initializeNewTransformation();
-        return;
+        this.initializeNewTransformation()
+        return
       }
       if (window) {
-        window.addEventListener('keydown', this.keyDown);
+        window.addEventListener('keydown', this.keyDown)
       }
-      this.load();
+      this.load()
     },
     onPageBeforeOut() {
-      if (this.$refs.detailsSheet.f7Sheet) this.$refs.detailsSheet.f7Sheet.close();
+      if (this.$refs.detailsSheet.$el.f7Modal) this.$refs.detailsSheet.$el.f7Modal.close()
       if (window) {
-        window.removeEventListener('keydown', this.keyDown);
+        window.removeEventListener('keydown', this.keyDown)
       }
     },
     initializeNewTransformation() {
@@ -273,99 +273,99 @@ export default {
         label: '',
         type: '',
         configuration: {
-          function: '',
+          function: ''
         },
-        editable: true,
-      };
-      this.savedTransformation = cloneDeep(this.transformation);
+        editable: true
+      }
+      this.savedTransformation = cloneDeep(this.transformation)
       Promise.all([
         this.$oh.api.get('/rest/transformations/services'),
-        this.$oh.api.get('/rest/config-descriptions/system:i18n'),
+        this.$oh.api.get('/rest/config-descriptions/system:i18n')
       ]).then(data => {
-        this.types = data[0];
-        this.languages = data[1].parameters.find(p => p.name === 'language').options;
-      });
-      this.language = '';
-      this.ready = true;
+        this.types = data[0]
+        this.languages = data[1].parameters.find(p => p.name === 'language').options
+      })
+      this.language = ''
+      this.ready = true
     },
     createTransformation() {
       if (!this.transformation.uid) {
-        f7.dialog.alert('Please give an ID for the transformation');
-        return;
+        f7.dialog.alert('Please give an ID for the transformation')
+        return
       }
       if (!this.transformation.type) {
-        f7.dialog.alert('Please give the type of the transformation');
-        return;
+        f7.dialog.alert('Please give the type of the transformation')
+        return
       }
       // openHAB core expects lowercase, however the list of available transformation services is uppercase
-      this.transformation.type = this.transformation.type.toLowerCase();
+      this.transformation.type = this.transformation.type.toLowerCase()
       if (!this.transformation.label) {
-        f7.dialog.alert('Please give a label for this transformation');
-        return;
+        f7.dialog.alert('Please give a label for this transformation')
+        return
       }
 
       this.transformation.uid =
-        'config:' + this.transformation.type + ':' + this.transformation.uid;
+        'config:' + this.transformation.type + ':' + this.transformation.uid
       if (this.language) {
-        this.transformation.uid += ':' + this.language;
+        this.transformation.uid += ':' + this.language
       }
 
       // Insert code example if available
       if (CodeSnippets[this.transformation.type])
-        this.transformation.configuration.function = CodeSnippets[this.transformation.type];
+        this.transformation.configuration.function = CodeSnippets[this.transformation.type]
 
       this.$oh.api
         .put('/rest/transformations/' + this.transformation.uid, this.transformation)
         .then(() => {
-          this.dirty = false;
+          this.dirty = false
           f7.toast
             .create({
               text: 'Transformation created',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
+            .open()
           this.f7router.navigate(this.f7route.url.replace('/add', '/' + this.transformation.uid), {
-            reloadCurrent: true,
-          });
-        });
+            reloadCurrent: true
+          })
+        })
     },
     load() {
-      if (this.loading) return;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
 
       this.$oh.api.get('/rest/transformations/' + this.transformationId).then(data => {
-        this.transformation = data;
-        this.savedTransformation = cloneDeep(this.transformation);
-        this.editorMode = EditorModes[this.transformation.type] || this.transformation.type;
-        this.loading = false;
-        this.ready = true;
-      });
+        this.transformation = data
+        this.savedTransformation = cloneDeep(this.transformation)
+        this.editorMode = EditorModes[this.transformation.type] || this.transformation.type
+        this.loading = false
+        this.ready = true
+      })
     },
     save(noToast) {
-      if (!this.isEditable) return;
+      if (!this.isEditable) return
       if (this.isBlockly) {
         try {
-          this.transformation.configuration.blockSource = this.$refs.blocklyEditor.getBlocks();
-          this.transformation.configuration.function = this.$refs.blocklyEditor.getCode();
+          this.transformation.configuration.blockSource = this.$refs.blocklyEditor.getBlocks()
+          this.transformation.configuration.function = this.$refs.blocklyEditor.getCode()
         } catch (e) {
-          f7.dialog.alert(e);
-          return Promise.reject(e);
+          f7.dialog.alert(e)
+          return Promise.reject(e)
         }
       }
       return this.$oh.api
         .put('/rest/transformations/' + this.transformation.uid, this.transformation)
         .then(data => {
-          this.dirty = false;
-          this.savedTransformation = cloneDeep(this.transformation);
+          this.dirty = false
+          this.savedTransformation = cloneDeep(this.transformation)
           if (!noToast) {
             f7.toast
               .create({
                 text: 'Transformation updated',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
+              .open()
           }
         })
         .catch(err => {
@@ -373,10 +373,10 @@ export default {
             .create({
               text: 'Error while saving transformation configuration: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     deleteTransformation() {
       f7.dialog.confirm(
@@ -384,21 +384,21 @@ export default {
         'Delete Transformation',
         () => {
           this.$oh.api.delete('/rest/transformations/' + this.transformation.uid).then(() => {
-            this.dirty = false;
+            this.dirty = false
             this.f7router.back('/settings/transformations/', {
-              force: true,
-            });
-          });
+              force: true
+            })
+          })
         }
-      );
+      )
     },
     showBlocklyCode() {
       try {
-        this.transformation.configuration.blockSource = this.$refs.blocklyEditor.getBlocks();
-        this.transformation.configuration.function = this.$refs.blocklyEditor.getCode();
-        if (this.isBlockly) this.blocklyCodePreview = true;
+        this.transformation.configuration.blockSource = this.$refs.blocklyEditor.getBlocks()
+        this.transformation.configuration.function = this.$refs.blocklyEditor.getCode()
+        if (this.isBlockly) this.blocklyCodePreview = true
       } catch (e) {
-        f7.dialog.alert(e);
+        f7.dialog.alert(e)
       }
     },
     convertToBlockly() {
@@ -407,12 +407,12 @@ export default {
         this.isBlockly ||
         this.transformation.configuration.mode !== 'application/javascript'
       )
-        return;
+        return
       this.transformation.configuration.blockSource =
-        '<xml xmlns="https://developers.google.com/blockly/xml"></xml>';
+        '<xml xmlns="https://developers.google.com/blockly/xml"></xml>'
     },
     onEditorInput(value) {
-      this.transformation.configuration.function = value;
+      this.transformation.configuration.function = value
     },
     keyDown(ev) {
       if ((ev.ctrlKey || ev.metaKey) && !(ev.altKey || ev.shiftKey)) {
@@ -420,27 +420,27 @@ export default {
           case 66:
             if (this.isBlockly) {
               if (this.blocklyCodePreview) {
-                this.blocklyCodePreview = false;
+                this.blocklyCodePreview = false
               } else {
-                this.showBlocklyCode();
+                this.showBlocklyCode()
               }
             } else {
-              this.convertToBlockly();
+              this.convertToBlockly()
             }
-            ev.stopPropagation();
-            ev.preventDefault();
-            break;
+            ev.stopPropagation()
+            ev.preventDefault()
+            break
           case 83:
-            this.save();
-            ev.stopPropagation();
-            ev.preventDefault();
-            break;
+            this.save()
+            ev.stopPropagation()
+            ev.preventDefault()
+            break
         }
       }
-    },
+    }
   },
   created() {
-    this.DocumentationLinks = DocumentationLinks;
-  },
-};
+    this.DocumentationLinks = DocumentationLinks
+  }
+}
 </script>

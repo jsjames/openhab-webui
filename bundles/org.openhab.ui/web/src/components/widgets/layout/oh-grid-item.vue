@@ -26,7 +26,7 @@
             :popover-close="'.item-popover-' + _uid"
             @click="
               ($refs.popover.f7Popover.close(false),
-              context.editmode.configureWidget(context.component.slots.default[0], context))
+               context.editmode.configureWidget(context.component.slots.default[0], context))
             "
             icon-f7="square_pencil">
             Configure
@@ -159,25 +159,25 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import OhPlaceholderWidget from '../layout/oh-placeholder-widget.vue';
-import { defineAsyncComponent } from 'vue';
+import mixin from '../widget-mixin'
+import OhPlaceholderWidget from '../layout/oh-placeholder-widget.vue'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   mixins: [mixin],
   components: {
     'grid-item': defineAsyncComponent(() => import('grid-layout-plus').then(mod => mod.GridItem)),
-    OhPlaceholderWidget,
+    OhPlaceholderWidget
   },
   methods: {
     movedEvent(i, newX, newY) {
-      this.context.component.config.x = newX;
-      this.context.component.config.y = newY;
+      this.context.component.config.x = newX
+      this.context.component.config.y = newY
     },
     resizedEvent(i, newH, newW, newHPx, newWPx) {
-      this.context.component.config.w = newW;
-      this.context.component.config.h = newH;
-    },
-  },
-};
+      this.context.component.config.w = newW
+      this.context.component.config.h = newH
+    }
+  }
+}
 </script>

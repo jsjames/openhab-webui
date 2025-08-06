@@ -46,28 +46,28 @@
 </style>
 
 <script>
-import { Codemirror } from "vue-codemirror";
+import { Codemirror } from 'vue-codemirror'
 
 // require styles
 //TODO-V3 import 'codemirror/lib/codemirror.css';
 
 // language js
-import { clike } from '@codemirror/legacy-modes/mode/clike';
-import { groovy } from '@codemirror/legacy-modes/mode/groovy';
-import { jinja2 } from '@codemirror/legacy-modes/mode/jinja2';
-import { javascript } from '@codemirror/lang-javascript';
+import { clike } from '@codemirror/legacy-modes/mode/clike'
+import { groovy } from '@codemirror/legacy-modes/mode/groovy'
+import { jinja2 } from '@codemirror/legacy-modes/mode/jinja2'
+import { javascript } from '@codemirror/lang-javascript'
 // import { properties } from '@codemirror/legacy-modes/mode/properties';
-import { python } from '@codemirror/lang-python';
-import { ruby } from '@codemirror/legacy-modes/mode/ruby';
+import { python } from '@codemirror/lang-python'
+import { ruby } from '@codemirror/legacy-modes/mode/ruby'
 // import { shell } from '@codemirror/legacy-modes/mode/shell';
-import { xml } from '@codemirror/lang-xml';
-import { yaml } from '@codemirror/lang-yaml';
+import { xml } from '@codemirror/lang-xml'
+import { yaml } from '@codemirror/lang-yaml'
 
 //TODO-V3 import 'codemirror/theme/gruvbox-dark.css';
-import { gruvboxDark } from '@uiw/codemirror-theme-gruvbox-dark';
-import { oneDark } from '@codemirror/theme-one-dark';
+import { gruvboxDark } from '@uiw/codemirror-theme-gruvbox-dark'
+import { oneDark } from '@codemirror/theme-one-dark'
 
-import { closeBrackets } from "@codemirror/autocomplete";
+import { closeBrackets } from '@codemirror/autocomplete'
 // import { matchBrackets } from "@codemirror/language";
 
 //TODO-V3 import 'codemirror/addon/comment/comment.js';
@@ -88,10 +88,10 @@ import { codeFolding } from '@codemirror/language'
 // for linting
 //TODO-V3 import 'codemirror/addon/lint/lint.js';
 //TODO-V3 import 'codemirror/addon/lint/lint.css';
-import YAML from 'yaml';
+import YAML from 'yaml'
 
-import tern from 'tern';
-import infer from 'tern/lib/infer';
+import tern from 'tern'
+import infer from 'tern/lib/infer'
 
 // import 'tern/lib/signal.js'
 // import * as Tern from 'tern/lib/tern.js'
@@ -100,9 +100,9 @@ import infer from 'tern/lib/infer';
 // import 'tern/lib/infer.js'
 // import 'tern/plugin/doc_comment.js'
 
-import EcmascriptDefs from 'tern/defs/ecmascript.json';
-import NashornDefs from '@/assets/nashorn-tern-defs.json';
-import OpenhabJsDefs from '@/assets/openhab-js-tern-defs.json';
+import EcmascriptDefs from 'tern/defs/ecmascript.json'
+import NashornDefs from '@/assets/nashorn-tern-defs.json'
+import OpenhabJsDefs from '@/assets/openhab-js-tern-defs.json'
 
 //TODO-V3 import componentsHint from '../editor/hint-components';
 //TODO-V3 import itemsHint from '../editor/hint-items';
@@ -110,9 +110,9 @@ import OpenhabJsDefs from '@/assets/openhab-js-tern-defs.json';
 //TODO-V3 import thingsHint from '../editor/hint-things';
 //TODO-V3 import pythonHint from '../editor/hint-python';
 
-import openhab from '@/js/openhab';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { mapStores } from "pinia";
+import openhab from '@/js/openhab'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { mapStores } from 'pinia'
 
 // Adapted from https://github.com/lkcampbell/brackets-indent-guides (MIT)
 let indentGuidesOverlay = {
@@ -120,46 +120,46 @@ let indentGuidesOverlay = {
     let char = '',
       colNum = 0,
       spaceUnits = 0,
-      isTabStart = false;
+      isTabStart = false
 
-    char = stream.next();
-    colNum = stream.column();
+    char = stream.next()
+    colNum = stream.column()
 
     if (colNum === 0) {
-      return null;
+      return null
     }
 
     if (char === '\t') {
-      return 'lkcampbell-indent-guides';
+      return 'lkcampbell-indent-guides'
     }
 
     if (char !== ' ') {
-      stream.skipToEnd();
-      return null;
+      stream.skipToEnd()
+      return null
     }
 
-    spaceUnits = 2;
-    isTabStart = !(colNum % spaceUnits);
+    spaceUnits = 2
+    isTabStart = !(colNum % spaceUnits)
 
     if (char === ' ' && isTabStart) {
-      return 'lkcampbell-indent-guides';
+      return 'lkcampbell-indent-guides'
     } else {
-      return null;
+      return null
     }
   },
-  flattenSpans: false,
-};
+  flattenSpans: false
+}
 
 export default {
   components: {
-    Codemirror,
+    Codemirror
   },
   props: {
     value: String,
     mode: String,
     hintContext: Object,
     ternAutocompletionHook: Function,
-    readOnly: Boolean,
+    readOnly: Boolean
   },
   emits: ['input'],
   data() {
@@ -170,70 +170,70 @@ export default {
         tabSize: 4,
         line: true,
         readOnly: this.readOnly,
-        viewportMargin: Infinity,
-      },
-    };
+        viewportMargin: Infinity
+      }
+    }
   },
   beforeUnmount() {
     if (this.codemirror && this.codemirror.closeHint) {
-      this.codemirror.closeHint();
+      this.codemirror.closeHint()
     }
   },
   methods: {
     getCMModeExtension(mode) {
       if(mode.indexOf('yaml') >= 0) {
-        return yaml();
+        return yaml()
       }
 
       switch(mode) {
         case 'application/javascript':
         case 'js':
-          return javascript();
+          return javascript()
         case 'application/x-groovy':
         case 'groovy':
-          return groovy();
+          return groovy()
         case 'application/x-python2':
         case 'py2':
-          return python({ version: 2 });
+          return python({ version: 2 })
         case 'application/x-python3':
         case 'py3':
         case 'application/x-python':
         case 'py':
-          return python();
+          return python()
         case 'application/x-ruby':
         case 'rb':
-          return ruby();
+          return ruby()
         case 'text/jinja2':
         case 'jinja':
         case 'jinja2':
-          return jinja2();
+          return jinja2()
         case 'text/xml':
         case 'xml':
-          return xml();
+          return xml()
         case 'text/css':
         case 'css':
-          return css();
+          return css()
         case 'clike':
-          return clike();
+          return clike()
         default:
-          console.log('Unsupported codemirror mode:', mode);
-          return clike();
+          console.log('Unsupported codemirror mode:', mode)
+          return clike()
       }
     },
     translateMode(mode) {
       // Translations required for some special modes used in MainUI
       // See https://codemirror.net/5/mode/index.html for supported language names & MIME types
-      if (!mode) return mode;
-      if (mode.indexOf('yaml') >= 0) return 'text/x-yaml';
-      if (mode === 'application/json' || mode === 'json') return 'application/json';
-      if (mode.startsWith('application/javascript') || mode === 'js') return 'text/javascript';
-      if (mode === 'application/vnd.openhab.dsl.rule') return 'text/x-java';
-      if (mode === 'application/x-groovy' || mode === 'groovy') return 'text/x-groovy';
+      if (!mode) return mode
+      if (mode.indexOf('yaml') >= 0) return 'text/x-yaml'
+      if (mode === 'application/json' || mode === 'json') return 'application/json'
+      if (mode.startsWith('application/javascript') || mode === 'js') return 'text/javascript'
+      if (mode === 'application/vnd.openhab.dsl.rule') return 'text/x-java'
+      if (mode === 'application/x-groovy' || mode === 'groovy') return 'text/x-groovy'
       if (mode === 'application/x-python2' || mode === 'py2') {
         return {
           name: 'text/x-python',
-          version: 2,
-        };
+          version: 2
+        }
       }
       if (
         mode === 'application/x-python' ||
@@ -241,19 +241,19 @@ export default {
         mode === 'py' ||
         mode === 'py3'
       )
-        return 'text/x-python';
-      if (mode === 'application/x-ruby' || mode === 'rb') return 'text/x-ruby';
-      if (mode.indexOf('jinja') >= 0) return 'text/jinja2';
-      return mode;
+        return 'text/x-python'
+      if (mode === 'application/x-ruby' || mode === 'rb') return 'text/x-ruby'
+      if (mode.indexOf('jinja') >= 0) return 'text/jinja2'
+      return mode
     },
     ternComplete(file, query) {
-      let pos = tern.resolvePos(file, query.end);
-      let lit = infer.findExpressionAround(file.ast, null, pos, file.scope, 'Literal');
-      if (!lit || !lit.node) return;
-      let call = infer.findExpressionAround(file.ast, null, lit.node.start - 2, file.scope);
-      if (!call || !call.node) return;
+      let pos = tern.resolvePos(file, query.end)
+      let lit = infer.findExpressionAround(file.ast, null, pos, file.scope, 'Literal')
+      if (!lit || !lit.node) return
+      let call = infer.findExpressionAround(file.ast, null, lit.node.start - 2, file.scope)
+      if (!call || !call.node) return
       if (call.node.type !== 'MemberExpression' || (!call.node.object && !call.node.property))
-        return;
+        return
       if (
         (call.node.object.name === 'events' && call.node.property.name === 'postUpdate') ||
         (call.node.object.name === 'events' && call.node.property.name === 'sendCommand') ||
@@ -261,10 +261,10 @@ export default {
         (call.node.object.name === 'ir' && call.node.property.name === 'getItem') ||
         (call.node.object.name === 'items' && call.node.property.name === 'getItem')
       ) {
-        console.debug('Completing item names!');
+        console.debug('Completing item names!')
 
-        let before = lit.node.value.slice(0, pos - lit.node.start - 1);
-        let matches = [];
+        let before = lit.node.value.slice(0, pos - lit.node.start - 1)
+        let matches = []
         this.itemsCache
           .sort((a, b) => a.name.localeCompare(b.name))
           .forEach(item => {
@@ -276,14 +276,14 @@ export default {
                 let rec = {
                   name: JSON.stringify(item.name),
                   displayName: item.name,
-                  doc: (item.label ? item.label + ' ' : '') + '[' + item.type + ']',
-                };
-                matches.push(rec);
-                if (query.types) rec.type = 'string';
-                if (query.origins) rec.origin = item.name;
+                  doc: (item.label ? item.label + ' ' : '') + '[' + item.type + ']'
+                }
+                matches.push(rec)
+                if (query.types) rec.type = 'string'
+                if (query.origins) rec.origin = item.name
               }
             }
-          });
+          })
 
         return {
           start: tern.outputPos(query, file, lit.node.start),
@@ -293,26 +293,26 @@ export default {
             pos + (file.text.charAt(pos) === file.text.charAt(lit.node.start) ? 1 : 0)
           ),
           isProperty: false,
-          completions: matches,
-        };
+          completions: matches
+        }
       }
     },
     onCmReady(cm) {
-      const self = this;
-      let extraKeys = {};
+      const self = this
+      let extraKeys = {}
       if (this.mode && this.mode.indexOf('application/javascript') === 0) {
-        window.tern = tern;
+        window.tern = tern
         if (this.ternAutocompletionHook) {
           tern.registerPlugin('openhab-tern-hook', (server, options) => {
             server.mod.completeStrings = {
               maxLen: (options && options.maxLength) || 15,
-              seen: Object.create(null),
-            };
-            server.on('completion', this.ternComplete);
-          });
+              seen: Object.create(null)
+            }
+            server.on('completion', this.ternComplete)
+          })
           openhab.api.get('/rest/items?staticDataOnly=true').then(data => {
-            this.itemsCache = data;
-          });
+            this.itemsCache = data
+          })
         }
         /* TODO-V3
         const server = new _CodeMirror.TernServer({
@@ -339,25 +339,25 @@ export default {
         };
         */
         cm.on('cursorActivity', function (cm) {
-          server.updateArgHints(cm);
-        });
+          server.updateArgHints(cm)
+        })
       } else {
         const autocomplete = function (cm) {
           setTimeout(function () {
-            _CodeMirror.commands.autocomplete(cm);
-          }, 250);
-          return _CodeMirror.Pass; // tell CodeMirror we didn't handle the key
-        };
+            _CodeMirror.commands.autocomplete(cm)
+          }, 250)
+          return _CodeMirror.Pass // tell CodeMirror we didn't handle the key
+        }
         extraKeys = {
           'Ctrl-Space': 'autocomplete',
-          "'.'": autocomplete,
-          "'='": autocomplete,
+          '\'.\'': autocomplete,
+          '\'=\'': autocomplete,
           Space: autocomplete,
-          "'@'": autocomplete,
-        };
-        cm.state.$oh = this.$oh;
-        cm.state.originalMode = this.mode;
-        if (this.hintContext) cm.state.hintContext = Object.assign({}, this.hintContext);
+          '\'@\'': autocomplete
+        }
+        cm.state.$oh = this.$oh
+        cm.state.originalMode = this.mode
+        if (this.hintContext) cm.state.hintContext = Object.assign({}, this.hintContext)
         /* TODO-V3
         cm.setOption('hintOptions', {
           closeOnUnfocus: false,
@@ -403,63 +403,63 @@ export default {
         });
         */
 
-        this.cmOptions.lint = true;
+        this.cmOptions.lint = true
       }
       extraKeys.Tab = function (cm) {
         if (cm.somethingSelected()) {
-          cm.indentSelection('add');
+          cm.indentSelection('add')
         } else {
           cm.replaceSelection(
             cm.getOption('indentWithTabs') ? '\t' : Array(cm.getOption('indentUnit') + 1).join(' '),
             'end',
             '+input'
-          );
+          )
         }
-      };
-      extraKeys['Shift-Tab'] = 'indentLess';
-      extraKeys['Cmd-/'] = extraKeys['Ctrl-/'] = 'toggleComment';
-      extraKeys['Shift-Cmd-K'] = extraKeys['Shift-Ctrl-K'] = this.deleteCurrentLine;
+      }
+      extraKeys['Shift-Tab'] = 'indentLess'
+      extraKeys['Cmd-/'] = extraKeys['Ctrl-/'] = 'toggleComment'
+      extraKeys['Shift-Cmd-K'] = extraKeys['Shift-Ctrl-K'] = this.deleteCurrentLine
       // TODO-V3 cm.setOption('extraKeys', extraKeys);
       // TODO-V3 cm.addOverlay(indentGuidesOverlay);
       // TODO-V3 cm.refresh();
     },
     onCmCodeChange(newCode) {
-      this.$emit('input', newCode);
+      this.$emit('input', newCode)
     },
     deleteCurrentLine(cm) {
       if (cm.somethingSelected()) {
-        cm.replaceSelection('');
+        cm.replaceSelection('')
       } else {
-        const cursor = cm.getCursor();
+        const cursor = cm.getCursor()
         if (cursor.line === cm.lastLine() && cursor.line !== cm.firstLine()) {
-          const prevLine = cursor.line - 1;
+          const prevLine = cursor.line - 1
           cm.replaceRange(
             '',
             { line: prevLine, ch: cm.getLine(prevLine).length },
             { line: cursor.line, ch: cm.getLine(cursor.line).length }
-          );
-          cm.setCursor({ line: prevLine, ch: 0 });
+          )
+          cm.setCursor({ line: prevLine, ch: 0 })
         } else {
-          cm.replaceRange('', { line: cursor.line, ch: 0 }, { line: cursor.line + 1, ch: 0 });
-          cm.setCursor({ line: cursor.line, ch: 0 });
+          cm.replaceRange('', { line: cursor.line, ch: 0 }, { line: cursor.line + 1, ch: 0 })
+          cm.setCursor({ line: cursor.line, ch: 0 })
         }
       }
-    },
+    }
   },
   computed: {
     extensions() {
       const extensions = [ closeBrackets(), codeFolding() ]
-      if( useThemeOptionsStore().darkMode === 'dark')
+      if(useThemeOptionsStore().darkMode === 'dark')
         extensions.push(gruvboxDark)
       extensions.push(this.getCMModeExtension(this.mode))
 
       return extensions
     },
     codemirror() {
-      return this.$refs.cm.codemirror;
+      return this.$refs.cm.codemirror
     },
     ...mapStores(useThemeOptionsStore)
   },
-  mounted() {},
-};
+  mounted() {}
+}
 </script>

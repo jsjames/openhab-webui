@@ -6,18 +6,18 @@
 </template>
 
 <script>
-import PersistenceServicePicker from './persistenceservice-picker.vue';
+import PersistenceServicePicker from './persistenceservice-picker.vue'
 
 export default {
   props: ['configDescription', 'value'],
   emits: ['input'],
   components: {
-    PersistenceServicePicker,
+    PersistenceServicePicker
   },
   methods: {
     updateValue(value) {
-      this.$emit('input', value);
-    },
-  },
-};
+      this.$emit('input', value)
+    }
+  }
+}
 </script>

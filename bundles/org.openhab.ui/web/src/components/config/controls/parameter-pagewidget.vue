@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import { f7 } from 'framework7-vue';
-import { useComponentsStore } from '@/js/stores/components';
-import { mapStores } from 'pinia';
+import { f7 } from 'framework7-vue'
+import { useComponentsStore } from '@/js/stores/components'
+import { mapStores } from 'pinia'
 
 export default {
   props: ['configDescription', 'value'],
@@ -48,42 +48,42 @@ export default {
   data() {
     return {
       smartSelectParams: {
-        view: f7 ? f7.view.main : null,
-      },
-    };
+        view: f7 ? f7.view.main : null
+      }
+    }
   },
   computed: {
-    ...mapStores(useComponentsStore),
+    ...mapStores(useComponentsStore)
   },
   created() {
-    this.smartSelectParams.openIn = 'popup';
-    this.smartSelectParams.searchbar = true;
-    this.smartSelectParams.closeOnSelect = !this.configDescription.multiple;
+    this.smartSelectParams.openIn = 'popup'
+    this.smartSelectParams.searchbar = true
+    this.smartSelectParams.closeOnSelect = !this.configDescription.multiple
     if (
       !this.configDescription.multiple &&
       this.configDescription.required &&
       this.value === undefined
     ) {
-      this.$emit('input', this.configDescription.options[0].value);
+      this.$emit('input', this.configDescription.options[0].value)
     }
   },
   methods: {
     updateValue(event) {
-      f7.input.validateInputs(this.$refs.item.$el);
-      let value = this.$refs.item.f7SmartSelect.getValue();
+      f7.input.validateInputs(this.$refs.item.$el)
+      let value = this.$refs.item.$el.f7SmartSelect.getValue()
       if (!this.configDescription.multiple && this.configDescription.type === 'INTEGER') {
-        value = parseInt(value);
+        value = parseInt(value)
       }
-      this.$emit('input', value);
+      this.$emit('input', value)
     },
     isSelected(option, type) {
-      if (this.value === null || this.value === undefined) return;
+      if (this.value === null || this.value === undefined) return
       if (!this.configDescription.multiple) {
-        return this.value.toString() === type + ':' + option.uid;
+        return this.value.toString() === type + ':' + option.uid
       } else {
-        return this.value && this.value.indexOf(type + ':' + option.uid) >= 0;
+        return this.value && this.value.indexOf(type + ':' + option.uid) >= 0
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

@@ -15,13 +15,13 @@
       <f7-link
         @click="switchTab('design', fromYaml)"
         :tab-link-active="currentTab === 'design'"
-        class="tab-link">
+        tab-link="#design">
         Design
       </f7-link>
       <f7-link
         @click="switchTab('code', toYaml)"
         :tab-link-active="currentTab === 'code'"
-        class="tab-link">
+        tab-link="#code">
         Code
       </f7-link>
     </f7-toolbar>
@@ -41,7 +41,7 @@
                 :icon-color="rule.status.statusDetail === 'DISABLED' ? 'orange' : 'gray'"
                 :tooltip="
                   (rule.status.statusDetail === 'DISABLED' ? 'Enable' : 'Disable') +
-                  ($device.desktop ? ' (Ctrl-D)' : '')
+                    ($device.desktop ? ' (Ctrl-D)' : '')
                 "
                 icon-ios="f7:pause_circle"
                 icon-md="f7:pause_circle"
@@ -67,7 +67,7 @@
               <strong>{{
                 rule.status.statusDetail !== 'NONE' ? rule.status.statusDetail : '&nbsp;'
               }}</strong>
-              <br />
+              <br>
               <div v-if="rule.status.description">
                 {{ rule.status.description }}
               </div>
@@ -84,7 +84,7 @@
             <f7-chip class="margin-left" text="________" />
             <div>
               <strong>____ _______</strong>
-              <br />
+              <br>
             </div>
           </f7-col>
         </f7-block>
@@ -191,22 +191,28 @@
                             md="material:control_point" />
                   </template>
                 </f7-list-item> -->
-                <item-picker
-                  title="Select Items"
-                  name="newItem"
-                  :multiple="true"
-                  :value="selectedItems"
-                  @input="selectItems"
-                  :no-after="true"
-                  class="scene-items-picker" />
+                <div>
+                  <item-picker
+                    title="Select Items"
+                    name="newItem"
+                    :multiple="true"
+                    :value="selectedItems"
+                    @input="selectItems"
+                    :no-after="true"
+                    class="scene-items-picker" />
                 <!-- <f7-list-button :color="(showModuleControls) ? 'gray' : 'blue'" :title="sectionLabels[section][1]"></f7-list-button> -->
+                </div>
               </f7-list>
             </div>
           </f7-col>
           <f7-col v-if="isEditable && !createMode">
             <f7-list>
-              <f7-list-button color="blue" @click="duplicateRule"> Duplicate Scene </f7-list-button>
-              <f7-list-button color="red" @click="deleteRule"> Remove Scene </f7-list-button>
+              <f7-list-button color="blue" @click="duplicateRule">
+                Duplicate Scene
+              </f7-list-button>
+              <f7-list-button color="red" @click="deleteRule">
+                Remove Scene
+              </f7-list-button>
             </f7-list>
           </f7-col>
         </f7-block>
@@ -287,21 +293,21 @@
 </style>
 
 <script>
-import YAML from 'yaml';
-import cloneDeep from 'lodash/cloneDeep';
-import fastDeepEqual from 'fast-deep-equal/es6';
-import { utils } from 'framework7';
-import { f7, theme } from 'framework7-vue';
-import { nextTick, defineAsyncComponent } from 'vue';
+import YAML from 'yaml'
+import cloneDeep from 'lodash/cloneDeep'
+import fastDeepEqual from 'fast-deep-equal/es6'
+import { utils } from 'framework7'
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
 
-import SceneConfigureItemPopup from './scene-configure-item-popup.vue';
+import SceneConfigureItemPopup from './scene-configure-item-popup.vue'
 
-import RuleMixin from '../rule-edit-mixin';
-import RuleStatus from '@/components/rule/rule-status-mixin';
-import DirtyMixin from '../../dirty-mixin';
+import RuleMixin from '../rule-edit-mixin'
+import RuleStatus from '@/components/rule/rule-status-mixin'
+import DirtyMixin from '../../dirty-mixin'
 
-import ItemPicker from '@/components/config/controls/item-picker.vue';
-import RuleGeneralSettings from '@/components/rule/rule-general-settings.vue';
+import ItemPicker from '@/components/config/controls/item-picker.vue'
+import RuleGeneralSettings from '@/components/rule/rule-general-settings.vue'
 
 export default {
   mixins: [RuleMixin, RuleStatus, DirtyMixin],
@@ -313,17 +319,17 @@ export default {
         import(
           /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
         )
-    ),
+    )
   },
   props: {
     ruleId: String,
     createMode: Boolean,
     ruleCopy: Object,
     f7router: Object,
-    f7route: Object,
+    f7route: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -334,7 +340,7 @@ export default {
       moduleTypes: {
         actions: [],
         conditions: [],
-        triggers: [],
+        triggers: []
       },
       currentTab: 'design',
       currentModuleType: null,
@@ -342,8 +348,8 @@ export default {
       currentModuleConfig: {},
       selectedItems: [],
 
-      codeEditorOpened: false,
-    };
+      codeEditorOpened: false
+    }
   },
   watch: {
     rule: {
@@ -352,34 +358,34 @@ export default {
           // ignore initial rule assignment
           // create rule object clone in order to be able to delete status part
           // which can change from eventsource but doesn't mean a rule modification
-          let ruleClone = cloneDeep(this.rule);
-          delete ruleClone.status;
-          delete this.savedRule.status;
+          let ruleClone = cloneDeep(this.rule)
+          delete ruleClone.status
+          delete this.savedRule.status
 
-          this.dirty = !fastDeepEqual(ruleClone, this.savedRule);
+          this.dirty = !fastDeepEqual(ruleClone, this.savedRule)
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     load() {
-      if (this.loading) return;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
 
-      const loadModules1 = this.$oh.api.get('/rest/module-types?type=action');
+      const loadModules1 = this.$oh.api.get('/rest/module-types?type=action')
 
       const loadingFinished = () => {
         nextTick(() => {
-          this.savedRule = cloneDeep(this.rule);
-          this.ready = true;
-          this.loading = false;
-          if (!this.eventSource) this.startEventSource();
-        });
-      };
+          this.savedRule = cloneDeep(this.rule)
+          this.ready = true
+          this.loading = false
+          if (!this.eventSource) this.startEventSource()
+        })
+      }
 
       Promise.all([loadModules1]).then(data => {
-        this.moduleTypes.actions = data[0];
+        this.moduleTypes.actions = data[0]
         if (this.createMode) {
           const newRule = this.ruleCopy || {
             uid: utils.id(),
@@ -392,78 +398,78 @@ export default {
             templateUID: null,
             visibility: 'VISIBLE',
             status: {
-              status: 'NEW',
-            },
-          };
-          if (this.ruleCopy) newRule.uid = utils.id();
-          this.rule = newRule;
-          loadingFinished();
+              status: 'NEW'
+            }
+          }
+          if (this.ruleCopy) newRule.uid = utils.id()
+          this.rule = newRule
+          loadingFinished()
         } else {
           this.$oh.api.get('/rest/rules/' + this.ruleId).then(data2 => {
-            this.rule = data2;
-            this.rule.tags = this.rule.tags.filter(e => e !== 'Scene');
-            this.selectedItems = [];
+            this.rule = data2
+            this.rule.tags = this.rule.tags.filter(e => e !== 'Scene')
+            this.selectedItems = []
             this.rule.actions.forEach(a => {
               if (a.type === 'core.ItemCommandAction') {
-                this.selectedItems.push(a.configuration.itemName);
+                this.selectedItems.push(a.configuration.itemName)
               }
-            });
-            loadingFinished();
-          });
+            })
+            loadingFinished()
+          })
         }
-      });
+      })
     },
     save(noToast) {
-      if (!this.isEditable) return Promise.reject();
+      if (!this.isEditable) return Promise.reject()
       if (this.currentTab === 'code') {
         if (!this.fromYaml()) {
-          return Promise.reject();
+          return Promise.reject()
         }
       }
       if (!this.rule.uid) {
-        f7.dialog.alert('Please give an ID to the scene');
-        return Promise.reject();
+        f7.dialog.alert('Please give an ID to the scene')
+        return Promise.reject()
       }
       if (!this.rule.name) {
-        f7.dialog.alert('Please give a name to the scene');
-        return Promise.reject();
+        f7.dialog.alert('Please give a name to the scene')
+        return Promise.reject()
       }
-      let saveRule = cloneDeep(this.rule);
-      saveRule.tags.push('Scene');
+      let saveRule = cloneDeep(this.rule)
+      saveRule.tags.push('Scene')
       const promise = this.createMode
         ? this.$oh.api.postPlain(
-            '/rest/rules',
-            JSON.stringify(saveRule),
-            'text/plain',
-            'application/json'
-          )
-        : this.$oh.api.put('/rest/rules/' + saveRule.uid, saveRule);
+          '/rest/rules',
+          JSON.stringify(saveRule),
+          'text/plain',
+          'application/json'
+        )
+        : this.$oh.api.put('/rest/rules/' + saveRule.uid, saveRule)
       return promise
         .then(data => {
-          this.dirty = false;
+          this.dirty = false
           if (this.createMode) {
             f7.toast
               .create({
                 text: 'Scene created',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
+              .open()
             this.f7router.navigate(this.f7route.url.replace('/add', '/' + this.rule.uid), {
-              reloadCurrent: true,
-            });
-            this.load();
+              reloadCurrent: true
+            })
+            this.load()
           } else {
             if (!noToast) {
               f7.toast
                 .create({
                   text: 'Scene updated',
                   destroyOnClose: true,
-                  closeTimeout: 2000,
+                  closeTimeout: 2000
                 })
-                .open();
+                .open()
             }
-            this.savedRule = cloneDeep(this.rule);
+            this.savedRule = cloneDeep(this.rule)
           }
         })
         .catch(err => {
@@ -471,31 +477,31 @@ export default {
             .create({
               text: 'Error while saving scene: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     runNow() {
-      if (this.createMode) return;
+      if (this.createMode) return
       if (this.rule.status.status === 'RUNNING' || this.rule.status.status === 'UNINITIALIZED') {
         return f7.toast
           .create({
             text: `Scene cannot be activated ${this.rule.status.status === 'RUNNING' ? 'while currently activating, please wait' : 'if it is uninitialized'}!`,
             destroyOnClose: true,
-            closeTimeout: 2000,
+            closeTimeout: 2000
           })
-          .open();
+          .open()
       }
       f7.toast
         .create({
           text: 'Activating scene',
           destroyOnClose: true,
-          closeTimeout: 2000,
+          closeTimeout: 2000
         })
-        .open();
+        .open()
 
-      const savePromise = this.isEditable && this.dirty ? this.save(true) : Promise.resolve();
+      const savePromise = this.isEditable && this.dirty ? this.save(true) : Promise.resolve()
 
       savePromise.then(() => {
         this.$oh.api.postPlain('/rest/rules/' + this.rule.uid + '/runnow', '').catch(err => {
@@ -503,24 +509,24 @@ export default {
             .create({
               text: 'Error while activating scene: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
-      });
+            .open()
+        })
+      })
     },
     duplicateRule() {
-      let ruleClone = cloneDeep(this.rule);
+      let ruleClone = cloneDeep(this.rule)
       this.f7router.navigate(
         {
-          url: '/settings/scenes/duplicate',
+          url: '/settings/scenes/duplicate'
         },
         {
           props: {
-            ruleCopy: ruleClone,
-          },
+            ruleCopy: ruleClone
+          }
         }
-      );
+      )
     },
     deleteRule() {
       f7.dialog.confirm(
@@ -528,93 +534,93 @@ export default {
         'Delete Scene',
         () => {
           this.$oh.api.delete('/rest/rules/' + this.rule.uid).then(() => {
-            this.dirty = false;
-            this.f7router.back('/settings/scenes/', { force: true });
-          });
+            this.dirty = false
+            this.f7router.back('/settings/scenes/', { force: true })
+          })
         }
-      );
+      )
     },
     editModule(ev, mod) {
       if (ev.target.tagName.toLowerCase() === 'input') {
-        ev.cancelBubble = true;
-        return;
+        ev.cancelBubble = true
+        return
       }
-      if (this.showModuleControls) return;
+      if (this.showModuleControls) return
 
-      let swipeoutElement = ev.target;
-      ev.cancelBubble = true;
+      let swipeoutElement = ev.target
+      ev.cancelBubble = true
       while (!swipeoutElement.classList.contains('swipeout')) {
-        swipeoutElement = swipeoutElement.parentElement;
+        swipeoutElement = swipeoutElement.parentElement
       }
-      if (swipeoutElement && swipeoutElement.classList.contains('swipeout-opened')) return;
+      if (swipeoutElement && swipeoutElement.classList.contains('swipeout-opened')) return
 
       const popup = {
-        component: SceneConfigureItemPopup,
-      };
+        component: SceneConfigureItemPopup
+      }
 
       this.f7router.navigate(
         {
           url: 'item-config',
           route: {
             path: 'item-config',
-            popup,
-          },
+            popup
+          }
         },
         {
           props: {
             rule: this.rule,
-            module: mod,
-          },
+            module: mod
+          }
         }
-      );
+      )
 
-      f7.once('scene-item-config-update', this.updateActionModule);
+      f7.once('scene-item-config-update', this.updateActionModule)
       f7.once('scene-item-config-closed', () => {
-        f7.off('scene-item-config-update', this.updateActionModule);
-      });
+        f7.off('scene-item-config-update', this.updateActionModule)
+      })
     },
     deleteModule(ev, section, mod) {
-      let swipeoutElement = ev.target;
-      if (!this.isEditable) return;
-      ev.cancelBubble = true;
+      let swipeoutElement = ev.target
+      if (!this.isEditable) return
+      ev.cancelBubble = true
       while (!swipeoutElement.classList.contains('swipeout')) {
-        swipeoutElement = swipeoutElement.parentElement;
+        swipeoutElement = swipeoutElement.parentElement
       }
       f7.swipeout.delete(swipeoutElement, () => {
-        const idx = this.rule[section].findIndex(m => m.id === mod.id);
-        const itemName = this.rule.actions[idx].configuration.itemName;
-        this.rule[section].splice(idx, 1);
-        console.debug('Removing: ' + itemName);
-        this.selectedItems = this.selectedItems.filter(i => i !== itemName);
-        this.buildActionModules();
-      });
+        const idx = this.rule[section].findIndex(m => m.id === mod.id)
+        const itemName = this.rule.actions[idx].configuration.itemName
+        this.rule[section].splice(idx, 1)
+        console.debug('Removing: ' + itemName)
+        this.selectedItems = this.selectedItems.filter(i => i !== itemName)
+        this.buildActionModules()
+      })
     },
     selectItems(items) {
-      console.log(items);
-      this.selectedItems = items;
-      this.buildActionModules();
+      console.log(items)
+      this.selectedItems = items
+      this.buildActionModules()
     },
     reorderModule(ev, section) {
-      const newSection = [...this.rule[section]];
-      newSection.splice(ev.to, 0, newSection.splice(ev.from, 1)[0]);
-      this.rule.section = newSection;
+      const newSection = [...this.rule[section]]
+      newSection.splice(ev.to, 0, newSection.splice(ev.from, 1)[0])
+      this.rule.section = newSection
     },
     buildActionModules() {
       const modulesToRemove = this.rule.actions.filter(
         a => this.selectedItems.indexOf(a.configuration.itemName) < 0
-      );
+      )
       if (modulesToRemove.length > 0)
-        console.debug('Removing: ' + modulesToRemove.map(m => m.configuration.itemName).join(', '));
+        console.debug('Removing: ' + modulesToRemove.map(m => m.configuration.itemName).join(', '))
       this.rule.actions = this.rule.actions.filter(
         a => this.selectedItems.indexOf(a.configuration.itemName) >= 0
-      );
+      )
 
       const itemsToAdd = this.selectedItems.filter(
         i => !this.rule.actions.some(a => a.configuration.itemName === i)
-      );
-      if (itemsToAdd.length > 0) console.debug('Adding: ' + itemsToAdd.join(', '));
+      )
+      if (itemsToAdd.length > 0) console.debug('Adding: ' + itemsToAdd.join(', '))
 
-      let moduleId = 1;
+      let moduleId = 1
       itemsToAdd.forEach(itemName => {
         for (
           ;
@@ -623,38 +629,38 @@ export default {
           );
           moduleId++
         );
-        console.debug('new moduleId=' + moduleId);
+        console.debug('new moduleId=' + moduleId)
         const newModule = {
           id: moduleId.toString(),
           configuration: {
             itemName,
-            command: null,
+            command: null
           },
-          type: 'core.ItemCommandAction',
-        };
-        this.rule.actions.push(newModule);
-      });
+          type: 'core.ItemCommandAction'
+        }
+        this.rule.actions.push(newModule)
+      })
       const statePromises = itemsToAdd.map(itemName =>
         this.$oh.api.getPlain('/rest/items/' + itemName + '/state')
-      );
+      )
       Promise.all(statePromises).then(states => {
         states.forEach((state, idx) => {
-          const module = this.rule.actions.find(a => a.configuration.itemName === itemsToAdd[idx]);
-          module.configuration.command = state;
-        });
-      });
+          const module = this.rule.actions.find(a => a.configuration.itemName === itemsToAdd[idx])
+          module.configuration.command = state
+        })
+      })
     },
     updateCommandFromCurrentState(ev, module) {
-      if (ev) ev.cancelBubble = true;
-      const itemName = module.configuration.itemName;
+      if (ev) ev.cancelBubble = true
+      const itemName = module.configuration.itemName
       this.$oh.api.getPlain('/rest/items/' + itemName + '/state').then(state => {
-        module.configuration.command = state;
-      });
+        module.configuration.command = state
+      })
     },
     testCommand(ev, module) {
-      if (ev) ev.cancelBubble = true;
-      const itemName = module.configuration.itemName;
-      const command = module.configuration.command;
+      if (ev) ev.cancelBubble = true
+      const itemName = module.configuration.itemName
+      const command = module.configuration.command
       this.$oh.api
         .postPlain('/rest/items/' + itemName, command, 'text/plain', 'text/plain')
         .then(() => {
@@ -662,36 +668,36 @@ export default {
             .create({
               text: `Updated desired state of ${itemName} to ${command}`,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     updateActionModule(params) {
-      const [itemName, command] = params;
-      const module = this.rule.actions.find(a => a.configuration.itemName === itemName);
-      if (module) module.configuration.command = command;
+      const [itemName, command] = params
+      const module = this.rule.actions.find(a => a.configuration.itemName === itemName)
+      if (module) module.configuration.command = command
     },
     toYaml() {
-      const itemsConfig = {};
+      const itemsConfig = {}
       this.rule.actions.forEach(a => {
-        itemsConfig[a.configuration.itemName] = a.configuration.command;
-      });
+        itemsConfig[a.configuration.itemName] = a.configuration.command
+      })
 
       this.ruleYaml = YAML.stringify({
         items: itemsConfig,
         triggers: this.rule.triggers,
-        conditions: this.rule.conditions,
-      });
+        conditions: this.rule.conditions
+      })
     },
     fromYaml() {
-      if (!this.isEditable) return;
+      if (!this.isEditable) return
       try {
-        const updatedRule = YAML.parse(this.ruleYaml);
-        if (updatedRule.triggers === null) updatedRule.triggers = [];
-        if (updatedRule.conditions === null) updatedRule.conditions = [];
-        const actions = [];
-        let moduleId = 1;
+        const updatedRule = YAML.parse(this.ruleYaml)
+        if (updatedRule.triggers === null) updatedRule.triggers = []
+        if (updatedRule.conditions === null) updatedRule.conditions = []
+        const actions = []
+        let moduleId = 1
         for (
           ;
           ['triggers', 'actions', 'conditions'].some(s =>
@@ -704,21 +710,21 @@ export default {
             id: (moduleId++).toString(),
             configuration: {
               itemName: item,
-              command: updatedRule.items[item],
+              command: updatedRule.items[item]
             },
-            type: 'core.ItemCommandAction',
-          });
+            type: 'core.ItemCommandAction'
+          })
         }
-        this.rule.triggers = updatedRule.triggers;
-        this.rule.conditions = updatedRule.conditions;
-        this.rule.actions = actions;
-        console.debug(this.rule);
-        return true;
+        this.rule.triggers = updatedRule.triggers
+        this.rule.conditions = updatedRule.conditions
+        this.rule.actions = actions
+        console.debug(this.rule)
+        return true
       } catch (e) {
-        f7.dialog.alert(e).open();
-        return false;
+        f7.dialog.alert(e).open()
+        return false
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

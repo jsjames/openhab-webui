@@ -6,7 +6,9 @@
       no-hairline>
       <f7-nav-right>
         <f7-link @click="save()" v-if="theme.md && editable" icon-md="material:save" icon-only />
-        <f7-link @click="save()" v-if="!theme.md && editable"> Save </f7-link>
+        <f7-link @click="save()" v-if="!theme.md && editable">
+          Save
+        </f7-link>
       </f7-nav-right>
     </f7-navbar>
     <f7-toolbar v-if="ready" tabbar position="top">
@@ -14,13 +16,13 @@
         v-if="!generic"
         @click="switchTab('config', fromYaml)"
         :tab-link-active="currentTab === 'config'"
-        class="tab-link">
+        tab-link="#config">
         Config
       </f7-link>
       <f7-link
         @click="switchTab('code', toYaml)"
         :tab-link-active="currentTab === 'code'"
-        class="tab-link">
+        tab-link="#code">
         Code
       </f7-link>
     </f7-toolbar>
@@ -97,35 +99,35 @@
 </style>
 
 <script>
-import YAML from 'yaml';
-import fastDeepEqual from 'fast-deep-equal/es6';
-import cloneDeep from 'lodash/cloneDeep';
-import { f7, theme } from 'framework7-vue';
-import { nextTick, defineAsyncComponent } from 'vue';
+import YAML from 'yaml'
+import fastDeepEqual from 'fast-deep-equal/es6'
+import cloneDeep from 'lodash/cloneDeep'
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
 
-import MetadataNamespaces from '@/assets/definitions/metadata/namespaces.js';
+import MetadataNamespaces from '@/assets/definitions/metadata/namespaces.js'
 
-import ItemMetadataItemDescription from '@/components/item/metadata/item-metadata-itemdescription.vue';
-import ItemMetadataUnit from '@/components/item/metadata/item-metadata-unit.vue';
-import ItemMetadataSynonyms from '@/components/item/metadata/item-metadata-synonyms.vue';
-import ItemMetadataWidget from '@/components/item/metadata/item-metadata-widget.vue';
-import ItemMetadataWidgetOrder from '@/components/item/metadata/item-metadata-widgetorder.vue';
-import ItemMetadataAutoUpdate from '@/components/item/metadata/item-metadata-autoupdate.vue';
-import ItemMetadataExpire from '@/components/item/metadata/item-metadata-expire.vue';
-import ItemMetadataVoiceSystem from '@/components/item/metadata/item-metadata-voicesystem.vue';
-import ItemMetadataAlexa from '@/components/item/metadata/item-metadata-alexa.vue';
-import ItemMetadataHomeKit from '@/components/item/metadata/item-metadata-homekit.vue';
-import ItemMetadataMatter from '@/components/item/metadata/item-metadata-matter.vue';
-import ItemMetadataGa from '@/components/item/metadata/item-metadata-ga.vue';
-import ItemMetadataLinktomore from '@/components/item/metadata/item-metadata-linktomore.vue';
-import DirtyMixin from '../../dirty-mixin';
+import ItemMetadataItemDescription from '@/components/item/metadata/item-metadata-itemdescription.vue'
+import ItemMetadataUnit from '@/components/item/metadata/item-metadata-unit.vue'
+import ItemMetadataSynonyms from '@/components/item/metadata/item-metadata-synonyms.vue'
+import ItemMetadataWidget from '@/components/item/metadata/item-metadata-widget.vue'
+import ItemMetadataWidgetOrder from '@/components/item/metadata/item-metadata-widgetorder.vue'
+import ItemMetadataAutoUpdate from '@/components/item/metadata/item-metadata-autoupdate.vue'
+import ItemMetadataExpire from '@/components/item/metadata/item-metadata-expire.vue'
+import ItemMetadataVoiceSystem from '@/components/item/metadata/item-metadata-voicesystem.vue'
+import ItemMetadataAlexa from '@/components/item/metadata/item-metadata-alexa.vue'
+import ItemMetadataHomeKit from '@/components/item/metadata/item-metadata-homekit.vue'
+import ItemMetadataMatter from '@/components/item/metadata/item-metadata-matter.vue'
+import ItemMetadataGa from '@/components/item/metadata/item-metadata-ga.vue'
+import ItemMetadataLinktomore from '@/components/item/metadata/item-metadata-linktomore.vue'
+import DirtyMixin from '../../dirty-mixin'
 
 export default {
   mixins: [DirtyMixin],
   props: {
     itemName: String,
     namespace: String,
-    f7router: Object,
+    f7router: Object
   },
   components: {
     editor: defineAsyncComponent(
@@ -133,10 +135,10 @@ export default {
         import(
           /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
         )
-    ),
+    )
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -147,98 +149,98 @@ export default {
       item: {},
       metadata: { value: '', config: {} },
       savedMetadata: {},
-      yaml: null,
-    };
+      yaml: null
+    }
   },
   watch: {
     metadata: {
       handler: function () {
         if (this.ready && this.editable) {
-          this.dirty = !fastDeepEqual(this.metadata, this.savedMetadata);
+          this.dirty = !fastDeepEqual(this.metadata, this.savedMetadata)
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   computed: {
     editorControl() {
       switch (this.namespace) {
         case 'stateDescription':
         case 'commandDescription':
-          return ItemMetadataItemDescription;
+          return ItemMetadataItemDescription
         case 'unit':
-          return ItemMetadataUnit;
+          return ItemMetadataUnit
         case 'synonyms':
-          return ItemMetadataSynonyms;
+          return ItemMetadataSynonyms
         case 'widget':
         case 'listWidget':
         case 'cellWidget':
-          return ItemMetadataWidget;
+          return ItemMetadataWidget
         case 'widgetOrder':
-          return ItemMetadataWidgetOrder;
+          return ItemMetadataWidgetOrder
         case 'autoupdate':
-          return ItemMetadataAutoUpdate;
+          return ItemMetadataAutoUpdate
         case 'expire':
-          return ItemMetadataExpire;
+          return ItemMetadataExpire
         case 'voiceSystem':
-          return ItemMetadataVoiceSystem;
+          return ItemMetadataVoiceSystem
         case 'matter':
-          return ItemMetadataMatter;
+          return ItemMetadataMatter
         case 'alexa':
-          return ItemMetadataAlexa;
+          return ItemMetadataAlexa
         case 'homekit':
-          return ItemMetadataHomeKit;
+          return ItemMetadataHomeKit
         case 'ga':
-          return ItemMetadataGa;
+          return ItemMetadataGa
         case 'link_to_more':
-          return ItemMetadataLinktomore;
+          return ItemMetadataLinktomore
         default:
-          return null;
+          return null
       }
     },
     yamlError() {
-      if (this.currentTab !== 'code') return null;
+      if (this.currentTab !== 'code') return null
       try {
-        YAML.parse(this.yaml, { prettyErrors: true });
-        return 'OK';
+        YAML.parse(this.yaml, { prettyErrors: true })
+        return 'OK'
       } catch (e) {
-        return e;
+        return e
       }
     },
     editable() {
-      return this.metadata.editable !== false;
-    },
+      return this.metadata.editable !== false
+    }
   },
   methods: {
     onPageAfterIn() {
-      this.load();
+      this.load()
     },
     onEditorInput(value) {
-      this.yaml = value;
+      this.yaml = value
     },
     load() {
       this.$oh.api.get(`/rest/items/${this.itemName}?metadata=${this.namespace}`).then(item => {
-        this.item = item;
+        this.item = item
         if (item.metadata) {
-          this.metadata = item.metadata[this.namespace];
-          if (!this.metadata.config) this.metadata.config = {};
-          this.creationMode = false;
+          this.metadata = item.metadata[this.namespace]
+          if (!this.metadata.config) this.metadata.config = {}
+          this.creationMode = false
         }
         if (this.generic) {
-          this.currentTab = 'code';
-          this.toYaml();
+          this.currentTab = 'code'
+          this.toYaml()
         }
-        this.savedMetadata = cloneDeep(this.metadata);
+        this.savedMetadata = cloneDeep(this.metadata)
         nextTick(() => {
-          this.ready = true;
-        });
-      });
+          this.ready = true
+        })
+      })
     },
     save() {
-      if (!this.editable) return;
+      if (!this.editable) return
 
-      if (this.currentTab === 'code' && !this.fromYaml()) return;
-      if (!this.metadata.value) this.metadata.value = ' ';
+      if (this.currentTab === 'code' && !this.fromYaml()) return
+      if (!this.metadata.value) this.metadata.value = ' '
       this.$oh.api
         .put(`/rest/items/${this.itemName}/metadata/${this.namespace}`, this.metadata)
         .then(data => {
@@ -247,38 +249,38 @@ export default {
               .create({
                 text: 'Metadata created',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
+              .open()
           } else {
             f7.toast
               .create({
                 text: 'Metadata updated',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
+              .open()
           }
-          this.savedMetadata = cloneDeep(this.metadata);
-          this.dirty = false;
-          this.f7router.back();
+          this.savedMetadata = cloneDeep(this.metadata)
+          this.dirty = false
+          this.f7router.back()
         })
         .catch(err => {
           f7.toast
             .create({
               text: 'Error while saving metadata: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     remove() {
       let nslabel = (
         [...MetadataNamespaces].find(ns => ns.name === this.namespace) || {
-          label: this.namespace,
+          label: this.namespace
         }
-      ).label;
+      ).label
       f7.dialog.confirm(
         `Are you sure you want to remove all metadata for "${nslabel}"?`,
         'Remove metadata',
@@ -290,41 +292,41 @@ export default {
                 .create({
                   text: 'Metadata deleted',
                   destroyOnClose: true,
-                  closeTimeout: 2000,
+                  closeTimeout: 2000
                 })
-                .open();
-              this.dirty = false;
-              this.f7router.back();
+                .open()
+              this.dirty = false
+              this.f7router.back()
             })
             .catch(err => {
               f7.toast
                 .create({
                   text: 'Error while deleting metadata: ' + err,
                   destroyOnClose: true,
-                  closeTimeout: 2000,
+                  closeTimeout: 2000
                 })
-                .open();
-            });
+                .open()
+            })
         }
-      );
+      )
     },
     toYaml() {
       this.yaml = YAML.stringify({
         value: this.metadata.value,
-        config: this.metadata.config || {},
-      });
+        config: this.metadata.config || {}
+      })
     },
     fromYaml() {
       try {
-        const updatedMetadata = YAML.parse(this.yaml);
-        this.metadata.value = updatedMetadata.value;
-        if (updatedMetadata.config) this.metadata.config = updatedMetadata.config;
-        return true;
+        const updatedMetadata = YAML.parse(this.yaml)
+        this.metadata.value = updatedMetadata.value
+        if (updatedMetadata.config) this.metadata.config = updatedMetadata.config
+        return true
       } catch (e) {
-        f7.dialog.alert(e).open();
-        return false;
+        f7.dialog.alert(e).open()
+        return false
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

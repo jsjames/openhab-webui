@@ -9,10 +9,10 @@
       </f7-nav-right>
     </f7-navbar>
     <f7-toolbar tabbar position="top">
-      <f7-link @click="switchTab('tree')" :tab-link-active="currentTab === 'tree'" class="tab-link">
+      <f7-link @click="switchTab('tree')" :tab-link-active="currentTab === 'tree'" tab-link="#tree">
         Design
       </f7-link>
-      <f7-link @click="switchTab('code')" :tab-link-active="currentTab === 'code'" class="tab-link">
+      <f7-link @click="switchTab('code')" :tab-link-active="currentTab === 'code'" tab-link="#code">
         Code
       </f7-link>
     </f7-toolbar>
@@ -96,7 +96,9 @@
             </f7-col>
             <f7-col class="details-pane">
               <f7-block v-if="!selectedTag" no-gap>
-                <div class="padding text-align-center">Nothing selected</div>
+                <div class="padding text-align-center">
+                  Nothing selected
+                </div>
               </f7-block>
               <f7-block v-else>
                 <f7-card style="tag-detail">
@@ -133,7 +135,9 @@
                     </f7-list>
                   </f7-card-content>
                   <f7-card-footer v-if="selectedTag.editable">
-                    <f7-button color="red" @click="removeTag"> Remove </f7-button>
+                    <f7-button color="red" @click="removeTag">
+                      Remove
+                    </f7-button>
                   </f7-card-footer>
                 </f7-card>
                 <div><f7-block-title>Synonyms</f7-block-title></div>
@@ -185,16 +189,18 @@
       </f7-tab>
     </f7-tabs>
 
-    <f7-fab
-      v-if="currentTab === 'tree'"
-      class="add-to-semantics-fab"
-      position="right-center"
-      slot="fixed"
-      color="blue"
-      @click="addTag()">
-      <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
-      <f7-icon ios="f7:multiply" md="material:close" aurora="f7:multiply" />
-    </f7-fab>
+    <template #fixed>
+      <f7-fab
+        v-if="currentTab === 'tree'"
+        class="add-to-semantics-fab"
+        position="right-center"
+
+        color="blue"
+        @click="addTag()">
+        <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
+        <f7-icon ios="f7:multiply" md="material:close" aurora="f7:multiply" />
+      </f7-fab>
+    </template>
     <f7-sheet
       v-if="currentTab === 'tree'"
       class="semantics-details-sheet"
@@ -252,7 +258,9 @@
               placeholder="description"
               @input="($event) => selectedTag.description = $event.target.value" />
           </f7-list>
-          <f7-button v-if="selectedTag.editable" color="red" @click="removeTag"> Remove </f7-button>
+          <f7-button v-if="selectedTag.editable" color="red" @click="removeTag">
+            Remove
+          </f7-button>
         </f7-block>
         <f7-block style="margin-bottom: 6rem" v-if="selectedTag && detailsTab === 'synonyms'">
           <f7-list class="synonyms">
@@ -435,7 +443,7 @@ export default {
     switchTab (tab) {
       if (this.currentTab === tab) return
       // avoid error with existing details sheet when switching tabs
-      const sheet = this.$refs['details-sheet']?.f7Sheet
+      const sheet = this.$refs['details-sheet']?.$el.f7Modal
       if (sheet?.opened) {
         sheet.close()
       }

@@ -127,18 +127,18 @@
 </style>
 
 <script>
-import AddonStatsLine from './addon-stats-line.vue';
-import AddonLogo from '@/components/addons/addon-logo.vue';
-import { f7 } from 'framework7-vue';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { mapStores } from 'pinia';
+import AddonStatsLine from './addon-stats-line.vue'
+import AddonLogo from '@/components/addons/addon-logo.vue'
+import { f7 } from 'framework7-vue'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { mapStores } from 'pinia'
 
 export default {
   props: ['addon', 'headline', 'installActionText', 'lazyLogo'],
   emits: ['addon-button-click'],
   components: {
     AddonLogo,
-    AddonStatsLine,
+    AddonStatsLine
   },
   computed: {
     autoHeadline() {
@@ -147,31 +147,31 @@ export default {
         this.addon.properties.like_count &&
         this.addon.properties.like_count >= 20
       )
-        return 'Top';
+        return 'Top'
       if (
         this.addon.properties &&
         this.addon.properties.views &&
         this.addon.properties.views >= 1000
       )
-        return 'Popular';
+        return 'Popular'
       if (
         this.addon.properties &&
         this.addon.properties.posts_count &&
         this.addon.properties.posts_count >= 15
       )
-        return 'Hot';
-      return '';
+        return 'Hot'
+      return ''
     },
     showInstallActions() {
-      let splitted = this.addon.uid.split(':');
-      return splitted.length < 2 || splitted[0] !== 'eclipse';
+      let splitted = this.addon.uid.split(':')
+      return splitted.length < 2 || splitted[0] !== 'eclipse'
     },
     ...mapStores(useThemeOptionsStore)
   },
   methods: {
     buttonClicked() {
-      this.$emit('addon-button-click', this.addon);
-    },
-  },
-};
+      this.$emit('addon-button-click', this.addon)
+    }
+  }
+}
 </script>

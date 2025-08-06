@@ -33,24 +33,24 @@
 </style>
 
 <script>
-import AddonCard from '@/components/addons/addon-card.vue';
+import AddonCard from '@/components/addons/addon-card.vue'
 
 export default {
   props: ['addonsList', 'installActionText', 'headline'],
   emits: ['addon-button-click'],
   components: {
-    AddonCard,
+    AddonCard
   },
   computed: {
     slidesPerView() {
-      if (f7.width > f7.height) return 3.5;
-      return 1.5;
-    },
+      if (f7.width > f7.height) return 3.5
+      return 1.5
+    }
   },
   methods: {
     addonButtonClick(addon) {
-      this.$emit('addon-button-click', addon);
-    },
-  },
-};
+      this.$emit('addon-button-click', addon)
+    }
+  }
+}
 </script>

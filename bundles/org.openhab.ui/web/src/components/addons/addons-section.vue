@@ -135,11 +135,11 @@
 </style>
 
 <script>
-import { f7 } from 'framework7-vue';
-import AddonListItem from './addon-list-item.vue';
-import AddonCard from './addon-card.vue';
-import { compareAddons } from '@/assets/addon-store';
-import AddonsSwiper from '@/components/addons/addons-swiper.vue';
+import { f7 } from 'framework7-vue'
+import AddonListItem from './addon-list-item.vue'
+import AddonCard from './addon-card.vue'
+import { compareAddons } from '@/assets/addon-store'
+import AddonsSwiper from '@/components/addons/addons-swiper.vue'
 
 export default {
   props: [
@@ -150,60 +150,60 @@ export default {
     'featured',
     'showAsCards',
     'suggested',
-    'installActionText',
+    'installActionText'
   ],
   emits: ['addon-button-click'],
   components: {
     AddonsSwiper,
     AddonListItem,
-    AddonCard,
+    AddonCard
   },
   data() {
     return {
-      collapsed: true,
-    };
+      collapsed: true
+    }
   },
   computed: {
     featuredAddons() {
       if (this.featured) {
-        return this.addons.filter(a => this.featured.indexOf(a.uid) >= 0).sort(compareAddons);
+        return this.addons.filter(a => this.featured.indexOf(a.uid) >= 0).sort(compareAddons)
       }
-      return null;
+      return null
     },
     notFeaturedAddons() {
       return this.featuredAddons && this.featuredAddons.length
         ? this.addons.filter(a => this.featuredAddons.indexOf(a) < 0).sort(compareAddons)
-        : [...this.addons].sort(compareAddons);
+        : [...this.addons].sort(compareAddons)
     },
     addonCollapsedLimit() {
-      const installedCount = this.notFeaturedAddons.filter(a => a.installed).length;
-      if (installedCount >= 22) return 36;
-      if (installedCount >= 10) return 24;
-      return 12;
+      const installedCount = this.notFeaturedAddons.filter(a => a.installed).length
+      if (installedCount >= 22) return 36
+      if (installedCount >= 10) return 24
+      return 12
     },
     addonsList() {
-      if (this.collapsed) return this.notFeaturedAddons.slice(0, this.addonCollapsedLimit);
-      return this.notFeaturedAddons;
+      if (this.collapsed) return this.notFeaturedAddons.slice(0, this.addonCollapsedLimit)
+      return this.notFeaturedAddons
     },
     canExpand() {
-      if (!this.collapsed) return false;
-      if (this.addons.length < this.addonCollapsedLimit) return false;
-      return true;
-    },
+      if (!this.collapsed) return false
+      if (this.addons.length < this.addonCollapsedLimit) return false
+      return true
+    }
   },
   methods: {
     expand() {
-      this.collapsed = false;
+      this.collapsed = false
       setTimeout(() => {
-        f7.lazy.create('.page-addon-store');
-      }, 100);
+        f7.lazy.create('.page-addon-store')
+      }, 100)
     },
     addonButtonClick(addon) {
-      this.$emit('addon-button-click', addon);
-    },
+      this.$emit('addon-button-click', addon)
+    }
   },
   mounted() {
-    if (this.showAll) this.expand();
-  },
-};
+    if (this.showAll) this.expand()
+  }
+}
 </script>

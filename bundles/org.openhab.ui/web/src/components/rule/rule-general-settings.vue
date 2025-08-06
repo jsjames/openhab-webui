@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import TagInput from '@/components/tags/tag-input.vue';
+import TagInput from '@/components/tags/tag-input.vue'
 
 export default {
   props: [
@@ -126,30 +126,30 @@ export default {
     'stubMode',
     'templateName',
     'inScriptEditor',
-    'inSceneEditor',
+    'inSceneEditor'
   ],
   components: {
-    TagInput,
+    TagInput
   },
   computed: {
     editable() {
-      return this.createMode || (this.rule && this.rule.editable);
+      return this.createMode || (this.rule && this.rule.editable)
     },
     type() {
-      if (this.inScriptEditor) return 'Script';
-      if (this.inSceneEditor) return 'Scene';
-      return 'Rule';
-    },
+      if (this.inScriptEditor) return 'Script'
+      if (this.inSceneEditor) return 'Scene'
+      return 'Rule'
+    }
   },
   methods: {
     isScriptTag(tag) {
-      if (this.inScriptEditor !== true) return false;
-      if (tag === 'Script') return true;
+      if (this.inScriptEditor !== true) return false
+      if (tag === 'Script') return true
     },
     isSceneTag(tag) {
-      if (this.inSceneEditor !== true) return false;
-      if (tag === 'Scene') return true;
-    },
-  },
-};
+      if (this.inSceneEditor !== true) return false
+      if (tag === 'Scene') return true
+    }
+  }
+}
 </script>

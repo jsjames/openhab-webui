@@ -115,20 +115,20 @@ export default {
       const markLine =
         seriesOptions.markers === 'avg' || seriesOptions.markers === 'all'
           ? {
-              data: [{ type: 'average' }]
-            }
+            data: [{ type: 'average' }]
+          }
           : undefined
       const markPoint =
         seriesOptions.markers === 'min-max' || seriesOptions.markers === 'all'
           ? {
-              label: {
-                backgroundColor: 'auto'
-              },
-              data: [
-                { type: 'min', name: 'min' },
-                { type: 'max', name: 'max' }
-              ]
-            }
+            label: {
+              backgroundColor: 'auto'
+            },
+            data: [
+              { type: 'min', name: 'min' },
+              { type: 'max', name: 'max' }
+            ]
+          }
           : undefined
 
       return {
@@ -167,12 +167,12 @@ export default {
             type: analyzer.visualMapType,
             ...(analyzer.visualMapMin &&
               analyzer.visualMapMin !== '' && {
-                min: parseFloat(analyzer.visualMapMin)
-              }),
+              min: parseFloat(analyzer.visualMapMin)
+            }),
             ...(analyzer.visualMapMax &&
               analyzer.visualMapMax !== '' && {
-                max: parseFloat(analyzer.visualMapMax)
-              })
+              max: parseFloat(analyzer.visualMapMax)
+            })
           }
         }
       ]

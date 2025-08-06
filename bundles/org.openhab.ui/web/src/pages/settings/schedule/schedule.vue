@@ -40,7 +40,9 @@
         icon-md="material:close"
         icon-color="white"
         @click="showCheckboxes = false" />
-      <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
+      <div class="title" v-if="theme.md">
+        {{ selectedItems.length }} selected
+      </div>
       <div class="right" v-if="theme.md">
         <f7-link icon-md="material:delete" icon-color="white" @click="removeSelected" />
         <f7-link icon-md="material:more_vert" icon-color="white" @click="removeSelected" />
@@ -108,21 +110,20 @@
 </style>
 
 <script>
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
-import { defineAsyncComponent } from 'vue';
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
 
-import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import { useLastSearchQueryStore } from '@/js/stores/last-search-query'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
-const lastSearchQueryStore = useLastSearchQueryStore();
+const lastSearchQueryStore = useLastSearchQueryStore()
 
 export default {
   components: {
     'empty-state-placeholder': EmptyStatePlaceholder
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -134,31 +135,31 @@ export default {
       calendar: {},
       selectedItems: [],
       showCheckboxes: false,
-      eventSource: null,
-    };
+      eventSource: null
+    }
   },
   created() {},
   methods: {
     onPageAfterIn() {
-      this.load();
+      this.load()
     },
     onPageBeforeOut() {
-      this.stopEventSource();
-      lastSearchQueryStore.lastScheduleSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+      this.stopEventSource()
+      lastSearchQueryStore.lastScheduleSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query
     },
     load() {
-      if (this.loading) return;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
 
       if (this.initSearchbar)
-        lastSearchQueryStore.lastScheduleSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
-      this.initSearchbar = false;
+        lastSearchQueryStore.lastScheduleSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query
+      this.initSearchbar = false
 
-      let occurrences = [];
+      let occurrences = []
 
       let start = new Date(),
-        limit = new Date();
-      limit.setDate(start.getDate() + 31);
+        limit = new Date()
+      limit.setDate(start.getDate() + 31)
 
       this.$oh.api
         .get(
@@ -168,130 +169,130 @@ export default {
             limit.toISOString()
         )
         .then(data => {
-          this.rules = data;
-          this.loading = false;
-          this.initSearchbar = true;
+          this.rules = data
+          this.loading = false
+          this.initSearchbar = true
 
           // map RulesExecutions per time
           this.rules.forEach(rule => {
-            occurrences.push([new Date(rule.date), rule.rule]);
-          });
+            occurrences.push([new Date(rule.date), rule.rule])
+          })
 
-          this.calendar = {};
+          this.calendar = {}
 
-          let day = start;
+          let day = start
 
           while (day < limit) {
-            const year = day.getFullYear();
-            const month = day.toLocaleString('default', { month: 'long' });
+            const year = day.getFullYear()
+            const month = day.toLocaleString('default', { month: 'long' })
             const dayofmonth =
-              day.toLocaleString('default', { weekday: 'short' }) + ' ' + day.getDate();
-            const monthIndex = day.getMonth();
-            const dayIndex = day.getDate();
-            const cal = this.calendar;
-            if (!cal[year]) cal[year] = {};
-            if (!cal[year][month]) cal[year][month] = {};
+              day.toLocaleString('default', { weekday: 'short' }) + ' ' + day.getDate()
+            const monthIndex = day.getMonth()
+            const dayIndex = day.getDate()
+            const cal = this.calendar
+            if (!cal[year]) cal[year] = {}
+            if (!cal[year][month]) cal[year][month] = {}
             cal[year][month][dayofmonth] = occurrences.filter(o => {
               return (
                 o[0].getFullYear() === year &&
                 o[0].getMonth() === monthIndex &&
                 o[0].getDate() === dayIndex
-              );
-            });
-            day.setDate(day.getDate() + 1);
+              )
+            })
+            day.setDate(day.getDate() + 1)
           }
 
-          this.ready = true;
-          if (!this.eventSource) this.startEventSource();
+          this.ready = true
+          if (!this.eventSource) this.startEventSource()
 
           nextTick(() => {
             if (this.$device.desktop && this.$refs.searchbar) {
-              this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
+              this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus()
             }
-            this.$refs.searchbar?.$el.f7Searchbar.search(lastSearchQueryStore.lastScheduleSearchQuery || '');
-          });
+            this.$refs.searchbar?.$el.f7Searchbar.search(lastSearchQueryStore.lastScheduleSearchQuery || '')
+          })
         })
         .catch((err, status) => {
           if (err === 'Not Found' || status === 404) {
-            this.noRuleEngine = true;
+            this.noRuleEngine = true
           }
-        });
+        })
     },
     startEventSource() {
       this.eventSource = this.$oh.sse.connect(
         '/rest/events?topics=openhab/rules/*/*',
         null,
         event => {
-          const topicParts = event.topic.split('/');
+          const topicParts = event.topic.split('/')
           switch (topicParts[3]) {
             case 'added':
             case 'removed':
             case 'updated':
-              this.load();
-              break;
+              this.load()
+              break
           }
         }
-      );
+      )
     },
     stopEventSource() {
-      this.$oh.sse.close(this.eventSource);
-      this.eventSource = null;
+      this.$oh.sse.close(this.eventSource)
+      this.eventSource = null
     },
     toggleCheck() {
-      this.showCheckboxes = !this.showCheckboxes;
+      this.showCheckboxes = !this.showCheckboxes
     },
     isChecked(item) {
-      return this.selectedItems.indexOf(item) >= 0;
+      return this.selectedItems.indexOf(item) >= 0
     },
     toggleItemCheck(event, item) {
       if (this.isChecked(item)) {
-        this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
+        this.selectedItems.splice(this.selectedItems.indexOf(item), 1)
       } else {
-        this.selectedItems.push(item);
+        this.selectedItems.push(item)
       }
     },
     removeSelected() {
-      const vm = this;
+      const vm = this
 
       f7.dialog.confirm(
         `Remove ${this.selectedItems.length} selected rules?`,
         'Remove Rules',
         () => {
-          vm.doRemoveSelected();
+          vm.doRemoveSelected()
         }
-      );
+      )
     },
     doRemoveSelected() {
-      let dialog = f7.dialog.progress('Deleting Rules...');
+      let dialog = f7.dialog.progress('Deleting Rules...')
 
-      const promises = this.selectedItems.map(i => this.$oh.api.delete('/rest/rules/' + i));
+      const promises = this.selectedItems.map(i => this.$oh.api.delete('/rest/rules/' + i))
       Promise.all(promises)
         .then(data => {
           f7.toast
             .create({
               text: 'Rules removed',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.selectedItems = [];
-          dialog.close();
-          this.load();
+            .open()
+          this.selectedItems = []
+          dialog.close()
+          this.load()
         })
         .catch(err => {
-          dialog.close();
-          this.load();
-          console.error(err);
-          f7.dialog.alert('An error occurred while deleting: ' + err);
-        });
-    },
+          dialog.close()
+          this.load()
+          console.error(err)
+          f7.dialog.alert('An error occurred while deleting: ' + err)
+        })
+    }
   },
   computed: {
     searchPlaceholder() {
       return window.innerWidth >= 1280
         ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))'
-        : 'Search';
-    },
-  },
-};
+        : 'Search'
+    }
+  }
+}
 </script>

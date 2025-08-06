@@ -11,7 +11,7 @@
       ...resolvedStyle,
     }"
     onload="this.classList.remove('no-icon')"
-    onerror="this.classList.add('no-icon')" />
+    onerror="this.classList.add('no-icon')">
   <f7-link v-else-if="hasAction" @click="performAction()">
     <f7-icon
       v-if="iconType === 'f7'"
@@ -42,15 +42,15 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import { OhIconDefinition } from '@/assets/definitions/widgets/system';
-import { actionsMixin } from '../widget-actions';
-import { Icon } from '@iconify/vue';
+import mixin from '../widget-mixin'
+import { OhIconDefinition } from '@/assets/definitions/widgets/system'
+import { actionsMixin } from '../widget-actions'
+import { Icon } from '@iconify/vue'
 
 export default {
   mixins: [mixin, actionsMixin],
   components: {
-    'iconify-icon': Icon,
+    'iconify-icon': Icon
   },
   props: ['icon', 'width', 'height', 'color', 'state', 'rotate', 'horizontalFlip', 'verticalFlip'],
   widget: OhIconDefinition,
@@ -58,14 +58,14 @@ export default {
     return {
       currentState: this.state,
       currentIcon: null,
-      iconUrl: null,
-    };
+      iconUrl: null
+    }
   },
   computed: {
     resolvedStyle() {
       return {
-        ...(this.config && this.config.style ? this.config.style : {}),
-      };
+        ...(this.config && this.config.style ? this.config.style : {})
+      }
     },
     resolvedConfig() {
       return {
@@ -101,32 +101,32 @@ export default {
             : null,
         ios: this.icon ? this.icon : this.config && this.config.icon ? this.config.icon : null,
         md: this.icon ? this.icon : this.config && this.config.icon ? this.config.icon : null,
-        aurora: this.icon ? this.icon : this.config && this.config.icon ? this.config.icon : null,
-      };
+        aurora: this.icon ? this.icon : this.config && this.config.icon ? this.config.icon : null
+      }
     },
     resolvedIcon() {
-      let iconName = this.context ? this.config.icon : this.icon;
+      let iconName = this.context ? this.config.icon : this.icon
       if (!(typeof iconName === 'string' || iconName instanceof String)) {
-        iconName = '';
+        iconName = ''
       } else if (iconName.indexOf('oh:') === 0 && iconName.split(':').length === 3) {
-        iconName = iconName.split(':')[2];
+        iconName = iconName.split(':')[2]
       } else if (iconName.indexOf(':') >= 0) {
-        iconName = iconName.substring(iconName.indexOf(':') + 1);
+        iconName = iconName.substring(iconName.indexOf(':') + 1)
       }
       // for OH icons only
-      const actualState = this.context ? this.config.state : this.state;
+      const actualState = this.context ? this.config.state : this.state
       return {
         iconName,
-        actualState,
-      };
+        actualState
+      }
     },
     iconType() {
-      const icon = this.context ? this.config.icon : this.icon;
-      if (!icon) return 'oh';
-      if (!(typeof icon === 'string' || icon instanceof String)) return 'oh';
-      if (icon.indexOf('f7') === 0 || icon.indexOf('material') === 0) return 'f7';
-      if (icon.indexOf('if') === 0 || icon.indexOf('iconify') === 0) return 'iconify';
-      return 'oh';
+      const icon = this.context ? this.config.icon : this.icon
+      if (!icon) return 'oh'
+      if (!(typeof icon === 'string' || icon instanceof String)) return 'oh'
+      if (icon.indexOf('f7') === 0 || icon.indexOf('material') === 0) return 'f7'
+      if (icon.indexOf('if') === 0 || icon.indexOf('iconify') === 0) return 'iconify'
+      return 'oh'
     },
     /**
      * Icon set, for openHAB icons only.
@@ -134,49 +134,49 @@ export default {
      * @returns {*|string}
      */
     iconSet() {
-      const icon = this.context ? this.config.icon : this.icon;
-      if (icon.indexOf('oh:') === 0 && icon.split(':').length === 3) return icon.split(':')[1];
-      return 'classic';
+      const icon = this.context ? this.config.icon : this.icon
+      if (icon.indexOf('oh:') === 0 && icon.split(':').length === 3) return icon.split(':')[1]
+      return 'classic'
     },
     // for OH icons only
     iconFormat() {
-      return this.context ? this.config.iconFormat || 'svg' : 'svg';
-    },
+      return this.context ? this.config.iconFormat || 'svg' : 'svg'
+    }
   },
   watch: {
     resolvedIcon(val) {
-      let updated = false;
+      let updated = false
       if (val.actualState !== this.currentState) {
-        this.currentState = val.actualState;
-        updated = true;
+        this.currentState = val.actualState
+        updated = true
       }
       if (val.iconName !== this.currentIcon) {
-        this.currentIcon = val.iconName;
-        updated = true;
+        this.currentIcon = val.iconName
+        updated = true
       }
-      if (updated && this.iconType === 'oh') this.updateIcon();
-    },
+      if (updated && this.iconType === 'oh') this.updateIcon()
+    }
   },
   mounted() {
-    this.currentIcon = this.resolvedIcon.iconName;
-    this.currentState = this.resolvedIcon.actualState;
-    if (this.iconType === 'oh') this.updateIcon();
+    this.currentIcon = this.resolvedIcon.iconName
+    this.currentState = this.resolvedIcon.actualState
+    if (this.iconType === 'oh') this.updateIcon()
   },
   methods: {
     updateIcon() {
       if (!this.currentIcon) {
-        this.iconUrl = null;
-        return;
+        this.iconUrl = null
+        return
       }
       this.$oh.media
         .getIcon(this.currentIcon, this.iconFormat, this.currentState, this.iconSet)
         .then(url => {
           if (url !== this.iconUrl) {
-            this.iconUrl = url;
+            this.iconUrl = url
           }
-        });
-    },
-  },
+        })
+    }
+  }
   // asyncComputed: {
   //   iconUrl () {
   //     return (this.icon)
@@ -185,5 +185,5 @@ export default {
   //       : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
   //   }
   // }
-};
+}
 </script>

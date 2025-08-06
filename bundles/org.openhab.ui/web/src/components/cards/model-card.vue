@@ -21,7 +21,7 @@
             v-if="config.backgroundImage"
             class="card-background lazy"
             :src="backgroundImageUrl"
-            :style="config.backgroundImageStyle" />
+            :style="config.backgroundImageStyle">
           <slot name="header">
             <div v-if="context && context.component.slots && context.component.slots.header">
               <generic-widget-component
@@ -105,11 +105,11 @@
 </style>
 
 <script>
-import CardMixin from './card-mixin';
-import { f7, theme } from 'framework7-vue';
+import CardMixin from './card-mixin'
+import { f7, theme } from 'framework7-vue'
 
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { mapStores } from 'pinia';
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { mapStores } from 'pinia'
 
 export default {
   mixins: [CardMixin],
@@ -120,11 +120,11 @@ export default {
   asyncComputed: {
     backgroundImageUrl() {
       if (this.config.backgroundImage) {
-        return this.$oh.media.getImage(this.config.backgroundImage);
+        return this.$oh.media.getImage(this.config.backgroundImage)
       } else {
-        return Promise.resolve(null);
+        return Promise.resolve(null)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

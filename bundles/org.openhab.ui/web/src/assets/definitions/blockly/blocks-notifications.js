@@ -794,8 +794,8 @@ export default function defineOHBlocks_Notifications(f7) {
       .replace(/'/g, '')
     const itemType = itemName !== '' ? blockGetCheckedInputType(block, 'itemName') : undefined
     const commandCode =
-      "'command:" +
-      (itemType === '' ? "' + " + itemName + " + ':' " : `${itemName}:'`) +
+      '\'command:' +
+      (itemType === '' ? '\' + ' + itemName + ' + \':\' ' : `${itemName}:'`) +
       (commandType === '' ? ' + ' + command : ` + ${command}`)
     return [commandCode, javascriptGenerator.ORDER_ATOMIC]
   }

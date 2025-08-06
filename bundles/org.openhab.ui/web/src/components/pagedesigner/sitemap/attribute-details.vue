@@ -33,7 +33,9 @@
       </f7-list>
     </f7-card-content>
     <f7-card-footer key="item-card-buttons-edit-mode" v-if="widget.component !== 'Sitemap'">
-      <f7-button color="blue" @click="addAttribute"> Add </f7-button>
+      <f7-button color="blue" @click="addAttribute">
+        Add
+      </f7-button>
     </f7-card-footer>
   </f7-card>
 </template>
@@ -44,84 +46,84 @@ export default {
   data() {
     return {
       fieldDefaults: {
-        type: 'text',
-      },
-    };
+        type: 'text'
+      }
+    }
   },
   computed: {
     fieldDefs() {
-      return this.fields ? JSON.parse(this.fields) : [];
+      return this.fields ? JSON.parse(this.fields) : []
     },
     attributes() {
       if (this.widget && this.widget.config && this.widget.config[this.attribute]) {
         return this.widget.config[this.attribute].map((attr, idx) => ({
           key: idx + ': ' + JSON.stringify(attr),
-          value: attr,
-        }));
+          value: attr
+        }))
       }
-      return [];
-    },
+      return []
+    }
   },
   methods: {
     fieldProp(field, prop) {
-      const fieldProps = field[Object.keys(field)[0]];
+      const fieldProps = field[Object.keys(field)[0]]
       if (fieldProps[prop] !== undefined) {
-        return fieldProps[prop];
+        return fieldProps[prop]
       }
       if (prop === 'placeholder') {
-        return this.placeholder;
+        return this.placeholder
       }
-      return this.fieldDefaults[prop];
+      return this.fieldDefaults[prop]
     },
     fieldStyle(field, fieldidx) {
-      let style = {};
+      let style = {}
       if (this.fieldProp(field, 'width') !== undefined) {
-        style.flexGrow = '0';
-        style.flexShrink = '0';
-        style.flexBasis = this.fieldProp(field, 'width');
+        style.flexGrow = '0'
+        style.flexShrink = '0'
+        style.flexBasis = this.fieldProp(field, 'width')
       } else {
-        style.flex = 1;
+        style.flex = 1
       }
       if (fieldidx > 0) {
-        style.paddingLeft = '5px';
+        style.paddingLeft = '5px'
       }
-      return style;
+      return style
     },
     inputFieldStyle(field, fieldidx) {
-      let style = {};
-      style.width = '100%';
+      let style = {}
+      style.width = '100%'
       if (this.fieldProp(field, 'type') === 'number') {
-        style.textAlign = 'end';
+        style.textAlign = 'end'
       }
-      return style;
+      return style
     },
     updateAttribute($event, idx, attr, field) {
-      let value = $event.target.value;
+      let value = $event.target.value
       if (!value) {
-        this.removeAttribute(idx);
-        return;
+        this.removeAttribute(idx)
+        return
       }
       if (field) {
-        value = attr.value ? attr.value : {};
-        value[field] = $event.target.value;
+        value = attr.value ? attr.value : {}
+        value[field] = $event.target.value
       }
-      this.widget.config[this.attribute][idx] = value;
+      this.widget.config[this.attribute][idx] = value
     },
     removeAttribute(idx) {
-      this.widget.config[this.attribute].splice(idx, 1);
+      this.widget.config[this.attribute].splice(idx, 1)
     },
     addAttribute() {
       if (this.widget && this.widget.config && this.widget.config[this.attribute]) {
-        this.widget.config[this.attribute].push('');
+        this.widget.config[this.attribute].push('')
       } else {
-        this.widget.config[this.attribute] = [''];
+        this.widget.config[this.attribute] = ['']
       }
     },
     onSort(ev) {
-      const element = this.widget.config[this.attribute][ev.from];
-      this.widget.config[this.attribute].splice(ev.from, 1);
-      this.widget.config[this.attribute].splice(ev.to, 0, element);
-    },
-  },
-};
+      const element = this.widget.config[this.attribute][ev.from]
+      this.widget.config[this.attribute].splice(ev.from, 1)
+      this.widget.config[this.attribute].splice(ev.to, 0, element)
+    }
+  }
+}
 </script>

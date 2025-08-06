@@ -63,14 +63,14 @@ const EquipmentListParameters = () => [
   pb(
     'equipmentPromoteSingle',
     'Promote single Points',
-    "Flatten equipment which only have a single Point (only display the Point as the Equipment's representation"
+    'Flatten equipment which only have a single Point (only display the Point as the Equipment\'s representation'
   ).v((value, configuration, configDescription, parameters) => {
     return configuration.equipmentNesting === 'accordion'
   }),
   pb(
     'equipmentPromoteMain',
     'Promote the main Point of an Equipment',
-    "Promote the main Point item of an Equipment (widgetOrder equal to 0) as the Equipment's representation"
+    'Promote the main Point item of an Equipment (widgetOrder equal to 0) as the Equipment\'s representation'
   ).v((value, configuration, configDescription, parameters) => {
     return configuration.equipmentNesting === 'accordion'
   }),
@@ -155,7 +155,7 @@ const ModelCardParameters = () => [
   pt(
     'backgroundColor',
     'Background Color',
-    "Color of the card's background; if unset, choose automatically from built-in defaults for certain semantic classes"
+    'Color of the card\'s background; if unset, choose automatically from built-in defaults for certain semantic classes'
   ).o([
     { value: 'red', label: 'Red' },
     { value: 'green', label: 'Green' },
@@ -190,7 +190,7 @@ export const OhLocationCardParameters = () =>
       pb(
         'disableBadges',
         'Disable badges',
-        "Do not examine items to display badges - can help with performance if you don't need them."
+        'Do not examine items to display badges - can help with performance if you don\'t need them.'
       ),
       pt(
         'badges',

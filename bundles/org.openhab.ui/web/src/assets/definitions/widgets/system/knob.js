@@ -9,7 +9,7 @@ export default () => [
   pd(
     'offset',
     'Offset',
-    "Offset to be applied to the Item's state (e.g. Item state = 2; offset = 20; knob/rounded slider behaves as Item state would be 22)"
+    'Offset to be applied to the Item\'s state (e.g. Item state = 2; offset = 20; knob/rounded slider behaves as Item state would be 22)'
   ),
   pb(
     'ignoreDisplayState',
@@ -44,12 +44,12 @@ export default () => [
   pn(
     'startAngle',
     'Start Angle',
-    "Angle of circle where the round slider should start (default -50); 0 is 9 o'clock; only if circleShape is not set"
+    'Angle of circle where the round slider should start (default -50); 0 is 9 o\'clock; only if circleShape is not set'
   ).a(),
   pn(
     'endAngle',
     'End Angle',
-    "Angle of circle where the round slider should start (default -130); 360 is 9 o'clock; only if circleShape is not set"
+    'Angle of circle where the round slider should start (default -130); 360 is 9 o\'clock; only if circleShape is not set'
   ).a(),
   po('circleShape', 'Circle Shape', 'Indicates the circle shape to be render', [
     { value: 'full', label: 'full' },

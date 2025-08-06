@@ -11,7 +11,6 @@
         <generic-widget-component
           :context="childContext(slotComponent)"
           v-for="(slotComponent, idx) in slotComponents"
-          :slot="slotName"
           :key="slotName + '-' + idx"
           @command="onCommand" />
       </ul>
@@ -19,7 +18,6 @@
         v-else
         :context="childContext(slotComponent)"
         v-for="(slotComponent, idx) in slotComponents"
-        :slot="slotName"
         :key="slotName + '-' + idx"
         @command="onCommand" />
     </template>
@@ -30,7 +28,6 @@
       <generic-widget-component
         :context="childContext(slotComponent)"
         v-for="(slotComponent, idx) in slotComponents"
-        :slot="slotName"
         :key="slotName + '-' + idx"
         @command="onCommand" />
     </template>
@@ -57,9 +54,7 @@
   <pre
     v-else-if="componentType && componentType === 'Error' && visible"
     class="text-color-red"
-    style="white-space: pre-wrap"
-    >{{ config.error }}</pre
-  >
+    style="white-space: pre-wrap">{{ config.error }}</pre>
   <component v-else-if="visible" :is="componentType" v-bind="config">
     {{ config.content }}
     <template v-if="context.component.slots && context.component.slots.default">
@@ -72,13 +67,13 @@
 </template>
 
 <script>
-import mixin from './widget-mixin';
+import mixin from './widget-mixin'
 
-import * as SystemWidgets from './system/index';
-import * as StandardWidgets from './standard/index';
-import * as StandardListWidgets from './standard/list';
-import * as StandardCellWidgets from './standard/cell';
-import * as LayoutWidgets from './layout/index';
+import * as SystemWidgets from './system/index'
+import * as StandardWidgets from './standard/index'
+import * as StandardListWidgets from './standard/list'
+import * as StandardCellWidgets from './standard/cell'
+import * as LayoutWidgets from './layout/index'
 
 export default {
   mixins: [mixin],
@@ -87,7 +82,7 @@ export default {
     ...StandardWidgets,
     ...StandardListWidgets,
     ...StandardCellWidgets,
-    ...LayoutWidgets,
-  },
-};
+    ...LayoutWidgets
+  }
+}
 </script>

@@ -25,11 +25,15 @@
       </div>
     </f7-card-content>
     <f7-card-footer v-if="createMode || editMode" key="item-card-buttons">
-      <f7-button v-if="createMode" color="blue" fill raised @click="create"> Create </f7-button>
+      <f7-button v-if="createMode" color="blue" fill raised @click="create">
+        Create
+      </f7-button>
       <f7-button v-else color="blue" fill raised @click="save" v-show="model.item.editable">
         Save
       </f7-button>
-      <f7-button v-if="model.item.editable" color="blue" @click="cancel"> Cancel </f7-button>
+      <f7-button v-if="model.item.editable" color="blue" @click="cancel">
+        Cancel
+      </f7-button>
       <f7-button
         v-else
         color="blue"
@@ -50,7 +54,9 @@
         icon-aurora="material:expand_more">
         Edit
       </f7-button>
-      <f7-button v-if="model.item.editable" color="red" @click="remove"> Remove </f7-button>
+      <f7-button v-if="model.item.editable" color="red" @click="remove">
+        Remove
+      </f7-button>
       <f7-button
         v-else
         color="blue"
@@ -65,17 +71,17 @@
 </template>
 
 <script>
-import Item from '@/components/item/item.vue';
-import ItemForm from '@/components/item/item-form.vue';
-import ItemMixin from '@/components/item/item-mixin';
-import { f7 } from 'framework7-vue';
+import Item from '@/components/item/item.vue'
+import ItemForm from '@/components/item/item-form.vue'
+import ItemMixin from '@/components/item/item-mixin'
+import { f7 } from 'framework7-vue'
 
 export default {
   mixins: [ItemMixin],
   props: ['model', 'links', 'items', 'context'],
   components: {
     Item,
-    ItemForm,
+    ItemForm
   },
   emits: ['item-created', 'item-removed', 'cancel-create', 'item-updated'],
   data() {
@@ -83,71 +89,71 @@ export default {
       editMode: false,
       createMode: false,
       forceSemantics: false,
-      editedItem: {},
-    };
+      editedItem: {}
+    }
   },
   mounted() {
-    this.onModelChange();
+    this.onModelChange()
   },
   methods: {
     onPageBeforeIn() {
       if (window) {
-        window.addEventListener('keydown', this.keyDown);
+        window.addEventListener('keydown', this.keyDown)
       }
     },
     onPageBeforeOut() {
       if (window) {
-        window.removeEventListener('keydown', this.keyDown);
+        window.removeEventListener('keydown', this.keyDown)
       }
     },
     keyDown(ev) {
       if (ev.keyCode === 46) {
         // delete key
-        this.remove();
-        ev.stopPropagation();
-        ev.preventDefault();
+        this.remove()
+        ev.stopPropagation()
+        ev.preventDefault()
       }
     },
     onModelChange() {
-      this.editMode = false;
-      this.createMode = false;
-      this.forceSemantics = false;
+      this.editMode = false
+      this.createMode = false
+      this.forceSemantics = false
       if (this.model.item.created === false) {
-        this.editedItem = Object.assign({}, this.model.item);
-        this.createMode = true;
+        this.editedItem = Object.assign({}, this.model.item)
+        this.createMode = true
         if (this.model.item.metadata && this.model.item.metadata.semantics) {
-          this.forceSemantics = true;
+          this.forceSemantics = true
         }
       }
     },
     save() {
-      this.editMode = false;
+      this.editMode = false
       this.saveItem(this.editedItem)
         .then(() => {
           f7.toast
             .create({
               text: 'Item updated',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.$emit('item-updated', this.editedItem);
+            .open()
+          this.$emit('item-updated', this.editedItem)
         })
         .catch(err => {
           f7.toast
             .create({
               text: 'Item not saved: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     create() {
-      this.editMode = false;
+      this.editMode = false
 
       // TODO properly validate item
-      if (!this.editedItem.name) return;
+      if (!this.editedItem.name) return
 
       this.saveItem(this.editedItem)
         .then(() => {
@@ -155,34 +161,34 @@ export default {
             .create({
               text: 'Item created',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.model.item = this.editedItem;
-          this.model.item.created = true;
-          this.model.item.editable = true;
-          this.$emit('item-created', this.model.item);
-          this.onModelChange();
+            .open()
+          this.model.item = this.editedItem
+          this.model.item.created = true
+          this.model.item.editable = true
+          this.$emit('item-created', this.model.item)
+          this.onModelChange()
         })
         .catch(err => {
           f7.toast
             .create({
               text: 'Item not saved: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     remove() {
-      const vm = this;
+      const vm = this
 
       f7.dialog.confirm('Remove ' + this.model.item.name + '?', 'Remove Item', () => {
-        vm.doRemove();
-      });
+        vm.doRemove()
+      })
     },
     doRemove() {
-      this.editMode = false;
+      this.editMode = false
 
       this.$oh.api
         .delete('/rest/items/' + this.model.item.name)
@@ -191,41 +197,41 @@ export default {
             .create({
               text: 'Item removed',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.model.item.created = true;
-          this.model.item.editable = true;
-          this.$emit('item-removed', this.model.item);
-          this.onModelChange();
+            .open()
+          this.model.item.created = true
+          this.model.item.editable = true
+          this.$emit('item-removed', this.model.item)
+          this.onModelChange()
         })
         .catch(err => {
           f7.toast
             .create({
               text: 'Item not removed: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     edit() {
-      this.editMode = true;
-      this.editedItem = Object.assign({}, this.model.item);
+      this.editMode = true
+      this.editedItem = Object.assign({}, this.model.item)
     },
     cancel() {
       if (this.createMode) {
-        this.$emit('cancel-create');
+        this.$emit('cancel-create')
       }
-      this.createMode = false;
-      this.editMode = false;
-      this.editedItem = {};
-    },
+      this.createMode = false
+      this.editMode = false
+      this.editedItem = {}
+    }
   },
   watch: {
     model() {
-      this.onModelChange();
-    },
-  },
-};
+      this.onModelChange()
+    }
+  }
+}
 </script>

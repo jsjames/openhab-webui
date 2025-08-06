@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import { OhRepeaterDefinition } from '@/assets/definitions/widgets/system';
-import { compareItems, compareRules } from '@/components/widgets/widget-order';
+import mixin from '../widget-mixin'
+import { OhRepeaterDefinition } from '@/assets/definitions/widgets/system'
+import { compareItems, compareRules } from '@/components/widgets/widget-order'
 
 export default {
   mixins: [mixin],
@@ -34,30 +34,30 @@ export default {
   data() {
     return {
       sourceCache: null,
-      source: null,
-    };
+      source: null
+    }
   },
   computed: {
     childrenContexts() {
       const iterationContext = (ctx, el, idx, source) => {
         // takes the context with the added variables
-        const loopVars = {};
+        const loopVars = {}
         if (ctx.loop) {
           for (const loopKey in this.context.loop) {
-            loopVars[loopKey] = this.context.loop[loopKey];
+            loopVars[loopKey] = this.context.loop[loopKey]
           }
         }
-        loopVars[this.config.for] = el;
-        loopVars[this.config.for + '_idx'] = idx;
-        loopVars[this.config.for + '_source'] = source;
+        loopVars[this.config.for] = el
+        loopVars[this.config.for + '_idx'] = idx
+        loopVars[this.config.for + '_source'] = source
 
-        ctx.loop = loopVars;
+        ctx.loop = loopVars
 
-        return ctx;
-      };
+        return ctx
+      }
 
-      let source = this.source;
-      if (!Array.isArray(source)) return [];
+      let source = this.source
+      if (!Array.isArray(source)) return []
 
       if (this.config.filter) {
         source = source.filter((el, idx, source) =>
@@ -66,7 +66,7 @@ export default {
             '=' + this.config.filter,
             iterationContext(this.childContext(this.context.component), el, idx, source)
           )
-        );
+        )
       }
       if (this.config.map) {
         source = source.map((el, idx, source) =>
@@ -75,44 +75,44 @@ export default {
             '=' + this.config.map,
             iterationContext(this.childContext(this.context.component), el, idx, source)
           )
-        );
+        )
       }
 
-      let contexts = [];
-      let idx = 0;
+      let contexts = []
+      let idx = 0
       for (let i of source) {
         contexts.push(
           ...this.context.component.slots.default.map(c => {
-            return iterationContext(this.childContext(c), i, idx, source);
+            return iterationContext(this.childContext(c), i, idx, source)
           })
-        );
+        )
 
-        idx++;
+        idx++
       }
 
-      return contexts;
-    },
+      return contexts
+    }
   },
   asyncComputed: {
     source() {
-      if (this.config.cacheSource && this.sourceCache) return this.sourceCache;
-      let sourceResult;
+      if (this.config.cacheSource && this.sourceCache) return this.sourceCache
+      let sourceResult
       if (this.config.sourceType === 'range') {
-        const start = this.config.rangeStart || 0;
-        const stop = this.config.rangeStop || 10;
-        const step = this.config.rangeStep || 1;
+        const start = this.config.rangeStart || 0
+        const stop = this.config.rangeStop || 10
+        const step = this.config.rangeStep || 1
         sourceResult = Promise.resolve(
           Array(Math.ceil((stop + 1 - start) / step))
             .fill(start)
             .map((x, y) => x + y * step)
-        );
+        )
       } else if (this.config.sourceType === 'itemsWithTags' && this.config.itemTags) {
         sourceResult = this.$oh.api
           .get(
             '/rest/items?metadata=' + this.config.fetchMetadata + '&tags=' + this.config.itemTags
           )
-          .then(d => Promise.resolve(d.sort(compareItems)));
-        this.sourceCache = this.config.cacheSource ? sourceResult : null;
+          .then(d => Promise.resolve(d.sort(compareItems)))
+        this.sourceCache = this.config.cacheSource ? sourceResult : null
       } else if (this.config.sourceType === 'itemsInGroup') {
         sourceResult = this.$oh.api
           .get(
@@ -123,30 +123,30 @@ export default {
               '&tags=' +
               this.config.itemTags
           )
-          .then(i => Promise.resolve(i.members.sort(compareItems)));
-        this.sourceCache = this.config.cacheSource ? sourceResult : null;
+          .then(i => Promise.resolve(i.members.sort(compareItems)))
+        this.sourceCache = this.config.cacheSource ? sourceResult : null
       } else if (this.config.sourceType === 'itemStateOptions') {
         sourceResult = this.$oh.api
           .get('/rest/items/' + this.config.itemOptions)
-          .then(i => Promise.resolve(i.stateDescription ? i.stateDescription.options : []));
-        this.sourceCache = this.config.cacheSource ? sourceResult : null;
+          .then(i => Promise.resolve(i.stateDescription ? i.stateDescription.options : []))
+        this.sourceCache = this.config.cacheSource ? sourceResult : null
       } else if (this.config.sourceType === 'itemCommandOptions') {
         sourceResult = this.$oh.api
           .get('/rest/items/' + this.config.itemOptions)
           .then(i =>
             Promise.resolve(i.commandDescription ? i.commandDescription.commandOptions : [])
-          );
-        this.sourceCache = this.config.cacheSource ? sourceResult : null;
+          )
+        this.sourceCache = this.config.cacheSource ? sourceResult : null
       } else if (this.config.sourceType === 'rulesWithTags' && this.config.ruleTags) {
         sourceResult = this.$oh.api
           .get('/rest/rules?summary=true' + '&tags=' + this.config.ruleTags)
-          .then(r => Promise.resolve(r.sort(compareRules)));
-        this.sourceCache = this.config.cacheSource ? sourceResult : null;
+          .then(r => Promise.resolve(r.sort(compareRules)))
+        this.sourceCache = this.config.cacheSource ? sourceResult : null
       } else {
-        sourceResult = Promise.resolve(this.config.in);
+        sourceResult = Promise.resolve(this.config.in)
       }
-      return sourceResult;
-    },
-  },
-};
+      return sourceResult
+    }
+  }
+}
 </script>

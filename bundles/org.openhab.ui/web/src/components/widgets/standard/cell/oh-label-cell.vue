@@ -36,14 +36,14 @@
 </style>
 
 <script>
-import mixin from '../../widget-mixin';
-import { OhLabelCellDefinition } from '@/assets/definitions/widgets/standard/cells';
-import OhCell from './oh-cell.vue';
+import mixin from '../../widget-mixin'
+import { OhLabelCellDefinition } from '@/assets/definitions/widgets/standard/cells'
+import OhCell from './oh-cell.vue'
 
 export default {
   mixins: [mixin],
   components: {
-    OhCell,
+    OhCell
   },
   widget: OhLabelCellDefinition,
   computed: {
@@ -52,8 +52,8 @@ export default {
         this.config.label ||
         this.context.store[this.config.item].displayState ||
         this.context.store[this.config.item].state
-      );
-    },
-  },
-};
+      )
+    }
+  }
+}
 </script>

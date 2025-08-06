@@ -15,7 +15,9 @@
         </f7-nav-left>
         <f7-nav-title>Edit {{ currentSlot }}</f7-nav-title>
         <f7-nav-right>
-          <f7-link @click="updateWidgetSlotConfig" class="popup-close"> Done </f7-link>
+          <f7-link @click="updateWidgetSlotConfig" class="popup-close">
+            Done
+          </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <f7-toolbar tabbar position="top">
@@ -24,16 +26,16 @@
           :key="idx"
           @click="switchTab(idx)"
           :tab-link-active="currentTab === idx"
-          class="tab-link">
+          tab-link="tab-{{ idx }}">
           {{ idx }}
         </f7-link>
-        <f7-link @click="addComponentToSlot" icon-f7="plus_filled" class="tab-link" />
-        <!-- <f7-link @click="currentTab = 'config'" :tab-link-active="currentTab === 'config'" class="tab-link">Config</f7-link>
-        <f7-link @click="currentTab = 'channels'" :tab-link-active="currentTab === 'channels'" class="tab-link">Channels</f7-link> -->
+        <!-- TODO-V3 need to verify -->
+        <f7-link @click="addComponentToSlot" icon-f7="plus_filled" tab-link />
       </f7-toolbar>
       <f7-tabs>
         <f7-tab
           v-for="(slotComponent, idx) in slotConfig"
+          id="tab-{{ idx }}"
           :key="idx"
           :tab-active="currentTab === idx">
           <config-sheet
@@ -74,9 +76,9 @@
 </style>
 
 <script>
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import { f7 } from 'framework7-vue';
-import { nextTick } from 'vue';
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import { f7 } from 'framework7-vue'
+import { nextTick } from 'vue'
 
 export default {
   props: [
@@ -86,39 +88,39 @@ export default {
     'currentSlotDefaultComponentType',
     'initialConfig',
     'removeComponentFromSlot',
-    'editWidgetCode',
+    'editWidgetCode'
   ],
   emits: ['widget-slot-config-closed', 'widget-slot-config-update'],
   components: {
-    ConfigSheet,
+    ConfigSheet
   },
   data() {
     return {
       ready: false,
-      currentTab: 0,
-    };
+      currentTab: 0
+    }
   },
   methods: {
     switchTab(idx) {
-      this.currentTab = undefined;
+      this.currentTab = undefined
       nextTick(() => {
-        this.currentTab = idx;
-      });
+        this.currentTab = idx
+      })
     },
     widgetSlotConfigOpened() {},
     widgetSlotConfigClosed() {
-      f7.emit('widget-slot-config-closed');
+      f7.emit('widget-slot-config-closed')
     },
     updateWidgetSlotConfig() {
-      f7.emit('widget-slot-config-update', this.slotConfig);
+      f7.emit('widget-slot-config-update', this.slotConfig)
     },
     addComponentToSlot() {
       this.slotConfig.push({
         component: this.currentSlotDefaultComponentType,
-        config: Object.assign({}, this.initialConfig),
-      });
-      this.switchTab(this.slotConfig.length - 1);
-    },
-  },
-};
+        config: Object.assign({}, this.initialConfig)
+      })
+      this.switchTab(this.slotConfig.length - 1)
+    }
+  }
+}
 </script>

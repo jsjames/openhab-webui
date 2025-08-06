@@ -1192,31 +1192,33 @@ textarea.blocklyHtmlTextAreaInput
 </style>
 
 <script>
-import Blockly from 'blockly';
-import { WorkspaceSearch } from '@blockly/plugin-workspace-search';
-import { javascriptGenerator } from 'blockly/javascript.js';
-import DarkTheme from '@blockly/theme-dark';
-import { ZoomToFitControl } from '@blockly/zoom-to-fit';
-import { shadowBlockConversionChangeListener } from '@blockly/shadow-block-converter';
+import Blockly from 'blockly'
+import { WorkspaceSearch } from '@blockly/plugin-workspace-search'
+import { javascriptGenerator } from 'blockly/javascript.js'
+import DarkTheme from '@blockly/theme-dark'
+import { ZoomToFitControl } from '@blockly/zoom-to-fit'
+import { shadowBlockConversionChangeListener } from '@blockly/shadow-block-converter'
 import {
   Multiselect,
-  MultiselectBlockDragger,
-} from '@mit-app-inventor/blockly-plugin-workspace-multiselect';
-import { TypedVariableModal } from '@blockly/plugin-typed-variable-modal';
+  MultiselectBlockDragger
+} from '@mit-app-inventor/blockly-plugin-workspace-multiselect'
+import { TypedVariableModal } from '@blockly/plugin-typed-variable-modal'
 
-import { f7 } from 'framework7-vue';
+import { f7, theme } from 'framework7-vue'
 
-import defineOHBlocks from '@/assets/definitions/blockly';
-import { defineLibraryToolboxCategory } from '@/assets/definitions/blockly/libraries';
-import { theme } from 'framework7-vue';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { mapStores } from 'pinia';
+import defineOHBlocks from '@/assets/definitions/blockly'
+import { defineLibraryToolboxCategory } from '@/assets/definitions/blockly/libraries'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
 
-//TODO-V3 Vue.config.ignoredElements = ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep'];
+// Vue is configured to treat these elements as custom elements: ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep']
 
 export default {
-  props: ['blocks', 'libraryDefinitions'],
+  props: {
+    blocks: String,
+    libraryDefinitions: Array
+  },
   emits: ['mounted', 'ready', 'change'],
   data() {
     return {
@@ -1230,7 +1232,7 @@ export default {
       transformationServices: [],
       loading: true,
       ready: false
-    };
+    }
   },
   computed: {
     cssVars() {
@@ -1238,14 +1240,14 @@ export default {
         '--blockly-ws-search-bg-color': useThemeOptionsStore().darkMode === 'dark' ? '#1e1e1e' : 'white',
         '--blockly-ws-search-border-color':
           useThemeOptionsStore().darkMode === 'dark' ? 'lightgrey' : 'grey',
-        '--blockly-ws-search-text-color': useThemeOptionsStore().darkMode === 'dark' ? 'white' : 'black',
-      };
+        '--blockly-ws-search-text-color': useThemeOptionsStore().darkMode === 'dark' ? 'white' : 'black'
+      }
     },
     ...mapStores(useThemeOptionsStore)
   },
   mounted() {
-    this.load();
-    this.$emit('mounted');
+    this.load()
+    this.$emit('mounted')
   },
   methods: {
     load() {
@@ -1257,64 +1259,64 @@ export default {
           ? Promise.resolve(this.libraryDefinitions)
           : this.$oh.api.get('/rest/ui/components/ui:blocks'),
         this.$oh.api.get('/rest/persistence'),
-        this.$oh.api.get('/rest/transformations/services'),
-      ];
+        this.$oh.api.get('/rest/transformations/services')
+      ]
       Promise.all(dataPromises)
         .then(data => {
           // fetch rules
           const rules = data[0].sort((a, b) => {
-            const labelA = a.name;
-            const labelB = b.name;
-            return labelA.localeCompare(labelB);
-          });
-          this.rules = rules.filter(r => !r.tags || r.tags.indexOf('Script') < 0);
-          this.scripts = rules.filter(r => r.tags && r.tags.indexOf('Script') >= 0);
+            const labelA = a.name
+            const labelB = b.name
+            return labelA.localeCompare(labelB)
+          })
+          this.rules = rules.filter(r => !r.tags || r.tags.indexOf('Script') < 0)
+          this.scripts = rules.filter(r => r.tags && r.tags.indexOf('Script') >= 0)
 
           this.sinks = data[1].sort((a, b) => {
-            const labelA = a.label;
-            const labelB = b.label;
-            return labelA.localeCompare(labelB);
-          });
+            const labelA = a.label
+            const labelB = b.label
+            return labelA.localeCompare(labelB)
+          })
 
           this.voices = data[2].sort((a, b) => {
-            const labelA = a.label;
-            const labelB = b.label;
-            return labelA.localeCompare(labelB);
-          });
+            const labelA = a.label
+            const labelB = b.label
+            return labelA.localeCompare(labelB)
+          })
 
-          this.blockLibraries = data[3];
+          this.blockLibraries = data[3]
 
           this.persistenceServices = data[4].sort((a, b) => {
-            const labelA = a.label;
-            const labelB = b.label;
-            return labelA.localeCompare(labelB);
-          });
+            const labelA = a.label
+            const labelB = b.label
+            return labelA.localeCompare(labelB)
+          })
 
           this.transformationServices = data[5].sort((a, b) => {
-            const labelA = a;
-            const labelB = b;
-            return labelA.localeCompare(labelB);
-          });
+            const labelA = a
+            const labelB = b
+            return labelA.localeCompare(labelB)
+          })
 
-          this.initBlockly(this.blockLibraries);
+          this.initBlockly(this.blockLibraries)
         })
         .catch((err, status) => {
-          console.error('Error while retrieving Blockly data - ' + err + ':' + status);
-        });
+          console.error('Error while retrieving Blockly data - ' + err + ':' + status)
+        })
     },
     initBlockly(libraryDefinitions) {
       defineOHBlocks(f7, libraryDefinitions, {
         sinks: this.sinks,
         voices: this.voices,
         persistenceServices: this.persistenceServices,
-        transformationServices: this.transformationServices,
-      });
-      this.addLibraryToToolbox(libraryDefinitions || []);
+        transformationServices: this.transformationServices
+      })
+      this.addLibraryToToolbox(libraryDefinitions || [])
 
       const options = {
         toolbox: this.$refs.toolbox,
         plugins: {
-          blockDragger: MultiselectBlockDragger,
+          blockDragger: MultiselectBlockDragger
         },
         horizontalLayout: !this.$device.desktop,
         theme: this.themeOptionsStore.darkMode() === 'dark' ? DarkTheme : undefined,
@@ -1325,11 +1327,11 @@ export default {
           maxScale: 3,
           minScale: 0.3,
           scaleSpeed: 1.2,
-          pinch: true,
+          pinch: true
         },
         move: {
           drag: true,
-          wheel: true,
+          wheel: true
         },
         trashcan: false,
         showLabels: false,
@@ -1337,32 +1339,32 @@ export default {
         // Multi-select-options
         multiselectCopyPaste: {
           crossTab: true,
-          menu: true,
+          menu: true
         },
         multiselectIcon: {
-          hideIcon: true, // hide it because it doesn't work in v0.1.11
+          hideIcon: true // hide it because it doesn't work in v0.1.11
         },
         multiFieldUpdate: true,
 
-        renderer: this.getCurrentRenderer(),
-      };
-      this.workspace = Blockly.inject(this.$refs.blocklyEditor, options);
-      this.workspace.addChangeListener(shadowBlockConversionChangeListener);
-      const workspaceSearch = new WorkspaceSearch(this.workspace);
-      workspaceSearch.init();
+        renderer: this.getCurrentRenderer()
+      }
+      this.workspace = Blockly.inject(this.$refs.blocklyEditor, options)
+      this.workspace.addChangeListener(shadowBlockConversionChangeListener)
+      const workspaceSearch = new WorkspaceSearch(this.workspace)
+      workspaceSearch.init()
 
       const createFlyout = function (workspace) {
-        let xmlList = [];
-        const button = document.createElement('button');
-        button.setAttribute('text', 'Create Typed Variable: Do not forget to choose the type!');
-        button.setAttribute('callbackKey', 'callbackName');
-        xmlList.push(button);
+        let xmlList = []
+        const button = document.createElement('button')
+        button.setAttribute('text', 'Create Typed Variable: Do not forget to choose the type!')
+        button.setAttribute('callbackKey', 'callbackName')
+        xmlList.push(button)
 
-        const blockList = Blockly.VariablesDynamic.flyoutCategoryBlocks(workspace);
-        xmlList = xmlList.concat(blockList);
-        return xmlList;
-      };
-      this.workspace.registerToolboxCategoryCallback('CREATE_TYPED_VARIABLE', createFlyout);
+        const blockList = Blockly.VariablesDynamic.flyoutCategoryBlocks(workspace)
+        xmlList = xmlList.concat(blockList)
+        return xmlList
+      }
+      this.workspace.registerToolboxCategoryCallback('CREATE_TYPED_VARIABLE', createFlyout)
       const typedVarModal = new TypedVariableModal(this.workspace, 'callbackName', [
         ['Item name', 'oh_item'],
         ['Item object', 'oh_itemtype'],
@@ -1373,98 +1375,98 @@ export default {
         ['Boolean', 'Boolean'],
         ['Number', 'Number'],
         ['Dictionary', 'Dictionary'],
-        ['Colour', 'Colour'],
-      ]);
+        ['Colour', 'Colour']
+      ])
 
-      typedVarModal.init();
+      typedVarModal.init()
 
-      Blockly.utils.colour.setHsvSaturation(0.45); // default
-      Blockly.utils.colour.setHsvValue(0.65); // a little bit more contrast for the different colors
+      Blockly.utils.colour.setHsvSaturation(0.45) // default
+      Blockly.utils.colour.setHsvValue(0.65) // a little bit more contrast for the different colors
 
-      const zoomToFit = new ZoomToFitControl(this.workspace);
-      zoomToFit.init();
+      const zoomToFit = new ZoomToFitControl(this.workspace)
+      zoomToFit.init()
 
-      const multiselectPlugin = new Multiselect(this.workspace);
-      multiselectPlugin.init(options);
+      const multiselectPlugin = new Multiselect(this.workspace)
+      multiselectPlugin.init(options)
 
-      this.registerLibraryCallbacks(libraryDefinitions);
-      const xml = Blockly.utils.xml.textToDom(this.blocks);
-      Blockly.Xml.domToWorkspace(xml, this.workspace);
-      this.workspace.addChangeListener(this.onChange);
+      this.registerLibraryCallbacks(libraryDefinitions)
+      const xml = Blockly.utils.xml.textToDom(this.blocks)
+      Blockly.Xml.domToWorkspace(xml, this.workspace)
+      this.workspace.addChangeListener(this.onChange)
 
       this.workspace.helpurlPrefix =
-        useRuntimeStore().runtimeInfo.buildString === 'Release Build' ? 'next' : 'www';
+        useRuntimeStore().runtimeInfo.buildString === 'Release Build' ? 'next' : 'www'
       this.workspace.registerButtonCallback('ohBlocklyHelp', function (button) {
         window.open(
           `https://${button.targetWorkspace.helpurlPrefix}.openhab.org/docs/${button.info.helpurl}`,
           '_blank'
-        );
-      });
+        )
+      })
       Blockly.Workspace.prototype.refresh = function () {
-        const xml = Blockly.Xml.workspaceToDom(this);
-        this.clear();
-        Blockly.Xml.domToWorkspace(xml, this);
-        this.refreshToolboxSelection();
-      };
+        const xml = Blockly.Xml.workspaceToDom(this)
+        this.clear()
+        Blockly.Xml.domToWorkspace(xml, this)
+        this.refreshToolboxSelection()
+      }
     },
     addLibraryToToolbox(definitions) {
-      const library = this.$refs.libraryCategory;
+      const library = this.$refs.libraryCategory
       definitions
         .sort((a, b) => (a.config.name || a.uid).localeCompare(b.config.name || b.uid))
         .forEach(definition => {
-          const category = document.createElement('category');
-          category.setAttribute('name', definition.config.name);
-          category.setAttribute('custom', 'LIBRARY_' + definition.uid);
-          library.appendChild(category);
-        });
+          const category = document.createElement('category')
+          category.setAttribute('name', definition.config.name)
+          category.setAttribute('custom', 'LIBRARY_' + definition.uid)
+          library.appendChild(category)
+        })
     },
     registerLibraryCallbacks(definitions) {
       definitions.forEach(definition => {
         this.workspace.registerToolboxCategoryCallback(
           'LIBRARY_' + definition.uid,
           defineLibraryToolboxCategory(definition, f7)
-        );
-      });
+        )
+      })
     },
     showHideLabels(showLabels) {
-      this.workspace.showLabels = showLabels;
-      this.workspace.refresh();
+      this.workspace.showLabels = showLabels
+      this.workspace.refresh()
     },
     getBlocks() {
-      const xml = Blockly.Xml.workspaceToDom(this.workspace);
-      return Blockly.Xml.domToText(xml);
+      const xml = Blockly.Xml.workspaceToDom(this.workspace)
+      return Blockly.Xml.domToText(xml)
     },
     getCode() {
-      return javascriptGenerator.workspaceToCode(this.workspace);
+      return javascriptGenerator.workspaceToCode(this.workspace)
     },
     getRenderers() {
-      const excludedRenderers = ['minimalist'];
+      const excludedRenderers = ['minimalist']
       const renderers = Object.keys(Blockly.registry.getAllItems('renderer'))
         .filter(r => !excludedRenderers.includes(r))
-        .sort();
-      return renderers;
+        .sort()
+      return renderers
     },
     getCurrentRenderer() {
-      return this.themeOptionsStore.blocklyRenderer;
+      return this.themeOptionsStore.blocklyRenderer
     },
     changeRenderer(newRenderer) {
-      this.themeOptionsStore.blocklyRenderer = newRenderer;
+      this.themeOptionsStore.blocklyRenderer = newRenderer
 
-      const dom = Blockly.Xml.workspaceToDom(this.workspace);
-      this.workspace.dispose();
-      this.initBlockly(this.blockLibraries);
-      this.workspace.clear();
-      Blockly.Xml.domToWorkspace(dom, this.workspace);
-      this.workspace.refreshToolboxSelection();
+      const dom = Blockly.Xml.workspaceToDom(this.workspace)
+      this.workspace.dispose()
+      this.initBlockly(this.blockLibraries)
+      this.workspace.clear()
+      Blockly.Xml.domToWorkspace(dom, this.workspace)
+      this.workspace.refreshToolboxSelection()
     },
     onChange(event) {
       if (event.type === Blockly.Events.FINISHED_LOADING) {
-        this.loading = false;
-        this.$emit('ready');
+        this.loading = false
+        this.$emit('ready')
       } else if (!this.loading && !event.isUiEvent) {
-        this.$emit('change');
+        this.$emit('change')
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

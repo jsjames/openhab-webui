@@ -39,10 +39,10 @@
 </template>
 
 <script>
-import TagMixin from '@/components/tags/tag-mixin';
-import SemanticsPickerPopup from '@/components/tags/semantics-picker-popup.vue';
-import { nextTick } from 'vue';
-import { f7 } from 'framework7-vue';
+import TagMixin from '@/components/tags/tag-mixin'
+import SemanticsPickerPopup from '@/components/tags/semantics-picker-popup.vue'
+import { nextTick } from 'vue'
+import { f7 } from 'framework7-vue'
 
 import { useSemanticsStore } from '@/js/stores/semantics'
 
@@ -50,87 +50,87 @@ export default {
   mixins: [TagMixin],
   props: ['item', 'createMode', 'hideNone'],
   components: {
-    SemanticsPickerPopup,
+    SemanticsPickerPopup
   },
   data() {
     return {
       f7,
       semanticClass: '',
       semanticProperty: '',
-      popupType: null,
-    };
+      popupType: null
+    }
   },
   computed: {
     editable() {
-      return this.createMode || (this.item && this.item.editable);
+      return this.createMode || (this.item && this.item.editable)
     },
     currentSemanticType() {
-      return this.semanticType(this.semanticClass);
+      return this.semanticType(this.semanticClass)
     },
     semanticValue() {
-      if (!this.semanticClass) return null;
-      const value = this.tagWithHierarchy(this.semanticClass);
-      return value || this.currentSemanticType;
+      if (!this.semanticClass) return null
+      const value = this.tagWithHierarchy(this.semanticClass)
+      return value || this.currentSemanticType
     },
     semanticValueTitle() {
-      if (this.currentSemanticType === 'Location') return 'Location';
-      else if (this.currentSemanticType === 'Equipment') return 'Equipment';
-      else if (this.currentSemanticType === 'Point') return 'Point';
-      else return 'Value';
-    },
+      if (this.currentSemanticType === 'Location') return 'Location'
+      else if (this.currentSemanticType === 'Equipment') return 'Equipment'
+      else if (this.currentSemanticType === 'Point') return 'Point'
+      else return 'Value'
+    }
   },
   methods: {
     openPopup(type) {
-      if (!this.editable) return;
-      this.popupType = type;
+      if (!this.editable) return
+      this.popupType = type
       this.$nextTick(() => {
-        const popupRef = type === 'class' ? 'classPopup' : 'propertyPopup';
-        const popupEl = this.$refs[popupRef]?.$el;
-        if (popupEl) f7.popup.open(popupEl);
-      });
+        const popupRef = type === 'class' ? 'classPopup' : 'propertyPopup'
+        const popupEl = this.$refs[popupRef]?.$el
+        if (popupEl) f7.popup.open(popupEl)
+      })
     },
     closePopup() {
-      this.popupType = null;
+      this.popupType = null
     },
     tagWithHierarchy(tag) {
-      if (!tag) return null;
-      let parentTagId = useSemanticsStore().Tags.find(t => t.name === tag).parent;
-      if (!parentTagId) return null; // no parent tag, so this is the root class
-      let value = tag;
+      if (!tag) return null
+      let parentTagId = useSemanticsStore().Tags.find(t => t.name === tag).parent
+      if (!parentTagId) return null // no parent tag, so this is the root class
+      let value = tag
       while (parentTagId) {
-        const parentTag = useSemanticsStore().Tags.find(t => t.uid === parentTagId);
-        parentTagId = parentTag.parent;
+        const parentTag = useSemanticsStore().Tags.find(t => t.uid === parentTagId)
+        parentTagId = parentTag.parent
         if (parentTagId) {
-          value = parentTag.name + '->' + value;
+          value = parentTag.name + '->' + value
         }
       }
-      return value;
+      return value
     },
     itemChanged() {
-      if (!this.item.tags) return;
-      this.semanticClass = '';
-      this.semanticProperty = '';
+      if (!this.item.tags) return
+      this.semanticClass = ''
+      this.semanticProperty = ''
       this.item.tags.forEach(t => {
         if (this.semanticType(t) !== '') {
-          this.semanticClass = t;
+          this.semanticClass = t
         }
         if (this.isSemanticPropertyTag(t)) {
-          this.semanticProperty = t;
+          this.semanticProperty = t
         }
-      });
+      })
       if (this.semanticProperty && !this.semanticClass) {
         if (this.item.metadata && this.item.metadata.semantics) {
-          const valueArray = this.item.metadata.semantics.value.split('_');
-          const classFromMetadata = valueArray[valueArray.length - 1];
+          const valueArray = this.item.metadata.semantics.value.split('_')
+          const classFromMetadata = valueArray[valueArray.length - 1]
           if (classFromMetadata) {
-            this.semanticClass = classFromMetadata;
+            this.semanticClass = classFromMetadata
           }
         }
       }
-    },
+    }
   },
   mounted() {
-    this.itemChanged();
-  },
-};
+    this.itemChanged()
+  }
+}
 </script>

@@ -78,7 +78,9 @@
               v-html="addonDescription"
               class="addon-description-text" />
             <div v-show="!descriptionExpanded" class="text-align-right">
-              <f7-link @click="descriptionExpanded = true"> more </f7-link>
+              <f7-link @click="descriptionExpanded = true">
+                more
+              </f7-link>
             </div>
           </f7-block>
           <f7-block v-else class="skeleton-text skeleton-effect-blink">
@@ -213,21 +215,21 @@
 </style>
 
 <script>
-import AddonStoreMixin from './addon-store-mixin';
-import AddonStatsLine from '@/components/addons/addon-stats-line.vue';
-import AddonInfoTable from '@/components/addons/addon-info-table.vue';
-import AddonLogo from '@/components/addons/addon-logo.vue';
-import { f7 } from 'framework7-vue';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { mapStores } from 'pinia';
+import AddonStoreMixin from './addon-store-mixin'
+import AddonStatsLine from '@/components/addons/addon-stats-line.vue'
+import AddonInfoTable from '@/components/addons/addon-info-table.vue'
+import AddonLogo from '@/components/addons/addon-logo.vue'
+import { f7 } from 'framework7-vue'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
 
 export default {
   mixins: [AddonStoreMixin],
   components: {
     AddonLogo,
     AddonStatsLine,
-    AddonInfoTable,
+    AddonInfoTable
   },
   props: ['addonId'],
   data() {
@@ -237,7 +239,7 @@ export default {
       descriptionReady: false,
       parsedDescription: '',
       descriptionExpanded: false
-    };
+    }
   },
   computed: {
     showConfig() {
@@ -245,173 +247,173 @@ export default {
         this.addon &&
         this.addon.installed &&
         (this.addon.configDescriptionURI || this.addon.loggerPackages.length > 0)
-      );
+      )
     },
     realAddonId() {
-      if (!this.addon) return null;
-      return this.addon.uid;
+      if (!this.addon) return null
+      return this.addon.uid
     },
     serviceId() {
-      if (!this.addon) return null;
+      if (!this.addon) return null
       return this.addon.uid.indexOf(':') > 0
         ? this.addon.uid.substring(0, this.addon.uid.indexOf(':'))
-        : undefined;
+        : undefined
     },
     addonDescription() {
-      if (!this.descriptionReady) return null;
-      if (!this.addon) return null;
+      if (!this.descriptionReady) return null
+      if (!this.addon) return null
       if (
         this.addon.description &&
         (!this.addon.link || this.addon.link.indexOf('openhab.org/addons') < 0)
       )
-        return this.addon.description;
+        return this.addon.description
       if (this.parsedDescription) {
-        const firstHeading = this.parsedDescription.match(/<h\d/m);
+        const firstHeading = this.parsedDescription.match(/<h\d/m)
         if (firstHeading && firstHeading.index > 0)
-          return this.parsedDescription.substring(0, firstHeading.index);
-        return this.parsedDescription;
+          return this.parsedDescription.substring(0, firstHeading.index)
+        return this.parsedDescription
       }
-      return 'No description found';
+      return 'No description found'
     },
     docLinkUrl() {
-      if (!this.addon) return '';
+      if (!this.addon) return ''
       if (this.serviceId && this.serviceId !== 'karaf')
-        return this.addon.link ? this.addon.link : '';
+        return this.addon.link ? this.addon.link : ''
       return (
         useRuntimeStore().websiteUrl +
         `/addons/${this.addon.type.replace('misc', 'integrations').replace('binding', 'bindings').replace('transformation', 'transformations')}` +
         `/${this.addon.id}`
-      );
+      )
     },
     showInstallActions() {
-      let splitted = this.addon.uid.split(':');
-      return splitted.length < 2 || splitted[0] !== 'eclipse';
+      let splitted = this.addon.uid.split(':')
+      return splitted.length < 2 || splitted[0] !== 'eclipse'
     },
     ...mapStores(useThemeOptionsStore)
   },
   methods: {
     onPageBeforeIn() {
-      this.ready = false;
-      this.load();
+      this.ready = false
+      this.load()
     },
     onPageBeforeOut() {
-      this.stopEventSource();
+      this.stopEventSource()
     },
     load() {
-      this.stopEventSource();
-      let serviceId = null;
+      this.stopEventSource()
+      let serviceId = null
       if (this.addonId.indexOf(':') > 0) {
-        serviceId = this.addonId.substring(0, this.addonId.indexOf(':'));
+        serviceId = this.addonId.substring(0, this.addonId.indexOf(':'))
       }
       this.$oh.api
         .get('/rest/addons/' + this.addonId + (serviceId ? '?serviceId=' + serviceId : ''))
         .then(data => {
-          this.resetPending();
-          this.addon = data;
-          this.ready = true;
-          this.processDescription();
-          this.startEventSource();
+          this.resetPending()
+          this.addon = data
+          this.ready = true
+          this.processDescription()
+          this.startEventSource()
 
           setTimeout(() => {
-            f7.lazy.create('.page-addon-details');
-          });
-        });
+            f7.lazy.create('.page-addon-details')
+          })
+        })
     },
     processDescription() {
       if (this.addon.author === 'openHAB') {
         // assuming the add-on is an official one (distribution), try to fetch the documentation from GitHub
-        let docsBranch = 'final';
+        let docsBranch = 'final'
         if (useRuntimeStore().runtimeInfo.buildString === 'Release Build')
-          docsBranch = 'final-stable';
-        let addonTypeFolder = '_addons_' + this.addon.type;
-        if (this.addon.type === 'misc') addonTypeFolder = '_addons_io';
-        if (this.addon.type !== 'automation') addonTypeFolder += 's';
-        let docSrcUrl = `${useRuntimeStore().docSrcUrl}/${addonTypeFolder}/${this.addon.id}`;
+          docsBranch = 'final-stable'
+        let addonTypeFolder = '_addons_' + this.addon.type
+        if (this.addon.type === 'misc') addonTypeFolder = '_addons_io'
+        if (this.addon.type !== 'automation') addonTypeFolder += 's'
+        let docSrcUrl = `${useRuntimeStore().docSrcUrl}/${addonTypeFolder}/${this.addon.id}`
 
         fetch(docSrcUrl + '/readme.md')
           .then(readme => {
             readme.text().then(text => {
               import('marked').then(marked => {
-                const frontmatterSeparators = [...text.matchAll(/^---$/gm)];
-                let body;
+                const frontmatterSeparators = [...text.matchAll(/^---$/gm)]
+                let body
 
                 if (frontmatterSeparators.length !== 2) {
                   body =
                     '<p>The description is not available for this add-on.</p><h3>Debug Information</h3><blockquote>' +
                     text +
-                    '</blockquote>';
+                    '</blockquote>'
                 } else {
-                  const frontmatter = text.substring(4, frontmatterSeparators[1].index);
-                  body = marked.parse(text.substring(frontmatterSeparators[1].index + 4));
+                  const frontmatter = text.substring(4, frontmatterSeparators[1].index)
+                  body = marked.parse(text.substring(frontmatterSeparators[1].index + 4))
 
                   // perform a few replaces on HTML body for Markdown readmes on GitHub
-                  body = body.replace(/<p>{% include base.html %}<\/p>\n/gm, '');
-                  body = body.replace(/<h1.*$/gm, '');
+                  body = body.replace(/<p>{% include base.html %}<\/p>\n/gm, '')
+                  body = body.replace(/<h1.*$/gm, '')
                   body = body.replace(
                     /<pre>/gm,
                     '<div class="block block-strong no-padding"><pre class="padding-half">'
-                  );
-                  body = body.replace(/<\/pre>/gm, '</pre></div>');
-                  body = body.replace(/<table>/gm, '<div class="data-table"><table>');
-                  body = body.replace(/<\/table>/gm, '</table></div>');
+                  )
+                  body = body.replace(/<\/pre>/gm, '</pre></div>')
+                  body = body.replace(/<table>/gm, '<div class="data-table"><table>')
+                  body = body.replace(/<\/table>/gm, '</table></div>')
                   body = body.replace(
                     /<a href="http/gm,
                     '<a class="external" target="_blank" href="http'
-                  );
+                  )
                   body = body.replace(
                     /<img src="doc/gm,
                     '<img class="lazy lazy-fade-in" data-src="' + docSrcUrl + '/doc'
-                  );
+                  )
                   body = body.replace(
                     /<img src="contrib/gm,
                     '<img class="lazy lazy-fade-in" data-src="' + docSrcUrl + '/contrib'
-                  );
+                  )
                 }
 
-                this.parsedDescription = body;
-                this.descriptionReady = true;
+                this.parsedDescription = body
+                this.descriptionReady = true
                 setTimeout(() => {
-                  f7.lazy.create('.addon-description-text');
-                });
-              });
-            });
+                  f7.lazy.create('.addon-description-text')
+                })
+              })
+            })
           })
           .catch(err => {
             this.parsedDescription =
               '<p>The description is unavailable for this add-on.</p><h3>Debug Information</h3><blockquote>' +
               err +
-              '</blockquote>';
-            this.descriptionReady = true;
+              '</blockquote>'
+            this.descriptionReady = true
             setTimeout(() => {
-              f7.lazy.create('.addon-description-text');
-            });
-          });
+              f7.lazy.create('.addon-description-text')
+            })
+          })
       } else {
         // perform a few replaces for Discourse "cooked" HTML
-        let body = this.addon.detailedDescription ? this.addon.detailedDescription : '';
+        let body = this.addon.detailedDescription ? this.addon.detailedDescription : ''
         body = body.replace(
           /<pre>/gm,
           '<div class="block block-strong no-padding"><pre class="padding-half">'
-        );
-        body = body.replace(/<\/pre>/gm, '</pre></div>');
-        body = body.replace(/<table>/gm, '<div class="data-table"><table>');
-        body = body.replace(/<\/table>/gm, '</table></div>');
+        )
+        body = body.replace(/<\/pre>/gm, '</pre></div>')
+        body = body.replace(/<table>/gm, '<div class="data-table"><table>')
+        body = body.replace(/<\/table>/gm, '</table></div>')
         body = body.replace(
           /<a class="lightbox" href="/gm,
           '<a class="external" target="_blank" href="'
-        );
-        body = body.replace(/<a href="http/gm, '<a class="external" target="_blank" href="http');
+        )
+        body = body.replace(/<a href="http/gm, '<a class="external" target="_blank" href="http')
         body = body.replace(
           /<img src="\/\/community-openhab-org/gm,
           '<img class="lazy lazy-fade-in" data-src="//community-openhab-org'
-        );
-        this.parsedDescription = body;
-        this.descriptionReady = true;
+        )
+        this.parsedDescription = body
+        this.descriptionReady = true
         setTimeout(() => {
-          f7.lazy.create('.addon-description-text');
-        });
+          f7.lazy.create('.addon-description-text')
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

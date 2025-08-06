@@ -9,9 +9,9 @@ const p = (type, name, label, description, options, advanced) => {
     options: !options
       ? undefined
       : options.split(',').map(o => {
-          const parts = o.split('=')
-          return { value: parts[0], label: parts[1] || parts[0] }
-        })
+        const parts = o.split('=')
+        return { value: parts[0], label: parts[1] || parts[0] }
+      })
   }
 }
 

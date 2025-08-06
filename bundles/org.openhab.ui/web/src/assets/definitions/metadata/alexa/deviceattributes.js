@@ -82,18 +82,18 @@ export default {
       ...(getGroupParameter('primaryControl', item.groups) !== 'tilt'
         ? []
         : [
-            p.actionMappings({ default: 'value' }, 'Close=0,Open=100', config => {
-              if (itemType === 'Dimmer') {
-                return config.inverted === true ? ['Close=100', 'Open=0'] : ['Close=0', 'Open=100']
-              }
-              if (itemType === 'Number' || itemType === 'Number:Angle') {
-                return config.inverted === true ? ['Close=90', 'Open=0'] : ['Close=-90', 'Open=0']
-              }
-              if (itemType === 'Rollershutter') {
-                return ['Close=DOWN', 'Open=UP', 'Stop=STOP']
-              }
-            })
-          ])
+          p.actionMappings({ default: 'value' }, 'Close=0,Open=100', config => {
+            if (itemType === 'Dimmer') {
+              return config.inverted === true ? ['Close=100', 'Open=0'] : ['Close=0', 'Open=100']
+            }
+            if (itemType === 'Number' || itemType === 'Number:Angle') {
+              return config.inverted === true ? ['Close=90', 'Open=0'] : ['Close=-90', 'Open=0']
+            }
+            if (itemType === 'Rollershutter') {
+              return ['Close=DOWN', 'Open=UP', 'Stop=STOP']
+            }
+          })
+        ])
     ]
   },
 
@@ -462,18 +462,18 @@ export default {
       p.retrievable(),
       ...(itemType === 'Dimmer'
         ? [
-            p.supportedCommands(
-              ['ON', 'OFF', 'INCREASE', 'DECREASE'],
-              'INCREASE=@Value.Up,DECREASE=@Value.Down'
-            )
-          ]
+          p.supportedCommands(
+            ['ON', 'OFF', 'INCREASE', 'DECREASE'],
+            'INCREASE=@Value.Up,DECREASE=@Value.Down'
+          )
+        ]
         : itemType === 'Rollershutter'
           ? [
-              p.supportedCommands(
-                ['UP', 'DOWN', 'MOVE', 'STOP'],
-                'UP=@Value.Open,DOWN=@Value.Close,STOP=@Value.Stop'
-              )
-            ]
+            p.supportedCommands(
+              ['UP', 'DOWN', 'MOVE', 'STOP'],
+              'UP=@Value.Open,DOWN=@Value.Close,STOP=@Value.Stop'
+            )
+          ]
           : []),
       p.supportedRange(
         item,

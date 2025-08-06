@@ -101,7 +101,7 @@ export function OhGridLayoutDefinition() {
       pb(
         'hideSidebarIcon',
         'Hide Sidebar Icon',
-        "Don't show a menu icon in the top left corner when the sidebar is closed (default false)"
+        'Don\'t show a menu icon in the top left corner when the sidebar is closed (default false)'
       ).v((value, configuration, configDescription, parameters) => {
         return configuration.hideNavbar === true
       }),
@@ -177,7 +177,7 @@ export function OhCanvasLayoutDefinition() {
       pb(
         'hideSidebarIcon',
         'Hide Sidebar Icon',
-        "Don't show a menu icon in the top left corner when the sidebar is closed (default false)"
+        'Don\'t show a menu icon in the top left corner when the sidebar is closed (default false)'
       ).v((value, configuration, configDescription, parameters) => {
         return configuration.hideNavbar === true
       }),

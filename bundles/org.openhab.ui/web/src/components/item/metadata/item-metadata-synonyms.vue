@@ -20,31 +20,31 @@
 </template>
 
 <script>
-import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
-import { theme } from 'framework7-vue';
+import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
+import { theme } from 'framework7-vue'
 
 export default {
   props: ['itemName', 'metadata'],
   mixins: [ItemMetadataMixin],
   setup() {
-    return { theme };
+    return { theme }
   },
   computed: {
     synonyms() {
-      if (!this.metadata.value) return [];
+      if (!this.metadata.value) return []
       return this.metadata.value
         .split(',')
         .map(s => s.trim())
-        .join('\n');
-    },
+        .join('\n')
+    }
   },
   methods: {
     updateValue(ev) {
       this.metadata.value = ev.target.value
         .split('\n')
         .map(s => s.trim())
-        .join(',');
-    },
-  },
-};
+        .join(',')
+    }
+  }
+}
 </script>

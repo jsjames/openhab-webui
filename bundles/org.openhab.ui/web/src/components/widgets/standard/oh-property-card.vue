@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import store from '@/js/store';
-import { OhPropertyCardParameters } from '@/assets/definitions/widgets/home';
-import PropertyCard from '@/components/cards/property-card.vue';
+import mixin from '../widget-mixin'
+import store from '@/js/store'
+import { OhPropertyCardParameters } from '@/assets/definitions/widgets/home'
+import PropertyCard from '@/components/cards/property-card.vue'
 
 export default {
   components: { PropertyCard },
@@ -19,18 +19,18 @@ export default {
           item: { equipment: [], metadata: { semantics: { value: '' } } },
           equipment: [],
           properties: [],
-          points: [],
+          points: []
         }
-      );
-    },
+      )
+    }
   },
   widget: () => {
-    const widget = OhPropertyCardParameters();
+    const widget = OhPropertyCardParameters()
     widget.props.parameters.find(p => p.name === 'item').options =
       store.state.semantics.Properties.map(p => {
-        return { name: p, label: store.state.semantics.Labels[p] };
-      });
-    return widget;
-  },
-};
+        return { name: p, label: store.state.semantics.Labels[p] }
+      })
+    return widget
+  }
+}
 </script>

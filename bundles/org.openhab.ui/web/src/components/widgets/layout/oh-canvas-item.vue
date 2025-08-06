@@ -194,9 +194,9 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import OhPlaceholderWidget from './oh-placeholder-widget.vue';
-import { OhCanvasItemDefinition } from '@/assets/definitions/widgets/layout';
+import mixin from '../widget-mixin'
+import OhPlaceholderWidget from './oh-placeholder-widget.vue'
+import { OhCanvasItemDefinition } from '@/assets/definitions/widgets/layout'
 
 export default {
   mixins: [mixin],
@@ -207,17 +207,17 @@ export default {
         import(
           /* webpackChunkName: "canvas-layout" */ 'vue-draggable-resizable/dist/VueDraggableResizable.css'
         ),
-        import(/* webpackChunkName: "canvas-layout" */ 'vue-draggable-resizable'),
+        import(/* webpackChunkName: "canvas-layout" */ 'vue-draggable-resizable')
       ]).then(component => {
-        return component[1].default;
+        return component[1].default
       }),
-    OhPlaceholderWidget,
+    OhPlaceholderWidget
   },
   props: {
     gridPitch: Number,
     gridEnable: Boolean,
     id: String,
-    preventDeactivation: Boolean,
+    preventDeactivation: Boolean
   },
   emits: ['oci-selected', 'oci-deselected', 'oci-drag-stop', 'oci-dragged'],
   data() {
@@ -231,132 +231,132 @@ export default {
       styled: true,
       dragging: false,
       resizing: false,
-      active: false,
-    };
+      active: false
+    }
   },
   created() {
-    this.x = this.config.x || 20;
-    this.y = this.config.y || 20;
-    this.w = this.config.w || 100;
-    this.h = this.config.h || 100;
-    this.shadow = !this.config.noCanvasShadow;
-    this.styled = !this.config.notStyled;
+    this.x = this.config.x || 20
+    this.y = this.config.y || 20
+    this.w = this.config.w || 100
+    this.h = this.config.h || 100
+    this.shadow = !this.config.noCanvasShadow
+    this.styled = !this.config.notStyled
   },
   computed: {
     autosize() {
-      return this.w === 'auto';
+      return this.w === 'auto'
     },
     editMessage() {
       if (this.dragging) {
-        return `(${this.x}, ${this.y})`;
+        return `(${this.x}, ${this.y})`
       } else if (this.resizing) {
-        return `${this.w}x${this.h}`;
+        return `${this.w}x${this.h}`
       } else {
-        return '';
+        return ''
       }
-    },
+    }
   },
   watch: {
     active(val) {
-      if (val) this.$emit('oci-selected', this);
-      else this.$emit('oci-deselected', this);
-    },
+      if (val) this.$emit('oci-selected', this)
+      else this.$emit('oci-deselected', this)
+    }
   },
   methods: {
     toggleAutoSize() {
       if (this.w === 'auto') {
-        const elem = document.getElementById('oh-canvas-item-vdr-' + this.id);
-        this.w = this.context.component.config.w = Math.max(10, elem.clientWidth);
-        this.h = this.context.component.config.h = Math.max(10, elem.clientHeight);
+        const elem = document.getElementById('oh-canvas-item-vdr-' + this.id)
+        this.w = this.context.component.config.w = Math.max(10, elem.clientWidth)
+        this.h = this.context.component.config.h = Math.max(10, elem.clientHeight)
       } else {
-        this.w = this.context.component.config.w = 'auto';
-        this.h = this.context.component.config.h = 'auto';
-        this.reloadKey += 1;
+        this.w = this.context.component.config.w = 'auto'
+        this.h = this.context.component.config.h = 'auto'
+        this.reloadKey += 1
       }
     },
     toggleShadow() {
-      this.shadow = !this.shadow;
-      this.context.component.config.noCanvasShadow = !this.shadow;
+      this.shadow = !this.shadow
+      this.context.component.config.noCanvasShadow = !this.shadow
     },
     onResize(x, y, width, height) {
-      this.x = this.context.component.config.x = x;
-      this.y = this.context.component.config.y = y;
-      this.w = this.context.component.config.w = width;
-      this.h = this.context.component.config.h = height;
+      this.x = this.context.component.config.x = x
+      this.y = this.context.component.config.y = y
+      this.w = this.context.component.config.w = width
+      this.h = this.context.component.config.h = height
     },
     onDrag(x, y) {
-      this.$emit('oci-dragged', this, x - this.x, y - this.y);
-      this.moveTo(x, y);
+      this.$emit('oci-dragged', this, x - this.x, y - this.y)
+      this.moveTo(x, y)
     },
     moveTo(x, y) {
-      this.x = this.context.component.config.x = x;
-      this.y = this.context.component.config.y = y;
+      this.x = this.context.component.config.x = x
+      this.y = this.context.component.config.y = y
     },
     onResizeStartCallback(ev) {
       if (this.w === 'auto' || this.h === 'auto') {
-        return false;
+        return false
       }
 
-      const posOK = this.onDragStartCallback(ev);
+      const posOK = this.onDragStartCallback(ev)
       if (this.gridEnable) {
-        const snapW = Math.round(this.w / this.gridPitch) * this.gridPitch;
-        const snapH = Math.round(this.h / this.gridPitch) * this.gridPitch;
+        const snapW = Math.round(this.w / this.gridPitch) * this.gridPitch
+        const snapH = Math.round(this.h / this.gridPitch) * this.gridPitch
 
         if (this.w === snapW && this.h === snapH) {
           // Widget already on grid, can continue to resize
-          this.resizing = posOK;
+          this.resizing = posOK
         } else {
           // Widget was not on grid, snap to grid upon first action
-          this.onResize(this.x, this.y, snapW, snapH);
-          this.resizing = false;
+          this.onResize(this.x, this.y, snapW, snapH)
+          this.resizing = false
         }
       } else {
-        this.resizing = true;
+        this.resizing = true
       }
 
-      if (this.resizing) this.dragging = false;
-      return this.resizing;
+      if (this.resizing) this.dragging = false
+      return this.resizing
     },
     onDragStartCallback(ev) {
-      if (!this.context.editmode) return false;
+      if (!this.context.editmode) return false
 
       if (this.gridEnable) {
-        const snapX = Math.round(this.x / this.gridPitch) * this.gridPitch;
-        const snapY = Math.round(this.y / this.gridPitch) * this.gridPitch;
+        const snapX = Math.round(this.x / this.gridPitch) * this.gridPitch
+        const snapY = Math.round(this.y / this.gridPitch) * this.gridPitch
 
         if (this.x === snapX && this.y === snapY) {
           // Origin on grid, continue dragging action
-          this.dragging = true;
+          this.dragging = true
         } else {
           // First snap to grid component and stop action
-          this.onDrag(snapX, snapY);
-          this.dragging = true;
+          this.onDrag(snapX, snapY)
+          this.dragging = true
         }
       } else {
-        this.dragging = true;
+        this.dragging = true
       }
 
-      if (this.dragging) this.resizing = false;
-      return this.dragging;
+      if (this.dragging) this.resizing = false
+      return this.dragging
     },
     onResizeStop() {
-      this.resizing = false;
+      this.resizing = false
     },
     onDragStop() {
-      this.$emit('oci-drag-stop', this);
-      this.stopDrag();
+      this.$emit('oci-drag-stop', this)
+      this.stopDrag()
     },
     stopDrag() {
-      this.dragging = false;
+      this.dragging = false
     },
     eventControl(ev) {
       // Events are captured before bubbling to prevent undesired widget interaction when a widget has been
       // added but the page is in edit mode.
       if (this.context.editmode && this.context.component.slots.default.length > 0) {
-        ev.stopPropagation();
-        ev.preventDefault();
+        ev.stopPropagation()
+        ev.preventDefault()
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

@@ -177,7 +177,7 @@ export default function (f7) {
     const value = javascriptGenerator.valueToCode(block, 'value', javascriptGenerator.ORDER_ATOMIC)
     const configKey = javascriptGenerator
       .valueToCode(block, 'configKey', javascriptGenerator.ORDER_ATOMIC)
-      .replaceAll("'", '')
+      .replaceAll('\'', '')
     const theItem = javascriptGenerator.valueToCode(
       block,
       'theItem',

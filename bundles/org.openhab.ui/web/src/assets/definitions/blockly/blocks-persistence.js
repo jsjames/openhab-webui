@@ -452,7 +452,7 @@ export default function defineOHBlocks_Persistence(f7, persistenceServices) {
     let riemannType = block.getFieldValue('riemannType')
     riemannType = riemannType === 'undefined' ? '' : `, items.${riemannType}`
 
-    const persistenceExtension = persistenceName === "'default'" ? '' : `, ${persistenceName}`
+    const persistenceExtension = persistenceName === '\'default\'' ? '' : `, ${persistenceName}`
 
     switch (methodName) {
       // Returning JS PersistedItem mapped to return type (GraalJS) or org.openhab.core.persistence.HistoricItem
@@ -645,7 +645,7 @@ export default function defineOHBlocks_Persistence(f7, persistenceServices) {
       'persistenceName',
       javascriptGenerator.ORDER_NONE
     )
-    const persistenceExtension = persistenceName === "'default'" ? '' : `, ${persistenceName}`
+    const persistenceExtension = persistenceName === '\'default\'' ? '' : `, ${persistenceName}`
 
     let itemCode = generateItemCode(itemName, inputType)
 
@@ -720,7 +720,7 @@ export default function defineOHBlocks_Persistence(f7, persistenceServices) {
       'persistenceName',
       javascriptGenerator.ORDER_NONE
     )
-    const persistenceExtension = persistenceName === "'default'" ? '' : `${persistenceName}`
+    const persistenceExtension = persistenceName === '\'default\'' ? '' : `${persistenceName}`
     const itemCode = generateItemCode(itemName, inputType)
 
     return [`${itemCode}.persistence.${methodName}(${persistenceExtension})`, 0]
@@ -886,7 +886,7 @@ export default function defineOHBlocks_Persistence(f7, persistenceServices) {
       'persistenceName',
       javascriptGenerator.ORDER_NONE
     )
-    const persistenceExtension = persistenceName === "'default'" ? '' : `, ${persistenceName}`
+    const persistenceExtension = persistenceName === '\'default\'' ? '' : `, ${persistenceName}`
 
     let code = ''
     switch (persistType) {
@@ -1076,7 +1076,7 @@ export default function defineOHBlocks_Persistence(f7, persistenceServices) {
       'persistenceName',
       javascriptGenerator.ORDER_NONE
     )
-    const persistenceExtension = persistenceName === "'default'" ? '' : `, ${persistenceName}`
+    const persistenceExtension = persistenceName === '\'default\'' ? '' : `, ${persistenceName}`
 
     const code = `${itemCode}.persistence.${methodName}(${dayInfo}${persistenceExtension});\n`
     return code

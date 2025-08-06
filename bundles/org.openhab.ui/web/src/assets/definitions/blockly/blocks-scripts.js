@@ -188,7 +188,7 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
       this.setTooltip(function () {
         const contextData = thisBlock.getFieldValue('contextInfo')
         const TIP = {
-          ruleUID: "The current rule's UID",
+          ruleUID: 'The current rule\'s UID',
           eventAvailable: 'check if the event information is available',
           type: 'the event type name',
           itemState:
@@ -416,7 +416,7 @@ export default function defineOHBlocks_Scripts(f7, transformationServices) {
     let enable =
       enableType === 'Boolean'
         ? enableValue
-        : enableValue === "'true'" || enableValue === "'enabled'"
+        : enableValue === '\'true\'' || enableValue === '\'enabled\''
     return `rules.setEnabled(${ruleUID}, ${enable});\n`
   }
 }

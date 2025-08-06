@@ -15,62 +15,62 @@
 </template>
 
 <script>
-import { LCircle, LTooltip } from '@vue-leaflet/vue-leaflet';
+import { LCircle, LTooltip } from '@vue-leaflet/vue-leaflet'
 
-import mixin from '../widget-mixin';
-import { actionsMixin } from '../widget-actions';
-import { OhMapCircleMarkerDefinition } from '@/assets/definitions/widgets/map';
-import { f7 } from 'framework7-vue';
+import mixin from '../widget-mixin'
+import { actionsMixin } from '../widget-actions'
+import { OhMapCircleMarkerDefinition } from '@/assets/definitions/widgets/map'
+import { f7 } from 'framework7-vue'
 
 export default {
   mixins: [mixin, actionsMixin],
   components: {
     LCircle,
-    LTooltip,
+    LTooltip
   },
   widget: OhMapCircleMarkerDefinition,
   emits: ['update'],
   data() {
     return {
-      markerKey: f7.utils.id(),
-    };
+      markerKey: f7.utils.id()
+    }
   },
   computed: {
     center() {
       if (this.config.item) {
-        const itemState = this.context.store[this.config.item];
+        const itemState = this.context.store[this.config.item]
         if (itemState && itemState.state.indexOf(',') > 0) {
-          return itemState.state.split(',');
+          return itemState.state.split(',')
         }
       }
       if (this.config.location) {
-        return this.config.location.split(',');
+        return this.config.location.split(',')
       }
-      return null;
+      return null
     },
     radius() {
       if (this.config.radiusItem) {
-        const itemState = this.context.store[this.config.radiusItem];
+        const itemState = this.context.store[this.config.radiusItem]
         if (itemState && !isNaN(parseFloat(itemState.state))) {
-          return parseFloat(itemState.state);
+          return parseFloat(itemState.state)
         }
       }
       if (this.config.radius) {
-        return parseFloat(this.config.radius);
+        return parseFloat(this.config.radius)
       }
-      return null;
+      return null
     },
     markerConfig() {
-      if (!this.config) return {};
-      let ret = {};
-      Object.assign(ret, this.config);
-      delete ret.latLng;
-      delete ret.radius;
-      return ret;
-    },
+      if (!this.config) return {}
+      let ret = {}
+      Object.assign(ret, this.config)
+      delete ret.latLng
+      delete ret.radius
+      return ret
+    }
   },
   mounted() {
-    this.$emit('update', this.center, this.radius);
-  },
-};
+    this.$emit('update', this.center, this.radius)
+  }
+}
 </script>

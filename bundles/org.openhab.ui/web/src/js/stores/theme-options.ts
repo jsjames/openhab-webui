@@ -44,8 +44,8 @@ export const useThemeOptionsStore = defineStore('themeOptions', () => {
     localStorage.getItem('openhab.ui:theme.home.cardanimation') || 'default'
   const disableExpandableCardAnimation = ref<boolean>(_storedExpandableCardAnimation === 'disabled')
 
-  const blocklyRenderer = ref<string>(
-    localStorage.getItem('openhab.ui:theme.blockly.renderer') || 'default'
+  const blocklyRenderer = ref<string | null>(
+    localStorage.getItem('openhab.ui:blockly.renderer')
   )
   const disablePageTransitionAnimation = ref<boolean>(
     localStorage.getItem('openhab.ui:theme.disablepagetransition') === 'true'
@@ -111,7 +111,11 @@ export const useThemeOptionsStore = defineStore('themeOptions', () => {
   })
 
   watch(blocklyRenderer, newValue => {
-    localStorage.setItem('openhab.ui:theme.blockly.renderer', newValue)
+    if (newValue === null) {
+      localStorage.removeItem('openhab.ui:blockly.renderer')
+    } else {
+      localStorage.setItem('openhab.ui:blockly.renderer', newValue)
+    }
   })
 
   watch(hideChatInput, newValue => {

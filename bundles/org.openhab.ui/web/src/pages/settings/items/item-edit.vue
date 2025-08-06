@@ -13,13 +13,13 @@
       <f7-link
         @click="switchTab('design', fromYaml)"
         :tab-link-active="currentTab === 'design'"
-        class="tab-link">
+        tab-link="#design">
         Design
       </f7-link>
       <f7-link
         @click="switchTab('code', toYaml)"
         :tab-link-active="currentTab === 'code'"
-        class="tab-link">
+        tab-link="#code">
         Code
       </f7-link>
     </f7-toolbar>
@@ -31,7 +31,9 @@
         :tab-active="currentTab === 'design'">
         <f7-block class="block-narrow" v-if="item.name || item.created === false">
           <f7-col v-if="!editable">
-            <div class="padding-left">Note: {{ notEditableMsg }}</div>
+            <div class="padding-left">
+              Note: {{ notEditableMsg }}
+            </div>
           </f7-col>
           <f7-col>
             <item-form ref="itemForm" :item="item" :items="items" :createMode="createMode" />
@@ -103,20 +105,20 @@
 </style>
 
 <script>
-import cloneDeep from 'lodash/cloneDeep';
-import fastDeepEqual from 'fast-deep-equal/es6';
-import { f7, theme } from 'framework7-vue';
-import { nextTick, defineAsyncComponent } from 'vue';
+import cloneDeep from 'lodash/cloneDeep'
+import fastDeepEqual from 'fast-deep-equal/es6'
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
 
-import * as Types from '@/assets/item-types.js';
-import YAML from 'yaml';
+import * as Types from '@/assets/item-types.js'
+import YAML from 'yaml'
 
-import ItemForm from '@/components/item/item-form.vue';
+import ItemForm from '@/components/item/item-form.vue'
 
-import DirtyMixin from '../dirty-mixin';
-import ItemMixin from '@/components/item/item-mixin';
+import DirtyMixin from '../dirty-mixin'
+import ItemMixin from '@/components/item/item-mixin'
 
-import { useSemanticsStore } from '@/js/stores/semantics';
+import { useSemanticsStore } from '@/js/stores/semantics'
 
 export default {
   mixins: [DirtyMixin, ItemMixin],
@@ -124,7 +126,7 @@ export default {
     itemName: String,
     createMode: Boolean,
     itemCopy: Object,
-    f7router: Object,
+    f7router: Object
   },
   components: {
     ItemForm,
@@ -133,10 +135,10 @@ export default {
         import(
           /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
         )
-    ),
+    )
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -151,58 +153,58 @@ export default {
       semanticProperty: '',
       pendingTag: '',
       currentTab: 'design',
-      notEditableMsg: 'This Item is not editable because it has been provisioned from a file.',
-    };
+      notEditableMsg: 'This Item is not editable because it has been provisioned from a file.'
+    }
   },
   computed: {
     editable() {
-      return this.createMode || (this.item && this.item.editable);
+      return this.createMode || (this.item && this.item.editable)
     },
     pageTitle() {
       if (this.createMode) {
-        return 'Create New Item';
+        return 'Create New Item'
       }
       if (!this.ready) {
-        return '';
+        return ''
       }
-      return this.editable ? 'Edit Item' : 'Item Details';
-    },
+      return this.editable ? 'Edit Item' : 'Item Details'
+    }
   },
   watch: {
     item: {
       handler: function () {
         if (!this.loading) {
           // ignore changes during loading
-          const itemClone = cloneDeep(this.item);
-          delete itemClone.functionKey;
-          this.dirty = !fastDeepEqual(itemClone, this.savedItem);
+          const itemClone = cloneDeep(this.item)
+          delete itemClone.functionKey
+          this.dirty = !fastDeepEqual(itemClone, this.savedItem)
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     onPageAfterIn() {
-      this.load();
+      this.load()
       if (window) {
-        window.addEventListener('keydown', this.keyDown);
+        window.addEventListener('keydown', this.keyDown)
       }
     },
     onPageBeforeOut() {
       if (window) {
-        window.removeEventListener('keydown', this.keyDown);
+        window.removeEventListener('keydown', this.keyDown)
       }
     },
     keyDown(ev) {
       if (ev.keyCode === 83 && (ev.ctrlKey || ev.metaKey) && !(ev.altKey || ev.shiftKey)) {
-        this.save();
-        ev.stopPropagation();
-        ev.preventDefault();
+        this.save()
+        ev.stopPropagation()
+        ev.preventDefault()
       }
     },
     load() {
-      if (this.loading) return;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
       if (this.createMode) {
         const newItem = this.itemCopy || {
           name: '',
@@ -211,48 +213,48 @@ export default {
           type: 'String',
           groupNames: [],
           tags: [],
-          created: false,
-        };
-        this.item = newItem;
-        this.savedItem = cloneDeep(this.item);
+          created: false
+        }
+        this.item = newItem
+        this.savedItem = cloneDeep(this.item)
         this.$oh.api.get('/rest/items?staticDataOnly=true').then(items => {
-          this.items = items;
-          this.ready = true;
-          this.loading = false;
-        });
+          this.items = items
+          this.ready = true
+          this.loading = false
+        })
       } else {
         this.$oh.api.get('/rest/items/' + this.itemName + '?metadata=.*').then(data => {
-          this.item = data;
-          this.savedItem = cloneDeep(this.item);
+          this.item = data
+          this.savedItem = cloneDeep(this.item)
           nextTick(() => {
-            this.ready = true;
-            this.loading = false;
-          });
-        });
+            this.ready = true
+            this.loading = false
+          })
+        })
       }
     },
     save() {
-      if (!this.editable) return;
+      if (!this.editable) return
       if (this.currentTab === 'code') {
-        if (!this.fromYaml()) return;
+        if (!this.fromYaml()) return
       }
       if (this.validateItemName(this.item.name) !== '')
         return f7.dialog
           .alert('Please give the Item a valid name: ' + this.validateItemName(this.item.name))
-          .open();
+          .open()
       if (!this.item.type || !this.types.ItemTypes.includes(this.item.type.split(':')[0]))
-        return f7.dialog.alert('Please give Item a valid type').open();
+        return f7.dialog.alert('Please give Item a valid type').open()
 
-      const typeChange = this.$refs.itemForm.typeChanged();
-      const dimensionChange = this.$refs.itemForm.dimensionChanged();
-      const unitChange = this.$refs.itemForm.unitChanged();
+      const typeChange = this.$refs.itemForm.typeChanged()
+      const dimensionChange = this.$refs.itemForm.dimensionChanged()
+      const unitChange = this.$refs.itemForm.unitChanged()
       if (typeChange || dimensionChange || unitChange) {
         const title =
-          'WARNING: ' + (typeChange ? 'Type' : dimensionChange ? 'Dimension' : 'Unit') + ' Changed';
+          'WARNING: ' + (typeChange ? 'Type' : dimensionChange ? 'Dimension' : 'Unit') + ' Changed'
         const text =
           typeChange || dimensionChange
             ? `Existing links to channels ${dimensionChange ? 'with dimensions ' : ''}may no longer be valid!`
-            : 'Changing the internal unit can corrupt your persisted data and affect rules!';
+            : 'Changing the internal unit can corrupt your persisted data and affect rules!'
         return f7.dialog
           .create({
             title,
@@ -262,20 +264,20 @@ export default {
                 text: 'Cancel',
                 color: 'gray',
                 close: true,
-                onClick: () => this.$refs.itemForm.revertChange(),
+                onClick: () => this.$refs.itemForm.revertChange()
               },
               {
                 text: 'Save Anyway',
                 color: 'red',
                 close: true,
-                onClick: () => this.doSave(),
-              },
+                onClick: () => this.doSave()
+              }
             ],
-            destroyOnClose: true,
+            destroyOnClose: true
           })
-          .open();
+          .open()
       } else {
-        this.doSave();
+        this.doSave()
       }
     },
     doSave() {
@@ -286,26 +288,26 @@ export default {
               .create({
                 text: 'Item created',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
-            this.item.created = true;
-            this.item.editable = true;
+              .open()
+            this.item.created = true
+            this.item.editable = true
           } else {
             f7.toast
               .create({
                 text: 'Item updated',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
+              .open()
           }
 
-          this.dirty = false;
+          this.dirty = false
           if (this.createMode) {
-            this.f7router.navigate('/settings/items/' + this.item.name);
+            this.f7router.navigate('/settings/items/' + this.item.name)
           } else {
-            this.f7router.back();
+            this.f7router.back()
           }
         })
         .catch(err => {
@@ -313,13 +315,13 @@ export default {
             .create({
               text: 'Item not saved: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     onEditorInput(value) {
-      this.itemYaml = value;
+      this.itemYaml = value
     },
     toYaml() {
       const yamlObj = {
@@ -327,36 +329,36 @@ export default {
         type: this.item.type,
         icon: this.item.category || '',
         groupNames: this.item.groupNames || [],
-        tags: this.item.tags,
+        tags: this.item.tags
         // metadata: this.item.metadata
-      };
-      if (this.item.type === 'Group') {
-        yamlObj.groupType = this.item.groupType || 'None';
-        yamlObj.function = this.item.function || 'None';
       }
-      this.itemYaml = YAML.stringify(yamlObj);
+      if (this.item.type === 'Group') {
+        yamlObj.groupType = this.item.groupType || 'None'
+        yamlObj.function = this.item.function || 'None'
+      }
+      this.itemYaml = YAML.stringify(yamlObj)
     },
     fromYaml() {
-      if (!this.editable) return false;
+      if (!this.editable) return false
       try {
-        const updatedItem = YAML.parse(this.itemYaml);
-        if (updatedItem === null) return false;
-        if (updatedItem.groupNames == null) updatedItem.groupNames = [];
-        if (updatedItem.tags == null) updatedItem.tags = [];
-        this.item.label = updatedItem.label;
-        this.item.type = updatedItem.type;
-        this.item.category = updatedItem.icon;
-        this.item.groupNames = updatedItem.groupNames;
-        this.item.groupType = updatedItem.groupType;
-        this.item.function = updatedItem.function;
-        this.item.tags = updatedItem.tags;
+        const updatedItem = YAML.parse(this.itemYaml)
+        if (updatedItem === null) return false
+        if (updatedItem.groupNames == null) updatedItem.groupNames = []
+        if (updatedItem.tags == null) updatedItem.tags = []
+        this.item.label = updatedItem.label
+        this.item.type = updatedItem.type
+        this.item.category = updatedItem.icon
+        this.item.groupNames = updatedItem.groupNames
+        this.item.groupType = updatedItem.groupType
+        this.item.function = updatedItem.function
+        this.item.tags = updatedItem.tags
         // this.item.metadata = updatedItem.metadata
-        return true;
+        return true
       } catch (e) {
-        f7.dialog.alert(e).open();
-        return false;
+        f7.dialog.alert(e).open()
+        return false
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

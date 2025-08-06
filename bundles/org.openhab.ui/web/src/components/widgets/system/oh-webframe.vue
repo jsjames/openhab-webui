@@ -9,11 +9,11 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import { OhWebFrameDefinition } from '@/assets/definitions/widgets/system';
+import mixin from '../widget-mixin'
+import { OhWebFrameDefinition } from '@/assets/definitions/widgets/system'
 
 export default {
   mixins: [mixin],
-  widget: OhWebFrameDefinition,
-};
+  widget: OhWebFrameDefinition
+}
 </script>

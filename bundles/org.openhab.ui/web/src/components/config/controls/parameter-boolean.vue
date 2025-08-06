@@ -18,15 +18,15 @@ export default {
   computed: {
     actualValue() {
       if (typeof this.value === 'string') {
-        return this.value === 'true';
+        return this.value === 'true'
       }
-      return this.value;
-    },
+      return this.value
+    }
   },
   methods: {
     updateValue(value) {
-      this.$emit('input', value);
-    },
-  },
-};
+      this.$emit('input', value)
+    }
+  }
+}
 </script>

@@ -43,12 +43,12 @@ export default {
           type: analyzer.visualMapType,
           ...(analyzer.visualMapMin &&
             analyzer.visualMapMin !== '' && {
-              min: parseFloat(analyzer.visualMapMin)
-            }),
+            min: parseFloat(analyzer.visualMapMin)
+          }),
           ...(analyzer.visualMapMax &&
             analyzer.visualMapMax !== '' && {
-              max: parseFloat(analyzer.visualMapMax)
-            })
+            max: parseFloat(analyzer.visualMapMax)
+          })
         }
       }
     ]

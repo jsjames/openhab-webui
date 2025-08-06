@@ -71,11 +71,11 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import { actionsMixin } from '../widget-actions';
-import OhCard from '@/components/widgets/standard/oh-card.vue';
-import OhTrend from '@/components/widgets/system/oh-trend.vue';
-import { OhLabelCardDefinition } from '@/assets/definitions/widgets/standard/cards';
+import mixin from '../widget-mixin'
+import { actionsMixin } from '../widget-actions'
+import OhCard from '@/components/widgets/standard/oh-card.vue'
+import OhTrend from '@/components/widgets/system/oh-trend.vue'
+import { OhLabelCardDefinition } from '@/assets/definitions/widgets/standard/cards'
 
 export default {
   mixins: [mixin, actionsMixin],
@@ -90,8 +90,8 @@ export default {
         this.config.label ||
         this.context.store[this.config.item].displayState ||
         this.context.store[this.config.item].state
-      );
-    },
-  },
-};
+      )
+    }
+  }
+}
 </script>

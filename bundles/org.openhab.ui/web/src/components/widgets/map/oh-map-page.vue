@@ -33,28 +33,28 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import { tileLayer, latLng, Icon } from 'leaflet';
-import { LMap, LTileLayer, LFeatureGroup } from '@vue-leaflet/vue-leaflet';
-import 'leaflet/dist/leaflet.css';
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { mapStores } from 'pinia';
+import mixin from '../widget-mixin'
+import { tileLayer, latLng, Icon } from 'leaflet'
+import { LMap, LTileLayer, LFeatureGroup } from '@vue-leaflet/vue-leaflet'
+import 'leaflet/dist/leaflet.css'
+import { f7, theme } from 'framework7-vue'
+import { nextTick } from 'vue'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { mapStores } from 'pinia'
 
-import { OhMapPageDefinition } from '@/assets/definitions/widgets/map';
+import { OhMapPageDefinition } from '@/assets/definitions/widgets/map'
 
-import OhMapMarker from './oh-map-marker.vue';
-import OhMapCircleMarker from './oh-map-circle-marker.vue';
+import OhMapMarker from './oh-map-marker.vue'
+import OhMapCircleMarker from './oh-map-circle-marker.vue'
 
-import 'leaflet-providers';
+import 'leaflet-providers'
 
-delete Icon.Default.prototype._getIconUrl;
+delete Icon.Default.prototype._getIconUrl
 Icon.Default.mergeOptions({
   iconRetinaUrl: import('leaflet/dist/images/marker-icon-2x.png'),
   iconUrl: import('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: import('leaflet/dist/images/marker-shadow.png'),
-});
+  shadowUrl: import('leaflet/dist/images/marker-shadow.png')
+})
 
 export default {
   mixins: [mixin],
@@ -63,7 +63,7 @@ export default {
     LTileLayer,
     LFeatureGroup,
     OhMapMarker,
-    OhMapCircleMarker,
+    OhMapCircleMarker
   },
   widget: OhMapPageDefinition,
   data() {
@@ -79,85 +79,85 @@ export default {
       attribution:
         '&copy; <a class="external" target="_blank" href="http://osm.org/copyright">OpenStreetMap</a>, &copy; <a class="external" target="_blank" href="https://carto.com/attribution/">CARTO</a>',
       showMap: true
-    };
+    }
   },
   mounted() {
-    this.setBackgroundLayer();
-    this.onMarkerUpdate();
+    this.setBackgroundLayer()
+    this.onMarkerUpdate()
   },
   computed: {
     mapOptions() {
       return Object.assign(
         {
-          zoomSnap: 0.1,
+          zoomSnap: 0.1
         },
         this.config.noZoomOrDrag
           ? {
-              dragging: false,
-              touchZoom: false,
-              doubleClickZoom: false,
-              scrollWheelZoom: false,
-              zoomControl: false,
-            }
+            dragging: false,
+            touchZoom: false,
+            doubleClickZoom: false,
+            scrollWheelZoom: false,
+            zoomControl: false
+          }
           : {}
-      );
+      )
     },
     ...mapStores(useThemeOptionsStore)
   },
   methods: {
     setBackgroundLayer() {
       const defaultProvider =
-        useThemeOptionsStore().darkMode === 'dark' ? 'CartoDB.DarkMatter' : 'CartoDB.Positron';
-      const provider = this.config.tileLayerProvider || defaultProvider;
-      let layer, overlayLayer;
+        useThemeOptionsStore().darkMode === 'dark' ? 'CartoDB.DarkMatter' : 'CartoDB.Positron'
+      const provider = this.config.tileLayerProvider || defaultProvider
+      let layer, overlayLayer
       try {
-        layer = tileLayer.provider(provider, this.config.tileLayerProviderOptions);
+        layer = tileLayer.provider(provider, this.config.tileLayerProviderOptions)
       } catch {
-        layer = tileLayer.provider(defaultProvider);
+        layer = tileLayer.provider(defaultProvider)
       }
-      layer.addTo(this.$refs.map.mapObject);
+      layer.addTo(this.$refs.map.mapObject)
 
       if (this.config.overlayTileLayerProvider) {
         try {
           overlayLayer = tileLayer.provider(
             this.config.overlayTileLayerProvider,
             this.config.overlayTileLayerProviderOptions
-          );
+          )
         } catch {}
         // Workaround for OpenWeatherMap - the old URLs need the "_new" suffix
         // See: https://openweathermap.org/api/weathermaps
         if (overlayLayer._url.indexOf('openweather') > 0) {
-          overlayLayer._url = overlayLayer._url.replace('{variant}', '{variant}_new');
+          overlayLayer._url = overlayLayer._url.replace('{variant}', '{variant}_new')
         }
-        overlayLayer.addTo(this.$refs.map.mapObject);
+        overlayLayer.addTo(this.$refs.map.mapObject)
       }
-      this.$refs.map.mapObject.invalidateSize();
+      this.$refs.map.mapObject.invalidateSize()
     },
     zoomUpdate(zoom) {
-      this.currentZoom = zoom;
+      this.currentZoom = zoom
     },
     centerUpdate(center) {
-      this.currentCenter = center;
+      this.currentCenter = center
     },
     markerComponent(marker) {
       switch (marker.component) {
         case 'oh-map-marker':
-          return OhMapMarker;
+          return OhMapMarker
         case 'oh-map-circle-marker':
-          return OhMapCircleMarker;
+          return OhMapCircleMarker
         default:
-          return null;
+          return null
       }
     },
     onMarkerUpdate() {
       nextTick(() => {
-        const bounds = this.$refs.featureGroup.mapObject.getBounds();
+        const bounds = this.$refs.featureGroup.mapObject.getBounds()
         if (bounds.isValid()) {
-          this.$refs.map.mapObject.fitBounds(bounds.pad(0.5));
-          this.$refs.map.mapObject.invalidateSize();
+          this.$refs.map.mapObject.fitBounds(bounds.pad(0.5))
+          this.$refs.map.mapObject.invalidateSize()
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>

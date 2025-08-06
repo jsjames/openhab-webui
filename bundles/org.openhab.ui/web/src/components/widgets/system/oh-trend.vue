@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import { OhTrendDefinition } from '@/assets/definitions/widgets/system';
+import mixin from '../widget-mixin'
+import { OhTrendDefinition } from '@/assets/definitions/widgets/system'
 import Trend from '@hotdogee/vue3-trend'
 
 export default {
@@ -30,52 +30,52 @@ export default {
   data() {
     return {
       trendData: [],
-      showTrend: false,
-    };
+      showTrend: false
+    }
   },
   computed: {
     trendItem() {
-      return this.config.trendItem;
+      return this.config.trendItem
     },
     trendWidth() {
-      return this.width || this.config.trendWidth;
+      return this.width || this.config.trendWidth
     },
     trendGradient() {
-      return this.config.trendGradient || ['#2196f3', '#5ac8fa'];
+      return this.config.trendGradient || ['#2196f3', '#5ac8fa']
     },
     trendGradientDirection() {
-      return this.config.trendGradientDirection || 'top';
+      return this.config.trendGradientDirection || 'top'
     },
     trendStrokeWidth() {
-      return this.config.trendStrokeWidth || 3;
-    },
+      return this.config.trendStrokeWidth || 3
+    }
   },
   mounted() {
-    this.buildTrend();
+    this.buildTrend()
   },
   watch: {
     trendItem(item) {
-      this.buildTrend();
-    },
+      this.buildTrend()
+    }
   },
   methods: {
     buildTrend() {
-      this.trendData = [];
-      this.showTrend = false;
-      if (!this.trendItem) return [];
+      this.trendData = []
+      this.showTrend = false
+      if (!this.trendItem) return []
       const sampling =
-        typeof this.config.trendSampling === 'number' ? this.config.trendSampling : 60;
+        typeof this.config.trendSampling === 'number' ? this.config.trendSampling : 60
       return this.$oh.api.get('/rest/persistence/items/' + this.config.trendItem).then(resp => {
         if (resp.data && resp.data.length) {
-          let data = [];
+          let data = []
           for (let i = resp.data.length - 1; i >= 0; i -= sampling) {
-            data.push(parseFloat(resp.data[i].state));
+            data.push(parseFloat(resp.data[i].state))
           }
-          this.trendData = data.reverse();
-          this.showTrend = true;
+          this.trendData = data.reverse()
+          this.showTrend = true
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>

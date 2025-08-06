@@ -7,17 +7,17 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import OhCard from '@/components/widgets/standard/oh-card.vue';
-import OhKnob from '../system/oh-knob.vue';
-import { OhKnobCardDefinition } from '@/assets/definitions/widgets/standard/cards';
+import mixin from '../widget-mixin'
+import OhCard from '@/components/widgets/standard/oh-card.vue'
+import OhKnob from '../system/oh-knob.vue'
+import { OhKnobCardDefinition } from '@/assets/definitions/widgets/standard/cards'
 
 export default {
   mixins: [mixin],
   components: {
     OhCard,
-    OhKnob,
+    OhKnob
   },
-  widget: OhKnobCardDefinition,
-};
+  widget: OhKnobCardDefinition
+}
 </script>

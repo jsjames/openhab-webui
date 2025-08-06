@@ -22,26 +22,30 @@
     <div v-if="!searching" class="developer-sidebar-content">
       <div v-if="activeToolTab === 'pin'">
         <f7-block class="no-margin no-padding">
-          <f7-block-title class="padding-horizontal" medium> Pinned Objects </f7-block-title>
+          <f7-block-title class="padding-horizontal" medium>
+            Pinned Objects
+          </f7-block-title>
         </f7-block>
         <f7-block
           class="no-margin no-padding"
           v-if="
             !pinnedObjects.items.length &&
-            !pinnedObjects.things.length &&
-            !pinnedObjects.rules.length &&
-            !pinnedObjects.scenes.length &&
-            !pinnedObjects.scripts.length &&
-            !pinnedObjects.pages.length &&
-            !pinnedObjects.widgets.length &&
-            !pinnedObjects.transformations.length
+              !pinnedObjects.things.length &&
+              !pinnedObjects.rules.length &&
+              !pinnedObjects.scenes.length &&
+              !pinnedObjects.scripts.length &&
+              !pinnedObjects.pages.length &&
+              !pinnedObjects.widgets.length &&
+              !pinnedObjects.transformations.length
           ">
           <p class="padding-horizontal">
             Use the search box above or the button below to temporarily pin objects here for quick
             access.
           </p>
           <p class="padding-horizontal">
-            <f7-button fill color="blue" @click="openModelPicker"> Pin Items from Model </f7-button>
+            <f7-button fill color="blue" @click="openModelPicker">
+              Pin Items from Model
+            </f7-button>
           </p>
         </f7-block>
         <!-- Pinned Items -->
@@ -208,9 +212,9 @@
                       tooltip="Edit"
                       :href="
                         '/settings/' +
-                        (rule.tags.indexOf('Script') >= 0 ? 'scripts' : 'rules') +
-                        '/' +
-                        rule.uid
+                          (rule.tags.indexOf('Script') >= 0 ? 'scripts' : 'rules') +
+                          '/' +
+                          rule.uid
                       "
                       :animate="false" />
                     <f7-link
@@ -277,9 +281,9 @@
                       tooltip="Edit"
                       :href="
                         '/settings/' +
-                        (rule.tags.indexOf('Script') >= 0 ? 'scripts' : 'rules') +
-                        '/' +
-                        rule.uid
+                          (rule.tags.indexOf('Script') >= 0 ? 'scripts' : 'rules') +
+                          '/' +
+                          rule.uid
                       "
                       :animate="false" />
                     <f7-link
@@ -350,9 +354,9 @@
                       tooltip="Edit"
                       :href="
                         '/settings/' +
-                        (rule.tags.indexOf('Script') >= 0 ? 'scripts' : 'rules') +
-                        '/' +
-                        rule.uid
+                          (rule.tags.indexOf('Script') >= 0 ? 'scripts' : 'rules') +
+                          '/' +
+                          rule.uid
                       "
                       :animate="false" />
                     <f7-link
@@ -584,10 +588,14 @@
           </f7-block-title>
           <f7-block>
             <p v-if="!sseClient">
-              <f7-button fill color="blue" @click="startSSE"> Stream Events </f7-button>
+              <f7-button fill color="blue" @click="startSSE">
+                Stream Events
+              </f7-button>
             </p>
             <p v-if="sseClient">
-              <f7-button fill color="red" @click="stopSSE"> Stop Streaming </f7-button>
+              <f7-button fill color="red" @click="stopSSE">
+                Stop Streaming
+              </f7-button>
             </p>
           </f7-block>
           <f7-list media-list>
@@ -603,11 +611,15 @@
 
       <div v-else-if="activeToolTab === 'scripting'">
         <f7-block class="no-margin no-padding">
-          <f7-block-title class="padding-horizontal" medium> Code Tools </f7-block-title>
+          <f7-block-title class="padding-horizontal" medium>
+            Code Tools
+          </f7-block-title>
         </f7-block>
         <expression-tester />
         <f7-block class="no-margin no-padding">
-          <f7-block-title class="padding-horizontal"> Scripting Scratchpad </f7-block-title>
+          <f7-block-title class="padding-horizontal">
+            Scripting Scratchpad
+          </f7-block-title>
           <f7-list>
             <f7-list-button @click="openScriptingScratchpad" color="blue">
               Open Scratchpad
@@ -618,7 +630,9 @@
 
       <div v-else-if="activeToolTab === 'tools'">
         <f7-block class="no-margin no-padding">
-          <f7-block-title class="padding-horizontal" medium> Create Shortcuts </f7-block-title>
+          <f7-block-title class="padding-horizontal" medium>
+            Create Shortcuts
+          </f7-block-title>
         </f7-block>
         <f7-block class="no-margin no-padding">
           <f7-list>
@@ -626,7 +640,9 @@
             <f7-list-button href="/settings/things/add" color="blue" :animate="false">
               Add Thing
             </f7-list-button>
-            <f7-list-button @click="quickAddThing" color="blue"> Add Thing (quick) </f7-list-button>
+            <f7-list-button @click="quickAddThing" color="blue">
+              Add Thing (quick)
+            </f7-list-button>
             <f7-list-button href="/settings/things/inbox" color="blue" :animate="false">
               Inbox
             </f7-list-button>
@@ -726,22 +742,22 @@
 </style>
 
 <script>
-import Item from '@/components/item/item.vue';
-import ItemStandaloneControl from '@/components/item/item-standalone-control.vue';
-import ModelPickerPopup from '@/components/model/model-picker-popup.vue';
-import SearchResults from './search-results.vue';
-import ExpressionTester from './expression-tester.vue';
-import ClipboardIcon from '@/components/util/clipboard-icon.vue';
+import Item from '@/components/item/item.vue'
+import ItemStandaloneControl from '@/components/item/item-standalone-control.vue'
+import ModelPickerPopup from '@/components/model/model-picker-popup.vue'
+import SearchResults from './search-results.vue'
+import ExpressionTester from './expression-tester.vue'
+import ClipboardIcon from '@/components/util/clipboard-icon.vue'
 
-import RuleStatus from '@/components/rule/rule-status-mixin';
-import ThingStatus from '@/components/thing/thing-status-mixin';
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
+import RuleStatus from '@/components/rule/rule-status-mixin'
+import ThingStatus from '@/components/thing/thing-status-mixin'
+import { f7, theme } from 'framework7-vue'
+import { nextTick } from 'vue'
 
-import { useDeveloperStore } from '@/js/stores/developer';
-import { mapState } from 'pinia';
+import { useDeveloperStore } from '@/js/stores/developer'
+import { mapState } from 'pinia'
 
-const developerStore = useDeveloperStore();
+const developerStore = useDeveloperStore()
 
 export default {
   mixins: [RuleStatus, ThingStatus],
@@ -750,13 +766,13 @@ export default {
     Item,
     ItemStandaloneControl,
     SearchResults,
-    ExpressionTester,
+    ExpressionTester
   },
   props: ['activeToolTab', 'searchFor'],
   watch: {
     searchFor(val) {
-      if (val) this.$refs.searchbar.search(val);
-    },
+      if (val) this.$refs.searchbar.$el.f7Searchbar.search(val)
+    }
   },
   data() {
     return {
@@ -777,7 +793,7 @@ export default {
         pages: [],
         widgets: [],
         transformations: [],
-        persistenceConfigs: [],
+        persistenceConfigs: []
       },
       pinnedObjects: {
         ...mapState(developerStore, [
@@ -789,8 +805,8 @@ export default {
           'pinnedPages',
           'pinnedWidgets',
           'pinnedTransformations',
-          'pinnedPersistenceConfigs',
-        ]),
+          'pinnedPersistenceConfigs'
+        ])
       },
       sseEvents: [],
       openedItem: null,
@@ -799,85 +815,85 @@ export default {
           type: 'sitemap',
           label: 'Sitemap',
           componentType: 'Sitemap',
-          icon: 'menu',
+          icon: 'menu'
         },
         {
           type: 'layout',
           label: 'Layout',
           componentType: 'oh-layout-page',
-          icon: 'rectangle_grid_2x2',
+          icon: 'rectangle_grid_2x2'
         },
         {
           type: 'home',
           label: 'Home',
           componentType: 'oh-home-page',
-          icon: 'house',
+          icon: 'house'
         },
         {
           type: 'tabs',
           label: 'Tabbed',
           componentType: 'oh-tabs-page',
-          icon: 'squares_below_rectangle',
+          icon: 'squares_below_rectangle'
         },
         {
           type: 'map',
           label: 'Map',
           componentType: 'oh-map-page',
-          icon: 'map',
+          icon: 'map'
         },
         {
           type: 'plan',
           label: 'Floor plan',
           componentType: 'oh-plan-page',
-          icon: 'square_stack_3d_up',
+          icon: 'square_stack_3d_up'
         },
         {
           type: 'chart',
           label: 'Chart',
           componentType: 'oh-chart-page',
-          icon: 'graph_square',
-        },
+          icon: 'graph_square'
+        }
       ],
       testExpression: '',
-      addThingAutocomplete: null,
-    };
+      addThingAutocomplete: null
+    }
   },
   computed: {
     context() {
       return {
-        store: useStatesStore().trackedItems,
-      };
-    },
+        store: useStatesStore().trackedItems
+      }
+    }
   },
   mounted() {
-    this.startEventSource();
+    this.startEventSource()
     nextTick(() => {
       if (this.$device.desktop && this.$refs.searchbar) {
-        this.$refs.searchbar.$el.f7Searchbar.$inputEl.focus();
-        if (this.searchFor) this.$refs.searchbar.search(this.searchFor);
+        this.$refs.searchbar.$el.f7Searchbar.$inputEl.focus()
+        if (this.searchFor) this.$refs.searchbar.$el.f7Searchbar.search(this.searchFor)
       }
-    });
+    })
   },
   beforeUnmount() {
-    this.stopEventSource();
-    if (this.addThingAutocomplete) this.addThingAutocomplete.destroy();
+    this.stopEventSource()
+    if (this.addThingAutocomplete) this.addThingAutocomplete.destroy()
   },
   methods: {
     addItemsFromModel(value) {
-      this.pinnedObjects.items = [...value];
+      this.pinnedObjects.items = [...value]
     },
     openModelPicker() {
       const popup = {
-        component: ModelPickerPopup,
-      };
+        component: ModelPickerPopup
+      }
 
       f7.views.main.router.navigate(
         {
           url: 'pick-from-model',
           route: {
             path: 'pick-from-model',
-            popup,
-          },
+            popup
+          }
         },
         {
           props: {
@@ -885,15 +901,15 @@ export default {
             multiple: true,
             allowEmpty: true,
             popupTitle: 'Pin Items from Model',
-            actionLabel: 'Pin',
-          },
+            actionLabel: 'Pin'
+          }
         }
-      );
+      )
 
-      f7.once('item-picked', this.addItemsFromModel);
+      f7.once('item-picked', this.addItemsFromModel)
       f7.once('model-picker-closed', () => {
-        f7.off('item-picked', this.addItemsFromModel);
-      });
+        f7.off('item-picked', this.addItemsFromModel)
+      })
     },
     /**
      * Search for the query string inside a single Item.
@@ -910,12 +926,12 @@ export default {
      * @returns {boolean}
      */
     searchItem(i, query) {
-      query = query.toLowerCase();
-      if (i.name.toLowerCase().indexOf(query) >= 0) return true;
-      if (i.label && i.label.toLowerCase().indexOf(query) >= 0) return true;
-      if (i.metadata && JSON.stringify(i.metadata).toLowerCase().indexOf(query) >= 0) return true;
-      if (i.tags && i.tags.map(t => t.toLowerCase()).includes(query)) return true;
-      return false;
+      query = query.toLowerCase()
+      if (i.name.toLowerCase().indexOf(query) >= 0) return true
+      if (i.label && i.label.toLowerCase().indexOf(query) >= 0) return true
+      if (i.metadata && JSON.stringify(i.metadata).toLowerCase().indexOf(query) >= 0) return true
+      if (i.tags && i.tags.map(t => t.toLowerCase()).includes(query)) return true
+      return false
     },
     /**
      * Search for the query string inside a single rule.
@@ -936,18 +952,18 @@ export default {
      * @returns {boolean}
      */
     searchRule(r, query) {
-      query = query.toLowerCase();
-      if (r.uid.toLowerCase().indexOf(query) >= 0) return true;
-      if (r.name.toLowerCase().indexOf(query) >= 0) return true;
-      if (r.description && r.description.toLowerCase().indexOf(query) >= 0) return true;
-      if (r.tags && r.tags.map(t => t.toLowerCase()).includes(query)) return true;
+      query = query.toLowerCase()
+      if (r.uid.toLowerCase().indexOf(query) >= 0) return true
+      if (r.name.toLowerCase().indexOf(query) >= 0) return true
+      if (r.description && r.description.toLowerCase().indexOf(query) >= 0) return true
+      if (r.tags && r.tags.map(t => t.toLowerCase()).includes(query)) return true
       const searchItemOrThing = m => {
         // Match Item names non case-intensive
         if (
           m.configuration.itemName &&
           m.configuration.itemName.toLowerCase().indexOf(query) >= 0
         ) {
-          return true;
+          return true
         }
         // Match Group names non case-intensive
         if (m.configuration.groupName && m.configuration.groupName.toLowerCase().indexOf(query) >= 0) {
@@ -958,39 +974,39 @@ export default {
           m.configuration.thingUID &&
           m.configuration.thingUID.toLowerCase().indexOf(query) >= 0
         ) {
-          return true;
+          return true
         }
-      };
+      }
       const searchScript = m => {
         // MIME types require exact match
         if (m.configuration.type && m.configuration.type.toLowerCase() === query) {
-          return true;
+          return true
         }
         if (
           ['block', 'blockly', 'blocksource'].includes(query) &&
           m.configuration.blockSource !== undefined
         ) {
-          return true;
+          return true
         }
         if (m.configuration.script && m.configuration.script.toLowerCase().indexOf(query) >= 0) {
-          return true;
+          return true
         }
-      };
+      }
       for (let i = 0; i < r.triggers.length; i++) {
-        const t = r.triggers[i];
-        if (searchItemOrThing(t)) return true;
+        const t = r.triggers[i]
+        if (searchItemOrThing(t)) return true
       }
       for (let i = 0; i < r.actions.length; i++) {
-        const a = r.actions[i];
-        if (searchItemOrThing(a)) return true;
-        if (searchScript(a)) return true;
+        const a = r.actions[i]
+        if (searchItemOrThing(a)) return true
+        if (searchScript(a)) return true
       }
       for (let i = 0; i < r.conditions.length; i++) {
-        const c = r.conditions[i];
-        if (searchItemOrThing(c)) return true;
-        if (searchScript(c)) return true;
+        const c = r.conditions[i]
+        if (searchItemOrThing(c)) return true
+        if (searchScript(c)) return true
       }
-      return false;
+      return false
     },
     /**
      * Search for the query string inside a single page or sitemap.
@@ -1006,12 +1022,12 @@ export default {
      * @returns {boolean}
      */
     searchPage(p, query) {
-      query = query.toLowerCase();
-      if (p.uid.toLowerCase().indexOf(query) >= 0) return true;
+      query = query.toLowerCase()
+      if (p.uid.toLowerCase().indexOf(query) >= 0) return true
       if (p.config && p.config.label && p.config.label.toLowerCase().indexOf(query) >= 0)
-        return true;
-      if (p.slots && JSON.stringify(p.slots).toLowerCase().indexOf(query) >= 0) return true;
-      return false;
+        return true
+      if (p.slots && JSON.stringify(p.slots).toLowerCase().indexOf(query) >= 0) return true
+      return false
     },
     /**
      * Search for the query string inside a single widget.
@@ -1027,11 +1043,11 @@ export default {
      * @returns {boolean}
      */
     searchWidget(w, query) {
-      query = query.toLowerCase();
-      if (w.uid.toLowerCase().indexOf(query) >= 0) return true;
-      if (w.props && JSON.stringify(w.props).toLowerCase().indexOf(query) >= 0) return true;
-      if (w.slots && JSON.stringify(w.slots).toLowerCase().indexOf(query) >= 0) return true;
-      return false;
+      query = query.toLowerCase()
+      if (w.uid.toLowerCase().indexOf(query) >= 0) return true
+      if (w.props && JSON.stringify(w.props).toLowerCase().indexOf(query) >= 0) return true
+      if (w.slots && JSON.stringify(w.slots).toLowerCase().indexOf(query) >= 0) return true
+      return false
     },
     /**
      * Search for the query string inside a persistence configuration.
@@ -1047,13 +1063,13 @@ export default {
      * @returns {boolean}
      */
     searchPersistenceConfigs(pc, query) {
-      query = query.toLowerCase();
-      if (pc.serviceId.toLowerCase().indexOf(query) >= 0) return true;
-      if (pc.label.toLowerCase().indexOf(query) >= 0) return true;
+      query = query.toLowerCase()
+      if (pc.serviceId.toLowerCase().indexOf(query) >= 0) return true
+      if (pc.label.toLowerCase().indexOf(query) >= 0) return true
       for (const conf of pc.configs) {
-        if (conf.items.toString().toLowerCase().indexOf(query) >= 0) return true;
+        if (conf.items.toString().toLowerCase().indexOf(query) >= 0) return true
       }
-      return false;
+      return false
     },
     /**
      * Load all persistence configs and extend them with the persistence service label.
@@ -1062,58 +1078,58 @@ export default {
      */
     loadPersistenceConfigs() {
       return this.$oh.api.get('/rest/persistence').then(data => {
-        const labels = {};
+        const labels = {}
         data.forEach(p => {
-          labels[p.id] = p.label;
-        });
-        const loadPromises = data.map(p => this.$oh.api.get('/rest/persistence/' + p.id));
-        const configs = [];
+          labels[p.id] = p.label
+        })
+        const loadPromises = data.map(p => this.$oh.api.get('/rest/persistence/' + p.id))
+        const configs = []
 
         Promise.allSettled(loadPromises).then(results => {
           for (const result of results) {
             if (result.value) {
-              result.value.label = labels[result.value.serviceId];
-              configs.push(result.value);
+              result.value.label = labels[result.value.serviceId]
+              configs.push(result.value)
             }
           }
-        });
+        })
 
-        return configs;
-      });
+        return configs
+      })
     },
     search(searchbar, query, previousQuery) {
       if (!query) {
-        this.clearSearch();
-        return;
+        this.clearSearch()
+        return
       }
-      this.searching = true;
-      this.searchQuery = query;
+      this.searching = true
+      this.searchQuery = query
 
-      if (this.searchResultsLoading) return;
+      if (this.searchResultsLoading) return
 
       const promises = this.cachedObjects
         ? this.cachedObjects.map(o => Promise.resolve(o))
         : [
-            this.$oh.api.get('/rest/items?staticDataOnly=true&metadata=.*'), // 0
-            this.$oh.api.get('/rest/things?summary=true'), // 1
-            this.$oh.api.get('/rest/rules?summary=false'), // 2
-            Promise.resolve(useComponentsStore().pages), // 3
-            this.$oh.api.get('/rest/ui/components/system:sitemap'), // 4
-            Promise.resolve(useComponentsStore().widgets), // 5
-            this.$oh.api.get('/rest/transformations'), // 6
-            this.loadPersistenceConfigs(), // 7
-          ];
+          this.$oh.api.get('/rest/items?staticDataOnly=true&metadata=.*'), // 0
+          this.$oh.api.get('/rest/things?summary=true'), // 1
+          this.$oh.api.get('/rest/rules?summary=false'), // 2
+          Promise.resolve(useComponentsStore().pages), // 3
+          this.$oh.api.get('/rest/ui/components/system:sitemap'), // 4
+          Promise.resolve(useComponentsStore().widgets), // 5
+          this.$oh.api.get('/rest/transformations'), // 6
+          this.loadPersistenceConfigs() // 7
+        ]
 
-      this.searchResultsLoading = true;
+      this.searchResultsLoading = true
       Promise.all(promises).then(data => {
-        this.cachedObjects = data;
+        this.cachedObjects = data
         const items = data[0]
           .filter(i => this.searchItem(i, this.searchQuery))
           .sort((a, b) => {
-            const labelA = a.name;
-            const labelB = b.name;
-            return labelA ? labelA.localeCompare(labelB) : 0;
-          });
+            const labelA = a.name
+            const labelB = b.name
+            return labelA ? labelA.localeCompare(labelB) : 0
+          })
         const things = data[1]
           .filter(
             t =>
@@ -1121,36 +1137,36 @@ export default {
               (t.label && t.label.toLowerCase().indexOf(this.searchQuery.toLowerCase())) >= 0
           )
           .sort((a, b) => {
-            const labelA = a.name;
-            const labelB = b.name;
-            return labelA ? labelA.localeCompare(labelB) : 0;
-          });
+            const labelA = a.name
+            const labelB = b.name
+            return labelA ? labelA.localeCompare(labelB) : 0
+          })
         const rulesScenesScripts = data[2]
           .filter(r => this.searchRule(r, this.searchQuery))
           .sort((a, b) => {
-            const labelA = a.name;
-            const labelB = b.name;
-            return labelA ? labelA.localeCompare(labelB) : 0;
-          });
+            const labelA = a.name
+            const labelB = b.name
+            return labelA ? labelA.localeCompare(labelB) : 0
+          })
         const rules = rulesScenesScripts.filter(
           r => r.tags.indexOf('Scene') < 0 && r.tags.indexOf('Script') < 0
-        );
-        const scenes = rulesScenesScripts.filter(r => r.tags.indexOf('Scene') >= 0);
-        const scripts = rulesScenesScripts.filter(r => r.tags.indexOf('Script') >= 0);
+        )
+        const scenes = rulesScenesScripts.filter(r => r.tags.indexOf('Scene') >= 0)
+        const scripts = rulesScenesScripts.filter(r => r.tags.indexOf('Script') >= 0)
         const pages = [...data[3], ...data[4]]
           .filter(p => this.searchPage(p, this.searchQuery))
           .sort((a, b) => {
-            const labelA = a.name;
-            const labelB = b.name;
-            return labelA ? labelA.localeCompare(labelB) : 0;
-          });
+            const labelA = a.name
+            const labelB = b.name
+            return labelA ? labelA.localeCompare(labelB) : 0
+          })
         const widgets = data[5]
           .filter(w => this.searchWidget(w, this.searchQuery))
           .sort((a, b) => {
-            const labelA = a.name;
-            const labelB = b.name;
-            return labelA ? labelA.localeCompare(labelB) : 0;
-          });
+            const labelA = a.name
+            const labelB = b.name
+            return labelA ? labelA.localeCompare(labelB) : 0
+          })
         const transformations = data[6]
           .filter(
             t =>
@@ -1158,17 +1174,17 @@ export default {
               t.label.toLowerCase().indexOf(this.searchQuery.toLowerCase()) >= 0
           )
           .sort((a, b) => {
-            const labelA = a.name;
-            const labelB = b.name;
-            return labelA ? labelA.localeCompare(labelB) : 0;
-          });
+            const labelA = a.name
+            const labelB = b.name
+            return labelA ? labelA.localeCompare(labelB) : 0
+          })
         const persistenceConfigs = data[7]
           .filter(pc => this.searchPersistenceConfigs(pc, this.searchQuery))
           .sort((a, b) => {
-            const idA = a.id;
-            const idB = b.id;
-            return idA ? idA.localeCompare(idB) : 0;
-          });
+            const idA = a.id
+            const idB = b.id
+            return idA ? idA.localeCompare(idB) : 0
+          })
         this.searchResults = {
           items,
           things,
@@ -1178,16 +1194,16 @@ export default {
           pages,
           widgets,
           transformations,
-          persistenceConfigs,
-        };
-        this.searchResultsLoading = false;
-      });
+          persistenceConfigs
+        }
+        this.searchResultsLoading = false
+      })
     },
     clearSearch() {
-      this.searching = false;
-      this.searchResultsLoading = false;
-      this.searchSuery = '';
-      this.cachedObjects = null;
+      this.searching = false
+      this.searchResultsLoading = false
+      this.searchSuery = ''
+      this.cachedObjects = null
       this.searchResults = {
         items: [],
         things: [],
@@ -1197,34 +1213,34 @@ export default {
         pages: [],
         widgets: [],
         transformations: [],
-        persistenceConfigs: [],
-      };
+        persistenceConfigs: []
+      }
     },
     pin(type, obj) {
-      this.pinnedObjects[type].push(obj);
+      this.pinnedObjects[type].push(obj)
     },
     unpin(type, obj, keyName) {
-      let index = this.pinnedObjects[type].findIndex(o => o[keyName] === obj[keyName]);
+      let index = this.pinnedObjects[type].findIndex(o => o[keyName] === obj[keyName])
       if (index >= 0) {
-        this.pinnedObjects[type].splice(index, 1);
+        this.pinnedObjects[type].splice(index, 1)
       }
     },
     unpinAll(type) {
-      this.pinnedObjects[type] = [];
+      this.pinnedObjects[type] = []
     },
     getPageType(page) {
-      return this.pageTypes.find(t => t.componentType === page.component);
+      return this.pageTypes.find(t => t.componentType === page.component)
     },
     showItem(evt, item) {
-      evt.cancelBubble = true;
-      if (Dom7(evt.target).closest('.itemlist-actions').length) return;
-      const itemEl = Dom7(evt.target).closest('.itemlist-item');
-      if (!itemEl.length) return;
-      this.openedItem = item;
-      nextTick(() => this.$refs.itemPopover.f7Popover.open(itemEl[0]));
+      evt.cancelBubble = true
+      if (Dom7(evt.target).closest('.itemlist-actions').length) return
+      const itemEl = Dom7(evt.target).closest('.itemlist-item')
+      if (!itemEl.length) return
+      this.openedItem = item
+      nextTick(() => this.$refs.itemPopover.$el.f7Popover.open(itemEl[0]))
     },
     toggleThingDisabled(thing) {
-      const enable = thing.statusInfo.statusDetail === 'DISABLED';
+      const enable = thing.statusInfo.statusDetail === 'DISABLED'
       this.$oh.api
         .putPlain('/rest/things/' + thing.UID + '/enable', enable.toString())
         .then(data => {
@@ -1232,22 +1248,22 @@ export default {
             .create({
               text: enable ? 'Thing enabled' : 'Thing disabled',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
+            .open()
         })
         .catch(err => {
           f7.toast
             .create({
               text: 'Error while disabling or enabling: ' + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     toggleRuleDisabled(rule, type = 'Rule') {
-      const enable = rule.status.statusDetail === 'DISABLED';
+      const enable = rule.status.statusDetail === 'DISABLED'
       this.$oh.api
         .postPlain('/rest/rules/' + rule.uid + '/enable', enable.toString())
         .then(data => {
@@ -1255,19 +1271,19 @@ export default {
             .create({
               text: enable ? `${type} enabled` : `${type} disabled`,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
+            .open()
         })
         .catch(err => {
           f7.toast
             .create({
               text: `Error while disabling or enabling ${type.toLowerCase()}: ` + err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
+            .open()
+        })
     },
     runRuleNow(rule, type = 'Rule') {
       if (rule.status.status === 'RUNNING' || rule.status.status === 'UNINITIALIZED') {
@@ -1275,38 +1291,38 @@ export default {
           .create({
             text: `${type} cannot be run ${rule.status.status === 'RUNNING' ? 'while already running, please wait' : 'if it is uninitialized'}!`,
             destroyOnClose: true,
-            closeTimeout: 2000,
+            closeTimeout: 2000
           })
-          .open();
+          .open()
       }
       f7.toast
         .create({
           text: `Running ${type.toLowerCase()}`,
           destroyOnClose: true,
-          closeTimeout: 2000,
+          closeTimeout: 2000
         })
-        .open();
+        .open()
       this.$oh.api.postPlain('/rest/rules/' + rule.uid + '/runnow', '').catch(err => {
         f7.toast
           .create({
             text: `Error while running ${type.toLowerCase()}: ` + err,
             destroyOnClose: true,
-            closeTimeout: 2000,
+            closeTimeout: 2000
           })
-          .open();
-      });
+          .open()
+      })
     },
     openScriptingScratchpad() {
       this.$oh.api
         .get('/rest/rules/scratchpad')
         .then(data => {
           f7.views.main.router.navigate('/settings/scripts/scratchpad', {
-            animate: false,
-          });
+            animate: false
+          })
         })
         .catch(() => {
           this.$oh.api.get('/rest/module-types/script.ScriptAction').then(data => {
-            const languages = data.configDescriptions.find(c => c.name === 'type').options;
+            const languages = data.configDescriptions.find(c => c.name === 'type').options
             f7.actions
               .create({
                 buttons: [
@@ -1333,12 +1349,12 @@ export default {
                                 type: 'script.ScriptAction',
                                 configuration: {
                                   type: l.value,
-                                  script: '',
-                                },
-                              },
+                                  script: ''
+                                }
+                              }
                             ],
-                            tags: ['Script', 'Scratchpad'],
-                          };
+                            tags: ['Script', 'Scratchpad']
+                          }
                           this.$oh.api
                             .postPlain(
                               '/rest/rules',
@@ -1351,39 +1367,39 @@ export default {
                                 .create({
                                   text: 'Scratchpad script created',
                                   destroyOnClose: true,
-                                  closeTimeout: 2000,
+                                  closeTimeout: 2000
                                 })
-                                .open();
+                                .open()
                               f7.views.main.router.navigate('/settings/scripts/scratchpad', {
-                                animate: false,
-                              });
-                            });
-                        },
-                      };
-                    }),
+                                animate: false
+                              })
+                            })
+                        }
+                      }
+                    })
                   ],
-                  [{ color: 'red', text: 'Cancel', close: true }],
-                ],
+                  [{ color: 'red', text: 'Cancel', close: true }]
+                ]
               })
-              .open();
-          });
-        });
+              .open()
+          })
+        })
     },
     quickAddThing() {
       if (this.addThingAutocomplete) {
-        this.addThingAutocomplete.value = [];
-        this.addThingAutocomplete.open();
+        this.addThingAutocomplete.value = []
+        this.addThingAutocomplete.open()
       } else {
-        f7.preloader.show();
-        const self = this;
+        f7.preloader.show()
+        const self = this
         this.$oh.api.get('/rest/thing-types').then(data => {
           const listedThingTypes = data
             .filter(t => t.listed)
             .map(t => {
-              return { UID: t.UID, label: `${t.label} (${t.UID})` };
+              return { UID: t.UID, label: `${t.label} (${t.UID})` }
             })
-            .sort((a, b) => a.label.localeCompare(b.label));
-          f7.preloader.hide();
+            .sort((a, b) => a.label.localeCompare(b.label))
+          f7.preloader.hide()
           this.addThingAutocomplete = f7.autocomplete
             .create({
               openIn: 'popup',
@@ -1398,7 +1414,7 @@ export default {
               url: 'quick-add-thing/',
               source(query, render) {
                 if (query.length === 0) {
-                  render(listedThingTypes);
+                  render(listedThingTypes)
                 } else {
                   render(
                     listedThingTypes.filter(
@@ -1406,21 +1422,21 @@ export default {
                         t.label.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
                         t.UID.toLowerCase().indexOf(query.toLowerCase()) >= 0
                     )
-                  );
+                  )
                 }
               },
               on: {
                 change(value) {
-                  if (!value.length) return;
+                  if (!value.length) return
                   self.f7.views.main.router.navigate(
                     '/settings/things/add/' + value[0].UID.split(':')[0] + '/' + value[0].UID,
                     { animate: false }
-                  );
-                },
-              },
+                  )
+                }
+              }
             })
-            .open();
-        });
+            .open()
+        })
       }
     },
     changeEventTopicFilter() {
@@ -1428,78 +1444,78 @@ export default {
         'Filter events by topics (comma-separated, wildcards accepted):',
         'Event Monitor',
         filter => {
-          this.eventTopicFilter = filter;
+          this.eventTopicFilter = filter
         },
         null,
         this.eventTopicFilter
-      );
+      )
     },
     startSSE() {
-      this.sseEvents = [];
+      this.sseEvents = []
       this.sseClient = this.$oh.sse.connect(
         '/rest/events' + (this.eventTopicFilter ? '?topics=' + this.eventTopicFilter : ''),
         '',
         event => {
-          event.time = new Date();
-          this.sseEvents.unshift(...[event]);
-          this.sseEvents.splice(20);
+          event.time = new Date()
+          this.sseEvents.unshift(...[event])
+          this.sseEvents.splice(20)
         }
-      );
+      )
     },
     stopSSE() {
-      this.$oh.sse.close(this.sseClient);
-      this.sseClient = null;
+      this.$oh.sse.close(this.sseClient)
+      this.sseClient = null
     },
     startEventSource() {
       this.eventSource = this.$oh.sse.connect(
         '/rest/events?topics=openhab/rules/*/*,openhab/things/*/*,openhab/addons/*/*',
         null,
         event => {
-          const topicParts = event.topic.split('/');
+          const topicParts = event.topic.split('/')
           switch (topicParts[1]) {
             case 'addons':
-              if (this.addThingAutocomplete) this.addThingAutocomplete.destroy();
-              break;
+              if (this.addThingAutocomplete) this.addThingAutocomplete.destroy()
+              break
             case 'things':
               switch (topicParts[3]) {
                 case 'removed':
-                  this.unpin('things', { UID: topicParts[2] }, 'UID');
-                  break;
+                  this.unpin('things', { UID: topicParts[2] }, 'UID')
+                  break
                 case 'status':
-                  const updatedThing = this.pinnedObjects.things.find(t => t.UID === topicParts[2]);
-                  if (!updatedThing) break;
-                  const newStatus = JSON.parse(event.payload);
+                  const updatedThing = this.pinnedObjects.things.find(t => t.UID === topicParts[2])
+                  if (!updatedThing) break
+                  const newStatus = JSON.parse(event.payload)
                   if (updatedThing) {
                     if (updatedThing.statusInfo.status !== newStatus.status)
-                      updatedThing.statusInfo.status = newStatus.status;
+                      updatedThing.statusInfo.status = newStatus.status
                     if (updatedThing.statusInfo.statusDetail !== newStatus.statusDetail)
-                      updatedThing.statusInfo.statusDetail = newStatus.statusDetail;
+                      updatedThing.statusInfo.statusDetail = newStatus.statusDetail
                     if (updatedThing.statusInfo.description !== newStatus.description)
-                      updatedThing.statusInfo.description = newStatus.description;
+                      updatedThing.statusInfo.description = newStatus.description
                   }
               }
-              break;
+              break
             case 'rules':
               switch (topicParts[3]) {
                 case 'removed':
-                  this.unpin('rules', { uid: topicParts[2] }, 'uid');
-                  break;
+                  this.unpin('rules', { uid: topicParts[2] }, 'uid')
+                  break
                 case 'state':
-                  let rule = this.pinnedObjects.rules.find(r => r.uid === topicParts[2]);
-                  if (!rule) rule = this.pinnedObjects.scenes.find(r => r.uid === topicParts[2]);
-                  if (!rule) rule = this.pinnedObjects.scripts.find(r => r.uid === topicParts[2]);
-                  if (!rule) break;
-                  rule.status = JSON.parse(event.payload);
+                  let rule = this.pinnedObjects.rules.find(r => r.uid === topicParts[2])
+                  if (!rule) rule = this.pinnedObjects.scenes.find(r => r.uid === topicParts[2])
+                  if (!rule) rule = this.pinnedObjects.scripts.find(r => r.uid === topicParts[2])
+                  if (!rule) break
+                  rule.status = JSON.parse(event.payload)
               }
-              break;
+              break
           }
         }
-      );
+      )
     },
     stopEventSource() {
-      this.$oh.sse.close(this.eventSource);
-      this.eventSource = null;
-    },
-  },
-};
+      this.$oh.sse.close(this.eventSource)
+      this.eventSource = null
+    }
+  }
+}
 </script>

@@ -30,18 +30,18 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import { actionsMixin } from '@/components/widgets/widget-actions';
-import OhCard from '@/components/widgets/standard/oh-card.vue';
-import OhGauge from '../system/oh-gauge.vue';
-import { OhGaugeCardDefinition } from '@/assets/definitions/widgets/standard/cards';
+import mixin from '../widget-mixin'
+import { actionsMixin } from '@/components/widgets/widget-actions'
+import OhCard from '@/components/widgets/standard/oh-card.vue'
+import OhGauge from '../system/oh-gauge.vue'
+import { OhGaugeCardDefinition } from '@/assets/definitions/widgets/standard/cards'
 
 export default {
   mixins: [mixin, actionsMixin],
   components: {
     OhCard,
-    OhGauge,
+    OhGauge
   },
-  widget: OhGaugeCardDefinition,
-};
+  widget: OhGaugeCardDefinition
+}
 </script>

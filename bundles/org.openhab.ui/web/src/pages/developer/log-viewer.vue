@@ -11,7 +11,9 @@
           <div class="navbar">
             <div class="navbar-bg" />
             <div class="navbar-inner">
-              <div class="title">Logging Settings</div>
+              <div class="title">
+                Logging Settings
+              </div>
               <div class="right">
                 <!-- Link to close popup -->
                 <a class="link popup-close">Close</a>
@@ -25,7 +27,7 @@
                   type="text"
                   placeholder="Add custom logger package entry..."
                   @keyup.enter="handleLogPackageEnter($event)"
-                  class="custom-input" />
+                  class="custom-input">
               </div>
             </f7-block>
             <f7-block style="margin-top: 4px; font-size: 0.85rem; text-align: center">
@@ -42,13 +44,27 @@
                     type="select"
                     :value="loggerPackage.level"
                     @input="updateLogLevel(loggerPackage, $event.target.value)">
-                    <option value="DEFAULT">Default</option>
-                    <option value="TRACE">Trace</option>
-                    <option value="DEBUG">Debug</option>
-                    <option value="INFO">Info</option>
-                    <option value="WARN">Warning</option>
-                    <option value="ERROR">Error</option>
-                    <option value="OFF">Off</option>
+                    <option value="DEFAULT">
+                      Default
+                    </option>
+                    <option value="TRACE">
+                      Trace
+                    </option>
+                    <option value="DEBUG">
+                      Debug
+                    </option>
+                    <option value="INFO">
+                      Info
+                    </option>
+                    <option value="WARN">
+                      Warning
+                    </option>
+                    <option value="ERROR">
+                      Error
+                    </option>
+                    <option value="OFF">
+                      Off
+                    </option>
                   </f7-input>
                   <f7-button small icon-f7="xmark_circle" @click="removeLogLevel(loggerPackage)" />
                 </template>
@@ -66,7 +82,9 @@
           <div class="navbar">
             <div class="navbar-bg" />
             <div class="navbar-inner">
-              <div class="title">Logging Highlight Filters</div>
+              <div class="title">
+                Logging Highlight Filters
+              </div>
               <div class="right">
                 <!-- Link to close popup -->
                 <a class="link popup-close">Close</a>
@@ -77,7 +95,7 @@
             <f7-list class="col wide">
               <f7-list-item v-for="(highlightFilter, index) in highlightFilters" :key="index">
                 <template #media>
-                  <input type="checkbox" v-model="highlightFilter.active" checked />
+                  <input type="checkbox" v-model="highlightFilter.active" checked>
                 </template>
                 <template #title>
                   <f7-input
@@ -99,7 +117,9 @@
                 </template>
               </f7-list-item>
             </f7-list>
-            <button class="button" @click="addNewHighlight">Add New Highlight</button>
+            <button class="button" @click="addNewHighlight">
+              Add New Highlight
+            </button>
           </div>
         </div>
       </div>
@@ -130,7 +150,9 @@
       <f7-page>
         <f7-navbar title="Log Details" ref="logDetailsNavbar">
           <f7-nav-right>
-            <f7-link class="popup-close"> Close </f7-link>
+            <f7-link class="popup-close">
+              Close
+            </f7-link>
           </f7-nav-right>
         </f7-navbar>
         <f7-toolbar bottom class="toolbar-details">
@@ -166,7 +188,9 @@
           <f7-list-item>
             <template #title>
               <div class="item-title">
-                <div class="item-header">Message</div>
+                <div class="item-header">
+                  Message
+                </div>
                 <div class="log-message">
                   {{ selectedLog.message }}
                 </div>
@@ -176,7 +200,9 @@
           <f7-list-item v-if="selectedLog.stackTrace">
             <template #title>
               <div class="item-title">
-                <div class="item-header">Stack Trace</div>
+                <div class="item-header">
+                  Stack Trace
+                </div>
                 <div class="stack-trace">
                   {{ selectedLog.stackTrace }}
                 </div>
@@ -522,16 +548,16 @@
 </style>
 
 <script>
-import MovablePopupMixin from '@/pages/settings/movable-popup-mixin';
-import { nextTick } from 'vue';
-import { theme } from 'framework7-vue';
+import MovablePopupMixin from '@/pages/settings/movable-popup-mixin'
+import { nextTick } from 'vue'
+import { theme } from 'framework7-vue'
 
 export default {
   mixins: [MovablePopupMixin],
   setup() {
     return {
-      theme,
-    };
+      theme
+    }
   },
   data() {
     return {
@@ -578,100 +604,100 @@ export default {
         '#FFD700', // Gold
         '#808080', // Gray
         '#8B4513', // Saddle Brown
-        '#4682B4', // Steel Blue
-      ],
-    };
+        '#4682B4' // Steel Blue
+      ]
+    }
   },
   computed: {
     filteredTableData() {
-      return this.tableData.filter(item => item.visible);
+      return this.tableData.filter(item => item.visible)
     },
     countersBadgeColor() {
-      if (this.tableData.length >= this.maxEntries) return 'red';
-      if (this.filterCount < this.tableData.length) return 'orange';
-      return 'green';
+      if (this.tableData.length >= this.maxEntries) return 'red'
+      if (this.filterCount < this.tableData.length) return 'orange'
+      return 'green'
     },
     selectedLog() {
-      return this.tableData.find(entry => entry.id === this.selectedId) || {};
-    },
+      return this.tableData.find(entry => entry.id === this.selectedId) || {}
+    }
   },
   methods: {
     onPageAfterIn() {
       this.$oh.api.get('/rest/logging/').then(data => {
-        data.loggers.forEach(logger => this.loggerPackages.push(logger));
+        data.loggers.forEach(logger => this.loggerPackages.push(logger))
         nextTick(() => {
           const rootPackageIndex = this.loggerPackages.findIndex(
             item => item.loggerName === 'ROOT'
-          );
+          )
           if (rootPackageIndex !== -1) {
-            this.defaultLogLevel = this.loggerPackages[rootPackageIndex].level;
+            this.defaultLogLevel = this.loggerPackages[rootPackageIndex].level
           }
-          this.loggerPackages.sort((a, b) => a.loggerName.localeCompare(b.loggerName));
-          this.loggerPackages = this.loggerPackages.filter(item => item.loggerName !== 'ROOT');
+          this.loggerPackages.sort((a, b) => a.loggerName.localeCompare(b.loggerName))
+          this.loggerPackages = this.loggerPackages.filter(item => item.loggerName !== 'ROOT')
 
-          this.loadingLoggers = false;
-        });
-      });
+          this.loadingLoggers = false
+        })
+      })
 
-      this.socketConnect();
+      this.socketConnect()
 
       this.highlightFilters = JSON.parse(
         localStorage.getItem('openhab.ui:logviewer.logHighlightFilters')
-      );
+      )
       if (this.highlightFilters == null) {
-        this.highlightFilters = [];
+        this.highlightFilters = []
       }
-      this.prefilterHighlights();
+      this.prefilterHighlights()
 
-      this.filterText = localStorage.getItem('openhab.ui:logviewer.logFilterText');
+      this.filterText = localStorage.getItem('openhab.ui:logviewer.logFilterText')
       if (this.filterText == null) {
-        this.filterText = '';
+        this.filterText = ''
       } else {
-        this.$refs.searchbar.$el.f7Searchbar.query = this.filterText;
+        this.$refs.searchbar.$el.f7Searchbar.query = this.filterText
       }
-      this.filterTextLowerCase = this.filterText.trim().toLocaleLowerCase();
+      this.filterTextLowerCase = this.filterText.trim().toLocaleLowerCase()
 
-      this.showErrors = localStorage.getItem('openhab.ui:logviewer.logShowErrors');
+      this.showErrors = localStorage.getItem('openhab.ui:logviewer.logShowErrors')
     },
     onPageBeforeOut() {
-      this.loggingStop();
+      this.loggingStop()
     },
     popupOpened(ref, navbar) {
       nextTick(() => {
-        this.initializeMovablePopup(ref, navbar);
-      });
+        this.initializeMovablePopup(ref, navbar)
+      })
     },
     updateLogLevel(logger, value) {
-      logger.level = value;
-      this.$oh.api.put('/rest/logging/' + logger.loggerName, logger);
+      logger.level = value
+      this.$oh.api.put('/rest/logging/' + logger.loggerName, logger)
     },
     removeLogLevel(logger) {
-      this.$oh.api.delete('/rest/logging/' + logger.loggerName);
+      this.$oh.api.delete('/rest/logging/' + logger.loggerName)
       this.loggerPackages = this.loggerPackages.filter(
         loggerPackage => loggerPackage.loggerName !== logger.loggerName
-      );
+      )
     },
     socketConnect() {
       const readyCallback = () => {
-        this.stateConnected = true;
-        this.stateProcessing = true;
-        this.socket.send('{"sequenceStart": ' + this.lastSequence + '}');
-        nextTick(() => this.scrollToBottom());
-      };
+        this.stateConnected = true
+        this.stateProcessing = true
+        this.socket.send('{"sequenceStart": ' + this.lastSequence + '}')
+        nextTick(() => this.scrollToBottom())
+      }
 
       const messageCallback = event => {
         if (Array.isArray(event)) {
           event.forEach(ev => {
-            this.addLogEntry(ev);
-          });
+            this.addLogEntry(ev)
+          })
         } else {
-          this.addLogEntry(event);
+          this.addLogEntry(event)
         }
-      };
+      }
 
       const heartbeatCallback = () => {
-        this.socket.send('{}');
-      };
+        this.socket.send('{}')
+      }
 
       this.socket = this.$oh.ws.connect(
         '/ws/logs',
@@ -680,7 +706,7 @@ export default {
         readyCallback,
         null,
         9
-      );
+      )
 
       // TEMP
       // for (let i = 0; i < 1980; i++) {
@@ -694,77 +720,77 @@ export default {
     },
     socketClose() {
       this.$oh.ws.close(this.socket, () => {
-        this.stateConnected = false;
-      });
+        this.stateConnected = false
+      })
     },
     renderEntry(entity) {
-      let tr = document.createElement('tr');
-      let icon = 'question_diamond';
+      let tr = document.createElement('tr')
+      let icon = 'question_diamond'
       switch (entity.level) {
         case 'TRACE':
-          icon = 'line_horizontal_3';
-          break;
+          icon = 'line_horizontal_3'
+          break
         case 'DEBUG':
-          icon = 'ant';
-          break;
+          icon = 'ant'
+          break
         case 'INFO':
-          icon = 'info_circle';
-          break;
+          icon = 'info_circle'
+          break
         case 'WARN':
-          icon = 'flag';
-          break;
+          icon = 'flag'
+          break
         case 'ERROR':
-          icon = 'exclamationmark_octagon_fill';
-          break;
+          icon = 'exclamationmark_octagon_fill'
+          break
       }
-      const levelLowerCased = entity.level.toLowerCase();
+      const levelLowerCased = entity.level.toLowerCase()
       if (this.textMode) {
         tr.innerHTML =
           `<td class="text"><span class="time">${entity.time}${entity.milliseconds}</span>` +
           `[<span class="level ${levelLowerCased}">${entity.level}</span>] ` +
           `[<span class="logger" title="${entity.loggerName}">${entity.loggerName}</span>] - ` +
-          `<span class="msg ${levelLowerCased}">${this.highlightText(entity.message)}</span></td>`;
+          `<span class="msg ${levelLowerCased}">${this.highlightText(entity.message)}</span></td>`
       } else {
-        tr.className = 'table-rows ' + levelLowerCased;
+        tr.className = 'table-rows ' + levelLowerCased
         tr.innerHTML =
           '<td class="sticky"><i class="icon f7-icons" style="font-size: 18px;">' +
           icon +
           `</i> ${entity.time}<span class="milliseconds">${entity.milliseconds}</span></td>` +
           `<td class="level">${entity.level}</td>` +
           `<td class="logger"><span class="logger" title="${entity.loggerName}">${entity.loggerName}</span></td>` +
-          `<td class="nowrap">${this.highlightText(entity.message)}</td>`;
+          `<td class="nowrap">${this.highlightText(entity.message)}</td>`
       }
       tr.addEventListener('click', () => {
-        this.onRowClick(entity.id);
-      });
-      return tr;
+        this.onRowClick(entity.id)
+      })
+      return tr
     },
     onRowClick(entityId) {
-      this.selectedId = entityId;
-      f7.popup.open('#logdetails-popup');
+      this.selectedId = entityId
+      f7.popup.open('#logdetails-popup')
     },
     addLogEntry(logEntry) {
-      this.lastSequence = Math.max(this.lastSequence, logEntry.sequence);
-      const date = new Date(logEntry.unixtime);
+      this.lastSequence = Math.max(this.lastSequence, logEntry.sequence)
+      const date = new Date(logEntry.unixtime)
 
-      const hours = date.getHours().toString().padStart(2, '0');
-      const minutes = date.getMinutes().toString().padStart(2, '0');
-      const seconds = date.getSeconds().toString().padStart(2, '0');
-      const ms = '.' + date.getMilliseconds().toString().padStart(3, '0');
+      const hours = date.getHours().toString().padStart(2, '0')
+      const minutes = date.getMinutes().toString().padStart(2, '0')
+      const seconds = date.getSeconds().toString().padStart(2, '0')
+      const ms = '.' + date.getMilliseconds().toString().padStart(3, '0')
 
-      const formattedTime = `${hours}:${minutes}:${seconds}`;
+      const formattedTime = `${hours}:${minutes}:${seconds}`
 
-      this.logEnd = formattedTime;
+      this.logEnd = formattedTime
       if (this.tableData.length === 0) {
-        this.logStart = formattedTime;
+        this.logStart = formattedTime
       }
 
-      let vis = false;
+      let vis = false
       if (this.stateProcessing) {
-        vis = this.processFilter(logEntry);
+        vis = this.processFilter(logEntry)
         if (vis) {
           // TODO: Do we need to scroll 1 line to keep the view steady?
-          this.filterCount++;
+          this.filterCount++
         }
       }
 
@@ -777,262 +803,262 @@ export default {
         level: logEntry.level.toUpperCase(),
         loggerName: logEntry.loggerName,
         message: logEntry.message,
-        stackTrace: logEntry.stackTrace,
-      };
+        stackTrace: logEntry.stackTrace
+      }
 
-      this.batchLogs.push(entry);
+      this.batchLogs.push(entry)
 
       if (!this.batchUpdatePending) {
-        this.batchUpdatePending = true;
+        this.batchUpdatePending = true
         requestAnimationFrame(() => {
           this.batchLogs.forEach(entry => {
-            this.tableData.push(entry);
+            this.tableData.push(entry)
 
             if (entry.visible) {
-              const tr = this.renderEntry(entry);
-              this.$refs.dataTable.firstChild.appendChild(tr);
+              const tr = this.renderEntry(entry)
+              this.$refs.dataTable.firstChild.appendChild(tr)
             }
 
             if (this.tableData.length > this.maxEntries) {
-              const removedElement = this.tableData.shift();
-              this.logStart = removedElement.time;
+              const removedElement = this.tableData.shift()
+              this.logStart = removedElement.time
               if (removedElement.visible) {
-                this.filterCount--;
-                let firstRow = this.$refs.dataTable.firstChild.firstChild;
-                if (firstRow.className === 'padder') firstRow = firstRow.nextSibling;
-                this.$refs.dataTable.firstChild.removeChild(firstRow);
+                this.filterCount--
+                let firstRow = this.$refs.dataTable.firstChild.firstChild
+                if (firstRow.className === 'padder') firstRow = firstRow.nextSibling
+                this.$refs.dataTable.firstChild.removeChild(firstRow)
               }
             }
-          });
-          this.batchLogs.length = 0;
+          })
+          this.batchLogs.length = 0
           if (this.autoScroll) {
-            nextTick(() => this.scrollToBottom());
+            nextTick(() => this.scrollToBottom())
           } else {
-            nextTick(() => this.handleScroll());
+            nextTick(() => this.handleScroll())
           }
 
-          this.batchUpdatePending = false;
-        });
+          this.batchUpdatePending = false
+        })
       }
     },
     loggingPause() {
-      this.stateProcessing = false;
+      this.stateProcessing = false
     },
     loggingContinue() {
       if (!this.stateConnected) {
-        this.socketConnect();
+        this.socketConnect()
       }
-      this.updateFilter();
-      this.stateProcessing = true;
+      this.updateFilter()
+      this.stateProcessing = true
     },
     loggingStop() {
-      this.stateConnected = false;
-      this.socketClose();
+      this.stateConnected = false
+      this.socketClose()
     },
     clearLog() {
-      this.tableData.length = 0;
-      this.filterCount = 0;
-      this.logStart = '--:--:--';
-      this.logEnd = '--:--:--';
-      this.$refs.dataTable.firstChild.innerHTML = '';
+      this.tableData.length = 0
+      this.filterCount = 0
+      this.logStart = '--:--:--'
+      this.logEnd = '--:--:--'
+      this.$refs.dataTable.firstChild.innerHTML = ''
     },
     showLatestLogs() {
-      this.autoScroll = true;
-      this.scrollToBottom();
+      this.autoScroll = true
+      this.scrollToBottom()
     },
     scrollToBottom() {
       // Scroll to the bottom of the table
-      const tableContainer = this.$refs.tableContainer;
+      const tableContainer = this.$refs.tableContainer
       if (tableContainer) {
-        tableContainer.scrollTop = tableContainer.scrollHeight;
+        tableContainer.scrollTop = tableContainer.scrollHeight
         // Delay manual scroll detection to avoid autoscrolling being defeated when new logs arrive
-        this.scrollTime = Date.now() + 250;
+        this.scrollTime = Date.now() + 250
       }
-      this.redrawPartOfTable();
+      this.redrawPartOfTable()
     },
     handleScroll() {
-      const tableContainer = this.$refs.tableContainer;
+      const tableContainer = this.$refs.tableContainer
 
-      if (Date.now() < this.scrollTime) return;
+      if (Date.now() < this.scrollTime) return
 
       // Detect if the user has scrolled up
       const isAtBottom =
-        tableContainer.scrollHeight - tableContainer.scrollTop < tableContainer.clientHeight + 20;
-      this.autoScroll = isAtBottom;
+        tableContainer.scrollHeight - tableContainer.scrollTop < tableContainer.clientHeight + 20
+      this.autoScroll = isAtBottom
 
-      this.redrawPartOfTable();
+      this.redrawPartOfTable()
     },
     redrawPartOfTable() {
-      const LINE_HEIGHT = 31;
+      const LINE_HEIGHT = 31
 
-      const tableContainer = this.$refs.tableContainer;
-      const tableBody = this.$refs.dataTable.firstChild;
-      const filteredItemsCount = this.filteredTableData.length;
-      const currentIndexAtTop = Math.floor(tableContainer.scrollTop / LINE_HEIGHT);
-      const nbVisibleLines = Math.floor(tableContainer.offsetHeight / LINE_HEIGHT);
+      const tableContainer = this.$refs.tableContainer
+      const tableBody = this.$refs.dataTable.firstChild
+      const filteredItemsCount = this.filteredTableData.length
+      const currentIndexAtTop = Math.floor(tableContainer.scrollTop / LINE_HEIGHT)
+      const nbVisibleLines = Math.floor(tableContainer.offsetHeight / LINE_HEIGHT)
 
       // make sure to redraw only 50 elements below around visible area
-      const firstIndexToRedraw = Math.max(0, currentIndexAtTop - 50);
+      const firstIndexToRedraw = Math.max(0, currentIndexAtTop - 50)
       const lastIndexToRedraw = Math.min(
         currentIndexAtTop + nbVisibleLines + 50,
         filteredItemsCount - 1
-      );
-      console.debug(`Should redraw ${firstIndexToRedraw}/${lastIndexToRedraw}`);
+      )
+      console.debug(`Should redraw ${firstIndexToRedraw}/${lastIndexToRedraw}`)
 
-      tableBody.innerHTML = '';
+      tableBody.innerHTML = ''
       if (firstIndexToRedraw > 0) {
-        const padder = document.createElement('tr');
-        padder.className = 'padder';
-        padder.style.height = LINE_HEIGHT * firstIndexToRedraw + 'px';
-        tableBody.appendChild(padder);
+        const padder = document.createElement('tr')
+        padder.className = 'padder'
+        padder.style.height = LINE_HEIGHT * firstIndexToRedraw + 'px'
+        tableBody.appendChild(padder)
       }
       for (let i = firstIndexToRedraw; i <= lastIndexToRedraw; i++) {
-        tableBody.appendChild(this.renderEntry(this.filteredTableData[i]));
+        tableBody.appendChild(this.renderEntry(this.filteredTableData[i]))
       }
       if (lastIndexToRedraw < filteredItemsCount - 1) {
-        const padder = document.createElement('tr');
-        padder.className = 'padder';
-        padder.style.height = LINE_HEIGHT * (filteredItemsCount - 1 - lastIndexToRedraw) + 'px';
-        tableBody.appendChild(padder);
+        const padder = document.createElement('tr')
+        padder.className = 'padder'
+        padder.style.height = LINE_HEIGHT * (filteredItemsCount - 1 - lastIndexToRedraw) + 'px'
+        tableBody.appendChild(padder)
       }
     },
     handleLogPackageEnter(event) {
       let logger = {
         loggerName: event.target.value,
-        level: 'INFO',
-      };
-      this.updateLogLevel(logger, this.defaultLogLevel);
-      this.loggerPackages.push(logger);
-      this.loggerPackages.sort((a, b) => a.loggerName.localeCompare(b.loggerName));
+        level: 'INFO'
+      }
+      this.updateLogLevel(logger, this.defaultLogLevel)
+      this.loggerPackages.push(logger)
+      this.loggerPackages.sort((a, b) => a.loggerName.localeCompare(b.loggerName))
     },
     processFilter(logEntry) {
       return (
         logEntry.loggerName.toLowerCase().includes(this.filterTextLowerCase) ||
         logEntry.message.toLowerCase().includes(this.filterTextLowerCase) ||
         (this.showErrors && logEntry.level === 'ERROR')
-      );
+      )
     },
     handleFilter(searchbar, filter) {
-      if (!searchbar) return;
+      if (!searchbar) return
       if (!filter) {
-        this.clearFilter();
-        return;
+        this.clearFilter()
+        return
       }
-      this.filterText = filter;
-      this.filterTextLowerCase = this.filterText.trim().toLocaleLowerCase();
-      localStorage.setItem('openhab.ui:logviewer.logFilterText', this.filterText);
-      this.updateFilter();
-      this.scrollToBottom();
+      this.filterText = filter
+      this.filterTextLowerCase = this.filterText.trim().toLocaleLowerCase()
+      localStorage.setItem('openhab.ui:logviewer.logFilterText', this.filterText)
+      this.updateFilter()
+      this.scrollToBottom()
     },
     clearFilter() {
-      this.filterText = this.filterTextLowerCase = '';
-      localStorage.removeItem('openhab.ui:logviewer.logFilterText');
-      this.updateFilter();
-      this.scrollToBottom();
+      this.filterText = this.filterTextLowerCase = ''
+      localStorage.removeItem('openhab.ui:logviewer.logFilterText')
+      this.updateFilter()
+      this.scrollToBottom()
     },
     updateFilter() {
-      let cnt = 0;
+      let cnt = 0
 
-      this.$refs.dataTable.firstChild.innerHTML = '';
+      this.$refs.dataTable.firstChild.innerHTML = ''
       for (const entry of this.tableData) {
-        entry.visible = this.processFilter(entry);
+        entry.visible = this.processFilter(entry)
         if (entry.visible) {
-          cnt++;
+          cnt++
         }
       }
-      this.filterCount = cnt;
-      this.redrawPartOfTable();
+      this.filterCount = cnt
+      this.redrawPartOfTable()
     },
     highlightText(text) {
       if (this.activeHighlights.length === 0) {
-        return text; // Skip if no filters are active
+        return text // Skip if no filters are active
       }
 
       // Apply each filter with its respective color
       this.activeHighlights.forEach(filter => {
-        const regex = new RegExp(`(${filter.text})`, 'gi');
+        const regex = new RegExp(`(${filter.text})`, 'gi')
         text = text.replace(
           regex,
           `<span style="background-color: ${filter.color}; font-weight: bold;">$1</span>`
-        );
-      });
-      return text;
+        )
+      })
+      return text
     },
     downloadCSV() {
-      const filteredData = this.tableData.filter(row => row.visible);
+      const filteredData = this.tableData.filter(row => row.visible)
 
       const transformedData = filteredData.map(row => ({
         time: row.time + row.milliseconds,
         level: row.level,
         source: row.loggerName,
-        data: row.message,
-      }));
+        data: row.message
+      }))
 
-      const csvContent = this.convertObjectArrayToCSV(transformedData);
-      const blob = new Blob([csvContent], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
+      const csvContent = this.convertObjectArrayToCSV(transformedData)
+      const blob = new Blob([csvContent], { type: 'text/csv' })
+      const url = URL.createObjectURL(blob)
 
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'logfile.csv';
-      link.click();
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'logfile.csv'
+      link.click()
 
-      URL.revokeObjectURL(url);
+      URL.revokeObjectURL(url)
     },
     convertObjectArrayToCSV(array) {
       if (!array.length) {
-        return '';
+        return ''
       }
 
       // Extract headers from object keys
-      const headers = Object.keys(array[0]).join(',');
+      const headers = Object.keys(array[0]).join(',')
 
       // Map each object to a CSV-compatible row
       const rows = array.map(obj =>
         Object.values(obj)
           .map(value => `"${String(value).replace(/"/g, '""')}"`) // Escape quotes
           .join(',')
-      );
+      )
 
       // Combine headers and rows into a single CSV string
-      return [headers, ...rows].join('\n');
+      return [headers, ...rows].join('\n')
     },
     copyTableToClipboard() {
       if (this.textMode) {
         const logs = this.filteredTableData
           .map(log => {
-            return `${log.time}${log.milliseconds} [${log.level}] [${log.loggerName}] - ${log.message}`;
+            return `${log.time}${log.milliseconds} [${log.level}] [${log.loggerName}] - ${log.message}`
           })
-          .join('\n');
+          .join('\n')
         // v-clipboard works without https, but it can only copy plain text
         if (this.$clipboard(logs)) {
           f7.toast
             .create({
               text: 'Table copied as text to clipboard',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
+            .open()
         }
-        return;
+        return
       }
 
-      const table = this.$refs.dataTable;
+      const table = this.$refs.dataTable
       if (!table) {
-        return;
+        return
       }
 
-      const tableHTML = table.outerHTML;
+      const tableHTML = table.outerHTML
 
       // Create a Blob with the HTML content and define the MIME type
-      const blobHtml = new Blob([tableHTML], { type: 'text/html' });
-      const blobText = new Blob([tableHTML], { type: 'text/plain' });
+      const blobHtml = new Blob([tableHTML], { type: 'text/html' })
+      const blobText = new Blob([tableHTML], { type: 'text/plain' })
 
       // Use the ClipboardItem API to copy the Blob
       const clipboardItem = new ClipboardItem({
         'text/html': blobHtml,
-        'text/plain': blobText,
-      });
+        'text/plain': blobText
+      })
 
       // Copy to clipboard
       // Uses the Clipboard API to write the ClipboardItem, as v-clipboard does not support HTML. This might not work in insecure contexts.
@@ -1043,27 +1069,27 @@ export default {
             .create({
               text: 'Table copied as HTML to clipboard',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
+            .open()
         })
         .catch(err => {
-          console.error('Failed to copy table: ', err);
-        });
+          console.error('Failed to copy table: ', err)
+        })
     },
     setTextMode(textModeEnabled) {
-      this.textMode = textModeEnabled;
-      localStorage.setItem('openhab.ui:logviewer.textMode', this.textMode);
-      this.updateFilter();
+      this.textMode = textModeEnabled
+      localStorage.setItem('openhab.ui:logviewer.textMode', this.textMode)
+      this.updateFilter()
     },
     prefilterHighlights() {
-      this.activeHighlights.length = 0;
+      this.activeHighlights.length = 0
       for (const entry of this.highlightFilters) {
         if (entry.active) {
           this.activeHighlights.push({
             text: entry.text,
-            color: entry.color,
-          });
+            color: entry.color
+          })
         }
       }
     },
@@ -1071,41 +1097,41 @@ export default {
       localStorage.setItem(
         'openhab.ui:logviewer.logHighlightFilters',
         JSON.stringify(this.highlightFilters)
-      );
-      this.prefilterHighlights();
-      this.updateFilter();
+      )
+      this.prefilterHighlights()
+      this.updateFilter()
     },
     addNewHighlight() {
       this.highlightFilters.push({
         text: '',
         color: this.colors[0],
-        active: false,
-      });
+        active: false
+      })
     },
     updateHighlightText(event, index) {
-      this.highlightFilters[index].text = event.target.value;
-      this.prefilterHighlights();
+      this.highlightFilters[index].text = event.target.value
+      this.prefilterHighlights()
     },
     removeHighlight(index) {
-      this.highlightFilters.splice(index, 1);
-      this.prefilterHighlights();
+      this.highlightFilters.splice(index, 1)
+      this.prefilterHighlights()
     },
     openColorPopover(index, event) {
-      this.currentHighlightColorItemIndex = index;
-      this.currentHighlightColor = this.highlightFilters[index].color;
-      f7.popover.open('#color-picker-popover', event.target);
+      this.currentHighlightColorItemIndex = index
+      this.currentHighlightColor = this.highlightFilters[index].color
+      f7.popover.open('#color-picker-popover', event.target)
     },
     selectHighlightColor(color) {
-      f7.popover.close('#color-picker-popover');
+      f7.popover.close('#color-picker-popover')
       if (color !== null) {
-        this.highlightFilters[this.currentHighlightColorItemIndex].color = color;
+        this.highlightFilters[this.currentHighlightColorItemIndex].color = color
       }
     },
     toggleErrorDisplay() {
-      this.showErrors = !this.showErrors;
-      this.updateFilter();
-      localStorage.setItem('openhab.ui:logviewer.logShowErrors', this.showErrors);
-    },
-  },
-};
+      this.showErrors = !this.showErrors
+      this.updateFilter()
+      localStorage.setItem('openhab.ui:logviewer.logShowErrors', this.showErrors)
+    }
+  }
+}
 </script>

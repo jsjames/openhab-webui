@@ -3,13 +3,17 @@
     <f7-navbar title="Add Items from Thing" back-link="Back">
       <f7-nav-right class="if-not-aurora">
         <f7-link @click="add()" v-if="theme.md" icon-md="material:save" icon-only />
-        <f7-link @click="add()" v-if="!theme.md"> Add </f7-link>
+        <f7-link @click="add()" v-if="!theme.md">
+          Add
+        </f7-link>
       </f7-nav-right>
     </f7-navbar>
 
     <f7-block class="block-narrow">
       <f7-col>
-        <f7-block-title v-if="parent || thingId"> Parent Group </f7-block-title>
+        <f7-block-title v-if="parent || thingId">
+          Parent Group
+        </f7-block-title>
         <f7-list media-list v-if="parent">
           <ul>
             <item :item="parent.item" />
@@ -25,7 +29,9 @@
           </ul>
           <f7-list-item v-else title="Pick From Model" link @click="openModelPicker" />
         </f7-list>
-        <f7-block-title v-if="selectedThing.statusInfo"> Source Thing </f7-block-title>
+        <f7-block-title v-if="selectedThing.statusInfo">
+          Source Thing
+        </f7-block-title>
         <f7-list v-if="selectedThing.statusInfo" media-list>
           <f7-list-item
             :title="selectedThing.label"
@@ -33,7 +39,9 @@
             :badge="thingStatusBadgeText(selectedThing.statusInfo)"
             :badge-color="thingStatusBadgeColor(selectedThing.statusInfo)" />
         </f7-list>
-        <f7-block-title v-if="createEquipment"> Equipment </f7-block-title>
+        <f7-block-title v-if="createEquipment">
+          Equipment
+        </f7-block-title>
         <f7-block-footer v-if="createEquipment && !thingId" class="padding-left padding-right">
           Select the Thing you wish to create as a new Equipment group in the model. It will be
           placed under the parent group above, if any. You can alter the new group's details and
@@ -84,7 +92,7 @@
           <f7-block-title>Channels</f7-block-title>
           <f7-block-footer class="padding-left padding-right">
             Check the channels you wish to create as new Point items. You can alter the suggested
-            names and labels as well as the semantic class and related property.<br /><br />
+            names and labels as well as the semantic class and related property.<br><br>
             The newly created Points will be linked to their respective channels with the default
             profile (you will be able to configure the links individually later if needed).
             <f7-link class="display-block margin-top-half" @click="switchToExpertMode" color="blue">
@@ -140,23 +148,23 @@
 </style>
 
 <script>
-import { theme } from 'framework7-vue';
-import ThingPicker from '@/components/config/controls/thing-picker.vue';
-import ModelPickerPopup from '@/components/model/model-picker-popup.vue';
-import ChannelList from '@/components/thing/channel-list.vue';
-import ItemForm from '@/components/item/item-form.vue';
-import ItemPicker from '@/components/config/controls/item-picker.vue';
+import { theme } from 'framework7-vue'
+import ThingPicker from '@/components/config/controls/thing-picker.vue'
+import ModelPickerPopup from '@/components/model/model-picker-popup.vue'
+import ChannelList from '@/components/thing/channel-list.vue'
+import ItemForm from '@/components/item/item-form.vue'
+import ItemPicker from '@/components/config/controls/item-picker.vue'
 
-import Item from '@/components/item/item.vue';
+import Item from '@/components/item/item.vue'
 
-import ThingStatus from '@/components/thing/thing-status-mixin';
-import ItemMixin from '@/components/item/item-mixin';
+import ThingStatus from '@/components/thing/thing-status-mixin'
+import ItemMixin from '@/components/item/item-mixin'
 
-import generateTextualDefinition from './generate-textual-definition';
+import generateTextualDefinition from './generate-textual-definition'
 
-import cloneDeep from 'lodash/cloneDeep';
+import cloneDeep from 'lodash/cloneDeep'
 
-import { useSemanticsStore } from '@/js/stores/semantics';
+import { useSemanticsStore } from '@/js/stores/semantics'
 
 export default {
   mixins: [ThingStatus, ItemMixin],
@@ -165,16 +173,16 @@ export default {
     ThingPicker,
     ChannelList,
     ItemForm,
-    ItemPicker,
+    ItemPicker
   },
   props: {
     parent: Object,
     createEquipment: Boolean,
     thingId: String,
-    f7router: Object, // Added for navigation
+    f7router: Object // Added for navigation
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -188,8 +196,8 @@ export default {
       newPointItems: [],
       updatedPointItems: [],
       selectedGroup: null,
-      items: null,
-    };
+      items: null
+    }
   },
   computed: {
     selectableGroups() {
@@ -197,29 +205,29 @@ export default {
         return (
           i.type === 'Group' &&
           !i.tags.find(t => useSemanticsStore().Locations.indexOf(t) >= 0)
-        );
-      });
-    },
+        )
+      })
+    }
   },
   methods: {
     onPageAfterIn() {
       if (this.thingId) {
-        this.selectedThingId = this.thingId;
+        this.selectedThingId = this.thingId
       }
     },
     switchToExpertMode() {
       try {
-        let parentGroupsForEquipment, parentGroupsForPoints;
+        let parentGroupsForEquipment, parentGroupsForPoints
         if (this.createEquipment) {
-          parentGroupsForEquipment = this.parentGroup ? [this.parentGroup.name] : [];
-          parentGroupsForPoints = [this.equipmentItem.name];
+          parentGroupsForEquipment = this.parentGroup ? [this.parentGroup.name] : []
+          parentGroupsForPoints = [this.equipmentItem.name]
         } else {
-          parentGroupsForEquipment = [];
+          parentGroupsForEquipment = []
           parentGroupsForPoints = this.parent
             ? [this.parent.item.name]
             : this.parentGroup
               ? [this.parentGroup.name]
-              : [];
+              : []
         }
 
         const itemsDefinition = generateTextualDefinition(
@@ -228,185 +236,185 @@ export default {
           this.createEquipment ? this.equipmentItem : null,
           parentGroupsForEquipment,
           parentGroupsForPoints
-        );
+        )
 
         this.f7router.navigate('/settings/items/add-from-textual-definition', {
           props: {
-            textualDefinition: itemsDefinition,
+            textualDefinition: itemsDefinition
           },
           pushState: false,
-          reloadCurrent: true,
-        });
+          reloadCurrent: true
+        })
       } catch (e) {
-        console.error(e);
-        f7.dialog.alert('There was an error generating the items definition: ' + e);
+        console.error(e)
+        f7.dialog.alert('There was an error generating the items definition: ' + e)
       }
     },
     createNewGroup() {
-      const semanticEquipmentTag = this.selectedThing.semanticEquipmentTag || 'Equipment';
+      const semanticEquipmentTag = this.selectedThing.semanticEquipmentTag || 'Equipment'
       this.equipmentItem = {
         name: this.$oh.utils.normalizeLabel(this.selectedThing.label),
         label: this.selectedThing.label,
         tags: [semanticEquipmentTag],
         type: 'Group',
         category: '',
-        groupNames: this.parent ? [this.parent.item.name] : [],
-      };
+        groupNames: this.parent ? [this.parent.item.name] : []
+      }
     },
     selectExistingGroup(value) {
-      const item = cloneDeep(this.items.find(i => i.name === value));
+      const item = cloneDeep(this.items.find(i => i.name === value))
       if (!item) {
-        this.selectedGroup = null;
-        this.createNewGroup();
-        return;
+        this.selectedGroup = null
+        this.createNewGroup()
+        return
       }
       if (!item.tags) {
-        item.tags = [];
+        item.tags = []
       }
       const hasEquipmentTag = item.tags.find(
         t => useSemanticsStore().Equipment.indexOf(t) >= 0
-      );
+      )
       if (!hasEquipmentTag) {
-        item.tags.push(this.selectedThing.semanticEquipmentTag || 'Equipment');
+        item.tags.push(this.selectedThing.semanticEquipmentTag || 'Equipment')
       }
-      this.equipmentItem = item;
-      this.selectedGroup = item;
+      this.equipmentItem = item
+      this.selectedGroup = item
     },
     add() {
       if (!this.selectedThingId) {
-        f7.dialog.alert('Please select a Thing');
-        return;
+        f7.dialog.alert('Please select a Thing')
+        return
       }
       if (this.createEquipment && !this.equipmentItem.name) {
-        f7.dialog.alert('Please fill out the details for the new Equipment group');
-        return;
+        f7.dialog.alert('Please fill out the details for the new Equipment group')
+        return
       }
       if (!this.newPointItems.length && !this.updatedPointItems.length) {
-        f7.dialog.alert('Please check at least one channel');
-        return;
+        f7.dialog.alert('Please check at least one channel')
+        return
       }
 
-      let valid = true;
+      let valid = true
       if (this.parentGroup && this.createEquipment) {
-        this.equipmentItem.groupNames = [this.parentGroup.name];
+        this.equipmentItem.groupNames = [this.parentGroup.name]
       }
       this.newPointItems.forEach(p => {
-        if (!p.name) valid = false;
+        if (!p.name) valid = false
         if (this.createEquipment) {
-          p.groupNames = [this.equipmentItem.name];
+          p.groupNames = [this.equipmentItem.name]
         } else {
           p.groupNames = this.parent
             ? [this.parent.item.name]
             : this.parentGroup
               ? [this.parentGroup.name]
-              : [];
+              : []
         }
-      });
+      })
 
       if (!valid) {
         f7.dialog.alert(
           'There are validation errors in some of the Points item to create and link to checked channels'
-        );
-        return;
+        )
+        return
       }
 
       this.updatedPointItems.forEach(p => {
         if (this.createEquipment) {
-          p.groupNames = [...p.groupNames, this.equipmentItem.name];
+          p.groupNames = [...p.groupNames, this.equipmentItem.name]
         } else {
           if (this.parent) {
-            p.groupNames = [...p.groupNames, this.parent.item.name];
+            p.groupNames = [...p.groupNames, this.parent.item.name]
           } else if (this.parentGroup) {
-            p.groupNames = [...p.groupNames, this.parentGroup.name];
+            p.groupNames = [...p.groupNames, this.parentGroup.name]
           }
         }
-      });
+      })
 
-      let dialog = f7.dialog.progress('Creating the Equipment and Points...');
-      const pointItems = [...this.newPointItems, ...this.updatedPointItems];
+      let dialog = f7.dialog.progress('Creating the Equipment and Points...')
+      const pointItems = [...this.newPointItems, ...this.updatedPointItems]
       const payload = [
         ...pointItems.map(p => {
-          let copy = Object.assign({}, p);
-          delete copy.channel;
-          delete copy.channelType;
-          delete copy.unit;
-          delete copy.stateDescriptionPattern;
-          return copy;
-        }),
-      ];
-      if (this.createEquipment) payload.unshift(this.equipmentItem);
+          let copy = Object.assign({}, p)
+          delete copy.channel
+          delete copy.channelType
+          delete copy.unit
+          delete copy.stateDescriptionPattern
+          return copy
+        })
+      ]
+      if (this.createEquipment) payload.unshift(this.equipmentItem)
 
       this.$oh.api
         .put('/rest/items/', payload)
         .then(data => {
-          dialog.setText('Updating unit metadata...');
-          dialog.setProgress(40);
+          dialog.setText('Updating unit metadata...')
+          dialog.setProgress(40)
           const unitPromises = pointItems.map(p => {
             return this.saveUnit(p, p.unit).then(() => {
-              return this.saveStateDescription(p, p.stateDescriptionPattern);
-            });
-          });
+              return this.saveStateDescription(p, p.stateDescriptionPattern)
+            })
+          })
           Promise.all(unitPromises)
             .then(data => {
-              dialog.setText('Creating links...');
-              dialog.setProgress(60);
+              dialog.setText('Creating links...')
+              dialog.setProgress(60)
               const linkPromises = this.newPointItems.map(p => {
                 return this.$oh.api.put(
                   `/rest/links/${p.name}/${encodeURIComponent(p.channel.uid)}`,
                   {
                     itemName: p.name,
                     channelUID: p.channel.uid,
-                    configuration: {},
+                    configuration: {}
                   }
-                );
-              });
+                )
+              })
 
               Promise.all(linkPromises)
                 .then(data => {
-                  dialog.setProgress(100);
+                  dialog.setProgress(100)
                   f7.toast
                     .create({
                       text: 'Items created and linked',
                       destroyOnClose: true,
-                      closeTimeout: 2000,
+                      closeTimeout: 2000
                     })
-                    .open();
-                  dialog.close();
-                  this.f7router.back();
+                    .open()
+                  dialog.close()
+                  this.f7router.back()
                 })
                 .catch(err => {
-                  dialog.close();
-                  console.error(err);
-                  f7.dialog.alert('An error occurred while creating the links: ' + err);
-                });
+                  dialog.close()
+                  console.error(err)
+                  f7.dialog.alert('An error occurred while creating the links: ' + err)
+                })
             })
             .catch(err => {
-              dialog.close();
-              console.error(err);
-              f7.dialog.alert('An error occurred while creating unit metadata: ' + err);
-            });
+              dialog.close()
+              console.error(err)
+              f7.dialog.alert('An error occurred while creating unit metadata: ' + err)
+            })
         })
         .catch(err => {
-          dialog.close();
-          console.error(err);
-          f7.dialog.alert('An error occurred while creating the items: ' + err);
-        });
+          dialog.close()
+          console.error(err)
+          f7.dialog.alert('An error occurred while creating the items: ' + err)
+        })
     },
     pickParentFromModel(value) {
-      this.parentGroup = value;
+      this.parentGroup = value
     },
     openModelPicker() {
       const popup = {
-        component: ModelPickerPopup,
-      };
+        component: ModelPickerPopup
+      }
 
       this.f7router.navigate(
         {
           url: 'pick-from-model',
           route: {
             path: 'pick-from-model',
-            popup,
-          },
+            popup
+          }
         },
         {
           props: {
@@ -414,53 +422,53 @@ export default {
             multiple: false,
             allowEmpty: true,
             popupTitle: 'Parent Group',
-            groupsOnly: true,
-          },
+            groupsOnly: true
+          }
         }
-      );
+      )
 
-      f7.once('items-picked', this.pickParentFromModel);
+      f7.once('items-picked', this.pickParentFromModel)
       f7.once('model-picker-closed', () => {
-        f7.off('items-picked', this.pickParentFromModel);
-      });
-    },
+        f7.off('items-picked', this.pickParentFromModel)
+      })
+    }
   },
   watch: {
     selectedThingId() {
-      this.selectedThing = {};
-      this.selectedThingType = {};
-      this.newPointItems = [];
-      this.ready = false;
-      if (!this.selectedThingId) return;
+      this.selectedThing = {}
+      this.selectedThingType = {}
+      this.newPointItems = []
+      this.ready = false
+      if (!this.selectedThingId) return
       this.$oh.api.get('/rest/things/' + this.selectedThingId).then(data => {
-        this.selectedThing = data;
+        this.selectedThing = data
 
         let typePromises = [
           this.$oh.api.get('/rest/thing-types/' + this.selectedThing.thingTypeUID),
           this.$oh.api.get(
             '/rest/channel-types?prefixes=system,' + this.selectedThing.thingTypeUID.split(':')[0]
-          ),
-        ];
+          )
+        ]
 
         Promise.all(typePromises).then(data2 => {
-          this.selectedThingType = data2[0];
-          this.selectedThingChannelTypes = data2[1];
+          this.selectedThingType = data2[0]
+          this.selectedThingChannelTypes = data2[1]
 
           if (this.createEquipment) {
-            this.createNewGroup();
+            this.createNewGroup()
           }
 
           if (this.items) {
-            this.ready = true;
+            this.ready = true
           } else {
             this.$oh.api.get('/rest/items').then(items => {
-              this.items = items;
-              this.ready = true;
-            });
+              this.items = items
+              this.ready = true
+            })
           }
-        });
-      });
-    },
-  },
-};
+        })
+      })
+    }
+  }
+}
 </script>

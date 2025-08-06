@@ -3,32 +3,32 @@
 </template>
 
 <script>
-import itemDefaultStandaloneComponent from '@/components/widgets/standard/default-standalone-item';
+import itemDefaultStandaloneComponent from '@/components/widgets/standard/default-standalone-item'
 
 export default {
   props: ['item', 'context', 'noBorder'],
   data() {
     return {
-      vars: {},
-    };
+      vars: {}
+    }
   },
   computed: {
     widgetContext() {
-      if (!this.item) return;
+      if (!this.item) return
 
       let ctx = {
         component: itemDefaultStandaloneComponent(this.item),
         store: this.context.store,
-        vars: this.vars,
-      };
-
-      if (this.noBorder) {
-        ctx.component.config.noBorder = true;
-        ctx.component.config.noShadow = true;
+        vars: this.vars
       }
 
-      return ctx;
-    },
-  },
-};
+      if (this.noBorder) {
+        ctx.component.config.noBorder = true
+        ctx.component.config.noShadow = true
+      }
+
+      return ctx
+    }
+  }
+}
 </script>

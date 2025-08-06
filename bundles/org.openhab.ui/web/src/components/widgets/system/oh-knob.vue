@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import slideMixin from './slide-mixin';
-import { OhKnobDefinition } from '@/assets/definitions/widgets/system';
-import { defineAsyncComponent } from 'vue';
+import mixin from '../widget-mixin'
+import slideMixin from './slide-mixin'
+import { OhKnobDefinition } from '@/assets/definitions/widgets/system'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   mixins: [mixin, slideMixin],
@@ -21,15 +21,15 @@ export default {
     // See https://roundsliderui.com/document.html for docs
     RoundSlider: defineAsyncComponent(
       () => import(/* webpackChunkName: "vue-round-slider" */ 'vue-round-slider')
-    ),
+    )
   },
   widget: OhKnobDefinition,
   computed: {
     computedValue() {
-      return typeof this.config.offset === 'number' ? this.value + this.config.offset : this.value;
+      return typeof this.config.offset === 'number' ? this.value + this.config.offset : this.value
     },
     resolvedConfig() {
-      const cfg = this.config;
+      const cfg = this.config
       return {
         ...cfg,
         step: cfg.step !== undefined ? cfg.step : cfg.stepSize,
@@ -54,15 +54,15 @@ export default {
             ? cfg.endAngle !== undefined
               ? cfg.endAngle
               : -130
-            : null,
-      };
-    },
+            : null
+      }
+    }
   },
   methods: {
     onChange(newValue) {
-      if (typeof this.config.offset === 'number') newValue -= this.config.offset;
-      this.sendCommandDebounced(newValue);
-    },
-  },
-};
+      if (typeof this.config.offset === 'number') newValue -= this.config.offset
+      this.sendCommandDebounced(newValue)
+    }
+  }
+}
 </script>

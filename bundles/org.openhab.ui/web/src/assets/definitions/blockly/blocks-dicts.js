@@ -167,7 +167,7 @@ export default function (f7) {
     // Create an object with any number of elements of any type.
     let elements = new Array(block.itemCount_)
     for (let i = 0; i < block.itemCount_; i++) {
-      elements[i] = "'" + block.getFieldValue('KEY' + i) + "': "
+      elements[i] = '\'' + block.getFieldValue('KEY' + i) + '\': '
       elements[i] +=
         javascriptGenerator.valueToCode(block, 'ADD' + i, javascriptGenerator.ORDER_NONE) || 'null'
     }
@@ -229,7 +229,7 @@ export default function (f7) {
       this.setInputsInline(true)
       this.setPreviousStatement(true, null)
       this.setNextStatement(true, null)
-      this.setTooltip("updates the key's value in the dictionary provided via the named variable.")
+      this.setTooltip('updates the key\'s value in the dictionary provided via the named variable.')
       this.setHelpUrl(
         'https://www.openhab.org/docs/configuration/blockly/https://www.openhab.org/docs/configuration/blockly/rules-blockly-standard-ext.html#set-value-of-key-of-dictionary'
       )
@@ -241,7 +241,7 @@ export default function (f7) {
       .valueToCode(block, 'dictionary', javascriptGenerator.ORDER_ATOMIC)
       .replace(/'/g, '')
     const key = javascriptGenerator.valueToCode(block, 'key', javascriptGenerator.ORDER_ATOMIC)
-    if (dict === '' || key === "''") {
+    if (dict === '' || key === '\'\'') {
       throw new Error('dictionary and key name need to be provided')
     }
     const value = javascriptGenerator

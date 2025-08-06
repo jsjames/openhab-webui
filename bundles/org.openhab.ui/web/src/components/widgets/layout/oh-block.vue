@@ -9,7 +9,7 @@
           : 'auto !important',
         ...config.style,
       }">
-      <hr v-if="context.editmode" />
+      <hr v-if="context.editmode">
       <f7-block-title v-if="config.title">
         {{ config.title }}
       </f7-block-title>
@@ -79,17 +79,17 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import OhGridRow from './oh-grid-row.vue';
-import OhGridCells from './oh-grid-cells.vue';
-import { OhBlockDescription } from '@/assets/definitions/widgets/layout';
+import mixin from '../widget-mixin'
+import OhGridRow from './oh-grid-row.vue'
+import OhGridCells from './oh-grid-cells.vue'
+import { OhBlockDescription } from '@/assets/definitions/widgets/layout'
 
 export default {
   mixins: [mixin],
   components: {
     'oh-grid-row': OhGridRow,
-    'oh-grid-cells': OhGridCells,
+    'oh-grid-cells': OhGridCells
   },
-  widget: OhBlockDescription,
-};
+  widget: OhBlockDescription
+}
 </script>

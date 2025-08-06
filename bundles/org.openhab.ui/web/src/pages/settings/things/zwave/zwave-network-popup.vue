@@ -7,7 +7,9 @@
     <f7-page class="analyzer-content">
       <f7-navbar title="Z-Wave Network Map">
         <f7-nav-right>
-          <f7-link popup-close> Close </f7-link>
+          <f7-link popup-close>
+            Close
+          </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <zwave-network v-if="showNetwork" :bridgeUID="bridgeUID" />
@@ -16,7 +18,7 @@
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue';
+import { defineAsyncComponent } from 'vue'
 
 export default {
   props: ['bridgeUID'],
@@ -24,15 +26,15 @@ export default {
     'zwave-network': defineAsyncComponent(
       () =>
         import(/* webpackChunkName: "zwave-network" */ '@/components/thing/zwave/zwave-network.vue')
-    ),
+    )
   },
   emits: ['closed'],
   data() {
     return {
-      showNetwork: false,
-    };
+      showNetwork: false
+    }
   },
   methods: {},
-  computed: {},
-};
+  computed: {}
+}
 </script>

@@ -15,7 +15,9 @@
         </f7-nav-left>
         <f7-nav-title>{{ title }}</f7-nav-title>
         <f7-nav-right>
-          <f7-link class="popup-close" @click="updateValue(currentPosition)"> Done </f7-link>
+          <f7-link class="popup-close" @click="updateValue(currentPosition)">
+            Done
+          </f7-link>
         </f7-nav-right>
       </f7-navbar>
 
@@ -34,47 +36,47 @@
 </style>
 
 <script>
-import { defineAsyncComponent } from 'vue';
+import { defineAsyncComponent } from 'vue'
 
 export default {
   props: ['value', 'title'],
   components: {
     'location-picker': defineAsyncComponent(
       () => import(/* webpackChunkName: "location-picker" */ './location-picker.vue')
-    ),
+    )
   },
   data() {
     return {
       showMap: false,
-      currentPosition: null,
-    };
+      currentPosition: null
+    }
   },
   watch: {
     value(val) {
-      this.currentPosition = val;
-    },
+      this.currentPosition = val
+    }
   },
   methods: {
     updateValue() {
       if (this.currentPosition) {
-        f7.emit('location-update', this.currentPosition);
+        f7.emit('location-update', this.currentPosition)
       }
     },
     updatePosition(event) {
       if (event.lat && event.lng) {
-        this.currentPosition = [event.lat, event.lng].join(',');
+        this.currentPosition = [event.lat, event.lng].join(',')
       }
     },
     mapPickerClosed() {
-      this.showMap = false;
-      f7.emit('location-picker-closed');
+      this.showMap = false
+      f7.emit('location-picker-closed')
     },
     mapPickerOpen() {
-      this.currentPosition = this.value;
+      this.currentPosition = this.value
       nextTick(() => {
-        this.showMap = true;
-      });
-    },
-  },
-};
+        this.showMap = true
+      })
+    }
+  }
+}
 </script>

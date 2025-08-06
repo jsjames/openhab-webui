@@ -64,9 +64,7 @@
             :height="tabBarIconSize" />
           <f7-badge
             v-if="tabEvaluateExpression(tab, idx, 'badge')"
-            :color="tabEvaluateExpression(tab, idx, 'badgeColor')"
-            >{{ tabEvaluateExpression(tab, idx, 'badge') }}</f7-badge
-          >
+            :color="tabEvaluateExpression(tab, idx, 'badgeColor')">{{ tabEvaluateExpression(tab, idx, 'badge') }}</f7-badge>
         </i>
         <span class="tabbar-label">{{ tabEvaluateExpression(tab, idx, 'title') }}</span>
       </f7-link>
@@ -113,16 +111,16 @@
 </style>
 
 <script>
-import OhLayoutPage from '@/components/widgets/layout/oh-layout-page.vue';
-import WidgetExpressionMixin from '@/components/widgets/widget-expression-mixin';
-import { actionsMixin } from '@/components/widgets/widget-actions';
-import { f7, theme } from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
-import { useStatesStore } from '@/js/stores/states';
-import { useComponentsStore } from '@/js/stores/components';
-import { useUserStore } from '@/js/stores/user';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import OhLayoutPage from '@/components/widgets/layout/oh-layout-page.vue'
+import WidgetExpressionMixin from '@/components/widgets/widget-expression-mixin'
+import { actionsMixin } from '@/components/widgets/widget-actions'
+import { f7, theme } from 'framework7-vue'
+import { defineAsyncComponent } from 'vue'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
+import { useStatesStore } from '@/js/stores/states'
+import { useComponentsStore } from '@/js/stores/components'
+import { useUserStore } from '@/js/stores/user'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
 
 export default {
   mixins: [WidgetExpressionMixin, actionsMixin],
@@ -141,48 +139,48 @@ export default {
     ),
     'oh-locations-tab': defineAsyncComponent(() => import('@/components/tabs/locations-tab.vue')),
     'oh-equipment-tab': defineAsyncComponent(() => import('@/components/tabs/equipment-tab.vue')),
-    'oh-properties-tab': defineAsyncComponent(() => import('@/components/tabs/properties-tab.vue')),
+    'oh-properties-tab': defineAsyncComponent(() => import('@/components/tabs/properties-tab.vue'))
   },
   props: {
     uid: String,
     initialTab: Number,
     deep: Boolean,
     defineVars: Object,
-    f7router: Object,
+    f7router: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
       currentTab: this.initialTab ? Number(this.initialTab) : 0,
       fullscreen: this.$fullscreen.isFullscreen,
 
-      vars: {},
-    };
+      vars: {}
+    }
   },
   watch: {
     pageType(newType, oldType) {
       if (oldType === null && newType === 'tabs') {
-        this.onTabChange(this.currentTab);
+        this.onTabChange(this.currentTab)
       }
-    },
+    }
   },
   computed: {
     pageStyle() {
-      if (!this.context) return null;
+      if (!this.context) return null
       const pageComponent =
         this.pageType === 'tabs'
           ? this.tabContext(this.context.component.slots.default[this.currentTab]).component
-          : this.context.component;
-      if (!pageComponent || !pageComponent.config || !pageComponent.config.style) return null;
-      return pageComponent.config.style;
+          : this.context.component
+      if (!pageComponent || !pageComponent.config || !pageComponent.config.style) return null
+      return pageComponent.config.style
     },
     // Resolve the f7 CSS variable because iconify's SVG element doesn't like css variables
     tabBarIconSize() {
       return window
         .getComputedStyle(document.documentElement)
-        .getPropertyValue('--f7-tabbar-icon-size');
+        .getPropertyValue('--f7-tabbar-icon-size')
     },
     context() {
       return {
@@ -193,97 +191,97 @@ export default {
             : {},
           this.defineVars
         ),
-        store: useStatesStore().trackedItems,
-      };
+        store: useStatesStore().trackedItems
+      }
     },
     page() {
-      return useComponentsStore().page(this.uid);
+      return useComponentsStore().page(this.uid)
     },
     pageType() {
-      return this.getPageType(this.page);
+      return this.getPageType(this.page)
     },
     pageLabel() {
-      return this.page?.config.label;
+      return this.page?.config.label
     },
     isAdmin() {
-      return this.page && useUserStore().isAdmin();
+      return this.page && useUserStore().isAdmin()
     },
     visibleToCurrentUser() {
-      if (!this.page || !this.page.config || !this.page.config.visibleTo) return true;
+      if (!this.page || !this.page.config || !this.page.config.visibleTo) return true
       const user = useUserStore().user
-      if (!user) return false;
+      if (!user) return false
       if (user.roles && user.roles.some(r => this.page.config.visibleTo.indexOf('role:' + r) >= 0))
-        return true;
-      if (this.page.config.visibleTo.indexOf('user:' + user.name) >= 0) return true;
-      return false;
+        return true
+      if (this.page.config.visibleTo.indexOf('user:' + user.name) >= 0) return true
+      return false
     },
     showBackButton() {
-      return this.deep && !this.page?.config.sidebar;
+      return this.deep && !this.page?.config.sidebar
     },
     fullscreenIcon() {
       if (this.$fullscreen.isEnabled && this.page?.config.showFullscreenIcon) {
         return this.fullscreen
           ? 'rectangle_arrow_up_right_arrow_down_left_slash'
-          : 'rectangle_arrow_up_right_arrow_down_left';
+          : 'rectangle_arrow_up_right_arrow_down_left'
       }
-      return null;
-    },
+      return null
+    }
   },
   methods: {
     onPageAfterIn() {
-      useStatesStore().startTrackingStates();
+      useStatesStore().startTrackingStates()
     },
     onPageBeforeOut() {
-      useStatesStore().stopTrackingStates();
+      useStatesStore().stopTrackingStates()
     },
     onTabChange(idx) {
-      this.currentTab = idx;
-      this.vars = {};
-      const url = '/page/' + this.uid + '/' + this.currentTab;
-      this.f7router.updateCurrentUrl(url);
-      this.f7router.url = url;
+      this.currentTab = idx
+      this.vars = {}
+      const url = '/page/' + this.uid + '/' + this.currentTab
+      this.f7router.updateCurrentUrl(url)
+      this.f7router.url = url
     },
     onCommand(itemName, command) {
-      useStatesStore().sendCommand(itemName, command);
+      useStatesStore().sendCommand(itemName, command)
     },
     getPageType(page) {
-      if (!page) return null;
+      if (!page) return null
       switch (page.component) {
         case 'oh-layout-page':
-          return 'layout';
+          return 'layout'
         case 'oh-map-page':
-          return 'map';
+          return 'map'
         case 'oh-tabs-page':
-          return 'tabs';
+          return 'tabs'
         case 'oh-plan-page':
-          return 'plan';
+          return 'plan'
         case 'oh-chart-page':
-          return 'chart';
+          return 'chart'
         default:
-          console.warn('Unknown page type!');
-          return 'unknown';
+          console.warn('Unknown page type!')
+          return 'unknown'
       }
     },
     tabContext(tab) {
       const page = tab.config.page
         ? useComponentsStore().page(tab.config.page.replace('page:', ''))
-        : tab.component;
+        : tab.component
       const context = {
         component: page,
         tab,
         vars: this.vars,
         props: tab.config.pageConfig,
-        store: useStatesStore().trackedItems,
-      };
+        store: useStatesStore().trackedItems
+      }
       // mock some slots so that it works with current homecard-grouping implementation
       if (tab.component === 'oh-locations-tab') {
-        context.slots = { locations: [tab] };
+        context.slots = { locations: [tab] }
       } else if (tab.component === 'oh-equipment-tab') {
-        context.slots = { equipment: [tab] };
+        context.slots = { equipment: [tab] }
       } else if (tab.component === 'oh-properties-tab') {
-        context.slots = { properties: [tab] };
+        context.slots = { properties: [tab] }
       }
-      return context;
+      return context
     },
     tabComponent(tab) {
       if (
@@ -291,15 +289,15 @@ export default {
         tab.component === 'oh-equipment-tab' ||
         tab.component === 'oh-properties-tab'
       ) {
-        return tab.component;
+        return tab.component
       }
 
-      const page = useComponentsStore().page(tab.config.page.replace('page:', ''));
-      return page.component;
+      const page = useComponentsStore().page(tab.config.page.replace('page:', ''))
+      return page.component
     },
     tabEvaluateExpression(tab, idx, key) {
-      const ctx = this.tabContext(tab);
-      return this.evaluateExpression('tab-' + idx + '-' + key, tab.config[key], ctx, ctx.props);
+      const ctx = this.tabContext(tab)
+      return this.evaluateExpression('tab-' + idx + '-' + key, tab.config[key], ctx, ctx.props)
     },
     editPage() {
       if (this.pageType === 'tabs') {
@@ -308,8 +306,8 @@ export default {
             {
               text: 'Edit Tabbed Page',
               onClick: () => {
-                this.f7router.navigate('/settings/pages/' + this.pageType + '/' + this.uid);
-              },
+                this.f7router.navigate('/settings/pages/' + this.pageType + '/' + this.uid)
+              }
             },
             {
               text: 'Edit Current Tab',
@@ -317,35 +315,35 @@ export default {
                 const tabPageUid = this.page.slots.default[this.currentTab].config.page.replace(
                   'page:',
                   ''
-                );
-                const tabPage = useComponentsStore().page(tabPageUid);
-                const tabPageType = this.getPageType(tabPage);
-                this.f7router.navigate('/settings/pages/' + tabPageType + '/' + tabPageUid);
-              },
-            },
+                )
+                const tabPage = useComponentsStore().page(tabPageUid)
+                const tabPageType = this.getPageType(tabPage)
+                this.f7router.navigate('/settings/pages/' + tabPageType + '/' + tabPageUid)
+              }
+            }
           ],
-          targetEl: this.$el.querySelector('.edit-page-button'),
-        });
-        action.open();
+          targetEl: this.$el.querySelector('.edit-page-button')
+        })
+        action.open()
       } else {
-        this.f7router.navigate('/settings/pages/' + this.pageType + '/' + this.uid);
+        this.f7router.navigate('/settings/pages/' + this.pageType + '/' + this.uid)
       }
     },
     toggleFullscreen() {
       this.$fullscreen.toggle(document.body, {
         wrap: false,
         callback: fullscreen => {
-          this.fullscreen = fullscreen;
+          this.fullscreen = fullscreen
           if (fullscreen) {
-            f7.panel.get('left').disableVisibleBreakpoint();
+            f7.panel.get('left').disableVisibleBreakpoint()
           } else {
             if (!useThemeOptionsStore().visibleBreakpointDisabled) {
-              f7.panel.get('left').enableVisibleBreakpoint();
+              f7.panel.get('left').enableVisibleBreakpoint()
             }
           }
-        },
-      });
-    },
-  },
-};
+        }
+      })
+    }
+  }
+}
 </script>

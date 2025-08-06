@@ -6,7 +6,7 @@ export default {
       if (!mod || !this.moduleTypes) {
         return undefined
       }
-      let result
+      let result = null
       if (section) {
         return this.moduleTypes[section]?.find(m => m.uid === mod.type)
       } else {

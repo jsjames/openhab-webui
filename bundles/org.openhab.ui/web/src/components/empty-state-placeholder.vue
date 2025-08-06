@@ -17,16 +17,16 @@
 </style>
 
 <script>
-import { loadLocaleMessages } from '@/js/i18n';
+import { loadLocaleMessages } from '@/js/i18n'
 
 export default {
   props: {
     icon: String,
     title: String,
-    text: String,
+    text: String
   },
   i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/empty-states/*.json')),
-  },
-};
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/empty-states/*.json'))
+  }
+}
 </script>

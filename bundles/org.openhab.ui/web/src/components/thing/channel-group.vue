@@ -76,11 +76,11 @@
 </style>
 
 <script>
-import ClipboardIcon from '@/components/util/clipboard-icon.vue';
+import ClipboardIcon from '@/components/util/clipboard-icon.vue'
 
 export default {
   components: {
-    ClipboardIcon,
+    ClipboardIcon
   },
   props: [
     'extensible',
@@ -90,45 +90,45 @@ export default {
     'pickerMode',
     'multipleLinksMode',
     'itemTypeFilter',
-    'selection',
+    'selection'
   ],
   emits: ['selected', 'channel-opened'],
   data() {
     return {
-      openedChannel: '',
-    };
+      openedChannel: ''
+    }
   },
   methods: {
     getLinkedItems(channel) {
-      if (!channel || !channel.linkedItems.length) return [];
-      return channel.linkedItems;
+      if (!channel || !channel.linkedItems.length) return []
+      return channel.linkedItems
     },
     getItemType(channel) {
-      if (channel && channel.kind === 'TRIGGER') return 'Trigger';
-      if (!channel || !channel.itemType) return '?';
-      return channel.itemType;
+      if (channel && channel.kind === 'TRIGGER') return 'Trigger'
+      if (!channel || !channel.itemType) return '?'
+      return channel.itemType
     },
     getChannelKind(channel) {
-      if (channel && channel.kind === 'TRIGGER') return 'Trigger';
-      return '';
+      if (channel && channel.kind === 'TRIGGER') return 'Trigger'
+      return ''
     },
     opened(channel) {
       this.$emit('channel-opened', {
         channelId: channel.id,
-        channel,
-      });
+        channel
+      })
     },
     isItemTypeCompatible(channelType) {
-      if (!this.pickerMode || !this.itemTypeFilter) return true;
-      return this.getItemType(channelType) === this.itemTypeFilter;
+      if (!this.pickerMode || !this.itemTypeFilter) return true
+      return this.getItemType(channelType) === this.itemTypeFilter
     },
     isSelected(channel) {
       if (Array.isArray(this.selection)) {
-        return this.selection.indexOf(channel) >= 0;
+        return this.selection.indexOf(channel) >= 0
       } else {
-        return this.selection === channel;
+        return this.selection === channel
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

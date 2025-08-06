@@ -9,7 +9,7 @@
           no-ripple
           @click="chooseItemCategory">
           <f7-icon size="35" f7="square_on_circle" class="margin" />
-          Item<br />Event
+          Item<br>Event
         </f7-link>
       </f7-col>
       <f7-col
@@ -20,7 +20,7 @@
           no-ripple
           @click="chooseThingCategory">
           <f7-icon size="35" f7="lightbulb" class="margin" />
-          Thing<br />Event
+          Thing<br>Event
         </f7-link>
       </f7-col>
     </f7-row>
@@ -33,7 +33,7 @@
           no-ripple
           @click="chooseTimeCategory">
           <f7-icon size="35" f7="clock" class="margin" />
-          Time<br />Event
+          Time<br>Event
         </f7-link>
       </f7-col>
       <f7-col
@@ -44,7 +44,7 @@
           no-ripple
           @click="chooseSystemCategory">
           <f7-icon size="35" f7="gear" class="margin" />
-          System<br />Event
+          System<br>Event
         </f7-link>
       </f7-col>
     </f7-row>
@@ -144,7 +144,7 @@
     <f7-list
       v-if="
         (itemEventType === 'command' || itemEventType === 'memberCommand') &&
-        commandSuggestions.length
+          commandSuggestions.length
       ">
       <f7-list-item
         radio
@@ -342,12 +342,12 @@
 </style>
 
 <script>
-import ModuleWizard from './module-wizard-mixin';
-import ItemPicker from '@/components/config/controls/item-picker.vue';
-import ThingPicker from '@/components/config/controls/thing-picker.vue';
-import TriggerChannelPicker from '@/components/config/controls/triggerchannel-picker.vue';
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import { f7 } from 'framework7-vue';
+import ModuleWizard from './module-wizard-mixin'
+import ItemPicker from '@/components/config/controls/item-picker.vue'
+import ThingPicker from '@/components/config/controls/thing-picker.vue'
+import TriggerChannelPicker from '@/components/config/controls/triggerchannel-picker.vue'
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import { f7 } from 'framework7-vue'
 
 export default {
   mixins: [ModuleWizard],
@@ -356,7 +356,7 @@ export default {
     ItemPicker,
     ThingPicker,
     TriggerChannelPicker,
-    ConfigSheet,
+    ConfigSheet
   },
   emits: ['show-advanced', 'type-select'],
   data() {
@@ -366,128 +366,128 @@ export default {
       itemEventType: 'command',
       thingEventType: 'triggerChannelFired',
       timeEventType: 'cron',
-      currentItem: null,
-    };
+      currentItem: null
+    }
   },
   methods: {
     chooseItemCategory() {
-      this.openModelPicker();
+      this.openModelPicker()
     },
     chooseThingCategory() {
-      this.category = 'thing';
-      this.updateThingEventType('triggerChannelFired');
+      this.category = 'thing'
+      this.updateThingEventType('triggerChannelFired')
     },
     chooseTimeCategory() {
-      this.category = 'time';
-      this.updateTimeEventType('cron');
+      this.category = 'time'
+      this.updateTimeEventType('cron')
     },
     chooseSystemCategory() {
-      this.category = 'system';
-      this.updateSystemEventType('start');
+      this.category = 'system'
+      this.updateSystemEventType('start')
     },
     updateItemEventType(type) {
-      this.itemEventType = type;
+      this.itemEventType = type
       switch (type) {
         case 'command':
-          this.$emit('type-select', 'core.ItemCommandTrigger');
+          this.$emit('type-select', 'core.ItemCommandTrigger')
           if (this.currentItem)
             this.currentModule.configuration = Object.assign(
               {},
               { itemName: this.currentItem.name }
-            );
-          break;
+            )
+          break
         case 'updated':
-          this.$emit('type-select', 'core.ItemStateUpdateTrigger');
+          this.$emit('type-select', 'core.ItemStateUpdateTrigger')
           if (this.currentItem)
             this.currentModule.configuration = Object.assign(
               {},
               { itemName: this.currentItem.name }
-            );
-          break;
+            )
+          break
         case 'changed':
-          this.$emit('type-select', 'core.ItemStateChangeTrigger');
+          this.$emit('type-select', 'core.ItemStateChangeTrigger')
           if (this.currentItem)
             this.currentModule.configuration = Object.assign(
               {},
               { itemName: this.currentItem.name }
-            );
-          break;
+            )
+          break
         case 'memberCommand':
-          this.$emit('type-select', 'core.GroupCommandTrigger');
+          this.$emit('type-select', 'core.GroupCommandTrigger')
           if (this.currentItem)
             this.currentModule.configuration = Object.assign(
               {},
               { groupName: this.currentItem.name }
-            );
-          break;
+            )
+          break
         case 'memberUpdated':
-          this.$emit('type-select', 'core.GroupStateUpdateTrigger');
+          this.$emit('type-select', 'core.GroupStateUpdateTrigger')
           if (this.currentItem)
             this.currentModule.configuration = Object.assign(
               {},
               { groupName: this.currentItem.name }
-            );
-          break;
+            )
+          break
         case 'memberChanged':
-          this.$emit('type-select', 'core.GroupStateChangeTrigger');
+          this.$emit('type-select', 'core.GroupStateChangeTrigger')
           if (this.currentItem)
             this.currentModule.configuration = Object.assign(
               {},
               { groupName: this.currentItem.name }
-            );
-          break;
+            )
+          break
       }
     },
     updateThingEventType(type) {
-      this.thingEventType = type;
-      const currentThingUID = this.currentModule.configuration.thingUID;
+      this.thingEventType = type
+      const currentThingUID = this.currentModule.configuration.thingUID
       switch (type) {
         case 'triggerChannelFired':
-          this.$emit('type-select', 'core.ChannelEventTrigger', true);
+          this.$emit('type-select', 'core.ChannelEventTrigger', true)
           if (currentThingUID)
-            this.currentModule.configuration = Object.assign({}, { thingUID: currentThingUID });
-          break;
+            this.currentModule.configuration = Object.assign({}, { thingUID: currentThingUID })
+          break
         case 'statusUpdated':
-          this.$emit('type-select', 'core.ThingStatusUpdateTrigger', true);
+          this.$emit('type-select', 'core.ThingStatusUpdateTrigger', true)
           if (currentThingUID)
-            this.currentModule.configuration = Object.assign({}, { thingUID: currentThingUID });
-          break;
+            this.currentModule.configuration = Object.assign({}, { thingUID: currentThingUID })
+          break
         case 'statusChanged':
-          this.$emit('type-select', 'core.ThingStatusChangeTrigger', true);
+          this.$emit('type-select', 'core.ThingStatusChangeTrigger', true)
           if (currentThingUID)
-            this.currentModule.configuration = Object.assign({}, { thingUID: currentThingUID });
-          break;
+            this.currentModule.configuration = Object.assign({}, { thingUID: currentThingUID })
+          break
       }
     },
     updateTimeEventType(type) {
-      this.timeEventType = type;
+      this.timeEventType = type
       switch (type) {
         case 'cron':
-          this.$emit('type-select', 'timer.GenericCronTrigger', true);
-          break;
+          this.$emit('type-select', 'timer.GenericCronTrigger', true)
+          break
         case 'timeOfDay':
-          this.$emit('type-select', 'timer.TimeOfDayTrigger', true);
-          break;
+          this.$emit('type-select', 'timer.TimeOfDayTrigger', true)
+          break
         case 'dateTime':
-          this.$emit('type-select', 'timer.DateTimeTrigger', true);
-          break;
+          this.$emit('type-select', 'timer.DateTimeTrigger', true)
+          break
       }
     },
     updateSystemEventType(type) {
-      this.systemEventType = type;
+      this.systemEventType = type
       switch (type) {
         case 'start':
-          this.$emit('type-select', 'core.SystemStartlevelTrigger', true);
-          this.currentModule.configuration.startlevel = 20;
-          break;
+          this.$emit('type-select', 'core.SystemStartlevelTrigger', true)
+          this.currentModule.configuration.startlevel = 20
+          break
       }
     },
     itemPicked(value) {
-      this.category = 'item';
-      this.currentItem = value;
-      this.currentModule.configuration.itemName = value.name;
-      this.updateItemEventType('command');
-    },
-  },
-};
+      this.category = 'item'
+      this.currentItem = value
+      this.currentModule.configuration.itemName = value.name
+      this.updateItemEventType('command')
+    }
+  }
+}
 </script>

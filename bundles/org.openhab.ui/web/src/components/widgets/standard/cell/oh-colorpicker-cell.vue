@@ -33,16 +33,16 @@
 </template>
 
 <script>
-import mixin from '../../widget-mixin';
-import { OhColorpickerCellDefinition } from '@/assets/definitions/widgets/standard/cells';
-import OhCell from './oh-cell.vue';
-import OhColorpicker from '../../system/oh-colorpicker.vue';
+import mixin from '../../widget-mixin'
+import { OhColorpickerCellDefinition } from '@/assets/definitions/widgets/standard/cells'
+import OhCell from './oh-cell.vue'
+import OhColorpicker from '../../system/oh-colorpicker.vue'
 
 export default {
   mixins: [mixin],
   components: {
     OhCell,
-    OhColorpicker,
+    OhColorpicker
   },
   widget: OhColorpickerCellDefinition,
   computed: {
@@ -51,21 +51,21 @@ export default {
         component: {
           component: 'oh-colorpicker',
           config: Object.assign({}, this.context.component.config, {
-            modules: this.context.component.config.modules || ['wheel'],
-          }),
-        },
-      });
+            modules: this.context.component.config.modules || ['wheel']
+          })
+        }
+      })
     },
     state() {
-      const stateParts = this.context.store[this.config.item].state.split(',');
+      const stateParts = this.context.store[this.config.item].state.split(',')
       if (stateParts.length === 3) {
-        if (parseFloat(stateParts[2]) === 0) return 'Off';
-        return `On · ${stateParts[2]}%`;
+        if (parseFloat(stateParts[2]) === 0) return 'Off'
+        return `On · ${stateParts[2]}%`
       } else {
-        if (!isNaN(parseFloat(stateParts[0]))) return stateParts[0] + '%';
+        if (!isNaN(parseFloat(stateParts[0]))) return stateParts[0] + '%'
       }
-      return stateParts[0];
-    },
-  },
-};
+      return stateParts[0]
+    }
+  }
+}
 </script>

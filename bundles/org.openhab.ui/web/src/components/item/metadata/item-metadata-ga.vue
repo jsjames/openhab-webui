@@ -56,53 +56,53 @@
 </template>
 
 <script>
-import GoogleDefinitions from '@/assets/definitions/metadata/ga';
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
-import { utils } from 'framework7';
+import GoogleDefinitions from '@/assets/definitions/metadata/ga'
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
+import { utils } from 'framework7'
 
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { mapStores } from 'pinia';
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
 
 export default {
   props: ['itemName', 'metadata'],
   mixins: [ItemMetadataMixin],
   components: {
-    ConfigSheet,
+    ConfigSheet
   },
   data() {
     return {
       classesDefs: Object.keys(GoogleDefinitions),
-      classSelectKey: utils.id(),
-    };
+      classSelectKey: utils.id()
+    }
   },
   computed: {
     classes() {
-      return this.metadata.value;
+      return this.metadata.value
     },
     orderedClasses() {
       return [...this.classesDefs].sort((a, b) => {
-        return a.localeCompare(b);
-      });
+        return a.localeCompare(b)
+      })
     },
     parameters() {
-      if (!this.metadata.value) return [];
+      if (!this.metadata.value) return []
       return (
         GoogleDefinitions['type:' + this.metadata.value] ||
         GoogleDefinitions['attribute:' + this.metadata.value]
-      );
+      )
     },
     ...mapStores(useRuntimeStore)
   },
   methods: {
     isSelected(cl) {
-      return this.classes === cl;
+      return this.classes === cl
     },
     updateClass() {
-      const value = this.$refs.classes.f7SmartSelect.getValue();
-      this.metadata.value = value;
-      this.metadata.config = {};
-    },
-  },
-};
+      const value = this.$refs.classes.f7SmartSelect.getValue()
+      this.metadata.value = value
+      this.metadata.config = {}
+    }
+  }
+}
 </script>

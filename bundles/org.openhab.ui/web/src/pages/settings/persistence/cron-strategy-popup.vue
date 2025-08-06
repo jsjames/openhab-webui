@@ -37,7 +37,9 @@
           </f7-list>
         </f7-col>
         <f7-col>
-          <f7-block-title medium class="padding-bottom"> Configuration </f7-block-title>
+          <f7-block-title medium class="padding-bottom">
+            Configuration
+          </f7-block-title>
           <f7-list>
             <parameter-cronexpression
               ref="cronExpression"
@@ -52,12 +54,12 @@
 </template>
 
 <script>
-import ParameterCronexpression from '@/components/config/controls/parameter-cronexpression.vue';
-import { f7 } from 'framework7-vue';
+import ParameterCronexpression from '@/components/config/controls/parameter-cronexpression.vue'
+import { f7 } from 'framework7-vue'
 
 export default {
   components: {
-    ParameterCronexpression,
+    ParameterCronexpression
   },
   props: ['cronStrategy'],
   emits: ['cron-strategy-config-update'],
@@ -66,15 +68,15 @@ export default {
       createMode: !this.cronStrategy,
       currentCronStrategy: this.cronStrategy || {
         name: null,
-        cronExpression: null,
+        cronExpression: null
       },
 
       cronExpressionConfigDescription: {
         label: 'Cron Expression',
         name: 'cronExpression',
-        required: true,
-      },
-    };
+        required: true
+      }
+    }
   },
   methods: {
     updateModuleConfig() {
@@ -82,12 +84,12 @@ export default {
         !f7.input.validateInputs(this.$refs.name.$el) &&
         !f7.input.validateInputs(this.$refs.cronExpression.$el)
       ) {
-        f7.dialog.alert('Please review the configuration and correct validation errors');
-        return;
+        f7.dialog.alert('Please review the configuration and correct validation errors')
+        return
       }
-      f7.emit('cron-strategy-config-update', this.currentCronStrategy);
-      this.$refs.modulePopup.close();
-    },
-  },
-};
+      f7.emit('cron-strategy-config-update', this.currentCronStrategy)
+      this.$refs.modulePopup.close()
+    }
+  }
+}
 </script>

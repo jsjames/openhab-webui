@@ -94,7 +94,7 @@
           </f7-menu-dropdown>
         </f7-menu-item>
       </f7-menu>
-      <hr />
+      <hr>
     </f7-block>
     <div
       ref="canvasLayoutContainer"
@@ -130,7 +130,7 @@
           v-if="!config.embedSvg"
           class="oh-canvas-background disable-user-drag"
           :src="config.imageUrl"
-          :srcset="config.imageSrcSet" />
+          :srcset="config.imageSrcSet">
       </div>
       <!-- Grid lines -->
       <div
@@ -149,11 +149,9 @@
         v-if="context.editmode"
         style="opacity: 0.3; padding: 4px; position: absolute; width: 100%">
         {{ getCurrentScreenResolution() }}
-        <span v-if="isRetina()"
-          ><f7-icon
-            tooltip="Screen resolution shown is the fullscreen resolution for websites. Real screen resolution is bigger."
-            f7="info_circle"
-        /></span>
+        <span v-if="isRetina()"><f7-icon
+          tooltip="Screen resolution shown is the fullscreen resolution for websites. Real screen resolution is bigger."
+          f7="info_circle" /></span>
       </div>
       <oh-canvas-layer
         v-for="obj in layout"
@@ -187,18 +185,18 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import embeddedSvgMixin from '@/components/widgets/layout/oh-canvas-embedded-svg-mixin';
-import OhCanvasLayer from './oh-canvas-layer.vue';
-import { OhCanvasLayoutDefinition } from '@/assets/definitions/widgets/layout';
-import { f7 } from 'framework7-vue';
-import { nextTick } from 'vue';
+import mixin from '../widget-mixin'
+import embeddedSvgMixin from '@/components/widgets/layout/oh-canvas-embedded-svg-mixin'
+import OhCanvasLayer from './oh-canvas-layer.vue'
+import { OhCanvasLayoutDefinition } from '@/assets/definitions/widgets/layout'
+import { f7 } from 'framework7-vue'
+import { nextTick } from 'vue'
 
 export default {
   mixins: [mixin, embeddedSvgMixin],
   widget: OhCanvasLayoutDefinition,
   components: {
-    OhCanvasLayer,
+    OhCanvasLayer
   },
   data() {
     return {
@@ -210,78 +208,78 @@ export default {
       style: {
         width: Number,
         height: Number,
-        scale: 1.0,
+        scale: 1.0
       },
       grid: {
         pitch: Number,
-        enable: false,
+        enable: false
       },
       actLyrIdx: 0,
       preventDeactivation: false,
-      selectedItems: [],
-    };
+      selectedItems: []
+    }
   },
   computed: {
     activeLayer() {
-      return this.context.component.slots.canvas[this.actLyrIdx];
+      return this.context.component.slots.canvas[this.actLyrIdx]
     },
     layerToolsVisible() {
-      return this.context.component.slots.canvas.length > 1;
-    },
+      return this.context.component.slots.canvas.length > 1
+    }
   },
   created() {
-    console.log('oh-canvas-layout created');
+    console.log('oh-canvas-layout created')
     if (this.config.layoutType === 'fixed' && this.config.fixedType === 'canvas') {
-      this.style.width = this.screenWidth = this.config.screenWidth || 1280;
-      this.style.height = this.screenHeight = this.config.screenHeight || 720;
-      this.grid.pitch = this.config.grid || 20;
-      this.grid.enable = this.config.gridEnable || false;
-      this.actLyrIdx = this.config.activeIdx || 0;
+      this.style.width = this.screenWidth = this.config.screenWidth || 1280
+      this.style.height = this.screenHeight = this.config.screenHeight || 720
+      this.grid.pitch = this.config.grid || 20
+      this.grid.enable = this.config.gridEnable || false
+      this.actLyrIdx = this.config.activeIdx || 0
 
       if (!this.context.editmode) {
-        window.addEventListener('resize', this.setDimensions);
+        window.addEventListener('resize', this.setDimensions)
       }
     }
-    this.$fullscreen.isEnabled = true;
-    this.canvasLayoutStyle();
-    this.computeLayout();
+    this.$fullscreen.isEnabled = true
+    this.canvasLayoutStyle()
+    this.computeLayout()
   },
   mounted() {
     // Chrome reports a wrong size in fullscreen, store initial resolution and use non-dynamically.
-    this.windowWidth = window.screen.width;
-    this.windowHeight = window.screen.height;
+    this.windowWidth = window.screen.width
+    this.windowHeight = window.screen.height
     if (this.config.embedSvg && this.config.imageUrl) {
       this.embedSvg()
         .then(() => {
-          this.subscribeEmbeddedSvgListeners();
-          this.setupEmbeddedSvgStateTracking();
-          this.embeddedSvgReady = true;
+          this.subscribeEmbeddedSvgListeners()
+          this.setupEmbeddedSvgStateTracking()
+          this.embeddedSvgReady = true
         })
         .catch(err => {
           nextTick(() => {
             f7.toast
               .create({
                 text: `Failed to embed SVG: ${err}`,
-                closeTimeout: 3000,
+                closeTimeout: 3000
               })
-              .open();
-          });
-        });
+              .open()
+          })
+        })
     }
   },
   beforeUnmount() {
     if (!this.context.editmode) {
-      window.removeEventListener('resize', this.setDimensions);
+      window.removeEventListener('resize', this.setDimensions)
     }
     if (this.config.embedSvg && this.embeddedSvgReady) {
-      this.embeddedSvgReady = false;
-      this.unsubscribeEmbeddedSvgListeners();
-      this.unsubscribeEmbeddedSvgStateTracking();
+      this.embeddedSvgReady = false
+      this.unsubscribeEmbeddedSvgListeners()
+      this.unsubscribeEmbeddedSvgStateTracking()
     }
   },
   methods: {
     isRetina() {
-      return window.devicePixelRatio > 1;
+      return window.devicePixelRatio > 1
     },
     getCurrentScreenResolution() {
       return (
@@ -294,154 +292,154 @@ export default {
         ' x ' +
         this.windowHeight +
         ')'
-      );
+      )
     },
     addItem() {
       if (!this.context.component.slots?.canvas[0]) {
-        this.addLayer();
+        this.addLayer()
       }
       this.context.component.slots.canvas[this.actLyrIdx].slots.default.push({
         component: 'oh-canvas-item',
         config: { x: 20, y: 20, h: 150, w: 200 },
-        slots: { default: [] },
-      });
-      this.computeLayout();
+        slots: { default: [] }
+      })
+      this.computeLayout()
     },
     addLayer() {
       this.context.component.slots.canvas.push({
         component: 'oh-canvas-layer',
         config: {},
-        slots: { default: [] },
-      });
-      this.actLyrIdx = this.context.component.slots.canvas.length - 1;
-      this.computeLayout();
+        slots: { default: [] }
+      })
+      this.actLyrIdx = this.context.component.slots.canvas.length - 1
+      this.computeLayout()
     },
     removeLayer() {
-      this.context.component.slots.canvas.splice(this.actLyrIdx, 1);
-      this.setActiveLayer(Math.min(0, this.actLyrIdx--));
-      this.computeLayout();
+      this.context.component.slots.canvas.splice(this.actLyrIdx, 1)
+      this.setActiveLayer(Math.min(0, this.actLyrIdx--))
+      this.computeLayout()
     },
     setActiveLayer(idx) {
-      this.actLyrIdx = this.context.component.config.activeIdx = idx;
+      this.actLyrIdx = this.context.component.config.activeIdx = idx
       this.context.component.slots.canvas[this.actLyrIdx].config =
-        this.context.component.slots.canvas[this.actLyrIdx].config || {};
-      delete this.context.component.slots.canvas[this.actLyrIdx].config.editVisible;
+        this.context.component.slots.canvas[this.actLyrIdx].config || {}
+      delete this.context.component.slots.canvas[this.actLyrIdx].config.editVisible
     },
     configureLayer() {
       this.context.editmode.configureWidget(
         this.context.component.slots.canvas[this.actLyrIdx],
         this.context.component,
         'oh-canvas-layer'
-      );
+      )
     },
     hideOtherLayers() {
       this.context.component.slots.canvas.forEach((layer, idx) => {
         if (idx !== this.actLyrIdx) {
-          layer.config = layer.config || {};
-          layer.config.editVisible = false;
+          layer.config = layer.config || {}
+          layer.config.editVisible = false
         }
-      });
+      })
     },
     showOtherLayers() {
       this.context.component.slots.canvas.forEach((layer, idx) => {
         if (idx !== this.actLyrIdx) {
-          layer.config.editVisible = true;
+          layer.config.editVisible = true
         }
-      });
+      })
     },
     toggleGrid() {
-      this.context.component.config.gridEnable = this.grid.enable = !this.grid.enable;
+      this.context.component.config.gridEnable = this.grid.enable = !this.grid.enable
     },
     canvasLayoutStyle() {
       if (this.config.scale && !this.context.editmode) {
-        this.style.scale = parent.innerWidth / this.screenWidth;
+        this.style.scale = parent.innerWidth / this.screenWidth
       } else {
-        this.style.scale = 1.0;
+        this.style.scale = 1.0
       }
     },
     computeLayout() {
-      let layout = [];
+      let layout = []
       if (this.context.component.slots?.canvas) {
         this.context.component.slots.canvas.forEach(item => {
           if (item.component === 'oh-canvas-layer') {
             layout.push({
               item,
-              id: Math.random().toString(36).substring(2),
-            });
+              id: Math.random().toString(36).substring(2)
+            })
           } else {
-            console.log('Wrong component type in canvas: ' + item.component);
+            console.log('Wrong component type in canvas: ' + item.component)
           }
-        });
+        })
       }
-      this.layout = layout;
+      this.layout = layout
     },
     onKeyDown(ev) {
       let moveX = 0,
-        moveY = 0;
+        moveY = 0
       switch (ev.key) {
         case 'Shift':
-          this.preventDeactivation = true;
-          break;
+          this.preventDeactivation = true
+          break
         case 'ArrowDown':
-          moveY = 1;
-          break;
+          moveY = 1
+          break
         case 'ArrowUp':
-          moveY = -1;
-          break;
+          moveY = -1
+          break
         case 'ArrowRight':
-          moveX = 1;
-          break;
+          moveX = 1
+          break
         case 'ArrowLeft':
-          moveX = -1;
-          break;
+          moveX = -1
+          break
       }
       if (moveX || moveY) {
-        const moveBy = this.grid.enable ? this.grid.pitch : 1;
-        const didMove = this.moveSelectedItems(null, moveX * moveBy, moveY * moveBy);
+        const moveBy = this.grid.enable ? this.grid.pitch : 1
+        const didMove = this.moveSelectedItems(null, moveX * moveBy, moveY * moveBy)
         if (didMove) {
-          ev.stopPropagation();
-          ev.preventDefault();
+          ev.stopPropagation()
+          ev.preventDefault()
         }
       }
     },
     onKeyUp(ev) {
       switch (ev.key) {
         case 'Shift':
-          this.preventDeactivation = false;
-          break;
+          this.preventDeactivation = false
+          break
       }
     },
     moveSelectedItems(exceptId, deltaX, deltaY) {
-      let movedSomething = false;
+      let movedSomething = false
       this.selectedItems.forEach(i => {
         if (i.id !== exceptId) {
-          i.moveTo(i.x + deltaX, i.y + deltaY);
-          movedSomething = true;
+          i.moveTo(i.x + deltaX, i.y + deltaY)
+          movedSomething = true
         }
-      });
-      return movedSomething;
+      })
+      return movedSomething
     },
     ociSelected(item) {
-      this.selectedItems.push(item);
+      this.selectedItems.push(item)
     },
     ociDeselected(item) {
-      this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
+      this.selectedItems.splice(this.selectedItems.indexOf(item), 1)
     },
     ociDragged(item, deltaX, deltaY) {
       // Move all selected (active) items, except the source one (already moved)
       // if there are several objects selected
       if (this.selectedItems.length > 1) {
-        this.moveSelectedItems(item.id, deltaX, deltaY);
+        this.moveSelectedItems(item.id, deltaX, deltaY)
       }
     },
     ociDragStop(itemId) {
       // Notify items of drag end in case of multiple items selection
       if (this.selectedItems.length > 1) {
         this.selectedItems.forEach(item => {
-          item.stopDrag();
-        });
+          item.stopDrag()
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

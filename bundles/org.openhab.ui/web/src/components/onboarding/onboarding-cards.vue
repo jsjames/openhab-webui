@@ -5,9 +5,13 @@
       title="Welcome to openHAB!"
       content="Congratulations, your server is up and running! However, it is not configured yet. Follow the setup wizard and let it guide you through the initial configuration. (Note: the wizard could also be started automatically on launch if no package is detected - services/org.openhab.addons > package).">
       <f7-card-footer>
-        <f7-link color="blue" @click="skipSetupWizard()"> No thanks </f7-link>
+        <f7-link color="blue" @click="skipSetupWizard()">
+          No thanks
+        </f7-link>
         <!-- <f7-button color="blue" fill raised login-screen-open="#login-screen">Start Setup Wizard</f7-button> -->
-        <f7-button color="blue" fill raised href="/setup-wizard/"> Start Setup Wizard </f7-button>
+        <f7-button color="blue" fill raised href="/setup-wizard/">
+          Start Setup Wizard
+        </f7-button>
       </f7-card-footer>
     </f7-card>
     <f7-card title="Suggested Tasks" v-show="showTasks">
@@ -19,7 +23,9 @@
             </f7-link>
           </li>
           <li>
-            <f7-link no-link-class color="blue" href="#"> Discover &amp; configure Things </f7-link>
+            <f7-link no-link-class color="blue" href="#">
+              Discover &amp; configure Things
+            </f7-link>
           </li>
           <li>
             <f7-link no-link-class color="blue" href="#">
@@ -35,14 +41,16 @@
         </ol>
       </f7-card-content>
       <f7-card-footer>
-        <f7-link color="blue" @click="dismissTasks"> Dismiss </f7-link>
+        <f7-link color="blue" @click="dismissTasks">
+          Dismiss
+        </f7-link>
       </f7-card-footer>
     </f7-card>
   </div>
 </template>
 
 <script>
-import { f7 } from 'framework7-vue';
+import { f7 } from 'framework7-vue'
 
 export default {
   props: ['showSetup', 'showTasks'],
@@ -54,11 +62,11 @@ export default {
         () => {
           // TODO
         }
-      );
+      )
     },
     dismissTasks() {
       // TODO
-    },
-  },
-};
+    }
+  }
+}
 </script>

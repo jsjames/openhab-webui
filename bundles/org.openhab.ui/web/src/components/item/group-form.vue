@@ -116,10 +116,10 @@
 </style>
 
 <script>
-import * as types from '@/assets/item-types.js';
-import uomMixin from '@/components/item/uom-mixin';
-import { f7 } from 'framework7-vue';
-import { nextTick } from 'vue';
+import * as types from '@/assets/item-types.js'
+import uomMixin from '@/components/item/uom-mixin'
+import { f7 } from 'framework7-vue'
+import { nextTick } from 'vue'
 
 export default {
   mixins: [uomMixin],
@@ -133,193 +133,193 @@ export default {
         !this.createMode && this.item.groupType?.split(':').length > 1
           ? this.item.groupType.split(':')[1]
           : '',
-      oldGroupUnit: '',
-    };
+      oldGroupUnit: ''
+    }
   },
   watch: {
     dimensionsReady(newValue, oldValue) {
-      if (oldValue === false && newValue === true) this.initializeAutocompleteGroupUnit();
-    },
+      if (oldValue === false && newValue === true) this.initializeAutocompleteGroupUnit()
+    }
   },
   computed: {
     editable() {
-      return this.createMode || (this.item && this.item.editable);
+      return this.createMode || (this.item && this.item.editable)
     },
     groupType: {
       get() {
-        return this.item.groupType?.split(':')[0];
+        return this.item.groupType?.split(':')[0]
       },
       set(newType) {
-        const previousAggregationFunctions = this.aggregationFunctions;
-        this.groupType = '';
+        const previousAggregationFunctions = this.aggregationFunctions
+        this.groupType = ''
         nextTick(() => {
           if (newType !== 'None') {
-            this.item.groupType = newType;
-            this.groupUnit = this.getUnitHint(this.groupDimension);
+            this.item.groupType = newType
+            this.groupUnit = this.getUnitHint(this.groupDimension)
             if (previousAggregationFunctions !== this.aggregationFunctions) {
-              this.item.functionKey = 'None';
+              this.item.functionKey = 'None'
             }
           }
-        });
-      },
+        })
+      }
     },
     groupDimension: {
       get() {
-        const parts = this.item.groupType?.split(':');
-        return parts && parts.length > 1 ? parts[1] : '';
+        const parts = this.item.groupType?.split(':')
+        return parts && parts.length > 1 ? parts[1] : ''
       },
       set(newDimension) {
         if (!newDimension) {
-          this.groupType = 'Number';
-          return;
+          this.groupType = 'Number'
+          return
         }
-        const dimension = this.dimensions.find(d => d.name === newDimension);
-        this.item.groupType = 'Number:' + dimension.name;
-        this.groupUnit = this.getUnitHint(dimension.name);
-        this.item.stateDescriptionPattern = this.stateDescriptionPattern;
-      },
+        const dimension = this.dimensions.find(d => d.name === newDimension)
+        this.item.groupType = 'Number:' + dimension.name
+        this.groupUnit = this.getUnitHint(dimension.name)
+        this.item.stateDescriptionPattern = this.stateDescriptionPattern
+      }
     },
     groupUnit: {
       get() {
-        return this.unit;
+        return this.unit
       },
       set(newUnit) {
-        this.itme.unit = newUnit;
-      },
+        this.itme.unit = newUnit
+      }
     },
     stateDescriptionPattern: {
       get() {
-        if (this.item.stateDescriptionPattern) return this.item.stateDescriptionPattern;
-        return this.item.metadata?.stateDescription?.config.pattern || '%.0f %unit%';
+        if (this.item.stateDescriptionPattern) return this.item.stateDescriptionPattern
+        return this.item.metadata?.stateDescription?.config.pattern || '%.0f %unit%'
       },
       set(newPattern) {
-        this.item.stateDescriptionPattern = newPattern;
-      },
+        this.item.stateDescriptionPattern = newPattern
+      }
     },
     groupFunctionKey: {
       get() {
-        return this.item.functionKey.startsWith('COUNT') ? 'COUNT' : this.item.functionKey;
+        return this.item.functionKey.startsWith('COUNT') ? 'COUNT' : this.item.functionKey
       },
       set(newFunctionKey) {
         if (!newFunctionKey) {
-          delete this.item.function;
-          this.item.functionKey = '';
-          return;
+          delete this.item.function
+          this.item.functionKey = ''
+          return
         }
-        this.item.functionKey = newFunctionKey;
-        const parts = newFunctionKey.split('_');
+        this.item.functionKey = newFunctionKey
+        const parts = newFunctionKey.split('_')
         let func = {
-          name: parts[0],
-        };
-        if (parts.length > 1) {
-          func.params = [parts[1], parts[2]];
+          name: parts[0]
         }
-        this.item.function = func;
-      },
+        if (parts.length > 1) {
+          func.params = [parts[1], parts[2]]
+        }
+        this.item.function = func
+      }
     },
     groupFunctionParam: {
       get() {
-        return this.item.function?.params?.length ? this.item.function.params[0] : null;
+        return this.item.function?.params?.length ? this.item.function.params[0] : null
       },
       set(newFunctionParam) {
-        this.item.function.params = [newFunctionParam];
-      },
+        this.item.function.params = [newFunctionParam]
+      }
     },
     aggregationFunctions() {
-      if (this.groupType === 'None') return null;
+      if (this.groupType === 'None') return null
 
       const specificAggregationFunctions = groupType => {
         switch (this.groupType) {
           case 'Dimmer':
           case 'Rollershutter':
           case 'Number':
-            return types.ArithmeticFunctions;
+            return types.ArithmeticFunctions
           case 'Contact':
-            return types.LogicalOpenClosedFunctions;
+            return types.LogicalOpenClosedFunctions
           case 'Player':
-            return types.LogicalPlayPauseFunctions;
+            return types.LogicalPlayPauseFunctions
           case 'DateTime':
-            return types.DateTimeFunctions;
+            return types.DateTimeFunctions
           case 'Switch':
-            return types.LogicalOnOffFunctions;
+            return types.LogicalOnOffFunctions
         }
-        return [];
-      };
-      return [...types.CommonFunctions, ...specificAggregationFunctions(this.groupType)];
-    },
+        return []
+      }
+      return [...types.CommonFunctions, ...specificAggregationFunctions(this.groupType)]
+    }
   },
   beforeMount() {
     if (this.item.function) {
-      this.item.functionKey = this.item.function.name;
+      this.item.functionKey = this.item.function.name
       if (this.item.function.params) {
-        this.item.functionKey += '_' + this.item.function.params.join('_');
+        this.item.functionKey += '_' + this.item.function.params.join('_')
       }
     } else {
-      this.item.functionKey = 'None';
+      this.item.functionKey = 'None'
     }
   },
   methods: {
     typeChanged() {
-      if (!this.oldGroupType) return false;
-      return this.oldGroupType !== this.groupType;
+      if (!this.oldGroupType) return false
+      return this.oldGroupType !== this.groupType
     },
     dimensionChanged() {
-      if (!this.oldGroupDimension) return false;
-      return this.oldGroupDimension !== this.dimension;
+      if (!this.oldGroupDimension) return false
+      return this.oldGroupDimension !== this.dimension
     },
     unitChanged() {
-      return this.oldGroupUnit && this.item.unit && this.oldGroupUnit !== this.item.unit;
+      return this.oldGroupUnit && this.item.unit && this.oldGroupUnit !== this.item.unit
     },
     revertChange() {
       if (!this.oldGroupDimension) {
-        this.groupType = this.oldGroupType;
-        this.item.unit = '';
+        this.groupType = this.oldGroupType
+        this.item.unit = ''
       } else {
-        this.groupType = this.oldGroupType + ':' + this.oldGroupDimension;
-        this.item.unit = this.oldGroupUnit;
+        this.groupType = this.oldGroupType + ':' + this.oldGroupDimension
+        this.item.unit = this.oldGroupUnit
       }
     },
     initializeAutocompleteGroupUnit() {
-      const self = this;
-      const unitControl = this.$refs.groupUnit;
-      if (!unitControl || !unitControl.$el) return;
-      const inputElement = Dom7(unitControl.$el).find('input');
+      const self = this
+      const unitControl = this.$refs.groupUnit
+      if (!unitControl || !unitControl.$el) return
+      const inputElement = Dom7(unitControl.$el).find('input')
       this.groupUnitAutocomplete = f7.autocomplete.create({
         inputEl: inputElement,
         openIn: 'dropdown',
         dropdownPlaceholderText: self.getUnitHint(this.dimension),
         source(query, render) {
-          let curatedUnits = self.groupDimension ? self.getUnitList(self.groupDimension) : [];
-          let allUnits = self.groupDimension ? self.getFullUnitList(self.groupDimension) : [];
+          let curatedUnits = self.groupDimension ? self.getUnitList(self.groupDimension) : []
+          let allUnits = self.groupDimension ? self.getFullUnitList(self.groupDimension) : []
           if (!query || !query.length) {
             // Render curated list by default
-            render(curatedUnits);
+            render(curatedUnits)
           } else {
-            let units = curatedUnits.filter(u => u.indexOf(query) >= 0);
+            let units = curatedUnits.filter(u => u.indexOf(query) >= 0)
             if (units.length) {
               // Show full curated list if in curated list
-              render(curatedUnits);
+              render(curatedUnits)
             } else {
               // If no match filter on full list
-              render(allUnits.filter(u => u.indexOf(query) >= 0));
+              render(allUnits.filter(u => u.indexOf(query) >= 0))
             }
           }
-        },
-      });
-    },
+        }
+      })
+    }
   },
   mounted() {
     if (!this.createMode && this.groupDimension) {
-      this.oldGroupDimension = this.groupDimension;
-      this.oldGroupUnit = this.groupUnit;
-      if (this.dimensionsReady) this.initializeAutocompleteGroupUnit();
+      this.oldGroupDimension = this.groupDimension
+      this.oldGroupUnit = this.groupUnit
+      if (this.dimensionsReady) this.initializeAutocompleteGroupUnit()
     }
   },
   beforeUnmount() {
     if (this.groupUnitAutocomplete) {
-      f7.autocomplete.destroy(this.groupUnitAutocomplete);
-      this.groupUnitAutocomplete = null;
+      f7.autocomplete.destroy(this.groupUnitAutocomplete)
+      this.groupUnitAutocomplete = null
     }
-  },
-};
+  }
+}
 </script>

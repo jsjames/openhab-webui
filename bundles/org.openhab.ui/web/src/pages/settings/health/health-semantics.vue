@@ -13,11 +13,11 @@
     <f7-block class="block-narrow">
       <f7-col>
         <f7-block-footer class="padding-horizontal">
-          Item semantics need to be configured without ambiguity:<br />
-          A Point only belongs to one Equipment or Location. It can have a Property.<br />
-          An Equipment only belongs to one Equipment or Location.<br />
-          A Location only belongs to one Location.<br />
-          <br />
+          Item semantics need to be configured without ambiguity:<br>
+          A Point only belongs to one Equipment or Location. It can have a Property.<br>
+          An Equipment only belongs to one Equipment or Location.<br>
+          A Location only belongs to one Location.<br>
+          <br>
           Note that only the semantics configuration of managed items can be changed through the UI,
           not file based configurations - these must be fixed manually in the corresponding file.
         </f7-block-footer>
@@ -59,8 +59,8 @@
             :title="semanticsProblem.reason"
             :subtitle="
               'Item: ' +
-              semanticsProblem.item +
-              (semanticsProblem.semanticType ? ' (' + semanticsProblem.semanticType + ')' : '')
+                semanticsProblem.item +
+                (semanticsProblem.semanticType ? ' (' + semanticsProblem.semanticType + ')' : '')
             "
             :footer="semanticsProblem.explanation">
             <template #after-title>
@@ -87,30 +87,30 @@ export default {
     return {
       ready: false,
       loading: false,
-      semanticsProblems: [],
-    };
+      semanticsProblems: []
+    }
   },
   methods: {
     onPageAfterIn() {
-      this.load();
+      this.load()
     },
     load() {
-      this.loading = true;
+      this.loading = true
       this.$oh.api.get('/rest/items/semantics/health').then(data => {
-        this.semanticsProblems = data;
-        this.loading = false;
-        this.ready = true;
-      });
+        this.semanticsProblems = data
+        this.loading = false
+        this.ready = true
+      })
     },
     problemKey(semanticsProblem) {
-      return semanticsProblem.item + '_' + semanticsProblem.reason;
+      return semanticsProblem.item + '_' + semanticsProblem.reason
     },
     getLinkForProblem(semanticsProblem) {
-      return '/settings/items/' + semanticsProblem.item;
+      return '/settings/items/' + semanticsProblem.item
     },
     plural(count) {
-      return count === 1 ? '' : 's';
-    },
-  },
-};
+      return count === 1 ? '' : 's'
+    }
+  }
+}
 </script>

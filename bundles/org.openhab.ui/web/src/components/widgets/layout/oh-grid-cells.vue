@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hr v-if="context.editmode" style="opacity: 0.5; border-top: 1px #777 dashed" />
+    <hr v-if="context.editmode" style="opacity: 0.5; border-top: 1px #777 dashed">
     <div width="100%" v-if="context.editmode">
       <f7-menu class="configure-layout-menu padding-horizontal">
         <f7-menu-item style="margin-left: auto" icon-f7="rectangle_grid_2x2" dropdown>
@@ -121,9 +121,9 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import OhPlaceholderWidget from './oh-placeholder-widget.vue';
-import { MasonryGrid, MasonryGridItem } from "vue3-masonry-css";
+import mixin from '../widget-mixin'
+import OhPlaceholderWidget from './oh-placeholder-widget.vue'
+import { MasonryGrid, MasonryGridItem } from 'vue3-masonry-css'
 
 export default {
   mixins: [mixin],
@@ -131,6 +131,6 @@ export default {
     OhPlaceholderWidget,
     MasonryGrid,
     MasonryGridItem
-  },
-};
+  }
+}
 </script>

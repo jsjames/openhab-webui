@@ -147,7 +147,7 @@ export default function defineOHBlocks(f7) {
       this.setOutput(true, 'String')
       this.setColour(0)
       this.setTooltip(
-        "Retrieve a specific attribute from the thing. Note that groups and tags return a list and should be used with the loops-block 'for each item ... in list'. "
+        'Retrieve a specific attribute from the thing. Note that groups and tags return a list and should be used with the loops-block \'for each item ... in list\'. '
       )
       this.setTooltip(function () {
         const attributeName = block.getFieldValue('attributeName')
@@ -158,8 +158,8 @@ export default function defineOHBlocks(f7) {
           statusInfo: 'detailed status of the Thing (string)',
           location: 'location of the Thing (string)',
           enabled: 'is the thing enabled (boolean)',
-          thingTypeUID: "unique id of the Thing's type (string)",
-          bridgeUID: "unique id of the Thing's bridge (string)"
+          thingTypeUID: 'unique id of the Thing\'s type (string)',
+          bridgeUID: 'unique id of the Thing\'s bridge (string)'
         }
         return (
           TIP[attributeName] +

@@ -31,9 +31,9 @@ export const getGroupParameter = (parameter, groups = []) => {
 export const getOptions = (options, preserve = false) =>
   Array.isArray(options)
     ? options.map(value => ({
-        value,
-        label: preserve ? value : titleCase(value)
-      }))
+      value,
+      label: preserve ? value : titleCase(value)
+    }))
     : Object.keys(options).map(value => ({ value, label: options[value] }))
 
 export const getSemanticFormat = (type, format) =>

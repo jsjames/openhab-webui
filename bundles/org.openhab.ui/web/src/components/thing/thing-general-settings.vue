@@ -88,43 +88,43 @@
 </template>
 
 <script>
-import ThingPicker from '@/components/config/controls/thing-picker.vue';
-import ClipboardIcon from '@/components/util/clipboard-icon.vue';
-import ThingMixin from '@/components/thing/thing-mixin';
+import ThingPicker from '@/components/config/controls/thing-picker.vue'
+import ClipboardIcon from '@/components/util/clipboard-icon.vue'
+import ThingMixin from '@/components/thing/thing-mixin'
 
 export default {
   mixins: [ThingMixin],
   props: ['thing', 'thingType', 'createMode', 'ready', 'readOnly', 'things'],
   components: {
     ThingPicker,
-    ClipboardIcon,
+    ClipboardIcon
   },
   computed: {
     editable() {
-      return this.createMode || (this.thing && this.thing.editable);
+      return this.createMode || (this.thing && this.thing.editable)
     },
     idErrorMessage() {
-      return this.validateThingUID(this.thing.UID, this.thing.ID);
-    },
+      return this.validateThingUID(this.thing.UID, this.thing.ID)
+    }
   },
   methods: {
     computedThingUid() {
       return this.thing.bridgeUID
         ? [
-            this.thing.thingTypeUID,
-            this.thing.bridgeUID.substring(this.thing.bridgeUID.lastIndexOf(':') + 1),
-            this.thing.ID,
-          ].join(':')
-        : [this.thing.thingTypeUID, this.thing.ID].join(':');
+          this.thing.thingTypeUID,
+          this.thing.bridgeUID.substring(this.thing.bridgeUID.lastIndexOf(':') + 1),
+          this.thing.ID
+        ].join(':')
+        : [this.thing.thingTypeUID, this.thing.ID].join(':')
     },
     changeUID(event) {
-      this.thing.ID = event.target.value;
-      this.thing.UID = this.computedThingUid();
+      this.thing.ID = event.target.value
+      this.thing.UID = this.computedThingUid()
     },
     updateBridge(value) {
-      this.thing.bridgeUID = value;
-      if (this.createMode) this.thing.UID = this.computedThingUid();
-    },
-  },
-};
+      this.thing.bridgeUID = value
+      if (this.createMode) this.thing.UID = this.computedThingUid()
+    }
+  }
+}
 </script>

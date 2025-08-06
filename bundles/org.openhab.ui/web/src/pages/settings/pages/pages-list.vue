@@ -41,7 +41,9 @@
         icon-md="material:close"
         icon-color="white"
         @click="showCheckboxes = false" />
-      <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
+      <div class="title" v-if="theme.md">
+        {{ selectedItems.length }} selected
+      </div>
       <div class="right" v-if="theme.md">
         <f7-link
           v-show="selectedItems.length"
@@ -84,7 +86,9 @@
       </f7-col>
 
       <f7-col v-show="ready">
-        <f7-block-title class="searchbar-hide-on-search"> {{ pages.length }} pages </f7-block-title>
+        <f7-block-title class="searchbar-hide-on-search">
+          {{ pages.length }} pages
+        </f7-block-title>
         <div class="padding-left padding-right" v-show="!ready || pages.length > 0">
           <f7-segmented strong tag="p">
             <f7-button
@@ -201,18 +205,18 @@
 </template>
 
 <script>
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
-import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
+import { f7, theme } from 'framework7-vue'
+import { nextTick } from 'vue'
+import { useLastSearchQueryStore } from '@/js/stores/last-search-query'
 
-const lastSearchQueryStore = useLastSearchQueryStore();
+const lastSearchQueryStore = useLastSearchQueryStore()
 
 export default {
   props: {
-    f7router: Object,
+    f7router: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -228,227 +232,227 @@ export default {
           type: 'sitemap',
           label: 'Sitemap',
           componentType: 'Sitemap',
-          icon: 'f7:menu',
+          icon: 'f7:menu'
         },
         {
           type: 'layout',
           label: 'Layout',
           componentType: 'oh-layout-page',
-          icon: 'f7:rectangle_grid_2x2',
+          icon: 'f7:rectangle_grid_2x2'
         },
         {
           type: 'home',
           label: 'Home',
           componentType: 'oh-home-page',
-          icon: 'f7:house',
+          icon: 'f7:house'
         },
         {
           type: 'tabs',
           label: 'Tabbed',
           componentType: 'oh-tabs-page',
-          icon: 'f7:squares_below_rectangle',
+          icon: 'f7:squares_below_rectangle'
         },
         {
           type: 'map',
           label: 'Map',
           componentType: 'oh-map-page',
-          icon: 'f7:map',
+          icon: 'f7:map'
         },
         {
           type: 'plan',
           label: 'Floor plan',
           componentType: 'oh-plan-page',
-          icon: 'f7:square_stack_3d_up',
+          icon: 'f7:square_stack_3d_up'
         },
         {
           type: 'chart',
           label: 'Chart',
           componentType: 'oh-chart-page',
-          icon: 'f7:graph_square',
-        },
-      ],
-    };
+          icon: 'f7:graph_square'
+        }
+      ]
+    }
   },
   computed: {
     indexedPages() {
       if (this.groupBy === 'alphabetical') {
         return this.pages.reduce((prev, page, i, pages) => {
-          const label = page.config.label || page.uid;
-          const initial = label.substring(0, 1).toUpperCase();
+          const label = page.config.label || page.uid
+          const initial = label.substring(0, 1).toUpperCase()
           if (!prev[initial]) {
-            prev[initial] = [];
+            prev[initial] = []
           }
-          prev[initial].push(page);
+          prev[initial].push(page)
 
-          return prev;
-        }, {});
+          return prev
+        }, {})
       } else {
         const typeGroups = this.pages.reduce((prev, page, i, things) => {
-          const type = this.getPageType(page).label;
+          const type = this.getPageType(page).label
           if (!prev[type]) {
-            prev[type] = [];
+            prev[type] = []
           }
-          prev[type].push(page);
+          prev[type].push(page)
 
-          return prev;
-        }, {});
+          return prev
+        }, {})
         return Object.keys(typeGroups)
           .sort((a, b) => a.localeCompare(b))
           .reduce((objEntries, key) => {
-            objEntries[key] = typeGroups[key];
-            return objEntries;
-          }, {});
+            objEntries[key] = typeGroups[key]
+            return objEntries
+          }, {})
       }
     },
     searchPlaceholder() {
       return window.innerWidth >= 1280
         ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))'
-        : 'Search';
-    },
+        : 'Search'
+    }
   },
   methods: {
     onPageAfterIn() {
-      this.load();
+      this.load()
     },
     onPageBeforeOut() {
-      lastSearchQueryStore.lastPagesSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+      lastSearchQueryStore.lastPagesSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query
     },
     load() {
-      if (this.loading) return;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
 
       if (this.initSearchbar)
-        lastSearchQueryStore.lastPagesSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
-      this.initSearchbar = false;
+        lastSearchQueryStore.lastPagesSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query
+      this.initSearchbar = false
 
-      this.selectedItems = [];
-      this.showCheckboxes = false;
+      this.selectedItems = []
+      this.showCheckboxes = false
       let promises = [
         this.$oh.api.get('/rest/ui/components/system:sitemap'),
-        this.$oh.api.get('/rest/ui/components/ui:page'),
-      ];
+        this.$oh.api.get('/rest/ui/components/ui:page')
+      ]
       Promise.all(promises).then(data => {
-        const pagesAndSitemaps = data[0].concat(data[1]);
+        const pagesAndSitemaps = data[0].concat(data[1])
         this.pages = pagesAndSitemaps.sort((a, b) => {
-          return a.config.label.localeCompare(b.config.label);
-        });
-        this.initSearchbar = true;
+          return a.config.label.localeCompare(b.config.label)
+        })
+        this.initSearchbar = true
 
-        this.loading = false;
-        this.ready = true;
+        this.loading = false
+        this.ready = true
 
         nextTick(() => {
-          if (this.$refs.listIndex) this.$refs.listIndex.update();
+          if (this.$refs.listIndex) this.$refs.listIndex.update()
           if (this.$device.desktop && this.$refs.searchbar) {
-            this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
+            this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus()
           }
-          this.$refs.searchbar?.$el.f7Searchbar.search(lastSearchQueryStore.lastPagesSearchQuery || '');
-        });
-      });
+          this.$refs.searchbar?.$el.f7Searchbar.search(lastSearchQueryStore.lastPagesSearchQuery || '')
+        })
+      })
     },
     switchGroupOrder(groupBy) {
-      this.groupBy = groupBy;
-      const searchbar = this.$refs.searchbar.$el.f7Searchbar;
-      const filterQuery = searchbar.query;
+      this.groupBy = groupBy
+      const searchbar = this.$refs.searchbar.$el.f7Searchbar
+      const filterQuery = searchbar.query
       nextTick(() => {
         if (filterQuery) {
-          searchbar.clear();
-          searchbar.search(filterQuery);
+          searchbar.clear()
+          searchbar.search(filterQuery)
         }
-        if (groupBy === 'alphabetical') this.$refs.listIndex.update();
-      });
+        if (groupBy === 'alphabetical') this.$refs.listIndex.update()
+      })
     },
     toggleCheck() {
-      this.showCheckboxes = !this.showCheckboxes;
+      this.showCheckboxes = !this.showCheckboxes
     },
     isChecked(item) {
-      return this.selectedItems.indexOf(item) >= 0;
+      return this.selectedItems.indexOf(item) >= 0
     },
     click(event, item) {
       if (this.showCheckboxes) {
-        this.toggleItemCheck(event, item.uid, item);
+        this.toggleItemCheck(event, item.uid, item)
       } else {
-        this.f7router.navigate(this.getPageType(item).type + '/' + item.uid);
+        this.f7router.navigate(this.getPageType(item).type + '/' + item.uid)
       }
     },
     ctrlClick(event, item) {
-      this.toggleItemCheck(event, item.uid, item);
-      if (!this.selectedItems.length) this.showCheckboxes = false;
+      this.toggleItemCheck(event, item.uid, item)
+      if (!this.selectedItems.length) this.showCheckboxes = false
     },
     toggleItemCheck(event, itemName, item) {
-      if (!this.showCheckboxes) this.showCheckboxes = true;
+      if (!this.showCheckboxes) this.showCheckboxes = true
       itemName =
-        item.component === 'Sitemap' ? 'system:sitemap:' + itemName : 'ui:page:' + itemName;
+        item.component === 'Sitemap' ? 'system:sitemap:' + itemName : 'ui:page:' + itemName
       if (this.isChecked(itemName)) {
-        this.selectedItems.splice(this.selectedItems.indexOf(itemName), 1);
+        this.selectedItems.splice(this.selectedItems.indexOf(itemName), 1)
       } else {
-        this.selectedItems.push(itemName);
+        this.selectedItems.push(itemName)
       }
     },
     getPageType(page) {
-      return this.pageTypes.find(t => t.componentType === page.component);
+      return this.pageTypes.find(t => t.componentType === page.component)
     },
     getPageIcon(page) {
-      if (page.uid === 'overview') return 'f7:house';
-      if (page.config && page.config.icon) return page.config.icon;
-      const pageType = this.pageTypes.find(t => t.componentType === page.component);
-      return pageType ? pageType.icon : 'f7:tv';
+      if (page.uid === 'overview') return 'f7:house'
+      if (page.config && page.config.icon) return page.config.icon
+      const pageType = this.pageTypes.find(t => t.componentType === page.component)
+      return pageType ? pageType.icon : 'f7:tv'
     },
     removeSelected() {
-      const vm = this;
+      const vm = this
 
       if (this.selectedItems.indexOf('ui:page:overview') >= 0) {
-        f7.dialog.alert('The overview page cannot be deleted!');
-        return;
+        f7.dialog.alert('The overview page cannot be deleted!')
+        return
       }
 
       f7.dialog.confirm(
         `Remove ${this.selectedItems.length} selected pages?`,
         'Remove Pages',
         () => {
-          vm.doRemoveSelected();
+          vm.doRemoveSelected()
         }
-      );
+      )
     },
     doRemoveSelected() {
-      let dialog = f7.dialog.progress('Deleting Pages...');
+      let dialog = f7.dialog.progress('Deleting Pages...')
 
       const promises = this.selectedItems.map(p => {
         if (p.startsWith('system:sitemap')) {
           return this.$oh.api.delete(
             '/rest/ui/components/system:sitemap/' + p.replace('system:sitemap:', '')
-          );
+          )
         } else {
-          return this.$oh.api.delete('/rest/ui/components/ui:page/' + p.replace('ui:page:', ''));
+          return this.$oh.api.delete('/rest/ui/components/ui:page/' + p.replace('ui:page:', ''))
         }
-      });
+      })
       Promise.all(promises)
         .then(data => {
           f7.toast
             .create({
               text: 'Pages removed',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.selectedItems = [];
-          dialog.close();
-          this.load();
-          f7.emit('sidebar-refresh', null);
+            .open()
+          this.selectedItems = []
+          dialog.close()
+          this.load()
+          f7.emit('sidebar-refresh', null)
         })
         .catch(err => {
-          dialog.close();
-          this.load();
-          console.error(err);
-          f7.dialog.alert('An error occurred while deleting: ' + err);
-          f7.emit('sidebar-refresh', null);
-        });
-    },
+          dialog.close()
+          this.load()
+          console.error(err)
+          f7.dialog.alert('An error occurred while deleting: ' + err)
+          f7.emit('sidebar-refresh', null)
+        })
+    }
   },
   asyncComputed: {
     iconUrl() {
-      return icon => this.$oh.media.getIcon(icon);
-    },
-  },
-};
+      return icon => this.$oh.media.getIcon(icon)
+    }
+  }
+}
 </script>

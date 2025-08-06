@@ -30,24 +30,26 @@
       </f7-list>
     </f7-card-content>
     <f7-card-footer>
-      <f7-button color="blue" @click="addMetadata"> Add Metadata </f7-button>
+      <f7-button color="blue" @click="addMetadata">
+        Add Metadata
+      </f7-button>
     </f7-card-footer>
   </f7-card>
 </template>
 
 <script>
-import MetadataNamespaces from '@/assets/definitions/metadata/namespaces.js';
-import { f7 } from 'framework7-vue';
+import MetadataNamespaces from '@/assets/definitions/metadata/namespaces.js'
+import { f7 } from 'framework7-vue'
 
 export default {
   props: {
     item: Object,
-    f7router: Object,
+    f7router: Object
   },
   data() {
     return {
-      metadataNamespaces: MetadataNamespaces,
-    };
+      metadataNamespaces: MetadataNamespaces
+    }
   },
   beforeMount() {
     if (
@@ -55,11 +57,11 @@ export default {
         ? this.item.groupType && this.item.groupType.indexOf('Number:') < 0
         : this.item.type.indexOf('Number:') < 0
     )
-      this.metadataNamespaces = this.metadataNamespaces.filter(n => n.name !== 'unit');
+      this.metadataNamespaces = this.metadataNamespaces.filter(n => n.name !== 'unit')
   },
   computed: {
     editableNamespaces() {
-      if (!this.item.metadata) return [];
+      if (!this.item.metadata) return []
       // TODO: determine somehow if other namespaces are not editable
       // (non-managed MetadataProvider)
       // for now we'll assume they're all editable except "semantics"
@@ -69,20 +71,20 @@ export default {
           return {
             name: n,
             value: this.item.metadata[n].value,
-            editable: this.item.metadata[n].editable,
-          };
-        });
+            editable: this.item.metadata[n].editable
+          }
+        })
     },
     wellKnownNamespaces() {
       return this.editableNamespaces
         .filter(n => this.metadataNamespaces.some(wk => wk.name === n.name))
         .map(n => {
-          const wellKnown = this.metadataNamespaces.find(wk => wk.name === n.name);
+          const wellKnown = this.metadataNamespaces.find(wk => wk.name === n.name)
           return {
             ...n,
-            label: wellKnown.label,
-          };
-        });
+            label: wellKnown.label
+          }
+        })
     },
     customNamespaces() {
       return this.editableNamespaces
@@ -90,10 +92,10 @@ export default {
         .map(n => {
           return {
             ...n,
-            label: n.name,
-          };
-        });
-    },
+            label: n.name
+          }
+        })
+    }
   },
   methods: {
     editCustomMetadata() {
@@ -104,9 +106,9 @@ export default {
           if (namespace)
             f7.views.main.router.navigate(
               '/settings/items/' + this.item.name + '/metadata/' + namespace
-            );
+            )
         }
-      );
+      )
     },
     addMetadata() {
       f7.actions
@@ -121,24 +123,24 @@ export default {
                   onClick: () => {
                     this.f7router.navigate(
                       '/settings/items/' + this.item.name + '/metadata/' + n.name
-                    );
-                  },
-                };
-              }),
+                    )
+                  }
+                }
+              })
             ],
             [
               { label: true, text: 'Custom namespaces' },
               {
                 color: 'blue',
                 text: 'Enter Custom Namespace...',
-                onClick: this.editCustomMetadata,
-              },
+                onClick: this.editCustomMetadata
+              }
             ],
-            [{ color: 'red', text: 'Cancel', close: true }],
-          ],
+            [{ color: 'red', text: 'Cancel', close: true }]
+          ]
         })
-        .open();
-    },
-  },
-};
+        .open()
+    }
+  }
+}
 </script>

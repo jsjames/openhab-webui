@@ -9,7 +9,7 @@
           no-ripple
           @click="chooseItemCategory">
           <f7-icon size="35" f7="square_on_circle" class="margin" />
-          Item<br />Condition
+          Item<br>Condition
         </f7-link>
       </f7-col>
       <f7-col
@@ -20,7 +20,7 @@
           no-ripple
           @click="chooseScriptCategory">
           <f7-icon size="35" f7="doc_plaintext" class="margin" />
-          Script<br />Condition
+          Script<br>Condition
         </f7-link>
       </f7-col>
     </f7-row>
@@ -33,7 +33,7 @@
           no-ripple
           @click="chooseTimeCategory">
           <f7-icon size="35" f7="clock" class="margin" />
-          Time<br />Condition
+          Time<br>Condition
         </f7-link>
       </f7-col>
       <f7-col
@@ -44,7 +44,7 @@
           no-ripple
           @click="chooseEphemerisCategory">
           <f7-icon size="35" f7="calendar_today" class="margin" />
-          Ephemeris<br />Schedule
+          Ephemeris<br>Schedule
         </f7-link>
       </f7-col>
     </f7-row>
@@ -86,7 +86,9 @@
     </f7-list>
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'script'">
-    <f7-block-title class="padding-horizontal"> A script evaluates to true </f7-block-title>
+    <f7-block-title class="padding-horizontal">
+      A script evaluates to true
+    </f7-block-title>
     <f7-list media-list>
       <f7-list-item
         media-item
@@ -100,7 +102,7 @@
         link=""
         @click="scriptLanguagePicked('blockly')">
         <template #media>
-          <img src="@/images/blockly.svg" height="32" width="32" />
+          <img src="@/images/blockly.svg" height="32" width="32">
         </template>
       </f7-list-item>
     </f7-list>
@@ -123,10 +125,8 @@
       </f7-list-item>
     </f7-list>
     <f7-block-footer class="padding-horizontal margin-bottom">
-      <small
-        ><strong>Note:</strong> Creating a new scripted module will <em>save the rule</em> before
-        launching the script editor.</small
-      >
+      <small><strong>Note:</strong> Creating a new scripted module will <em>save the rule</em> before
+        launching the script editor.</small>
     </f7-block-footer>
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'time'">
@@ -214,17 +214,17 @@
 </style>
 
 <script>
-import ModuleWizard from './module-wizard-mixin';
-import ItemPicker from '@/components/config/controls/item-picker.vue';
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import { nextTick } from 'vue';
+import ModuleWizard from './module-wizard-mixin'
+import ItemPicker from '@/components/config/controls/item-picker.vue'
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import { nextTick } from 'vue'
 
 export default {
   mixins: [ModuleWizard],
   props: ['currentModule', 'currentModuleType', 'moduleTypes'],
   components: {
     ItemPicker,
-    ConfigSheet,
+    ConfigSheet
   },
   emits: ['show-advanced', 'type-selece', 'start-script'],
   data() {
@@ -241,17 +241,17 @@ export default {
         { value: '>', label: 'is greater than' },
         { value: '>=', label: 'is greater or equal to' },
         { value: '<', label: 'is less than' },
-        { value: '<=', label: 'is less or equal to' },
-      ],
-    };
+        { value: '<=', label: 'is less or equal to' }
+      ]
+    }
   },
   methods: {
     chooseItemCategory() {
-      this.openModelPicker();
+      this.openModelPicker()
     },
     chooseScriptCategory() {
-      this.category = 'script';
-      let moduleType = this.moduleTypes.find(t => t.uid === 'script.ScriptCondition');
+      this.category = 'script'
+      let moduleType = this.moduleTypes.find(t => t.uid === 'script.ScriptCondition')
       if (moduleType) {
         this.languages = moduleType.configDescriptions
           .find(c => c.name === 'type')
@@ -259,80 +259,80 @@ export default {
             return {
               contentType: l.value,
               name: l.label.split(' (')[0],
-              version: l.label.split(' (')[1].replace(')', ''),
-            };
-          });
+              version: l.label.split(' (')[1].replace(')', '')
+            }
+          })
       }
     },
     chooseTimeCategory() {
-      this.category = 'time';
-      this.updateTimeEventType('dayOfWeek');
+      this.category = 'time'
+      this.updateTimeEventType('dayOfWeek')
     },
     chooseEphemerisCategory() {
-      this.category = 'ephemeris';
-      this.updateEphemerisEventType('weekdays');
+      this.category = 'ephemeris'
+      this.updateEphemerisEventType('weekdays')
     },
     updateItemEventType(type) {
-      this.itemEventType = type;
+      this.itemEventType = type
       switch (type) {
         case 'command':
-          this.$emit('type-selece', 'core.ItemCommandTrigger');
-          break;
+          this.$emit('type-selece', 'core.ItemCommandTrigger')
+          break
         case 'updated':
-          this.$emit('type-selece', 'core.ItemStateUpdateTrigger');
-          break;
+          this.$emit('type-selece', 'core.ItemStateUpdateTrigger')
+          break
         case 'changed':
-          this.$emit('type-selece', 'core.ItemStateChangeTrigger');
-          break;
+          this.$emit('type-selece', 'core.ItemStateChangeTrigger')
+          break
       }
     },
     updateTimeEventType(type) {
-      this.timeEventType = type;
+      this.timeEventType = type
       switch (type) {
         case 'dayOfWeek':
-          this.$emit('type-selece', 'timer.DayOfWeekCondition');
-          break;
+          this.$emit('type-selece', 'timer.DayOfWeekCondition')
+          break
         case 'timeOfDay':
-          this.$emit('type-selece', 'core.TimeOfDayCondition');
-          break;
+          this.$emit('type-selece', 'core.TimeOfDayCondition')
+          break
         case 'interval':
-          this.$emit('type-selece', 'timer.IntervalCondition');
-          break;
+          this.$emit('type-selece', 'timer.IntervalCondition')
+          break
       }
     },
     updateEphemerisEventType(type) {
-      this.ephemerisEventType = type;
+      this.ephemerisEventType = type
       switch (type) {
         case 'weekdays':
-          this.$emit('type-selece', 'ephemeris.WeekdayCondition');
-          break;
+          this.$emit('type-selece', 'ephemeris.WeekdayCondition')
+          break
         case 'weekends':
-          this.$emit('type-selece', 'ephemeris.WeekendCondition');
-          break;
+          this.$emit('type-selece', 'ephemeris.WeekendCondition')
+          break
         case 'holidays':
-          this.$emit('type-selece', 'ephemeris.HolidayCondition');
-          break;
+          this.$emit('type-selece', 'ephemeris.HolidayCondition')
+          break
         case 'notHolidays':
-          this.$emit('type-selece', 'ephemeris.NotHolidayCondition');
-          break;
+          this.$emit('type-selece', 'ephemeris.NotHolidayCondition')
+          break
         case 'dayset':
-          this.$emit('type-selece', 'ephemeris.DaysetCondition');
-          break;
+          this.$emit('type-selece', 'ephemeris.DaysetCondition')
+          break
       }
     },
     scriptLanguagePicked(value) {
-      this.$emit('type-selece', 'script.ScriptCondition');
+      this.$emit('type-selece', 'script.ScriptCondition')
       nextTick(() => {
-        this.$emit('start-script', value);
-      });
+        this.$emit('start-script', value)
+      })
     },
     itemPicked(value) {
-      this.category = 'item';
-      this.currentItem = value;
-      this.currentModule.configuration.itemName = value.name;
-      this.currentModule.configuration.operator = '=';
-      this.$emit('type-selece', 'core.ItemStateCondition');
-    },
-  },
-};
+      this.category = 'item'
+      this.currentItem = value
+      this.currentModule.configuration.itemName = value.name
+      this.currentModule.configuration.operator = '='
+      this.$emit('type-selece', 'core.ItemStateCondition')
+    }
+  }
+}
 </script>

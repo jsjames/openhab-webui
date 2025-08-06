@@ -8,18 +8,18 @@
 </template>
 
 <script>
-import ItemPicker from './item-picker.vue';
+import ItemPicker from './item-picker.vue'
 
 export default {
   props: ['configDescription', 'value'],
   components: {
-    ItemPicker,
+    ItemPicker
   },
   emits: ['input'],
   methods: {
     updateValue(value) {
-      this.$emit('input', value);
-    },
-  },
-};
+      this.$emit('input', value)
+    }
+  }
+}
 </script>

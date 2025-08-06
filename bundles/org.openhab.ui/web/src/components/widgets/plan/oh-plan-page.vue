@@ -100,22 +100,22 @@ dark-tooltip()
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import { CRS, Icon } from 'leaflet';
-import { LMap, LImageOverlay, LFeatureGroup, LControl } from '@vue-leaflet/vue-leaflet';
-import 'leaflet/dist/leaflet.css';
-import { utils } from 'framework7';
-import { nextTick } from 'vue';
+import mixin from '../widget-mixin'
+import { CRS, Icon } from 'leaflet'
+import { LMap, LImageOverlay, LFeatureGroup, LControl } from '@vue-leaflet/vue-leaflet'
+import 'leaflet/dist/leaflet.css'
+import { utils } from 'framework7'
+import { nextTick } from 'vue'
 
-import OhPlanMarker from './oh-plan-marker.vue';
-import { OhPlanPageDefinition } from '@/assets/definitions/widgets/plan';
+import OhPlanMarker from './oh-plan-marker.vue'
+import { OhPlanPageDefinition } from '@/assets/definitions/widgets/plan'
 
-delete Icon.Default.prototype._getIconUrl;
+delete Icon.Default.prototype._getIconUrl
 Icon.Default.mergeOptions({
   iconRetinaUrl: import('leaflet/dist/images/marker-icon-2x.png'),
   iconUrl: import('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: import('leaflet/dist/images/marker-shadow.png'),
-});
+  shadowUrl: import('leaflet/dist/images/marker-shadow.png')
+})
 
 export default {
   mixins: [mixin],
@@ -124,7 +124,7 @@ export default {
     LImageOverlay,
     LControl,
     LFeatureGroup,
-    OhPlanMarker,
+    OhPlanMarker
   },
   widget: OhPlanPageDefinition,
   data() {
@@ -137,88 +137,88 @@ export default {
       crs: CRS.Simple,
       showMap: false,
       mapKey: utils.id(),
-      markers: [],
-    };
+      markers: []
+    }
   },
   computed: {
     bounds() {
-      const lat = this.config.imageHeight || 1000;
-      const lng = this.config.imageWidth || 1000;
+      const lat = this.config.imageHeight || 1000
+      const lng = this.config.imageWidth || 1000
       return [
         [0, 0],
-        [lat, lng],
-      ];
+        [lat, lng]
+      ]
     },
     mapOptions() {
       return Object.assign(
         {
           zoomSnap: 0.1,
-          tap: false,
+          tap: false
         },
         this.config.noZoomOrDrag
           ? {
-              dragging: false,
-              touchZoom: false,
-              doubleClickZoom: false,
-              scrollWheelZoom: false,
-              zoomControl: false,
-            }
+            dragging: false,
+            touchZoom: false,
+            doubleClickZoom: false,
+            scrollWheelZoom: false,
+            zoomControl: false
+          }
           : {}
-      );
-    },
+      )
+    }
   },
   asyncComputed: {
     backgroundImageUrl() {
-      return this.$oh.media.getImage(this.config.imageUrl);
-    },
+      return this.$oh.media.getImage(this.config.imageUrl)
+    }
   },
   watch: {
     'config.noZoomOrDrag': function (val) {
-      this.refreshMap();
+      this.refreshMap()
     },
     backgroundImageUrl(val) {
-      this.showMap = true;
-      this.refreshMap();
-    },
+      this.showMap = true
+      this.refreshMap()
+    }
   },
   methods: {
     zoomUpdate(zoom) {
-      this.currentZoom = zoom;
-      const allMarkers = this.context.component.slots.default;
+      this.currentZoom = zoom
+      const allMarkers = this.context.component.slots.default
       const visibleMarkers = allMarkers.filter(e => {
-        const zoomVisibilityMin = parseFloat(e.config.zoomVisibilityMin);
-        const zoomVisibilityMax = parseFloat(e.config.zoomVisibilityMax);
-        const isVisibleMin = isNaN(zoomVisibilityMin) || zoomVisibilityMin < this.currentZoom;
-        const isVisibleMax = isNaN(zoomVisibilityMax) || zoomVisibilityMax > this.currentZoom;
-        return this.context.editmode != null || (isVisibleMin && isVisibleMax);
-      });
+        const zoomVisibilityMin = parseFloat(e.config.zoomVisibilityMin)
+        const zoomVisibilityMax = parseFloat(e.config.zoomVisibilityMax)
+        const isVisibleMin = isNaN(zoomVisibilityMin) || zoomVisibilityMin < this.currentZoom
+        const isVisibleMax = isNaN(zoomVisibilityMax) || zoomVisibilityMax > this.currentZoom
+        return this.context.editmode != null || (isVisibleMin && isVisibleMax)
+      })
       // only update our markers if the list has changed to avoid unessesary rendering
       if (
         visibleMarkers.length !== this.markers.length ||
         visibleMarkers.every(e => this.markers.indexOf(e) < 0)
       ) {
-        this.markers = visibleMarkers;
+        this.markers = visibleMarkers
       }
     },
     centerUpdate(center) {
-      this.currentCenter = center;
+      this.currentCenter = center
     },
     markerComponent(marker) {
-      return 'oh-plan-marker';
+      return 'oh-plan-marker'
     },
     onMarkerUpdate() {},
     isReady() {
-      this.fitMapBounds();
+      this.fitMapBounds()
     },
     fitMapBounds() {
-      if (this.$refs.map) this.$refs.map.leafletObject?.fitBounds(this.bounds);
+      if (this.$refs.map) this.$refs.map.leafletObject?.fitBounds(this.bounds)
     },
     refreshMap() {
-      this.mapKey = utils.id();
+      this.mapKey = utils.id()
       nextTick(() => {
-        this.fitMapBounds();
-      });
-    },
-  },
-};
+        this.fitMapBounds()
+      })
+    }
+  }
+}
 </script>

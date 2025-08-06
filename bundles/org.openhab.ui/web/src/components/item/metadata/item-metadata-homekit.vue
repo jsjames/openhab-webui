@@ -54,7 +54,9 @@
     <f7-block
       class="padding-top no-padding no-margin"
       v-if="itemType === 'Group' && classes.length">
-      <f7-block-title class="padding-left"> Group HomeKit Characteristics Mapping </f7-block-title>
+      <f7-block-title class="padding-left">
+        Group HomeKit Characteristics Mapping
+      </f7-block-title>
       <f7-block v-for="cl in classesAsArray" :key="cl">
         <f7-block-title class="padding-left">
           {{ cl }}
@@ -85,7 +87,9 @@
         </f7-list>
       </f7-block>
       <f7-block-footer v-if="editable">
-        <f7-button color="blue" @click="updatedLinkedItem"> Update group members </f7-button>
+        <f7-button color="blue" @click="updatedLinkedItem">
+          Update group members
+        </f7-button>
       </f7-block-footer>
     </f7-block>
     <p class="padding">
@@ -104,20 +108,20 @@
 import {
   accessoriesAndCharacteristics,
   homekitParameters,
-  accessories,
-} from '@/assets/definitions/metadata/homekit';
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
-import { utils } from 'framework7';
+  accessories
+} from '@/assets/definitions/metadata/homekit'
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
+import { utils } from 'framework7'
 
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { mapStores } from 'pinia';
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
 
 export default {
   props: ['item', 'itemName', 'metadata'],
   mixins: [ItemMetadataMixin],
   components: {
-    ConfigSheet,
+    ConfigSheet
   },
   data() {
     return {
@@ -126,48 +130,48 @@ export default {
       multiple: !!this.metadata.value && this.metadata.value.indexOf(',') > 0,
       classSelectKey: utils.id(),
       itemType: this.item.groupType || this.item.type,
-      dirtyItem: new Set(),
-    };
+      dirtyItem: new Set()
+    }
   },
   computed: {
     classesAsArray() {
-      return this.metadata.value ? this.metadata.value.split(',') : [];
+      return this.metadata.value ? this.metadata.value.split(',') : []
     },
     classes() {
-      if (!this.multiple) return this.metadata.value;
-      return this.metadata.value ? this.metadata.value.split(',') : [];
+      if (!this.multiple) return this.metadata.value
+      return this.metadata.value ? this.metadata.value.split(',') : []
     },
     parametersGroups() {
-      if (!this.classes || !this.multiple) return [];
-      let parametersGroups = [];
+      if (!this.classes || !this.multiple) return []
+      let parametersGroups = []
       this.classesAsArray.forEach(aType => {
-        parametersGroups.push({ name: aType, label: aType });
-      });
-      return parametersGroups;
+        parametersGroups.push({ name: aType, label: aType })
+      })
+      return parametersGroups
     },
     parameters() {
-      if (!this.classes) return [];
-      if (!this.multiple) return homekitParameters[this.classes];
+      if (!this.classes) return []
+      if (!this.multiple) return homekitParameters[this.classes]
       if (this.multiple && this.itemType === 'Group' && this.classesAsArray.length > 1) {
-        let options = [];
-        let primaryOptions = [];
+        let options = []
+        let primaryOptions = []
         this.classesAsArray.forEach(aType => {
-          primaryOptions.push({ value: aType, label: aType });
+          primaryOptions.push({ value: aType, label: aType })
           homekitParameters[aType].forEach(opt => {
-            opt.groupName = aType;
-            options.push(opt);
-          });
-        });
+            opt.groupName = aType
+            options.push(opt)
+          })
+        })
         options.push({
           name: 'primary',
           label: 'Primary Accessory Type',
           type: 'TEXT',
           limitToOptions: true,
-          options: primaryOptions,
-        });
-        return options;
+          options: primaryOptions
+        })
+        return options
       }
-      return [];
+      return []
     },
     ...mapStores(useRuntimeStore)
   },
@@ -175,47 +179,47 @@ export default {
   methods: {
     isLinked(accessoryClass, characteristic, item) {
       if (item.metadata && item.metadata.homekit) {
-        return item.metadata.homekit.value.indexOf(characteristic) >= 0;
+        return item.metadata.homekit.value.indexOf(characteristic) >= 0
       }
-      return false;
+      return false
     },
     isSelected(cl) {
-      return this.multiple ? this.classes.indexOf(cl) >= 0 : this.classes === cl;
+      return this.multiple ? this.classes.indexOf(cl) >= 0 : this.classes === cl
     },
     toggleMultiple() {
-      this.multiple = !this.multiple;
-      this.metadata.value = '';
-      this.classSelectKey = utils.id();
+      this.multiple = !this.multiple
+      this.metadata.value = ''
+      this.classSelectKey = utils.id()
     },
     updateClasses() {
-      const value = this.$refs.classes.f7SmartSelect.getValue();
-      this.metadata.value = Array.isArray(value) ? value.join(',') : value;
-      this.metadata.config = {};
+      const value = this.$refs.classes.f7SmartSelect.getValue()
+      this.metadata.value = Array.isArray(value) ? value.join(',') : value
+      this.metadata.config = {}
     },
     updateLinkedItem(accessoryType, accessoryCharacteristic, itemName) {
-      const typeAndCharacteristic = accessoryType + '.' + accessoryCharacteristic;
+      const typeAndCharacteristic = accessoryType + '.' + accessoryCharacteristic
       if (itemName) {
-        const groupMbr = this.item.members.find(mbr => mbr.name === itemName);
+        const groupMbr = this.item.members.find(mbr => mbr.name === itemName)
         if (groupMbr) {
           if (groupMbr.metadata.homekit.value) {
             groupMbr.metadata.homekit.value =
-              groupMbr.metadata.homekit.value + ',' + typeAndCharacteristic;
+              groupMbr.metadata.homekit.value + ',' + typeAndCharacteristic
           } else {
-            groupMbr.metadata.homekit.value = typeAndCharacteristic;
+            groupMbr.metadata.homekit.value = typeAndCharacteristic
           }
-          this.dirtyItem.add(groupMbr);
+          this.dirtyItem.add(groupMbr)
         }
       } else {
         const groupMbr = this.item.members.find(
           mbr => mbr.metadata.homekit.value.indexOf(typeAndCharacteristic) > 0
-        );
+        )
         if (groupMbr) {
-          let itemClasses = groupMbr.metadata.homekit.value.split(',');
-          itemClasses = itemClasses.filter(tag => tag !== typeAndCharacteristic);
+          let itemClasses = groupMbr.metadata.homekit.value.split(',')
+          itemClasses = itemClasses.filter(tag => tag !== typeAndCharacteristic)
           groupMbr.metadata.homekit.value = Array.isArray(itemClasses)
             ? itemClasses.join(',')
-            : itemClasses;
-          this.dirtyItem.add(groupMbr);
+            : itemClasses
+          this.dirtyItem.add(groupMbr)
         }
       }
     },
@@ -228,13 +232,13 @@ export default {
               .create({
                 text: 'Metadata of group items updated. Please visit the items to review additional HomeKit configuration parameters.',
                 destroyOnClose: true,
-                closeTimeout: 3000,
+                closeTimeout: 3000
               })
-              .open();
+              .open()
           })
-      );
-      this.dirtyItem.clear();
-    },
-  },
-};
+      )
+      this.dirtyItem.clear()
+    }
+  }
+}
 </script>

@@ -36,17 +36,17 @@ export const BlockLibrariesComponentDefinitions = {
       pt(
         'previousStatement',
         'Previous Statement Type',
-        "The type of the previous statement. If not set (even to an empty string), the block will not have a top connector. Contrary to the what the docs and the Developer Tools do, please DON'T use null in this property"
+        'The type of the previous statement. If not set (even to an empty string), the block will not have a top connector. Contrary to the what the docs and the Developer Tools do, please DON\'T use null in this property'
       ),
       pt(
         'nextStatement',
         'Next Statement Type',
-        "The type of the next statement. If not set (even to an empty string), the block will not have a bottom connector. Contrary to the what the docs and the Developer Tools do, please DON'T use null in this property"
+        'The type of the next statement. If not set (even to an empty string), the block will not have a bottom connector. Contrary to the what the docs and the Developer Tools do, please DON\'T use null in this property'
       ),
       pt(
         'output',
         'Output Type',
-        "The type of the block output. If not set (even to an empty string), the block will not have a left connector. Contrary to the what the docs and the Developer Tools do, please DON'T use null in this property"
+        'The type of the block output. If not set (even to an empty string), the block will not have a left connector. Contrary to the what the docs and the Developer Tools do, please DON\'T use null in this property'
       ),
       pt(
         'message0',

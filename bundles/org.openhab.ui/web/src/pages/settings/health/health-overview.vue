@@ -14,7 +14,7 @@
       <f7-col>
         <f7-block-footer class="padding-horizontal">
           This page provides information about potential issues with your openHAB setup.
-          <br />
+          <br>
           It is recommended to fix these issues to ensure a stable and reliable system.
         </f7-block-footer>
       </f7-col>
@@ -54,51 +54,51 @@
 </template>
 
 <script>
-import { f7 } from 'framework7-vue';
-import { useRuntimeStore } from '@/js/stores/runtime';
+import { f7 } from 'framework7-vue'
+import { useRuntimeStore } from '@/js/stores/runtime'
 
 export default {
   data() {
     return {
       objectsSubtitles: {
         orphanLinks: 'Items pointing to non-existent thing channels or vica versa',
-        semanticsProblems: 'Issues with semantic model configuration',
+        semanticsProblems: 'Issues with semantic model configuration'
       },
       orphanLinksCount: 0,
       semanticsProblemCount: 0,
 
       expandedTypes: {
-        systemSettings: f7.width >= 1450,
-      },
-    };
+        systemSettings: f7.width >= 1450
+      }
+    }
   },
   computed: {
     apiEndpoints() {
-      return useRuntimeStore().apiEndpoints;
-    },
+      return useRuntimeStore().apiEndpoints
+    }
   },
   watch: {
     apiEndpoints() {
-      this.loadCounters();
-    },
+      this.loadCounters()
+    }
   },
   methods: {
     loadCounters() {
-      if (!this.apiEndpoints) return;
+      if (!this.apiEndpoints) return
       if (useRuntimeStore().apiEndpoint('links')) {
         this.$oh.api.get('/rest/links/orphans').then(data => {
-          this.orphanLinksCount = data.length || 0;
-        });
+          this.orphanLinksCount = data.length || 0
+        })
       }
       if (useRuntimeStore().apiEndpoint('items')) {
         this.$oh.api.get('/rest/items/semantics/health').then(data => {
-          this.semanticsProblemCount = data.length || 0;
-        });
+          this.semanticsProblemCount = data.length || 0
+        })
       }
     },
     onPageAfterIn() {
-      this.loadCounters();
-    },
-  },
-};
+      this.loadCounters()
+    }
+  }
+}
 </script>

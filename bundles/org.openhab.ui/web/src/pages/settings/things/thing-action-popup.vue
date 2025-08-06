@@ -13,7 +13,9 @@
           {{ action.label }}
         </f7-nav-title>
         <f7-nav-right>
-          <f7-link @click="close"> Close </f7-link>
+          <f7-link @click="close">
+            Close
+          </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <f7-block class="no-margin no-padding">
@@ -22,7 +24,9 @@
         </f7-block-footer>
         <!-- Action Inputs -->
         <f7-col>
-          <f7-block-title class="parameter-group-title"> Action Input </f7-block-title>
+          <f7-block-title class="parameter-group-title">
+            Action Input
+          </f7-block-title>
           <config-sheet
             v-if="inputConfigDescriptions.length > 0"
             ref="configSheet"
@@ -30,7 +34,9 @@
             :parameters="inputConfigDescriptions"
             :configuration="actionInput"
             :read-only="executing" />
-          <div class="margin" v-else>There is no input to be configured for this action.</div>
+          <div class="margin" v-else>
+            There is no input to be configured for this action.
+          </div>
         </f7-col>
         <!-- Executing Spinner -->
         <f7-col v-if="executing" class="text-align-center padding-top margin-top">
@@ -47,7 +53,9 @@
         </f7-col>
         <!-- Action Outputs -->
         <f7-col v-if="!executing && actionOutput">
-          <f7-block-title class="parameter-group-title"> Action Output </f7-block-title>
+          <f7-block-title class="parameter-group-title">
+            Action Output
+          </f7-block-title>
           <div v-if="Object.keys(actionOutput).length === 0" class="margin">
             There is either no output for this action or something went wrong - please check the
             logs.
@@ -112,56 +120,56 @@
 </template>
 
 <script>
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import { f7, theme } from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import { f7, theme } from 'framework7-vue'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   components: {
     ConfigSheet,
     'vue-qrcode': defineAsyncComponent(
       () => import(/* webpackChunkName: "vue-qrcode" */ 'vue-qrcode')
-    ),
+    )
   },
   props: ['thingUID', 'action'],
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
       executing: false,
       actionInput: {},
-      actionOutput: null,
-    };
+      actionOutput: null
+    }
   },
   computed: {
     inputConfigDescriptions() {
       return this.action.inputConfigDescriptions.map(c => {
-        if (!c.label) c.label = c.name;
-        return c;
-      });
-    },
+        if (!c.label) c.label = c.name
+        return c
+      })
+    }
   },
   methods: {
     execute() {
       if (this.$refs.configSheet?.isValid() === false) {
-        f7.dialog.alert('Please review the input and correct validation errors');
-        return;
+        f7.dialog.alert('Please review the input and correct validation errors')
+        return
       }
-      this.executing = true;
+      this.executing = true
       this.$oh.api
         .post(
           `/rest/actions/${this.thingUID}/${encodeURIComponent(this.action.actionUid)}`,
           this.actionInput
         )
         .then(data => {
-          this.actionOutput = data;
-          this.executing = false;
-        });
+          this.actionOutput = data
+          this.executing = false
+        })
     },
     close() {
-      this.$refs.modulePopup.close();
-    },
-  },
-};
+      this.$refs.modulePopup.close()
+    }
+  }
+}
 </script>

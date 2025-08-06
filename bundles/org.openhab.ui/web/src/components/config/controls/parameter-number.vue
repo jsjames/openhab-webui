@@ -26,33 +26,33 @@
 </template>
 
 <script>
-import { theme } from 'framework7-vue';
+import { theme } from 'framework7-vue'
 
 export default {
   props: ['configDescription', 'value'],
   emits: ['input'],
   setup() {
-    return { theme };
+    return { theme }
   },
   computed: {
     actualValue() {
       return this.configDescription.type === 'DECIMAL'
         ? parseFloat(this.value)
-        : parseInt(this.value);
+        : parseInt(this.value)
     },
     step() {
-      if (this.configDescription.stepsize === 0) return 'any';
-      return this.configDescription.stepsize;
-    },
+      if (this.configDescription.stepsize === 0) return 'any'
+      return this.configDescription.stepsize
+    }
   },
   methods: {
     updateValue(event) {
       const value =
         this.configDescription.type === 'DECIMAL'
           ? parseFloat(event.target.value)
-          : parseInt(event.target.value);
-      this.$emit('input', value);
-    },
-  },
-};
+          : parseInt(event.target.value)
+      this.$emit('input', value)
+    }
+  }
+}
 </script>

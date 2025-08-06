@@ -52,9 +52,9 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
+import mixin from '../widget-mixin'
 
 export default {
-  mixins: [mixin],
-};
+  mixins: [mixin]
+}
 </script>

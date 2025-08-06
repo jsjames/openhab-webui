@@ -44,9 +44,9 @@
         <f7-col>
           <f7-block-title>{{ $t('profile.sessions') }}</f7-block-title>
           <f7-block-footer
-            class="padding-horizontal"
-            >{{ $t('profile.sessions.header') }}</f7-block-footer
-          >
+            class="padding-horizontal">
+            {{ $t('profile.sessions.header') }}
+          </f7-block-footer>
           <f7-card>
             <f7-list media-list swipeout>
               <f7-list-item
@@ -57,11 +57,11 @@
                 :title="session.clientId"
                 :subtitle="
                   $t('profile.sessions.created') +
-                  new Date(session.createdTime).toLocaleString(runtimeStore.locale | 'default')
+                    new Date(session.createdTime).toLocaleString(runtimeStore.locale | 'default')
                 "
                 :text="
                   $t('profile.sessions.lastRefreshed') +
-                  new Date(session.lastRefreshTime).toLocaleString(runtimeStore.locale | 'default')
+                    new Date(session.lastRefreshTime).toLocaleString(runtimeStore.locale | 'default')
                 ">
                 <template #media>
                   <f7-link
@@ -98,9 +98,9 @@
         <f7-col>
           <f7-block-title>{{ $t('profile.apiTokens') }}</f7-block-title>
           <f7-block-footer
-            class="padding-horizontal"
-            >{{ $t('profile.apiTokens.header') }}</f7-block-footer
-          >
+            class="padding-horizontal">
+            {{ $t('profile.apiTokens.header') }}
+          </f7-block-footer>
           <f7-card>
             <f7-list media-list swipeout>
               <f7-list-item
@@ -111,7 +111,7 @@
                 :title="apiToken.name"
                 :subtitle="
                   $t('profile.apiTokens.created') +
-                  new Date(apiToken.createdTime).toLocaleString(runtimeStore.locale | 'default')
+                    new Date(apiToken.createdTime).toLocaleString(runtimeStore.locale | 'default')
                 "
                 :text="$t('profile.apiTokens.validForScope') + (apiToken.scope || 'N/A')">
                 <f7-link
@@ -181,18 +181,18 @@
 </style>
 
 <script>
-import auth from '@/components/auth-mixin.js';
-import { loadLocaleMessages } from '@/js/i18n';
-import { useUserStore } from '@/js/stores/user';
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { f7, theme } from 'framework7-vue';
+import auth from '@/components/auth-mixin.js'
+import { loadLocaleMessages } from '@/js/i18n'
+import { useUserStore } from '@/js/stores/user'
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { f7, theme } from 'framework7-vue'
 
 import { mapStores } from 'pinia'
 
 export default {
   mixins: [auth],
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -201,12 +201,12 @@ export default {
       apiTokens: [],
 
       expandedTypes: {
-        sessions: false,
-      },
-    };
+        sessions: false
+      }
+    }
   },
   i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/profile/*.json')),
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/profile/*.json'))
   },
   computed: {
     filteredSessions() {
@@ -214,7 +214,7 @@ export default {
         ? this.sessions
         : this.sessions
           ? this.sessions.slice(this.sessions.length - 10, this.sessions.length)
-          : [];
+          : []
     },
     ...mapStores(useRuntimeStore)
   },
@@ -222,33 +222,33 @@ export default {
     onPageBeforeIn() {
       Promise.all([
         this.$oh.api.get('/rest/auth/sessions'),
-        this.$oh.api.get('/rest/auth/apitokens'),
+        this.$oh.api.get('/rest/auth/apitokens')
       ]).then(data => {
-        this.sessions = data[0];
-        this.apiTokens = data[1];
-      });
+        this.sessions = data[0]
+        this.apiTokens = data[1]
+      })
     },
     onPageAfterIn() {},
     showSwipeout(ev) {
-      let swipeoutElement = ev.target;
-      ev.cancelBubble = true;
+      let swipeoutElement = ev.target
+      ev.cancelBubble = true
       while (!swipeoutElement.classList.contains('swipeout')) {
-        swipeoutElement = swipeoutElement.parentElement;
+        swipeoutElement = swipeoutElement.parentElement
       }
 
       if (swipeoutElement) {
-        f7.swipeout.open(swipeoutElement);
+        f7.swipeout.open(swipeoutElement)
       }
     },
     deleteSession(ev, session) {
-      let swipeoutElement = ev.target;
-      ev.cancelBubble = true;
+      let swipeoutElement = ev.target
+      ev.cancelBubble = true
       while (!swipeoutElement.classList.contains('swipeout')) {
-        swipeoutElement = swipeoutElement.parentElement;
+        swipeoutElement = swipeoutElement.parentElement
       }
       const payload = f7.utils.serializeObject({
-        id: session.sessionId,
-      });
+        id: session.sessionId
+      })
       this.$oh.api
         .postPlain(
           '/rest/auth/logout',
@@ -257,57 +257,57 @@ export default {
           'application/x-www-form-urlencoded'
         )
         .then(data => {
-          f7.swipeout.delete(swipeoutElement, () => {});
+          f7.swipeout.delete(swipeoutElement, () => {})
           f7.toast
             .create({
               text: this.$t('profile.sessions.delete.success'),
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
+            .open()
         })
         .catch(err => {
-          f7.dialog.alert(this.$t('profile.sessions.delete.error') + err);
-        });
+          f7.dialog.alert(this.$t('profile.sessions.delete.error') + err)
+        })
     },
     deleteApiToken(ev, apiToken) {
-      let swipeoutElement = ev.target;
-      ev.cancelBubble = true;
+      let swipeoutElement = ev.target
+      ev.cancelBubble = true
       while (!swipeoutElement.classList.contains('swipeout')) {
-        swipeoutElement = swipeoutElement.parentElement;
+        swipeoutElement = swipeoutElement.parentElement
       }
       this.$oh.api
         .delete('/rest/auth/apitokens/' + apiToken.name)
         .then(data => {
-          f7.swipeout.delete(swipeoutElement, () => {});
+          f7.swipeout.delete(swipeoutElement, () => {})
           f7.toast
             .create({
               text: this.$t('profile.apiTokens.delete.success'),
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
+            .open()
         })
         .catch(err => {
-          f7.dialog.alert(this.$t('profile.apiTokens.delete.error') + err);
-        });
+          f7.dialog.alert(this.$t('profile.apiTokens.delete.error') + err)
+        })
     },
     logout() {
-      f7.preloader.show();
+      f7.preloader.show()
       this.cleanSession()
         .then(() => {
-          this.loggedIn = false;
+          this.loggedIn = false
           f7.views.main.router.navigate('/', {
             animate: false,
-            clearPreviousHistory: true,
-          });
-          window.location = window.location.origin;
+            clearPreviousHistory: true
+          })
+          window.location = window.location.origin
         })
         .catch(err => {
-          f7.preloader.hide();
-          f7.dialog.alert(this.$t('profile.sessions.signOut.error') + err);
-        });
-    },
-  },
-};
+          f7.preloader.hide()
+          f7.dialog.alert(this.$t('profile.sessions.signOut.error') + err)
+        })
+    }
+  }
+}
 </script>

@@ -73,7 +73,9 @@
         icon-md="material:close"
         icon-color="white"
         @click="showCheckboxes = false" />
-      <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
+      <div class="title" v-if="theme.md">
+        {{ selectedItems.length }} selected
+      </div>
       <div class="right" v-if="theme.md">
         <f7-link
           v-if="!showScenes"
@@ -295,18 +297,17 @@
 </style>
 
 <script>
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
-import { defineAsyncComponent } from 'vue';
-import debounce from 'debounce';
-import RuleStatus from '@/components/rule/rule-status-mixin';
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
+import debounce from 'debounce'
+import RuleStatus from '@/components/rule/rule-status-mixin'
 
-import { Dom7 } from 'framework7';
+import { Dom7 } from 'framework7'
 
-import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
+import { useLastSearchQueryStore } from '@/js/stores/last-search-query'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
 import { useRuntimeStore } from '@/js/stores/runtime'
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
 import { mapStores } from 'pinia'
 
@@ -315,13 +316,13 @@ export default {
   props: {
     showScripts: Boolean,
     showScenes: Boolean,
-    f7router: Object,
+    f7router: Object
   },
   components: {
-    'empty-state-placeholder': EmptyStatePlaceholder,
+    'empty-state-placeholder': EmptyStatePlaceholder
   },
   setup() {
-    return { f7, theme };
+    return { f7, theme }
   },
   data() {
     return {
@@ -340,24 +341,24 @@ export default {
       eventSource: null,
       templates: null,
       Dom7
-    };
+    }
   },
   computed: {
     type() {
-      return this.showScripts ? 'Scripts' : this.showScenes ? 'Scenes' : 'Rules';
+      return this.showScripts ? 'Scripts' : this.showScenes ? 'Scenes' : 'Rules'
     },
     filteredByTags() {
-      if (this.selectedTags.length === 0) return this.rules;
+      if (this.selectedTags.length === 0) return this.rules
 
       return this.rules.filter(r => {
         for (const t of this.selectedTags) {
-          if (r.tags.includes(t)) return true;
+          if (r.tags.includes(t)) return true
         }
-        return false;
-      });
+        return false
+      })
     },
     filteredRules() {
-      if (!this.searchQuery) return this.filteredByTags;
+      if (!this.searchQuery) return this.filteredByTags
 
       return this.filteredByTags.filter(rule => {
         const hayStack = [
@@ -365,69 +366,69 @@ export default {
           rule.uid,
           rule.description,
           this.ruleStatusBadgeText(this.ruleStatuses[rule.uid]),
-          ...this.displayedTags(rule),
+          ...this.displayedTags(rule)
         ]
           .join(' ')
-          .toLowerCase();
-        return hayStack.includes(this.searchQuery);
-      });
+          .toLowerCase()
+        return hayStack.includes(this.searchQuery)
+      })
     },
     filteredUids() {
-      return new Set(this.filteredRules.map(rule => rule.uid));
+      return new Set(this.filteredRules.map(rule => rule.uid))
     },
     indexedRules() {
       return this.filteredRules.reduce((prev, rule, i, rules) => {
-        const initial = rule.name.substring(0, 1).toUpperCase();
+        const initial = rule.name.substring(0, 1).toUpperCase()
         if (!prev[initial]) {
-          prev[initial] = [];
+          prev[initial] = []
         }
-        prev[initial].push(rule);
+        prev[initial].push(rule)
 
-        return prev;
-      }, {});
+        return prev
+      }, {})
     },
     searchPlaceholder() {
       return window.innerWidth >= 1280
         ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))'
-        : 'Search';
+        : 'Search'
     },
     allSelected() {
-      return this.selectedItems.length === this.filteredRules.length;
+      return this.selectedItems.length === this.filteredRules.length
     },
     listTitle() {
-      let title = this.filteredRules.length;
+      let title = this.filteredRules.length
       if (this.searchQuery) {
-        title += ` of ${this.filteredByTags.length} ${this.type} found`;
+        title += ` of ${this.filteredByTags.length} ${this.type} found`
       } else {
-        title += ' ' + this.type;
+        title += ' ' + this.type
       }
       if (this.selectedItems.length > 0) {
-        title += `, ${this.selectedItems.length} selected`;
+        title += `, ${this.selectedItems.length} selected`
       }
-      return title;
+      return title
     },
     enablableItems() {
-      if (!this.selectedItems || !this.selectedItems.length) return 0;
+      if (!this.selectedItems || !this.selectedItems.length) return 0
       return this.selectedItems.filter((i) =>
         this.isRuleStatusDisabled(this.ruleStatuses[i])
-      ).length;
+      ).length
     },
     disablableItems() {
-      if (!this.selectedItems || !this.selectedItems.length) return 0;
+      if (!this.selectedItems || !this.selectedItems.length) return 0
       return this.selectedItems.filter(
         (i) =>
           this.ruleStatuses[i] &&
           !this.isRuleStatusDisabled(this.ruleStatuses[i])
-      ).length;
+      ).length
     },
     regeneratableItemsCount() {
-      return this.regeneratableItems.length;
+      return this.regeneratableItems.length
     },
     regeneratableItems() {
       if (!this.selectedItems || !this.selectedItems.length || !this.rules || !this.templates)
-        return [];
+        return []
       return this.selectedItems.filter(i => {
-        const rule = this.rules.find(r => r.uid === i);
+        const rule = this.rules.find(r => r.uid === i)
         return (
           rule &&
           rule.templateUID &&
@@ -435,56 +436,56 @@ export default {
           rule.templateState !== 'no-template' &&
           rule.templateState !== 'template-missing' &&
           this.templates.some(t => t.uid === rule.templateUID)
-        );
-      });
+        )
+      })
     },
     canEnable() {
-      return this.enablableItems > 0;
+      return this.enablableItems > 0
     },
     canDisable() {
-      return this.disablableItems > 0;
+      return this.disablableItems > 0
     },
     canRegenerate() {
-      return this.regeneratableItemsCount > 0;
+      return this.regeneratableItemsCount > 0
     },
     ...mapStores(useRuntimeStore, useThemeOptionsStore)
   },
   methods: {
     onPageAfterIn() {
-      this.load();
+      this.load()
     },
     onPageBeforeOut() {
-      this.stopEventSource();
+      this.stopEventSource()
       //TODO-V3 useLastSearchQueryStore().lastRulesSearchQuery[this.type] = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load() {
-      if (this.loading) return;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
 
       if (this.initSearchbar)
-        useLastSearchQueryStore().lastRulesSearchQuery[this.type] = this.$refs.searchbar?.$el.f7Searchbar.query;
-      this.initSearchbar = false;
+        useLastSearchQueryStore().lastRulesSearchQuery[this.type] = this.$refs.searchbar?.$el.f7Searchbar.query
+      this.initSearchbar = false
 
-      this.selectedItems = [];
-      this.selectedDeletableItems = [];
-      this.showCheckboxes = false;
-      let filter = '';
+      this.selectedItems = []
+      this.selectedDeletableItems = []
+      this.showCheckboxes = false
+      let filter = ''
       if (this.showScripts) {
-        filter = '&tags=Script';
+        filter = '&tags=Script'
       }
       if (this.showScenes) {
-        filter = '&tags=Scene';
+        filter = '&tags=Scene'
       }
 
       const promises = [
         this.$oh.api.get('/rest/templates'),
-        this.$oh.api.get('/rest/rules?summary=true' + filter),
-      ];
+        this.$oh.api.get('/rest/rules?summary=true' + filter)
+      ]
       Promise.allSettled(promises).then(results => {
-        const templateData = results[0];
-        const ruleData = results[1];
+        const templateData = results[0]
+        const ruleData = results[1]
         if (templateData.status === 'fulfilled') {
-          this.templates = templateData.value;
+          this.templates = templateData.value
         } else {
           console.warn(
             'Failed to retrieve rule templates. Status: "' +
@@ -492,50 +493,50 @@ export default {
               '", Reason: "' +
               templateData.reason +
               '"'
-          );
+          )
         }
         if (ruleData.status === 'fulfilled') {
           let rules = ruleData.value.sort((a, b) => {
-            return a.name.localeCompare(b.name);
-          });
+            return a.name.localeCompare(b.name)
+          })
 
           if (!this.showScripts) {
-            rules = rules.filter(r => !r.tags || r.tags.indexOf('Script') < 0);
+            rules = rules.filter(r => !r.tags || r.tags.indexOf('Script') < 0)
           }
 
           if (!this.showScenes) {
-            rules = rules.filter(r => !r.tags || r.tags.indexOf('Scene') < 0);
+            rules = rules.filter(r => !r.tags || r.tags.indexOf('Scene') < 0)
           }
-          this.rules = rules;
+          this.rules = rules
 
           rules.forEach(rule => {
-            this.ruleStatuses[rule.uid] = rule.status;
+            this.ruleStatuses[rule.uid] = rule.status
 
             rule.tags.forEach(t => {
-              if (t === 'Scene' || t === 'Script') return;
-              if (t.startsWith('marketplace:')) t = 'Marketplace';
-              if (!this.uniqueTags.includes(t)) this.uniqueTags.push(t);
-            });
-          });
+              if (t === 'Scene' || t === 'Script') return
+              if (t.startsWith('marketplace:')) t = 'Marketplace'
+              if (!this.uniqueTags.includes(t)) this.uniqueTags.push(t)
+            })
+          })
 
-          this.uniqueTags.sort();
-          this.initSearchbar = true;
+          this.uniqueTags.sort()
+          this.initSearchbar = true
 
-          this.loading = false;
-          this.ready = true;
-          this.noRuleEngine = false;
+          this.loading = false
+          this.ready = true
+          this.noRuleEngine = false
 
           nextTick(() => {
-            if (this.$refs.listIndex) this.$refs.listIndex.$el.f7ListIndex.update();
+            if (this.$refs.listIndex) this.$refs.listIndex.$el.f7ListIndex.update()
             if (this.$device.desktop && this.$refs.searchbar) {
-              this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
+              this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus()
             }
             this.$refs.searchbar?.$el.f7Searchbar.search(
               useLastSearchQueryStore().lastRulesSearchQuery[this.type] || ''
-            );
-          });
+            )
+          })
 
-          if (!this.eventSource) this.startEventSource();
+          if (!this.eventSource) this.startEventSource()
         } else {
           console.warn(
             'Failed to retrieve rule templates. Status: "' +
@@ -543,179 +544,179 @@ export default {
               '", Reason: "' +
               ruleData.reason +
               '"'
-          );
+          )
           if (ruleData.reason === 'Not Found') {
-            this.noRuleEngine = true;
+            this.noRuleEngine = true
           }
-          this.loading = false;
-          let self = this;
+          this.loading = false
+          let self = this
           setTimeout(() => {
-            self.load();
-          }, 2000);
+            self.load()
+          }, 2000)
         }
-      });
+      })
     },
     startEventSource() {
       this.eventSource = this.$oh.sse.connect(
         '/rest/events?topics=openhab/rules/*/*',
         null,
         event => {
-          const topicParts = event.topic.split('/');
+          const topicParts = event.topic.split('/')
           switch (topicParts[3]) {
             case 'added':
             case 'removed':
             case 'updated':
-              this.load();
-              break;
+              this.load()
+              break
             case 'state':
-              const uid = topicParts[2];
-              const newStatus = JSON.parse(event.payload);
+              const uid = topicParts[2]
+              const newStatus = JSON.parse(event.payload)
               // skip status updates for RUNNING for performance reasons (can be easily skipped as it was never really shown due to the short execution time of rules)
-              if (newStatus.status === 'RUNNING') return;
+              if (newStatus.status === 'RUNNING') return
 
-              if (!this.ruleStatuses[uid]) this.ruleStatuses[uid] = {};
-              this.ruleStatuses[uid].status = newStatus.status;
-              this.ruleStatuses[uid].statusDetail = newStatus.statusDetail;
+              if (!this.ruleStatuses[uid]) this.ruleStatuses[uid] = {}
+              this.ruleStatuses[uid].status = newStatus.status
+              this.ruleStatuses[uid].statusDetail = newStatus.statusDetail
           }
         }
-      );
+      )
     },
     stopEventSource() {
-      this.$oh.sse.close(this.eventSource);
-      this.eventSource = null;
+      this.$oh.sse.close(this.eventSource)
+      this.eventSource = null
     },
     toggleCheck() {
-      this.showCheckboxes = !this.showCheckboxes;
+      this.showCheckboxes = !this.showCheckboxes
     },
     isChecked(item) {
-      return this.selectedItems.indexOf(item) >= 0;
+      return this.selectedItems.indexOf(item) >= 0
     },
     click(event, item) {
       if (this.showCheckboxes) {
-        this.toggleItemCheck(event, item.uid, item);
+        this.toggleItemCheck(event, item.uid, item)
       } else {
-        this.f7router.navigate(item.uid);
+        this.f7router.navigate(item.uid)
       }
     },
     ctrlClick(event, item) {
-      this.toggleItemCheck(event, item.uid, item);
-      if (!this.selectedItems.length) this.showCheckboxes = false;
+      this.toggleItemCheck(event, item.uid, item)
+      if (!this.selectedItems.length) this.showCheckboxes = false
     },
     templateClick(event, ctrl, rule) {
-      if (!rule || !rule.templateUID) return;
+      if (!rule || !rule.templateUID) return
       if (ctrl || this.showCheckboxes) {
-        event.stopPropagation();
-        if (!this.showCheckboxes) this.showCheckboxes = true;
-        const rules = this.rules.filter(r => r.templateUID === rule.templateUID);
+        event.stopPropagation()
+        if (!this.showCheckboxes) this.showCheckboxes = true
+        const rules = this.rules.filter(r => r.templateUID === rule.templateUID)
         let unchecked = 0,
-          checked = 0;
+          checked = 0
         rules.forEach(r => {
           if (this.isChecked(r.uid)) {
-            checked++;
+            checked++
           } else {
-            unchecked++;
+            unchecked++
           }
-        });
-        const doCheck = checked < unchecked;
+        })
+        const doCheck = checked < unchecked
         rules.forEach(r => {
-          this.setItemChecked(r.uid, doCheck);
-        });
-        if (ctrl && !this.selectedItems.length) this.showCheckboxes = false;
+          this.setItemChecked(r.uid, doCheck)
+        })
+        if (ctrl && !this.selectedItems.length) this.showCheckboxes = false
       }
     },
     search: debounce(function (searchbar, query, previousQuery) {
       // don't use arrow function here, otherwise `this` is not the Vue instance
-      this.searchQuery = query.trim().toLowerCase();
-      this.filterSelectedItems();
+      this.searchQuery = query.trim().toLowerCase()
+      this.filterSelectedItems()
     }, 200),
     filterSelectedItems() {
-      this.selectedItems = this.selectedItems.filter(uid => this.filteredUids.has(uid));
+      this.selectedItems = this.selectedItems.filter(uid => this.filteredUids.has(uid))
     },
     clearSearch() {
-      this.searchQuery = null;
+      this.searchQuery = null
     },
     selectDeselectAll() {
       if (this.allSelected) {
-        this.selectedItems = [];
+        this.selectedItems = []
       } else {
-        this.selectedItems = Array.from(this.filteredUids);
+        this.selectedItems = Array.from(this.filteredUids)
       }
     },
     toggleItemCheck(event, item) {
-      if (!this.showCheckboxes) this.showCheckboxes = true;
+      if (!this.showCheckboxes) this.showCheckboxes = true
       if (this.isChecked(item)) {
-        this.setItemChecked(item, false);
+        this.setItemChecked(item, false)
       } else {
-        this.setItemChecked(item, true);
+        this.setItemChecked(item, true)
       }
     },
     setItemChecked(item, checked) {
       if (checked) {
         if (!this.isChecked(item)) {
-          this.selectedItems.push(item);
-          const rule = this.rules.find(r => r.uid === item);
+          this.selectedItems.push(item)
+          const rule = this.rules.find(r => r.uid === item)
           if (rule?.editable) {
-            this.selectedDeletableItems.push(item);
+            this.selectedDeletableItems.push(item)
           }
         }
       } else {
         if (this.isChecked(item)) {
-          this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
-          const idx = this.selectedDeletableItems.indexOf(item);
+          this.selectedItems.splice(this.selectedItems.indexOf(item), 1)
+          const idx = this.selectedDeletableItems.indexOf(item)
           if (idx >= 0) {
-            this.selectedDeletableItems.splice(idx, 1);
+            this.selectedDeletableItems.splice(idx, 1)
           }
         }
       }
     },
     deleteSelected() {
-      const vm = this;
+      const vm = this
 
       f7.dialog.confirm(
         `Delete ${this.selectedDeletableItems.length} rule${this.selectedDeletableItems.length === 1 ? '' : 's'}?`,
         'Delete Rules',
         () => {
-          vm.doDeleteSelected();
+          vm.doDeleteSelected()
         }
-      );
+      )
     },
     doDeleteSelected() {
-      let dialog = f7.dialog.progress('Deleting Rules...');
+      let dialog = f7.dialog.progress('Deleting Rules...')
 
       const promises = this.selectedDeletableItems.map(i =>
         this.$oh.api.delete('/rest/rules/' + i)
-      );
+      )
       Promise.all(promises)
         .then(data => {
           f7.toast
             .create({
               text: (promises.length === 1 ? 'Rule' : 'Rules') + ' deleted',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.selectedItems = [];
-          this.selectedDeletableItems = [];
-          dialog.close();
-          this.load();
+            .open()
+          this.selectedItems = []
+          this.selectedDeletableItems = []
+          dialog.close()
+          this.load()
         })
         .catch(err => {
-          dialog.close();
-          this.load();
-          console.error(err);
-          f7.dialog.alert('An error occurred while deleting: ' + err);
-        });
+          dialog.close()
+          this.load()
+          console.error(err)
+          f7.dialog.alert('An error occurred while deleting: ' + err)
+        })
     },
     doDisableEnableSelected(enable) {
-      if (!this.selectedItems) return;
-      let dialog = f7.dialog.progress('Please Wait...');
+      if (!this.selectedItems) return
+      let dialog = f7.dialog.progress('Please Wait...')
 
       const items = this.selectedItems.filter(
         i => Boolean(this.isRuleStatusDisabled(this.ruleStatuses[i])) === Boolean(enable)
-      );
+      )
       const promises = items.map(i =>
         this.$oh.api.postPlain('/rest/rules/' + i + '/enable', enable.toString())
-      );
+      )
       Promise.all(promises)
         .then(data => {
           f7.toast
@@ -723,89 +724,89 @@ export default {
               text:
                 (promises.length === 1 ? 'Rule ' : 'Rules ') + (enable ? 'enabled' : 'disabled'),
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.selectedItems = [];
-          dialog.close();
-          this.load();
+            .open()
+          this.selectedItems = []
+          dialog.close()
+          this.load()
         })
         .catch(err => {
-          dialog.close();
-          this.load();
-          console.error(err);
-          f7.dialog.alert('An error occurred while enabling/disabling: ' + err);
-        });
+          dialog.close()
+          this.load()
+          console.error(err)
+          f7.dialog.alert('An error occurred while enabling/disabling: ' + err)
+        })
     },
     regenerateSelected() {
-      if (!this.selectedItems) return;
-      const rules = this.regeneratableItems.map(i => this.rules.find(r => r.uid === i));
-      if (rules.length === 0) return;
+      if (!this.selectedItems) return
+      const rules = this.regeneratableItems.map(i => this.rules.find(r => r.uid === i))
+      if (rules.length === 0) return
       if (rules.length === 1 && rules[0].editable) {
         this.$oh.api
           .get('/rest/rules/' + rules[0].uid)
           .then(rule => {
             this.f7router.navigate(
               {
-                url: '/settings/rules/stub',
+                url: '/settings/rules/stub'
               },
               {
                 reloadCurrent: false,
                 props: {
-                  ruleCopy: rule,
-                },
+                  ruleCopy: rule
+                }
               }
-            );
+            )
           })
           .catch(err => {
             f7.dialog.alert(
               'An error occurred when retrieving rule "' + rules[0].uid + '": ' + err
-            );
-          });
+            )
+          })
       } else {
         const promises = rules.map(r =>
           this.$oh.api.postPlain('/rest/rules/' + r.uid + '/regenerate')
-        );
+        )
         Promise.all(promises)
           .then(() => {
             f7.toast
               .create({
                 text: (rules.length === 1 ? 'Rule' : 'Rules') + ' regenerated from template',
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
+              .open()
           })
           .catch(err => {
             f7.dialog.alert(
               'An error occurred when trying to regenerate rule(s) from template: ' + err
-            );
-          });
+            )
+          })
       }
     },
     toggleSearchTag(e, item) {
-      const idx = this.selectedTags.indexOf(item);
+      const idx = this.selectedTags.indexOf(item)
       if (idx !== -1) {
-        this.selectedTags.splice(idx, 1);
+        this.selectedTags.splice(idx, 1)
       } else {
-        this.selectedTags.push(item);
+        this.selectedTags.push(item)
       }
       // update rules list
-      this.$refs.listIndex.update();
-      this.filterSelectedItems();
+      this.$refs.listIndex.update()
+      this.filterSelectedItems()
     },
     displayedTags(rule) {
-      return rule.tags.filter(t => t !== 'Script' && t !== 'Scene');
+      return rule.tags.filter(t => t !== 'Script' && t !== 'Scene')
     },
     isTagSelected(tag) {
-      return this.selectedTags.includes(tag);
+      return this.selectedTags.includes(tag)
     },
     templateName(rule) {
       let template = this.templates
         ? this.templates.find(t => t.uid === rule.templateUID)
-        : undefined;
-      return template ? template.label : rule.templateUID;
-    },
-  },
-};
+        : undefined
+      return template ? template.label : rule.templateUID
+    }
+  }
+}
 </script>

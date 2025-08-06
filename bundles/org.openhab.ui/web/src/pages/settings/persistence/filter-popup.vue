@@ -11,7 +11,9 @@
         </f7-nav-left>
         <f7-nav-title> Configure {{ filterType.label.toLowerCase() }} filter </f7-nav-title>
         <f7-nav-right>
-          <f7-link v-show="currentFilter.name" @click="updateModuleConfig"> Done </f7-link>
+          <f7-link v-show="currentFilter.name" @click="updateModuleConfig">
+            Done
+          </f7-link>
         </f7-nav-right>
       </f7-navbar>
       <f7-block class="no-margin no-padding">
@@ -33,7 +35,9 @@
           </f7-list>
         </f7-col>
         <f7-col>
-          <f7-block-title medium> Configuration </f7-block-title>
+          <f7-block-title medium>
+            Configuration
+          </f7-block-title>
           <config-sheet
             ref="config-sheet"
             :parameter-groups="[]"
@@ -46,8 +50,8 @@
 </template>
 
 <script>
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import { f7 } from 'framework7-vue';
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import { f7 } from 'framework7-vue'
 
 export default {
   components: { ConfigSheet },
@@ -57,25 +61,25 @@ export default {
     return {
       createMode: !this.filter,
       currentFilter: this.filter || {
-        name: null,
-      },
-    };
+        name: null
+      }
+    }
   },
   methods: {
     updateModuleConfig() {
       if (!this.$refs['config-sheet'].isValid()) {
-        f7.dialog.alert('Please review the configuration and correct validation errors');
-        return;
+        f7.dialog.alert('Please review the configuration and correct validation errors')
+        return
       }
       if (this.filterType.name === 'includeFilters') {
         if (this.currentFilter.upper <= this.currentFilter.lower) {
-          f7.dialog.alert('The lower bound value must be less than the upper bound value');
-          return;
+          f7.dialog.alert('The lower bound value must be less than the upper bound value')
+          return
         }
       }
-      f7.emit('filter-update', this.currentFilter, this.filterType.name);
-      this.$refs.modulePopup.close();
-    },
-  },
-};
+      f7.emit('filter-update', this.currentFilter, this.filterType.name)
+      this.$refs.modulePopup.close()
+    }
+  }
+}
 </script>

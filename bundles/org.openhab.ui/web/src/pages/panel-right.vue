@@ -10,7 +10,7 @@
       target="_blank">
       <f7-card class="app-card">
         <f7-card-content :padding="false">
-          <img :src="app.imageUrl" width="100%" />
+          <img :src="app.imageUrl" width="100%">
         </f7-card-content>
         <f7-card-footer>
           <div class="app-card-name">
@@ -21,21 +21,6 @@
     </f7-link>
   </f7-page>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      apps: [],
-    };
-  },
-  created() {
-    this.$oh.api.get('/rest/ui/tiles').then(data => {
-      this.apps = data;
-    });
-  },
-};
-</script>
-
 <style lang="stylus">
 .other-apps {
   background-color: #333 !important;
@@ -55,3 +40,18 @@ export default {
   }
 }
 </style>
+
+<script>
+export default {
+  data() {
+    return {
+      apps: []
+    }
+  },
+  created() {
+    this.$oh.api.get('/rest/ui/tiles').then(data => {
+      this.apps = data
+    })
+  }
+}
+</script>

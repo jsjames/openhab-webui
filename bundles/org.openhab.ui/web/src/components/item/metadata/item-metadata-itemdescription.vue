@@ -17,10 +17,8 @@
         :value="options"
         @input="updateOptions" />
       <f7-block-footer class="param-description" alot="after-list">
-        <small
-          >Enter each option on a separate line.<br />Use <code>value=label</code> format to provide
-          a label different than the option.</small
-        >
+        <small>Enter each option on a separate line.<br>Use <code>value=label</code> format to provide
+          a label different than the option.</small>
       </f7-block-footer>
     </f7-list>
     <p class="padding">
@@ -45,24 +43,24 @@
 </template>
 
 <script>
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
-import { theme } from 'framework7-vue';
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
+import { theme } from 'framework7-vue'
 
 export default {
   props: ['itemName', 'metadata', 'namespace'],
   mixins: [ItemMetadataMixin],
   components: {
-    ConfigSheet,
+    ConfigSheet
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
       ready: false,
-      transformations: [],
-    };
+      transformations: []
+    }
   },
   computed: {
     stateDescriptionParameters() {
@@ -70,16 +68,16 @@ export default {
         .map(t => {
           return {
             label: t.label,
-            value: `${t.type.toUpperCase()}(${t.uid}):%s`,
-          };
+            value: `${t.type.toUpperCase()}(${t.uid}):%s`
+          }
         })
-        .sort((a, b) => a.label.localeCompare(b.label));
+        .sort((a, b) => a.label.localeCompare(b.label))
       return [
         {
           type: 'BOOLEAN',
           name: 'readOnly',
           label: 'Read only',
-          description: 'Item is read-only and should not accept commands',
+          description: 'Item is read-only and should not accept commands'
         },
         {
           type: 'TEXT',
@@ -87,44 +85,44 @@ export default {
           label: 'Pattern',
           description: 'Pattern or transformation applied to the state for display purposes',
           options,
-          limitToOptions: false,
+          limitToOptions: false
         },
         {
           type: 'TEXT',
           name: 'min',
           label: 'Min',
-          description: 'Minimum allowed value',
+          description: 'Minimum allowed value'
         },
         {
           type: 'TEXT',
           name: 'max',
           label: 'Max',
-          description: 'Maximum allowed value',
+          description: 'Maximum allowed value'
         },
         {
           type: 'TEXT',
           name: 'step',
           label: 'Step',
-          description: 'Minimum interval between values',
-        },
-      ];
+          description: 'Minimum interval between values'
+        }
+      ]
     },
     options() {
-      if (!this.metadata.config.options) return [];
+      if (!this.metadata.config.options) return []
       return this.metadata.config.options
         .trim()
         .split(',')
         .map(s => s.trim())
-        .join('\n');
+        .join('\n')
     },
     docLink() {
-      const docUrl = `${runtimeStore.websiteUrl}/link/thing`;
+      const docUrl = `${runtimeStore.websiteUrl}/link/thing`
       if (this.namespace === 'stateDescription') {
-        return docUrl + '#state-description';
+        return docUrl + '#state-description'
       } else {
-        return docUrl + '#command-description';
+        return docUrl + '#command-description'
       }
-    },
+    }
   },
   methods: {
     updateOptions(ev) {
@@ -132,21 +130,21 @@ export default {
         .split('\n')
         .map(s => s.trim())
         .join(',')
-        .trim();
+        .trim()
     },
     load() {
       if (this.namespace === 'commandDescription') {
-        this.ready = true;
-        return;
+        this.ready = true
+        return
       }
       this.$oh.api.get('/rest/transformations').then(data => {
-        this.transformations = data;
-        this.ready = true;
-      });
-    },
+        this.transformations = data
+        this.ready = true
+      })
+    }
   },
   created() {
-    this.load();
-  },
-};
+    this.load()
+  }
+}
 </script>

@@ -14,21 +14,21 @@
 </style>
 
 <script>
-import { f7 } from 'framework7-vue';
+import { f7 } from 'framework7-vue'
 
 export default {
   props: ['value', 'size'],
   methods: {
     success({ value, event }) {
-      event.stopPropagation();
+      event.stopPropagation()
       f7.toast
         .create({
           text: 'Copied to clipboard',
           destroyOnClose: true,
-          closeTimeout: 2000,
+          closeTimeout: 2000
         })
-        .open();
-    },
-  },
-};
+        .open()
+    }
+  }
+}
 </script>

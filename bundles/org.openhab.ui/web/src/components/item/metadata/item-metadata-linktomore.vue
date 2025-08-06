@@ -19,9 +19,7 @@
               external
               color="blue"
               target="_blank"
-              :href="runtimeStore.websiteUrl + '/docs/apps/android.html#device-controls'"
-              >Read the docs.</f7-link
-            >
+              :href="runtimeStore.websiteUrl + '/docs/apps/android.html#device-controls'">Read the docs.</f7-link>
           </small>
         </f7-block-footer>
       </template>
@@ -30,9 +28,9 @@
 </template>
 
 <script>
-import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { mapStores } from 'pinia';
+import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
 
 export default {
   props: ['itemName', 'metadata'],
@@ -42,8 +40,8 @@ export default {
   },
   methods: {
     updateValue(ev) {
-      this.metadata.value = ev.target.value;
-    },
-  },
-};
+      this.metadata.value = ev.target.value
+    }
+  }
+}
 </script>

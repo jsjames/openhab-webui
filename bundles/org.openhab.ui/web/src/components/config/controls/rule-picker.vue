@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import f7 from 'framework7-vue';
+import f7 from 'framework7-vue'
 
 export default {
   props: ['title', 'name', 'value', 'multiple', 'required'],
@@ -66,43 +66,43 @@ export default {
         openIn: 'popup',
         searchbar: true,
         multiple: this.multiple,
-        searchbarPlaceholder: 'Search rules',
-      },
-    };
+        searchbarPlaceholder: 'Search rules'
+      }
+    }
   },
   created() {
-    this.smartSelectParams.closeOnSelect = !this.multiple;
+    this.smartSelectParams.closeOnSelect = !this.multiple
     this.$oh.api.get('/rest/rules?staticDataOnly=true').then(data => {
       this.scenes = data
         .filter(r => r.tags.indexOf('Scene') >= 0)
         .sort((a, b) => {
-          const labelA = a.name;
-          const labelB = b.name;
-          return labelA.localeCompare(labelB);
-        });
+          const labelA = a.name
+          const labelB = b.name
+          return labelA.localeCompare(labelB)
+        })
       this.scripts = data
         .filter(r => r.tags.indexOf('Script') >= 0)
         .sort((a, b) => {
-          const labelA = a.name;
-          const labelB = b.name;
-          return labelA.localeCompare(labelB);
-        });
+          const labelA = a.name
+          const labelB = b.name
+          return labelA.localeCompare(labelB)
+        })
       this.rules = data
         .filter(r => r.tags.indexOf('Scene') < 0 && r.tags.indexOf('Script') < 0)
         .sort((a, b) => {
-          const labelA = a.name;
-          const labelB = b.name;
-          return labelA.localeCompare(labelB);
-        });
-      this.ready = true;
-    });
+          const labelA = a.name
+          const labelB = b.name
+          return labelA.localeCompare(labelB)
+        })
+      this.ready = true
+    })
   },
   methods: {
     select(e) {
-      f7.input.validateInputs(this.$refs.smartSelect.$el);
-      const value = this.$refs.smartSelect.f7SmartSelect.getValue();
-      this.$emit('input', value);
-    },
-  },
-};
+      f7.input.validateInputs(this.$refs.smartSelect.$el)
+      const value = this.$refs.smartSelect.$el.f7SmartSelect.getValue()
+      this.$emit('input', value)
+    }
+  }
+}
 </script>

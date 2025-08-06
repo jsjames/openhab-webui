@@ -109,7 +109,9 @@
       <f7-row>
         <f7-col>
           <f7-list>
-            <f7-list-button color="blue" @click="duplicateItem"> Duplicate Item </f7-list-button>
+            <f7-list-button color="blue" @click="duplicateItem">
+              Duplicate Item
+            </f7-list-button>
             <f7-list-button
               color="blue"
               @click="copyFileDefinitionToClipboard(ObjectType.ITEM, [item.name])">
@@ -182,44 +184,44 @@
 </style>
 
 <script>
-import cloneDeep from 'lodash/cloneDeep';
-import { f7, theme } from 'framework7-vue';
+import cloneDeep from 'lodash/cloneDeep'
+import { f7, theme } from 'framework7-vue'
 
-import { useStatesStore } from '@/js/stores/states';
+import { useStatesStore } from '@/js/stores/states'
 
-import ItemStatePreview from '@/components/item/item-state-preview.vue';
-import LinkDetails from '@/components/model/link-details.vue';
-import GroupMembers from '@/components/item/group-members.vue';
-import MetadataMenu from '@/components/item/metadata/item-metadata-menu.vue';
-import ItemMixin from '@/components/item/item-mixin';
-import FileDefinition from '@/pages/settings/file-definition-mixin';
+import ItemStatePreview from '@/components/item/item-state-preview.vue'
+import LinkDetails from '@/components/model/link-details.vue'
+import GroupMembers from '@/components/item/group-members.vue'
+import MetadataMenu from '@/components/item/metadata/item-metadata-menu.vue'
+import ItemMixin from '@/components/item/item-mixin'
+import FileDefinition from '@/pages/settings/file-definition-mixin'
 
 export default {
   mixins: [ItemMixin, FileDefinition],
   props: {
     itemName: String,
-    f7router: Object,
+    f7router: Object
   },
   components: {
     LinkDetails,
     GroupMembers,
     ItemStatePreview,
-    MetadataMenu,
+    MetadataMenu
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
       item: {},
       links: [],
-      ready: false,
-    };
+      ready: false
+    }
   },
   computed: {
     context() {
       return {
-        store: useStatesStore().trackedItems,
+        store: useStatesStore().trackedItems
       }
     },
     semanticClass () {
@@ -269,36 +271,36 @@ export default {
   },
   methods: {
     onPageBeforeIn() {
-      useStatesStore().startTrackingStates();
-      this.load();
+      useStatesStore().startTrackingStates()
+      this.load()
     },
     onPageAfterIn() {
       this.$oh.api.get('/rest/links?itemName=' + this.itemName).then(data => {
-        this.links = data;
-      });
+        this.links = data
+      })
     },
     onPageBeforeOut() {
-      useStatesStore().stopTrackingStates();
+      useStatesStore().stopTrackingStates()
     },
     load() {
       this.$oh.api.get(`/rest/items/${this.itemName}?metadata=.+`).then(data => {
-        this.item = data;
-        this.ready = true;
-        this.iconUrl = '/icon/' + this.item.category + '?format=svg';
-      });
+        this.item = data
+        this.ready = true
+        this.iconUrl = '/icon/' + this.item.category + '?format=svg'
+      })
     },
     duplicateItem() {
-      let itemClone = cloneDeep(this.item);
+      let itemClone = cloneDeep(this.item)
       this.f7router.navigate(
         {
-          url: '/settings/items/duplicate',
+          url: '/settings/items/duplicate'
         },
         {
           props: {
-            itemCopy: itemClone,
-          },
+            itemCopy: itemClone
+          }
         }
-      );
+      )
     },
     deleteItem() {
       f7.dialog.confirm(
@@ -306,10 +308,10 @@ export default {
         'Delete Item',
         () => {
           this.$oh.api.delete('/rest/items/' + this.item.name).then(() => {
-            this.f7router.back('/settings/items/', { force: true });
-          });
+            this.f7router.back('/settings/items/', { force: true })
+          })
         }
-      );
+      )
     },
     searchInSidebar () {
       f7.emit('select-developer-dock', { 'dock': 'tools', 'toolTab': 'pin', 'searchFor': this.item.name })

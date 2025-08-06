@@ -9,8 +9,8 @@
           <location-card
             v-if="
               type === 'locations' &&
-              !element.separator &&
-              (element.equipment.length > 0 || element.properties.length > 0)
+                !element.separator &&
+                (element.equipment.length > 0 || element.properties.length > 0)
             "
             :key="element.key"
             type="location"
@@ -94,31 +94,31 @@
 </style>
 
 <script>
-import cardGroups from './homecards-grouping';
+import cardGroups from './homecards-grouping'
 
-import LocationCard from '../../components/cards/location-card.vue';
-import EquipmentCard from '../../components/cards/equipment-card.vue';
-import PropertyCard from '../../components/cards/property-card.vue';
-import { mapState } from 'vuex';
-import { useStatesStore } from '@/js/stores/states';
+import LocationCard from '../../components/cards/location-card.vue'
+import EquipmentCard from '../../components/cards/equipment-card.vue'
+import PropertyCard from '../../components/cards/property-card.vue'
+import { mapState } from 'vuex'
+import { useStatesStore } from '@/js/stores/states'
 
 export default {
   props: ['type', 'page'],
   components: {
     LocationCard,
     EquipmentCard,
-    PropertyCard,
+    PropertyCard
   },
   computed: mapState({
     groups(state) {
-      return cardGroups(state.model.semanticModel, this.type, this.page);
-    },
+      return cardGroups(state.model.semanticModel, this.type, this.page)
+    }
   }),
   methods: {
     isCardExcluded(card) {
-      if (!card.key) return;
-      const page = this.page;
-      const type = this.type;
+      if (!card.key) return
+      const page = this.page
+      const type = this.type
       const excludedCards =
         page &&
         page.slots &&
@@ -127,9 +127,9 @@ export default {
         page.slots[type][0].config &&
         page.slots[type][0].config.excludedCards
           ? page.slots[type][0].config.excludedCards
-          : [];
-      const excludedIdx = excludedCards.indexOf(card.key);
-      return excludedIdx >= 0;
+          : []
+      const excludedIdx = excludedCards.indexOf(card.key)
+      return excludedIdx >= 0
     },
     cardContext(element) {
       let context = {
@@ -140,12 +140,12 @@ export default {
               : this.type === 'equipment'
                 ? 'oh-equipment-card'
                 : 'oh-property-card',
-          config: {},
+          config: {}
         },
-        store: useStatesStore().trackedItems,
-      };
-      const page = this.page;
-      const type = this.type;
+        store: useStatesStore().trackedItems
+      }
+      const page = this.page
+      const type = this.type
       if (
         page &&
         page.slots &&
@@ -154,15 +154,15 @@ export default {
         page.slots[type][0].config &&
         page.slots[type][0].config.badges
       ) {
-        context.badgeOverrides = page.slots[type][0].config.badges;
+        context.badgeOverrides = page.slots[type][0].config.badges
       }
-      return context;
+      return context
     },
     parentLocationName(item) {
-      return item.parent ? item.parent.label || item.parent.name : '';
+      return item.parent ? item.parent.label || item.parent.name : ''
     },
     tabContext(type) {
-      const page = this.page;
+      const page = this.page
       if (
         page &&
         page.slots &&
@@ -170,11 +170,11 @@ export default {
         page.slots[type][0] &&
         page.slots[type][0].config
       ) {
-        return page.slots[type][0].config;
+        return page.slots[type][0].config
       } else {
-        return {};
+        return {}
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

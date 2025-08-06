@@ -74,9 +74,9 @@
 </template>
 
 <script>
-import ClipboardIcon from '@/components/util/clipboard-icon.vue';
-import { TreeChart } from 'echarts/charts';
-import { theme } from 'framework7-vue';
+import ClipboardIcon from '@/components/util/clipboard-icon.vue'
+import { TreeChart } from 'echarts/charts'
+import { theme } from 'framework7-vue'
 
 export default {
   components: { ClipboardIcon },
@@ -88,9 +88,9 @@ export default {
         openIn: 'popup',
         searchbar: true,
         virtualList: true,
-        virtualListHeight: theme.aurora ? 32 : undefined,
-      },
-    };
-  },
-};
+        virtualListHeight: theme.aurora ? 32 : undefined
+      }
+    }
+  }
+}
 </script>

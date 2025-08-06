@@ -112,21 +112,21 @@
 </style>
 
 <script>
-import auth from '@/components/auth-mixin.js';
+import auth from '@/components/auth-mixin.js'
 
 export default {
   mixins: [auth],
   methods: {
     onPageAfterIn() {
       const swaggerCss = import(
-        /* webpackChunkName: "swagger-css" */ 'swagger-ui-dist/swagger-ui.css'
-      );
-      const swaggerModule = import(/* webpackChunkName: "swagger" */ 'swagger-ui-dist');
-      const refreshToken = this.refreshAccessToken();
+      /* webpackChunkName: "swagger-css" */ 'swagger-ui-dist/swagger-ui.css'
+      )
+      const swaggerModule = import(/* webpackChunkName: "swagger" */ 'swagger-ui-dist')
+      const refreshToken = this.refreshAccessToken()
 
       Promise.all([swaggerModule, swaggerCss, refreshToken]).then(results => {
-        const SwaggerUI = results[0].SwaggerUIBundle;
-        const tokenResponse = results[2];
+        const SwaggerUI = results[0].SwaggerUIBundle
+        const tokenResponse = results[2]
         SwaggerUI({
           url: '/rest/spec',
           dom_id: '#swaggerUi',
@@ -139,15 +139,15 @@ export default {
           syntaxHighlight: false,
           requestInterceptor: req => {
             if (document.cookie.indexOf('X-OPENHAB-AUTH-HEADER') >= 0) {
-              req.headers['X-OPENHAB-TOKEN'] = tokenResponse.access_token;
+              req.headers['X-OPENHAB-TOKEN'] = tokenResponse.access_token
             } else {
-              req.headers['Authorization'] = 'Bearer ' + tokenResponse.access_token;
+              req.headers['Authorization'] = 'Bearer ' + tokenResponse.access_token
             }
-            return req;
-          },
-        });
-      });
-    },
-  },
-};
+            return req
+          }
+        })
+      })
+    }
+  }
+}
 </script>

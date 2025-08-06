@@ -1,6 +1,8 @@
 <template>
   <f7-block class="theme-switcher">
-    <f7-block-title class="padding-left">{{  $t('about.theme') }}</f7-block-title>
+    <f7-block-title class="padding-left">
+      {{ $t('about.theme') }}
+    </f7-block-title>
     <f7-row>
       <f7-col width="25" class="theme-picker auto" @click="switchTheme('auto')">
         <span class="text-color-gray"> {{ $t('about.theme.auto') }}</span>
@@ -19,7 +21,7 @@
         <f7-checkbox checked disabled v-if="theme === 'aurora'" />
       </f7-col>
     </f7-row>
-    <f7-block-title>{{  $t('about.darkMode') }}</f7-block-title>
+    <f7-block-title>{{ $t('about.darkMode') }}</f7-block-title>
     <f7-row>
       <f7-col width="33" class="theme-picker auto" @click="themeOptionsStore.setDarkMode('auto')">
         <span class="text-color-gray">{{ $t('about.darkMode.auto') }}</span>
@@ -40,7 +42,7 @@
         <f7-checkbox checked disabled v-if="themeOptionsStore.storedDarkMode === 'dark'" />
       </f7-col>
     </f7-row>
-    <f7-block-title>{{  $t('about.navigationBarsStyle') }}</f7-block-title>
+    <f7-block-title>{{ $t('about.navigationBarsStyle') }}</f7-block-title>
     <f7-row>
       <f7-col width="50" class="nav-bars-picker nav-bars-picker-empty" @click="bars='light'">
         <div class="demo-navbar" />
@@ -54,7 +56,7 @@
 
     <f7-row>
       <f7-col>
-        <f7-block-title>{{  $t('about.miscellaneous') }}</f7-block-title>
+        <f7-block-title>{{ $t('about.miscellaneous') }}</f7-block-title>
         <f7-list>
           <f7-list-item>
             <span>{{ $t('about.miscellaneous.home.navbar') }}</span>
@@ -118,47 +120,6 @@
       width auto
 </style>
 
-<script>
-import { loadLocaleMessages } from '@/js/i18n';
-import ItemPicker from '@/components/config/controls/item-picker.vue';
-import { useRuntimeStore } from '@/js/stores/runtime';
-
-import { mapStores, mapWritableState } from 'pinia';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-
-export default {
-  components: {
-    ItemPicker,
-  },
-  i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/theme-switcher/*.json')),
-  },
-  methods: {
-    switchTheme(theme) {
-      console.log('Switching theme to', theme);
-      localStorage.setItem('openhab.ui:theme', theme);
-      localStorage.removeItem('openhab.ui:theme.bars'); // reset the bars to their default when switching themes
-      location.reload();
-    },
-    setCommandItem(value) {
-      localStorage.setItem('openhab.ui:commandItem', value);
-      setTimeout(() => {
-        location.reload();
-      }, 50); // Delay reload, otherwise it doesn't work
-    },
-  },
-  computed: {
-    theme() {
-      return localStorage.getItem('openhab.ui:theme') || 'auto';
-    },
-    commandItem() {
-      return localStorage.getItem('openhab.ui:commandItem') || '';
-    },
-    ...mapStores(useRuntimeStore, useThemeOptionsStore),
-    ...mapWritableState(useThemeOptionsStore, [ 'disablePageTransitionAnimation',  'bars', 'homeNavBar', 'homeBackground', 'hideChatInput', 'disableExpandableCardAnimation', 'webAudio' ]),
-  },
-};
-</script>
 <style lang="stylus">
 .theme-picker
   cursor pointer
@@ -243,3 +204,44 @@ export default {
 .nav-bars-picker-fill .demo-navbar:after
   background #fff
 </style>
+<script>
+import { loadLocaleMessages } from '@/js/i18n'
+import ItemPicker from '@/components/config/controls/item-picker.vue'
+import { useRuntimeStore } from '@/js/stores/runtime'
+
+import { mapStores, mapWritableState } from 'pinia'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+
+export default {
+  components: {
+    ItemPicker
+  },
+  i18n: {
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/theme-switcher/*.json'))
+  },
+  methods: {
+    switchTheme(theme) {
+      console.log('Switching theme to', theme)
+      localStorage.setItem('openhab.ui:theme', theme)
+      localStorage.removeItem('openhab.ui:theme.bars') // reset the bars to their default when switching themes
+      location.reload()
+    },
+    setCommandItem(value) {
+      localStorage.setItem('openhab.ui:commandItem', value)
+      setTimeout(() => {
+        location.reload()
+      }, 50) // Delay reload, otherwise it doesn't work
+    }
+  },
+  computed: {
+    theme() {
+      return localStorage.getItem('openhab.ui:theme') || 'auto'
+    },
+    commandItem() {
+      return localStorage.getItem('openhab.ui:commandItem') || ''
+    },
+    ...mapStores(useRuntimeStore, useThemeOptionsStore),
+    ...mapWritableState(useThemeOptionsStore, [ 'disablePageTransitionAnimation',  'bars', 'homeNavBar', 'homeBackground', 'hideChatInput', 'disableExpandableCardAnimation', 'webAudio' ])
+  }
+}
+</script>

@@ -56,16 +56,16 @@
 </template>
 
 <script>
-import mixin from '../widget-mixin';
-import OhPlaceholderWidget from './oh-placeholder-widget.vue';
+import mixin from '../widget-mixin'
+import OhPlaceholderWidget from './oh-placeholder-widget.vue'
 
-import { OhGridColDefinition } from '@/assets/definitions/widgets/layout/index';
+import { OhGridColDefinition } from '@/assets/definitions/widgets/layout/index'
 
 export default {
   mixins: [mixin],
   components: {
-    OhPlaceholderWidget,
+    OhPlaceholderWidget
   },
-  widget: OhGridColDefinition,
-};
+  widget: OhGridColDefinition
+}
 </script>

@@ -8,18 +8,18 @@
 </template>
 
 <script>
-import TriggerChannelPicker from './triggerchannel-picker.vue';
+import TriggerChannelPicker from './triggerchannel-picker.vue'
 
 export default {
   props: ['configDescription', 'value'],
   emits: ['input'],
   components: {
-    TriggerChannelPicker,
+    TriggerChannelPicker
   },
   methods: {
     updateValue(value) {
-      this.$emit('input', value);
-    },
-  },
-};
+      this.$emit('input', value)
+    }
+  }
+}
 </script>

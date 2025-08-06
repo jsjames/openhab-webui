@@ -54,7 +54,9 @@
         icon-md="material:close"
         icon-color="white"
         @click="showCheckboxes = false" />
-      <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
+      <div class="title" v-if="theme.md">
+        {{ selectedItems.length }} selected
+      </div>
       <div class="right" v-if="theme.md && selectedItems.length">
         <f7-link icon-md="material:delete" icon-color="white" @click="removeSelected" />
         <f7-link icon-md="material:content_copy" icon-color="white" @click="copySelected" />
@@ -74,7 +76,9 @@
 
       <!-- skeleton for not ready -->
       <f7-col v-show="!ready">
-        <f7-block-title class="no-margin-top"> &nbsp;Loading... </f7-block-title>
+        <f7-block-title class="no-margin-top">
+          &nbsp;Loading...
+        </f7-block-title>
         <f7-list media-list class="col wide">
           <f7-list-group>
             <f7-list-item
@@ -205,28 +209,27 @@
 </style>
 
 <script>
-import ItemMixin from '@/components/item/item-mixin';
-import FileDefinition from '@/pages/settings/file-definition-mixin';
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
-import { defineAsyncComponent } from 'vue';
-import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
-import { useRuntimeStore } from '@/js/stores/runtime';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import ItemMixin from '@/components/item/item-mixin'
+import FileDefinition from '@/pages/settings/file-definition-mixin'
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
+import { useLastSearchQueryStore } from '@/js/stores/last-search-query'
+import { useRuntimeStore } from '@/js/stores/runtime'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 import { mapStores } from 'pinia'
 
-const lastSearchQueryStore = useLastSearchQueryStore();
+const lastSearchQueryStore = useLastSearchQueryStore()
 
 export default {
   mixins: [ItemMixin, FileDefinition],
   props: {
-    f7router: Object,
+    f7router: Object
   },
   components: {
     'empty-state-placeholder': EmptyStatePlaceholder
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -236,232 +239,232 @@ export default {
       loading: false,
       items: [], // [{ label: 'Staircase', name: 'Staircase'}],
       vlData: {
-        items: [],
+        items: []
       },
       vlParams: {
         items: [],
         searchAll: this.searchAll,
         renderExternal: this.renderExternal,
-        height: this.height,
+        height: this.height
       },
       searchQuery: '',
       selectedItems: [],
       showCheckboxes: false,
-      eventSource: null,
-    };
+      eventSource: null
+    }
   },
   methods: {
     onPageAfterIn(event) {
-      this.load();
+      this.load()
     },
     onPageBeforeOut(event) {
-      this.stopEventSource();
-      lastSearchQueryStore.lastItemSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+      this.stopEventSource()
+      lastSearchQueryStore.lastItemSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query
     },
     load() {
-      if (this.loading) return;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
 
       if (this.initSearchbar)
-        lastSearchQueryStore.lastItemSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
-      this.initSearchbar = false;
+        lastSearchQueryStore.lastItemSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query
+      this.initSearchbar = false
 
       this.$oh.api.get('/rest/items?metadata=semantics').then(data => {
         this.items = data.sort((a, b) => {
-          const labelA = a.label || a.name;
-          const labelB = b.label || b.name;
-          return labelA.localeCompare(labelB);
-        });
-        this.$refs.itemsList.$el.f7VirtualList.replaceAllItems(this.items);
-        this.initSearchbar = true;
-        this.loading = false;
+          const labelA = a.label || a.name
+          const labelB = b.label || b.name
+          return labelA.localeCompare(labelB)
+        })
+        this.$refs.itemsList.$el.f7VirtualList.replaceAllItems(this.items)
+        this.initSearchbar = true
+        this.loading = false
 
-        if (!this.eventSource) this.startEventSource();
-        this.ready = true;
+        if (!this.eventSource) this.startEventSource()
+        this.ready = true
 
         nextTick(() => {
           if (this.$device.desktop) {
-            this.$refs.searchbar?.$el.f7Searchbar.$el.focus();
+            this.$refs.searchbar?.$el.f7Searchbar.$el.focus()
           }
-          this.$refs.searchbar?.$el.f7Searchbar.search(lastSearchQueryStore.lastItemSearchQuery || '');
-        });
-      });
+          this.$refs.searchbar?.$el.f7Searchbar.search(lastSearchQueryStore.lastItemSearchQuery || '')
+        })
+      })
     },
     startEventSource() {
       this.eventSource = this.$oh.sse.connect(
         '/rest/events?topics=openhab/items/*/added,openhab/items/*/removed,openhab/items/*/updated',
         null,
         event => {
-          const topicParts = event.topic.split('/');
+          const topicParts = event.topic.split('/')
           switch (topicParts[3]) {
             case 'added':
             case 'removed':
             case 'updated':
-              this.load();
-              break;
+              this.load()
+              break
           }
         }
-      );
+      )
     },
     stopEventSource() {
-      this.$oh.sse.close(this.eventSource);
-      this.eventSource = null;
+      this.$oh.sse.close(this.eventSource)
+      this.eventSource = null
     },
     filterSelectedItems(event) {
-      this.searchQuery = event?.query;
+      this.searchQuery = event?.query
       if (!this.$refs.itemsList.$el.f7VirtualList.filteredItems) {
-        return;
+        return
       }
       this.selectedItems = this.selectedItems.filter(i =>
         this.$refs.itemsList.$el.f7VirtualList.filteredItems.find(item => item.name === i)
-      );
+      )
     },
     searchAll(query, items) {
-      const found = [];
+      const found = []
       for (let i = 0; i < items.length; i += 1) {
-        let haystack = items[i].name;
-        if (items[i].label) haystack += ' ' + items[i].label;
+        let haystack = items[i].name
+        if (items[i].label) haystack += ' ' + items[i].label
         if (items[i].tags)
-          for (let j = 0; j < items[i].tags.length; j += 1) haystack += ' ' + items[i].tags[j];
-        haystack += ' ' + this.getItemTypeAndMetaLabel(items[i]);
+          for (let j = 0; j < items[i].tags.length; j += 1) haystack += ' ' + items[i].tags[j]
+        haystack += ' ' + this.getItemTypeAndMetaLabel(items[i])
         if (haystack.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') {
-          found.push(i);
+          found.push(i)
         }
       }
-      return found; // return array with matched indexes
+      return found // return array with matched indexes
     },
     renderExternal(vl, vlData) {
-      this.vlData = vlData;
+      this.vlData = vlData
     },
     height(item) {
-      let vlHeight;
-      if (theme.ios) vlHeight = 78;
-      if (theme.aurora) vlHeight = 60.77;
-      if (theme.md) vlHeight = 87.4;
+      let vlHeight
+      if (theme.ios) vlHeight = 78
+      if (theme.aurora) vlHeight = 60.77
+      if (theme.md) vlHeight = 87.4
       if (this.$device.macos) {
         if (
           window.navigator.userAgent.includes('Safari') &&
           !window.navigator.userAgent.includes('Chrome')
         )
-          vlHeight -= 0.77;
+          vlHeight -= 0.77
       }
 
-      const nonSemanticTags = this.getNonSemanticTags(item);
+      const nonSemanticTags = this.getNonSemanticTags(item)
       if (nonSemanticTags.length > 0) {
-        vlHeight += 24;
-        if (theme.ios) vlHeight += 4;
-        if (theme.md) vlHeight += 12;
+        vlHeight += 24
+        if (theme.ios) vlHeight += 4
+        if (theme.md) vlHeight += 12
       }
-      return vlHeight;
+      return vlHeight
     },
     toggleCheck() {
-      this.showCheckboxes = !this.showCheckboxes;
+      this.showCheckboxes = !this.showCheckboxes
     },
     isChecked(item) {
-      return this.selectedItems.indexOf(item) >= 0;
+      return this.selectedItems.indexOf(item) >= 0
     },
     click(event, item) {
       if (this.showCheckboxes) {
-        this.toggleItemCheck(event, item.name, item);
+        this.toggleItemCheck(event, item.name, item)
       } else {
-        this.f7router.navigate(item.name);
+        this.f7router.navigate(item.name)
       }
     },
     ctrlClick(event, item) {
-      this.toggleItemCheck(event, item.name, item);
-      if (!this.selectedItems.length) this.showCheckboxes = false;
+      this.toggleItemCheck(event, item.name, item)
+      if (!this.selectedItems.length) this.showCheckboxes = false
     },
     toggleItemCheck(event, item) {
-      if (!this.showCheckboxes) this.showCheckboxes = true;
+      if (!this.showCheckboxes) this.showCheckboxes = true
       if (this.isChecked(item)) {
-        this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
+        this.selectedItems.splice(this.selectedItems.indexOf(item), 1)
       } else {
-        this.selectedItems.push(item);
+        this.selectedItems.push(item)
       }
     },
     selectDeselectAll() {
       if (this.allSelected) {
-        this.selectedItems = [];
+        this.selectedItems = []
       } else if (this.$refs.itemsList.$el.f7VirtualList.filteredItems?.length > 0) {
-        this.selectedItems = this.$refs.itemsList.$el.f7VirtualList.filteredItems.map(i => i.name);
+        this.selectedItems = this.$refs.itemsList.$el.f7VirtualList.filteredItems.map(i => i.name)
       } else {
-        this.selectedItems = this.items.map(i => i.name);
+        this.selectedItems = this.items.map(i => i.name)
       }
     },
     copySelected() {
-      this.copyFileDefinitionToClipboard(this.ObjectType.ITEM, this.selectedItems);
+      this.copyFileDefinitionToClipboard(this.ObjectType.ITEM, this.selectedItems)
     },
     removeSelected() {
-      const vm = this;
+      const vm = this
 
       f7.dialog.confirm(
         `Remove ${this.selectedItems.length} selected items?`,
         'Remove Items',
         () => {
-          vm.doRemoveSelected();
+          vm.doRemoveSelected()
         }
-      );
+      )
     },
     doRemoveSelected() {
       if (this.selectedItems.some(i => i.editable === false)) {
         f7.dialog.alert(
           'Some of the selected items are not modifiable because they have been created by textual configuration'
-        );
-        return;
+        )
+        return
       }
 
-      let dialog = f7.dialog.progress('Deleting Items...');
+      let dialog = f7.dialog.progress('Deleting Items...')
 
-      const promises = this.selectedItems.map(i => this.$oh.api.delete('/rest/items/' + i));
+      const promises = this.selectedItems.map(i => this.$oh.api.delete('/rest/items/' + i))
       Promise.all(promises)
         .then(data => {
           f7.toast
             .create({
               text: 'Items removed',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.selectedItems = [];
-          dialog.close();
-          this.load();
+            .open()
+          this.selectedItems = []
+          dialog.close()
+          this.load()
         })
         .catch(err => {
-          dialog.close();
-          this.load();
-          console.error(err);
-          f7.dialog.alert('An error occurred while deleting: ' + err);
-        });
-    },
+          dialog.close()
+          this.load()
+          console.error(err)
+          f7.dialog.alert('An error occurred while deleting: ' + err)
+        })
+    }
   },
   computed: {
     searchPlaceholder() {
       return window.innerWidth >= 1280
         ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))'
-        : 'Search';
+        : 'Search'
     },
     filteredItemsCount() {
       if (this.searchQuery) {
-        return this.$refs.itemsList.$el.f7VirtualList.filteredItems.length;
+        return this.$refs.itemsList.$el.f7VirtualList.filteredItems.length
       }
-      return this.items.length;
+      return this.items.length
     },
     allSelected() {
-      return this.selectedItems.length >= this.filteredItemsCount;
+      return this.selectedItems.length >= this.filteredItemsCount
     },
     listTitle() {
-      let title = this.filteredItemsCount;
+      let title = this.filteredItemsCount
       if (this.searchQuery) {
-        title += ` of ${this.items.length} Items found`;
+        title += ` of ${this.items.length} Items found`
       } else {
-        title += ' Items';
+        title += ' Items'
       }
       if (this.selectedItems.length > 0) {
-        title += `, ${this.selectedItems.length} selected`;
+        title += `, ${this.selectedItems.length} selected`
       }
-      return title;
+      return title
     },
     ...mapStores(useRuntimeStore)
-  },
-};
+  }
+}
 </script>

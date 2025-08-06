@@ -37,8 +37,8 @@
               <span class="text" v-html="addonDescription(addon)" />
             </div>
           </f7-row>
-        </f7-block> </f7-list-item
-      >/>
+        </f7-block>
+      </f7-list-item>/>
     </f7-list>
   </div>
 </template>
@@ -71,24 +71,24 @@
 </style>
 
 <script>
-import AddonLogo from '@/components/addons/addon-logo.vue';
+import AddonLogo from '@/components/addons/addon-logo.vue'
 
-import { loadLocaleMessages } from '@/js/i18n';
+import { loadLocaleMessages } from '@/js/i18n'
 
 export default {
   props: ['addons', 'preSelectedAddons', 'enableAddonSelection'],
   emits: ['update'],
   components: {
-    AddonLogo,
+    AddonLogo
   },
   data() {
     return {
       shownAddons: [],
-      selectedAddons: [],
-    };
+      selectedAddons: []
+    }
   },
   i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/setup-wizard/*.json')),
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/setup-wizard/*.json'))
   },
   methods: {
     /**
@@ -97,7 +97,7 @@ export default {
      * @returns {boolean}
      */
     selectedAddon(addon) {
-      return this.selectedAddons.includes(addon);
+      return this.selectedAddons.includes(addon)
     },
     /**
      * Whether the given add-on is pre-selected.
@@ -105,7 +105,7 @@ export default {
      * @returns {boolean}
      */
     preSelectedAddon(addon) {
-      return this.preSelectedAddons.includes(addon);
+      return this.preSelectedAddons.includes(addon)
     },
     /**
      * Returns the add-on description.
@@ -113,12 +113,12 @@ export default {
      * @returns {string}
      */
     addonDescription(addon) {
-      const line1 = this.$t('setupwizard.addon.' + addon.uid + '.line1');
-      const line2 = this.$t('setupwizard.addon.' + addon.uid + '.line2');
-      const hasLine1 = line1 !== 'setupwizard.addon.' + addon.uid + '.line1';
-      const hasLine2 = line2 !== 'setupwizard.addon.' + addon.uid + '.line2';
-      const descr = (hasLine1 ? line1 : '') + (hasLine2 ? '<br>' + line2 : '');
-      return descr || addon.description || addon.uid + '<br>' + addon.version;
+      const line1 = this.$t('setupwizard.addon.' + addon.uid + '.line1')
+      const line2 = this.$t('setupwizard.addon.' + addon.uid + '.line2')
+      const hasLine1 = line1 !== 'setupwizard.addon.' + addon.uid + '.line1'
+      const hasLine2 = line2 !== 'setupwizard.addon.' + addon.uid + '.line2'
+      const descr = (hasLine1 ? line1 : '') + (hasLine2 ? '<br>' + line2 : '')
+      return descr || addon.description || addon.uid + '<br>' + addon.version
     },
     /**
      * Toggles the selection of a single add-on.
@@ -128,21 +128,21 @@ export default {
      */
     toggleAddonSelection(addon, event) {
       if (event.target.checked) {
-        this.selectedAddons.push(addon);
+        this.selectedAddons.push(addon)
         // this.selectAddons = [...new Set(this.selectedAddons.concat(addon))]
       } else {
         // this.selectedAddons = this.selectedAddons.filter(a => (a.uid !== addon.uid))
-        this.selectedAddons = this.selectedAddons.filter(a => a.uid !== addon.uid);
+        this.selectedAddons = this.selectedAddons.filter(a => a.uid !== addon.uid)
       }
-      this.$emit('update', this.selectedAddons);
+      this.$emit('update', this.selectedAddons)
     },
     /**
      * Opens the add-on selection popup.
      */
     selectAddons() {
       if (this.autocompleteAddons) {
-        this.autocompleteAddons.value = this.selectedAddons.map(a => a.label);
-        this.autocompleteAddons.open();
+        this.autocompleteAddons.value = this.selectedAddons.map(a => a.label)
+        this.autocompleteAddons.open()
       }
     },
     /**
@@ -151,9 +151,9 @@ export default {
      * @param newSelected
      */
     updateAddonSelection(newSelected) {
-      this.selectedAddons = newSelected;
-      this.$emit('update', this.selectedAddons);
-    },
+      this.selectedAddons = newSelected
+      this.$emit('update', this.selectedAddons)
+    }
   },
   mounted() {
     // Update the list of shown and selected add-ons with the pre-selected add-ons.
@@ -161,12 +161,12 @@ export default {
     if (Array.isArray(this.preSelectedAddons)) {
       this.shownAddons = this.selectedAddons = this.preSelectedAddons.filter(a =>
         this.addons.includes(a)
-      );
+      )
     }
 
     // Initialize the autocomplete, which provides the add-on selection popup, if add-on selection has been enabled.
-    if (!this.enableAddonSelection) return;
-    const self = this;
+    if (!this.enableAddonSelection) return
+    const self = this
     this.autocompleteAddons = f7.autocomplete.create({
       openIn: 'popup',
       pageTitle: self.$t('setupwizard.addons.selectAddons'),
@@ -179,7 +179,7 @@ export default {
         if (query.length === 0) {
           render(
             self.addons.filter(a => !a.installed && !self.preSelectedAddon(a)).map(a => a.label)
-          );
+          )
         } else {
           render(
             self.addons
@@ -191,32 +191,32 @@ export default {
                     a.uid.toLowerCase().indexOf(query.toLowerCase()) >= 0)
               )
               .map(a => a.label)
-          );
+          )
         }
       },
       on: {
         change(value) {
-          const selected = value.map(label => self.addons.find(a => a.label === label));
+          const selected = value.map(label => self.addons.find(a => a.label === label))
           // If we added addons, keep them visible on the main list, even if we deselect them again later.
-          self.shownAddons = [...new Set(self.selectedAddons.concat(selected))];
-          self.updateAddonSelection(selected);
-        },
-      },
-    });
+          self.shownAddons = [...new Set(self.selectedAddons.concat(selected))]
+          self.updateAddonSelection(selected)
+        }
+      }
+    })
 
     // Add event listener for locale change
     f7.on('locale-change', () => {
       if (this.autocompleteAddons) {
-        this.autocompleteAddons.params.pageTitle = this.$t('setupwizard.addons.selectAddons');
+        this.autocompleteAddons.params.pageTitle = this.$t('setupwizard.addons.selectAddons')
         this.autocompleteAddons.params.searchbarPlaceholder = this.$t(
           'setupwizard.addons.selectAddons.placeholder'
-        );
-        this.autocompleteAddons.params.searchbarDisableText = this.$t('dialogs.cancel');
-        this.autocompleteAddons.params.popupCloseLinkText = this.$t('dialogs.close');
-        this.autocompleteAddons.params.pageBackLinkText = this.$t('dialogs.back');
-        this.autocompleteAddons.params.notFoundText = this.$t('dialogs.search.nothingFound');
+        )
+        this.autocompleteAddons.params.searchbarDisableText = this.$t('dialogs.cancel')
+        this.autocompleteAddons.params.popupCloseLinkText = this.$t('dialogs.close')
+        this.autocompleteAddons.params.pageBackLinkText = this.$t('dialogs.back')
+        this.autocompleteAddons.params.notFoundText = this.$t('dialogs.search.nothingFound')
       }
-    });
-  },
-};
+    })
+  }
+}
 </script>

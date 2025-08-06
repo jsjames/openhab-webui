@@ -14,7 +14,9 @@
     </f7-navbar>
     <f7-block form class="block-narrow">
       <f7-col>
-        <f7-block-title v-if="!ready"> Loading... </f7-block-title>
+        <f7-block-title v-if="!ready">
+          Loading...
+        </f7-block-title>
         <f7-block-title v-else-if="addons.length">
           {{ addons.length }} add-on{{ addons.length > 1 ? 's' : '' }} installed
         </f7-block-title>
@@ -77,10 +79,10 @@
 
 <script>
 // import AddonDetailsPopup from './addon-details-popup.vue'
-import AddonDetailsSheet from './addon-details-sheet.vue';
-import { f7 } from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import AddonDetailsSheet from './addon-details-sheet.vue'
+import { f7 } from 'framework7-vue'
+import { defineAsyncComponent } from 'vue'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
 export default {
   components: {
@@ -102,7 +104,7 @@ export default {
         transformation: 'transformations',
         misc: 'miscellaneous add-ons',
         ui: 'user interfaces',
-        voice: 'voice services',
+        voice: 'voice services'
       },
       addonsIcons: {
         automation: 'sparkles',
@@ -111,18 +113,18 @@ export default {
         transformation: 'function',
         misc: 'rectangle_3_offgrid',
         ui: 'play_rectangle',
-        voice: 'chat_bubble_2',
-      },
-    };
+        voice: 'chat_bubble_2'
+      }
+    }
   },
   methods: {
     openAddonPopup(addonId) {
-      this.currentAddonId = addonId;
-      this.addonPopupOpened = true;
+      this.currentAddonId = addonId
+      this.addonPopupOpened = true
     },
     onPageAfterIn() {
-      this.currentlyUninstalling = [];
-      this.load();
+      this.currentlyUninstalling = []
+      this.load()
     },
     load() {
       this.$oh.api
@@ -130,58 +132,58 @@ export default {
         .then(data => {
           this.addons = data
             .filter(addon => addon.installed && addon.type === this.addonType)
-            .sort((a, b) => a.label.toUpperCase().localeCompare(b.label.toUpperCase()));
-          this.ready = true;
-          this.startEventSource();
+            .sort((a, b) => a.label.toUpperCase().localeCompare(b.label.toUpperCase()))
+          this.ready = true
+          this.startEventSource()
         })
         .catch(err => {
           // sometimes we get 502 errors ('Jersey is not ready yet!'), keep trying
-          console.log('Error while accessing the API, retrying every 5 seconds: ', err);
-          setTimeout(this.load, 5000);
-        });
+          console.log('Error while accessing the API, retrying every 5 seconds: ', err)
+          setTimeout(this.load, 5000)
+        })
     },
     uninstallAddon(addon) {
-      this.addonPopupOpened = false;
-      this.currentlyUninstalling.push(addon.uid);
+      this.addonPopupOpened = false
+      this.currentlyUninstalling.push(addon.uid)
     },
     startEventSource() {
       this.eventSource = this.$oh.sse.connect(
         '/rest/events?topics=openhab/addons/*/*',
         null,
         event => {
-          console.log(event);
-          const topicParts = event.topic.split('/');
+          console.log(event)
+          const topicParts = event.topic.split('/')
           switch (topicParts[3]) {
             case 'installed':
             case 'uninstalled':
-              f7.emit('addon-change', null);
-              this.stopEventSource();
-              this.load();
-              break;
+              f7.emit('addon-change', null)
+              this.stopEventSource()
+              this.load()
+              break
             case 'failed':
               f7.toast
                 .create({
                   text: `Uninstallation of add-on ${topicParts[2]} failed`,
                   closeButton: true,
-                  destroyOnClose: true,
+                  destroyOnClose: true
                 })
-                .open();
-              this.stopEventSource();
-              this.load();
-              break;
+                .open()
+              this.stopEventSource()
+              this.load()
+              break
           }
         },
         () => {
           // in case of error, maybe the SSE connection was closed by the add-ons change itself - try reloading to refresh
-          this.stopEventSource();
-          this.load();
+          this.stopEventSource()
+          this.load()
         }
-      );
+      )
     },
     stopEventSource() {
-      this.$oh.sse.close(this.eventSource);
-      this.eventSource = null;
-    },
-  },
-};
+      this.$oh.sse.close(this.eventSource)
+      this.eventSource = null
+    }
+  }
+}
 </script>

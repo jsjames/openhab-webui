@@ -42,18 +42,18 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import OhCard from '@/components/widgets/standard/oh-card.vue';
-import { actionsMixin } from '../widget-actions';
-import OhImage from '../system/oh-image.vue';
-import { OhImageCardDefinition } from '@/assets/definitions/widgets/standard/cards';
+import mixin from '../widget-mixin'
+import OhCard from '@/components/widgets/standard/oh-card.vue'
+import { actionsMixin } from '../widget-actions'
+import OhImage from '../system/oh-image.vue'
+import { OhImageCardDefinition } from '@/assets/definitions/widgets/standard/cards'
 
 export default {
   mixins: [mixin, actionsMixin],
   components: {
     OhCard,
-    OhImage,
+    OhImage
   },
-  widget: OhImageCardDefinition,
-};
+  widget: OhImageCardDefinition
+}
 </script>

@@ -14,9 +14,9 @@
           <f7-menu-dropdown-item
             v-if="
               context.clipboardtype &&
-              context.clipboardtype !== 'oh-block' &&
-              context.clipboardtype !== 'oh-grid-row' &&
-              context.clipboardtype !== 'oh-grid-col'
+                context.clipboardtype !== 'oh-block' &&
+                context.clipboardtype !== 'oh-grid-row' &&
+                context.clipboardtype !== 'oh-grid-col'
             "
             @click="context.editmode.pasteWidget(context.component, context.parent)"
             href="#"
@@ -164,28 +164,6 @@
   </div>
 </template>
 
-<script>
-import mixin from '../widget-mixin';
-import OhPlaceholderWidget from './oh-placeholder-widget.vue';
-import { OhMasonryDefinition } from '@/assets/definitions/widgets/layout';
-import { MasonryGrid, MasonryGridItem } from 'vue3-masonry-css';
-
-export default {
-  mixins: [mixin],
-  components: {
-    OhPlaceholderWidget,
-    MasonryGrid,
-    MasonryGridItem,
-  },
-  data() {
-    return {
-      dropdownMenuOpened: null,
-    };
-  },
-  widget: OhMasonryDefinition,
-};
-</script>
-
 <style lang="stylus">
 .oh-magic-grid
   // columns 6
@@ -210,3 +188,25 @@ export default {
     &.placeholder
       width calc(100% - 16px)
 </style>
+
+<script>
+import mixin from '../widget-mixin'
+import OhPlaceholderWidget from './oh-placeholder-widget.vue'
+import { OhMasonryDefinition } from '@/assets/definitions/widgets/layout'
+import { MasonryGrid, MasonryGridItem } from 'vue3-masonry-css'
+
+export default {
+  mixins: [mixin],
+  components: {
+    OhPlaceholderWidget,
+    MasonryGrid,
+    MasonryGridItem
+  },
+  data() {
+    return {
+      dropdownMenuOpened: null
+    }
+  },
+  widget: OhMasonryDefinition
+}
+</script>

@@ -35,7 +35,7 @@ export default function defineOHBlocks_Timers(f7) {
    */
   javascriptGenerator.forBlock['oh_sleep'] = function (block) {
     const thread = javascriptGenerator.provideFunction_('thread', [
-      'var ' + javascriptGenerator.FUNCTION_NAME_PLACEHOLDER_ + " = Java.type('java.lang.Thread')"
+      'var ' + javascriptGenerator.FUNCTION_NAME_PLACEHOLDER_ + ' = Java.type(\'java.lang.Thread\')'
     ])
     let milliseconds = block.getFieldValue('milliseconds')
 

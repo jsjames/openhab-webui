@@ -37,9 +37,7 @@
     "OLD:dev:blockly": "cross-env SOURCE_MAPS=1 NODE_ENV=development webpack-dev-server --config ./build/webpack.config.js",
     "OLD:build:prod": "cross-env NODE_ENV=production node ./build/build.js",
     "TODO-V3:test:unit": "npx jest",
-    "TODO-V3:test:unit:watch": "npx jest --watch",
-    "TODO-V3:test:e2e": "npx cypress run",
-    "TODO-V3:test:e2e:gui": "npx cypress open"
+    "TODO-V3:test:unit:watch": "npx jest --watch"
   },
   "browserslist": [
     "Android >= 5",
@@ -147,12 +145,10 @@
     "chalk": "^5.4.1",
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
-    "cypress": "^14.5.2",
     "eslint": "^9.29.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-cypress": "^3.4.0",
     "eslint-plugin-es": "^4.1.0",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.5.2",
     "eslint-plugin-vue": "~10.2.0",
@@ -179,7 +175,7 @@
     "style-loader": "^4.0.0",
     "stylus": "^0.64.0",
     "stylus-loader": "^8.1.0",
-    "swagger-ui-dist": "^4.1.3",
+    "swagger-ui-dist": "^5.27.1",
     "tar": "^7.4.3",
     "typescript": "~5.8.0",
     "vite": "npm:rolldown-vite@latest",

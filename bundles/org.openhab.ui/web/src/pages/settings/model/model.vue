@@ -140,14 +140,16 @@
               @cancel-create="selectItem(null)" />
           </f7-block>
           <f7-block v-else>
-            <div class="padding text-align-center">Nothing selected</div>
+            <div class="padding text-align-center">
+              Nothing selected
+            </div>
           </f7-block>
           <f7-block
             v-if="
               !selectedItem ||
-              (selectedItem.item.created !== false &&
-                selectedItem.item.type === 'Group' &&
-                selectedItem.class.indexOf('Point_') < 0)
+                (selectedItem.item.created !== false &&
+                  selectedItem.item.type === 'Group' &&
+                  selectedItem.class.indexOf('Point_') < 0)
             ">
             <div><f7-block-title>Add to Model</f7-block-title></div>
             <f7-card>
@@ -194,9 +196,9 @@
         color="blue"
         v-if="
           !selectedItem ||
-          (selectedItem.item.created !== false &&
-            selectedItem.item.type === 'Group' &&
-            selectedItem.class.indexOf('Point_') < 0)
+            (selectedItem.item.created !== false &&
+              selectedItem.item.type === 'Group' &&
+              selectedItem.class.indexOf('Point_') < 0)
         ">
         <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
         <f7-icon ios="f7:multiply" md="material:close" aurora="f7:multiply" />
@@ -291,7 +293,9 @@
           <link-details v-if="detailsTab === 'links'" :item="selectedItem.item" :links="links" />
         </f7-block>
         <f7-block v-else>
-          <div class="padding text-align-center">Nothing selected</div>
+          <div class="padding text-align-center">
+            Nothing selected
+          </div>
         </f7-block>
       </f7-page>
     </f7-sheet>
@@ -364,30 +368,30 @@
 </style>
 
 <script>
-import AddFromThing from './add-from-thing.vue';
-import AddFromTemplate from './add-from-template.vue';
-import { utils } from 'framework7';
-import { f7, theme } from 'framework7-vue';
-import { nextTick, defineAsyncComponent } from 'vue';
-import { mapState } from 'pinia';
+import AddFromThing from './add-from-thing.vue'
+import AddFromTemplate from './add-from-template.vue'
+import { utils } from 'framework7'
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
+import { mapState } from 'pinia'
 
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { useStatesStore } from '@/js/stores/states';
-import { useLastSearchQueryStore } from '@/js/stores/last-search-query';
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { useStatesStore } from '@/js/stores/states'
+import { useLastSearchQueryStore } from '@/js/stores/last-search-query'
 
-import ModelDetailsPane from '@/components/model/details-pane.vue';
-import ModelTreeview from '@/components/model/model-treeview.vue';
-import ItemStatePreview from '@/components/item/item-state-preview.vue';
-import ItemDetails from '@/components/model/item-details.vue';
-import MetadataMenu from '@/components/item/metadata/item-metadata-menu.vue';
-import LinkDetails from '@/components/model/link-details.vue';
+import ModelDetailsPane from '@/components/model/details-pane.vue'
+import ModelTreeview from '@/components/model/model-treeview.vue'
+import ItemStatePreview from '@/components/item/item-state-preview.vue'
+import ItemDetails from '@/components/model/item-details.vue'
+import MetadataMenu from '@/components/item/metadata/item-metadata-menu.vue'
+import LinkDetails from '@/components/model/link-details.vue'
 
-import ModelMixin from '@/pages/settings/model/model-mixin';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import ModelMixin from '@/pages/settings/model/model-mixin'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
 export default {
   props: {
-    f7router: Object,
+    f7router: Object
   },
   mixins: [ModelMixin],
   components: {
@@ -397,7 +401,7 @@ export default {
     ItemStatePreview,
     ItemDetails,
     MetadataMenu,
-    LinkDetails,
+    LinkDetails
   },
   data() {
     return {
@@ -410,48 +414,48 @@ export default {
       eventSource: null,
       itemDetailsKey: utils.id(),
       theme
-    };
+    }
   },
   computed: {
     empty() {
       let emptySemantic =
-        !this.rootLocations.length && !this.rootEquipment.length && !this.rootPoints.length;
+        !this.rootLocations.length && !this.rootEquipment.length && !this.rootPoints.length
       return this.includeNonSemantic
         ? emptySemantic && !this.rootGroups.length && !this.rootItems.length
-        : emptySemantic;
+        : emptySemantic
     },
     context() {
       return {
-        store: useStatesStore().trackedItems,
-      };
+        store: useStatesStore().trackedItems
+      }
     },
     searchPlaceholder() {
       return window.innerWidth >= 1280
         ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))'
-        : 'Search';
+        : 'Search'
     },
     ...mapState(useRuntimeStore, {
-      includeItemName: "modelPicker.includeItemName",
-      includeItemTags: "modelPicker.includeItemTags",
-      expanded: "modelPicker.expanded"
-    }),
+      includeItemName: 'modelPicker.includeItemName',
+      includeItemTags: 'modelPicker.includeItemTags',
+      expanded: 'modelPicker.expanded'
+    })
   },
   methods: {
     onPageAfterIn() {
-      console.log('Model page in');
-      useStatesStore().startTrackingStates();
+      console.log('Model page in')
+      useStatesStore().startTrackingStates()
       if (this.selectedItem) {
-        this.update();
+        this.update()
       } else {
-        this.load();
+        this.load()
       }
     },
     onPageBeforeOut() {
-      console.log('Model page out');
-      this.detailsOpened = false;
-      useStatesStore().stopTrackingStates();
-      this.stopEventSource();
-      useLastSearchQueryStore().lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
+      console.log('Model page out')
+      this.detailsOpened = false
+      useStatesStore().stopTrackingStates()
+      this.stopEventSource()
+      useLastSearchQueryStore().lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query
     },
     modelItem(item) {
       const modelItem = {
@@ -463,44 +467,44 @@ export default {
           equipment: [],
           points: [],
           groups: [],
-          items: [],
-        },
-      };
+          items: []
+        }
+      }
       // force the selection of the placeholder for a item being created
       if (item.created === false) {
-        this.selectItem(modelItem);
+        this.selectItem(modelItem)
       }
       if (this.previousSelection && item.name === this.previousSelection.item.name) {
-        this.selectedItem = parent;
-        this.previousSelection = null;
-        this.selectItem(modelItem);
+        this.selectedItem = parent
+        this.previousSelection = null
+        this.selectItem(modelItem)
       }
 
-      return modelItem;
+      return modelItem
     },
     load() {
       if (this.initSearchbar)
-        useLastSearchQueryStore().lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query;
-      this.initSearchbar = false;
+        useLastSearchQueryStore().lastModelSearchQuery = this.$refs.searchbar?.$el.f7Searchbar.query
+      this.initSearchbar = false
 
       this.loadModel().then(() => {
-        this.initSearchbar = true;
+        this.initSearchbar = true
         nextTick(() => {
           if (this.$device.desktop && this.$refs.searchbar) {
-            this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
+            this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus()
           }
-          this.$refs.searchbar?.$el.f7Searchbar.search(useLastSearchQueryStore().lastModelSearchQuery || '');
-          this.restoreExpanded();
-        });
-        if (!this.eventSource) this.startEventSource();
-        console.log('Model loaded');
-      });
+          this.$refs.searchbar?.$el.f7Searchbar.search(useLastSearchQueryStore().lastModelSearchQuery || '')
+          this.restoreExpanded()
+        })
+        if (!this.eventSource) this.startEventSource()
+        console.log('Model loaded')
+      })
     },
     update() {
-      console.log('Model update');
-      this.previousSelection = this.selectedItem;
-      this.newItem = null;
-      this.load();
+      console.log('Model update')
+      this.previousSelection = this.selectedItem
+      this.newItem = null
+      this.load()
       // this.newItemParent = null
     },
     startEventSource() {
@@ -508,62 +512,62 @@ export default {
         '/rest/events?topics=openhab/items/*/added,openhab/items/*/updated,openhab/items/*/removed',
         null,
         event => {
-          const topicParts = event.topic.split('/');
+          const topicParts = event.topic.split('/')
           switch (topicParts[3]) {
             case 'added':
             case 'removed':
             case 'updated':
               // this.ready = false
-              this.update();
-              break;
+              this.update()
+              break
           }
         }
-      );
+      )
     },
     stopEventSource() {
-      this.$oh.sse.close(this.eventSource);
-      this.eventSource = null;
+      this.$oh.sse.close(this.eventSource)
+      this.eventSource = null
     },
     selectItem(item) {
-      this.selectedItem = item;
+      this.selectedItem = item
       if (this.newItem && (!item || item.item.name !== this.newItem.name)) {
-        this.newItem = null;
+        this.newItem = null
         // this.newItemParent = null
-        this.load();
+        this.load()
       }
-      const detailsLink = this.$refs.detailsLink;
-      const visibility = window.getComputedStyle(detailsLink.$el).visibility;
+      const detailsLink = this.$refs.detailsLink
+      const visibility = window.getComputedStyle(detailsLink.$el).visibility
       if (!visibility || visibility !== 'hidden') {
-        this.detailsOpened = true;
+        this.detailsOpened = true
       }
       // console.log('selected ' + item.item.name)
     },
     clearSelection(ev) {
       if (ev.target && ev.currentTarget && ev.target === ev.currentTarget) {
-        this.selectedItem = null;
-        this.detailsOpened = false;
+        this.selectedItem = null
+        this.detailsOpened = false
       }
     },
     toggleNonSemantic() {
-      this.rootGroups = [];
-      this.rootItems = [];
-      this.includeNonSemantic = !this.includeNonSemantic;
-      this.load();
+      this.rootGroups = []
+      this.rootItems = []
+      this.includeNonSemantic = !this.includeNonSemantic
+      this.load()
     },
     toggleItemName() {
-      this.includeItemName = !this.includeItemName;
-      modelStore.includeItemName = this.includeItemName;
-      this.load();
+      this.includeItemName = !this.includeItemName
+      modelStore.includeItemName = this.includeItemName
+      this.load()
     },
     toggleItemTags() {
-      this.includeItemTags = !this.includeItemTags;
-      modelStore.includeItemTags = this.includeItemTags;
-      this.load();
+      this.includeItemTags = !this.includeItemTags
+      modelStore.includeItemTags = this.includeItemTags
+      this.load()
     },
     toggleExpanded() {
-      this.expanded = !this.expanded;
-      modelStore.expanded = this.expanded;
-      this.applyExpandedOption();
+      this.expanded = !this.expanded
+      modelStore.expanded = this.expanded
+      this.applyExpandedOption()
     },
     addSemanticItem(semanticType) {
       this.newItem = {
@@ -574,34 +578,34 @@ export default {
         tags: [semanticType],
         metadata: {
           semantics: {
-            value: semanticType,
-          },
+            value: semanticType
+          }
         },
-        created: false,
-      };
+        created: false
+      }
       if (this.selectedItem) {
-        this.newItem.groupNames = [this.selectedItem.item.name];
+        this.newItem.groupNames = [this.selectedItem.item.name]
         if (this.selectedItem.item.metadata && this.selectedItem.item.metadata.semantics) {
-          const semantics = this.selectedItem.item.metadata.semantics;
+          const semantics = this.selectedItem.item.metadata.semantics
           if (semantics.value.indexOf('Location') === 0 && semanticType.indexOf('Location') < 0) {
             this.newItem.metadata.semantics.config = {
-              hasLocation: this.selectedItem.item.name,
-            };
+              hasLocation: this.selectedItem.item.name
+            }
           } else if (semanticType.indexOf('Point') === 0) {
             this.newItem.metadata.semantics.config = {
-              isPointOf: this.selectedItem.item.name,
-            };
+              isPointOf: this.selectedItem.item.name
+            }
           } else {
             this.newItem.metadata.semantics.config = {
-              isPartOf: this.selectedItem.item.name,
-            };
+              isPartOf: this.selectedItem.item.name
+            }
           }
         }
 
-        this.newItemParent = this.selectedItem.item.name;
+        this.newItemParent = this.selectedItem.item.name
       }
-      this.detailsTab = 'item';
-      this.load();
+      this.detailsTab = 'item'
+      this.load()
     },
     addNonSemanticItem(group) {
       this.newItem = {
@@ -611,14 +615,14 @@ export default {
         category: '',
         groupNames: [],
         tags: [],
-        created: false,
-      };
-      if (this.selectedItem) {
-        this.newItem.groupNames = [this.selectedItem.item.name];
-        this.newItemParent = this.selectedItem.item.name;
+        created: false
       }
-      this.detailsTab = 'item';
-      this.load();
+      if (this.selectedItem) {
+        this.newItem.groupNames = [this.selectedItem.item.name]
+        this.newItemParent = this.selectedItem.item.name
+      }
+      this.detailsTab = 'item'
+      this.load()
     },
     addFromThing(createEquipment) {
       this.f7router.navigate(
@@ -629,17 +633,17 @@ export default {
             path: 'add-thing',
             props: {},
             on: {
-              pageAfterOut(event, page) {},
-            },
-          },
+              pageAfterOut(event, page) {}
+            }
+          }
         },
         {
           props: {
             parent: this.selectedItem,
-            createEquipment,
-          },
+            createEquipment
+          }
         }
-      );
+      )
     },
     addFromLocationTemplate() {
       this.f7router.navigate(
@@ -648,16 +652,16 @@ export default {
           route: {
             component: AddFromTemplate,
             path: 'add-template',
-            props: {},
-          },
+            props: {}
+          }
         },
         {
           props: {
-            itemList: this.items,
-          },
+            itemList: this.items
+          }
         }
-      );
-    },
-  },
-};
+      )
+    }
+  }
+}
 </script>

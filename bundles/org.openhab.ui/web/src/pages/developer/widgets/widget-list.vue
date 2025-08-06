@@ -45,7 +45,9 @@
         icon-md="material:close"
         icon-color="white"
         @click="showCheckboxes = false" />
-      <div class="title" v-if="theme.md">{{ selectedItems.length }} selected</div>
+      <div class="title" v-if="theme.md">
+        {{ selectedItems.length }} selected
+      </div>
       <div class="right" v-if="theme.md">
         <f7-link
           v-show="selectedItems.length"
@@ -127,15 +129,15 @@
 </template>
 
 <script>
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
+import { f7, theme } from 'framework7-vue'
+import { nextTick } from 'vue'
 
 export default {
   props: {
-    f7router: Object,
+    f7router: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -146,97 +148,97 @@ export default {
       initSearchbar: false,
       selectedItems: [],
       showCheckboxes: false,
-      eventSource: null,
-    };
+      eventSource: null
+    }
   },
   created() {},
   methods: {
     onPageAfterIn() {
-      this.load();
+      this.load()
     },
     load() {
-      if (this.loading) return;
-      this.loading = true;
+      if (this.loading) return
+      this.loading = true
       this.$oh.api.get('/rest/ui/components/ui:widget').then(data => {
         this.widgets = data.sort((a, b) => {
-          return a.uid.localeCompare(b.uid);
-        });
-        this.loading = false;
-        this.ready = true;
+          return a.uid.localeCompare(b.uid)
+        })
+        this.loading = false
+        this.ready = true
         setTimeout(() => {
-          this.initSearchbar = true;
+          this.initSearchbar = true
           nextTick(() => {
             if (this.$device.desktop && this.$refs.searchbar) {
-              this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus();
+              this.$refs.searchbar.$el.f7Searchbar.$inputEl[0].focus()
             }
-          });
-        });
-      });
+          })
+        })
+      })
     },
     toggleCheck() {
-      this.showCheckboxes = !this.showCheckboxes;
+      this.showCheckboxes = !this.showCheckboxes
     },
     isChecked(item) {
-      return this.selectedItems.indexOf(item) >= 0;
+      return this.selectedItems.indexOf(item) >= 0
     },
     click(event, item) {
       if (this.showCheckboxes) {
-        this.toggleItemCheck(event, item.uid, item);
+        this.toggleItemCheck(event, item.uid, item)
       } else {
-        this.f7router.navigate(item.uid, { animate: false });
+        this.f7router.navigate(item.uid, { animate: false })
       }
     },
     ctrlClick(event, item) {
-      this.toggleItemCheck(event, item.uid, item);
-      if (!this.selectedItems.length) this.showCheckboxes = false;
+      this.toggleItemCheck(event, item.uid, item)
+      if (!this.selectedItems.length) this.showCheckboxes = false
     },
     toggleItemCheck(event, item) {
-      if (!this.showCheckboxes) this.showCheckboxes = true;
+      if (!this.showCheckboxes) this.showCheckboxes = true
       if (this.isChecked(item)) {
-        this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
+        this.selectedItems.splice(this.selectedItems.indexOf(item), 1)
       } else {
-        this.selectedItems.push(item);
+        this.selectedItems.push(item)
       }
     },
     removeSelected() {
-      const vm = this;
+      const vm = this
 
       f7.dialog.confirm(
         `Remove ${this.selectedItems.length} selected widgets?`,
         'Remove widgets',
         () => {
-          vm.doRemoveSelected();
+          vm.doRemoveSelected()
         }
-      );
+      )
     },
     doRemoveSelected() {
-      let dialog = f7.dialog.progress('Deleting widgets...');
+      let dialog = f7.dialog.progress('Deleting widgets...')
 
       const promises = this.selectedItems.map(i =>
         this.$oh.api.delete('/rest/ui/components/ui:widget/' + i)
-      );
+      )
       Promise.all(promises)
         .then(data => {
           f7.toast
             .create({
               text: 'Widgets removed',
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.selectedItems = [];
-          dialog.close();
-          this.load();
-          f7.emit('sidebar-refresh', null);
+            .open()
+          this.selectedItems = []
+          dialog.close()
+          this.load()
+          f7.emit('sidebar-refresh', null)
         })
         .catch(err => {
-          dialog.close();
-          this.load();
-          console.error(err);
-          f7.dialog.alert('An error occurred while deleting: ' + err);
-          f7.emit('sidebar-refresh', null);
-        });
-    },
-  },
-};
+          dialog.close()
+          this.load()
+          console.error(err)
+          f7.dialog.alert('An error occurred while deleting: ' + err)
+          f7.emit('sidebar-refresh', null)
+        })
+    }
+  }
+}
 </script>

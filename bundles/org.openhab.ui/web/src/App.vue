@@ -22,15 +22,13 @@
               v-if="themeOptionsStore.darkMode() === 'dark'"
               src="/images/openhab-logo-white.svg"
               type="image/svg+xml"
-              width="196px" />
-            <img v-else src="/images/openhab-logo.svg" type="image/svg+xml" width="196px" />
+              width="196px">
+            <img v-else src="/images/openhab-logo.svg" type="image/svg+xml" width="196px">
           </div>
         </f7-link>
         <f7-list v-if="ready">
           <f7-list-item v-if="runtimeStore.apiEndpoint('ui') && (!pages || !pages.length)">
-            <span
-              ><em>{{ $t('sidebar.noPages') }}</em></span
-            >
+            <span><em>{{ $t('sidebar.noPages') }}</em></span>
           </f7-list-item>
           <f7-list-item
             v-for="page in pages"
@@ -47,9 +45,9 @@
           </f7-list-item>
         </f7-list>
         <f7-block-title
-          v-if="userStore.isAdmin()"
-          >{{  $t('sidebar.administration') }}</f7-block-title
-        >
+          v-if="userStore.isAdmin()">
+          {{ $t('sidebar.administration') }}
+        </f7-block-title>
         <!-- Settings -->
         <f7-list class="admin-links" v-if="userStore.isAdmin()">
           <f7-list-item
@@ -327,9 +325,9 @@
               <div
                 v-if="
                   !userStore.user &&
-                  !componentsStore.pages().filter(p => p.uid !== 'overview').length"
+                    !componentsStore.pages().filter(p => p.uid !== 'overview').length"
                 class="hint-signin">
-                <em>{{ $t('sidebar.tip.signIn') }}<br /><f7-icon f7="arrow_down" size="20" /></em>
+                <em>{{ $t('sidebar.tip.signIn') }}<br><f7-icon f7="arrow_down" size="20" /></em>
               </div>
               <f7-button
                 @click="authorize"
@@ -504,37 +502,35 @@
 </style>
 
 <script>
-import { nextTick, onBeforeMount } from 'vue';
-import Framework7, { Dom7 } from 'framework7/lite-bundle';
-import { f7, f7ready, theme } from 'framework7-vue';
-import { reactive, provide } from 'vue';
-import { defineAsyncComponent } from 'vue';
-import { mapStores } from 'pinia';
+import { nextTick, onBeforeMount, reactive, provide, defineAsyncComponent } from 'vue'
+import Framework7, { Dom7 } from 'framework7/lite-bundle'
+import { f7, f7ready, theme } from 'framework7-vue'
+import { mapStores } from 'pinia'
 
-import buildInfo from '@/assets/build-info';
+import buildInfo from '@/assets/build-info'
 
-import routes from '@/js/routes.js';
-import PanelRight from '@/pages/panel-right.vue';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import routes from '@/js/routes.js'
+import PanelRight from '@/pages/panel-right.vue'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
-import { loadLocaleMessages } from '@/js/i18n';
+import { loadLocaleMessages } from '@/js/i18n'
 
-import auth from '@/components/auth-mixin';
-import i18n_mixin from '@/components/i18n-mixin';
-import connectionHealth from '@/components/connection-health-mixin';
-import sseEvents from '@/components/sse-events-mixin';
+import auth from '@/components/auth-mixin'
+import i18n_mixin from '@/components/i18n-mixin'
+import connectionHealth from '@/components/connection-health-mixin'
+import sseEvents from '@/components/sse-events-mixin'
 
-import dayjs from 'dayjs';
-import dayjsLocales from 'dayjs/locale.json';
+import dayjs from 'dayjs'
+import dayjsLocales from 'dayjs/locale.json'
 
-import { AddonIcons, AddonTitles } from '@/assets/addon-store';
-import { on } from 'dom7';
+import { AddonIcons, AddonTitles } from '@/assets/addon-store'
+import { on } from 'dom7'
 
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { useStatesStore } from '@/js/stores/states';
-import { useUserStore } from '@/js/stores/user';
-import { useComponentsStore } from '@/js/stores/components';
-import { useRuntimeStore } from '@/js/stores/runtime';
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { useStatesStore } from '@/js/stores/states'
+import { useUserStore } from '@/js/stores/user'
+import { useComponentsStore } from '@/js/stores/components'
+import { useRuntimeStore } from '@/js/stores/runtime'
 import { useSemanticsStore } from '@/js/stores/semantics'
 
 export default {
@@ -544,18 +540,18 @@ export default {
     PanelRight,
     DeveloperDock: defineAsyncComponent(
       () => import(/* webpackChunkName: "admin-base" */ '@/components/developer/developer-dock.vue')
-    ),
+    )
   },
   data() {
-    let theme = localStorage.getItem('openhab.ui:theme');
+    let theme = localStorage.getItem('openhab.ui:theme')
 
     if ((!theme || theme === 'auto') && window.OHApp && window.OHApp.preferTheme) {
-      theme = window.OHApp.preferTheme();
+      theme = window.OHApp.preferTheme()
     }
 
     // choose Aurora as default theme for desktops
     if ((!theme || theme === 'auto') && this.$device.desktop) {
-      theme = 'aurora';
+      theme = 'aurora'
     }
 
     return {
@@ -577,7 +573,7 @@ export default {
         // Enable panel left visibility breakpoint
         panel: {
           leftBreakpoint: 960,
-          rightBreakpoint: 1280,
+          rightBreakpoint: 1280
         },
 
         // Register service worker
@@ -585,24 +581,24 @@ export default {
           location.hostname === 'localhost'
             ? {}
             : {
-                path: './service-worker.js',
-              },
+              path: './service-worker.js'
+            },
         card: {
-          swipeToClose: true,
+          swipeToClose: true
         },
         statusbar: {
           overlay: 'auto',
           iosOverlaysWebView: true,
-          androidOverlaysWebView: false,
+          androidOverlaysWebView: false
         },
         touch: {
-          tapHold: true,
+          tapHold: true
         },
         // Lazy loading settings
         lazy: {
           threshold: 50,
-          sequential: false,
-        },
+          sequential: false
+        }
       },
       user: null,
 
@@ -616,7 +612,7 @@ export default {
       activeHelpTab: 'current',
       developerSearch: null,
       currentUrl: ''
-    };
+    }
   },
   i18n: {
     messages: await loadLocaleMessages(import.meta.glob('./src/assets/i18n/about/*.json'))
@@ -637,88 +633,88 @@ export default {
         .split('/')
         .reduceRight(
           (a, b) => {
-            return { $key: b, [b]: a };
+            return { $key: b, [b]: a }
           },
           { $end: true }
         )
     },
     serverDisplayUrl() {
-      return window.location.origin;
+      return window.location.origin
     },
     ...mapStores(useThemeOptionsStore, useComponentsStore, useUserStore, useRuntimeStore)
   },
   watch: {
     'useStatesStore().sseConnected': {
       handler: function (connected) {
-        console.debug('sseConnected', connected);
+        console.debug('sseConnected', connected)
         if (window.OHApp && typeof window.OHApp.sseConnected === 'function') {
           try {
-            window.OHApp.sseConnected(connected);
+            window.OHApp.sseConnected(connected)
           } catch {}
         }
       },
-      immediate: true, // provides initial (not changed yet) state
-    },
+      immediate: true // provides initial (not changed yet) state
+    }
   },
   methods: {
     loadData(useCredentials) {
-      const useCredentialsPromise = useCredentials ? this.setBasicCredentials() : Promise.resolve();
+      const useCredentialsPromise = useCredentials ? this.setBasicCredentials() : Promise.resolve()
       return useCredentialsPromise
         .then(() => {
-          return Framework7.request.json('/rest');
+          return Framework7.request.json('/rest')
         })
         .catch(err => {
-          console.error('openHAB REST API connection failed with error:');
-          console.info(err);
+          console.error('openHAB REST API connection failed with error:')
+          console.info(err)
           if (err.message === 'Unauthorized' || err.status === 401) {
             if (!useCredentials) {
               // try again with credentials
-              this.loadData(true);
-              return Promise.reject();
+              this.loadData(true)
+              return Promise.reject()
             }
             nextTick(() => {
               f7.dialog.login(
                 window.location.host,
                 'openHAB',
                 (username, password) => {
-                  this.setBasicCredentials(username, password);
+                  this.setBasicCredentials(username, password)
                   this.$oh.api
                     .get('/rest/')
                     .then(rootResponse => {
-                      this.storeBasicCredentials();
-                      this.loadData();
+                      this.storeBasicCredentials()
+                      this.loadData()
                     })
                     .catch(err => {
                       if (err === 'Unauthorized' || err === 401) {
-                        this.clearBasicCredentials();
-                        this.loadData();
-                        return Promise.reject();
+                        this.clearBasicCredentials()
+                        this.loadData()
+                        return Promise.reject()
                       }
-                    });
+                    })
                 },
                 () => {
-                  return Promise.reject();
+                  return Promise.reject()
                 }
-              );
-            });
-            return Promise.reject();
+              )
+            })
+            return Promise.reject()
             // Redirection handling (e.g. when using auth_request in nginx)
           } else if (err.message === 'Found' || err.status === 302) {
             // technically correct way, but unreliable because XhrHttpRequest follows the redirect itself and fails because of CORS policy
             if (err.xhr.HEADERS_RECEIVED > 0) {
-              const headersObj = {};
+              const headersObj = {}
               err.xhr
                 .getAllResponseHeaders()
                 .trim()
                 .split(/[\r\n]+/)
                 .forEach(line => {
-                  const parts = line.split(':\t');
-                  headersObj[parts[0]] = parts[1];
-                });
+                  const parts = line.split(':\t')
+                  headersObj[parts[0]] = parts[1]
+                })
               // Redirect according to location header but modify URL arguments to redirect back to the UI and not the REST API after authentication
               window.location.replace(
                 headersObj['location'].replace(window.location.href + 'rest', window.location.href)
-              );
+              )
             }
           } else if (err.message === 0 || err.status === 0) {
             // XhrHttpRequest has message & status 0 if the redirected request failed due to CORS policy
@@ -726,153 +722,153 @@ export default {
             if ('serviceWorker' in window.navigator) {
               window.navigator.serviceWorker.getRegistration().then(reg => {
                 reg.unregister().then(() => {
-                  console.info('Unregistered service-worker, reloading now.');
-                  window.location.reload();
-                });
-              });
+                  console.info('Unregistered service-worker, reloading now.')
+                  window.location.reload()
+                })
+              })
             }
           } else {
             // Make sure this is set to a value, otherwise the page won't show up
-            this.communicationFailureMsg = err.message || err.status || 'Unknown Error';
+            this.communicationFailureMsg = err.message || err.status || 'Unknown Error'
             return Promise.reject(
               'openHAB REST API connection failed with error: ' + err.message || err.status
-            );
+            )
           }
         })
         .then(res => res.data)
         .then(rootResponse => {
           // store the REST API services present on the system
           useRuntimeStore().loadRootResource(rootResponse)
-          this.updateLocale();
-          if (!useRuntimeStore().apiEndpoint('auth')) useUserStore().setNoAuth(true);
-          return rootResponse;
+          this.updateLocale()
+          if (!useRuntimeStore().apiEndpoint('auth')) useUserStore().setNoAuth(true)
+          return rootResponse
         })
         .then(rootResponse => {
-          const locale = useRuntimeStore().locale?.toLocaleLowerCase() | 'default';
-          let dayjsLocalePromise = Promise.resolve(null);
+          const locale = useRuntimeStore().locale?.toLocaleLowerCase() | 'default'
+          let dayjsLocalePromise = Promise.resolve(null)
           // try to resolve the dayjs file to load if it exists
           if (locale) {
             const dayjsLocale = dayjsLocales.find(
               l => l.key === locale || l.key === locale.split('-')[0]
-            );
+            )
             dayjsLocalePromise = dayjsLocale
               ? import(/* @vite-ignore */ '../node_modules/dayjs/locale/' + dayjsLocale.key + '.js')
-                  .then(() => Promise.resolve(dayjsLocale))
-                  .catch(error => {
-                    console.error('Error fetching dayjs: ', error);
-                  })
-              : Promise.resolve(null);
+                .then(() => Promise.resolve(dayjsLocale))
+                .catch(error => {
+                  console.error('Error fetching dayjs: ', error)
+                })
+              : Promise.resolve(null)
           }
           // load the pages & widgets, only if the 'ui' endpoint exists (or empty arrays otherwise)
           // load the semantic tags
           return Promise.all([
             ...(useRuntimeStore().apiEndpoint('ui')
               ? [
-                  this.$oh.api.get('/rest/ui/components/ui:page'),
-                  this.$oh.api.get('/rest/ui/components/ui:widget'),
-                ]
+                this.$oh.api.get('/rest/ui/components/ui:page'),
+                this.$oh.api.get('/rest/ui/components/ui:widget')
+              ]
               : [Promise.resolve([]), Promise.resolve([])]),
             dayjsLocalePromise,
             useSemanticsStore().loadSemantics()
-          ]);
+          ])
         })
         .then(data => {
           // store the pages & widgets
-          useComponentsStore().setPages(data[0]);
-          useComponentsStore().setWidgets(data[1]);
+          useComponentsStore().setPages(data[0])
+          useComponentsStore().setWidgets(data[1])
           this.pages = data[0]
             .filter(p => p.config.sidebar && this.pageIsVisible(p))
             .sort((p1, p2) => {
-              const order1 = p1.config.order || 1000;
-              const order2 = p2.config.order || 1000;
-              return order1 - order2;
-            });
-          this.updateTitle();
+              const order1 = p1.config.order || 1000
+              const order2 = p2.config.order || 1000
+              return order1 - order2
+            })
+          this.updateTitle()
 
-          if (data[2]) dayjs.locale(data[2].key);
+          if (data[2]) dayjs.locale(data[2].key)
 
           // load & build the semantic model
-          return this.$store.dispatch('loadSemanticModel');
+          return this.$store.dispatch('loadSemanticModel')
         })
         .then(() => {
           // finished with loading
-          this.ready = true;
-          return Promise.resolve();
-        });
+          this.ready = true
+          return Promise.resolve()
+        })
     },
     pageIsVisible(page) {
       if (!page.config.visibleTo) return true
       if (useUserStore().noAuth) return true
       const user = useUserStore().user
-      if (!user) return false;
+      if (!user) return false
       if (user.roles && user.roles.some(r => page.config.visibleTo.indexOf('role:' + r) >= 0))
-        return true;
-      if (page.config.visibleTo.indexOf('user:' + user.name) >= 0) return true;
-      return false;
+        return true
+      if (page.config.visibleTo.indexOf('user:' + user.name) >= 0) return true
+      return false
     },
     pageIcon(page) {
-      if (page.config && page.config.icon) return page.config.icon;
+      if (page.config && page.config.icon) return page.config.icon
       switch (page.component) {
         case 'oh-layout-page':
-          return 'f7:rectangle_grid_2x2';
+          return 'f7:rectangle_grid_2x2'
         case 'oh-tabs-page':
-          return 'f7:squares_below_rectangle';
+          return 'f7:squares_below_rectangle'
         case 'oh-map-page':
-          return 'f7:map';
+          return 'f7:map'
         case 'oh-plan-page':
-          return 'f7:square_stack_3d_up';
+          return 'f7:square_stack_3d_up'
         case 'oh-chart-page':
-          return 'f7:graph_square';
+          return 'f7:graph_square'
         default:
-          return 'f7:tv';
+          return 'f7:tv'
       }
     },
     updateThemeOptions() {
       useThemeOptionsStore().updateClasses()
     },
     toggleDeveloperDock() {
-      if (!useUserStore().isAdmin()) return;
-      this.showDeveloperDock = !this.showDeveloperDock;
+      if (!useUserStore().isAdmin()) return
+      this.showDeveloperDock = !this.showDeveloperDock
       if (this.showDeveloperDock) useStatesStore().startTrackingStates()
-      useRuntimeStore().setDeveloperDock(this.showDeveloperDock);
+      useRuntimeStore().setDeveloperDock(this.showDeveloperDock)
     },
     selectDeveloperDock(dockOpts) {
       if (dockOpts) {
-        if (dockOpts.dock) this.activeDock = dockOpts.dock;
-        if (dockOpts.helpTab) this.activeHelpTab = dockOpts.helpTab;
-        if (dockOpts.toolTab) this.activeToolTab = dockOpts.toolTab;
+        if (dockOpts.dock) this.activeDock = dockOpts.dock
+        if (dockOpts.helpTab) this.activeHelpTab = dockOpts.helpTab
+        if (dockOpts.toolTab) this.activeToolTab = dockOpts.toolTab
         if (dockOpts.searchFor) {
           if (this.developerSearch === dockOpts.searchFor) {
             // if the search term is the same, reset the search
-            this.developerSearch = '';
+            this.developerSearch = ''
           }
           // set the search term in nextTick to allow the reset to register in the developer-sidebar's watched prop
           nextTick(() => {
-            this.developerSearch = dockOpts.searchFor;
-          });
+            this.developerSearch = dockOpts.searchFor
+          })
         }
       }
-      if (!this.showDeveloperDock) this.toggleDeveloperDock();
+      if (!this.showDeveloperDock) this.toggleDeveloperDock()
     },
     toggleVisibleBreakpoint() {
-      f7.panel.get('left').toggleVisibleBreakpoint();
-      useThemeOptionsStore().visibleBreakpointDisabled = f7.panel.get('left').visibleBreakpointDisabled;
+      f7.panel.get('left').toggleVisibleBreakpoint()
+      useThemeOptionsStore().visibleBreakpointDisabled = f7.panel.get('left').visibleBreakpointDisabled
     },
     keyDown(ev) {
       if (ev.shiftKey && ev.altKey) {
         switch (ev.keyCode) {
           case 68: // D for developer dock
-            this.toggleDeveloperDock();
-            break;
+            this.toggleDeveloperDock()
+            break
           case 77: // M for menu
-            const leftPanel = f7.panel.get('left');
-            leftPanel.opened ? leftPanel.close() : leftPanel.open();
-            break;
+            const leftPanel = f7.panel.get('left')
+            leftPanel.opened ? leftPanel.close() : leftPanel.open()
+            break
           default:
-            return;
+            return
         }
-        ev.stopPropagation();
-        ev.preventDefault();
+        ev.stopPropagation()
+        ev.preventDefault()
       }
     },
     updateUrl(newUrl) {
@@ -881,67 +877,67 @@ export default {
       useRuntimeStore().pagePath = this.currentUrl
     },
     updateTitle() {
-      const title = [this.f7params.name]; // ['openHAB']
+      const title = [this.f7params.name] // ['openHAB']
       const navbarTitle = () => {
-        Dom7(".page-current .navbar .title")?.[0]?.textContent;
-      };
+        Dom7('.page-current .navbar .title')?.[0]?.textContent
+      }
 
       // Some special cases where the title should be different
       if (this.currentPath.page) {
-        title.unshift(useComponentsStore().page(this.currentPath.page?.$key)?.config?.label);
+        title.unshift(useComponentsStore().page(this.currentPath.page?.$key)?.config?.label)
       } else if (this.currentPath.overview) {
-        const config = useComponentsStore().page('overview')?.config;
-        const localizedTitle = this.$t(`home.${this.currentPath.$key}.title`);
+        const config = useComponentsStore().page('overview')?.config
+        const localizedTitle = this.$t(`home.${this.currentPath.$key}.title`)
         title.unshift(
           config?.browserTitle || (config?.label === 'Overview' ? localizedTitle : config?.label)
-        );
+        )
       } else if (
         this.currentPath.locations ||
         this.currentPath.equipment ||
         this.currentPath.properties
       ) {
-        title.unshift(this.$t(`home.${this.currentPath.$key}.title`));
+        title.unshift(this.$t(`home.${this.currentPath.$key}.title`))
       } else if (this.currentPath.settings?.addons && navbarTitle()) {
         // The navbar title on these pages starts with "Configure ....", so don't add "Settings" in front of it
-        title.unshift(navbarTitle());
+        title.unshift(navbarTitle())
       } else {
         // Get the 3rd level path object
         // Example: '/settings/things/[uid]' -> {key: '[uid]', '[uid]': {$end: true}}
-        let path = this.currentPath[this.currentPath.$key]; // 2nd level
-        path = path[path.$key]; // 3rd level
+        let path = this.currentPath[this.currentPath.$key] // 2nd level
+        path = path[path.$key] // 3rd level
 
         if (this.currentPath.settings?.pages) {
           // The url in Settings -> Pages section is /settings/pages/[pagetype]/[pageid]
           // We don't want [pagetype], so skip further down the path
-          path = path[path.$key];
+          path = path[path.$key]
         } else if (this.currentPath.addons && path?.$key) {
           // The url in Add-ons section is /addons/[type]/[type]-[addonid]
           // We don't want [type] in the last segment
-          path = { $key: path.$key.split('-')[1] || path.$key };
+          path = { $key: path.$key.split('-')[1] || path.$key }
         }
 
         if (this.currentPath.settings?.services && navbarTitle()) {
           // Use a friendlier title for the services pages
-          title.unshift(navbarTitle());
+          title.unshift(navbarTitle())
         } else {
           // Use the path segment, e.g. Item_Id, binding:thingtype:thingid, etc.
-          title.unshift(path?.$key);
+          title.unshift(path?.$key)
         }
 
-        let currentSection = Dom7(".currentsection .item-title")?.[0] ?.textContent;
+        let currentSection = Dom7('.currentsection .item-title')?.[0]?.textContent
         if (this.currentPath.settings?.transformations) {
-          currentSection = "Transformations";
+          currentSection = 'Transformations'
         } else if (this.currentPath.settings?.persistence) {
-          currentSection = "Persistence";
+          currentSection = 'Persistence'
         }
-        title.unshift(currentSection);
+        title.unshift(currentSection)
       }
-      document.title = title.filter(t => t).join(' - ');
-    },
+      document.title = title.filter(t => t).join(' - ')
+    }
   },
   created() {
-    this.AddonIcons = AddonIcons;
-    this.AddonTitles = AddonTitles;
+    this.AddonIcons = AddonIcons
+    this.AddonTitles = AddonTitles
 
     // special treatment for this option because it's needed to configure the app initialization
     /*
@@ -954,51 +950,51 @@ export default {
       // tell the app to go fullscreen (if the OHApp is supported)
       if (typeof window.OHApp.goFullscreen === 'function') {
         try {
-          window.OHApp.goFullscreen();
+          window.OHApp.goFullscreen()
         } catch {}
         // expose external calls
         window.MainUI = {
-          handleCommand: this.handleCommand,
-        };
+          handleCommand: this.handleCommand
+        }
       }
     }
 
-    const refreshToken = this.getRefreshToken();
+    const refreshToken = this.getRefreshToken()
     if (refreshToken) {
       this.refreshAccessToken()
         .then(() => {
-          this.loggedIn = true;
-          this.init = true;
+          this.loggedIn = true
+          this.init = true
         })
         .catch(err => {
           console.warn(
             'Error while using the stored refresh_token to get a new access_token: ' +
               err +
               '. Logging out & cleaning session.'
-          );
-          this.cleanSession();
-          this.init = true;
-        });
+          )
+          this.cleanSession()
+          this.init = true
+        })
     } else {
-      this.init = true;
+      this.init = true
     }
   },
   mounted() {
     f7ready(async f7 => {
-      this.updateThemeOptions();
+      this.updateThemeOptions()
 
       if (!this.user) {
         this.tryExchangeAuthorizationCode()
           .then(user => {
-            this.loggedIn = true;
-            this.loadData();
+            this.loggedIn = true
+            this.loadData()
           })
           .catch(err => {
             if (err) {
-              f7.dialog.alert('An error occurred while getting authorization: ' + err);
+              f7.dialog.alert('An error occurred while getting authorization: ' + err)
             } else {
               // we're just not signed in
-              const refreshToken = this.getRefreshToken();
+              const refreshToken = this.getRefreshToken()
               this.loadData().then(() => {
                 if (
                   !refreshToken &&
@@ -1006,75 +1002,75 @@ export default {
                   !useComponentsStore().page('overview')
                 ) {
                   // as there is no overview page, assume the setup wizard hasn't run yet so launch it right away
-                  this.authorize(true);
+                  this.authorize(true)
                 }
-              });
+              })
             }
-          });
+          })
       }
 
       f7.on('routeChange', (route) => {
-        console.log('Route changed:', route.url);
-        console.log('Browser history state:', history.state); // Native browser history state
-      });
+        console.log('Route changed:', route.url)
+        console.log('Browser history state:', history.state) // Native browser history state
+      })
 
       f7.on('pageBeforeIn', page => {
         if (page.route && page.route.url) {
-          console.log("pageBeforeIn: current URL:", page.route.url);
-          this.updateUrl(page.route.url);
+          console.log('pageBeforeIn: current URL:', page.route.url)
+          this.updateUrl(page.route.url)
         }
-      });
+      })
 
       f7.on('pageAfterIn', page => {
-        console.log("pageAfterIn: current URL:", page.route.url);
-        console.log("Full route object:", page.route);
-        nextTick(this.updateTitle);
-      });
+        console.log('pageAfterIn: current URL:', page.route.url)
+        console.log('Full route object:', page.route)
+        nextTick(this.updateTitle)
+      })
 
       // needed by updateCurrentUrl() inside addon-store onTabShow()
       f7.on('routeUrlUpdate', (newRoute, router) => {
-        console.log('Route URL updated:', newRoute.url);
-        this.updateUrl(newRoute.url);
-        nextTick(this.updateTitle);
-      });
+        console.log('Route URL updated:', newRoute.url)
+        this.updateUrl(newRoute.url)
+        nextTick(this.updateTitle)
+      })
 
       f7.on('sidebar-refresh', () => {
-        this.loadData();
-      });
+        this.loadData()
+      })
 
       f7.on('locale-change', () => {
-        this.loadData();
-      });
+        this.loadData()
+      })
 
       f7.on('addon-change', () => {
-        this.loadData();
-      });
+        this.loadData()
+      })
 
       f7.on('darkModeChange', () => {
-        this.updateThemeOptions();
-      });
+        this.updateThemeOptions()
+      })
 
       f7.on('toggle-developer-dock', () => {
-        console.log('toggling developer dock');
-        this.toggleDeveloperDock();
-      });
+        console.log('toggling developer dock')
+        this.toggleDeveloperDock()
+      })
 
       f7.on('select-developer-dock', opts => {
-        this.selectDeveloperDock(opts);
-      });
+        this.selectDeveloperDock(opts)
+      })
 
       f7.on('smart-select-opened', smartSelect => {
         if (smartSelect && smartSelect.searchbar && this.$device.desktop) {
-          smartSelect.searchbar.$inputEl.focus();
+          smartSelect.searchbar.$inputEl.focus()
         }
-      });
+      })
 
       if (window) {
-        window.addEventListener('keydown', this.keyDown);
+        window.addEventListener('keydown', this.keyDown)
       }
 
-      this.startEventSource();
-    });
-  },
-};
+      this.startEventSource()
+    })
+  }
+}
 </script>

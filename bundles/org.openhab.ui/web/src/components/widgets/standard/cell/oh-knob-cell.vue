@@ -36,16 +36,16 @@
 <style lang="stylus"></style>
 
 <script>
-import mixin from '../../widget-mixin';
-import { OhKnobCellDefinition } from '@/assets/definitions/widgets/standard/cells';
-import OhCell from './oh-cell.vue';
-import OhKnob from '../../system/oh-knob.vue';
+import mixin from '../../widget-mixin'
+import { OhKnobCellDefinition } from '@/assets/definitions/widgets/standard/cells'
+import OhCell from './oh-cell.vue'
+import OhKnob from '../../system/oh-knob.vue'
 
 export default {
   mixins: [mixin],
   components: {
     OhCell,
-    OhKnob,
+    OhKnob
   },
   widget: OhKnobCellDefinition,
   computed: {
@@ -54,11 +54,11 @@ export default {
         component: {
           component: 'oh-knob',
           config: Object.assign({}, this.context.component.config, {
-            size: 350,
-          }),
-        },
-      });
-    },
-  },
-};
+            size: 350
+          })
+        }
+      })
+    }
+  }
+}
 </script>

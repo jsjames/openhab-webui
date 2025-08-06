@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { f7, theme } from 'framework7-vue';
+import { f7, theme } from 'framework7-vue'
 
 export default {
   props: ['configDescription', 'value'],
@@ -72,56 +72,56 @@ export default {
     return {
       inlineList: false,
       smartSelectParams: {
-        view: f7 ? f7.view.main : null,
-      },
-    };
+        view: f7 ? f7.view.main : null
+      }
+    }
   },
   created() {
     if (this.configDescription.options.length <= 5 && !this.configDescription.multiple) {
-      this.inlineList = true;
+      this.inlineList = true
     } else if (this.configDescription.options.length <= 10) {
       this.smartSelectParams.openIn = this.configDescription.options.some(o => o.label.length > 25)
         ? 'sheet'
-        : 'popover';
+        : 'popover'
     } else if (this.configDescription.options.length > 100) {
-      this.smartSelectParams.openIn = 'popup';
-      this.smartSelectParams.searchbar = true;
-      this.smartSelectParams.virtualList = true;
-      if (theme.aurora) this.smartSelectParams.virtualListHeight = 32;
+      this.smartSelectParams.openIn = 'popup'
+      this.smartSelectParams.searchbar = true
+      this.smartSelectParams.virtualList = true
+      if (theme.aurora) this.smartSelectParams.virtualListHeight = 32
     } else {
-      this.smartSelectParams.openIn = 'popup';
-      this.smartSelectParams.searchbar = true;
+      this.smartSelectParams.openIn = 'popup'
+      this.smartSelectParams.searchbar = true
     }
-    this.smartSelectParams.closeOnSelect = !this.configDescription.multiple;
+    this.smartSelectParams.closeOnSelect = !this.configDescription.multiple
     // this.smartSelectParams.routableModals = false // to fix bug on firefox
     if (
       !this.configDescription.multiple &&
       this.configDescription.required &&
       this.value === undefined
     ) {
-      this.$emit('input', this.configDescription.options[0].value);
+      this.$emit('input', this.configDescription.options[0].value)
     }
   },
   methods: {
     updateValue(evt) {
-      let value = this.inlineList ? evt : this.$refs.item.f7SmartSelect.getValue();
+      let value = this.inlineList ? evt : this.$refs.item.$el.f7SmartSelect.getValue()
       if (!this.configDescription.multiple && this.configDescription.type === 'INTEGER') {
-        value = parseInt(value);
+        value = parseInt(value)
       }
-      this.$emit('input', value);
+      this.$emit('input', value)
     },
     isSelected(option) {
-      if (this.value === null || this.value === undefined) return;
+      if (this.value === null || this.value === undefined) return
       if (!this.configDescription.multiple) {
-        return this.value.toString() === option.value;
+        return this.value.toString() === option.value
       } else {
         if (this.configDescription.type === 'INTEGER') {
-          return this.value && this.value.indexOf(parseInt(option.value)) >= 0;
+          return this.value && this.value.indexOf(parseInt(option.value)) >= 0
         } else {
-          return this.value && this.value.indexOf(option.value) >= 0;
+          return this.value && this.value.indexOf(option.value) >= 0
         }
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

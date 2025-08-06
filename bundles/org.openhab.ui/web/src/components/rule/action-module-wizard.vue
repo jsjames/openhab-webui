@@ -9,7 +9,7 @@
           no-ripple
           @click="chooseItemCategory">
           <f7-icon size="35" f7="square_on_circle" class="margin" />
-          Item<br />Action
+          Item<br>Action
         </f7-link>
       </f7-col>
       <f7-col
@@ -20,7 +20,7 @@
           no-ripple
           @click="chooseScriptCategory">
           <f7-icon size="35" f7="doc_plaintext" class="margin" />
-          Inline<br />Script
+          Inline<br>Script
         </f7-link>
       </f7-col>
     </f7-row>
@@ -33,7 +33,7 @@
           no-ripple
           @click="chooseRulesCategory">
           <f7-icon size="35" f7="wand_stars" class="margin" />
-          Scenes, Scripts<br />& Rules
+          Scenes, Scripts<br>& Rules
         </f7-link>
       </f7-col>
       <f7-col
@@ -44,7 +44,7 @@
           no-ripple
           @click="chooseMediaCategory">
           <f7-icon size="35" f7="music_note_list" class="margin" />
-          Audio &amp;<br />Voice
+          Audio &amp;<br>Voice
         </f7-link>
       </f7-col>
     </f7-row>
@@ -140,7 +140,9 @@
     </f7-list>
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'script'">
-    <f7-block-title class="padding-horizontal"> Run a script </f7-block-title>
+    <f7-block-title class="padding-horizontal">
+      Run a script
+    </f7-block-title>
     <f7-list media-list>
       <f7-list-item
         media-item
@@ -154,7 +156,7 @@
         link=""
         @click="scriptLanguagePicked('blockly')">
         <template #media>
-          <img src="@/images/blockly.svg" height="32" width="32" />
+          <img src="@/images/blockly.svg" height="32" width="32">
         </template>
       </f7-list-item>
     </f7-list>
@@ -177,10 +179,8 @@
       </f7-list-item>
     </f7-list>
     <f7-block-footer class="padding-horizontal margin-bottom">
-      <small
-        ><strong>Note:</strong> Creating a new scripted module will <em>save the rule</em> before
-        launching the script editor.</small
-      >
+      <small><strong>Note:</strong> Creating a new scripted module will <em>save the rule</em> before
+        launching the script editor.</small>
     </f7-block-footer>
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'rules'">
@@ -241,17 +241,17 @@
 </style>
 
 <script>
-import ModuleWizard from './module-wizard-mixin';
-import ItemPicker from '@/components/config/controls/item-picker.vue';
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import { nextTick } from 'vue';
+import ModuleWizard from './module-wizard-mixin'
+import ItemPicker from '@/components/config/controls/item-picker.vue'
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import { nextTick } from 'vue'
 
 export default {
   mixins: [ModuleWizard],
   props: ['currentModule', 'currentModuleType', 'moduleTypes'],
   components: {
     ItemPicker,
-    ConfigSheet,
+    ConfigSheet
   },
   emits: ['type-select', 'start-script', 'show-advanced'],
   data() {
@@ -261,54 +261,54 @@ export default {
       rulesEventType: 'cron',
       mediaEventType: 'say',
       languages: [],
-      currentItem: null,
-    };
+      currentItem: null
+    }
   },
   computed: {
     commandSuggestions() {
-      if (!this.currentItem || this.category !== 'item') return [];
+      if (!this.currentItem || this.category !== 'item') return []
       let type =
         this.currentItem.type === 'Group' && this.currentItem.groupType
           ? this.currentItem.groupType
-          : this.currentItem.type;
+          : this.currentItem.type
 
       if (
         this.currentItem.commandDescription &&
         this.currentItem.commandDescription.commandOptions
       ) {
-        return this.currentItem.commandDescription.commandOptions;
+        return this.currentItem.commandDescription.commandOptions
       }
       if (type === 'Switch') {
         return ['ON', 'OFF'].map(c => {
-          return { command: c, label: c };
-        });
+          return { command: c, label: c }
+        })
       }
       if (type === 'Rollershutter') {
         return ['UP', 'DOWN', 'STOP'].map(c => {
-          return { command: c, label: c };
-        });
+          return { command: c, label: c }
+        })
       }
       if (type === 'Contact') {
         return ['UP', 'DOWN', 'STOP'].map(c => {
-          return { command: c, label: c };
-        });
+          return { command: c, label: c }
+        })
       }
       if (type === 'Color') {
         return ['ON', 'OFF'].map(c => {
-          return { command: c, label: c };
-        });
+          return { command: c, label: c }
+        })
       }
 
-      return [];
-    },
+      return []
+    }
   },
   methods: {
     chooseItemCategory() {
-      this.openModelPicker();
+      this.openModelPicker()
     },
     chooseScriptCategory() {
-      this.category = 'script';
-      let moduleType = this.moduleTypes.find(t => t.uid === 'script.ScriptAction');
+      this.category = 'script'
+      let moduleType = this.moduleTypes.find(t => t.uid === 'script.ScriptAction')
       if (moduleType) {
         this.languages = moduleType.configDescriptions
           .find(c => c.name === 'type')
@@ -316,97 +316,97 @@ export default {
             return {
               contentType: l.value,
               name: l.label.split(' (')[0],
-              version: l.label.split(' (')[1].replace(')', ''),
-            };
-          });
+              version: l.label.split(' (')[1].replace(')', '')
+            }
+          })
       }
     },
     chooseRulesCategory() {
-      this.category = 'rules';
-      this.updateRulesEventType('run');
+      this.category = 'rules'
+      this.updateRulesEventType('run')
     },
     chooseMediaCategory() {
-      this.category = 'media';
-      this.updateMediaEventType('say');
+      this.category = 'media'
+      this.updateMediaEventType('say')
     },
     updateItemEventType(type) {
-      this.itemEventType = type;
+      this.itemEventType = type
       switch (type) {
         case 'command':
-          this.$emit('type-select', 'core.ItemCommandAction', true);
+          this.$emit('type-select', 'core.ItemCommandAction', true)
           if (this.currentItem)
             this.currentModule.configuration = Object.assign(
               {},
               { itemName: this.currentItem.name }
-            );
-          break;
+            )
+          break
         case 'update':
-          this.$emit('type-select', 'core.ItemStateUpdateAction', true);
+          this.$emit('type-select', 'core.ItemStateUpdateAction', true)
           if (this.currentItem)
             this.currentModule.configuration = Object.assign(
               {},
               { itemName: this.currentItem.name }
-            );
-          break;
+            )
+          break
       }
     },
     updateRulesEventType(type) {
-      this.rulesEventType = type;
+      this.rulesEventType = type
       switch (type) {
         case 'run':
-          this.$emit('type-select', 'core.RunRuleAction', true);
-          break;
+          this.$emit('type-select', 'core.RunRuleAction', true)
+          break
         case 'enable':
-          this.$emit('type-select', 'core.RuleEnablementAction', true);
-          break;
+          this.$emit('type-select', 'core.RuleEnablementAction', true)
+          break
       }
     },
     updateMediaEventType(type) {
-      this.mediaEventType = type;
+      this.mediaEventType = type
       switch (type) {
         case 'say':
-          this.$emit('type-select', 'media.SayAction', true);
-          break;
+          this.$emit('type-select', 'media.SayAction', true)
+          break
         case 'play':
-          this.$emit('type-select', 'media.PlayAction', true);
-          break;
+          this.$emit('type-select', 'media.PlayAction', true)
+          break
       }
     },
     updateColorCommand(evt) {
-      this.currentModule.configuration.command = evt.target.value;
+      this.currentModule.configuration.command = evt.target.value
     },
     commandToColor(evt) {
       if (
         !this.currentModule.configuration.command ||
         this.currentModule.configuration.command.split(',').length !== 3
       )
-        return null;
-      let color = this.currentModule.configuration.command.split(',');
-      color[0] = parseInt(color[0]);
-      color[1] = color[1] / 100;
-      color[2] = color[2] / 100;
-      return { hsb: color };
+        return null
+      let color = this.currentModule.configuration.command.split(',')
+      color[0] = parseInt(color[0])
+      color[1] = color[1] / 100
+      color[2] = color[2] / 100
+      return { hsb: color }
     },
     colorToCommand(val) {
-      let hsb = [...val.hsb];
-      hsb[0] = Math.round(hsb[0]) % 360;
-      hsb[1] = Math.round(hsb[1] * 100);
-      hsb[2] = Math.round(hsb[2] * 100);
-      return hsb;
+      let hsb = [...val.hsb]
+      hsb[0] = Math.round(hsb[0]) % 360
+      hsb[1] = Math.round(hsb[1] * 100)
+      hsb[2] = Math.round(hsb[2] * 100)
+      return hsb
       // this.currentModule.configuration.command = hsb.join(',')
     },
     scriptLanguagePicked(value) {
-      this.$emit('type-select', 'script.ScriptAction');
+      this.$emit('type-select', 'script.ScriptAction')
       nextTick(() => {
-        this.$emit('start-script', value);
-      });
+        this.$emit('start-script', value)
+      })
     },
     itemPicked(value) {
-      this.category = 'item';
-      this.currentItem = value;
-      this.currentModule.configuration.itemName = value.name;
-      this.$emit('type-select', 'core.ItemCommandAction');
-    },
-  },
-};
+      this.category = 'item'
+      this.currentItem = value
+      this.currentModule.configuration.itemName = value.name
+      this.$emit('type-select', 'core.ItemCommandAction')
+    }
+  }
+}
 </script>

@@ -59,49 +59,49 @@
 </template>
 
 <script>
-import RuleGeneralSettings from '@/components/rule/rule-general-settings.vue';
-import ModuleDescriptionSuggestions from '../module-description-suggestions';
+import RuleGeneralSettings from '@/components/rule/rule-general-settings.vue'
+import ModuleDescriptionSuggestions from '../module-description-suggestions'
 
 export default {
   mixins: [ModuleDescriptionSuggestions],
   props: ['rule', 'module', 'moduleType', 'createMode', 'isScriptRule', 'languages', 'mode'],
   emits: ['new-language'],
   components: {
-    RuleGeneralSettings,
+    RuleGeneralSettings
   },
   computed: {
     moduleTitle() {
-      return this.editable || this.module?.label ? this.module.label : this.sugModuleTitle;
+      return this.editable || this.module?.label ? this.module.label : this.sugModuleTitle
     },
     sugModuleTitle() {
-      return this.suggestedModuleTitle(this.module, this.moduleType);
+      return this.suggestedModuleTitle(this.module, this.moduleType)
     },
     moduleDescription() {
       return this.editable || this.module?.description
         ? this.module.description
-        : this.sugModuleDescription;
+        : this.sugModuleDescription
     },
     sugModuleDescription() {
-      return this.suggestedModuleDescription(this.module, this.moduleType);
+      return this.suggestedModuleDescription(this.module, this.moduleType)
     },
     editable() {
-      return this.createMode || (this.rule && this.rule.editable);
+      return this.createMode || (this.rule && this.rule.editable)
     },
     scriptType() {
       switch (this.module.type) {
         case 'script.ScriptAction':
         case 'jsr223.ScriptedAction':
-          return 'Action';
+          return 'Action'
         case 'script.ScriptCondition':
         case 'jsr223.ScriptedCondition':
-          return 'Condition';
+          return 'Condition'
         case 'script.ScriptTrigger':
         case 'jsr223.ScriptedTrigger':
-          return 'Trigger';
+          return 'Trigger'
         default:
-          return 'Module';
+          return 'Module'
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

@@ -24,7 +24,7 @@ export default function (f7) {
   }
 
   javascriptGenerator.forBlock['oh_text_crlf'] = function (block) {
-    return ["'\\r\\n'", javascriptGenerator.ORDER_NONE]
+    return ['\'\\r\\n\'', javascriptGenerator.ORDER_NONE]
   }
 
   /*

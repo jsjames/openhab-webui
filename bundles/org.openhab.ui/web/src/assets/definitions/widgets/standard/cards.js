@@ -51,7 +51,7 @@ export const OhLabelCardDefinition = () =>
     )
     .paramGroup(pg('label', 'Label', 'Parameters of the label'), [
       pi('item', 'Item', 'Item to display'),
-      pt('label', 'Label', "Display this text (or expression result) instead of the item's state"),
+      pt('label', 'Label', 'Display this text (or expression result) instead of the item\'s state'),
       pt(
         'background',
         'Background style',
@@ -252,10 +252,10 @@ export const OhClockCardDefinition = () =>
         [
           {
             value: 'LTS',
-            label: "Localized time including seconds ('LTS', e.g. '8:02:18 PM')"
+            label: 'Localized time including seconds (\'LTS\', e.g. \'8:02:18 PM\')'
           },
-          { value: 'LT', label: "Localized time ('LT'. e.g. '8:02 PM')" },
-          { value: 'HH:mm:ss', label: "Current time ('HH:mm:ss')" }
+          { value: 'LT', label: 'Localized time (\'LT\'. e.g. \'8:02 PM\')' },
+          { value: 'HH:mm:ss', label: 'Current time (\'HH:mm:ss\')' }
         ],
         false
       ),
@@ -271,13 +271,13 @@ export const OhClockCardDefinition = () =>
           [
             {
               value: 'LL',
-              label: "Localized long date ('LL', e.g. 'August 16, 2018')"
+              label: 'Localized long date (\'LL\', e.g. \'August 16, 2018\')'
             },
             {
               value: 'L',
-              label: "Localized short date ('L', e.g. '08/16/2018')"
+              label: 'Localized short date (\'L\', e.g. \'08/16/2018\')'
             },
-            { value: 'MM/DD/YYYY', label: "Current date ('MM/DD/YYYY')" }
+            { value: 'MM/DD/YYYY', label: 'Current date (\'MM/DD/YYYY\')' }
           ],
           false
         )

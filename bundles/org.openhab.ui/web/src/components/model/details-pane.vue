@@ -16,7 +16,9 @@
       @item-created="$emit('item-created')"
       @item-removed="$emit('item-removed')"
       @cancel-create="$emit('cancel-create')" />
-    <f7-block-title v-if="model.item.created !== false"> Metadata </f7-block-title>
+    <f7-block-title v-if="model.item.created !== false">
+      Metadata
+    </f7-block-title>
     <metadata-menu v-if="model.item.created !== false" :item="model.item" />
     <f7-block-title v-if="model.item.type !== 'Group' && model.item.created !== false">
       Channel Links
@@ -26,12 +28,12 @@
 </template>
 
 <script>
-import ItemStatePreview from '@/components/item/item-state-preview.vue';
-import ItemDetails from '@/components/model/item-details.vue';
-import MetadataMenu from '@/components/item/metadata/item-metadata-menu.vue';
-import LinkDetails from '@/components/model/link-details.vue';
+import ItemStatePreview from '@/components/item/item-state-preview.vue'
+import ItemDetails from '@/components/model/item-details.vue'
+import MetadataMenu from '@/components/item/metadata/item-metadata-menu.vue'
+import LinkDetails from '@/components/model/link-details.vue'
 
-import { utils } from 'framework7';
+import { utils } from 'framework7'
 
 export default {
   props: ['model', 'links', 'items', 'context'],
@@ -39,14 +41,14 @@ export default {
     ItemStatePreview,
     ItemDetails,
     MetadataMenu,
-    LinkDetails,
+    LinkDetails
   },
   emits: ['item-updated', 'item-created', 'item-removed', 'cancel-create'],
   data() {
     return {
-      utils,
-    };
+      utils
+    }
   },
-  methods: {},
-};
+  methods: {}
+}
 </script>

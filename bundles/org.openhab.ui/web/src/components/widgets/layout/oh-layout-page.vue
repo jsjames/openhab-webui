@@ -15,7 +15,7 @@
         </f7-list>
       </f7-block>
 
-      <hr v-if="context.editmode" />
+      <hr v-if="context.editmode">
       <f7-block
         v-if="context.component.slots.masonry && context.component.slots.masonry.length"
         style="z-index: auto !important">
@@ -49,11 +49,11 @@
 <style lang="stylus"></style>
 
 <script>
-import mixin from '../widget-mixin';
-import OhBlock from './oh-block.vue';
-import OhMasonry from './oh-masonry.vue';
-import OhGridLayout from './oh-grid-layout.vue';
-import OhCanvasLayout from './oh-canvas-layout.vue';
+import mixin from '../widget-mixin'
+import OhBlock from './oh-block.vue'
+import OhMasonry from './oh-masonry.vue'
+import OhGridLayout from './oh-grid-layout.vue'
+import OhCanvasLayout from './oh-canvas-layout.vue'
 
 export default {
   emits: ['action', 'add-masonry', 'add-block'],
@@ -62,7 +62,7 @@ export default {
     OhBlock,
     OhMasonry,
     OhGridLayout,
-    OhCanvasLayout,
-  },
-};
+    OhCanvasLayout
+  }
+}
 </script>

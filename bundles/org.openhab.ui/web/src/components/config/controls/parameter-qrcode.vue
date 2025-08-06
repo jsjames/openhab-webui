@@ -9,18 +9,18 @@
 </template>
 
 <script>
-import { theme } from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
+import { theme } from 'framework7-vue'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   props: ['configDescription', 'value'],
   setup() {
-    return { theme };
+    return { theme }
   },
   components: {
     'vue-qrcode': defineAsyncComponent(
       () => import(/* webpackChunkName: "vue-qrcode" */ 'vue-qrcode')
-    ),
-  },
-};
+    )
+  }
+}
 </script>

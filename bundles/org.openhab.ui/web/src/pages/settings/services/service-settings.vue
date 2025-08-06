@@ -21,25 +21,25 @@
 </template>
 
 <script>
-import fastDeepEqual from 'fast-deep-equal/es6';
-import cloneDeep from 'lodash/cloneDeep';
-import { f7, theme } from 'framework7-vue';
-import { nextTick } from 'vue';
+import fastDeepEqual from 'fast-deep-equal/es6'
+import cloneDeep from 'lodash/cloneDeep'
+import { f7, theme } from 'framework7-vue'
+import { nextTick } from 'vue'
 
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import DirtyMixin from '../dirty-mixin';
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import DirtyMixin from '../dirty-mixin'
 
 export default {
   mixins: [DirtyMixin],
   components: {
-    ConfigSheet,
+    ConfigSheet
   },
   props: {
     serviceId: String,
-    f7router: Object,
+    f7router: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -47,18 +47,18 @@ export default {
       configDescriptions: null,
       config: null,
       savedConfig: {},
-      loading: true,
-    };
+      loading: true
+    }
   },
   watch: {
     config: {
       handler: function () {
         if (!this.loading) {
-          this.dirty = !fastDeepEqual(this.config, this.savedConfig);
+          this.dirty = !fastDeepEqual(this.config, this.savedConfig)
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     save() {
@@ -67,55 +67,55 @@ export default {
           .create({
             text: 'Saved',
             destroyOnClose: true,
-            closeTimeout: 2000,
+            closeTimeout: 2000
           })
-          .open();
-      });
+          .open()
+      })
       if (this.serviceId === 'org.openhab.i18n') {
-        f7.emit('sidebar-refresh', this.config.locale);
+        f7.emit('sidebar-refresh', this.config.locale)
       }
-      this.savedConfig = cloneDeep(this.config);
-      this.dirty = false;
-      this.f7router.back();
+      this.savedConfig = cloneDeep(this.config)
+      this.dirty = false
+      this.f7router.back()
     },
     onPageAfterIn() {
       if (window) {
-        window.addEventListener('keydown', this.keyDown);
+        window.addEventListener('keydown', this.keyDown)
       }
     },
     onPageBeforeOut() {
       if (window) {
-        window.removeEventListener('keydown', this.keyDown);
+        window.removeEventListener('keydown', this.keyDown)
       }
     },
     keyDown(ev) {
       if (ev.keyCode === 83 && (ev.ctrlKey || ev.metaKey) && !(ev.altKey || ev.shiftKey)) {
-        this.save();
-        ev.stopPropagation();
-        ev.preventDefault();
+        this.save()
+        ev.stopPropagation()
+        ev.preventDefault()
       }
-    },
+    }
   },
   created() {
     this.$oh.api.get('/rest/services/' + this.serviceId).then(data => {
-      this.service = data;
+      this.service = data
 
       if (this.service.configDescriptionURI) {
         this.$oh.api
           .get('/rest/config-descriptions/' + this.service.configDescriptionURI)
           .then(data2 => {
-            this.configDescriptions = data2;
+            this.configDescriptions = data2
 
             this.$oh.api.get('/rest/services/' + this.serviceId + '/config').then(data3 => {
-              this.config = data3;
-              this.savedConfig = cloneDeep(this.config);
+              this.config = data3
+              this.savedConfig = cloneDeep(this.config)
               nextTick(() => {
-                this.loading = false;
-              });
-            });
-          });
+                this.loading = false
+              })
+            })
+          })
       }
-    });
-  },
-};
+    })
+  }
+}
 </script>

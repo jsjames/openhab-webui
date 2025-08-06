@@ -10,9 +10,9 @@
 </style>
 
 <script>
-import modal from './modal-mixin';
+import modal from './modal-mixin'
 
 export default {
-  mixins: [modal],
-};
+  mixins: [modal]
+}
 </script>

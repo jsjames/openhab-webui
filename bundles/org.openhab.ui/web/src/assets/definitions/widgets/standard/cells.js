@@ -44,7 +44,7 @@ export const OhLabelCellDefinition = () =>
     .paramGroup(CellParameterGroup(), CellParameters())
     .paramGroup(pg('label', 'Label'), [
       pi('item', 'Item', 'Item to display'),
-      pt('label', 'Label', "Display this text (or expression result) instead of the item's state")
+      pt('label', 'Label', 'Display this text (or expression result) instead of the item\'s state')
     ])
     .paramGroup(actionGroup(), actionParams())
     .paramGroup(TrendLineParameterGroup(), TrendLineParameters())

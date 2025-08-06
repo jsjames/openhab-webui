@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { f7 } from 'framework7-vue';
+import { f7 } from 'framework7-vue'
 
 export default {
   props: ['title', 'name', 'value', 'multiple', 'required', 'filterThing'],
@@ -46,14 +46,14 @@ export default {
         searchbar: true,
         searchbarPlaceholder: 'Search channels',
         renderItem: (item, index) => {
-          let html, value, thing, channel, description;
+          let html, value, thing, channel, description
           if (index > 0 && !item.isLabel) {
-            value = item.value.substring(0, item.value.lastIndexOf(':'));
-            thing = index > 0 ? this.things.find(th => th.UID === value) : '';
+            value = item.value.substring(0, item.value.lastIndexOf(':'))
+            thing = index > 0 ? this.things.find(th => th.UID === value) : ''
             channel =
               thing && thing.triggerChannels.length > 0
                 ? thing.triggerChannels.find(ch => ch.uid === item.value)
-                : undefined;
+                : undefined
           }
 
           if (item.isLabel) {
@@ -61,9 +61,9 @@ export default {
                       <li class="item-divider">
                       ${item.groupLabel}
                       </li>
-                    `;
+                    `
           } else {
-            description = channel !== undefined ? channel.description : '';
+            description = channel !== undefined ? channel.description : ''
             html = `
                 <li class="media-item">
                   <label class="item-radio item-content">
@@ -75,39 +75,39 @@ export default {
                     </div>
                   </label>
                 </li>
-              `;
+              `
           }
 
-          return html;
-        },
-      },
-    };
+          return html
+        }
+      }
+    }
   },
   created() {
-    this.smartSelectParams.closeOnSelect = !this.multiple;
+    this.smartSelectParams.closeOnSelect = !this.multiple
     this.$oh.api.get('/rest/things').then(data => {
       this.things = data
         .sort((a, b) => {
-          const labelA = a.label;
-          const labelB = b.label;
-          return labelA.localeCompare(labelB);
+          const labelA = a.label
+          const labelB = b.label
+          return labelA.localeCompare(labelB)
         })
         .map(t => {
           return {
             UID: t.UID,
             label: t.label,
-            triggerChannels: t.channels.filter(c => c.kind === 'TRIGGER'),
-          };
+            triggerChannels: t.channels.filter(c => c.kind === 'TRIGGER')
+          }
         })
-        .filter(t => t.triggerChannels.length > 0);
-      this.ready = true;
-    });
+        .filter(t => t.triggerChannels.length > 0)
+      this.ready = true
+    })
   },
   methods: {
     select(e) {
-      f7.input.validateInputs(this.$refs.smartSelect.$el);
-      this.$emit('input', e.target.value);
-    },
-  },
-};
+      f7.input.validateInputs(this.$refs.smartSelect.$el)
+      this.$emit('input', e.target.value)
+    }
+  }
+}
 </script>

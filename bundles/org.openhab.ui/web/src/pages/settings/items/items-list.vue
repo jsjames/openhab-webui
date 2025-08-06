@@ -95,12 +95,14 @@
   </f7-page>
 </template>
 
+<style></style>
+
 <script>
-import { theme } from 'framework7-vue';
+import { theme } from 'framework7-vue'
 
 export default {
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -109,59 +111,57 @@ export default {
       indexedItems: {},
       initSearchbar: false,
       vlData: {
-        items: [],
+        items: []
       },
-      showCheckboxes: false,
-    };
+      showCheckboxes: false
+    }
   },
   mounted() {
     // f7.preloader.show()
-    this.loading = true;
+    this.loading = true
     this.$oh.api.get('/rest/items').then(data => {
       this.items = data.sort((a, b) => {
-        const labelA = a.label || a.name;
-        const labelB = b.label || b.name;
-        return labelA.localeCompare(labelB);
-      });
+        const labelA = a.label || a.name
+        const labelB = b.label || b.name
+        return labelA.localeCompare(labelB)
+      })
       this.indexedItems = this.items.reduce((prev, item, i, items) => {
         const initial = item.label
           ? item.label.substring(0, 1).toUpperCase()
-          : item.name.substring(0, 1).toUpperCase();
+          : item.name.substring(0, 1).toUpperCase()
         if (!prev[initial]) {
-          prev[initial] = [];
+          prev[initial] = []
         }
-        prev[initial].push(item);
+        prev[initial].push(item)
 
-        return prev;
-      }, {});
-      this.loading = false;
+        return prev
+      }, {})
+      this.loading = false
       // f7.preloader.hide()
       setTimeout(() => {
-        this.initSearchbar = true;
-        this.$refs.listIndex.update();
-      });
-    });
+        this.initSearchbar = true
+        this.$refs.listIndex.update()
+      })
+    })
   },
   methods: {
     searchAll(query, items) {
-      const found = [];
+      const found = []
       for (let i = 0; i < items.length; i += 1) {
-        let haystack = items[i].name;
-        if (items[i].label) haystack += ' ' + items[i].label;
+        let haystack = items[i].name
+        if (items[i].label) haystack += ' ' + items[i].label
         if (haystack.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') {
-          found.push(i);
+          found.push(i)
         }
       }
-      return found; // return array with matched indexes
+      return found // return array with matched indexes
     },
     renderExternal(vl, vlData) {
-      this.vlData = vlData;
+      this.vlData = vlData
     },
     toggleCheck() {
-      this.showCheckboxes = !this.showCheckboxes;
-    },
-  },
-};
+      this.showCheckboxes = !this.showCheckboxes
+    }
+  }
+}
 </script>
-
-<style></style>

@@ -38,39 +38,39 @@
 </style>
 
 <script>
-import mixin from '@/components/widgets/widget-mixin';
+import mixin from '@/components/widgets/widget-mixin'
 import itemDefaultListComponent, {
-  itemPathLabel,
-} from '@/components/widgets/standard/list/default-list-item';
-import CardMixin from './card-mixin';
-import ModelCard from './model-card.vue';
+  itemPathLabel
+} from '@/components/widgets/standard/list/default-list-item'
+import CardMixin from './card-mixin'
+import ModelCard from './model-card.vue'
 
 export default {
   mixins: [mixin, CardMixin],
   props: ['tabContext'],
   components: {
-    ModelCard,
+    ModelCard
   },
   computed: {
     listContext() {
-      const footerDefaults = { contextLabelSource: 'path' };
-      let pointsByType = [];
+      const footerDefaults = { contextLabelSource: 'path' }
+      let pointsByType = []
       for (let pointType in this.itemsByPointType) {
         pointsByType.push([
           {
             component: 'oh-list-item',
             config: {
               title: this.$t(pointType),
-              divider: true,
-            },
+              divider: true
+            }
           },
           ...this.itemsByPointType[pointType].map(p =>
             itemDefaultListComponent(p, {
               ...footerDefaults,
-              ...this.tabContext,
+              ...this.tabContext
             })
-          ),
-        ]);
+          )
+        ])
       }
 
       return {
@@ -78,23 +78,23 @@ export default {
         component: {
           component: 'oh-list',
           config: {
-            mediaList: true,
+            mediaList: true
           },
           slots: {
-            default: pointsByType.flat(),
-          },
-        },
-      };
+            default: pointsByType.flat()
+          }
+        }
+      }
     },
     itemsByPointType() {
-      const points = {};
+      const points = {}
       this.element.points.forEach(item => {
-        const pointType = item.metadata.semantics.value.replace(/^.*_/g, '');
-        if (!points[pointType]) points[pointType] = [];
-        points[pointType].push(item);
-      });
-      return points;
-    },
-  },
-};
+        const pointType = item.metadata.semantics.value.replace(/^.*_/g, '')
+        if (!points[pointType]) points[pointType] = []
+        points[pointType].push(item)
+      })
+      return points
+    }
+  }
+}
 </script>

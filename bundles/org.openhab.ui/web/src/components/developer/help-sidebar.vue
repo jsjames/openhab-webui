@@ -3,7 +3,9 @@
     <div class="help-sidebar-content">
       <div v-if="activeHelpTab === 'quick'">
         <f7-block class="no-margin no-padding">
-          <f7-block-title class="padding-horizontal" medium> Quick Start </f7-block-title>
+          <f7-block-title class="padding-horizontal" medium>
+            Quick Start
+          </f7-block-title>
         </f7-block>
         <f7-block class="no-margin no-padding">
           <f7-list accordion-list>
@@ -75,7 +77,9 @@
 
       <div v-else-if="activeHelpTab === 'binding'">
         <f7-block class="no-margin no-padding">
-          <f7-block-title class="padding-horizontal" medium> Add-on Docs </f7-block-title>
+          <f7-block-title class="padding-horizontal" medium>
+            Add-on Docs
+          </f7-block-title>
         </f7-block>
         <f7-block class="no-margin no-padding">
           <f7-list media-list>
@@ -93,13 +97,17 @@
 
       <div v-else-if="activeHelpTab === 'current'">
         <f7-block class="no-margin no-padding">
-          <f7-block-title class="padding-horizontal" medium> Page Help </f7-block-title>
+          <f7-block-title class="padding-horizontal" medium>
+            Page Help
+          </f7-block-title>
         </f7-block>
 
         <context :path="contextPath" />
 
         <f7-block class="no-padding no-margin">
-          <f7-block-title class="padding-horizontal" medium> More Help </f7-block-title>
+          <f7-block-title class="padding-horizontal" medium>
+            More Help
+          </f7-block-title>
         </f7-block>
         <f7-block>
           You can find many more details and help at these resources:
@@ -177,23 +185,23 @@
 </style>
 
 <script>
-import { loadLocaleMessages } from '@/js/i18n';
-import Context from '@/components/developer/help/context.vue';
+import { loadLocaleMessages } from '@/js/i18n'
+import Context from '@/components/developer/help/context.vue'
 
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { mapStores } from 'pinia';
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
 
 export default {
   components: {
-    Context,
+    Context
   },
   props: ['activeHelpTab'],
   data() {
     return {
       addons: [],
       faqs: import('@/assets/definitions/help/help-faq-defs.json'),
-      qstart: import('@/assets/definitions/help/help-qstart-defs.json'),
-    };
+      qstart: import('@/assets/definitions/help/help-qstart-defs.json')
+    }
   },
   created() {
     this.$oh.api
@@ -201,49 +209,49 @@ export default {
       .then(data => {
         this.addons = data
           .filter(addon => addon.installed)
-          .sort((a, b) => a.label.toUpperCase().localeCompare(b.label.toUpperCase()));
+          .sort((a, b) => a.label.toUpperCase().localeCompare(b.label.toUpperCase()))
       })
       .catch(err => {
         // sometimes we get 502 errors ('Jersey is not ready yet!'), keep trying
         if (err === 'Bad Gateway' || err === 502) {
-          console.log('Error while accessing the API, retrying every 5 seconds: ', err);
-          setTimeout(this.load, 5000);
+          console.log('Error while accessing the API, retrying every 5 seconds: ', err)
+          setTimeout(this.load, 5000)
         }
-      });
+      })
   },
   computed: {
     contextPath() {
-      const path = useRuntimeStore().pagePath;
+      const path = useRuntimeStore().pagePath
 
       // script editor docs
       if (/\/settings\/(scripts\/[A-z0-9]+|rules\/[A-z0-9]+\/script)/.test(path)) {
-        if (path.indexOf('?blockly') >= 0) return '/settings/blockly-editor';
-        return '/settings/script-editor';
+        if (path.indexOf('?blockly') >= 0) return '/settings/blockly-editor'
+        return '/settings/script-editor'
       }
 
       // /settings/* docs
-      if (path === '/settings/') return '/settings/index';
-      const settings_path = /(\/settings\/[A-z]+)/.exec(path);
-      if (settings_path) return settings_path[0];
+      if (path === '/settings/') return '/settings/index'
+      const settings_path = /(\/settings\/[A-z]+)/.exec(path)
+      if (settings_path) return settings_path[0]
 
       // /addons/ docs
-      if (path.indexOf('/addons/') >= 0) return '/addons';
+      if (path.indexOf('/addons/') >= 0) return '/addons'
 
       // /developer/* docs
-      if (path.indexOf('/developer/log-viewer') >= 0) return '/developer/log-viewer';
-      if (path.indexOf('/developer/widgets') >= 0) return '/developer/widgets';
-      if (path.indexOf('/developer/') >= 0) return '/developer/index';
+      if (path.indexOf('/developer/log-viewer') >= 0) return '/developer/log-viewer'
+      if (path.indexOf('/developer/widgets') >= 0) return '/developer/widgets'
+      if (path.indexOf('/developer/') >= 0) return '/developer/index'
 
       // /about/ docs
-      if (path.indexOf('/about/') >= 0) return '/about';
+      if (path.indexOf('/about/') >= 0) return '/about'
 
       // default docs
-      return '/index';
+      return '/index'
     },
     ...mapStores(useRuntimeStore)
   },
   i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/about/*.json')),
-  },
-};
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/about/*.json'))
+  }
+}
 </script>

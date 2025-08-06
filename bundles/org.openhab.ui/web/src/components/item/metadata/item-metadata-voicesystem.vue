@@ -12,10 +12,8 @@
         @input="updateValue" />
       <template #after-list>
         <f7-block-footer class="param-description">
-          <small
-            >Enter each rule on a separate line. Available placeholders: $name$, $cmd$ and
-            $*$</small
-          >
+          <small>Enter each rule on a separate line. Available placeholders: $name$, $cmd$ and
+            $*$</small>
         </f7-block-footer>
       </template>
     </f7-list>
@@ -28,18 +26,18 @@
 </template>
 
 <script>
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
-import { theme } from 'framework7-vue';
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
+import { theme } from 'framework7-vue'
 
 export default {
   props: ['itemName', 'metadata'],
   mixins: [ItemMetadataMixin],
   components: {
-    ConfigSheet,
+    ConfigSheet
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data: () => {
     return {
@@ -48,39 +46,39 @@ export default {
           type: 'BOOLEAN',
           name: 'isForced',
           label: 'Is Forced',
-          description: 'Send command without check current Item state',
+          description: 'Send command without check current Item state'
         },
         {
           type: 'BOOLEAN',
           name: 'isSilent',
           label: 'Is Silent',
-          description: 'Disable success confirmation message',
+          description: 'Disable success confirmation message'
         },
         {
           type: 'BOOLEAN',
           name: 'isTemplate',
           label: 'Is Template',
-          description: 'Target similar Items instead of the current one',
-        },
-      ],
-    };
+          description: 'Target similar Items instead of the current one'
+        }
+      ]
+    }
   },
   computed: {
     customRules() {
-      if (!this.metadata.value) return [];
+      if (!this.metadata.value) return []
       return this.metadata.value
         .split('\n')
         .map(s => s.trim())
-        .join('\n');
-    },
+        .join('\n')
+    }
   },
   methods: {
     updateValue(ev) {
       this.metadata.value = ev.target.value
         .split('\n')
         .map(s => s.trim())
-        .join('\n');
-    },
-  },
-};
+        .join('\n')
+    }
+  }
+}
 </script>

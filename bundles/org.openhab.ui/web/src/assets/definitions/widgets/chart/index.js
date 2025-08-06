@@ -103,13 +103,13 @@ const persistenceServiceParameter = pt(
 
 const boundaryParameter = pb(
   'noBoundary',
-  "Don't Include Boundary",
+  'Don\'t Include Boundary',
   'Do not get one value before and after the requested period and move them to the start and end of the period'
 ).a()
 
 const itemStateParameter = pb(
   'noItemState',
-  "Don't Include Item State",
+  'Don\'t Include Item State',
   'Do not add the current Item state into the requested period (the item state will be before or at the end time)'
 ).a()
 

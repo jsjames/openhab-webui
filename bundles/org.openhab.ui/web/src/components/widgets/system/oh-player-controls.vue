@@ -53,52 +53,52 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import { OhPlayerDefinition } from '@/assets/definitions/widgets/system';
+import mixin from '../widget-mixin'
+import { OhPlayerDefinition } from '@/assets/definitions/widgets/system'
 
 export default {
   mixins: [mixin],
   widget: OhPlayerDefinition,
   mounted() {
-    delete this.config.value;
+    delete this.config.value
   },
   computed: {
     isPlaying() {
-      const value = this.context.store[this.config.item].state;
-      return value === 'PLAY';
-    },
+      const value = this.context.store[this.config.item].state
+      return value === 'PLAY'
+    }
   },
   methods: {
     skipPrevious(value) {
       useStatesStore().sendCommand(
         this.config.item,
         'PREVIOUS'
-      );
+      )
     },
     rewind(value) {
       useStatesStore().sendCommand(
         this.config.item,
         'REWIND'
-      );
+      )
     },
     playPause(value) {
       useStatesStore().sendCommand(
         this.config.item,
         this.isPlaying ? 'PAUSE' : 'PLAY'
-      );
+      )
     },
     fastForward(value) {
       useStatesStore().sendCommand(
         this.config.item,
         'FASTFORWARD'
-      );
+      )
     },
     skipNext(value) {
       useStatesStore().sendCommand(
         this.config.item,
         'NEXT'
-      );
-    },
-  },
-};
+      )
+    }
+  }
+}
 </script>

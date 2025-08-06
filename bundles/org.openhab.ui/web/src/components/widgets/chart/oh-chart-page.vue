@@ -36,30 +36,30 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import OhChart from '../system/oh-chart.vue';
-import { OhChartPageDefinition } from '@/assets/definitions/widgets/chart/page';
+import mixin from '../widget-mixin'
+import OhChart from '../system/oh-chart.vue'
+import { OhChartPageDefinition } from '@/assets/definitions/widgets/chart/page'
 
 export default {
   mixins: [mixin],
   components: {
-    OhChart,
+    OhChart
   },
   widget: OhChartPageDefinition,
   methods: {
     onOrientationChange() {
-      this.$refs.chart.forceRerender();
-    },
+      this.$refs.chart.forceRerender()
+    }
   },
   mounted() {
     if (this.$device.ios) {
-      window.addEventListener('orientationchange', this.onOrientationChange);
+      window.addEventListener('orientationchange', this.onOrientationChange)
     }
   },
   beforeUnmount() {
     if (this.$device.ios) {
-      window.removeEventListener('orientationchange', this.onOrientationChange);
+      window.removeEventListener('orientationchange', this.onOrientationChange)
     }
-  },
-};
+  }
+}
 </script>

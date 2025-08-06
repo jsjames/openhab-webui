@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import mixin from '../../widget-mixin';
-import OhListItem from './oh-list-item.vue';
-import { OhToggleItemDefinition } from '@/assets/definitions/widgets/standard/listitems';
+import mixin from '../../widget-mixin'
+import OhListItem from './oh-list-item.vue'
+import { OhToggleItemDefinition } from '@/assets/definitions/widgets/standard/listitems'
 
 export default {
   components: {
-    OhListItem,
+    OhListItem
   },
   mixins: [mixin],
   widget: OhToggleItemDefinition,
@@ -23,9 +23,9 @@ export default {
     afterComponent() {
       return {
         component: 'oh-toggle',
-        config: this.config,
-      };
-    },
-  },
-};
+        config: this.config
+      }
+    }
+  }
+}
 </script>

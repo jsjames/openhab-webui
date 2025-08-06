@@ -13,7 +13,7 @@ import {
   getClassNamesForParameter
 } from './hint-utils'
 
-import Vue from 'vue'
+//TODO-V3 - import Vue from 'vue'
 import * as f7vue from 'framework7-vue'
 
 import * as SystemWidgets from '@/components/widgets/system'
@@ -91,10 +91,10 @@ function hintItems(cm, line, replaceAfterColon, addStatePropertySuffix, addQuote
         .map(item => {
           return {
             text:
-              (addQuotes ? "'" : '') +
+              (addQuotes ? '\'' : '') +
               item.name +
               (addStatePropertySuffix ? '.state' : '') +
-              (addQuotes ? "'" : ''),
+              (addQuotes ? '\'' : ''),
             displayText: item.name,
             description: `${item.label ? item.label + ' ' : ''}(${item.type})<br />${item.state}`
           }
@@ -236,7 +236,7 @@ function hintExpression(cm, line) {
 
 function f7ComponentParameters(componentName) {
   console.debug(f7vue)
-  const Component = Vue.options.components[componentName]
+  //TODO-V3 const Component = Vue.options.components[componentName]
   if (!Component) return []
   let f7vueComponent
 

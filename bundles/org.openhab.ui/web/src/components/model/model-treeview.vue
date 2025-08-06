@@ -66,10 +66,10 @@
 </style>
 
 <script>
-import ModelTreeviewItem from '@/components/model/treeview-item.vue';
-import ModelDragDropMixin from '@/pages/settings/model/model-dragdrop-mixin';
-import { nextTick, defineAsyncComponent } from 'vue';
-import { VueDraggableNext as Draggable } from 'vue-draggable-next';
+import ModelTreeviewItem from '@/components/model/treeview-item.vue'
+import ModelDragDropMixin from '@/pages/settings/model/model-dragdrop-mixin'
+import { nextTick, defineAsyncComponent } from 'vue'
+import { VueDraggableNext as Draggable } from 'vue-draggable-next'
 
 export default {
   mixins: [ModelDragDropMixin],
@@ -77,7 +77,7 @@ export default {
   emits: ['reload', 'checked', 'selected'],
   components: {
     Draggable,
-    ModelTreeviewItem,
+    ModelTreeviewItem
   },
   computed: {
     model() {
@@ -88,20 +88,20 @@ export default {
           equipment: this.rootNodes.filter(n => n.class.startsWith('Equipment')),
           points: this.rootNodes.filter(n => n.class.startsWith('Point')),
           groups: this.rootNodes.filter(n => !n.class && n.item.type === 'Group'),
-          items: this.rootNodes.filter(n => !n.class && n.item.type !== 'Group'),
+          items: this.rootNodes.filter(n => !n.class && n.item.type !== 'Group')
         },
         opened: true,
-        item: null,
-      };
+        item: null
+      }
     },
     rootNode() {
-      return this.model;
-    },
+      return this.model
+    }
   },
   methods: {
     nodeSelected(node) {
-      this.$emit('selected', node);
-    },
-  },
-};
+      this.$emit('selected', node)
+    }
+  }
+}
 </script>

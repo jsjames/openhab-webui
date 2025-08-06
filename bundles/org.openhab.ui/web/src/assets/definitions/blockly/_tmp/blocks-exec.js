@@ -100,12 +100,12 @@ export default function defineOHBlocks_Exec(f7) {
     const exec = javascriptGenerator.provideFunction_('exec', [
       'var ' +
         javascriptGenerator.FUNCTION_NAME_PLACEHOLDER_ +
-        " = Java.type('org.openhab.core.model.script.actions.Exec');"
+        ' = Java.type(\'org.openhab.core.model.script.actions.Exec\');'
     ])
     const duration = javascriptGenerator.provideFunction_('duration', [
       'var ' +
         javascriptGenerator.FUNCTION_NAME_PLACEHOLDER_ +
-        " = Java.type('java.time.Duration');"
+        ' = Java.type(\'java.time.Duration\');'
     ])
     let runCommand = block.getFieldValue('cmdExecute').replace(/ /g, '","')
     let timeout = block.getFieldValue('timeout')

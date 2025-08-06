@@ -22,24 +22,24 @@
 </style>
 
 <script>
-import { theme } from 'framework7-vue';
+import { theme } from 'framework7-vue'
 
 export default {
   props: ['configDescription', 'value'],
   emits: ['input'],
   setup() {
-    return { theme };
+    return { theme }
   },
   computed: {
     step() {
-      if (this.configDescription.stepsize !== undefined) return this.configDescription.stepsize;
-      return 60;
-    },
+      if (this.configDescription.stepsize !== undefined) return this.configDescription.stepsize
+      return 60
+    }
   },
   methods: {
     updateValue(event) {
-      this.$emit('input', event.target.value);
-    },
-  },
-};
+      this.$emit('input', event.target.value)
+    }
+  }
+}
 </script>

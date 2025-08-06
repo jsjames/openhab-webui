@@ -42,7 +42,7 @@
 </style>
 
 <script>
-import { f7 } from 'framework7-vue';
+import { f7 } from 'framework7-vue'
 
 export default {
   props: ['filters', 'value', 'disabled'],
@@ -51,16 +51,16 @@ export default {
     return {
       smartSelectParams: {
         view: f7.view.main,
-        openIn: 'popup',
-      },
-    };
+        openIn: 'popup'
+      }
+    }
   },
   methods: {
     select() {
-      f7.input.validateInputs(this.$refs.smartSelect.$el);
-      const value = this.$refs.smartSelect.f7SmartSelect.getValue();
-      this.$emit('filters-selected', value);
-    },
-  },
-};
+      f7.input.validateInputs(this.$refs.smartSelect.$el)
+      const value = this.$refs.smartSelect.f7SmartSelect.getValue()
+      this.$emit('filters-selected', value)
+    }
+  }
+}
 </script>

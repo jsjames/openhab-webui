@@ -5,7 +5,9 @@
     @page:beforeout="onPageBeforeOut">
     <f7-navbar>
       <f7-nav-left>
-        <f7-link icon-f7="chevron_left" @click="goBackWithDirtyCheck"> Back </f7-link>
+        <f7-link icon-f7="chevron_left" @click="goBackWithDirtyCheck">
+          Back
+        </f7-link>
       </f7-nav-left>
       <f7-nav-title :title="(item.label || item.name) + dirtyIndicator" :subtitle="thing.label" />
       <f7-nav-right v-show="ready">
@@ -17,7 +19,9 @@
             tooltip="links defined in a .items file are not editable from this screen" />
           <!-- TODO-V3 verify this is correct placement - these links were not in the right slot - but now included in the right slot -->
           <f7-link v-else-if="theme.md" icon-md="material:save" icon-only @click="save()" />
-          <f7-link v-else @click="save()"> Save </f7-link>
+          <f7-link v-else @click="save()">
+            Save
+          </f7-link>
         </template>
       </f7-nav-right>
     </f7-navbar>
@@ -94,7 +98,7 @@
             class="profile-item"
             :checked="
               (!currentProfileType && profileType.uid === 'system:default') ||
-              (currentProfileType && profileType.uid === currentProfileType.uid)
+                (currentProfileType && profileType.uid === currentProfileType.uid)
                 ? true
                 : null
             "
@@ -132,17 +136,17 @@
 </style>
 
 <script>
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import Item from '@/components/item/item.vue';
-import ItemStatePreview from '@/components/item/item-state-preview.vue';
-import ThingStatus from '@/components/thing/thing-status-mixin';
-import LinkMixin from '@/pages/settings/things/link/link-mixin';
-import DirtyMixin from '@/pages/settings/dirty-mixin';
-import cloneDeep from 'lodash/cloneDeep';
-import fastDeepEqual from 'fast-deep-equal/es6';
-import { f7, theme } from 'framework7-vue';
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import Item from '@/components/item/item.vue'
+import ItemStatePreview from '@/components/item/item-state-preview.vue'
+import ThingStatus from '@/components/thing/thing-status-mixin'
+import LinkMixin from '@/pages/settings/things/link/link-mixin'
+import DirtyMixin from '@/pages/settings/dirty-mixin'
+import cloneDeep from 'lodash/cloneDeep'
+import fastDeepEqual from 'fast-deep-equal/es6'
+import { f7, theme } from 'framework7-vue'
 
-import { useStatesStore } from '@/js/stores/states';
+import { useStatesStore } from '@/js/stores/states'
 import { useRuntimeStore } from '@/js/stores/runtime'
 import { mapStores } from 'pinia'
 
@@ -151,17 +155,17 @@ export default {
   components: {
     ConfigSheet,
     Item,
-    ItemStatePreview,
+    ItemStatePreview
   },
   props: {
     thing: Object,
     channel: Object,
     item: Object,
     source: String,
-    f7router: Object,
+    f7router: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -170,34 +174,34 @@ export default {
       link: {
         itemName: null,
         channelUID: null,
-        configuration: {},
+        configuration: {}
       },
       profileTypes: [],
       originalProfileType: null,
       currentProfileType: null,
       profileTypeConfiguration: null,
-      channelType: {},
-    };
+      channelType: {}
+    }
   },
   computed: {
     context() {
       return {
-        store: useStatesStore().trackedItems,
-      };
+        store: useStatesStore().trackedItems
+      }
     },
     ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageBeforeIn(event) {
-      useStatesStore().startTrackingStates();
+      useStatesStore().startTrackingStates()
     },
     onPageBeforeOut(event) {
-      useStatesStore().stopTrackingStates();
+      useStatesStore().stopTrackingStates()
     },
     onPageAfterIn(event) {
-      const itemName = this.item.name;
-      const itemType = this.item.type;
-      const channelUID = this.channel.uid.replace('#', '%23');
+      const itemName = this.item.name
+      const itemType = this.item.type
+      const channelUID = this.channel.uid.replace('#', '%23')
       this.$oh.api
         .get(
           '/rest/profile-types?channelTypeUID=' +
@@ -206,79 +210,79 @@ export default {
             itemType
         )
         .then(data => {
-          this.profileTypes = data;
+          this.profileTypes = data
           this.profileTypes.unshift(
             data.splice(
               data.findIndex(p => p.uid === 'system:default'),
               1
             )[0]
-          ); // move default to be first
+          ) // move default to be first
           this.profileTypes = this.profileTypes.filter(p =>
             this.isProfileTypeCompatible(this.channel, p, this.item)
-          ); // only show compatible profile types
+          ) // only show compatible profile types
 
           this.$oh.api.get('/rest/links/' + itemName + '/' + channelUID).then(data2 => {
-            this.link = data2;
+            this.link = data2
             if (this.link.configuration.profile) {
-              this.onProfileTypeChange(this.link.configuration.profile);
+              this.onProfileTypeChange(this.link.configuration.profile)
             }
-            this.originalProfileType = this.currentProfileType;
-            this.originalLink = cloneDeep(this.link);
-            this.dirty = false;
-            this.ready = true;
-          });
-        });
+            this.originalProfileType = this.currentProfileType
+            this.originalLink = cloneDeep(this.link)
+            this.dirty = false
+            this.ready = true
+          })
+        })
       this.$oh.api.get('/rest/channel-types/' + this.channel.channelTypeUID).then(data3 => {
-        this.channelType = data3;
-      });
+        this.channelType = data3
+      })
     },
     updated() {
       this.dirty =
         this.currentProfileType !== this.originalProfileType ||
-        !fastDeepEqual(this.link, this.originalLink);
+        !fastDeepEqual(this.link, this.originalLink)
     },
     goBackWithDirtyCheck() {
       if (this.dirty) {
         this.confirmLeaveWithoutSaving(() => {
-          this.f7router.back();
-        });
+          this.f7router.back()
+        })
       } else {
-        this.f7router.back();
+        this.f7router.back()
       }
     },
     onProfileTypeChange(profileTypeUid) {
-      this.profileTypeConfiguration = null;
+      this.profileTypeConfiguration = null
       if (!profileTypeUid) {
-        this.currentProfileType = null;
-        return;
+        this.currentProfileType = null
+        return
       }
-      this.currentProfileType = this.profileTypes.find(p => p.uid === profileTypeUid);
-      this.updated();
+      this.currentProfileType = this.profileTypes.find(p => p.uid === profileTypeUid)
+      this.updated()
       const getProfileConfigDescription = this.$oh.api.get(
         '/rest/config-descriptions/profile:' + profileTypeUid
-      );
+      )
       getProfileConfigDescription
         .then(data => {
-          this.profileTypeConfiguration = data;
+          this.profileTypeConfiguration = data
         })
         .catch(err => {
           // just clear out the config sheet
-          console.log(`No configuration for profile type ${profileTypeUid}: ` + err);
-          this.profileTypeConfiguration = null;
-        });
+          console.log(`No configuration for profile type ${profileTypeUid}: ` + err)
+          this.profileTypeConfiguration = null
+        })
     },
     getItemType(channel) {
-      if (channel && channel.kind === 'TRIGGER') return 'Trigger';
-      if (!channel || !channel.itemType) return '?';
-      return channel.itemType;
+      if (channel && channel.kind === 'TRIGGER') return 'Trigger'
+      if (!channel || !channel.itemType) return '?'
+      return channel.itemType
     },
     unlink() {
       f7.dialog.confirm(
         `Are you sure you want to unlink ${this.item.name} from ${this.thing.label}?`,
         'Unlink',
         () => {
-          const itemName = this.item.name;
-          const channelUID = encodeURIComponent(this.channel.uid);
+          const itemName = this.item.name
+          const channelUID = encodeURIComponent(this.channel.uid)
           this.$oh.api
             .delete('/rest/links/' + itemName + '/' + channelUID)
             .then(() => {
@@ -286,10 +290,10 @@ export default {
                 .create({
                   text: 'Link deleted',
                   destroyOnClose: true,
-                  closeTimeout: 2000,
+                  closeTimeout: 2000
                 })
-                .open();
-              this.f7router.back();
+                .open()
+              this.f7router.back()
             })
             .catch(err => {
               f7.toast
@@ -298,20 +302,20 @@ export default {
                     'Link not deleted (links defined in a .items file are not editable from this screen): ' +
                     err,
                   destroyOnClose: true,
-                  closeTimeout: 2000,
+                  closeTimeout: 2000
                 })
-                .open();
-            });
+                .open()
+            })
         }
-      );
+      )
     },
     unlinkAndDelete() {
       f7.dialog.confirm(
         `Are you sure you want to unlink ${this.item.name} from ${this.thing.label} and delete it?`,
         'Unlink and Delete Item',
         () => {
-          const itemName = this.item.name;
-          const channelUID = encodeURIComponent(this.channel.uid);
+          const itemName = this.item.name
+          const channelUID = encodeURIComponent(this.channel.uid)
           this.$oh.api
             .delete('/rest/links/' + itemName + '/' + channelUID)
             .then(() => {
@@ -322,20 +326,20 @@ export default {
                     .create({
                       text: 'Link and item deleted',
                       destroyOnClose: true,
-                      closeTimeout: 2000,
+                      closeTimeout: 2000
                     })
-                    .open();
+                    .open()
                 })
                 .catch(err => {
                   f7.toast
                     .create({
                       text: 'Link deleted but error while deleting item: ' + err,
                       destroyOnClose: true,
-                      closeTimeout: 2000,
+                      closeTimeout: 2000
                     })
-                    .open();
-                });
-              this.f7router.back();
+                    .open()
+                })
+              this.f7router.back()
             })
             .catch(err => {
               f7.toast
@@ -344,23 +348,23 @@ export default {
                     'Link not deleted (links defined in a .items file are not editable from this screen): ' +
                     err,
                   destroyOnClose: true,
-                  closeTimeout: 2000,
+                  closeTimeout: 2000
                 })
-                .open();
-            });
+                .open()
+            })
         }
-      );
+      )
     },
     save() {
-      const itemName = this.item.name;
-      const channelUID = encodeURIComponent(this.channel.uid);
-      const link = this.link;
+      const itemName = this.item.name
+      const channelUID = encodeURIComponent(this.channel.uid)
+      const link = this.link
       if (this.currentProfileType) {
-        link.configuration.profile = this.currentProfileType.uid;
+        link.configuration.profile = this.currentProfileType.uid
       }
       if (this.$refs.profileConfiguration && !this.$refs.profileConfiguration.isValid()) {
-        f7.dialog.alert('Please review the profile configuration and correct validation errors');
-        return;
+        f7.dialog.alert('Please review the profile configuration and correct validation errors')
+        return
       }
 
       // delete then recreate the link
@@ -374,11 +378,11 @@ export default {
                 .create({
                   text: 'Link updated',
                   destroyOnClose: true,
-                  closeTimeout: 2000,
+                  closeTimeout: 2000
                 })
-                .open();
-              this.f7router.back();
-            });
+                .open()
+              this.f7router.back()
+            })
         })
         .catch(err => {
           f7.toast
@@ -387,11 +391,11 @@ export default {
                 'Link not updated (links defined in a .items file are not editable from this screen): ' +
                 err,
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-        });
-    },
-  },
-};
+            .open()
+        })
+    }
+  }
+}
 </script>

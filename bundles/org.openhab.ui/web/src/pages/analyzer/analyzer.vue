@@ -86,10 +86,18 @@
                   <table>
                     <thead>
                       <tr>
-                        <th class="label-cell">{{ $t('analyzer.series.table.header.label') }}</th>
-                        <th class="label-cell">{{ $t('analyzer.series.table.header.type') }}</th>
-                        <th class="label-cell">{{ $t('analyzer.series.table.header.axis') }}</th>
-                        <th class="label-cell">{{ $t('analyzer.series.table.header.markers') }}</th>
+                        <th class="label-cell">
+                          {{ $t('analyzer.series.table.header.label') }}
+                        </th>
+                        <th class="label-cell">
+                          {{ $t('analyzer.series.table.header.type') }}
+                        </th>
+                        <th class="label-cell">
+                          {{ $t('analyzer.series.table.header.axis') }}
+                        </th>
+                        <th class="label-cell">
+                          {{ $t('analyzer.series.table.header.markers') }}
+                        </th>
                         <th v-if="coordSystem !== 'time'" class="label-cell">
                           {{ $t('analyzer.series.table.header.aggregation') }}
                         </th>
@@ -105,7 +113,7 @@
                             <input
                               type="text"
                               v-model.lazy="options.name"
-                              style="min-width: 150px" />
+                              style="min-width: 150px">
                           </div>
                         </td>
                         <td class="label-cell">
@@ -113,8 +121,8 @@
                             <f7-button
                               v-if="
                                 !options.discrete &&
-                                coordSystem === 'aggregate' &&
-                                aggregateDimensions === 1
+                                  coordSystem === 'aggregate' &&
+                                  aggregateDimensions === 1
                               "
                               small
                               outline
@@ -125,8 +133,8 @@
                             <f7-button
                               v-if="
                                 !options.discrete &&
-                                coordSystem !== 'calendar' &&
-                                aggregateDimensions === 1
+                                  coordSystem !== 'calendar' &&
+                                  aggregateDimensions === 1
                               "
                               small
                               outline
@@ -137,7 +145,7 @@
                             <f7-button
                               v-if="
                                 coordSystem === 'time' ||
-                                (coordSystem === 'aggregate' && aggregateDimensions === 1)
+                                  (coordSystem === 'aggregate' && aggregateDimensions === 1)
                               "
                               small
                               outline
@@ -148,7 +156,7 @@
                             <f7-button
                               v-if="
                                 coordSystem === 'calendar' ||
-                                (coordSystem === 'aggregate' && aggregateDimensions === 2)
+                                  (coordSystem === 'aggregate' && aggregateDimensions === 2)
                               "
                               small
                               fill
@@ -291,11 +299,13 @@
           <f7-row
             v-if="
               (coordSystem === 'aggregate' && aggregateDimensions === 2) ||
-              coordSystem === 'calendar'
+                coordSystem === 'calendar'
             ">
             <f7-col :width="100" :medium="50">
               <f7-list class="no-margin-vertical">
-                <f7-list-item divider>{{ $t('analyzer.ranges.visualPalette') }}</f7-list-item>
+                <f7-list-item divider>
+                  {{ $t('analyzer.ranges.visualPalette') }}
+                </f7-list-item>
                 <f7-list-item
                   radio
                   name="visualMapPalette"
@@ -328,7 +338,9 @@
             </f7-col>
             <f7-col :width="100" :medium="50">
               <f7-list class="no-margin-vertical" inline-labels no-hairlines-md>
-                <f7-list-item divider>{{ $t('analyzer.ranges.range') }}</f7-list-item>
+                <f7-list-item divider>
+                  {{ $t('analyzer.ranges.range') }}
+                </f7-list-item>
                 <f7-list-input
                   :label="$t('analyzer.ranges.range.min')"
                   :value="visualMapMin"
@@ -343,7 +355,9 @@
                   @input="visualMapMax = $event.target.value"
                   placeholder="Auto"
                   clear-button />
-                <f7-list-item divider>{{ $t('analyzer.ranges.range.type') }}</f7-list-item>
+                <f7-list-item divider>
+                  {{ $t('analyzer.ranges.range.type') }}
+                </f7-list-item>
                 <f7-list-item
                   radio
                   name="visualMapType"
@@ -364,7 +378,9 @@
           <f7-row v-else-if="valueAxesOptions.length > 0">
             <f7-col :width="100">
               <div class="card data-table">
-                <div class="card-header">{{ $t('analyzer.ranges.valueAxes') }}</div>
+                <div class="card-header">
+                  {{ $t('analyzer.ranges.valueAxes') }}
+                </div>
                 <div class="card-content">
                   <table>
                     <thead>
@@ -390,7 +406,7 @@
                       <tr v-for="axis in valueAxesOptions" :key="axis.unit">
                         <td class="label-cell">
                           <div class="input">
-                            <input type="text" v-model.lazy="axis.name" style="min-width: 150px" />
+                            <input type="text" v-model.lazy="axis.name" style="min-width: 150px">
                           </div>
                         </td>
                         <td class="label-cell">
@@ -399,7 +415,7 @@
                               type="number"
                               v-model.lazy="axis.min"
                               style="min-width: 100px"
-                              :placeholder="$t('analyzer.ranges.valueAxes.placeholder.auto')" />
+                              :placeholder="$t('analyzer.ranges.valueAxes.placeholder.auto')">
                           </div>
                         </td>
                         <td class="label-cell">
@@ -408,7 +424,7 @@
                               type="number"
                               v-model.lazy="axis.max"
                               style="min-width: 100px"
-                              :placeholder="$t('analyzer.ranges.valueAxes.placeholder.auto')" />
+                              :placeholder="$t('analyzer.ranges.valueAxes.placeholder.auto')">
                           </div>
                         </td>
                         <td class="label-cell">
@@ -445,18 +461,18 @@
 </style>
 
 <script>
-import ItemPicker from '@/components/config/controls/item-picker.vue';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
-import ChartTime from './chart-time';
-import ChartAggregate from './chart-aggregate';
-import ChartCalendar from './chart-calendar';
-import { utils } from 'framework7';
-import { f7, theme } from 'framework7-vue';
-import { nextTick, defineAsyncComponent } from 'vue';
+import ItemPicker from '@/components/config/controls/item-picker.vue'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
+import ChartTime from './chart-time'
+import ChartAggregate from './chart-aggregate'
+import ChartCalendar from './chart-calendar'
+import { utils } from 'framework7'
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
 
-import { useUserStore } from '@/js/stores/user';
-import { useComponentsStore } from '@/js/stores/components';
-import { mapStores } from 'pinia';
+import { useUserStore } from '@/js/stores/user'
+import { useComponentsStore } from '@/js/stores/components'
+import { mapStores } from 'pinia'
 
 export default {
   components: {
@@ -467,13 +483,13 @@ export default {
         )
     ),
     ItemPicker,
-    EmptyStatePlaceholder,
+    EmptyStatePlaceholder
   },
   props: {
-    f7route: Object,
+    f7route: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -498,43 +514,43 @@ export default {
       controlsTab: 'series',
       itemsPickerKey: utils.id(),
       chartKey: utils.id()
-    };
+    }
   },
   i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/analyzer/*.json')),
+    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/analyzer/*.json'))
   },
 
   computed: {
     titleDisplayText() {
-      if (!this.items || !this.items.length) return 'Analyze';
+      if (!this.items || !this.items.length) return 'Analyze'
       if (this.items.length === 1)
-        return this.items[0].label ? this.items[0].label : this.items[0].name;
+        return this.items[0].label ? this.items[0].label : this.items[0].name
       return (
         (this.items[0].label ? this.items[0].label : this.items[0].name) +
         ' + ' +
         (this.items.length - 1)
-      );
+      )
     },
     context() {
       return {
         component: this.page,
-        analyzer: true,
-      };
+        analyzer: true
+      }
     },
     page() {
       switch (this.coordSystem) {
         case 'time':
-          return ChartTime.getChartPage(this);
+          return ChartTime.getChartPage(this)
         case 'aggregate':
-          return ChartAggregate.getChartPage(this);
+          return ChartAggregate.getChartPage(this)
         case 'calendar':
-          return ChartCalendar.getChartPage(this);
+          return ChartCalendar.getChartPage(this)
         default:
           return {
             component: 'oh-chart-page',
             config: {
               chartType: this.chartType,
-              period: this.period,
+              period: this.period
             },
             slots: {
               title: [
@@ -543,51 +559,51 @@ export default {
                   config: {
                     subtext: `Invalid coordinate system: ${this.coordSystem}`,
                     top: 'center',
-                    left: 'center',
-                  },
-                },
-              ],
-            },
-          };
+                    left: 'center'
+                  }
+                }
+              ]
+            }
+          }
       }
     },
     ...mapStores(useUserStore)
   },
   methods: {
     onClose() {
-      this.controlsOpened = false;
+      this.controlsOpened = false
     },
     initChart() {
-      if (this.f7route.query.period) this.period = this.f7route.query.period;
+      if (this.f7route.query.period) this.period = this.f7route.query.period
       if (this.f7route.query.items === '') {
-        this.invalidConfiguration = true;
-        return;
+        this.invalidConfiguration = true
+        return
       }
       this.updateItems(this.f7route.query.items.split(',')).then(() => {
-        if (this.f7route.query.chartType) this.changeChartType(this.f7route.query.chartType);
-        if (this.f7route.query.coordSystem) this.changeCoordSystem(this.f7route.query.coordSystem);
+        if (this.f7route.query.chartType) this.changeChartType(this.f7route.query.chartType)
+        if (this.f7route.query.coordSystem) this.changeCoordSystem(this.f7route.query.coordSystem)
         if (this.f7route.query.aggregation) {
           for (const options in this.seriesOptions) {
-            this.seriesOptions[options].aggregation = this.f7route.query.aggregation;
+            this.seriesOptions[options].aggregation = this.f7route.query.aggregation
           }
         }
-      });
+      })
     },
     updateItems(itemNames) {
-      this.itemNames = itemNames;
-      const promises = itemNames.map(n => this.$oh.api.get('/rest/items/' + n));
+      this.itemNames = itemNames
+      const promises = itemNames.map(n => this.$oh.api.get('/rest/items/' + n))
       return Promise.all(promises).then(resp => {
-        this.items = [];
-        this.valueAxesOptions = [];
+        this.items = []
+        this.valueAxesOptions = []
         resp.forEach(item => {
-          this.items.push(item);
+          this.items.push(item)
 
           if (!this.seriesOptions[item.name]) {
-            this.initializeSeriesOptions(item);
+            this.initializeSeriesOptions(item)
           }
 
           // dynamically add value axes according to unit if determined
-          const seriesOptions = this.seriesOptions[item.name];
+          const seriesOptions = this.seriesOptions[item.name]
           if (
             !seriesOptions.discrete &&
             (seriesOptions.type === 'line' || seriesOptions.type === 'bar')
@@ -601,87 +617,87 @@ export default {
                       item.stateDescription.pattern &&
                       item.stateDescription.pattern.split(' ').length === 2
                     ? item.stateDescription.pattern.split(' ')[1]
-                    : undefined;
-            if (unit) unit = unit.replace(/^%%/, '%');
-            let unitAxis = this.valueAxesOptions.findIndex(a => a.unit === unit);
+                    : undefined
+            if (unit) unit = unit.replace(/^%%/, '%')
+            let unitAxis = this.valueAxesOptions.findIndex(a => a.unit === unit)
             if (unitAxis >= 0) {
-              seriesOptions.valueAxisIndex = unitAxis;
+              seriesOptions.valueAxisIndex = unitAxis
             } else {
-              this.valueAxesOptions.push({ name: unit, unit, split: 'line' });
-              seriesOptions.valueAxisIndex = this.valueAxesOptions.length - 1;
+              this.valueAxesOptions.push({ name: unit, unit, split: 'line' })
+              seriesOptions.valueAxisIndex = this.valueAxesOptions.length - 1
             }
           }
-        });
-        this.items = resp;
+        })
+        this.items = resp
         for (let item in this.seriesOptions) {
           if (itemNames.indexOf(item) < 0) {
-            delete this.seriesOptions[item];
+            delete this.seriesOptions[item]
           }
         }
-        this.showChart = true;
+        this.showChart = true
 
-        return Promise.resolve();
-      });
+        return Promise.resolve()
+      })
     },
     initializeSeriesOptions(item) {
       const seriesOptions = {
         name: item.label || item.name,
         type: 'line',
-        discrete: true,
-      };
+        discrete: true
+      }
 
       if (item.type.indexOf('Number') === 0 || item.type === 'Dimmer')
-        seriesOptions.discrete = false;
+        seriesOptions.discrete = false
       if (item.groupType && (item.groupType.indexOf('Number') === 0 || item.groupType === 'Dimmer'))
-        seriesOptions.discrete = false;
+        seriesOptions.discrete = false
       if (
         !seriesOptions.discrete &&
         this.coordSystem === 'aggregate' &&
         this.aggregateDimensions === 1
       )
-        seriesOptions.type = 'bar';
+        seriesOptions.type = 'bar'
       if (
         !seriesOptions.discrete &&
         (this.coordSystem === 'calendar' ||
           (this.coordSystem === 'aggregate' && this.aggregateDimensions === 2))
       )
-        seriesOptions.type = 'heatmap';
-      if (seriesOptions.discrete) seriesOptions.type = 'area';
+        seriesOptions.type = 'heatmap'
+      if (seriesOptions.discrete) seriesOptions.type = 'area'
 
-      this.seriesOptions[item.name] = seriesOptions;
+      this.seriesOptions[item.name] = seriesOptions
     },
     changeChartType(type) {
-      this.showChart = false;
-      this.chartType = type;
+      this.showChart = false
+      this.chartType = type
       if (type === '') {
-        this.coordSystem = 'time';
+        this.coordSystem = 'time'
         for (let item in this.seriesOptions) {
           if (
             !this.seriesOptions[item].discrete &&
             this.seriesOptions[item].type !== 'line' &&
             this.seriesOptions[item].type !== 'area'
           )
-            this.seriesOptions[item].type = 'line';
+            this.seriesOptions[item].type = 'line'
         }
       }
       nextTick(() => {
-        this.showChart = true;
-      });
+        this.showChart = true
+      })
     },
     changeCoordSystem(coordSystem) {
-      this.showChart = false;
-      this.coordSystem = coordSystem;
-      if (coordSystem !== 'aggregate') this.aggregateDimensions = 1;
+      this.showChart = false
+      this.coordSystem = coordSystem
+      if (coordSystem !== 'aggregate') this.aggregateDimensions = 1
       if (this.coordSystem === 'calendar') {
-        this.chartType = 'month';
+        this.chartType = 'month'
         for (let item in this.seriesOptions) {
-          if (!this.seriesOptions[item].discrete) this.seriesOptions[item].type = 'heatmap';
+          if (!this.seriesOptions[item].discrete) this.seriesOptions[item].type = 'heatmap'
         }
       }
       if (this.coordSystem === 'aggregate') {
         for (let item in this.seriesOptions) {
           if (!this.seriesOptions[item].discrete)
-            this.seriesOptions[item].type = this.aggregateDimensions === 2 ? 'heatmap' : 'bar';
+            this.seriesOptions[item].type = this.aggregateDimensions === 2 ? 'heatmap' : 'bar'
         }
       }
       if (this.coordSystem === 'time') {
@@ -691,39 +707,39 @@ export default {
             this.seriesOptions[item].type !== 'line' &&
             this.seriesOptions[item].type !== 'area'
           )
-            this.seriesOptions[item].type = 'line';
+            this.seriesOptions[item].type = 'line'
         }
       }
       nextTick(() => {
-        this.showChart = true;
-      });
+        this.showChart = true
+      })
     },
     changeAggregateDimensions(dimensions) {
-      this.showChart = false;
-      this.aggregateDimensions = dimensions;
+      this.showChart = false
+      this.aggregateDimensions = dimensions
       if (this.coordSystem === 'aggregate') {
         for (let item in this.seriesOptions) {
           if (!this.seriesOptions[item].discrete)
-            this.seriesOptions[item].type = this.aggregateDimensions === 2 ? 'heatmap' : 'bar';
+            this.seriesOptions[item].type = this.aggregateDimensions === 2 ? 'heatmap' : 'bar'
         }
       }
       nextTick(() => {
-        this.showChart = true;
-      });
+        this.showChart = true
+      })
     },
     changeVisualMapPalette(palette) {
-      this.showChart = false;
-      this.visualMapPalette = palette;
+      this.showChart = false
+      this.visualMapPalette = palette
       nextTick(() => {
-        this.showChart = true;
-      });
+        this.showChart = true
+      })
     },
     changeVisualMapType(type) {
-      this.showChart = false;
-      this.visualMapType = type;
+      this.showChart = false
+      this.visualMapType = type
       nextTick(() => {
-        this.showChart = true;
-      });
+        this.showChart = true
+      })
     },
     chooseMarkers(opt) {
       const actions = ['none', 'avg', 'min-max', 'all'].map(m => {
@@ -731,18 +747,18 @@ export default {
           text: m,
           color: 'blue',
           onClick: () => {
-            opt.markers = m;
-          },
-        };
-      });
+            opt.markers = m
+          }
+        }
+      })
       f7.actions
         .create({
           buttons: [
             [{ label: true, text: this.$t('analyzer.dialogs.header.markers') }, ...actions],
-            [{ color: 'red', text: this.$t('dialogs.cancel'), close: true }],
-          ],
+            [{ color: 'red', text: this.$t('dialogs.cancel'), close: true }]
+          ]
         })
-        .open();
+        .open()
     },
     chooseAggregation(opt) {
       const actions = this.Aggregations.map(a => {
@@ -750,24 +766,24 @@ export default {
           text: a.label,
           color: 'blue',
           onClick: () => {
-            opt.aggregation = a.value;
-          },
-        };
-      });
+            opt.aggregation = a.value
+          }
+        }
+      })
       f7.actions
         .create({
           buttons: [
             [
               {
                 label: true,
-                text: this.$t('analyzer.dialogs.header.aggregation'),
+                text: this.$t('analyzer.dialogs.header.aggregation')
               },
-              ...actions,
+              ...actions
             ],
-            [{ color: 'red', text: this.$t('dialogs.cancel'), close: true }],
-          ],
+            [{ color: 'red', text: this.$t('dialogs.cancel'), close: true }]
+          ]
         })
-        .open();
+        .open()
     },
     chooseAxisSplit(axis) {
       const actions = ['none', 'line', 'area', 'line+area', 'line+minor', 'area+minor', 'all'].map(
@@ -776,89 +792,89 @@ export default {
             text: m,
             color: 'blue',
             onClick: () => {
-              axis.split = m;
-            },
-          };
+              axis.split = m
+            }
+          }
         }
-      );
+      )
       f7.actions
         .create({
           buttons: [
             [{ label: true, text: this.$t('analyzer.dialogs.header.split') }, ...actions],
-            [{ color: 'red', text: 'Cancel', close: true }],
-          ],
+            [{ color: 'red', text: 'Cancel', close: true }]
+          ]
         })
-        .open();
+        .open()
     },
     openControls() {
-      this.controlsOpened = true;
+      this.controlsOpened = true
     },
     savePage() {
-      if (!useUserStore().isAdmin()) return; // shouldn't get here if not an admin
+      if (!useUserStore().isAdmin()) return // shouldn't get here if not an admin
 
-      const self = this;
+      const self = this
       f7.dialog.prompt(
         this.$t('analyzer.dialogs.save.message'),
         this.$t('analyzer.dialogs.save.title'),
         uid => {
           if (!uid.match(/^[A-Za-z0-9_]+$/)) {
-            self.f7.dialog.alert(this.$t('analyzer.dialogs.save.invalid'));
-            return;
+            self.f7.dialog.alert(this.$t('analyzer.dialogs.save.invalid'))
+            return
           }
           if (useComponentsStore().page(uid)) {
             self.f7.dialog.confirm(
               this.$t('analyzer.dialogs.save.replace.message', { uid }),
               this.$t('analyzer.dialogs.save.replace.title'),
               () => {
-                self.doSavePage(uid, true);
+                self.doSavePage(uid, true)
               }
-            );
-            return;
+            )
+            return
           }
 
-          this.doSavePage(uid);
+          this.doSavePage(uid)
         }
-      );
+      )
     },
     doSavePage(uid, overwrite) {
       let chartPage = Object.assign(
         {
-          uid,
+          uid
         },
         this.page
-      );
-      chartPage.config.label = this.titleDisplayText;
+      )
+      chartPage.config.label = this.titleDisplayText
 
       const promise = !overwrite
         ? this.$oh.api.postPlain(
-            '/rest/ui/components/ui:page',
-            JSON.stringify(chartPage),
-            'text/plain',
-            'application/json'
-          )
-        : this.$oh.api.put('/rest/ui/components/ui:page/' + uid, chartPage);
+          '/rest/ui/components/ui:page',
+          JSON.stringify(chartPage),
+          'text/plain',
+          'application/json'
+        )
+        : this.$oh.api.put('/rest/ui/components/ui:page/' + uid, chartPage)
       promise.then(data => {
         if (overwrite) {
           f7.toast
             .create({
               text: this.$t('analyzer.page.updated'),
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
-          this.load();
+            .open()
+          this.load()
         } else {
           f7.toast
             .create({
               text: this.$t('analyzer.page.created'),
               destroyOnClose: true,
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
+            .open()
         }
-        f7.emit('sidebar-refresh', null);
-      });
-    },
+        f7.emit('sidebar-refresh', null)
+      })
+    }
   },
   created() {
     this.Aggregations = [
@@ -870,13 +886,13 @@ export default {
       { value: 'last', label: this.$t('analyzer.aggregations.last') },
       {
         value: 'diff_first',
-        label: this.$t('analyzer.aggregations.diffFirst'),
+        label: this.$t('analyzer.aggregations.diffFirst')
       },
-      { value: 'diff_last', label: this.$t('analyzer.aggregations.diffLast') },
-    ];
+      { value: 'diff_last', label: this.$t('analyzer.aggregations.diffLast') }
+    ]
   },
   mounted() {
-    this.initChart();
-  },
-};
+    this.initChart()
+  }
+}
 </script>

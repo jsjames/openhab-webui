@@ -38,8 +38,8 @@
     <generic-widget-component
       v-if="
         context.component.slots &&
-        context.component.slots.after &&
-        context.component.slots.after.length
+          context.component.slots.after &&
+          context.component.slots.after.length
       "
       v-bind="$attrs"
       :context="childContext(context.component.slots.after[0])" />
@@ -67,13 +67,11 @@
       <span
         v-else-if="
           config.fallbackIconToInitial &&
-          config.title &&
-          context.parent.component.config &&
-          context.parent.component.config.mediaList
+            config.title &&
+            context.parent.component.config &&
+            context.parent.component.config.mediaList
         "
-        class="item-initial"
-        >{{ config.title[0].toUpperCase() }}</span
-      >
+        class="item-initial">{{ config.title[0].toUpperCase() }}</span>
     </template>
   </f7-list-item>
 </template>
@@ -167,11 +165,11 @@
 </style>
 
 <script>
-import mixin from '../../widget-mixin';
-import { actionsMixin } from '../../widget-actions';
-import { OhListItemDefinition } from '@/assets/definitions/widgets/standard/listitems';
-import { f7 } from 'framework7-vue';
-import { nextTick } from 'vue';
+import mixin from '../../widget-mixin'
+import { actionsMixin } from '../../widget-actions'
+import { OhListItemDefinition } from '@/assets/definitions/widgets/standard/listitems'
+import { f7 } from 'framework7-vue'
+import { nextTick } from 'vue'
 
 export default {
   name: 'oh-list-item',
@@ -184,7 +182,7 @@ export default {
         this.context.component.slots &&
         this.context.component.slots.accordion &&
         this.context.component.slots.accordion.length
-      );
+      )
     },
     isRegularAccordion() {
       return (
@@ -192,58 +190,58 @@ export default {
         this.context.component.slots &&
         this.context.component.slots.accordion &&
         this.context.component.slots.accordion.length
-      );
-    },
+      )
+    }
   },
   mounted() {
-    mixin.mounted.call(this);
+    mixin.mounted.call(this)
     if (this.config.divider && !this.context.editmode) {
       nextTick(function () {
-        this.trimTitle();
-      });
+        this.trimTitle()
+      })
     }
   },
   created() {
     if (this.config.divider && !this.context.editmode) {
-      window.addEventListener('resize', this.duringResize);
+      window.addEventListener('resize', this.duringResize)
     }
   },
   unmounted() {
-    window.removeEventListener('resize', this.duringResize);
-    if (this.timer) clearTimeout(this.timer);
+    window.removeEventListener('resize', this.duringResize)
+    if (this.timer) clearTimeout(this.timer)
   },
   methods: {
     openAccordionOrPerformAction() {
       if (this.isEquipmentAccordion) {
-        f7.accordion.toggle(this.$refs.f7AccordionContent.$el);
+        f7.accordion.toggle(this.$refs.f7AccordionContent.$el)
       } else {
-        this.performAction();
+        this.performAction()
       }
     },
     duringResize() {
-      if (this.timer) clearTimeout(this.timer);
-      this.timer = setTimeout(this.resized, 200);
+      if (this.timer) clearTimeout(this.timer)
+      this.timer = setTimeout(this.resized, 200)
     },
     resized() {
       if (this.$refs.divider && this.$refs.divider.$el && this.$refs.divider.$el.firstChild) {
-        this.$refs.divider.$el.firstChild.textContent = this.config.title;
+        this.$refs.divider.$el.firstChild.textContent = this.config.title
       }
-      this.trimTitle();
+      this.trimTitle()
     },
     trimTitle() {
       if (this.$refs.divider && this.$refs.divider.$el && this.$refs.divider.$el.firstChild) {
-        let element = this.$refs.divider.$el.firstChild;
-        let trimCount = 0;
+        let element = this.$refs.divider.$el.firstChild
+        let trimCount = 0
         if (element.scrollWidth > element.offsetWidth) {
-          let value = '…' + element.textContent;
+          let value = '…' + element.textContent
           do {
-            value = '…' + value.slice(2);
-            trimCount++;
-            element.textContent = value;
-          } while (element.scrollWidth > element.offsetWidth && trimCount < 100);
+            value = '…' + value.slice(2)
+            trimCount++
+            element.textContent = value
+          } while (element.scrollWidth > element.offsetWidth && trimCount < 100)
         }
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

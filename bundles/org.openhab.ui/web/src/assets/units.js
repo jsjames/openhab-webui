@@ -35,7 +35,7 @@ export const Units = [
   },
   {
     dimension: 'Angle',
-    units: ['°', "'", '"', 'rad']
+    units: ['°', '\'', '"', 'rad']
   },
   {
     dimension: 'Area',

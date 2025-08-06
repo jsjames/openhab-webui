@@ -95,59 +95,63 @@
         </div>
       </f7-list>
       <f7-list v-if="!createMode" inline-labels no-hairline-md>
-        <f7-list-button color="blue" @click="duplicatePage"> Duplicate Page </f7-list-button>
-        <f7-list-button color="red" @click="deletePage"> Remove Page </f7-list-button>
+        <f7-list-button color="blue" @click="duplicatePage">
+          Duplicate Page
+        </f7-list-button>
+        <f7-list-button color="red" @click="deletePage">
+          Remove Page
+        </f7-list-button>
       </f7-list>
     </template>
   </f7-col>
 </template>
 
 <script>
-import TagInput from '@/components/tags/tag-input.vue';
-import cloneDeep from 'lodash/cloneDeep';
-import { f7 } from 'framework7-vue';
+import TagInput from '@/components/tags/tag-input.vue'
+import cloneDeep from 'lodash/cloneDeep'
+import { f7 } from 'framework7-vue'
 
 export default {
   components: {
-    TagInput,
+    TagInput
   },
   props: {
     page: Object,
     createMode: Boolean,
-    f7router: Object,
+    f7router: Object
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
     isVisibleTo(userrole) {
       return (
         Array.isArray(this.page.config.visibleTo) &&
         this.page.config.visibleTo.indexOf(userrole) >= 0
-      );
+      )
     },
     updatePageVisibility(userrole) {
-      let value = this.$refs.pageVisibility.f7SmartSelect.getValue();
+      let value = this.$refs.pageVisibility.f7SmartSelect.getValue()
       if (value && value.length === 0) {
-        delete this.page.config.visibleTo;
+        delete this.page.config.visibleTo
       } else {
-        this.page.config.visibleTo = value;
+        this.page.config.visibleTo = value
         f7.toast
           .create({
             text: 'Please be advised: the visibility restriction is not a security feature - items can be controlled by other means!',
             closeButton: true,
-            destroyOnClose: true,
+            destroyOnClose: true
           })
-          .open();
+          .open()
       }
     },
     duplicatePage() {
-      const pageClone = cloneDeep(this.page);
-      const pageType = pageClone.component.replace(/^oh-|-page$/g, '');
-      pageClone.uid = pageClone.uid + '_copy';
+      const pageClone = cloneDeep(this.page)
+      const pageType = pageClone.component.replace(/^oh-|-page$/g, '')
+      pageClone.uid = pageClone.uid + '_copy'
       this.f7router.navigate(`/settings/pages/${pageType}/add`, {
-        props: { createMode: true, pageCopy: pageClone },
-      });
+        props: { createMode: true, pageCopy: pageClone }
+      })
     },
     deletePage() {
       f7.dialog.confirm(`Are you sure you want to delete ${this.page.uid}?`, 'Delete Page', () => {
@@ -158,17 +162,17 @@ export default {
               .create({
                 text: `Page '${this.page.uid}' deleted`,
                 destroyOnClose: true,
-                closeTimeout: 2000,
+                closeTimeout: 2000
               })
-              .open();
-            this.f7router.back('/settings/pages/', { force: true });
+              .open()
+            this.f7router.back('/settings/pages/', { force: true })
           })
           .catch(err => {
-            console.error(err);
-            f7.dialog.alert('An error occurred while deleting: ' + err);
-          });
-      });
-    },
-  },
-};
+            console.error(err)
+            f7.dialog.alert('An error occurred while deleting: ' + err)
+          })
+      })
+    }
+  }
+}
 </script>

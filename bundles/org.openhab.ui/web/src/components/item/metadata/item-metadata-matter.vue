@@ -41,7 +41,9 @@
           Matter Attributes Mapping
         </f7-block-title>
         <f7-block-footer v-if="dirtyItem.size">
-          <f7-button color="blue" @click="updatedLinkedItem"> Update group members </f7-button>
+          <f7-button color="blue" @click="updatedLinkedItem">
+            Update group members
+          </f7-button>
         </f7-block-footer>
         <f7-block v-for="deviceType in classesAsArray" :key="deviceType" class="no-padding">
           <f7-block-title class="padding-left">
@@ -78,7 +80,7 @@
             <template
               v-if="
                 getMappedChild(attribute.name) &&
-                getAttributeOptions(attribute.name, deviceType).length
+                  getAttributeOptions(attribute.name, deviceType).length
               ">
               <div class="option-mapping-fields padding-left padding-bottom">
                 <div class="padding-bottom padding-top">
@@ -102,7 +104,9 @@
           <small class="text-color-gray">* indicates mandatory mapping</small>
         </f7-block-footer>
         <f7-block-footer v-if="dirtyItem.size">
-          <f7-button color="blue" @click="updatedLinkedItem"> Update group members </f7-button>
+          <f7-button color="blue" @click="updatedLinkedItem">
+            Update group members
+          </f7-button>
         </f7-block-footer>
       </f7-block>
       <p class="padding">
@@ -126,22 +130,22 @@
 import {
   deviceTypes,
   deviceTypesAndAttributes,
-  matterParameters,
-} from '@/assets/definitions/metadata/matter';
-import ConfigSheet from '@/components/config/config-sheet.vue';
-import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin';
-import { map } from '@node_modules/yaml/dist/schema/common/map';
-import { f7 } from 'framework7-vue';
-import { utils } from 'framework7';
-import { useRuntimeStore } from '@/js/stores/runtime';
-import { mapStores } from 'pinia';
+  matterParameters
+} from '@/assets/definitions/metadata/matter'
+import ConfigSheet from '@/components/config/config-sheet.vue'
+import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
+import { map } from '@node_modules/yaml/dist/schema/common/map'
+import { f7 } from 'framework7-vue'
+import { utils } from 'framework7'
+import { useRuntimeStore } from '@/js/stores/runtime'
+import { mapStores } from 'pinia'
 
 export default {
   name: 'item-metadata-matter',
   props: ['item', 'metadata'],
   mixins: [ItemMetadataMixin],
   components: {
-    ConfigSheet,
+    ConfigSheet
   },
   data() {
     return {
@@ -151,15 +155,15 @@ export default {
       classSelectKey: utils.id(),
       itemType: this.item.groupType || this.item.type,
       dirtyItem: new Set(),
-      ready: false,
-    };
+      ready: false
+    }
   },
   created() {
-    this.multiple = !!this.metadata.value && this.metadata.value.indexOf(',') > 0;
-    this.itemType = this.item.groupType || this.item.type;
+    this.multiple = !!this.metadata.value && this.metadata.value.indexOf(',') > 0
+    this.itemType = this.item.groupType || this.item.type
 
     if (!this.metadata.config) {
-      this.metadata.config = {};
+      this.metadata.config = {}
     }
   },
   mounted() {
@@ -172,23 +176,23 @@ export default {
         this.item.members = this.item.members.map((member, index) => {
           return {
             ...member,
-            metadata: responses[index].metadata || {},
-          };
-        });
-        this.ready = true;
-        console.debug('Updated members:', this.item.members);
-      });
+            metadata: responses[index].metadata || {}
+          }
+        })
+        this.ready = true
+        console.debug('Updated members:', this.item.members)
+      })
     } else {
-      this.ready = true;
+      this.ready = true
     }
   },
   computed: {
     classesAsArray() {
-      return this.metadata.value ? this.metadata.value.split(',') : [];
+      return this.metadata.value ? this.metadata.value.split(',') : []
     },
     classes() {
-      if (!this.multiple) return this.metadata.value;
-      return this.classesAsArray;
+      if (!this.multiple) return this.metadata.value
+      return this.classesAsArray
     },
     shouldShowAttributeMapping() {
       // Show attribute mapping if:
@@ -200,26 +204,26 @@ export default {
         this.classes &&
         this.classes.length &&
         this.classesAsArray.some(deviceType => this.deviceTypes[deviceType]?.attributes?.length > 0)
-      );
+      )
     },
     parametersGroups() {
-      if (!this.classes || !this.multiple) return [];
-      return this.classesAsArray.map(type => ({ name: type, label: type }));
+      if (!this.classes || !this.multiple) return []
+      return this.classesAsArray.map(type => ({ name: type, label: type }))
     },
     parameters() {
-      if (!this.classes) return matterParameters.global || [];
+      if (!this.classes) return matterParameters.global || []
 
       if (!this.multiple) {
-        return matterParameters[this.classes] || matterParameters.global || [];
+        return matterParameters[this.classes] || matterParameters.global || []
       }
 
       // For multiple selection, show parameters for all selected types
       return this.classesAsArray
         .flatMap(type => {
-          const typeParams = matterParameters[type] || [];
-          return typeParams.map(opt => ({ ...opt, groupName: type }));
+          const typeParams = matterParameters[type] || []
+          return typeParams.map(opt => ({ ...opt, groupName: type }))
         })
-        .concat(matterParameters.global || []);
+        .concat(matterParameters.global || [])
     },
     ...mapStores(useRuntimeStore)
   },
@@ -227,70 +231,70 @@ export default {
     getAvailableDeviceTypes() {
       if (this.item.type !== 'Group') {
         return Object.keys(this.deviceTypes).filter(type => {
-          const device = this.deviceTypes[type];
-          return device.attributes.length === 0 || device.supportsSimpleMapping === true;
-        });
+          const device = this.deviceTypes[type]
+          return device.attributes.length === 0 || device.supportsSimpleMapping === true
+        })
       }
 
       if (this.multiple) {
         return this.item.groupType
           ? Object.keys(this.deviceTypes)
           : Object.keys(this.deviceTypes).filter(
-              type => this.deviceTypes[type]?.attributes?.length > 0
-            );
+            type => this.deviceTypes[type]?.attributes?.length > 0
+          )
       }
 
       return this.item.groupType
         ? Object.keys(this.deviceTypes)
         : Object.keys(this.deviceTypes).filter(
-            type => this.deviceTypes[type]?.attributes?.length > 0
-          );
+          type => this.deviceTypes[type]?.attributes?.length > 0
+        )
     },
     isLinked(deviceType, attribute, item) {
-      if (!item?.metadata?.matter?.value) return false;
+      if (!item?.metadata?.matter?.value) return false
 
-      const value = item.metadata.matter.value.toLowerCase();
+      const value = item.metadata.matter.value.toLowerCase()
       return attribute === null
         ? value === deviceType.toLowerCase()
-        : value === attribute.toLowerCase();
+        : value === attribute.toLowerCase()
     },
     isSelected(deviceType) {
-      return this.multiple ? this.classes.includes(deviceType) : this.classes === deviceType;
+      return this.multiple ? this.classes.includes(deviceType) : this.classes === deviceType
     },
     toggleMultiple() {
-      this.multiple = !this.multiple;
-      this.metadata.value = '';
-      this.classSelectKey = utils.id();
+      this.multiple = !this.multiple
+      this.metadata.value = ''
+      this.classSelectKey = utils.id()
     },
     updateClasses() {
-      const value = this.$refs.classes.f7SmartSelect.getValue();
-      this.metadata.value = Array.isArray(value) ? value.join(',') : value;
-      this.metadata.config = {};
+      const value = this.$refs.classes.f7SmartSelect.getValue()
+      this.metadata.value = Array.isArray(value) ? value.join(',') : value
+      this.metadata.config = {}
     },
     updateLinkedItem(deviceType, attribute, itemName) {
       if (!itemName) {
         // Handle unlinking
         const groupMbr = this.item.members.find(
           mbr => mbr.metadata?.matter?.value?.toLowerCase() === attribute.toLowerCase()
-        );
+        )
         if (groupMbr) {
-          groupMbr.metadata.matter.value = '';
-          this.dirtyItem.add(groupMbr);
+          groupMbr.metadata.matter.value = ''
+          this.dirtyItem.add(groupMbr)
         }
-        return;
+        return
       }
 
       // Handle linking
-      const groupMbr = this.item.members.find(mbr => mbr.name === itemName);
+      const groupMbr = this.item.members.find(mbr => mbr.name === itemName)
       if (groupMbr) {
         if (!groupMbr.metadata) {
-          groupMbr.metadata = {};
+          groupMbr.metadata = {}
         }
         if (!groupMbr.metadata.matter) {
-          groupMbr.metadata.matter = { value: '', config: {} };
+          groupMbr.metadata.matter = { value: '', config: {} }
         }
-        groupMbr.metadata.matter.value = attribute;
-        this.dirtyItem.add(groupMbr);
+        groupMbr.metadata.matter.value = attribute
+        this.dirtyItem.add(groupMbr)
       }
     },
     updatedLinkedItem() {
@@ -298,66 +302,66 @@ export default {
         Array.from(this.dirtyItem).map(item => {
           if (!item.metadata.matter.value) {
             // If value is empty, send DELETE
-            return this.$oh.api.delete(`/rest/items/${item.name}/metadata/matter`);
+            return this.$oh.api.delete(`/rest/items/${item.name}/metadata/matter`)
           } else {
             return this.$oh.api.put(`/rest/items/${item.name}/metadata/matter`, {
               value: item.metadata.matter.value,
-              config: item.metadata.matter.config || {},
-            });
+              config: item.metadata.matter.config || {}
+            })
           }
         })
       )
         .then(() => {
-          this.dirtyItem.clear();
+          this.dirtyItem.clear()
           f7.toast
             .create({
               text: 'Group members updated',
-              closeTimeout: 2000,
+              closeTimeout: 2000
             })
-            .open();
+            .open()
         })
         .catch(err => {
-          console.error('Failed to update group members:', err);
-        });
+          console.error('Failed to update group members:', err)
+        })
     },
     getMappedChild(attributeName) {
       // Return the child item mapped to this attribute (all lowercase)
-      const attr = attributeName.toLowerCase();
+      const attr = attributeName.toLowerCase()
       return (
         this.item.members &&
         this.item.members.find(mbr => mbr.metadata?.matter?.value?.toLowerCase() === attr)
-      );
+      )
     },
     getAttributeOptions(attributeName, deviceType) {
       // Find the attribute in deviceTypes and return its mapping options if present
-      const type = this.deviceTypes[deviceType];
-      if (!type || !type.attributes) return [];
-      const attr = type.attributes.find(a => a.name.toLowerCase() === attributeName.toLowerCase());
+      const type = this.deviceTypes[deviceType]
+      if (!type || !type.attributes) return []
+      const attr = type.attributes.find(a => a.name.toLowerCase() === attributeName.toLowerCase())
       if (attr && attr.mapping && attr.mapping.options) {
-        return attr.mapping.options;
+        return attr.mapping.options
       }
-      return [];
+      return []
     },
     getChildMapping(attributeName, optionLabel, optionValue) {
       // Get the mapped value for this option from the mapped child's metadata.config
-      const mappedChild = this.getMappedChild(attributeName);
-      if (!mappedChild) return optionValue;
+      const mappedChild = this.getMappedChild(attributeName)
+      if (!mappedChild) return optionValue
       const cfg =
         (mappedChild.metadata &&
           mappedChild.metadata.matter &&
           mappedChild.metadata.matter.config) ||
-        {};
-      return cfg[optionLabel] || optionValue;
+        {}
+      return cfg[optionLabel] || optionValue
     },
     setChildMapping(attributeName, optionLabel, newValue) {
-      const mappedChild = this.getMappedChild(attributeName);
-      if (!mappedChild) return;
+      const mappedChild = this.getMappedChild(attributeName)
+      if (!mappedChild) return
       if (!mappedChild.metadata.matter.config) {
-        mappedChild.metadata.matter.config = {};
+        mappedChild.metadata.matter.config = {}
       }
-      mappedChild.metadata.matter.config.optionLabel = newValue;
-      this.dirtyItem.add(mappedChild);
-    },
-  },
-};
+      mappedChild.metadata.matter.config.optionLabel = newValue
+      this.dirtyItem.add(mappedChild)
+    }
+  }
+}
 </script>

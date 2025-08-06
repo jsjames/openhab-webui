@@ -3,7 +3,9 @@
     <f7-navbar title="Add Items from Textual Definition" back-link="Cancel">
       <f7-nav-right>
         <f7-link @click="add()" v-if="theme.md" icon-md="material:save" icon-only />
-        <f7-link @click="add()" v-if="!theme.md"> Add </f7-link>
+        <f7-link @click="add()" v-if="!theme.md">
+          Add
+        </f7-link>
       </f7-nav-right>
     </f7-navbar>
     <f7-block class="items-add-from-textual-definition">
@@ -33,14 +35,30 @@
               <table>
                 <thead>
                   <tr>
-                    <th class="label-cell">Type</th>
-                    <th class="label-cell">Name</th>
-                    <th class="label-cell">Label</th>
-                    <th class="label-cell">Icon</th>
-                    <th class="label-cell">Groups</th>
-                    <th class="label-cell">Tags</th>
-                    <th class="numerical-cell">Link(s)</th>
-                    <th class="numerical-cell">Metadata</th>
+                    <th class="label-cell">
+                      Type
+                    </th>
+                    <th class="label-cell">
+                      Name
+                    </th>
+                    <th class="label-cell">
+                      Label
+                    </th>
+                    <th class="label-cell">
+                      Icon
+                    </th>
+                    <th class="label-cell">
+                      Groups
+                    </th>
+                    <th class="label-cell">
+                      Tags
+                    </th>
+                    <th class="numerical-cell">
+                      Link(s)
+                    </th>
+                    <th class="numerical-cell">
+                      Metadata
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -116,7 +134,9 @@
                             metadata.value.config.map(c => c.key + '=' + c.value).join(', ')
                           }}</small>
                         </div>
-                        <div v-else>{{ metadata.key }}="{{ metadata.value }}"</div>
+                        <div v-else>
+                          {{ metadata.key }}="{{ metadata.value }}"
+                        </div>
                       </div>
                     </td>
                     <td class="label-cell" v-else />
@@ -158,11 +178,11 @@
 </style>
 
 <script>
-import { Parser, Grammar } from 'nearley';
-import grammar from '@/assets/items-lexer.nearley?raw';
-import { f7, theme } from 'framework7-vue';
-import { defineAsyncComponent } from 'vue';
-import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue';
+import { Parser, Grammar } from 'nearley'
+import grammar from '@/assets/items-lexer.nearley?raw'
+import { f7, theme } from 'framework7-vue'
+import { defineAsyncComponent } from 'vue'
+import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
 export default {
   components: {
@@ -172,14 +192,14 @@ export default {
         import(
           /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
         )
-    ),
+    )
   },
   props: {
     textualDefinition: String,
-    f7router: Object,
+    f7router: Object
   },
   setup() {
-    return { theme };
+    return { theme }
   },
   data() {
     return {
@@ -187,32 +207,32 @@ export default {
       items: [],
       things: [],
       links: [],
-      ready: false,
-    };
+      ready: false
+    }
   },
   methods: {
     onPageAfterIn() {
       const promises = [
         this.$oh.api.get('/rest/items'),
         this.$oh.api.get('/rest/things'),
-        this.$oh.api.get('/rest/links'),
-      ];
+        this.$oh.api.get('/rest/links')
+      ]
       Promise.all(promises).then(data => {
-        this.items = data[0];
-        this.things = data[1];
-        this.links = data[2];
-        this.ready = true;
-      });
+        this.items = data[0]
+        this.things = data[1]
+        this.links = data[2]
+        this.ready = true
+      })
     },
     add() {
-      if (this.parsedItems.error) return;
-      if (!this.parsedItems.length) return;
+      if (this.parsedItems.error) return
+      if (!this.parsedItems.length) return
 
       if (this.parsedItems.some(i => i.existing && i.existing.editable === false)) {
         f7.dialog.alert(
           'Some items are already existing are not editable. Look for red icons besides the names of affected items, remove them from your input and try again.'
-        );
-        return;
+        )
+        return
       }
 
       const itemsPayload = this.parsedItems.map(i => {
@@ -224,18 +244,18 @@ export default {
           tags: i.tags,
           groupNames: i.groupNames,
           groupType: i.groupType,
-          function: i.function,
-        };
-      });
+          function: i.function
+        }
+      })
 
-      let dialog = f7.dialog.progress('Creating/updating Items...');
+      let dialog = f7.dialog.progress('Creating/updating Items...')
       this.$oh.api
         .put('/rest/items/', itemsPayload)
         .then(data => {
-          dialog.setText('Updating links and metadata...');
-          dialog.setProgress(50);
+          dialog.setText('Updating links and metadata...')
+          dialog.setProgress(50)
 
-          let linksAndMetadataPromises = [];
+          let linksAndMetadataPromises = []
           this.parsedItems.forEach(item => {
             if (item.existingLinks) {
               // remove existing links unless they're about to be recreated
@@ -244,108 +264,108 @@ export default {
                   item.links &&
                   item.links.some(l => l === el.channelUID || l.value === el.channelUID)
                 )
-                  return;
+                  return
                 console.debug(
                   `DELETE /rest/links/${item.name}/${encodeURIComponent(el.channelUID)}`
-                );
+                )
                 linksAndMetadataPromises.push(
                   this.$oh.api.delete(
                     `/rest/links/${item.name}/${encodeURIComponent(el.channelUID)}`
                   )
-                );
-              });
+                )
+              })
             }
 
             if (item.links) {
               item.links.forEach(l => {
-                const channelUID = l.value || l;
-                let config = {};
+                const channelUID = l.value || l
+                let config = {}
                 if (l.config) {
                   l.config.forEach(c => {
-                    config[c.key] = c.value;
-                  });
+                    config[c.key] = c.value
+                  })
                 }
-                const url = `/rest/links/${item.name}/${encodeURIComponent(channelUID)}`;
+                const url = `/rest/links/${item.name}/${encodeURIComponent(channelUID)}`
                 const linkPayload = {
                   itemName: item.name,
                   channelUID,
-                  configuration: config,
-                };
-                console.debug(`PUT ${url}: ` + JSON.stringify(linkPayload));
-                linksAndMetadataPromises.push(this.$oh.api.put(url, linkPayload));
-              });
+                  configuration: config
+                }
+                console.debug(`PUT ${url}: ` + JSON.stringify(linkPayload))
+                linksAndMetadataPromises.push(this.$oh.api.put(url, linkPayload))
+              })
             }
 
             if (item.metadata) {
               item.metadata.forEach(m => {
-                const value = m.value.value || m.value;
-                let config = {};
+                const value = m.value.value || m.value
+                let config = {}
                 if (m.value.config) {
                   m.value.config.forEach(c => {
-                    config[c.key] = c.value;
-                  });
+                    config[c.key] = c.value
+                  })
                 }
-                const url = `/rest/items/${item.name}/metadata/${m.key}`;
+                const url = `/rest/items/${item.name}/metadata/${m.key}`
                 const metadataPayload = {
                   value,
-                  config,
-                };
-                console.debug(`PUT ${url}` + JSON.stringify(metadataPayload));
-                linksAndMetadataPromises.push(this.$oh.api.put(url, metadataPayload));
-              });
+                  config
+                }
+                console.debug(`PUT ${url}` + JSON.stringify(metadataPayload))
+                linksAndMetadataPromises.push(this.$oh.api.put(url, metadataPayload))
+              })
             }
-          });
+          })
 
           Promise.all(linksAndMetadataPromises)
             .then(data => {
-              dialog.setProgress(100);
+              dialog.setProgress(100)
               f7.toast
                 .create({
                   text: 'Items created and linked',
                   destroyOnClose: true,
-                  closeTimeout: 2000,
+                  closeTimeout: 2000
                 })
-                .open();
-              dialog.close();
-              this.f7router.back();
+                .open()
+              dialog.close()
+              this.f7router.back()
             })
             .catch(err => {
-              dialog.close();
-              console.error(err);
-              f7.dialog.alert('An error occurred while creating the links and metadata: ' + err);
-            });
+              dialog.close()
+              console.error(err)
+              f7.dialog.alert('An error occurred while creating the links and metadata: ' + err)
+            })
         })
         .catch(err => {
-          dialog.close();
-          console.error(err);
-          f7.dialog.alert('An error occurred while creating the items: ' + err);
-        });
-    },
+          dialog.close()
+          console.error(err)
+          f7.dialog.alert('An error occurred while creating the items: ' + err)
+        })
+    }
   },
   computed: {
     parsedItems() {
       try {
-        const parser = new Parser(Grammar.fromCompiled(grammar));
-        parser.feed(this.itemsDsl.trim().replace(/\t/g, ' '));
-        if (!parser.results.length) return { error: 'Unable to parse, check your input' };
+        const parser = new Parser(Grammar.fromCompiled(grammar))
+        parser.feed(this.itemsDsl.trim().replace(/\t/g, ' '))
+        if (!parser.results.length) return { error: 'Unable to parse, check your input' }
         // return parser.results[0].map((i) => i.name).join('\n')
         return parser.results[0]
           .filter(i => i !== null)
           .map(item => {
             if (item.metadata) {
-              item.links = item.metadata.filter(m => m.key === 'channel').map(l => l.value);
-              item.metadata = item.metadata.filter(m => m.key !== 'channel');
+              item.links = item.metadata.filter(m => m.key === 'channel').map(l => l.value)
+              item.metadata = item.metadata.filter(m => m.key !== 'channel')
             }
-            item.existing = this.items.find(i => i.name === item.name);
+            item.existing = this.items.find(i => i.name === item.name)
             if (item.existing) {
-              item.existingLinks = this.links.filter(l => l.itemName === item.name);
+              item.existingLinks = this.links.filter(l => l.itemName === item.name)
             }
-            return item;
-          });
+            return item
+          })
       } catch (e) {
-        return { error: e };
+        return { error: e }
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

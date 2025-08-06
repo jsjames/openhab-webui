@@ -20,7 +20,7 @@
             </f7-menu-dropdown>
           </f7-menu-item>
         </f7-menu>
-        <hr />
+        <hr>
       </f7-block>
 
       <!-- fullscreen fab menu -->
@@ -75,11 +75,9 @@
       :use-css-transforms="false">
       <div v-if="context.editmode" style="opacity: 0.3; padding: 4px; user-select: none">
         {{ getCurrentScreenResolution() }}
-        <span v-if="isRetina()"
-          ><f7-icon
-            tooltip="Screen resolution shown is the fullscreen resolution for websites. Real screen resolution is bigger."
-            f7="info_circle"
-        /></span>
+        <span v-if="isRetina()"><f7-icon
+          tooltip="Screen resolution shown is the fullscreen resolution for websites. Real screen resolution is bigger."
+          f7="info_circle" /></span>
       </div>
       <oh-grid-item
         v-for="item in layout"
@@ -109,11 +107,11 @@
 </style>
 
 <script>
-import mixin from '../widget-mixin';
-import OhGridItem from './oh-grid-item.vue';
-import { OhGridLayoutDefinition } from '@/assets/definitions/widgets/layout';
-import { f7 } from 'framework7-vue';
-import { nextTick, defineAsyncComponent } from 'vue';
+import mixin from '../widget-mixin'
+import OhGridItem from './oh-grid-item.vue'
+import { OhGridLayoutDefinition } from '@/assets/definitions/widgets/layout'
+import { f7 } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
 
 export default {
   mixins: [mixin],
@@ -122,7 +120,7 @@ export default {
     'grid-layout': defineAsyncComponent(() =>
       import('grid-layout-plus').then(mod => mod.GridLayout)
     ),
-    OhGridItem,
+    OhGridItem
   },
   data() {
     return {
@@ -137,49 +135,49 @@ export default {
       navbarHidden: false,
       style: {
         width: Number,
-        height: Number,
-      },
-    };
+        height: Number
+      }
+    }
   },
   created() {
-    this.colNum = this.config.colNum || 16;
-    this.margin = this.config.margin >= 0 ? this.config.margin : 10;
+    this.colNum = this.config.colNum || 16
+    this.margin = this.config.margin >= 0 ? this.config.margin : 10
 
     if (this.config.layoutType === 'fixed') {
-      this.style.width = this.screenWidth = this.config.screenWidth || 1280;
-      this.style.height = this.screenHeight = this.config.screenHeight || 720;
+      this.style.width = this.screenWidth = this.config.screenWidth || 1280
+      this.style.height = this.screenHeight = this.config.screenHeight || 720
 
       // limit column width to a minimum of 50px
-      const maxCols = Math.floor((this.screenWidth - this.margin) / (this.margin + 50));
-      if (this.colNum > maxCols) this.colNum = this.context.component.config.colNum = maxCols;
+      const maxCols = Math.floor((this.screenWidth - this.margin) / (this.margin + 50))
+      if (this.colNum > maxCols) this.colNum = this.context.component.config.colNum = maxCols
 
       this.maxRows = Math.round(
         this.colNum * ((this.screenHeight - this.margin) / (this.screenWidth - this.margin))
-      );
+      )
       if (!this.context.editmode) {
-        window.addEventListener('resize', this.setDimensions);
+        window.addEventListener('resize', this.setDimensions)
       }
     }
 
-    this.computeLayout();
+    this.computeLayout()
   },
   mounted() {
     nextTick(() => {
-      this.setDimensions(); // call at nexttick for clientWidth to be available
-    });
+      this.setDimensions() // call at nexttick for clientWidth to be available
+    })
 
     // Chrome reports a wrong size in fullscreen, store initial resolution and use non-dynamically.
-    this.windowWidth = window.screen.width;
-    this.windowHeight = window.screen.height;
+    this.windowWidth = window.screen.width
+    this.windowHeight = window.screen.height
   },
   beforeUnmount() {
     if (!this.context.editmode) {
-      window.removeEventListener('resize', this.setDimensions);
+      window.removeEventListener('resize', this.setDimensions)
     }
   },
   methods: {
     isRetina() {
-      return window.devicePixelRatio > 1;
+      return window.devicePixelRatio > 1
     },
     getCurrentScreenResolution() {
       return (
@@ -192,7 +190,7 @@ export default {
         ' x ' +
         this.windowHeight +
         ')'
-      );
+      )
     },
     createItem(size) {
       // find a free spot for a new square widget of "size" on a side
@@ -207,11 +205,11 @@ export default {
             const newItem = {
               component: 'oh-grid-item',
               config: { x, y, h: size, w: size },
-              slots: { default: [] },
-            };
-            this.context.component.slots['grid'].push(newItem);
-            this.computeLayout();
-            return newItem;
+              slots: { default: [] }
+            }
+            this.context.component.slots['grid'].push(newItem)
+            this.computeLayout()
+            return newItem
           }
         }
       }
@@ -219,23 +217,23 @@ export default {
     addItem() {
       // try adding a 2x2 widget, or a 1x1 widget if there's no room left
       if (!this.createItem(2) && !this.createItem(1)) {
-        f7.dialog.alert('No more space available', 'Unable to add widget');
+        f7.dialog.alert('No more space available', 'Unable to add widget')
       }
     },
     setDimensions() {
       if (this.config.layoutType === 'fixed') {
         if (this.config.scale && !this.context.editmode) {
-          this.style.width = this.$el.clientWidth;
-          this.style.height = (this.$el.clientWidth * this.screenHeight) / this.screenWidth;
+          this.style.width = this.$el.clientWidth
+          this.style.height = (this.$el.clientWidth * this.screenHeight) / this.screenWidth
         }
-        this.rowHeight = (this.style.height - this.margin) / this.maxRows - this.margin;
+        this.rowHeight = (this.style.height - this.margin) / this.maxRows - this.margin
       } else {
         this.rowHeight =
-          (this.$refs.vueGridLayout.$el.clientWidth - this.margin * this.colNum + 1) / this.colNum;
+          (this.$refs.vueGridLayout.$el.clientWidth - this.margin * this.colNum + 1) / this.colNum
       }
     },
     computeLayout() {
-      let layout = [];
+      let layout = []
       if (this.context.component.slots && this.context.component.slots.grid) {
         this.context.component.slots.grid.forEach((item, index) => {
           layout.push({
@@ -243,15 +241,15 @@ export default {
             y: item.config.y,
             w: item.config.w,
             h: item.config.h,
-            i: index,
-          });
-        });
+            i: index
+          })
+        })
       }
-      this.layout = layout;
+      this.layout = layout
     },
     exitFullscreen() {
-      this.$fullscreen.exit();
-    },
-  },
-};
+      this.$fullscreen.exit()
+    }
+  }
+}
 </script>

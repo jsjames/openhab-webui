@@ -47,11 +47,11 @@
 </style>
 
 <script>
-import Blockly from 'blockly';
+import Blockly from 'blockly'
 //TODO-V3 import Vue from 'vue';
-import { f7, theme } from 'framework7-vue';
-import { useThemeOptionsStore } from '@/js/stores/theme-options';
-import { mapStores } from 'pinia';
+import { f7, theme } from 'framework7-vue'
+import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { mapStores } from 'pinia'
 
 // TODO-V3 Vue.config.ignoredElements = ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep'];
 export default {
@@ -61,31 +61,31 @@ export default {
       workspace: null,
       definitionError: null,
       currentBlock: null
-    };
+    }
   },
   computed: {
     ...mapStores(useThemeOptionsStore)
   },
   mounted() {
-    this.initWorkspace();
-    this.defineBlocks();
+    this.initWorkspace()
+    this.defineBlocks()
   },
   watch: {
     blocksDefinition() {
-      this.defineBlocks();
-    },
+      this.defineBlocks()
+    }
   },
   methods: {
     initWorkspace() {
       this.workspace = Blockly.inject(this.$refs.blockPreview, {
         theme: this.themeOptionsStore.darkMode() === 'dark' ? 'dark' : undefined,
         trashcan: false,
-        readOnly: false,
-      });
+        readOnly: false
+      })
     },
     defineBlocks() {
       try {
-        this.definitionError = null;
+        this.definitionError = null
         if (
           this.blocksDefinition &&
           this.blocksDefinition.slots &&
@@ -95,26 +95,26 @@ export default {
             Blockly.Blocks[block.config.type] = {
               init: function () {
                 // const blockJson = JSON.stringify(block.config)
-                this.jsonInit(block.config);
-              },
-            };
-          });
+                this.jsonInit(block.config)
+              }
+            }
+          })
 
-          this.displayCurrentBlock();
+          this.displayCurrentBlock()
         }
       } catch (e) {
-        this.definitionError = e.toString();
+        this.definitionError = e.toString()
       }
     },
     displayCurrentBlock(block) {
-      if (block) this.currentBlock = block.config.type;
-      if (!this.currentBlock) this.currentBlock = this.blocksDefinition.slots.blocks[0].config.type;
-      let xml = '<xml>';
-      xml += `<block type="${this.currentBlock}" deletable="false"></block>`;
-      xml += '</xml>';
-      this.workspace.clear();
-      Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), this.workspace);
-    },
-  },
-};
+      if (block) this.currentBlock = block.config.type
+      if (!this.currentBlock) this.currentBlock = this.blocksDefinition.slots.blocks[0].config.type
+      let xml = '<xml>'
+      xml += `<block type="${this.currentBlock}" deletable="false"></block>`
+      xml += '</xml>'
+      this.workspace.clear()
+      Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), this.workspace)
+    }
+  }
+}
 </script>

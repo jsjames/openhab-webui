@@ -17,13 +17,13 @@
 </style>
 
 <script>
-import mixin from '../../widget-mixin';
-import OhListItem from './oh-list-item.vue';
-import { OhInputItemDefinition } from '@/assets/definitions/widgets/standard/listitems';
+import mixin from '../../widget-mixin'
+import OhListItem from './oh-list-item.vue'
+import { OhInputItemDefinition } from '@/assets/definitions/widgets/standard/listitems'
 
 export default {
   components: {
-    OhListItem,
+    OhListItem
   },
   mixins: [mixin],
   widget: OhInputItemDefinition,
@@ -31,9 +31,9 @@ export default {
     afterComponent() {
       return {
         component: 'oh-input',
-        config: this.config,
-      };
-    },
-  },
-};
+        config: this.config
+      }
+    }
+  }
+}
 </script>

@@ -5,25 +5,27 @@
       <div
         v-if="
           item.type.indexOf('Number') === 0 ||
-          item.type === 'Switch' ||
-          item.type === 'Contact' ||
-          item.type === 'Rollershutter' ||
-          item.type === 'Dimmer'
+            item.type === 'Switch' ||
+            item.type === 'Contact' ||
+            item.type === 'Rollershutter' ||
+            item.type === 'Dimmer'
         "
         class="display-flex justify-content-center flex-direction-row">
-        <f7-button :href="'/analyzer/?items=' + item.name"> Analyze </f7-button>
+        <f7-button :href="'/analyzer/?items=' + item.name">
+          Analyze
+        </f7-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ItemStandaloneControl from '@/components/item/item-standalone-control.vue';
+import ItemStandaloneControl from '@/components/item/item-standalone-control.vue'
 
 export default {
   props: ['item', 'context'],
   components: {
-    ItemStandaloneControl,
-  },
-};
+    ItemStandaloneControl
+  }
+}
 </script>
