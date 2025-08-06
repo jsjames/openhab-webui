@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import SitemapCode from '../sitemap-code.vue'
 import { shallowMount } from '@vue/test-utils'
 

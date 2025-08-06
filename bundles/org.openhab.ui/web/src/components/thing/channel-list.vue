@@ -146,6 +146,8 @@
 </style>
 
 <script>
+import { nextTick } from 'vue'
+import Dom7 from 'dom7'
 import ChannelGroup from './channel-group.vue'
 import ChannelLink from './channel-link.vue'
 import ItemForm from '@/components/item/item-form.vue'

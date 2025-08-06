@@ -461,18 +461,20 @@
 </style>
 
 <script>
+import { utils } from 'framework7'
+import { f7, theme } from 'framework7-vue'
+import { nextTick, defineAsyncComponent } from 'vue'
 import ItemPicker from '@/components/config/controls/item-picker.vue'
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 import ChartTime from './chart-time'
 import ChartAggregate from './chart-aggregate'
 import ChartCalendar from './chart-calendar'
-import { utils } from 'framework7'
-import { f7, theme } from 'framework7-vue'
-import { nextTick, defineAsyncComponent } from 'vue'
 
 import { useUserStore } from '@/js/stores/user'
 import { useComponentsStore } from '@/js/stores/components'
 import { mapStores } from 'pinia'
+
+import { loadLocaleMessages } from '@/js/i18n'
 
 export default {
   components: {

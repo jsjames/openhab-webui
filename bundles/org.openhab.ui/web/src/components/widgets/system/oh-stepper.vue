@@ -20,6 +20,8 @@ import mixin from '../widget-mixin'
 import variableMixin from '../variable-mixin'
 import { OhStepperDefinition } from '@/assets/definitions/widgets/system'
 
+import { useStatesStore } from '@/js/stores/states'
+
 export default {
   mixins: [mixin, variableMixin],
   widget: OhStepperDefinition,

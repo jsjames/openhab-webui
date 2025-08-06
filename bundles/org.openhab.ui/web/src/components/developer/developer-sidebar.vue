@@ -742,6 +742,10 @@
 </style>
 
 <script>
+import { f7, theme } from 'framework7-vue'
+import { nextTick } from 'vue'
+import Dom7 from 'dom7'
+
 import Item from '@/components/item/item.vue'
 import ItemStandaloneControl from '@/components/item/item-standalone-control.vue'
 import ModelPickerPopup from '@/components/model/model-picker-popup.vue'
@@ -751,10 +755,10 @@ import ClipboardIcon from '@/components/util/clipboard-icon.vue'
 
 import RuleStatus from '@/components/rule/rule-status-mixin'
 import ThingStatus from '@/components/thing/thing-status-mixin'
-import { f7, theme } from 'framework7-vue'
-import { nextTick } from 'vue'
 
 import { useDeveloperStore } from '@/js/stores/developer'
+import { useStatesStore } from '@/js/stores/states'
+import { useComponentsStore } from '@/js/stores/components'
 import { mapState } from 'pinia'
 
 const developerStore = useDeveloperStore()

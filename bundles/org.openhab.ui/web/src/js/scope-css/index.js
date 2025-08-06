@@ -19,7 +19,7 @@ function scope(css, parent, o) {
   css = replace(css, parent + ' $1$2')
 
   //regexp.escape
-  var parentRe = parent.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+  var parentRe = parent.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
 
   //replace self-selectors
   css = css.replace(new RegExp('(' + parentRe + ')\\s*\\1(?=[\\s\\r\\n,{])', 'g'), '$1')

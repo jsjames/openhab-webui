@@ -105,6 +105,7 @@
 </template>
 
 <script>
+import { f7 } from 'framework7-vue'
 import {
   accessoriesAndCharacteristics,
   homekitParameters,

@@ -71,6 +71,7 @@
 </style>
 
 <script>
+import { f7 } from 'framework7-vue'
 import AddonLogo from '@/components/addons/addon-logo.vue'
 
 import { loadLocaleMessages } from '@/js/i18n'

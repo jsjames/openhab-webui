@@ -487,7 +487,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { utils } from 'framework7'
 import { f7, theme } from 'framework7-vue'
 import { nextTick } from 'vue'
-import { mapState } from 'pinia';
+import { mapState } from 'pinia'
 
 import { useRuntimeStore } from '@/js/stores/runtime'
 
@@ -1210,7 +1210,6 @@ export default {
         this.detailsTab = 'widget'
         nextTick(() => {
           const detailsLink = this.$refs.detailsLink
-          return
           const visibility = window.getComputedStyle(detailsLink.$el).visibility
           if (!visibility || visibility !== 'hidden') {
             this.detailsOpened = true

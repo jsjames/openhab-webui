@@ -33,11 +33,11 @@ export const useRuntimeStore = defineStore('runtime', () => {
   const measurementSystem = ref<'SI' | 'US' | null>(null)
   const apiEndpoints = ref<Endpoint[] | null>(null)
   const locale = ref<string>('default')
-  const runtimeInfo = ref<Object | null>(null)
+  const runtimeInfo = ref<object | null>(null)
   const uiInfo = ref<UIInfo>({ commit: buildInfo.commit })
   const websiteUrl = ref<string | null>(null)
   const docSrcUrl = ref<string | null>(null)
-  const developerDock = ref<Boolean>(false)
+  const developerDock = ref<boolean>(false)
   const pagePath = ref<string | null>(null)
   const sitemapIncludesItemNames = ref<boolean>(false)
   const modelPickerIncludeItemName = ref<boolean>(false)
@@ -45,7 +45,7 @@ export const useRuntimeStore = defineStore('runtime', () => {
   const modelPickerExpanded = ref<boolean>(false)
 
   function apiEndpoint(type: string): string | null {
-    return !apiEndpoints ? null : apiEndpoints.value?.find(e => e.type === type)?.url || null
+    return !apiEndpoints.value ? null : apiEndpoints.value?.find(e => e.type === type)?.url || null
   }
 
   function setRootResource(rootResponse: RootResponse) {

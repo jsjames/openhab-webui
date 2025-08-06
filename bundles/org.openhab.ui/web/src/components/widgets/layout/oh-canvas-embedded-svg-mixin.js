@@ -1,7 +1,9 @@
+import { f7 } from 'framework7-vue'
 import WidgetConfigPopup from '@/components/pagedesigner/widget-config-popup.vue'
 import { pb, pg, pi, pt, WidgetDefinition } from '@/assets/definitions/widgets/helpers'
 import { actionGroup, actionParams } from '@/assets/definitions/widgets/actions'
-import { f7 } from 'framework7-vue'
+
+import { useStatesStore } from '@/js/stores/states'
 
 export default {
   props: {
@@ -164,7 +166,7 @@ export default {
         if (items.length === 0) continue
         for (const item of items) {
           if (!useStatesStore().isItemTracked(item)) useStatesStore().addToTrackingList(item)
-          // TODO-V3
+          // TODO-V3 - subscribe to state changes in pinia store
           const unsubscribe = this.$store.subscribe((mutation, state) => {
             if (mutation.type === 'setItemState' && mutation.payload.itemName === item) {
               this.applyStateToSvgElement(

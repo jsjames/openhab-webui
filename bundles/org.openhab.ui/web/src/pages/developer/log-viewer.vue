@@ -550,7 +550,7 @@
 <script>
 import MovablePopupMixin from '@/pages/settings/movable-popup-mixin'
 import { nextTick } from 'vue'
-import { theme } from 'framework7-vue'
+import { theme, f7 } from 'framework7-vue'
 
 export default {
   mixins: [MovablePopupMixin],

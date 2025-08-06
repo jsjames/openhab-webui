@@ -261,11 +261,12 @@
 </style>
 
 <script>
+import { f7 } from 'framework7-vue'
+import Dom7 from 'dom7'
 import { Categories } from '@/assets/categories.js'
 import ItemPicker from '@/components/config/controls/item-picker.vue'
 import PersistencePicker from '@/components/config/controls/persistence-picker.vue'
 import SitemapMixin from '@/components/pagedesigner/sitemap/sitemap-mixin'
-import { f7 } from 'framework7-vue'
 
 export default {
   mixins: [SitemapMixin],

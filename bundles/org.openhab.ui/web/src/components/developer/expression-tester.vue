@@ -22,6 +22,8 @@
 <script>
 import Mixin from '@/components/widgets/widget-mixin'
 
+import { useStatesStore } from '@/js/stores/states'
+
 export default {
   mixins: [Mixin],
   data() {

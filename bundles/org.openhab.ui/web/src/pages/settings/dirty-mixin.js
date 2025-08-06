@@ -30,11 +30,11 @@ export default {
             context.resolve()
           },
           function () {
-            const { pushStateRoot = '', pushStateSeparator } = router.params
-            let url = routeFrom.url
+            const { pushStateRoot = '', pushStateSeparator } = context.router.params
+            let url = context.routeFrom.url
             history.pushState({ view_main: { url } }, '', pushStateRoot + pushStateSeparator + url)
             context.reject()
-            router.allowPageChange = true
+            context.router.allowPageChange = true
           }
         )
       } else {

@@ -126,7 +126,7 @@ export default {
       itemType: this.item.groupType || this.item.type,
       multiple: !!this.metadata.value && this.metadata.value.indexOf(',') > 0,
       classSelectKey: utils.id(),
-      docUrl: `${runtimeStore.websiteUrl}/link/alexa`,
+      docUrl: `${useRuntimeStore().websiteUrl}/link/alexa`,
       ready: false
     }
   },

@@ -116,10 +116,12 @@
 </style>
 
 <script>
-import * as types from '@/assets/item-types.js'
-import uomMixin from '@/components/item/uom-mixin'
 import { f7 } from 'framework7-vue'
 import { nextTick } from 'vue'
+import Dom7 from 'dom7'
+
+import * as types from '@/assets/item-types.js'
+import uomMixin from '@/components/item/uom-mixin'
 
 export default {
   mixins: [uomMixin],

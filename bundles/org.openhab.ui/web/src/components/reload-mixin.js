@@ -1,3 +1,4 @@
+import { f7 } from 'framework7-vue'
 import { loadLocaleMessages } from '@/js/i18n'
 
 export default {

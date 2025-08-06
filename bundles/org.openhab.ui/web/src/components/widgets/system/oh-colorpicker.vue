@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { f7 } from 'framework7-vue'
 import { useStatesStore } from '@/js/stores/states'
 import mixin from '../widget-mixin'
 import { OhColorpickerDefinition } from '@/assets/definitions/widgets/system'

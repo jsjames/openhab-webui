@@ -80,6 +80,7 @@
 </style>
 
 <script>
+import Dom7 from 'dom7'
 import dayjs from 'dayjs'
 
 import mixin from '../widget-mixin'

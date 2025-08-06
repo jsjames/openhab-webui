@@ -130,6 +130,8 @@ import itemDefaultListComponent from '@/components/widgets/standard/list/default
 import SpeechButton from './speech-button.vue'
 import { loadLocaleMessages } from '@/js/i18n'
 
+import { useStatesStore } from '@/js/stores/states'
+
 export default {
   props: {
     f7router: Object

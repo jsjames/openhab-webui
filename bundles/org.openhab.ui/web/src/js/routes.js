@@ -138,7 +138,7 @@ const checkDirtyBeforeLeave = function (context) {
     this.currentPageEl.__vue__ &&
     this.currentPageEl.__vue__.$parent &&
     this.currentPageEl.__vue__.$parent.beforeLeave &&
-    !context.to.path.startsWith(routeFrom.path)
+    !context.to.path.startsWith(context.routeFrom.path)
   ) {
     this.currentPageEl.__vue__.$parent.beforeLeave(
       this,

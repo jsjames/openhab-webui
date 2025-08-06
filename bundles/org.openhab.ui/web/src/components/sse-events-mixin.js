@@ -1,3 +1,4 @@
+import { f7 } from 'framework7-vue'
 import OhPopup from '@/components/widgets/modals/oh-popup.vue'
 import OhSheet from '@/components/widgets/modals/oh-sheet.vue'
 import OhPopover from '@/components/widgets/modals/oh-popover.vue'

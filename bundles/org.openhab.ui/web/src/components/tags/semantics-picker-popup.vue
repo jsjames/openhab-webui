@@ -76,8 +76,8 @@
 </style>
 
 <script>
+import { f7, theme } from 'framework7-vue'
 import SemanticsTreeview from '@/components/tags/semantics-treeview.vue'
-import { theme } from 'framework7-vue'
 import { useSemanticsStore } from '@/js/stores/semantics'
 
 export default {

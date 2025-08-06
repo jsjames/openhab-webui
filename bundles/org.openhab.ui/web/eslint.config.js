@@ -1,7 +1,9 @@
-import { globalIgnores } from 'eslint/config'
+import { defineConfig, globalIgnores } from 'eslint/config'
 import vue from 'eslint-plugin-vue'
 import globals from 'globals'
 import js from '@eslint/js'
+import ts from 'typescript-eslint'
+import eslintPluginJsonc from 'eslint-plugin-jsonc'
 import vueI18n from '@intlify/eslint-plugin-vue-i18n'
 import importPlugin from 'eslint-plugin-import'
 
@@ -12,15 +14,19 @@ import importPlugin from 'eslint-plugin-import'
 // const es = require("eslint-plugin-es");
 
 import { fixupPluginRules } from '@eslint/compat'
+import { glob } from 'fs'
 
 // import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 // import eslintConfigPrettier from 'eslint-config-prettier/flat'
 
-export default [
+export default defineConfig([
   ...vue.configs['flat/recommended'],
   // eslintPluginPrettierRecommended,
   ...vueI18n.configs.recommended,
   importPlugin.flatConfigs.recommended,
+  js.configs.recommended,
+  // ...ts.configs.recommended,
+  ...eslintPluginJsonc.configs['flat/recommended-with-jsonc'],
   {
     files: ['**/*.js', '**/*.mjs', '**/*.vue', '**.ts', '**/*.tsx', '**/*.json'],
     languageOptions: {
@@ -34,7 +40,6 @@ export default [
         process: true
       }
     },
-    // 'js.configs.recommended',
     // "plugin:@typescript-eslint/recommended",
     rules: {
       'arrow-parens': 'off',
@@ -59,6 +64,7 @@ export default [
       'no-case-declarations': 'off',
       'no-console': 'off',
       'no-debugger': 'off',
+      'no-irregular-whitespace': 'off',
       // 'es/no-regexp-lookbehind-assertions': 'error', // Supported in Safari  >= 16.4, which breaks iOS 15.x.
       'no-trailing-spaces': 'error',
       'no-unsafe-optional-chaining': 'error',
@@ -87,18 +93,10 @@ export default [
       'vue/v-on-style': 'error',
       'vue/v-slot-style': 'error',
 
-    // The following rules should be activated successively. Due to the large amount
-    // of required changes, the activations should be clustered in several pull requests.
+      // The following rules should be activated successively. Due to the large amount
+      // of required changes, the activations should be clustered in several pull requests.
       'camelcase': 'off',
       'no-empty': ['off', { 'allowEmptyCatch': true }],
-
-      'no-empty': [
-        'off',
-        {
-          allowEmptyCatch: true
-        }
-      ],
-
       'no-unused-vars': 'off',
       'no-useless-catch': 'off',
       'prefer-const': 'off',
@@ -122,6 +120,7 @@ export default [
       }
     }
   },
+  globalIgnores(['dist', 'build', 'public', '**/*.nearley.js'])
+
   // eslintConfigPrettier, // This is the Prettier config that disables all ESLint rules that conflict with Prettier
-  globalIgnores(['dist', 'build', 'public'])
-]
+])

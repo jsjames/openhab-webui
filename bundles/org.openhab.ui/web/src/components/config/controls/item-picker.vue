@@ -64,28 +64,30 @@
 
 <script>
 import ModelPickerPopup from '@/components/model/model-picker-popup.vue'
+import { nextTick } from 'vue'
 import { f7, theme } from 'framework7-vue'
 
 export default {
-  props: [
-    'title',
-    'name',
-    'value',
-    'items',
-    'multiple',
-    'filterType',
-    'required',
-    'editableOnly',
-    'disabled',
-    'setValueText',
-    'noModelPicker',
-    'iconColor',
-    'auroraIcon',
-    'iosIcon',
-    'mdIcon',
-    'textColor',
-    'hideIcon'
-  ],
+  props: {
+    title: String,
+    name: String,
+    value: [String, Array],
+    items: Array,
+    multiple: Boolean,
+    filterType: String,
+    required: Boolean,
+    editableOnly: Boolean,
+    disabled: Boolean,
+    setValueText: Boolean,
+    noModelPicker: Boolean,
+    iconColor: String,
+    auroraIcon: String,
+    iosIcon: String,
+    mdIcon: String,
+    textColor: String,
+    hideIcon: Boolean,
+    f7router: Object
+  },
   emits: ['input', 'item-selected'],
   data() {
     return {
@@ -174,7 +176,7 @@ export default {
         component: ModelPickerPopup
       }
 
-      props.f7router.navigate(
+      this.f7router.navigate(
         {
           url: 'pick-from-model',
           route: {

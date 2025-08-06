@@ -120,6 +120,8 @@ import ModelCard from './model-card.vue'
 import StatusBadge from './glance/location/status-badge.vue'
 import MeasurementBadge from './glance/location/measurement-badge.vue'
 
+import { useStatesStore } from '@/js/stores/states'
+
 export default {
   mixins: [mixin, CardMixin],
   props: ['parentLocation', 'tabContext'],

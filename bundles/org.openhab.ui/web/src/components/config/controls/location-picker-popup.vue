@@ -36,7 +36,8 @@
 </style>
 
 <script>
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent, nextTick } from 'vue'
+import { f7 } from 'framework7-vue'
 
 export default {
   props: ['value', 'title'],

@@ -76,8 +76,8 @@ app.use(VueClipboard, {
 store.$oh = openhab
 
 // Register global components
-app.component('oh-icon', OHIconComponent)
-app.component('generic-widget-component', GenericWidgetComponent)
-app.component('developer-dock-icon', DeveloperDockIcon)
+app.component('OhIcon', OHIconComponent)
+app.component('GenericWidgetComponent', GenericWidgetComponent)
+app.component('DeveloperDockIcon', DeveloperDockIcon)
 
 app.mount('#app')

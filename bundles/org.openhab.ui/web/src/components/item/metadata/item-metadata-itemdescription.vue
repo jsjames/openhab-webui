@@ -43,9 +43,11 @@
 </template>
 
 <script>
+import { theme } from 'framework7-vue'
 import ConfigSheet from '@/components/config/config-sheet.vue'
 import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
-import { theme } from 'framework7-vue'
+
+import { useRuntimeStore } from '@/stores/runtime'
 
 export default {
   props: ['itemName', 'metadata', 'namespace'],
@@ -116,7 +118,7 @@ export default {
         .join('\n')
     },
     docLink() {
-      const docUrl = `${runtimeStore.websiteUrl}/link/thing`
+      const docUrl = `${useRuntimeStore().websiteUrl}/link/thing`
       if (this.namespace === 'stateDescription') {
         return docUrl + '#state-description'
       } else {

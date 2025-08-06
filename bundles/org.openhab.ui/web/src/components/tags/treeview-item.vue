@@ -76,6 +76,7 @@
 </style>
 
 <script>
+import { f7 } from 'framework7-vue'
 import { VueDraggableNext as Draggable } from 'vue-draggable-next'
 
 export default {

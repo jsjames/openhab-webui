@@ -414,7 +414,7 @@
 
 <script>
 import i18n_mixin from '@/components/i18n-mixin'
-import { loadLocaleMessages } from '@/js/i18n'
+import { i18n, loadLocaleMessages } from '@/js/i18n'
 import AddonsSetupWizard from '@/components/addons/addons-setup-wizard.vue'
 import { f7, theme } from 'framework7-vue'
 import { nextTick, defineAsyncComponent } from 'vue'

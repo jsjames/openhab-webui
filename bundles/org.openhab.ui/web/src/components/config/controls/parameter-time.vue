@@ -19,6 +19,7 @@
 <script>
 import { f7, theme } from 'framework7-vue'
 import { nextTick } from 'vue'
+import Dom7 from 'dom7'
 
 export default {
   props: ['configDescription', 'value'],

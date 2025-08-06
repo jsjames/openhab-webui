@@ -33,6 +33,7 @@
 </style>
 
 <script>
+import { f7 } from 'framework7-vue'
 import AddonCard from '@/components/addons/addon-card.vue'
 
 export default {

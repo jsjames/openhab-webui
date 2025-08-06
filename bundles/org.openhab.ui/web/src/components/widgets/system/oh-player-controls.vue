@@ -56,6 +56,8 @@
 import mixin from '../widget-mixin'
 import { OhPlayerDefinition } from '@/assets/definitions/widgets/system'
 
+import { useStatesStore } from '@/js/stores/states'
+
 export default {
   mixins: [mixin],
   widget: OhPlayerDefinition,

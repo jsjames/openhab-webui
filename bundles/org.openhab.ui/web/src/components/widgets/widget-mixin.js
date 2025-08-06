@@ -7,6 +7,7 @@ import { utils } from 'framework7'
 import { useThemeOptionsStore } from '@/js/stores/theme-options'
 import { useUserStore } from '@/js/stores/user'
 import { useComponentsStore } from '@/js/stores/components'
+import { useStatesStore } from '@/js/stores/states'
 import { mapStores } from 'pinia'
 
 export default {

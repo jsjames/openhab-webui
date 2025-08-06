@@ -102,6 +102,7 @@
 </style>
 
 <script>
+import { nextTick } from 'vue'
 import ConfigSheet from '@/components/config/config-sheet.vue'
 
 import * as SystemWidgets from '@/components/widgets/system'

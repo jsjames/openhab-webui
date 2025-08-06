@@ -1,6 +1,7 @@
 import OhLayoutPage from '@/components/widgets/layout/oh-layout-page.vue'
 import { useUserStore } from '@/js/stores/user'
 import { useComponentsStore } from '@/js/stores/components'
+import { useStatesStore } from '@/js/stores/states'
 import { defineAsyncComponent } from 'vue'
 
 export default {

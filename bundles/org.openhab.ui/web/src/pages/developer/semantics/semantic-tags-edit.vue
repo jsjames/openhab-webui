@@ -374,6 +374,7 @@
 </style>
 
 <script>
+import { f7 } from 'framework7-vue'
 import YAML from 'yaml'
 import fastDeepEqual from 'fast-deep-equal/es6'
 

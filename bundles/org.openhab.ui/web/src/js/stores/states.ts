@@ -3,18 +3,18 @@ import { nextTick, ref } from 'vue'
 import openhab from '@/js/openhab'
 
 export const useStatesStore = defineStore('states', () => {
-  const trackedItems = ref<Object | null>(null)
+  const trackedItems = ref<object | null>(null)
   const items = ref<Array<string>>([])
   const trackingList = ref<Array<string>>([])
-  const itemStates = ref<Map<string, Object>>(new Map())
+  const itemStates = ref<Map<string, object>>(new Map())
   const trackerConnectionId = ref<string | null>(null)
   const trackerEventSource = ref<EventSource | null>(null)
   const pendingTrackingListUpdate = ref<boolean>(false)
   const keepConnectionOpen = ref<boolean>(false)
   const sseConnected = ref<boolean>(false)
 
-  const handler: ProxyHandler<Object> = {
-    get(obj: Object, prop: string | symbol): Object | undefined {
+  const handler: ProxyHandler<object> = {
+    get(obj: object, prop: string | symbol): object | undefined {
       if (prop === '_keys') return Object.keys(itemStates.value)
       if (prop === '__ob__') return (obj as any).__ob__
 
@@ -47,7 +47,7 @@ export const useStatesStore = defineStore('states', () => {
       }
       return itemStates.value.get(itemName)
     },
-    set(prop: string | symbol): boolean {
+    set(target: object, prop: string | symbol, value: any, receiver: any): boolean {
       setItemState(prop.toString(), { state: '-' })
       return true
     }
@@ -72,7 +72,7 @@ export const useStatesStore = defineStore('states', () => {
         const trackingListJson = JSON.stringify(trackingList.value)
         console.debug(
           `Setting initial tracking list (${trackingList.value.length} tracked Items): ` +
-            trackingListJson
+          trackingListJson
         )
         openhab.api.postPlain(
           '/rest/events/states/' + connectionId,
@@ -166,7 +166,7 @@ export const useStatesStore = defineStore('states', () => {
     })
   }
 
-  function getTrackedItem(itemName: string): Object | undefined {
+  function getTrackedItem(itemName: string): object | undefined {
     if (itemName === 'undefined') return { state: '-' }
     if (!isItemTracked(itemName)) {
       addToTrackingList(itemName)
@@ -181,7 +181,7 @@ export const useStatesStore = defineStore('states', () => {
     return itemStates.value.get(itemName)
   }
 
-  function setItemState(itemName: string, itemState: Object) {
+  function setItemState(itemName: string, itemState: object) {
     itemStates.value.set(itemName, itemState)
     return true
   }

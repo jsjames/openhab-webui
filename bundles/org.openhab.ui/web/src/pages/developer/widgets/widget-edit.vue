@@ -131,7 +131,7 @@
 <script>
 import YAML from 'yaml'
 import { utils } from 'framework7'
-import { theme } from 'framework7-vue'
+import { theme, f7 } from 'framework7-vue'
 import { defineAsyncComponent, nextTick } from 'vue'
 
 import ConfigSheet from '@/components/config/config-sheet.vue'
@@ -379,7 +379,7 @@ export default {
     },
     redrawWidget() {
       this.ctxVars = {}
-      this.widgetKey = f7.utils.id()
+      this.widgetKey = utils.id()
       // const wd = this.widgetDefinition
       // this.widgetDefinition = 'component: Label\nnconfig: { text: "Redrawing..."}'
       // nextTick(() => {

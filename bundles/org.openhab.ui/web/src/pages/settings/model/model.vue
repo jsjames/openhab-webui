@@ -556,7 +556,7 @@ export default {
     },
     toggleItemName() {
       this.includeItemName = !this.includeItemName
-      modelStore.includeItemName = this.includeItemName
+      includeItemName = this.includeItemName
       this.load()
     },
     toggleItemTags() {

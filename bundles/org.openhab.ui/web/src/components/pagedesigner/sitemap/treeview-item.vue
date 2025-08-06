@@ -58,6 +58,7 @@
 </style>
 
 <script>
+import Dom7 from 'dom7'
 import SitemapMixin from '@/components/pagedesigner/sitemap/sitemap-mixin'
 import { VueDraggableNext as Draggable } from 'vue-draggable-next'
 

@@ -80,8 +80,9 @@
 </template>
 
 <script>
-import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
 import { f7, theme } from 'framework7-vue'
+import Dom7 from 'dom7'
+import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
 
 export default {
   props: ['itemName', 'metadata'],
