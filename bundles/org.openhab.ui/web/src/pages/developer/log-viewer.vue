@@ -1030,16 +1030,16 @@ export default {
             return `${log.time}${log.milliseconds} [${log.level}] [${log.loggerName}] - ${log.message}`
           })
           .join('\n')
-        // v-clipboard works without https, but it can only copy plain text
-        if (this.$clipboard(logs)) {
-          f7.toast
-            .create({
-              text: 'Table copied as text to clipboard',
-              destroyOnClose: true,
-              closeTimeout: 2000
-            })
-            .open()
-        }
+        this.$copyText(logs, undefined, (error, success) => {
+          const message = error
+            ? 'Failed to copy logs to clipboard'
+            : 'Logs copied to clipboard'
+          f7.toast.create({
+            text: message,
+            destroyOnClose: true,
+            closeTimeout: 2000
+          }).open()
+        })
         return
       }
 

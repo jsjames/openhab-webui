@@ -5,7 +5,8 @@
     f7="square_on_square"
     :size="size ? size : 12"
     v-clipboard="value"
-    v-clipboard:success="success" />
+    v-clipboard:success="success"
+    @click.stop />
 </template>
 
 <style lang="stylus">
@@ -19,8 +20,7 @@ import { f7 } from 'framework7-vue'
 export default {
   props: ['value', 'size'],
   methods: {
-    success({ value, event }) {
-      event.stopPropagation()
+    success () {
       f7.toast
         .create({
           text: 'Copied to clipboard',
