@@ -23,7 +23,7 @@ function executeFileDefinitionCopy(
       vueInstance.$copyText(definition, undefined, (error, success) => {
         if (error) {
           f7.dialog.alert(
-           `Error copying ${objectTypeLabel} ${fileFormatLabel} definition to the clipboard`,
+            `Error copying ${objectTypeLabel} ${fileFormatLabel} definition to the clipboard`,
             'Error'
           )
           console.error(error)

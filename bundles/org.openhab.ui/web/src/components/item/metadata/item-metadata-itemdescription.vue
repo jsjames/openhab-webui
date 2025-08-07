@@ -47,7 +47,7 @@ import { theme } from 'framework7-vue'
 import ConfigSheet from '@/components/config/config-sheet.vue'
 import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
 
-import { useRuntimeStore } from '@/stores/runtime'
+import { useRuntimeStore } from '@/js/stores/runtime'
 
 export default {
   props: ['itemName', 'metadata', 'namespace'],

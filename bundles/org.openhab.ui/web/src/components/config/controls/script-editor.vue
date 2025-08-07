@@ -450,7 +450,7 @@ export default {
     extensions() {
       const extensions = [ closeBrackets(), codeFolding() ]
       if(useThemeOptionsStore().darkMode === 'dark')
-        extensions.push(gruvboxDark)
+        extensions.push(oneDark)
       extensions.push(this.getCMModeExtension(this.mode))
 
       return extensions

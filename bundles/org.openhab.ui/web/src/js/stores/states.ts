@@ -47,7 +47,7 @@ export const useStatesStore = defineStore('states', () => {
       }
       return itemStates.value.get(itemName)
     },
-    set(target: object, prop: string | symbol, value: any, receiver: any): boolean {
+    set(_target: object, prop: string | symbol, _value: any, _receiver: any): boolean {
       setItemState(prop.toString(), { state: '-' })
       return true
     }

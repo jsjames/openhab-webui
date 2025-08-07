@@ -1,5 +1,5 @@
 // import { Plugin } from 'vue';
-import { type MasonryPluginOptions } from './types/plugin-options';
+// import { type MasonryPluginOptions } from './types/plugin-options';
 import MasonryGrid from './core/masonry-grid.vue';
 import MasonryGridItem from './core/masonry-grid-item.vue';
 

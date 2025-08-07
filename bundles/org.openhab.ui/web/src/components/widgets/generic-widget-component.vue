@@ -7,7 +7,7 @@
     <!-- eslint-disable-next-line vue/no-unused-vars -->
     <template v-for="(slotComponents, slotName) in context.component.slots" #[slotName]>
       <ul :key="slotName" v-if="componentType === 'f7-list'">
-        <!-- TODO-V3 - binded slot name likely needs ot change to template syntax-->
+        <!-- TODO-V3 - need to test slot change -->
         <generic-widget-component
           :context="childContext(slotComponent)"
           v-for="(slotComponent, idx) in slotComponents"

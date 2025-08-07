@@ -5,5 +5,7 @@
 </template>
 
 <script setup lang="ts">
-const id = crypto.randomUUID()
+// @ts-ignore   TODO-V3
+import { utils } from 'framework7'
+const id = utils.id()
 </script>

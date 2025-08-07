@@ -16,12 +16,10 @@ export function findChildNodesWithClassName(nodes: any[], className: string): VN
       result = result.concat(findChildNodesWithClassName(node.children, className));
     }
     // If the node's children are a render function, invoke the function and check the result
-    /*
     else if (typeof node.children === 'object' && typeof node.children?.default === 'function') {
       const childNodes = node.children.default() as VNode[]; // Call the render function to get VNodes
-      result = result.concat(childNodes);
+      result = result.concat(findChildNodesWithClassName(childNodes, className));
     }
-      */
     // In some cases, children could be a single VNode or other structures
     else if (node.children && typeof node.children === 'object') {
       result = result.concat(findChildNodesWithClassName([node.children], className));

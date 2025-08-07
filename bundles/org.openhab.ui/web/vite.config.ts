@@ -13,13 +13,31 @@ const maven = process.env.MAVEN || false
 const outPath = maven ? '../target/classes/app' : 'www'
 
 export default defineConfig({
-  plugins: [vue({
-    template: {
-      compilerOptions: {
-        isCustomElement: (tag) => ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep', 'shadow'].includes(tag) // blockly custom elements
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep', 'shadow'].includes(tag) // blockly custom elements
+        }
       }
-    }
-  }), vueDevtools(), visualizer({ open: true }), vitePluginTopLevelAwait()],
+    }),
+    {
+      name: 'html-injector',
+      apply: 'build',
+      transformIndexHtml() {
+        return [
+          {
+            tag: 'meta',
+            injectTo: 'head-prepend',
+            attrs: {
+              'http-equiv': 'Content-Security-Policy',
+              content: "default-src 'self' 'unsafe-inline' 'unsafe-eval'; font-src 'self' data:; img-src * data:; media-src * data: blob: media:; frame-src *; connect-src 'self' *.openhab.org raw.githubusercontent.com api.iconify.design api.unisvg.com api.simplesvg.com *; worker-src 'self' blob:;"
+            }
+          }
+        ]
+      }
+    },
+    vueDevtools(), visualizer({ open: true }), vitePluginTopLevelAwait()],
   server: {
     port: 8080,
     proxy: {
@@ -72,7 +90,17 @@ export default defineConfig({
   build: {
     outDir: resolve(outPath),
     emptyOutDir: true,
-    target: ['chrome107', 'edge107', 'firefox104', 'safari11.1']
+    target: ['chrome107', 'edge107', 'firefox104', 'safari11.1'],
+    rollupOptions: {
+      output: {
+        // Customize the output directory for entry chunks (e.g., main.js)
+        entryFileNames: `assets/js/[name]-[hash].js`,
+        // Customize the output directory for code-split chunks (e.g., components)
+        chunkFileNames: `assets/js/[name]-[hash].js`,
+        // Optionally, you can also set assetFileNames for other assets like CSS
+        assetFileNames: `assets/[ext]/[name]-[hash].[ext]`,
+      },
+    },
   },
   resolve: {
     alias: {
