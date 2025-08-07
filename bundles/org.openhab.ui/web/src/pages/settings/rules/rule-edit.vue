@@ -912,7 +912,8 @@ export default {
             ruleModule: this.currentModule,
             ruleModuleType: this.currentModuleType,
             moduleTypes: this.moduleTypes,
-            readOnly: !this.isEditable
+            readOnly: !this.isEditable,
+            f7router: this.f7router
           }
         }
       )
@@ -979,7 +980,8 @@ export default {
             currentSection: this.currentSection,
             ruleModule: this.currentModule,
             ruleModuleType: this.currentModuleType,
-            moduleTypes: this.moduleTypes
+            moduleTypes: this.moduleTypes,
+            f7router: this.f7router
           }
         }
       )

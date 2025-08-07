@@ -245,10 +245,16 @@ import ModuleWizard from './module-wizard-mixin'
 import ItemPicker from '@/components/config/controls/item-picker.vue'
 import ConfigSheet from '@/components/config/config-sheet.vue'
 import { nextTick } from 'vue'
+import { f7 } from 'framework7-vue'
 
 export default {
   mixins: [ModuleWizard],
-  props: ['currentModule', 'currentModuleType', 'moduleTypes'],
+  props: {
+    'currentModule': Object,
+    'currentModuleType': Object,
+    'moduleTypes': Object,
+    f7router: Object
+  },
   components: {
     ItemPicker,
     ConfigSheet

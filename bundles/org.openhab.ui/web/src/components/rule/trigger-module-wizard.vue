@@ -351,7 +351,11 @@ import { f7 } from 'framework7-vue'
 
 export default {
   mixins: [ModuleWizard],
-  props: ['currentModule', 'currentModuleType'],
+  props: {
+    'currentModule': Object,
+    'currentModuleType': Object,
+    f7router: Object
+  },
   components: {
     ItemPicker,
     ThingPicker,

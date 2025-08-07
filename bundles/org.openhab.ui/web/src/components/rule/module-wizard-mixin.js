@@ -2,9 +2,6 @@ import ModelPickerPopup from '@/components/model/model-picker-popup.vue'
 import { f7 } from 'framework7-vue'
 
 export default {
-  props: {
-    f7router: Object
-  },
   data() {
     return {
       category: '',

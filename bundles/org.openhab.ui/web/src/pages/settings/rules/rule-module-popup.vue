@@ -80,7 +80,8 @@
             :current-module="ruleModule"
             :current-module-type="currentRuleModuleType"
             @type-select="setModuleType"
-            @show-advanced="advancedTypePicker = true" />
+            @show-advanced="advancedTypePicker = true"
+            :f7router="f7router" />
           <condition-module-wizard
             v-else-if="!advancedTypePicker && currentSection === 'conditions'"
             :current-module="ruleModule"
@@ -88,7 +89,8 @@
             :module-types="moduleTypes['conditions']"
             @type-select="setModuleType"
             @show-advanced="advancedTypePicker = true"
-            @start-script="startScripting" />
+            @start-script="startScripting"
+            :f7router="f7router" />
           <action-module-wizard
             v-else-if="!advancedTypePicker && currentSection === 'actions'"
             :current-module="ruleModule"
@@ -96,7 +98,8 @@
             :module-types="moduleTypes['actions']"
             @type-select="setModuleType"
             @show-advanced="advancedTypePicker = true"
-            @start-script="startScripting" />
+            @start-script="startScripting"
+            :f7router="f7router" />
         </f7-col>
 
         <!-- module configuration -->
@@ -186,7 +189,15 @@ export default {
     ActionModuleWizard,
     ConfigSheet
   },
-  props: ['rule', 'ruleModule', 'ruleModuleType', 'moduleTypes', 'currentSection', 'readOnly'],
+  props: {
+    'rule': Object,
+    'ruleModule': Object,
+    'ruleModuleType': Object,
+    'moduleTypes': Object,
+    'currentSection': String,
+    'readOnly': Boolean,
+    f7router: Object
+  },
   emits: ['module-update', 'edit-new-script'],
   data() {
     return {
@@ -233,7 +244,7 @@ export default {
         return
       }
       f7.emit('rule-module-config-update', this.ruleModule)
-      this.$refs.modulePopup.close()
+      this.$refs.modulePopup.$el.f7Modal.close()
     },
     editBlockly() {
       this.updateModuleConfig()
@@ -251,7 +262,7 @@ export default {
           '<xml xmlns="https://developers.google.com/blockly/xml"></xml>'
       }
       f7.emit('edit-new-script', this.ruleModule)
-      this.$refs.modulePopup.close()
+      this.$refs.modulePopup.$el.f7Modal.close()
     },
     groupedModuleTypes(section) {
       const moduleTypes = this.moduleTypes[section].filter(t => t.visibility === 'VISIBLE')
@@ -273,13 +284,13 @@ export default {
     },
     onBackClicked() {
       if (this.dirty) {
-        this.confirmLeaveWithoutSaving(this.$refs.modulePopup.close)
+        this.confirmLeaveWithoutSaving(this.$refs.modulePopup.$el.f7Modal.close)
       } else {
-        this.$refs.modulePopup.close()
+        this.$refs.modulePopup.$el.f7Modal.close()
       }
     },
     close() {
-      this.$refs.modulePopup.close()
+      this.$refs.modulePopup.$el.f7Modal.close()
     }
   },
   created() {
