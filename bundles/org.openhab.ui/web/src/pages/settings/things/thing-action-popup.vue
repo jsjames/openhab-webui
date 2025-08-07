@@ -168,7 +168,7 @@ export default {
         })
     },
     close() {
-      this.$refs.modulePopup.close()
+      this.$refs.modulePopup.$el.f7Modal.close()
     }
   }
 }

@@ -114,7 +114,7 @@ export default {
         const dialog = this.confirmLeaveWithoutSaving(
           () => {
             this.updateWidgetCode(this.originalCode)
-            this.$refs.widgetCode.close()
+            this.$refs.widgetCode.$el.f7Modal.close()
           },
           () => {
             // prevent re-triggering the confirm dialog when ESC is pressed to close the dialog
@@ -125,7 +125,7 @@ export default {
           }
         )
       } else {
-        this.$refs.widgetCode.close()
+        this.$refs.widgetCode.$el.f7Modal.close()
       }
     },
     reset() {
@@ -141,7 +141,7 @@ export default {
         return
       }
       this.updateWidgetCode(this.code)
-      this.$refs.widgetCode.close()
+      this.$refs.widgetCode.$el.f7Modal.close()
     },
     updateWidgetCode(value) {
       f7.emit('widget-code-update', value)

@@ -225,7 +225,7 @@ export default {
         this.excludeItems
       )
       f7.emit('configuration-update', this.currentConfiguration)
-      this.$refs.modulePopup.close()
+      this.$refs.modulePopup.$el.f7Modal.close()
     }
   }
 }

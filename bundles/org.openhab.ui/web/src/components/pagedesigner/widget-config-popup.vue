@@ -91,7 +91,7 @@ export default {
         const dialog = this.confirmLeaveWithoutSaving(
           () => {
             this.updateWidgetConfig(this.originalConfig)
-            this.$refs.widgetConfig.close()
+            this.$refs.widgetConfig.$el.f7Modal.close()
           },
           () => {
             // prevent re-triggering the confirm dialog when ESC is pressed to close the dialog
@@ -102,7 +102,7 @@ export default {
           }
         )
       } else {
-        this.$refs.widgetConfig.close()
+        this.$refs.widgetConfig.$el.f7Modal.close()
       }
     },
     reset() {
@@ -114,7 +114,7 @@ export default {
     },
     save() {
       this.updateWidgetConfig(this.config)
-      this.$refs.widgetConfig.close()
+      this.$refs.widgetConfig.$el.f7Modal.close()
     },
     updateWidgetConfig(config) {
       const newConfig = cloneDeep(config)

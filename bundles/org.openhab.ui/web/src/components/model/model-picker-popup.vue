@@ -211,7 +211,7 @@ export default {
       }
       this.$emit('input', pickedItems)
       f7.emit('items-picked', pickedItems)
-      this.$refs.modelPicker.close()
+      this.$refs.modelPicker.$el.f7Modal.close()
     },
     modelItem(item) {
       const modelItem = {

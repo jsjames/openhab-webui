@@ -78,7 +78,7 @@ export default {
         }
       }
       f7.emit('filter-update', this.currentFilter, this.filterType.name)
-      this.$refs.modulePopup.close()
+      this.$refs.modulePopup.$el.f7Modal.close()
     }
   }
 }

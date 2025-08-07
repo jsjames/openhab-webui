@@ -88,7 +88,7 @@ export default {
         return
       }
       f7.emit('cron-strategy-config-update', this.currentCronStrategy)
-      this.$refs.modulePopup.close()
+      this.$refs.modulePopup.$el.f7Modal.close()
     }
   }
 }
