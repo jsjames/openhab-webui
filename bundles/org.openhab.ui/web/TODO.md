@@ -1,6 +1,7 @@
 TODO
 - [] HIGH - Swiper-slide needs to be retrofited with new (https://v6.framework7.io/vue/migration-from-v5#swiper)
 - [] HIGH - TODO-V3 comments in code need to be cleaned up / examined
+- [] HIGH - fix remaining lint errors
 - [] MED - Codemirror - codemirror is basically in place, but many of the addon features need to be added
 - [] LOW - Update storage from vuex to pinia - all done with the exception of model store
 

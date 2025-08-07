@@ -47,7 +47,7 @@
       <MasonryGridItem
         v-for="(slotComponent, idx) in context.component.slots.default"
         :key="idx"
-        class="oh-cell-container">
+        class="oh-cell-container masonry-grid-item">
         <f7-menu v-if="context.editmode" class="configure-layout-menu margin-bottom">
           <f7-menu-item
             style="margin-left: auto"
@@ -123,7 +123,7 @@
 <script>
 import mixin from '../widget-mixin'
 import OhPlaceholderWidget from './oh-placeholder-widget.vue'
-import { MasonryGrid, MasonryGridItem } from '../../../components/vue3-masonry-css'
+import { MasonryGrid, MasonryGridItem } from '@/components/vue3-masonry-css'
 
 export default {
   mixins: [mixin],
