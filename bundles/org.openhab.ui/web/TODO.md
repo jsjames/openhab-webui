@@ -8,7 +8,7 @@ TODO
 - [] HIGH - Swiper-slide needs to be retrofited with new (https://v6.framework7.io/vue/migration-from-v5#swiper)
 - [] HIGH - decide on prettier or other formatter? which rules (currently I just have used default rules)
 - [] HIGH - TODO-V3 comments in code need to be cleaned up / examined
-- [] HIGH - Jest --> Vitest
+- [x] HIGH - Jest --> Vitest
 - [x] HIGH - vuex reactive items are not getting updated
 - [x] HIGH - add support for Codemirror v6
 - [] MED - Codemirror - codemirror is basically in place, but many of the addon features need to be added
@@ -20,7 +20,7 @@ TODO
 BUGS
 
 - [x] bars theme-filled applied to app class, but does not change navbar style. It seems in vue3 (contrary to documentation that I can find), that f7-app classes will not be applied. So, added code to add to the html element at the top.
-- [] vue3-masonry-css is buggy especially when you change the window width??
+- [x] vue3-masonry-css is buggy especially when you change the window width?? I have currently integrated the vue3-masonry-css in the codebase to fix the issue. I have in parallel filed an issue on the github repository to see if the author can fix the issue.
 - [x] There are two home pages created in the DOM under the view? Removing the "stacked" setting addresses this, but that breaks other things. (This was fixed by updating the routing mechanism for the root page - adding a beforeEnter)
 - [] on item-detail->oh-label-card->oh-trend - the width setting is only correct AFTER the page is display - doesn't seem to be reactive
 - [] back button from settings/items, settings/things, settings/model - the URL in the address bar does not change.

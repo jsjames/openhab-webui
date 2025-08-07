@@ -111,7 +111,7 @@
       <MasonryGridItem
         v-for="(slotComponent, idx) in context.component.slots.default"
         :key="idx"
-        class="oh-masonry-item">
+        class="masonry-grid-item">
         <f7-menu v-if="context.editmode" class="configure-layout-menu">
           <f7-menu-item
             style="margin-left: auto"
@@ -156,10 +156,11 @@
         </f7-menu>
         <generic-widget-component v-bind="$attrs" :context="childContext(slotComponent)" />
       </MasonryGridItem>
-      <oh-placeholder-widget
-        v-if="context.editmode"
-        class="oh-column-item placeholder"
-        @click="context.editmode.addWidget(context.component, null, context.parent)" />
+      <MasonryGridItem v-if="context.editmode">
+        <oh-placeholder-widget
+          class="oh-column-item placeholder"
+          @click="context.editmode.addWidget(context.component, null, context.parent)" />
+      </MasonryGridItem>
     </MasonryGrid>
   </div>
 </template>
@@ -193,7 +194,7 @@
 import mixin from '../widget-mixin'
 import OhPlaceholderWidget from './oh-placeholder-widget.vue'
 import { OhMasonryDefinition } from '@/assets/definitions/widgets/layout'
-import { MasonryGrid, MasonryGridItem } from 'vue3-masonry-css'
+import { MasonryGrid, MasonryGridItem } from '../../../components/vue3-masonry-css'
 
 export default {
   mixins: [mixin],

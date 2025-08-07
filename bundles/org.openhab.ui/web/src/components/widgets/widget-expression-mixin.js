@@ -62,8 +62,6 @@ export default {
         })
       }
 
-      console.log('pageContent.clientHeight', pageContent.clientHeight)
-
       return {
         width: window.screen.width,
         height: window.screen.height,

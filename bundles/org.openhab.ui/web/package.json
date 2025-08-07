@@ -107,6 +107,7 @@
     "uuid": "^11.1.0",
     "video.js": "^7.10.2",
     "vite": "^7.0.2",
+    "vue": "^3.5.18",
     "vue-async-computed": "^4.0.1",
     "vue-codemirror": "^6.1.1",
     "vue-draggable-next": "^2.2.1",
@@ -118,7 +119,6 @@
     "vue-qrcode": "^2.2.2",
     "vue-round-slider": "^1.0.1",
     "vue3-clipboard": "^1.0.0",
-    "vue3-masonry-css": "^1.0.8",
     "vuex": "^4.1.0",
     "yaml": "^2.8.0"
   },
