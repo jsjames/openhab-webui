@@ -12,6 +12,7 @@ export const useStatesStore = defineStore('states', () => {
   const pendingTrackingListUpdate = ref<boolean>(false)
   const keepConnectionOpen = ref<boolean>(false)
   const sseConnected = ref<boolean>(false)
+  const ready = ref<boolean>(false)
 
   const handler: ProxyHandler<object> = {
     get(obj: object, prop: string | symbol): object | undefined {
@@ -48,7 +49,7 @@ export const useStatesStore = defineStore('states', () => {
       return itemStates.value.get(itemName)
     },
     set(_target: object, prop: string | symbol, _value: any, _receiver: any): boolean {
-      setItemState(prop.toString(), { state: '-' })
+      setItemState(prop.toString(), { state: _value })
       return true
     }
   }
@@ -82,6 +83,7 @@ export const useStatesStore = defineStore('states', () => {
           null
         )
         sseConnected.value = true
+        ready.value = true
       },
       updates => {
         for (const item in updates) {
@@ -196,6 +198,7 @@ export const useStatesStore = defineStore('states', () => {
     pendingTrackingListUpdate,
     keepConnectionOpen,
     sseConnected,
+    ready,
 
     startTrackingStates,
     stopTrackingStates,

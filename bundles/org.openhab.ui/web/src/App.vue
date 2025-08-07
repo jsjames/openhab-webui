@@ -773,9 +773,7 @@ export default {
           ])
         })
         .then(data => {
-          // store the pages & widgets
-          useComponentsStore().setPages(data[0])
-          useComponentsStore().setWidgets(data[1])
+          useComponentsStore().setPagesAndWidgets(data[0], data[1])
           this.pages = data[0]
             .filter(p => p.config.sidebar && this.pageIsVisible(p))
             .sort((p1, p2) => {

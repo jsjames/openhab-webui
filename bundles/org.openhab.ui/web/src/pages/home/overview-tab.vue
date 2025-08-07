@@ -15,7 +15,7 @@
         @session-end="inChatSession = false" />
     </f7-block>
 
-    <f7-block v-if="!$store" class="text-align-center">
+    <f7-block v-if="!componentsStore.ready || !statesStore.ready" class="text-align-center">
       <f7-preloader />
       <div>Loading...</div>
     </f7-block>
@@ -144,7 +144,7 @@ export default {
       if (!this.overviewPage) return null
       return this.overviewPage.config.style
     },
-    ...mapStores(useUserStore, useRuntimeStore)
+    ...mapStores(useUserStore, useRuntimeStore, useStatesStore, useComponentsStore, useThemeOptionsStore)
   },
   methods: {
     onCommand(itemName, command) {

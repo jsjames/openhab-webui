@@ -52,14 +52,22 @@ export default {
   computed: {
     screenInfo() {
       const pageContent = document.querySelector('.page-current > .page-content')
-      const pageContentStyle = window.getComputedStyle(pageContent)
 
-      // recalculate screen info if clientHeight is not available yet
-      if (this.recalculateScreenInfo === false && pageContent.clientHeight === 0) {
+      let viewAreaHeight = 0
+      let viewAreaWidth = 0
+      if (!pageContent || (this.recalculateScreenInfo === false && pageContent.clientHeight === 0)) {
         nextTick(() => {
           this.recalculateScreenInfo = true
           this.recalculateScreenInfo = false
         })
+      } else {
+        const pageContentStyle = window.getComputedStyle(pageContent)
+        viewAreaHeight = pageContent.clientHeight -
+          parseFloat(pageContentStyle.paddingTop) -
+          parseFloat(pageContentStyle.paddingBottom)
+        viewAreaWidth = pageContent.clientWidth -
+          parseFloat(pageContentStyle.paddingLeft) -
+          parseFloat(pageContentStyle.paddingRight)
       }
 
       return {
@@ -69,12 +77,14 @@ export default {
         availHeight: window.screen.availHeight,
         colorDepth: window.screen.colorDepth,
         pixelDepth: window.screen.pixelDepth,
-        viewAreaWidth:
-          pageContent.clientWidth -
-          parseFloat(pageContentStyle.paddingLeft) -
-          parseFloat(pageContentStyle.paddingRight),
-        viewAreaHeight:
-          pageContent.clientHeight -
+        viewAreaWidth: viewAreaWidth,
+        viewAreaHeight: viewAreaHeight
+      }
+    }
+  },
+  methods: {
+    /**
+     * Evaluates a widget expression.
           parseFloat(pageContentStyle.paddingTop) -
           parseFloat(pageContentStyle.paddingBottom),
         appWidth: f7.width,
@@ -122,7 +132,8 @@ export default {
             user: useUserStore().user
           })
         } catch (e) {
-          return e
+          console.log(e)
+          return undefined
         }
       } else if (typeof value === 'object' && !Array.isArray(value)) {
         const evalObj = {}

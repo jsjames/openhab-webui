@@ -12,6 +12,7 @@ interface Page {
 export const useComponentsStore = defineStore('components', () => {
   const _widgets = ref<Widget[]>([])
   const _pages = ref<Page[]>([])
+  const ready = ref<boolean>(false)
 
   function widget(uid: string) {
     return _widgets.value.find(widget => widget.uid === uid)
@@ -30,13 +31,12 @@ export const useComponentsStore = defineStore('components', () => {
     return pages
   }
 
-  function setWidgets(newWidgets: Widget[]) {
-    _widgets.value = newWidgets
-  }
-
-  function setPages(newPages: Page[]) {
+  function setPagesAndWidgets(newPages: Page[], newWidgets: Widget[]) {
     _pages.value = newPages
+    _widgets.value = newWidgets
+
+    ready.value = true
   }
 
-  return { widget, widgets, page, pages, setWidgets, setPages }
+  return { ready, widget, widgets, page, pages, setPagesAndWidgets }
 })
