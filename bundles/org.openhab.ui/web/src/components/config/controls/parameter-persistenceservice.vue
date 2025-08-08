@@ -10,8 +10,8 @@ import PersistenceServicePicker from './persistenceservice-picker.vue'
 
 export default {
   props: {
-    'configDescription': Object,
-    'value': String
+    configDescription: Object,
+    value: [String, Array]
   },
   emits: ['input'],
   components: {

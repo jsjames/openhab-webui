@@ -131,7 +131,10 @@ export default {
       () => import(/* webpackChunkName: "vue-qrcode" */ 'vue-qrcode')
     )
   },
-  props: ['thingUID', 'action'],
+  props: {
+    thingUID: String,
+    action: Object
+  },
   setup() {
     return { theme }
   },

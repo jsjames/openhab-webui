@@ -82,16 +82,16 @@ export default {
   components: {
     ClipboardIcon
   },
-  props: [
-    'extensible',
-    'group',
-    'channelTypes',
-    'thing',
-    'pickerMode',
-    'multipleLinksMode',
-    'itemTypeFilter',
-    'selection'
-  ],
+  props: {
+    extensible: Boolean,
+    group: Object,
+    channelTypes: Array,
+    thing: Object,
+    pickerMode: Boolean,
+    multipleLinksMode: Boolean,
+    itemTypeFilter: String,
+    selection: [String, Array]
+  },
   emits: ['selected', 'channel-opened'],
   data() {
     return {

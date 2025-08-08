@@ -289,7 +289,10 @@ export default {
     ConfigSheet,
     ModelTab
   },
-  props: ['createMode', 'uid'],
+  props: {
+    createMode: Boolean,
+    uid: String
+  },
   setup() {
     return { theme }
   },

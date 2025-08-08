@@ -92,15 +92,15 @@ import Dom7 from 'dom7'
 export default {
   name: 'model-treeview-item',
   mixins: [ItemMixin, ModelDragDropMixin],
-  props: [
-    'model',
-    'parentNode',
-    'rootNode',
-    'selected',
-    'includeItemName',
-    'includeItemTags',
-    'canDragDrop'
-  ],
+  props: {
+    model: Object,
+    parentNode: Object,
+    rootNode: Object,
+    selected: Object,
+    includeItemName: Boolean,
+    includeItemTags: Boolean,
+    canDragDrop: Boolean
+  },
   emits: ['reload', 'selected', 'checked'],
   components: {
     Draggable,

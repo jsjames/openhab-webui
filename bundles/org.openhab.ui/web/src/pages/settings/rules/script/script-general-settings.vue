@@ -64,7 +64,15 @@ import ModuleDescriptionSuggestions from '../module-description-suggestions'
 
 export default {
   mixins: [ModuleDescriptionSuggestions],
-  props: ['rule', 'module', 'moduleType', 'createMode', 'isScriptRule', 'languages', 'mode'],
+  props: {
+    rule: Object,
+    module: Object,
+    moduleType: String,
+    createMode: Boolean,
+    isScriptRule: Boolean,
+    languages: Array,
+    mode: String
+  },
   emits: ['new-language'],
   components: {
     RuleGeneralSettings

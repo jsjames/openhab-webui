@@ -70,7 +70,12 @@
 <script>
 import ClipboardIcon from '@/components/util/clipboard-icon.vue'
 export default {
-  props: ['channel', 'channelType', 'createMode', 'disabled'],
+  props: {
+    channel: Object,
+    channelType: Object,
+    createMode: Boolean,
+    disabled: Boolean
+  },
   components: {
     ClipboardIcon
   }

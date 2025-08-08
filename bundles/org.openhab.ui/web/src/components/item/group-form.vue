@@ -125,7 +125,10 @@ import uomMixin from '@/components/item/uom-mixin'
 
 export default {
   mixins: [uomMixin],
-  props: ['item', 'createMode'],
+  props: {
+    item: Object,
+    createMode: Boolean
+  },
   data() {
     return {
       types,

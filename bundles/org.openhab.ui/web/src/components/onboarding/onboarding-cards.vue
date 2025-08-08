@@ -53,7 +53,10 @@
 import { f7 } from 'framework7-vue'
 
 export default {
-  props: ['showSetup', 'showTasks'],
+  props: {
+    showSetup: Boolean,
+    showTasks: Boolean
+  },
   methods: {
     skipSetupWizard() {
       f7.dialog.confirm(

@@ -81,15 +81,15 @@ import { f7 } from 'framework7-vue'
 import { nextTick } from 'vue'
 
 export default {
-  props: [
-    'currentSlot',
-    'slotConfig',
-    'getWidgetDefinition',
-    'currentSlotDefaultComponentType',
-    'initialConfig',
-    'removeComponentFromSlot',
-    'editWidgetCode'
-  ],
+  props: {
+    currentSlot: String,
+    slotConfig: Array,
+    getWidgetDefinition: Function,
+    currentSlotDefaultComponentType: String,
+    initialConfig: Object,
+    removeComponentFromSlot: Function,
+    editWidgetCode: Function
+  },
   emits: ['widget-slot-config-closed', 'widget-slot-config-update'],
   components: {
     ConfigSheet

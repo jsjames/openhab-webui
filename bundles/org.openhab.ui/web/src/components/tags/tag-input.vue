@@ -56,7 +56,14 @@ import { f7 } from 'framework7-vue'
 
 export default {
   mixins: [TagMixin],
-  props: ['item', 'disabled', 'inScriptEditor', 'inSceneEditor', 'showSemanticTags', 'title'],
+  props: {
+    item: Object,
+    disabled: Boolean,
+    inScriptEditor: Boolean,
+    inSceneEditor: Boolean,
+    showSemanticTags: Boolean,
+    title: String
+  },
   data() {
     return {
       pendingTag: ''

@@ -202,7 +202,10 @@ export default {
     OhTrend
   },
   widget: OhCellDefinition,
-  props: ['noSwipeToClose', 'state'],
+  props: {
+    noSwipeToClose: Boolean,
+    state: String
+  },
   data() {
     return {
       transitioning: false,

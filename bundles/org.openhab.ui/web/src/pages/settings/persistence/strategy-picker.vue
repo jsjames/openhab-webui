@@ -38,7 +38,13 @@
 import { f7 } from 'framework7-vue'
 
 export default {
-  props: ['title', 'name', 'strategies', 'value', 'disabled'],
+  props: {
+    title: String,
+    name: String,
+    strategies: Array,
+    value: Array,
+    disabled: Boolean
+  },
   emits: ['strategies-selected'],
   data() {
     return {

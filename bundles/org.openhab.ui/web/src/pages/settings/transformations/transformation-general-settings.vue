@@ -80,7 +80,13 @@ import { theme } from 'framework7-vue'
 
 export default {
   components: { ClipboardIcon },
-  props: ['transformation', 'createMode', 'types', 'languages', 'language'],
+  props: {
+    transformation: Object,
+    createMode: Boolean,
+    types: Array,
+    languages: Array,
+    language: String
+  },
   emits: ['new-type', 'new-language'],
   data() {
     return {

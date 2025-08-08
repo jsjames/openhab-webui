@@ -39,7 +39,9 @@ import ThingStatus from '@/components/thing/thing-status-mixin'
 
 export default {
   mixins: [ThingStatus],
-  props: ['bridgeUID'],
+  props: {
+    bridgeUID: String
+  },
   components: {
     chart: VChart
   },

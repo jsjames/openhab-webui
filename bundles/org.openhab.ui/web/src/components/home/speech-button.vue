@@ -33,7 +33,9 @@
 import { f7 } from 'framework7-vue'
 
 export default {
-  props: ['lang'],
+  props: {
+    lang: String
+  },
   emits: ['result'],
   data() {
     return {

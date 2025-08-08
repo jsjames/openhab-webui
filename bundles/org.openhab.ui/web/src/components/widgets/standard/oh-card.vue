@@ -49,8 +49,17 @@ import { OhCardDefinition } from '@/assets/definitions/widgets/standard/cards'
 export default {
   mixins: [mixin, actionsMixin],
   widget: OhCardDefinition,
-  props: ['context', 'contentStyle', 'contentClass'],
-  slotProps: ['header', 'content', 'content-root', 'footer'],
+  props: {
+    context: Object,
+    contentStyle: Object,
+    contentClass: [String, Array]
+  },
+  props: {
+    header: Object,
+    content: Object,
+    'content-root': Object,
+    footer: Object
+  },
   computed: {
     computedContentClass() {
       return [

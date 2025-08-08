@@ -36,7 +36,12 @@ import LinkDetails from '@/components/model/link-details.vue'
 import { utils } from 'framework7'
 
 export default {
-  props: ['model', 'links', 'items', 'context'],
+  props: {
+    model: Object,
+    links: Array,
+    items: Array,
+    context: Object
+  },
   components: {
     ItemStatePreview,
     ItemDetails,

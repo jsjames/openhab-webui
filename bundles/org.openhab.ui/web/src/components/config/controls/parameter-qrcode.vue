@@ -14,8 +14,8 @@ import { defineAsyncComponent } from 'vue'
 
 export default {
   props: {
-    'configDescription': Object,
-    'value': String
+    configDescription: Object,
+    value: String
   },
   setup() {
     return { theme }

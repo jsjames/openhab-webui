@@ -142,16 +142,16 @@ import { compareAddons } from '@/assets/addon-store'
 import AddonsSwiper from '@/components/addons/addons-swiper.vue'
 
 export default {
-  props: [
-    'addons',
-    'title',
-    'subtitle',
-    'showAll',
-    'featured',
-    'showAsCards',
-    'suggested',
-    'installActionText'
-  ],
+  props: {
+    addons: Array,
+    title: String,
+    subtitle: String,
+    showAll: Boolean,
+    featured: Array,
+    showAsCards: Boolean,
+    suggested: Boolean,
+    installActionText: String
+  },
   emits: ['addon-button-click'],
   components: {
     AddonsSwiper,

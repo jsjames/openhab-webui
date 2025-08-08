@@ -53,7 +53,9 @@ import { useThemeOptionsStore } from '@/js/stores/theme-options'
 import { mapStores } from 'pinia'
 
 export default {
-  props: ['blocksDefinition'],
+  props: {
+    blocksDefinition: Object
+  },
   data() {
     return {
       workspace: null,

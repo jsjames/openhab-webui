@@ -34,12 +34,12 @@ import { nextTick } from 'vue'
 
 export default {
   props: {
-    'title': String,
-    'name': String,
-    'value': String,
-    'required': Boolean,
-    'filterType': Array,
-    'openOnReady': Boolean
+    title: String,
+    name: String,
+    value: String,
+    required: Boolean,
+    filterType: Array,
+    openOnReady: Boolean
   },
   emits: ['persistence-picked', 'input'],
   data() {

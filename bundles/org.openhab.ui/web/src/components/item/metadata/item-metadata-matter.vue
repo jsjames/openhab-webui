@@ -142,7 +142,10 @@ import { mapStores } from 'pinia'
 
 export default {
   name: 'item-metadata-matter',
-  props: ['item', 'metadata'],
+  props: {
+    item: Object,
+    metadata: Object
+  },
   mixins: [ItemMetadataMixin],
   components: {
     ConfigSheet

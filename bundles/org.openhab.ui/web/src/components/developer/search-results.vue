@@ -502,7 +502,12 @@ export default {
   components: {
     ClipboardIcon
   },
-  props: ['searchResults', 'pinnedObjects', 'cachedObjects', 'loading'],
+  props: {
+    searchResults: Object,
+    pinnedObjects: Object,
+    cachedObjects: Object,
+    loading: Boolean
+  },
   emits: ['pin', 'unpin'],
   data() {
     return {

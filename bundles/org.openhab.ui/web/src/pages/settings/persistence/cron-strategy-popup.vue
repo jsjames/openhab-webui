@@ -63,7 +63,9 @@ export default {
   components: {
     ParameterCronexpression
   },
-  props: ['cronStrategy'],
+  props: {
+    cronStrategy: Object
+  },
   emits: ['cron-strategy-config-update'],
   data() {
     return {

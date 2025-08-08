@@ -65,15 +65,15 @@ import { VueDraggableNext as Draggable } from 'vue-draggable-next'
 export default {
   name: 'sitemap-treeview-item',
   mixins: [SitemapMixin],
-  props: [
-    'includeItemName',
-    'widget',
-    'parentWidget',
-    'itemsList',
-    'selected',
-    'sitemap',
-    'moveState'
-  ],
+  props: {
+    includeItemName: Boolean,
+    widget: Object,
+    parentWidget: Object,
+    itemsList: Array,
+    selected: Object,
+    sitemap: Object,
+    moveState: Object
+  },
   components: {
     Draggable,
     SitemapTreeviewItem: 'sitemap-treeview-item'

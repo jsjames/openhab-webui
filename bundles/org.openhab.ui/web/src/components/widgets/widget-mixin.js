@@ -12,7 +12,9 @@ import { mapStores } from 'pinia'
 
 export default {
   mixins: [WidgetExpressionMixin],
-  props: ['context'],
+  props: {
+    context: Object
+  },
   data() {
     return {
       vars: this.context ? this.context.vars : {},

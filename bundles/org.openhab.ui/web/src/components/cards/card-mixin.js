@@ -4,7 +4,10 @@ import { utils } from 'framework7'
 
 export default {
   mixins: [mixin],
-  props: ['type', 'element'],
+  props: {
+    type: String,
+    element: Object
+  },
   data() {
     return {
       opened: false,

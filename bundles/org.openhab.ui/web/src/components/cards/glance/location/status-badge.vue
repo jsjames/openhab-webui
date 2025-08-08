@@ -64,7 +64,13 @@ import { findEquipment, allEquipmentPoints, findPoints } from '../glance-helpers
 import { evaluate, parse } from 'jse-eval'
 
 export default {
-  props: ['element', 'type', 'badgeOverrides', 'invertColor', 'store'],
+  props: {
+    element: Object,
+    type: String,
+    badgeOverrides: Object,
+    invertColor: Boolean,
+    store: Object
+  },
   data() {
     return {
       badgeConfigs: {

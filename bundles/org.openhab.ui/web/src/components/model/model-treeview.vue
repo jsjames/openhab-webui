@@ -73,7 +73,13 @@ import { VueDraggableNext as Draggable } from 'vue-draggable-next'
 
 export default {
   mixins: [ModelDragDropMixin],
-  props: ['rootNodes', 'selected', 'includeItemName', 'includeItemTags', 'canDragDrop'],
+  props: {
+    rootNodes: Array,
+    selected: Object,
+    includeItemName: Boolean,
+    includeItemTags: Boolean,
+    canDragDrop: Boolean
+  },
   emits: ['reload', 'checked', 'selected'],
   components: {
     Draggable,

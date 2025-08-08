@@ -34,12 +34,12 @@ export default {
     )
   },
   props: {
-    'title': String,
-    'value': String,
-    'mode': String,
-    'opened': Boolean,
-    'fullscreen': Boolean,
-    'popupId': String
+    title: String,
+    value: String,
+    mode: String,
+    opened: Boolean,
+    fullscreen: Boolean,
+    popupId: String
   },
   data() {
     return {

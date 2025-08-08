@@ -23,7 +23,10 @@
 import ItemStandaloneControl from '@/components/item/item-standalone-control.vue'
 
 export default {
-  props: ['item', 'context'],
+  props: {
+    item: Object,
+    context: Object
+  },
   components: {
     ItemStandaloneControl
   }

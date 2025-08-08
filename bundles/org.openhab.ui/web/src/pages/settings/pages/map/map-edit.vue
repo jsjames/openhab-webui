@@ -228,7 +228,10 @@ export default {
     PageSettings,
     ConfigSheet
   },
-  props: ['createMode', 'uid'],
+  props: {
+    createMode: Boolean,
+    uid: String
+  },
   setup() {
     return { theme }
   },
