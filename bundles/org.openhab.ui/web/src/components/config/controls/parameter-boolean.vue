@@ -13,7 +13,10 @@
 
 <script>
 export default {
-  props: ['configDescription', 'value'],
+  props: {
+    'configDescription': Object,
+    'value': Boolean
+  },
   emits: ['input'],
   computed: {
     actualValue() {

@@ -138,7 +138,7 @@ import ModelTreeview from '@/components/model/model-treeview.vue'
 import ModelMixin from '@/pages/settings/model/model-mixin'
 import { f7, theme } from 'framework7-vue'
 import { nextTick } from 'vue'
-import { mapState } from 'pinia'
+import { mapWritableState } from 'pinia'
 
 import { useRuntimeStore } from '@/js/stores/runtime'
 
@@ -184,10 +184,10 @@ export default {
         ].flat()
       }
     },
-    ...mapState(useRuntimeStore, {
-      includeItemName: 'sitemapIncludesItemNames',
-      includeItemTag: 'sitemapIncludesItemTags',
-      expanded: 'sitemapExpanded'
+    ...mapWritableState(useRuntimeStore, {
+      includeItemName: 'modelPickerIncludeItemName',
+      includeItemTags: 'modelPickerIncludeItemTags',
+      expanded: 'modelPickerExpanded'
     })
   },
   methods: {

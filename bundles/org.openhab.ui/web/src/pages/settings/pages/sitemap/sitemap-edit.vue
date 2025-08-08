@@ -556,7 +556,7 @@ export default {
       if (!this.selectedWidget) return
       return this.allowedWidgetTypes(this.selectedWidget)
     },
-    ...mapState(useRuntimeStore, { includesItemNames: 'sitemapIncludesItemNames' })
+    ...mapState(useRuntimeStore, { includeItemName: 'sitemapIncludeItemName' })
   },
   watch: {
     sitemap: {

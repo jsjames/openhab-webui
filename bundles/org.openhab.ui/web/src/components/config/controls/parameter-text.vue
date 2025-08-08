@@ -63,7 +63,10 @@ import { nextTick } from 'vue'
 import Dom7 from 'dom7'
 
 export default {
-  props: ['configDescription', 'value'],
+  props: {
+    'configDescription': Object,
+    'value': String
+  },
   emits: ['input'],
   setup() {
     return { theme }

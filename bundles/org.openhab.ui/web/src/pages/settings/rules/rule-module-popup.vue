@@ -80,8 +80,7 @@
             :current-module="ruleModule"
             :current-module-type="currentRuleModuleType"
             @type-select="setModuleType"
-            @show-advanced="advancedTypePicker = true"
-            :f7router="f7router" />
+            @show-advanced="advancedTypePicker = true" />
           <condition-module-wizard
             v-else-if="!advancedTypePicker && currentSection === 'conditions'"
             :current-module="ruleModule"
@@ -90,7 +89,7 @@
             @type-select="setModuleType"
             @show-advanced="advancedTypePicker = true"
             @start-script="startScripting"
-            :f7router="f7router" />
+            :f7router />
           <action-module-wizard
             v-else-if="!advancedTypePicker && currentSection === 'actions'"
             :current-module="ruleModule"
@@ -99,7 +98,7 @@
             @type-select="setModuleType"
             @show-advanced="advancedTypePicker = true"
             @start-script="startScripting"
-            :f7router="f7router" />
+            :f7router />
         </f7-col>
 
         <!-- module configuration -->

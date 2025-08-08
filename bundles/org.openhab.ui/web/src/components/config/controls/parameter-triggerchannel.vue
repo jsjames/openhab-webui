@@ -11,7 +11,10 @@
 import TriggerChannelPicker from './triggerchannel-picker.vue'
 
 export default {
-  props: ['configDescription', 'value'],
+  props: {
+    'configDescription': Object,
+    'value': String
+  },
   emits: ['input'],
   components: {
     TriggerChannelPicker

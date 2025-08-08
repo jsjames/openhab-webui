@@ -13,7 +13,10 @@ import { theme } from 'framework7-vue'
 import { defineAsyncComponent } from 'vue'
 
 export default {
-  props: ['configDescription', 'value'],
+  props: {
+    'configDescription': Object,
+    'value': String
+  },
   setup() {
     return { theme }
   },

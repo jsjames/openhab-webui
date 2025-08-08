@@ -4,6 +4,7 @@ import Framework7 from 'framework7/lite-bundle'
 
 export default {
   getIcon: (icon, format, state, iconSet) => {
+    console.log('getIcon: ', icon)
     if (!format) format = 'svg'
     let url = `/icon/${icon}?format=${format}&anyFormat=true`
     if (state) url += `&state=${encodeURIComponent(state)}`

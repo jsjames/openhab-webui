@@ -17,7 +17,7 @@ import { f7 } from 'framework7-vue'
 
 export default {
   props: {
-    configDescription: String,
+    configDescription: Object,
     configuration: Object,
     value: String,
     f7router: Object

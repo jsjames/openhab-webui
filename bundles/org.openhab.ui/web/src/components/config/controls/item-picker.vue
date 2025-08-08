@@ -71,7 +71,7 @@ export default {
   props: {
     title: String,
     name: String,
-    value: [String, Array],
+    'value': String,
     items: Array,
     multiple: Boolean,
     filterType: String,
@@ -85,8 +85,7 @@ export default {
     iosIcon: String,
     mdIcon: String,
     textColor: String,
-    hideIcon: Boolean,
-    f7router: Object
+    hideIcon: Boolean
   },
   emits: ['input', 'item-selected'],
   data() {
@@ -176,7 +175,7 @@ export default {
         component: ModelPickerPopup
       }
 
-      this.f7router.navigate(
+      f7.views.main.router.navigate(
         {
           url: 'pick-from-model',
           route: {

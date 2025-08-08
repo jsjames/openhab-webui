@@ -353,8 +353,7 @@ export default {
   mixins: [ModuleWizard],
   props: {
     'currentModule': Object,
-    'currentModuleType': Object,
-    f7router: Object
+    'currentModuleType': Object
   },
   components: {
     ItemPicker,

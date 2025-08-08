@@ -27,16 +27,16 @@ import { f7 } from 'framework7-vue'
 import { nextTick } from 'vue'
 
 export default {
-  props: [
-    'title',
-    'name',
-    'value',
-    'multiple',
-    'required',
-    'filterType',
-    'filterUid',
-    'openOnReady'
-  ],
+  props: {
+    'title' : String,
+    'name': String,
+    'value': String,
+    'multiple': Boolean,
+    'required': Boolean,
+    'filterType': Array,
+    'filterUid': Array,
+    'openOnReady': Boolean
+  },
   emits: ['input'],
   data() {
     return {

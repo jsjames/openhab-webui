@@ -39,9 +39,9 @@ export const useRuntimeStore = defineStore('runtime', () => {
   const docSrcUrl = ref<string | null>(null)
   const developerDock = ref<boolean>(false)
   const pagePath = ref<string | null>(null)
-  const sitemapIncludesItemNames = ref<boolean>(false)
+  const sitemapIncludeItemName = ref<boolean>(false)
   const modelPickerIncludeItemName = ref<boolean>(false)
-  const modelPickerIncludeItemTag = ref<boolean>(false)
+  const modelPickerIncludeItemTags = ref<boolean>(false)
   const modelPickerExpanded = ref<boolean>(false)
 
   function apiEndpoint(type: string): string | null {
@@ -80,9 +80,9 @@ export const useRuntimeStore = defineStore('runtime', () => {
     developerDock,
     pagePath,
     modelPickerIncludeItemName,
-    modelPickerIncludeItemTag,
+    modelPickerIncludeItemTags,
     modelPickerExpanded,
-    sitemapIncludesItemNames,
+    sitemapIncludeItemName,
 
     setDeveloperDock,
     loadRootResource

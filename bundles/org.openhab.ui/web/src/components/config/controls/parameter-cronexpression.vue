@@ -33,8 +33,8 @@ import { f7, theme } from 'framework7-vue'
 
 export default {
   props: {
-    configDescription: String,
-    value: Object,
+    configDescription: Object,
+    value: String,
     f7router: Object
   },
   emits: ['input'],

@@ -29,7 +29,10 @@
 import { theme } from 'framework7-vue'
 
 export default {
-  props: ['configDescription', 'value'],
+  props: {
+    'configDescription': Object,
+    'value': Number
+  },
   emits: ['input'],
   setup() {
     return { theme }

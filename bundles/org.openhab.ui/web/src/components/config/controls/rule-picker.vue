@@ -49,10 +49,16 @@
 </template>
 
 <script>
-import f7 from 'framework7-vue'
+import { f7 } from 'framework7-vue'
 
 export default {
-  props: ['title', 'name', 'value', 'multiple', 'required'],
+  props: {
+    'title': String,
+    'name': String,
+    'value': String,
+    'multiple': Boolean,
+    'required': Boolean
+  },
   emits: ['input'],
   data() {
     return {
