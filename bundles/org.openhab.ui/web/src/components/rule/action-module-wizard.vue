@@ -71,10 +71,10 @@
       <item-picker
         :value="currentModule.configuration.itemName"
         title="Item"
-        @input="val => $set(currentModule.configuration, 'itemName', val)"
+        @input="val => currentModule.configuration.itemName = val"
         @item-selected="
           value => {
-            $set(this, 'currentItem', value);
+            currentItem = value;
             updateItemEventType('command');
           }
         " />
@@ -86,14 +86,14 @@
         name="command"
         type="text"
         :value="currentModule.configuration.command"
-        @blur="evt => $set(currentModule.configuration, 'command', evt.target.value)" />
+        @blur="evt => currentModule.configuration.command = evt.target.value" />
       <f7-list-input
         v-else-if="itemEventType === 'update'"
         label="to state"
         name="state"
         type="text"
         :value="currentModule.configuration.state"
-        @blur="evt => $set(currentModule.configuration, 'state', evt.target.value)" />
+        @blur="evt => currentModule.configuration.state = evt.target.value" />
     </f7-list>
     <f7-list v-if="itemEventType === 'command' && commandSuggestions.length">
       <f7-list-item
@@ -102,10 +102,10 @@
         v-for="suggestion in commandSuggestions"
         :key="suggestion.command"
         :title="suggestion.label"
-        @click="$set(currentModule.configuration, 'command', suggestion.command)" />
+        @click="currentModule.configuration.command = suggestion.command" />
     </f7-list>
     <!-- <f7-block v-if="itemEventType === 'command' && currentItem && (currentItem.type === 'Dimmer' || currentItem.type === 'Rollershutter' || (currentItem.type === 'Number' && currentItem.stateDescription && currentItem.stateDescription.minimum !== undefined))">
-      <f7-range :value="currentModule.configuration.command" @range:changed="(val) => $set(currentModule.configuration, 'command', val)"
+      <f7-range :value="currentModule.configuration.command" @range:changed="(val) => currentModule.configuration.command = val"
         :min="(currentItem.stateDescription && currentItem.stateDescription.minimum) ? currentItem.stateDescription.minimum : 0"
         :max="(currentItem.stateDescription && currentItem.stateDescription.maximum) ? currentItem.stateDescription.maximum : 100"
         :step="(currentItem.stateDescription && currentItem.stateDescription.step) ? currentItem.stateDescription.step : 1"

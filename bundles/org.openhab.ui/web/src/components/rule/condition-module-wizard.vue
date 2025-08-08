@@ -57,7 +57,7 @@
       <item-picker
         :value="currentModule.configuration.itemName"
         title="Item"
-        @input="val => $set(currentModule.configuration, 'itemName', val)" />
+        @input="val => currentModule.configuration.itemName = val" />
     </f7-list>
     <f7-list>
       <f7-list-item
@@ -67,13 +67,13 @@
         :title="operator.label"
         name="itemStateOperator"
         :checked="currentModule.configuration.operator === operator.value ? true : null"
-        @click="$set(currentModule.configuration, 'operator', operator.value)" />
+        @click="currentModule.configuration.operator = operator.value" />
       <f7-list-input
         label="State"
         name="itemState"
         type="text"
         :value="currentModule.configuration.state"
-        @blur="evt => $set(currentModule.configuration, 'state', evt.target.value)" />
+        @blur="evt => currentModule.configuration.state = evt.target.value" />
     </f7-list>
     <f7-list v-if="stateSuggestions.length">
       <f7-list-item
@@ -82,7 +82,7 @@
         v-for="suggestion in stateSuggestions"
         :key="suggestion.value"
         :title="suggestion.label"
-        @click="$set(currentModule.configuration, 'state', suggestion.value)" />
+        @click="currentModule.configuration.state = suggestion.value" />
     </f7-list>
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'script'">

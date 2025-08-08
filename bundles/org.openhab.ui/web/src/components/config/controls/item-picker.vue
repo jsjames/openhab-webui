@@ -71,7 +71,7 @@ export default {
   props: {
     title: String,
     name: String,
-    'value': String,
+    value: [String, Array],
     items: Array,
     multiple: Boolean,
     filterType: String,

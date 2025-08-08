@@ -82,7 +82,7 @@
               <f7-list-button
                 v-if="!expandedTypes.sessions && sessions.length > 10"
                 color="blue"
-                @click="$set(expandedTypes, 'sessions', true)">
+                @click="expandedTypes.sessions = true">
                 {{ $t('dialogs.showAll') }}
               </f7-list-button>
               <f7-list-button color="red" @click="logout()">
