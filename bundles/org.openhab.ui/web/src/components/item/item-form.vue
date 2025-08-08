@@ -179,7 +179,7 @@
           </div>
         </template>
       </f7-list-item>
-      <div>
+      <f7-list-group>
         <item-picker
           v-if="editable"
           title="Select"
@@ -189,7 +189,7 @@
           :multiple="true"
           filterType="Group"
           :set-value-text="false" />
-      </div>
+      </f7-list-group>
     </f7-list>
   </div>
 </template>

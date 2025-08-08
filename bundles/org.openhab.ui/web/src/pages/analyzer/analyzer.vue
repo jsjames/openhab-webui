@@ -72,13 +72,15 @@
               <div class="card data-table">
                 <div class="card-header no-padding" style="min-height: auto">
                   <f7-list style="width: 100%">
-                    <item-picker
-                      :key="itemsPickerKey"
-                      title="Items"
-                      name="items-to-analyze"
-                      :value="itemNames"
-                      @input="updateItems"
-                      :multiple="true" />
+                    <f7-list-group>
+                      <item-picker
+                        :key="itemsPickerKey"
+                        title="Items"
+                        name="items-to-analyze"
+                        :value="itemNames"
+                        @input="updateItems"
+                        :multiple="true" />
+                    </f7-list-group>
                   </f7-list>
                   <!-- <div class="data-table-title">Options</div> -->
                 </div>

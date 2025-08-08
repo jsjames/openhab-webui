@@ -100,13 +100,13 @@
             <span>{{ $t('about.miscellaneous.webaudio.enable') }}</span>
             <f7-toggle v-model:checked="webAudio" />
           </f7-list-item>
-          <div>
+          <f7-list-group>
             <item-picker
               :title="$t('about.miscellaneous.commandItem.title')"
               :multiple="false"
               :value="commandItem"
               @input="setCommandItem" />
-          </div>
+          </f7-list-group>
         </f7-list>
       </f7-col>
     </f7-row>

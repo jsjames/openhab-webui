@@ -31,49 +31,57 @@
             </f7-list-item>
           </f7-list>
           <f7-list>
-            <item-picker
-              key="groups"
-              title="Select groups"
-              name="groupItems"
-              multiple="true"
-              filterType="Group"
-              :disabled="allItemsSelected ? true : null"
-              :value="groupItems"
-              @input="groupItems = $event" />
+            <f7-list-group>
+              <item-picker
+                key="groups"
+                title="Select groups"
+                name="groupItems"
+                multiple="true"
+                filterType="Group"
+                :disabled="allItemsSelected ? true : null"
+                :value="groupItems"
+                @input="groupItems = $event" />
+            </f7-list-group>
             <f7-list-item>... whose members are to be persisted.</f7-list-item>
           </f7-list>
           <f7-list>
-            <item-picker
-              key="items"
-              title="Select Items"
-              name="items"
-              multiple="true"
-              :disabled="allItemsSelected ? true : null"
-              :value="items"
-              @input="items = $event" />
+            <f7-list-group>
+              <item-picker
+                key="items"
+                title="Select Items"
+                name="items"
+                multiple="true"
+                :disabled="allItemsSelected ? true : null"
+                :value="items"
+                @input="items = $event" />
+            </f7-list-group>
             <f7-list-item>... to be persisted.</f7-list-item>
           </f7-list>
           <f7-list>
-            <item-picker
-              key="exclude-groups"
-              title="Select exclude groups"
-              name="excludeGroupItems"
-              multiple="true"
-              filterType="Group"
-              :disabled="!anySelected ? true : null"
-              :value="excludeGroupItems"
-              @input="excludeGroupItems = $event" />
+            <f7-list-group>
+              <item-picker
+                key="exclude-groups"
+                title="Select exclude groups"
+                name="excludeGroupItems"
+                multiple="true"
+                filterType="Group"
+                :disabled="!anySelected ? true : null"
+                :value="excludeGroupItems"
+                @input="excludeGroupItems = $event" />
+            </f7-list-group>
             <f7-list-item>... whose members are to be excluded from persistence.</f7-list-item>
           </f7-list>
           <f7-list>
-            <item-picker
-              key="exclude-items"
-              title="Select exclude Items"
-              name="excludeItems"
-              multiple="true"
-              :disabled="!anySelected ? true : null"
-              :value="excludeItems"
-              @input="excludeItems = $event" />
+            <f7-list-group>
+              <item-picker
+                key="exclude-items"
+                title="Select exclude Items"
+                name="excludeItems"
+                multiple="true"
+                :disabled="!anySelected ? true : null"
+                :value="excludeItems"
+                @input="excludeItems = $event" />
+            </f7-list-group>
             <f7-list-item>... to be excluded from persistence.</f7-list-item>
           </f7-list>
         </f7-col>

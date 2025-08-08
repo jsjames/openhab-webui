@@ -54,17 +54,19 @@
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'item'">
     <f7-list>
-      <item-picker
-        :required="true"
-        :value="currentItem.name"
-        title="Item"
-        @input="val => $set(currentModule.configuration, 'itemName', val)"
-        @item-selected="
-          value => {
-            currentItem = value;
-            updateItemEventType('command');
-          }
-        " />
+      <f7-list-group>
+        <item-picker
+          :required="true"
+          :value="currentItem.name"
+          title="Item"
+          @input="val => $set(currentModule.configuration, 'itemName', val)"
+          @item-selected="
+            value => {
+              currentItem = value;
+              updateItemEventType('command');
+            }
+          " />
+      </f7-list-group>
     </f7-list>
     <f7-list>
       <f7-list-item
@@ -166,12 +168,14 @@
   </f7-block>
   <f7-block class="no-margin no-padding" v-else-if="category === 'thing'">
     <f7-list>
-      <thing-picker
-        ref="thingPicker"
-        :value="currentModule.configuration.thingUID"
-        title="Thing"
-        @input="val => $set(currentModule.configuration, 'thingUID', val)"
-        :open-on-ready="true" />
+      <f7-list-group>
+        <thing-picker
+          ref="thingPicker"
+          :value="currentModule.configuration.thingUID"
+          title="Thing"
+          @input="val => $set(currentModule.configuration, 'thingUID', val)"
+          :open-on-ready="true" />
+      </f7-list-group>
     </f7-list>
     <f7-list />
     <f7-list>
@@ -263,12 +267,14 @@
       </f7-list-item>
     </f7-list>
     <f7-list>
-      <trigger-channel-picker
-        v-if="thingEventType === 'triggerChannelFired'"
-        :value="currentModule.configuration.channelUID"
-        title="Channel"
-        @input="val => $set(currentModule.configuration, 'channelUID', val)"
-        :filter-thing="currentModule.configuration.thingUID" />
+      <f7-list-group>
+        <trigger-channel-picker
+          v-if="thingEventType === 'triggerChannelFired'"
+          :value="currentModule.configuration.channelUID"
+          title="Channel"
+          @input="val => $set(currentModule.configuration, 'channelUID', val)"
+          :filter-thing="currentModule.configuration.thingUID" />
+      </f7-list-group>
     </f7-list>
     <f7-list>
       <f7-list-input

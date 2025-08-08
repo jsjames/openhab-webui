@@ -68,16 +68,18 @@
         @click="updateItemEventType('update')" />
     </f7-list>
     <f7-list>
-      <item-picker
-        :value="currentModule.configuration.itemName"
-        title="Item"
-        @input="val => $set(currentModule.configuration, 'itemName', val)"
-        @item-selected="
-          value => {
-            $set(this, 'currentItem', value);
-            updateItemEventType('command');
-          }
-        " />
+      <f7-list-group>
+        <item-picker
+          :value="currentModule.configuration.itemName"
+          title="Item"
+          @input="val => $set(currentModule.configuration, 'itemName', val)"
+          @item-selected="
+            value => {
+              $set(this, 'currentItem', value);
+              updateItemEventType('command');
+            }
+          " />
+      </f7-list-group>
     </f7-list>
     <f7-list>
       <f7-list-input

@@ -41,11 +41,13 @@
             Configuration
           </f7-block-title>
           <f7-list>
-            <parameter-cronexpression
-              ref="cronExpression"
-              :configDescription="cronExpressionConfigDescription"
-              :value="currentCronStrategy.cronExpression"
-              @input="currentCronStrategy.cronExpression = $event" />
+            <f7-list-group>
+              <parameter-cronexpression
+                ref="cronExpression"
+                :configDescription="cronExpressionConfigDescription"
+                :value="currentCronStrategy.cronExpression"
+                @input="currentCronStrategy.cronExpression = $event" />
+            </f7-list-group>
           </f7-list>
         </f7-col>
       </f7-block>

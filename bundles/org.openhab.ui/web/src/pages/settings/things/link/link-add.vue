@@ -50,15 +50,17 @@
         <!-- Choose item to link -->
         <f7-col v-if="!createMode">
           <f7-list>
-            <item-picker
-              key="itemLink"
-              title="Item to Link"
-              name="item"
-              :value="selectedItemName"
-              :multiple="false"
-              :items="items"
-              :filterType="getCompatibleItemTypes()"
-              @input="value => (selectedItemName = value)" />
+            <f7-list-group>
+              <item-picker
+                key="itemLink"
+                title="Item to Link"
+                name="item"
+                :value="selectedItemName"
+                :multiple="false"
+                :items="items"
+                :filterType="getCompatibleItemTypes()"
+                @input="value => (selectedItemName = value)" />
+            </f7-list-group>
           </f7-list>
         </f7-col>
 
@@ -84,11 +86,13 @@
         </f7-list>
         <f7-block-title>Thing</f7-block-title>
         <f7-list inline-labels no-hairlines-md>
-          <thing-picker
-            title="Thing"
-            name="thing"
-            :value="selectedThingId"
-            @input="e => (selectedThingId = e)" />
+          <f7-list-group>
+            <thing-picker
+              title="Thing"
+              name="thing"
+              :value="selectedThingId"
+              @input="e => (selectedThingId = e)" />
+          </f7-list-group>
         </f7-list>
         <div v-if="selectedThing.UID && selectedThingType.UID">
           <f7-block-title>Channel</f7-block-title>

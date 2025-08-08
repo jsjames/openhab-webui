@@ -112,14 +112,16 @@
           {{ $t('setupwizard.location.header1') }}<br>{{ $t('setupwizard.location.header2') }}
         </f7-block>
         <f7-list>
-          <parameter-location
-            :value="location"
-            :config-description="{
-              label: $t('setupwizard.location.parameterLabel'),
-              name: 'Location',
-            }"
-            @input="value => (location = value)"
-            :placeholder="$t('setupwizard.location.placeholder')" />
+          <f7-list-group>
+            <parameter-location
+              :value="location"
+              :config-description="{
+                label: $t('setupwizard.location.parameterLabel'),
+                name: 'Location',
+              }"
+              @input="value => (location = value)"
+              :placeholder="$t('setupwizard.location.placeholder')" />
+          </f7-list-group>
         </f7-list>
         <f7-block class="padding">
           <f7-row>
@@ -176,12 +178,14 @@
           {{ $t('setupwizard.network.header2') }}
         </f7-block>
         <f7-list>
-          <parameter-options
-            class="network"
-            v-if="networksReady"
-            :config-description="networkConfigDescription"
-            :value="network"
-            @input="value => changeNetwork(value)" />
+          <f7-list-group>
+            <parameter-options
+              class="network"
+              v-if="networksReady"
+              :config-description="networkConfigDescription"
+              :value="network"
+              @input="value => changeNetwork(value)" />
+          </f7-list-group>
         </f7-list>
         <f7-block class="display-flex flex-direction-column padding">
           <div>

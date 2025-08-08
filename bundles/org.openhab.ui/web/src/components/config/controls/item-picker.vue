@@ -1,5 +1,5 @@
 <template>
-  <ul class="item-picker-container">
+  <div class="item-picker-container">
     <f7-list-item
       :title="title"
       :disabled="disabled ? true : null"
@@ -49,7 +49,7 @@
         <f7-icon v-else :color="color" :aurora="aurora" :ios="ios" :md="md" />
       </template>
     </f7-list-item>
-  </ul>
+  </div>
 </template>
 
 <style lang="stylus">
@@ -74,7 +74,7 @@ export default {
     value: [String, Array],
     items: Array,
     multiple: Boolean,
-    filterType: String,
+    filterType: [String, Array],
     required: Boolean,
     editableOnly: Boolean,
     disabled: Boolean,
