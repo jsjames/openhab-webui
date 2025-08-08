@@ -59,11 +59,13 @@
           placed under the parent group above, if any.
         </f7-block-footer>
         <f7-list inline-labels no-hairlines-md v-if="!thingId">
-          <thing-picker
-            title="Thing"
-            name="thing"
-            :value="selectedThingId"
-            @input="e => (selectedThingId = e)" />
+          <f7-list-group>
+            <thing-picker
+              title="Thing"
+              name="thing"
+              :value="selectedThingId"
+              @input="e => (selectedThingId = e)" />
+          </f7-list-group>
         </f7-list>
         <f7-block v-if="!ready" class="text-align-center">
           <f7-preloader />
@@ -71,16 +73,18 @@
         </f7-block>
         <div v-else-if="selectedThing.UID && selectedThingType.UID">
           <f7-list v-if="createEquipment" media-list class="equipment-group-picker">
-            <item-picker
-              :title="selectedGroup ? 'Change Selected Group' : 'Pick Existing Group'"
-              textColor="blue"
-              :hideIcon="true"
-              :items="selectableGroups"
-              :multiple="false"
-              :noModelPicker="true"
-              :setValueText="false"
-              :value="selectedGroup?.name"
-              @input="selectExistingGroup($event)" />
+            <f7-list-group>
+              <item-picker
+                :title="selectedGroup ? 'Change Selected Group' : 'Pick Existing Group'"
+                textColor="blue"
+                :hideIcon="true"
+                :items="selectableGroups"
+                :multiple="false"
+                :noModelPicker="true"
+                :setValueText="false"
+                :value="selectedGroup?.name"
+                @input="selectExistingGroup($event)" />
+            </f7-list-group>
           </f7-list>
           <item-form
             v-if="createEquipment"

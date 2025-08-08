@@ -71,13 +71,14 @@
               v-if="ready && thingType.supportedBridgeTypeUIDs.length"
               inline-labels
               no-hairlines-md>
-              <thing-picker
-                v-if="editable"
-                title="Bridge"
-                name="bridge"
-                :value="thing.bridgeUID"
-                @input="updateBridge"
-                :filterType="thingType.supportedBridgeTypeUIDs" />
+              <f7-list-group v-if="editable">
+                <thing-picker
+                  title="Bridge"
+                  name="bridge"
+                  :value="thing.bridgeUID"
+                  @input="updateBridge"
+                  :filterType="thingType.supportedBridgeTypeUIDs" />
+              </f7-list-group>
               <f7-list-item v-else title="Bridge" :after="thing.bridgeUID" />
             </f7-list>
           </f7-col>

@@ -191,7 +191,7 @@
                             md="material:control_point" />
                   </template>
                 </f7-list-item> -->
-                <div>
+                <f7-list-group>
                   <item-picker
                     title="Select Items"
                     name="newItem"
@@ -201,7 +201,7 @@
                     :no-after="true"
                     class="scene-items-picker" />
                 <!-- <f7-list-button :color="(showModuleControls) ? 'gray' : 'blue'" :title="sectionLabels[section][1]"></f7-list-button> -->
-                </div>
+                </f7-list-group>
               </f7-list>
             </div>
           </f7-col>

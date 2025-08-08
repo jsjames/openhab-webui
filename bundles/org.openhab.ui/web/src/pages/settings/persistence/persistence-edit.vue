@@ -315,19 +315,21 @@
                 </f7-list-item>
               </f7-list>
               <f7-list v-if="editable">
-                <item-picker
-                  class="alias-item-picker"
-                  title="Add alias"
-                  name="items"
-                  multiple="true"
-                  noModelPicker="true"
-                  :setValueText="false"
-                  iconColor="green"
-                  auroraIcon="f7:plus_circle_fill"
-                  iosIcon="f7:plus_circle_fill"
-                  mdIcon="material:control_point"
-                  :value="currentItemsWithAlias"
-                  @input="updateAliasItems($event)" />
+                <f7-list-group>
+                  <item-picker
+                    class="alias-item-picker"
+                    title="Add alias"
+                    name="items"
+                    multiple="true"
+                    noModelPicker="true"
+                    :setValueText="false"
+                    iconColor="green"
+                    auroraIcon="f7:plus_circle_fill"
+                    iosIcon="f7:plus_circle_fill"
+                    mdIcon="material:control_point"
+                    :value="currentItemsWithAlias"
+                    @input="updateAliasItems($event)" />
+                </f7-list-group>
               </f7-list>
             </div>
           </f7-col>

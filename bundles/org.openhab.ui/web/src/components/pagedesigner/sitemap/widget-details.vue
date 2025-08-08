@@ -21,11 +21,12 @@
           :value="widget.config.label"
           @input="updateParameter('label', $event)"
           clear-button />
-        <item-picker
-          v-if="widget.component !== 'Sitemap' && widget.component !== 'Frame'"
-          title="Item"
-          :value="widget.config.item"
-          @input="value => (widget.config.item = value)" />
+        <ul v-if="widget.component !== 'Sitemap' && widget.component !== 'Frame'">
+          <item-picker
+            title="Item"
+            :value="widget.config.item"
+            @input="value => (widget.config.item = value)" />
+        </ul>
         <ul v-if="widget.component !== 'Sitemap'">
           <f7-list-input
             ref="icon"
