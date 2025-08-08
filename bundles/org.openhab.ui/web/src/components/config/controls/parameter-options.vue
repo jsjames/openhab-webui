@@ -66,7 +66,10 @@
 import { f7, theme } from 'framework7-vue'
 
 export default {
-  props: ['configDescription', 'value'],
+  props: {
+    'configDescription': Object,
+    'value': String
+  },
   emits: ['input'],
   data() {
     return {

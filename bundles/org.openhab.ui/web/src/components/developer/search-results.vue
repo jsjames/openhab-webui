@@ -62,7 +62,7 @@
         <f7-list-button
           v-if="!showingAll('items')"
           color="blue"
-          @click="$set(expandedTypes, 'items', true)">
+          @click="expandedTypes.items = true">
           Show All
         </f7-list-button>
       </f7-list>
@@ -112,7 +112,7 @@
         <f7-list-button
           v-if="!showingAll('things')"
           color="blue"
-          @click="$set(expandedTypes, 'things', true)">
+          @click="expandedTypes.things = true">
           Show All
         </f7-list-button>
       </f7-list>
@@ -167,7 +167,7 @@
         <f7-list-button
           v-if="!showingAll('rules')"
           color="blue"
-          @click="$set(expandedTypes, 'rules', true)">
+          @click="expandedTypes.rules = true">
           Show All
         </f7-list-button>
       </f7-list>
@@ -222,7 +222,7 @@
         <f7-list-button
           v-if="!showingAll('rules')"
           color="blue"
-          @click="$set(expandedTypes, 'rules', true)">
+          @click="expandedTypes.rules = true">
           Show All
         </f7-list-button>
       </f7-list>
@@ -278,7 +278,7 @@
         <f7-list-button
           v-if="!showingAll('rules')"
           color="blue"
-          @click="$set(expandedTypes, 'rules', true)">
+          @click="expandedTypes.rules = true">
           Show All
         </f7-list-button>
       </f7-list>
@@ -328,7 +328,7 @@
         <f7-list-button
           v-if="!showingAll('pages')"
           color="blue"
-          @click="$set(expandedTypes, 'pages', true)">
+          @click="expandedTypes.pages = true">
           Show All
         </f7-list-button>
       </f7-list>
@@ -378,7 +378,7 @@
         <f7-list-button
           v-if="!showingAll('widgets')"
           color="blue"
-          @click="$set(expandedTypes, 'widgets', true)">
+          @click="expandedTypes.widgets = true">
           Show All
         </f7-list-button>
       </f7-list>
@@ -429,7 +429,7 @@
         <f7-list-button
           v-if="!showingAll('transformations')"
           color="blue"
-          @click="$set(expandedTypes, 'transformations', true)">
+          @click="expandedTypes.transformations = true">
           Show All
         </f7-list-button>
       </f7-list>
@@ -480,7 +480,7 @@
         <f7-list-button
           v-if="!showingAll('persistenceConfigs')"
           color="blue"
-          @click="$set(expandedTypes, 'persistenceConfigs', true)">
+          @click="expandedTypes.persistenceConfigs = true">
           Show All
         </f7-list-button>
       </f7-list>

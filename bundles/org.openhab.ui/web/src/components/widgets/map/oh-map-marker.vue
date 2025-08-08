@@ -49,7 +49,6 @@ export default {
     icon() {
       if (this.config.icon && this.config.icon.indexOf('oh:') === 0) {
         return this.$oh.media.getIcon(this.config.icon.substring(3)).then(icon => {
-          // debugger
           this.markerKey = utils.id()
           this.$emit('update')
           return icon

@@ -43,7 +43,10 @@ import ItemPicker from '@/components/config/controls/item-picker.vue'
 import { f7 } from 'framework7-vue'
 
 export default {
-  props: ['groupItem', 'context'],
+  props: {
+    'groupItem': Object,
+    'context': Object
+  },
   components: {
     Item,
     ItemPicker

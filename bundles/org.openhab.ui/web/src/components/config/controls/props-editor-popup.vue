@@ -42,7 +42,10 @@ export default {
       () => import(/* webpackChunkName: "config-sheet" */ '@/components/config/config-sheet.vue')
     )
   },
-  props: ['props', 'config'],
+  props: {
+    'props': Object,
+    'config': Object
+  },
   methods: {
     propsSheetClosed() {
       f7.emit('props-editor-closed')

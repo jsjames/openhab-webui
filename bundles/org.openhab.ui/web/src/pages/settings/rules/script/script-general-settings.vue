@@ -16,7 +16,7 @@
               type="text"
               :value="moduleTitle"
               :placeholder="sugModuleTitle"
-              @input="$set(module, 'label', $event.target.value)"
+              @input="module.label = $event.target.value"
               :disabled="!editable ? true : null"
               :clear-button="editable" />
             <f7-list-input
@@ -24,7 +24,7 @@
               type="text"
               :value="moduleDescription"
               :placeholder="sugModuleDescription"
-              @input="$set(module, 'description', $event.target.value)"
+              @input="module.description = $event.target.value"
               :disabled="!editable ? true : null"
               :clear-button="editable" />
           </template>

@@ -89,7 +89,8 @@ export default {
     configuration: Object,
     status: Array,
     readOnly: Boolean,
-    setEmptyConfigAsNull: Boolean
+    setEmptyConfigAsNull: Boolean,
+    f7router: Object
   },
   emits: ['updated'],
   components: {

@@ -47,7 +47,7 @@
       <MasonryGridItem
         v-for="(slotComponent, idx) in context.component.slots.default"
         :key="idx"
-        class="oh-cell-container masonry-grid-item">
+        class="oh-cell-container">
         <f7-menu v-if="context.editmode" class="configure-layout-menu margin-bottom">
           <f7-menu-item
             style="margin-left: auto"

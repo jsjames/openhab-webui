@@ -74,7 +74,7 @@
                   :channel="channel"
                   :extensible="extensible"
                   :context="context"
-                  :f7router="f7router"
+                  :f7router
                   @channel-updated="e => $emit('channels-updated', e)" />
               </template>
               <template #default="{ channelType, channel }" v-else-if="multipleLinksMode">

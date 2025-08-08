@@ -201,7 +201,7 @@
                         <td v-if="coordSystem === 'time'" class="label-cell">
                           <f7-checkbox
                             v-if="options.discrete"
-                            @change="evt => $set(options, 'silent', evt.target.checked)" />
+                            @change="evt => options.silent = evt.target.checked" />
                           <span v-else>{{ $t('analyzer.series.table.na') }}</span>
                         </td>
                       </tr>
@@ -432,7 +432,7 @@
                         <td class="label-cell">
                           <f7-checkbox
                             :checked="axis.scale ? true : null"
-                            @change="evt => $set(axis, 'scale', evt.target.checked)" />
+                            @change="evt => axis.scale = evt.target.checked" />
                         </td>
                         <td class="label-cell">
                           <f7-link @click="chooseAxisSplit(axis)">

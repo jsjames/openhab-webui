@@ -11,7 +11,10 @@
 import ItemPicker from './item-picker.vue'
 
 export default {
-  props: ['configDescription', 'value'],
+  props: {
+    'configDescription': Object,
+    'value': String
+  },
   components: {
     ItemPicker
   },

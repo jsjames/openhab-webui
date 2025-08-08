@@ -55,7 +55,11 @@ import { f7 } from 'framework7-vue'
 
 export default {
   mixins: [DirtyMixin, MovablePopupMixin],
-  props: ['opened', 'component', 'widget'],
+  props: {
+    'opened': Boolean,
+    'component': Object,
+    'widget': Object
+  },
   components: {
     ConfigSheet
   },

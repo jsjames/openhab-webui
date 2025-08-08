@@ -24,7 +24,7 @@
 </style>
 
 <script>
-import f7 from 'framework7-vue'
+import { f7 } from 'framework7-vue'
 import { defineAsyncComponent } from 'vue'
 
 export default {
@@ -33,7 +33,14 @@ export default {
       () => import(/* webpackChunkName: "script-editor" */ './script-editor.vue')
     )
   },
-  props: ['title', 'value', 'mode', 'opened', 'fullscreen', 'popupId'],
+  props: {
+    'title': String,
+    'value': String,
+    'mode': String,
+    'opened': Boolean,
+    'fullscreen': Boolean,
+    'popupId': String
+  },
   data() {
     return {
       code: this.value,

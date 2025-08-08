@@ -110,8 +110,7 @@
       ">
       <MasonryGridItem
         v-for="(slotComponent, idx) in context.component.slots.default"
-        :key="idx"
-        class="masonry-grid-item">
+        :key="idx">
         <f7-menu v-if="context.editmode" class="configure-layout-menu">
           <f7-menu-item
             style="margin-left: auto"

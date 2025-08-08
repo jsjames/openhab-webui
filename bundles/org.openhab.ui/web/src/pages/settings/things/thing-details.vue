@@ -286,7 +286,7 @@
             :channelTypes="channelTypes"
             @channels-updated="onChannelsUpdated"
             :context="context"
-            :f7router="f7router" />
+            :f7router />
           <f7-col v-if="isExtensible || thing.channels.length > 0">
             <f7-list>
               <f7-list-button

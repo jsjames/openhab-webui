@@ -47,7 +47,6 @@
     </template>
     <template #content-start>
       <f7-radio
-
         name="semantic-tag-radio"
         v-if="picker"
         :checked="selected"
@@ -56,7 +55,6 @@
     <template #content-end>
       <f7-badge
         v-if="tag.description"
-
         class="semantic-tag-tooltip-badge"
         :tooltip="tooltip">
         <f7-icon

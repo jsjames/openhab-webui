@@ -556,17 +556,14 @@ export default {
     },
     toggleItemName() {
       this.includeItemName = !this.includeItemName
-      includeItemName = this.includeItemName
       this.load()
     },
     toggleItemTags() {
       this.includeItemTags = !this.includeItemTags
-      modelStore.includeItemTags = this.includeItemTags
       this.load()
     },
     toggleExpanded() {
       this.expanded = !this.expanded
-      modelStore.expanded = this.expanded
       this.applyExpandedOption()
     },
     addSemanticItem(semanticType) {

@@ -62,7 +62,7 @@
           id="page-settings"
           class="block-narrow"
           v-if="ready && createMode && !(previewMode || fullscreen)">
-          <page-settings :page="page" :createMode="createMode" />
+          <page-settings :page="page" :createMode="createMode" :f7router />
           <f7-col>
             <f7-block-footer class="padding-horizontal margin-bottom">
               Note: After saving this page, you can view the page settings by clicking the chevron
@@ -153,12 +153,14 @@
               <div class="right">
                 <f7-link sheet-close class="padding-right">
                   <f7-icon f7="chevron_down" />
+                  <f7-block
+                    class="
+           block-narrow">
+                    <page-settings :page="page" :createMode="createMode" />
+                  </f7-block>
                 </f7-link>
               </div>
             </f7-toolbar>
-            <f7-block class="block-narrow">
-              <page-settings :page="page" :createMode="createMode" />
-            </f7-block>
           </f7-page>
         </f7-sheet>
       </f7-tab>
@@ -223,7 +225,7 @@
 <script>
 import YAML from 'yaml'
 import { utils } from 'framework7'
-import { f7, theme } from 'framework7-vue'
+import { f7, f7ready, theme } from 'framework7-vue'
 import { nextTick, defineAsyncComponent } from 'vue'
 
 import PageDesigner from '../pagedesigner-mixin'
@@ -336,7 +338,8 @@ export default {
             {
               props: {
                 multiple: this.modelPickerAllowMultiple,
-                popupTitle: 'Add from Model'
+                popupTitle: 'Add from Model',
+                f7router: this.f7router
               }
             }
           )

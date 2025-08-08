@@ -40,7 +40,10 @@ import { defineAsyncComponent, nextTick } from 'vue'
 import { f7 } from 'framework7-vue'
 
 export default {
-  props: ['value', 'title'],
+  props: {
+    'value': [String, Number, Boolean, Array, Object],
+    'title': String
+  },
   components: {
     'location-picker': defineAsyncComponent(
       () => import(/* webpackChunkName: "location-picker" */ './location-picker.vue')

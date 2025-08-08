@@ -211,6 +211,7 @@ import { useRuntimeStore } from '@/js/stores/runtime'
 
 import { mapStores, mapWritableState } from 'pinia'
 import { useThemeOptionsStore } from '@/js/stores/theme-options'
+import { f7 } from 'framework7-vue'
 
 export default {
   components: {

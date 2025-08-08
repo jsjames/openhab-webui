@@ -6,7 +6,8 @@ export function findChildNodesWithClassName(nodes: any[], className: string): VN
 
   nodes.forEach((node) => {
     // check if the current node has the class 'item'
-    const hasItemClass = node.props?.class?.includes(className);
+    // const hasItemClass = node.props?.class?.includes(className);
+    const hasItemClass = node.type?.__name == className;
     if (hasItemClass) {
       result.push(node);
     }

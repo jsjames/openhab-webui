@@ -52,7 +52,16 @@ export default {
   components: {
     'iconify-icon': Icon
   },
-  props: ['icon', 'width', 'height', 'color', 'state', 'rotate', 'horizontalFlip', 'verticalFlip'],
+  props: {
+    'icon': String,
+    'width': [String, Number],
+    'height': [String, Number],
+    'color': String,
+    'state': [String, Number],
+    'rotate': [String, Number],
+    'horizontalFlip': Boolean,
+    'verticalFlip': Boolean
+  },
   widget: OhIconDefinition,
   data() {
     return {

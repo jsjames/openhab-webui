@@ -43,7 +43,10 @@ import { useComponentsStore } from '@/js/stores/components'
 import { mapStores } from 'pinia'
 
 export default {
-  props: ['configDescription', 'value'],
+  props: {
+    'configDescription': Object,
+    'value': String
+  },
   emits: ['input'],
   data() {
     return {
