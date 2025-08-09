@@ -59,6 +59,7 @@ import { ruby } from '@codemirror/legacy-modes/mode/ruby'
 // import { shell } from '@codemirror/legacy-modes/mode/shell';
 import { xml } from '@codemirror/lang-xml'
 import { yaml } from '@codemirror/lang-yaml'
+import { css } from '@codemirror/lang-css'
 
 import { gruvboxDark } from '@uiw/codemirror-theme-gruvbox-dark'
 

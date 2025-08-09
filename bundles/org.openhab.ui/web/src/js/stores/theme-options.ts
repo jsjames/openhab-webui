@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
-// @ts-ignore   TODO-V3
+// @ts-expect-error   TODO-V3
 import { Dom7 } from 'framework7/lite-bundle'
 import { f7 } from 'framework7-vue'
 

@@ -55,6 +55,7 @@ export default {
     contentClass: [String, Array],
     header: Object,
     content: Object,
+    // eslint-disable-next-line vue/prop-name-casing
     'content-root': Object,
     footer: Object
   },

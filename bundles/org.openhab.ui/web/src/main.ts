@@ -11,13 +11,12 @@ import GenericWidgetComponent from './components/widgets/generic-widget-componen
 import DeveloperDockIcon from './components/developer/developer-dock-icon.vue'
 
 // Import Framework7
-// @ts-ignore   TODO-V3
+// @ts-expect-error   TODO-V3
 import Framework7 from 'framework7/lite-bundle'
-// @ts-ignore   TODO-V3
+// @ts-expect-error   TODO-V3
 import Framework7Vue, { registerComponents } from 'framework7-vue/bundle'
-// @ts-ignore   TODO-V3
+// @ts-expect-error   TODO-V3
 import { getDevice } from 'framework7'
-// @ts-ignore   TODO-V3
 import 'framework7/css/bundle'
 
 // Import Icons and App Custom Styles
@@ -72,8 +71,6 @@ app.use(VueClipboard, {
   autoSetContainer: true, // add this line to enable auto setting container
   appendToBody: true // add this line to append the popup to body
 })
-
-store.$oh = openhab
 
 // Register global components
 app.component('OhIcon', OHIconComponent)

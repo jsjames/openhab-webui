@@ -11,7 +11,7 @@ declare namespace _default {
      * @param {number} [heartbeatInterval=5] heartbeat interval in seconds
      * @return {WebSocket}
      */
-    function connect(path: string, messageCallback: fn, heartbeatCallback: fn, readyCallback?: fn, errorCallback?: fn, heartbeatInterval?: number): WebSocket;
+    function connect(path: string, messageCallback: (event: object) => void, heartbeatCallback: () => void, readyCallback?: (event: object) => void, errorCallback?: (event: object) => void, heartbeatInterval?: number): WebSocket;
     /**
      * Connect to the event WebSocket, which provides direct access to the EventBus.
      * This convenience method takes care of the keepalive mechanism as well as filter setup.
@@ -22,13 +22,13 @@ declare namespace _default {
      * @param {fn} [errorCallback] error callback
      * @return {WebSocket}
      */
-    function events(topics: string[], messageCallback: fn, readyCallback?: fn, errorCallback?: fn): WebSocket;
+    function events(topics: string[], messageCallback: (event: object) => void, readyCallback?: (event: object) => void, errorCallback?: (event: object) => void): WebSocket;
     /**
      * Close the given WebSocket connection.
      *
      * @param {WebSocket} socket
      * @param {fn} [callback=null] callback to execute on connection close
      */
-    function close(socket: WebSocket, callback?: fn): void;
+    function close(socket: WebSocket, callback?: (event: object) => void): void;
 }
 export default _default;

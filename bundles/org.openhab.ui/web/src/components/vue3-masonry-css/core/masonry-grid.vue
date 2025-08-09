@@ -3,7 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h, nextTick, onBeforeUnmount, onMounted, ref, type VNode } from 'vue';
+import { computed, h, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
+import { type VNode } from 'vue';
 import { type MasonryProps } from '../types/props';
 import { breakpointValue } from '../util/breakpoint-value';
 import { findChildNodesWithClassName } from '../util/find-child-nodes';

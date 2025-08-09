@@ -1,11 +1,12 @@
 import { defineConfig, globalIgnores } from 'eslint/config'
-import vue from 'eslint-plugin-vue'
 import globals from 'globals'
 import js from '@eslint/js'
-import ts from 'typescript-eslint'
-import eslintPluginJsonc from 'eslint-plugin-jsonc'
-import vueI18n from '@intlify/eslint-plugin-vue-i18n'
-import importPlugin from 'eslint-plugin-import'
+import parserTS from '@typescript-eslint/parser'
+import pluginTS from '@typescript-eslint/eslint-plugin'
+import pluginJsonc from 'eslint-plugin-jsonc'
+import pluginVue from 'eslint-plugin-vue'
+import pluginVueI18n from '@intlify/eslint-plugin-vue-i18n'
+import pluginImport from 'eslint-plugin-import'
 
 // import standard from "@vue/eslint-config-standard";
 // import ts from "@typescript-eslint/parser"
@@ -20,15 +21,14 @@ import { glob } from 'fs'
 // import eslintConfigPrettier from 'eslint-config-prettier/flat'
 
 export default defineConfig([
-  ...vue.configs['flat/recommended'],
+  ...pluginVue.configs['flat/recommended'],
   // eslintPluginPrettierRecommended,
-  ...vueI18n.configs.recommended,
-  importPlugin.flatConfigs.recommended,
+  ...pluginVueI18n.configs.recommended,
+  pluginImport.flatConfigs.recommended,
   js.configs.recommended,
-  // ...ts.configs.recommended,
-  ...eslintPluginJsonc.configs['flat/recommended-with-jsonc'],
+  ...pluginJsonc.configs['flat/recommended-with-jsonc'],
   {
-    files: ['**/*.js', '**/*.mjs', '**/*.vue', '**.ts', '**/*.tsx', '**/*.json'],
+    files: ['**/*.js', '**/*.mjs', '**/*.vue', '**/*.json'],
     languageOptions: {
       sourceType: 'module',
       ecmaVersion: 'latest',
@@ -83,11 +83,10 @@ export default defineConfig([
       'vue/html-indent': 'error',
       'vue/html-quotes': 'error',
       'vue/html-self-closing': 'error',
-      'vue/max-attributes-per-line': 'off',
-    'vue/max-attributes-per-line': ["error", {
-	'singleline': 3,
-	'multiline' : 1
-    }],
+      'vue/max-attributes-per-line': ['error', {
+        'singleline': 3,
+        'multiline' : 1
+      }],
       'vue/multiline-html-element-content-newline': 'error',
       'vue/multi-word-component-names': 'off',
       'vue/mustache-interpolation-spacing': 'error',
@@ -122,6 +121,31 @@ export default defineConfig([
         localeDir: './src/assets/i18n/**/*.json',
         messageSyntaxVersion: '^11.0.0'
       }
+    }
+  },
+  {
+    files: ['**/*.ts', '**/*.tsx'], // Apply this configuration to TypeScript files
+    languageOptions: {
+      parser: parserTS, // Use the TypeScript parser
+      parserOptions: {
+        // Optional: configure parser options for TypeScript
+        // For example, to enable typed linting:
+        project: './tsconfig.json', // Path to your tsconfig.json
+        tsconfigRootDir: import.meta.dirname
+      }
+    },
+    plugins: {
+      '@typescript-eslint': pluginTS // Include the TypeScript ESLint plugin
+    },
+    rules: {
+      // Apply recommended TypeScript ESLint rules
+      ...pluginTS.configs.recommended.rules,
+      // Add or override specific TypeScript rules as needed
+      '@typescript-eslint/no-explicit-any': 'off',
+      // Add or override import rules here
+      'import/no-unresolved': 'error',
+      'import/named': 'error'
+      // ... other import rules as needed
     }
   },
   globalIgnores(['dist', 'build', 'public', '**/*.nearley.js'])

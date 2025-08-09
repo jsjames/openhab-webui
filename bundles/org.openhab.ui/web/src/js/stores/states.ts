@@ -14,6 +14,7 @@ export const useStatesStore = defineStore('states', () => {
   const sseConnected = ref<boolean>(false)
   const ready = ref<boolean>(false)
 
+  /* global ProxyHandler:readonly */
   const handler: ProxyHandler<object> = {
     get(obj: object, prop: string | symbol): object | undefined {
       if (prop === '_keys') return Object.keys(itemStates.value)
