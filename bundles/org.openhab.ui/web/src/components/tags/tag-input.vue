@@ -30,7 +30,10 @@
         :input="false"
         class="add-tag-input">
         <template #input>
-          <input type="text" placeholder="Add tag" @keyup="keyUp" @blur="addTag">
+          <input type="text"
+                 placeholder="Add tag"
+                 @keyup="keyUp"
+                 @blur="addTag">
         </template>
       </f7-list-input>
     </f7-list>

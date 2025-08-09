@@ -6,7 +6,10 @@
       :smart-select-params="smartSelectParams"
       ref="smartSelect"
       class="defaults-picker">
-      <select v-if="disabled !== true" :name="name" multiple @change="select">
+      <select v-if="disabled !== true"
+              :name="name"
+              multiple
+              @change="select">
         <option
           v-for="s in strategies"
           :key="s"

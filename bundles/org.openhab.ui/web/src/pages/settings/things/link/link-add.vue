@@ -2,7 +2,10 @@
   <f7-page @page:afterin="onPageAfterIn">
     <f7-navbar title="Link Channel to Item" back-link="Cancel">
       <f7-nav-right class="if-not-aurora">
-        <f7-link @click="save()" v-if="theme.md" icon-md="material:save" icon-only />
+        <f7-link @click="save()"
+                 v-if="theme.md"
+                 icon-md="material:save"
+                 icon-only />
         <f7-link @click="save()" v-if="!theme.md">
           Link
         </f7-link>

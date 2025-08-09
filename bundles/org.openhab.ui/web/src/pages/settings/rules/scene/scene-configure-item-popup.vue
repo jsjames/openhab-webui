@@ -74,7 +74,10 @@
               @range:change="command = $event.toString()" />
           </div>
           <div v-else-if="control === 'rollershutter'" class="scene-item-control-rollershutter">
-            <f7-segmented round outline strong class="rollershutter-controls">
+            <f7-segmented round
+                          outline
+                          strong
+                          class="rollershutter-controls">
               <f7-button
                 @click="command = 'UP'"
                 large

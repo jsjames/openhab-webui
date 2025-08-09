@@ -158,7 +158,10 @@
             :readOnly="readOnly"
             @updated="dirty = true" />
           <f7-block v-else>
-            <f7-button @click="editBlockly" color="blue" outline fill>
+            <f7-button @click="editBlockly"
+                       color="blue"
+                       outline
+                       fill>
               Edit Blockly
             </f7-button>
           </f7-block>

@@ -61,7 +61,7 @@ export const useThemeOptionsStore = defineStore('themeOptions', () => {
     localStorage.getItem('openhab.ui:panel.visibleBreakpointDisabled') === 'true'
   )
 
-  function darkMode() {
+  function getDarkMode() {
     if (storedDarkMode.value === 'auto') {
       return window.OHApp ? window.OHApp.preferDarkMode() : f7.darkMode ? 'dark' : 'light'
     }
@@ -131,7 +131,7 @@ export const useThemeOptionsStore = defineStore('themeOptions', () => {
   })
 
   function updateClasses() {
-    if (darkMode() === 'dark') {
+    if (getDarkMode() === 'dark') {
       Dom7('html').addClass('dark')
     } else {
       Dom7('html').removeClass('dark')
@@ -150,7 +150,7 @@ export const useThemeOptionsStore = defineStore('themeOptions', () => {
 
   return {
     storedDarkMode,
-    darkMode,
+    getDarkMode,
     setDarkMode,
     isAutoDarkMode,
     bars,

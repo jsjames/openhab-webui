@@ -6,7 +6,10 @@
       :smart-select-params="smartSelectParams"
       v-if="ready"
       ref="smartSelect">
-      <select :name="name" :multiple="multiple" @change="select" :required="required">
+      <select :name="name"
+              :multiple="multiple"
+              @change="select"
+              :required="required">
         <option v-if="!multiple" value="" />
         <optgroup v-if="scenes.length > 0" label="Scenes">
           <option

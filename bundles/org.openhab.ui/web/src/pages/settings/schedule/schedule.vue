@@ -1,6 +1,9 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut">
-    <f7-navbar title="Schedule" back-link="Settings" back-link-url="/settings/" back-link-force>
+    <f7-navbar title="Schedule"
+               back-link="Settings"
+               back-link-url="/settings/"
+               back-link-force>
       <f7-nav-right>
         <developer-dock-icon />
         <f7-link
@@ -92,7 +95,10 @@
       </div>
     </div>
     <template #fixed>
-      <f7-fab v-if="ready" position="right-bottom" color="blue" href="add">
+      <f7-fab v-if="ready"
+              position="right-bottom"
+              color="blue"
+              href="add">
         <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
         <f7-icon ios="f7:close" md="material:close" aurora="f7:close" />
       </f7-fab>

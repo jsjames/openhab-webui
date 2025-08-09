@@ -1,6 +1,9 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut">
-    <f7-navbar title="Things" back-link="Settings" back-link-url="/settings/" back-link-force>
+    <f7-navbar title="Things"
+               back-link="Settings"
+               back-link-url="/settings/"
+               back-link-force>
       <f7-nav-right>
         <developer-dock-icon />
         <f7-link
@@ -178,7 +181,10 @@
         </f7-list>
         <f7-list v-else class="col things-list" :contacts-list="groupBy === 'alphabetical'">
           <f7-list-group v-for="(thingsWithInitial, initial) in indexedThings" :key="initial">
-            <f7-list-item v-if="thingsWithInitial.length" :title="initial" group-title media-item />
+            <f7-list-item v-if="thingsWithInitial.length"
+                          :title="initial"
+                          group-title
+                          media-item />
             <f7-list-item
               v-for="(thing, index) in thingsWithInitial"
               :key="index"
@@ -216,7 +222,10 @@
                 </f7-badge>
               </template>
               <template #after-title>
-                <f7-icon v-if="!thing.editable" f7="lock_fill" size="1rem" color="gray" />
+                <f7-icon v-if="!thing.editable"
+                         f7="lock_fill"
+                         size="1rem"
+                         color="gray" />
               </template>
             </f7-list-item>
           </f7-list-group>

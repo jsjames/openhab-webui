@@ -107,13 +107,21 @@
               title="model.title"
               text="model.text" />
             <f7-row class="display-flex justify-content-center">
-              <f7-button color="blue" large raised fill @click="addFromLocationTemplate()">
+              <f7-button color="blue"
+                         large
+                         raised
+                         fill
+                         @click="addFromLocationTemplate()">
                 Add Locations from Template
               </f7-button>
             </f7-row>
           </f7-block>
 
-          <f7-block v-show="!empty" strong class="semantic-tree" no-gap @click="clearSelection">
+          <f7-block v-show="!empty"
+                    strong
+                    class="semantic-tree"
+                    no-gap
+                    @click="clearSelection">
             <model-treeview
               :rootNodes="[rootLocations, rootEquipment, rootPoints, rootGroups, rootItems].flat()"
               :items="items"

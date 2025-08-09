@@ -1,5 +1,8 @@
 <template>
-  <model-card type="equipment" :context="context" :element="element" header-height="150px">
+  <model-card type="equipment"
+              :context="context"
+              :element="element"
+              header-height="150px">
     <template #glance>
       <div
         v-if="context && context.component.slots && context.component.slots.glance"

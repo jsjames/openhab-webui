@@ -9,7 +9,10 @@
           'no-padding',
         ]">
         <f7-list v-if="hasAction" class="image-link">
-          <f7-list-item class="oh-image-clickable" link="#" no-chevron @click="performAction">
+          <f7-list-item class="oh-image-clickable"
+                        link="#"
+                        no-chevron
+                        @click="performAction">
             <template #content-start>
               <oh-image :context="childContext(context.component)" />
             </template>

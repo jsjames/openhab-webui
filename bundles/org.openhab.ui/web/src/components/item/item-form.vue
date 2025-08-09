@@ -142,7 +142,10 @@
                 :state="createMode || itemType === 'Image' ? null : item.state"
                 height="32"
                 width="32" />
-              <oh-icon v-else icon="" height="32" width="32" />
+              <oh-icon v-else
+                       icon=""
+                       height="32"
+                       width="32" />
             </div>
           </template>
         </f7-list-input>

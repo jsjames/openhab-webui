@@ -126,7 +126,10 @@
               :title="transformation.label"
               :subtitle="transformation.type">
               <template #after-title>
-                <f7-icon v-if="!transformation.editable" f7="lock_fill" size="1rem" color="gray" />
+                <f7-icon v-if="!transformation.editable"
+                         f7="lock_fill"
+                         size="1rem"
+                         color="gray" />
               </template>
               <template #footer>
                 {{ transformation.uid }}
@@ -156,7 +159,10 @@
     </f7-block>
 
     <template #fixed>
-      <f7-fab v-show="ready && !showCheckboxes" position="right-bottom" color="blue" href="add">
+      <f7-fab v-show="ready && !showCheckboxes"
+              position="right-bottom"
+              color="blue"
+              href="add">
         <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
       </f7-fab>
     </template>

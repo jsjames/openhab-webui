@@ -20,7 +20,10 @@
       <span v-else-if="!noIcon" class="item-initial">{{ item.name[0] }}</span>
     </template>
     <template #after-title>
-      <f7-icon v-if="!item.editable" f7="lock_fill" size="1rem" color="gray" />
+      <f7-icon v-if="!item.editable"
+               f7="lock_fill"
+               size="1rem"
+               color="gray" />
     </template>
     <template #footer />
     <template #subtitle>

@@ -25,7 +25,10 @@
               @click="$oh.utils.normalizeInputForThingId('#input')" />
           </template>
         </f7-list-input>
-        <f7-list-item v-if="!createMode" media-item class="channel-item" title="Channel UID">
+        <f7-list-item v-if="!createMode"
+                      media-item
+                      class="channel-item"
+                      title="Channel UID">
           <template #subtitle>
             <div>
               {{ channel.uid }}

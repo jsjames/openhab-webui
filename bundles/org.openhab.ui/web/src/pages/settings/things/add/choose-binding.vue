@@ -60,7 +60,10 @@
         </f7-list>
       </f7-col>
       <f7-row v-else-if="ready" class="display-flex justify-content-center">
-        <f7-button large fill color="blue" href="/addons/binding/">
+        <f7-button large
+                   fill
+                   color="blue"
+                   href="/addons/binding/">
           Install Bindings
         </f7-button>
       </f7-row>

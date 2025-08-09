@@ -1,6 +1,9 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut">
-    <f7-navbar title="Pages" back-link="Settings" back-link-url="/settings/" back-link-force>
+    <f7-navbar title="Pages"
+               back-link="Settings"
+               back-link-url="/settings/"
+               back-link-force>
       <f7-nav-right>
         <developer-dock-icon />
         <f7-link

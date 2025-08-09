@@ -2,7 +2,7 @@
   <div class="network-fit">
     <chart
       :option="finalOptions"
-      :theme="themeOptionsStore.darkMode() === 'dark' ? 'dark' : undefined"
+      :theme="themeOptionsStore.getDarkMode() === 'dark' ? 'dark' : undefined"
       autoresize />
   </div>
 </template>
@@ -52,7 +52,7 @@ export default {
           x: 10,
           y: 10
         },
-        backgroundColor: this.themeOptionsStore.darkMode() === 'dark' ? '#121212' : undefined,
+        backgroundColor: this.themeOptionsStore.getDarkMode() === 'dark' ? '#121212' : undefined,
         series: this.series
       }
     },

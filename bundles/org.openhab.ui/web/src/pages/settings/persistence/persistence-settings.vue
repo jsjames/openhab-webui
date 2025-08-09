@@ -7,7 +7,10 @@
       back-link-force>
       <f7-nav-right v-if="persistenceList.length > 0">
         <developer-dock-icon />
-        <f7-link @click="save()" v-if="theme.md" icon-md="material:save" icon-only />
+        <f7-link @click="save()"
+                 v-if="theme.md"
+                 icon-md="material:save"
+                 icon-only />
         <f7-link @click="save()" v-if="!theme.md">
           Save<span v-if="$device.desktop">&nbsp;(Ctrl-S)</span>
         </f7-link>
@@ -72,7 +75,10 @@
           target="_blank"
           :text="$t('home.overview.button.documentation')" />
         <span style="width: 8px" />
-        <f7-button large fill color="blue" href="/addons/persistence/">
+        <f7-button large
+                   fill
+                   color="blue"
+                   href="/addons/persistence/">
           Install a persistence add-on
         </f7-button>
       </f7-row>

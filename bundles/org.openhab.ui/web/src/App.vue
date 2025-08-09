@@ -19,11 +19,14 @@
         <f7-link href="/overview" class="openhab-logo no-ripple" panel-close>
           <div class="logo-inner">
             <img
-              v-if="themeOptionsStore.darkMode() === 'dark'"
+              v-if="themeOptionsStore.getDarkMode() === 'dark'"
               src="/images/openhab-logo-white.svg"
               type="image/svg+xml"
               width="196px">
-            <img v-else src="/images/openhab-logo.svg" type="image/svg+xml" width="196px">
+            <img v-else
+                 src="/images/openhab-logo.svg"
+                 type="image/svg+xml"
+                 width="196px">
           </div>
         </f7-link>
         <f7-list v-if="ready">
@@ -364,12 +367,18 @@
     </f7-panel>
 
     <!-- Right Panel -->
-    <f7-panel right reveal dark v-if="false">
+    <f7-panel right
+              reveal
+              dark
+              v-if="false">
       <panel-right />
       <!-- <f7-view url="/panel-right/"></f7-view> -->
     </f7-panel>
 
-    <f7-panel v-if="showDeveloperDock" right :visible-breakpoint="1280" resizable>
+    <f7-panel v-if="showDeveloperDock"
+              right
+              :visible-breakpoint="1280"
+              resizable>
       <developer-dock
         :dock="activeDock"
         :helpTab="activeHelpTab"

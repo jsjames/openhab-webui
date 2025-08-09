@@ -7,7 +7,10 @@
     @keyup="onKeyUp">
     <f7-block v-if="context.editmode">
       <f7-menu class="configure-layout-menu">
-        <f7-menu-item @click="addItem" icon="margin-left" icon-f7="plus" text="Add Widget" />
+        <f7-menu-item @click="addItem"
+                      icon="margin-left"
+                      icon-f7="plus"
+                      text="Add Widget" />
         <f7-menu-item
           v-if="context.clipboardtype"
           @click="context.editmode.pasteWidget(activeLayer, context.component)"

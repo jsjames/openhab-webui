@@ -2,7 +2,10 @@
   <f7-page @page:afterin="onPageAfterIn">
     <f7-navbar title="Add Items from Thing" back-link="Back">
       <f7-nav-right class="if-not-aurora">
-        <f7-link @click="add()" v-if="theme.md" icon-md="material:save" icon-only />
+        <f7-link @click="add()"
+                 v-if="theme.md"
+                 icon-md="material:save"
+                 icon-only />
         <f7-link @click="add()" v-if="!theme.md">
           Add
         </f7-link>
@@ -27,7 +30,10 @@
           <ul v-if="parentGroup">
             <item :item="parentGroup" :link="true" @click="openModelPicker" />
           </ul>
-          <f7-list-item v-else title="Pick From Model" link @click="openModelPicker" />
+          <f7-list-item v-else
+                        title="Pick From Model"
+                        link
+                        @click="openModelPicker" />
         </f7-list>
         <f7-block-title v-if="selectedThing.statusInfo">
           Source Thing

@@ -65,7 +65,10 @@
           @click="runtimeStore.developerDock ? f7.emit('toggle-developer-dock') : ''" />
       </f7-nav-right>
     </f7-navbar>
-    <f7-toolbar tabbar labels bottom v-if="tabsVisible">
+    <f7-toolbar tabbar
+                labels
+                bottom
+                v-if="tabsVisible">
       <f7-link
         tab-link="overview"
         href="/overview"

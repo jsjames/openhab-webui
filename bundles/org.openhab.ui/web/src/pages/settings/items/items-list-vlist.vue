@@ -1,6 +1,9 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut">
-    <f7-navbar title="Items" back-link="Settings" back-link-url="/settings/" back-link-force>
+    <f7-navbar title="Items"
+               back-link="Settings"
+               back-link-url="/settings/"
+               back-link-force>
       <f7-nav-right>
         <developer-dock-icon />
         <f7-link
@@ -146,7 +149,10 @@
                 <span v-else class="item-initial">{{ item.name[0] }}</span>
               </template>
               <template #after-title>
-                <f7-icon v-if="!item.editable" f7="lock_fill" size="1rem" color="gray" />
+                <f7-icon v-if="!item.editable"
+                         f7="lock_fill"
+                         size="1rem"
+                         color="gray" />
               </template>
               <!-- <f7-button color="blue" icon-f7="compose" icon-size="24px" :link="`${item.name}/edit`"></f7-button> -->
               <template #subtitle>
@@ -192,7 +198,10 @@
         @click="load()">
         <f7-icon ios="f7:arrow_clockwise" md="material:refresh" aurora="f7:arrow_clockwise" />
       </f7-fab>
-      <f7-fab v-show="!showCheckboxes" position="right-bottom" color="blue" href="add">
+      <f7-fab v-show="!showCheckboxes"
+              position="right-bottom"
+              color="blue"
+              href="add">
         <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
       </f7-fab>
     </template>

@@ -1,5 +1,8 @@
 <template>
-  <f7-row no-gap v-if="!config.item || !config.sendButton" class="oh-input" :style="config.style">
+  <f7-row no-gap
+          v-if="!config.item || !config.sendButton"
+          class="oh-input"
+          :style="config.style">
     <f7-input
       v-bind="config"
       class="input-field"
@@ -28,7 +31,10 @@
     </f7-input>
     <span v-if="unit" class="unit">{{ unit }}</span>
   </f7-row>
-  <f7-row no-gap v-else class="oh-input" :style="config.style">
+  <f7-row no-gap
+          v-else
+          class="oh-input"
+          :style="config.style">
     <f7-input
       v-bind="config"
       class="input-field"

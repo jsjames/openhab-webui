@@ -1,6 +1,9 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:afterout="stopEventSource">
-    <f7-navbar title="Inbox" back-link="Things" back-link-url="/settings/things/" back-link-force>
+    <f7-navbar title="Inbox"
+               back-link="Things"
+               back-link-url="/settings/things/"
+               back-link-force>
       <f7-nav-right>
         <f7-link
           icon-md="material:done_all"

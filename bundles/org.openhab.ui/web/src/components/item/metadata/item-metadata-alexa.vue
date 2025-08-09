@@ -30,7 +30,10 @@
             {{ cl }}
           </option>
         </select>
-        <select v-else name="classes" @change="updateClasses" :multiple="multiple">
+        <select v-else
+                name="classes"
+                @change="updateClasses"
+                :multiple="multiple">
           <option v-if="!multiple" value="" />
           <optgroup label="Default Attributes" v-if="!multiple">
             <option
@@ -94,7 +97,10 @@
       </f7-block-footer>
     </f7-block>
     <p class="padding">
-      <f7-link color="blue" external target="_blank" :href="docLink">
+      <f7-link color="blue"
+               external
+               target="_blank"
+               :href="docLink">
         Alexa Integration Documentation
       </f7-link>
     </p>

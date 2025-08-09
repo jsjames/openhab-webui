@@ -59,7 +59,10 @@
                 icon-f7="list_bullet_indent"
                 icon-size="14"
                 @click="openModelPicker" />
-              <f7-link color="gray" icon-f7="multiply" icon-size="14" @click="unpinAll('items')" />
+              <f7-link color="gray"
+                       icon-f7="multiply"
+                       icon-size="14"
+                       @click="unpinAll('items')" />
             </span>
           </f7-block-title>
           <f7-list>
@@ -108,7 +111,10 @@
           <f7-block-title class="padding-horizontal display-flex">
             <span>Pinned Things</span>
             <span style="margin-left: auto">
-              <f7-link color="gray" icon-f7="multiply" icon-size="14" @click="unpinAll('things')" />
+              <f7-link color="gray"
+                       icon-f7="multiply"
+                       icon-size="14"
+                       @click="unpinAll('things')" />
             </span>
           </f7-block-title>
           <f7-list media-list>
@@ -165,7 +171,10 @@
           <f7-block-title class="padding-horizontal display-flex">
             <span>Pinned Rules</span>
             <span style="margin-left: auto">
-              <f7-link color="gray" icon-f7="multiply" icon-size="14" @click="unpinAll('rules')" />
+              <f7-link color="gray"
+                       icon-f7="multiply"
+                       icon-size="14"
+                       @click="unpinAll('rules')" />
             </span>
           </f7-block-title>
           <f7-list media-list>
@@ -234,7 +243,10 @@
           <f7-block-title class="padding-horizontal display-flex">
             <span>Pinned Scenes</span>
             <span style="margin-left: auto">
-              <f7-link color="gray" icon-f7="multiply" icon-size="14" @click="unpinAll('scenes')" />
+              <f7-link color="gray"
+                       icon-f7="multiply"
+                       icon-size="14"
+                       @click="unpinAll('scenes')" />
             </span>
           </f7-block-title>
           <f7-list media-list>
@@ -376,7 +388,10 @@
           <f7-block-title class="padding-horizontal display-flex">
             <span>Pinned Pages</span>
             <span style="margin-left: auto">
-              <f7-link color="gray" icon-f7="multiply" icon-size="14" @click="unpinAll('pages')" />
+              <f7-link color="gray"
+                       icon-f7="multiply"
+                       icon-size="14"
+                       @click="unpinAll('pages')" />
             </span>
           </f7-block-title>
           <f7-list media-list>

@@ -9,7 +9,10 @@
       back-link="Back"
       no-hairline>
       <f7-nav-right>
-        <f7-link @click="save()" v-if="theme.md" icon-md="material:save" icon-only />
+        <f7-link @click="save()"
+                 v-if="theme.md"
+                 icon-md="material:save"
+                 icon-only />
         <f7-link @click="save()" v-if="!theme.md">
           Save<span v-if="$device.desktop">&nbsp;(Ctrl-S)</span>
         </f7-link>
@@ -64,7 +67,10 @@
           <f7-row v-if="currentTab === 'tree'">
             <!-- do not set column width as usual, instead use custom CSS because of https://github.com/openhab/openhab-webui/issues/2574 -->
             <f7-col>
-              <f7-block strong class="sitemap-tree" no-gap @click="clearSelection">
+              <f7-block strong
+                        class="sitemap-tree"
+                        no-gap
+                        @click="clearSelection">
                 <f7-treeview>
                   <sitemap-treeview-item
                     :widget="sitemap"

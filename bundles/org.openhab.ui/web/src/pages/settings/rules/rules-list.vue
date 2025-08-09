@@ -1,6 +1,9 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut" class="rules-list">
-    <f7-navbar :title="type" back-link="Settings" back-link-url="/settings/" back-link-force>
+    <f7-navbar :title="type"
+               back-link="Settings"
+               back-link-url="/settings/"
+               back-link-force>
       <f7-nav-right>
         <developer-dock-icon />
         <f7-link
@@ -59,7 +62,7 @@
         &nbsp;{{ $t('dialogs.enable') }}&nbsp;{{ enablableItems }}
       </f7-link>
       <f7-link
-        :color="themeOptionsStore.darkMode() === 'dark' ? 'purple' : 'deeppurple'"
+        :color="themeOptionsStore.getDarkMode() === 'dark' ? 'purple' : 'deeppurple'"
         v-show="selectedItems.length && canRegenerate"
         v-if="!theme.md && !showScenes"
         class="enable"
@@ -156,7 +159,10 @@
         icon="film"
         title="scenes.title"
         text="scenes.text" />
-      <empty-state-placeholder v-else icon="wand_stars" title="rules.title" text="rules.text" />
+      <empty-state-placeholder v-else
+                               icon="wand_stars"
+                               title="rules.title"
+                               text="rules.text" />
       <f7-row v-if="f7.width < 1280" class="display-flex justify-content-center">
         <f7-button
           large
@@ -274,7 +280,10 @@
     </f7-block>
 
     <template #fixed>
-      <f7-fab v-show="ready && !showCheckboxes" position="right-bottom" color="blue" href="add">
+      <f7-fab v-show="ready && !showCheckboxes"
+              position="right-bottom"
+              color="blue"
+              href="add">
         <f7-icon ios="f7:plus" md="material:add" aurora="f7:plus" />
         <f7-icon ios="f7:close" md="material:close" aurora="f7:close" />
       </f7-fab>

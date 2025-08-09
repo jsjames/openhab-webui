@@ -1237,10 +1237,10 @@ export default {
   computed: {
     cssVars() {
       return {
-        '--blockly-ws-search-bg-color': useThemeOptionsStore().darkMode === 'dark' ? '#1e1e1e' : 'white',
+        '--blockly-ws-search-bg-color': useThemeOptionsStore().getDarkMode() === 'dark' ? '#1e1e1e' : 'white',
         '--blockly-ws-search-border-color':
-          useThemeOptionsStore().darkMode === 'dark' ? 'lightgrey' : 'grey',
-        '--blockly-ws-search-text-color': useThemeOptionsStore().darkMode === 'dark' ? 'white' : 'black'
+          useThemeOptionsStore().getDarkMode() === 'dark' ? 'lightgrey' : 'grey',
+        '--blockly-ws-search-text-color': useThemeOptionsStore().getDarkMode() === 'dark' ? 'white' : 'black'
       }
     },
     ...mapStores(useThemeOptionsStore)
@@ -1319,7 +1319,7 @@ export default {
           blockDragger: MultiselectBlockDragger
         },
         horizontalLayout: !this.$device.desktop,
-        theme: this.themeOptionsStore.darkMode() === 'dark' ? DarkTheme : undefined,
+        theme: this.themeOptionsStore.getDarkMode() === 'dark' ? DarkTheme : undefined,
         zoom: {
           controls: true,
           wheel: true,

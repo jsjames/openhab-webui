@@ -325,7 +325,10 @@
                   :max="7" />
                 {{ text.Day.intervalWeek[1] || '' }}
                 <select size="small" v-model="week.incrementStart" style="max-width: 150px">
-                  <option v-for="val in 7" :key="val" :label="text.Week[val - 1]" :value="val" />
+                  <option v-for="val in 7"
+                          :key="val"
+                          :label="text.Week[val - 1]"
+                          :value="val" />
                 </select>
                 <!-- <f7-stepper small :value="week.incrementStart" @stepper:change="(v) => week.incrementStart = v" :min="0" :max="23"></f7-stepper> -->
                 {{ text.Day.intervalWeek[2] || '' }}
@@ -428,7 +431,10 @@
                 @change="day.cronEvery = 8">
                 {{ text.Day.lastWeek[0] }}
                 <select size="small" v-model="day.cronLastSpecificDomDay" style="max-width: 150px">
-                  <option v-for="val in 7" :key="val" :label="text.Week[val - 1]" :value="val" />
+                  <option v-for="val in 7"
+                          :key="val"
+                          :label="text.Week[val - 1]"
+                          :value="val" />
                 </select>
                 {{ text.Day.lastWeek[1] || '' }}
               </f7-list-item>
@@ -472,7 +478,10 @@
                   :min="1"
                   :max="5" />
                 <select size="small" v-model="week.cronNthDayDay" style="max-width: 150px">
-                  <option v-for="val in 7" :key="val" :label="text.Week[val - 1]" :value="val" />
+                  <option v-for="val in 7"
+                          :key="val"
+                          :label="text.Week[val - 1]"
+                          :value="val" />
                 </select>
                 {{ text.Day.someWeekday[1] }}
               </f7-list-item>

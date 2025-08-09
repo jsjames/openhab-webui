@@ -8,7 +8,10 @@
             icon-f7="lock_fill"
             icon-only
             tooltip="Channels of Things defined in a .things file are not editable from this screen" />
-          <f7-link @click="save()" v-else-if="theme.md" icon-md="material:save" icon-only />
+          <f7-link @click="save()"
+                   v-else-if="theme.md"
+                   icon-md="material:save"
+                   icon-only />
           <f7-link @click="save()" v-else>
             Done
           </f7-link>

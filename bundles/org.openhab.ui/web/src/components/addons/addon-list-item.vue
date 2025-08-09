@@ -10,7 +10,7 @@
         <f7-icon
           v-if="addon.verifiedAuthor"
           size="15"
-          :color="themeOptionsStore.darkMode() === 'dark' ? 'white' : 'blue'"
+          :color="themeOptionsStore.getDarkMode() === 'dark' ? 'white' : 'blue'"
           f7="checkmark_seal_fill"
           style="margin-top: -3px" />
       </div>
@@ -19,7 +19,10 @@
       </div>
     </template>
     <template #media>
-      <addon-logo class="logo-square" :lazy="true" :addon="addon" size="64" />
+      <addon-logo class="logo-square"
+                  :lazy="true"
+                  :addon="addon"
+                  size="64" />
     </template>
     <template #after>
       <div v-if="showInstallActions">

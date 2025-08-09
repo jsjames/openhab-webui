@@ -9,7 +9,7 @@ BUGS
 - [] on item-detail->oh-label-card->oh-trend - the width setting is only correct AFTER the page is display - doesn't seem to be reactive
 - [] back button from settings/items, settings/things, settings/model - the URL in the address bar does not change.
 - [] API Explorer - formatting needs to be fixed
-- [] Blockly tool bar at button not showing up
+- [x] Blockly tool bar at button not showing up
 - [] Blockly drag/drop not working
 
 NOTES

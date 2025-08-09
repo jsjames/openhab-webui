@@ -54,7 +54,10 @@
                 :key="'header-' + idx"
                 @command="onCommand" />
             </div>
-            <f7-list-item v-else media-item :subtitle="config.subtitle" :footer="config.footer">
+            <f7-list-item v-else
+                          media-item
+                          :subtitle="config.subtitle"
+                          :footer="config.footer">
               <template #header>
                 <div v-if="header" class="button-header display-flex">
                   <oh-icon

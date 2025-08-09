@@ -16,7 +16,10 @@
       <f7-nav-right>
         <developer-dock-icon />
         <template v-if="isEditable">
-          <f7-link @click="save()" v-if="theme.md" icon-md="material:save" icon-only />
+          <f7-link @click="save()"
+                   v-if="theme.md"
+                   icon-md="material:save"
+                   icon-only />
           <f7-link @click="save()" v-if="!theme.md">
             {{
               stubMode
@@ -69,7 +72,7 @@
               <!-- <f7-toggle class="enable-toggle"></f7-toggle> -->
               <f7-link
                 v-if="canRegenerate"
-                :color="f7.data.themeOptionsStore.darkMode() === 'dark' ? 'purple' : 'deeppurple'"
+                :color="f7.data.themeOptionsStore.getDarkMode() === 'dark' ? 'purple' : 'deeppurple'"
                 :tooltip="'Regenerate from template'"
                 icon-md="f7:arrow_2_circlepath"
                 icon-ios="f7:arrow_2_circlepath"

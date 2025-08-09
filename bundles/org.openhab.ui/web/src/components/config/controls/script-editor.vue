@@ -48,9 +48,6 @@
 <script>
 import { Codemirror } from 'vue-codemirror'
 
-// require styles
-//TODO-V3 import 'codemirror/lib/codemirror.css';
-
 // language js
 import { clike } from '@codemirror/legacy-modes/mode/clike'
 import { groovy } from '@codemirror/legacy-modes/mode/groovy'
@@ -63,14 +60,9 @@ import { ruby } from '@codemirror/legacy-modes/mode/ruby'
 import { xml } from '@codemirror/lang-xml'
 import { yaml } from '@codemirror/lang-yaml'
 
-//TODO-V3 import 'codemirror/theme/gruvbox-dark.css';
 import { gruvboxDark } from '@uiw/codemirror-theme-gruvbox-dark'
-import { oneDark } from '@codemirror/theme-one-dark'
 
 import { closeBrackets } from '@codemirror/autocomplete'
-// import { matchBrackets } from "@codemirror/language";
-
-//TODO-V3 import 'codemirror/addon/comment/comment.js';
 
 // for autocomplete
 //TODO-V3 import 'codemirror/addon/hint/show-hint.js';
@@ -83,7 +75,6 @@ import { closeBrackets } from '@codemirror/autocomplete'
 
 // for folding
 import { codeFolding } from '@codemirror/language'
-//TODO-V3 import 'codemirror/addon/fold/indent-fold.js';
 
 // for linting
 //TODO-V3 import 'codemirror/addon/lint/lint.js';
@@ -158,7 +149,7 @@ export default {
     value: String,
     mode: String,
     hintContext: Object,
-    ternAutocompletionHook: Function,
+    ternAutocompletionHook: Boolean,
     readOnly: Boolean
   },
   emits: ['input'],
@@ -338,9 +329,11 @@ export default {
           },
         };
         */
+        /*
         cm.on('cursorActivity', function (cm) {
           server.updateArgHints(cm)
         })
+        */
       } else {
         const autocomplete = function (cm) {
           setTimeout(function () {
@@ -424,7 +417,7 @@ export default {
       // TODO-V3 cm.refresh();
     },
     onCmCodeChange(newCode) {
-      this.$emit('input', newCode)
+      // this.$emit('input', newCode)
     },
     deleteCurrentLine(cm) {
       if (cm.somethingSelected()) {
@@ -449,8 +442,8 @@ export default {
   computed: {
     extensions() {
       const extensions = [ closeBrackets(), codeFolding() ]
-      if(useThemeOptionsStore().darkMode === 'dark')
-        extensions.push(oneDark)
+      if(useThemeOptionsStore().getDarkMode() === 'dark')
+        extensions.push(gruvboxDark)
       extensions.push(this.getCMModeExtension(this.mode))
 
       return extensions

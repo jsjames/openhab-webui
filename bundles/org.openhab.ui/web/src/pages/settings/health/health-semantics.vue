@@ -64,7 +64,10 @@
             "
             :footer="semanticsProblem.explanation">
             <template #after-title>
-              <f7-icon v-if="!semanticsProblem.editable" f7="lock_fill" size="1rem" color="gray" />
+              <f7-icon v-if="!semanticsProblem.editable"
+                       f7="lock_fill"
+                       size="1rem"
+                       color="gray" />
             </template>
           </f7-list-item>
         </f7-list>

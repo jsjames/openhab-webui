@@ -1,6 +1,9 @@
 <template>
   <f7-col>
-    <f7-list inline-labels accordion-list no-hairline-md class="no-margin-top">
+    <f7-list inline-labels
+             accordion-list
+             no-hairline-md
+             class="no-margin-top">
       <f7-list-input
         ref="pageId"
         label="Page ID"

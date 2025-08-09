@@ -9,7 +9,10 @@
       v-if="ready"
       ref="smartSelect"
       class="item-picker">
-      <select :name="name" :multiple="multiple" @change="select" :required="required">
+      <select :name="name"
+              :multiple="multiple"
+              @change="select"
+              :required="required">
         <option value="" v-if="!multiple" />
         <option
           v-for="item in preparedItems"
@@ -33,11 +36,19 @@
           :icon-ios="ios"
           :icon-md="md"
           @click="pickFromModel" />
-        <f7-icon v-else-if="!hideIcon" :color="color" :aurora="aurora" :ios="ios" :md="md" />
+        <f7-icon v-else-if="!hideIcon"
+                 :color="color"
+                 :aurora="aurora"
+                 :ios="ios"
+                 :md="md" />
       </template>
     </f7-list-item>
     <!-- for placeholder purposes before items are loaded -->
-    <f7-list-item link v-show="!ready" :title="title" disabled no-chevron>
+    <f7-list-item link
+                  v-show="!ready"
+                  :title="title"
+                  disabled
+                  no-chevron>
       <template #media>
         <f7-button
           v-if="!noModelPicker"
@@ -46,7 +57,11 @@
           :icon-ios="ios"
           :icon-md="md"
           @click="pickFromModel" />
-        <f7-icon v-else :color="color" :aurora="aurora" :ios="ios" :md="md" />
+        <f7-icon v-else
+                 :color="color"
+                 :aurora="aurora"
+                 :ios="ios"
+                 :md="md" />
       </template>
     </f7-list-item>
   </div>

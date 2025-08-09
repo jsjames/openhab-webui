@@ -1,5 +1,10 @@
 <template>
-  <f7-segmented v-bind="config" round outline strong class="player-controls" title="">
+  <f7-segmented v-bind="config"
+                round
+                outline
+                strong
+                class="player-controls"
+                title="">
     <f7-button
       color="blue"
       @click.stop="skipPrevious()"

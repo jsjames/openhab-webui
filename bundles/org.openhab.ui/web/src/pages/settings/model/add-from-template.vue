@@ -2,7 +2,10 @@
   <f7-page>
     <f7-navbar title="Add Locations from Template" back-link="Back">
       <f7-nav-right class="if-not-aurora">
-        <f7-link @click="add()" v-if="theme.md" icon-md="material:save" icon-only />
+        <f7-link @click="add()"
+                 v-if="theme.md"
+                 icon-md="material:save"
+                 icon-only />
         <f7-link @click="add()" v-if="!theme.md">
           Add
         </f7-link>

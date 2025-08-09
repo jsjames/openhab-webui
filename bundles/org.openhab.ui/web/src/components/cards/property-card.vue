@@ -1,5 +1,8 @@
 <template>
-  <model-card type="property" :context="context" :element="element" header-height="150px">
+  <model-card type="property"
+              :context="context"
+              :element="element"
+              header-height="150px">
     <template #glance>
       <div
         v-if="context && context.component.slots && context.component.slots.glance"
@@ -24,7 +27,12 @@
         </f7-button>
       </p>
       <p class="margin-horizontal">
-        <f7-button fill round large card-close :color="color" :text="$t('home.cards.close')" />
+        <f7-button fill
+                   round
+                   large
+                   card-close
+                   :color="color"
+                   :text="$t('home.cards.close')" />
       </p>
     </div>
   </model-card>

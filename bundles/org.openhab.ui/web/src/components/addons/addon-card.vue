@@ -7,44 +7,40 @@
       <div class="addon-card-title">
         <div v-if="showInstallActions" class="addon-card-title-after">
           <f7-preloader v-if="addon.pending" color="blue" />
-          <f7-button
-            v-else-if="addon.installed"
-            class="install-button prevent-active-state-propagation"
-            text="Remove"
-            color="red"
-            round
-            small
-            @click="buttonClicked" />
-          <f7-button
-            v-else
-            class="install-button prevent-active-state-propagation"
-            :text="installActionText || 'Install'"
-            color="blue"
-            round
-            small
-            @click="buttonClicked" />
+          <f7-button v-else-if="addon.installed"
+                     class="install-button prevent-active-state-propagation"
+                     text="Remove"
+                     color="red"
+                     round
+                     small
+                     @click="buttonClicked" />
+          <f7-button v-else
+                     class="install-button prevent-active-state-propagation"
+                     :text="installActionText || 'Install'"
+                     color="blue"
+                     round
+                     small
+                     @click="buttonClicked" />
         </div>
         <div class="addon-card-label" :title="addon.label">
           {{ addon.label }}
         </div>
         <div v-if="addon.verifiedAuthor" class="addon-card-subtitle">
           {{ addon.author }}
-          <f7-icon
-            v-if="addon.verifiedAuthor"
-            size="15"
-            :color="themeOptionsStore.darkMode() === 'dark' ? 'white' : 'blue'"
-            f7="checkmark_seal_fill"
-            style="margin-top: -3px" />
+          <f7-icon v-if="addon.verifiedAuthor"
+                   size="15"
+                   :color="themeOptionsStore.getDarkMode() === 'dark' ? 'white' : 'blue'"
+                   f7="checkmark_seal_fill"
+                   style="margin-top: -3px" />
         </div>
         <div v-else-if="addon.properties && addon.properties.views" class="addon-card-subtitle">
           <addon-stats-line :addon="addon" :iconSize="15" />
         </div>
       </div>
-      <addon-logo
-        class="logo-square"
-        :lazy="lazyLogo !== undefined ? lazyLogo : true"
-        :addon="addon"
-        :size="150" />
+      <addon-logo class="logo-square"
+                  :lazy="lazyLogo !== undefined ? lazyLogo : true"
+                  :addon="addon"
+                  :size="150" />
     </div>
   </f7-link>
 </template>
@@ -142,24 +138,9 @@ export default {
   },
   computed: {
     autoHeadline() {
-      if (
-        this.addon.properties &&
-        this.addon.properties.like_count &&
-        this.addon.properties.like_count >= 20
-      )
-        return 'Top'
-      if (
-        this.addon.properties &&
-        this.addon.properties.views &&
-        this.addon.properties.views >= 1000
-      )
-        return 'Popular'
-      if (
-        this.addon.properties &&
-        this.addon.properties.posts_count &&
-        this.addon.properties.posts_count >= 15
-      )
-        return 'Hot'
+      if (this.addon.properties && this.addon.properties.like_count && this.addon.properties.like_count >= 20) return 'Top'
+      if (this.addon.properties && this.addon.properties.views && this.addon.properties.views >= 1000) return 'Popular'
+      if (this.addon.properties && this.addon.properties.posts_count && this.addon.properties.posts_count >= 15) return 'Hot'
       return ''
     },
     showInstallActions() {

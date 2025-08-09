@@ -2,7 +2,10 @@
   <f7-page @page:afterin="onPageAfterIn" class="thing-add-page">
     <f7-navbar :title="ready ? 'New ' + thingType.label : 'New Thing'" back-link="Back">
       <f7-nav-right class="if-not-aurora">
-        <f7-link @click="save()" v-if="theme.md" icon-md="material:save" icon-only />
+        <f7-link @click="save()"
+                 v-if="theme.md"
+                 icon-md="material:save"
+                 icon-only />
         <f7-link @click="save()" v-if="!theme.md">
           Add
         </f7-link>

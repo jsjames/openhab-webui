@@ -18,7 +18,10 @@
       </f7-nav-left>
       <f7-nav-title>{{ pageLabel }}</f7-nav-title>
       <f7-nav-right>
-        <f7-link v-if="isAdmin" icon-md="material:edit" @click="editPage" class="edit-page-button">
+        <f7-link v-if="isAdmin"
+                 icon-md="material:edit"
+                 @click="editPage"
+                 class="edit-page-button">
           {{ theme.md ? '' : $t('page.navbar.edit') }}
         </f7-link>
         <f7-link
@@ -47,7 +50,10 @@
     </template>
 
     <!-- Tabbed Pages -->
-    <f7-toolbar tabbar labels bottom v-if="page && pageType === 'tabs' && visibleToCurrentUser">
+    <f7-toolbar tabbar
+                labels
+                bottom
+                v-if="page && pageType === 'tabs' && visibleToCurrentUser">
       <f7-link
         v-for="(tab, idx) in page.slots.default"
         :key="idx"

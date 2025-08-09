@@ -2,7 +2,10 @@
   <f7-page @page:afterin="onPageAfterIn">
     <f7-navbar title="Add Items from Textual Definition" back-link="Cancel">
       <f7-nav-right>
-        <f7-link @click="add()" v-if="theme.md" icon-md="material:save" icon-only />
+        <f7-link @click="add()"
+                 v-if="theme.md"
+                 icon-md="material:save"
+                 icon-only />
         <f7-link @click="add()" v-if="!theme.md">
           Add
         </f7-link>

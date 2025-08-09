@@ -25,7 +25,10 @@
       </ul>
     </div>
   </div>
-  <f7-list media-list v-else inset class="margin-left searchbar-ignore">
+  <f7-list media-list
+           v-else
+           inset
+           class="margin-left searchbar-ignore">
     <f7-list-group v-if="links">
       <f7-list-item
         v-for="link in links"
@@ -56,7 +59,10 @@
           <span v-else class="item-initial">{{ link.item.name[0] }}</span>
         </template>
         <template #after-title>
-          <f7-icon v-if="!link.item.editable" f7="lock_fill" size="1rem" color="gray" />
+          <f7-icon v-if="!link.item.editable"
+                   f7="lock_fill"
+                   size="1rem"
+                   color="gray" />
         </template>
         <!-- <f7-button color="blue" icon-f7="compose" icon-size="24px" :link="`${item.name}/edit`"></f7-button> -->
       </f7-list-item>

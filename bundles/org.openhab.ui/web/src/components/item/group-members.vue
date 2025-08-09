@@ -25,7 +25,11 @@
       <f7-button color="blue" v-if="!editMembers" @click="enableEditMode">
         Change
       </f7-button>
-      <f7-button color="blue" v-if="editMembers" fill raised @click="updateMembers">
+      <f7-button color="blue"
+                 v-if="editMembers"
+                 fill
+                 raised
+                 @click="updateMembers">
         Apply
       </f7-button>
       <f7-button color="blue" v-if="editMembers" @click="cancelEditMode">

@@ -1,7 +1,11 @@
 <template>
   <f7-card v-if="widget">
     <f7-card-content v-if="attributes.length">
-      <f7-list inline-labels sortable sortable-opposite sortable-enabled @sortable:sort="onSort">
+      <f7-list inline-labels
+               sortable
+               sortable-opposite
+               sortable-enabled
+               @sortable:sort="onSort">
         <f7-list-item v-for="(attr, idx) in attributes" :key="attr.key">
           <f7-input
             v-if="!fields"

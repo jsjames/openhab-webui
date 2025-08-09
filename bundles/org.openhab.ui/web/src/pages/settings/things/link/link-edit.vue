@@ -18,7 +18,10 @@
             icon-only
             tooltip="links defined in a .items file are not editable from this screen" />
           <!-- TODO-V3 verify this is correct placement - these links were not in the right slot - but now included in the right slot -->
-          <f7-link v-else-if="theme.md" icon-md="material:save" icon-only @click="save()" />
+          <f7-link v-else-if="theme.md"
+                   icon-md="material:save"
+                   icon-only
+                   @click="save()" />
           <f7-link v-else @click="save()">
             Save
           </f7-link>

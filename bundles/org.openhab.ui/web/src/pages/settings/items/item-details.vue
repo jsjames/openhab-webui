@@ -51,7 +51,10 @@
         <f7-col>
           <f7-block-title>Non-Semantic Tags</f7-block-title>
           <f7-block strong class="tags-block">
-            <f7-chip v-for="tag in nonSemanticTags" :key="tag" :text="tag" media-bg-color="blue">
+            <f7-chip v-for="tag in nonSemanticTags"
+                     :key="tag"
+                     :text="tag"
+                     media-bg-color="blue">
               <template #media>
                 <f7-icon ios="f7:tag_fill" md="material:label" aurora="f7:tag_fill" />
               </template>

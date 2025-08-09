@@ -61,7 +61,12 @@
           @addon-button-click="addonButtonClick" />
       </div>
     </template>
-    <f7-list v-else media-list ref="addonlist" class="addons-table-list" no-chevron no-hairlines>
+    <f7-list v-else
+             media-list
+             ref="addonlist"
+             class="addons-table-list"
+             no-chevron
+             no-hairlines>
       <addon-list-item
         v-for="addon in addonsList"
         :key="addon.uid"

@@ -1,5 +1,8 @@
 <template>
-  <model-card type="location" :context="context" :element="element" header-height="200px">
+  <model-card type="location"
+              :context="context"
+              :element="element"
+              header-height="200px">
     <template #glance>
       <div v-if="!subtitle && parentLocation" class="subtitle">
         <small>{{ parentLocation }}</small>

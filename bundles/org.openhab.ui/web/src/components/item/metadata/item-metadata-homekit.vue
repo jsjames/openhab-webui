@@ -32,7 +32,10 @@
             {{ cl }}
           </option>
         </select>
-        <select v-else name="parameters" @change="updateClasses" :multiple="multiple">
+        <select v-else
+                name="parameters"
+                @change="updateClasses"
+                :multiple="multiple">
           <option v-if="!multiple" value="" />
           <option
             v-for="cl in classesDefs.filter(c => c.indexOf('label:') !== 0)"

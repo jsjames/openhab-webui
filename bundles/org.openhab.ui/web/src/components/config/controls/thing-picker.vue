@@ -5,7 +5,10 @@
     :smart-select-params="smartSelectParams"
     ref="smartSelect"
     v-if="ready">
-    <select :name="name" :multiple="multiple" @change="select" :required="required">
+    <select :name="name"
+            :multiple="multiple"
+            @change="select"
+            :required="required">
       <option v-if="!multiple" value="" />
       <option
         v-for="thing in things"

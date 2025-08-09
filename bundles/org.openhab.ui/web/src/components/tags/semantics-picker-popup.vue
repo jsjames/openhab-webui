@@ -1,5 +1,8 @@
 <template>
-  <f7-popup closeByBackdropClick closeOnEscape @popup:open="onOpen" @popup:close="onClose">
+  <f7-popup closeByBackdropClick
+            closeOnEscape
+            @popup:open="onOpen"
+            @popup:close="onClose">
     <f7-page>
       <f7-navbar :title="propertyMode ? 'Semantic Property' : 'Semantic Class'">
         <f7-nav-right>

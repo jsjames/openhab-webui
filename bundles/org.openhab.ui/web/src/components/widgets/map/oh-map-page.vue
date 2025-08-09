@@ -107,7 +107,7 @@ export default {
   methods: {
     setBackgroundLayer() {
       const defaultProvider =
-        useThemeOptionsStore().darkMode === 'dark' ? 'CartoDB.DarkMatter' : 'CartoDB.Positron'
+        useThemeOptionsStore().getDarkMode() === 'dark' ? 'CartoDB.DarkMatter' : 'CartoDB.Positron'
       const provider = this.config.tileLayerProvider || defaultProvider
       let layer, overlayLayer
       try {

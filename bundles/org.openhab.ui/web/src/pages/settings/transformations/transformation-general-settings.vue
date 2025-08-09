@@ -15,7 +15,10 @@
           info="Note: cannot be changed after the creation"
           @input="transformation.uid = $event.target.value"
           clear-button />
-        <f7-list-input v-else label="Transformation UID" type="text" :input="false">
+        <f7-list-input v-else
+                       label="Transformation UID"
+                       type="text"
+                       :input="false">
           <template #input>
             <span>
               {{ transformation.uid }}

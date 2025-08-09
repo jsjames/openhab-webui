@@ -25,10 +25,19 @@
       </div>
     </f7-card-content>
     <f7-card-footer v-if="createMode || editMode" key="item-card-buttons">
-      <f7-button v-if="createMode" color="blue" fill raised @click="create">
+      <f7-button v-if="createMode"
+                 color="blue"
+                 fill
+                 raised
+                 @click="create">
         Create
       </f7-button>
-      <f7-button v-else color="blue" fill raised @click="save" v-show="model.item.editable">
+      <f7-button v-else
+                 color="blue"
+                 fill
+                 raised
+                 @click="save"
+                 v-show="model.item.editable">
         Save
       </f7-button>
       <f7-button v-if="model.item.editable" color="blue" @click="cancel">

@@ -5,7 +5,10 @@
       back-link="Cancel"
       no-hairline>
       <f7-nav-right>
-        <f7-link @click="save()" v-if="theme.md && editable" icon-md="material:save" icon-only />
+        <f7-link @click="save()"
+                 v-if="theme.md && editable"
+                 icon-md="material:save"
+                 icon-only />
         <f7-link @click="save()" v-if="!theme.md && editable">
           Save
         </f7-link>
@@ -27,7 +30,10 @@
       </f7-link>
     </f7-toolbar>
     <f7-toolbar v-if="ready && generic" position="bottom">
-      <f7-button color="red" v-if="!creationMode" @click="remove()" class="width-100">
+      <f7-button color="red"
+                 v-if="!creationMode"
+                 @click="remove()"
+                 class="width-100">
         Remove metadata
       </f7-button>
     </f7-toolbar>
