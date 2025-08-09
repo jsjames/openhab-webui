@@ -52,9 +52,7 @@ export default {
   props: {
     context: Object,
     contentStyle: Object,
-    contentClass: [String, Array]
-  },
-  props: {
+    contentClass: [String, Array],
     header: Object,
     content: Object,
     'content-root': Object,
