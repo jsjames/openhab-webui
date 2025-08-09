@@ -130,7 +130,12 @@ import { useThemeOptionsStore } from '@/js/stores/theme-options'
 import { mapStores } from 'pinia'
 
 export default {
-  props: ['addon', 'headline', 'installActionText', 'lazyLogo'],
+  props: {
+    addon: Object,
+    headline: String,
+    installActionText: String,
+    lazyLogo: Boolean
+  },
   emits: ['addon-button-click'],
   components: {
     AddonLogo,

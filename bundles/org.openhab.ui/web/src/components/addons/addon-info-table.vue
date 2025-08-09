@@ -47,7 +47,9 @@ import { useRuntimeStore } from '@/js/stores/runtime'
 import { mapStores } from 'pinia'
 
 export default {
-  props: ['addon'],
+  props: {
+    addon: Object
+  },
   computed: {
     information() {
       let info = []

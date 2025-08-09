@@ -24,7 +24,10 @@ import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
 import { theme } from 'framework7-vue'
 
 export default {
-  props: ['itemName', 'metadata'],
+  props: {
+    itemName: String,
+    metadata: Object
+  },
   mixins: [ItemMetadataMixin],
   setup() {
     return { theme }

@@ -37,12 +37,12 @@ import { f7 } from 'framework7-vue'
 
 export default {
   props: {
-    'title': String,
-    'name': String,
-    'value': [String, Number, Boolean, Array, Object],
-    'multiple': Boolean,
-    'required': Boolean,
-    'filterThing': String
+    title: String,
+    name: String,
+    value: [String, Array],
+    multiple: Boolean,
+    required: Boolean,
+    filterThing: String
   },
   emits: ['input'],
   data() {

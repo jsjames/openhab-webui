@@ -43,8 +43,8 @@ export default {
     )
   },
   props: {
-    'props': Object,
-    'config': Object
+    props: Object,
+    config: Object
   },
   methods: {
     propsSheetClosed() {

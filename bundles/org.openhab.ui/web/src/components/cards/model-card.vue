@@ -113,7 +113,9 @@ import { mapStores } from 'pinia'
 
 export default {
   mixins: [CardMixin],
-  props: ['headerHeight'],
+  props: {
+    headerHeight: [String, Number]
+  },
   computed: {
     ...mapStores(useThemeOptionsStore)
   },

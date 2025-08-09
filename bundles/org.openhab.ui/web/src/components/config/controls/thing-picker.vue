@@ -29,14 +29,14 @@ import { nextTick } from 'vue'
 
 export default {
   props: {
-    'title' : String,
-    'name': String,
-    'value': String,
-    'multiple': Boolean,
-    'required': Boolean,
-    'filterType': Array,
-    'filterUid': Array,
-    'openOnReady': Boolean
+    title: String,
+    name: String,
+    value: [String, Array],
+    multiple: Boolean,
+    required: Boolean,
+    filterType: Array,
+    filterUid: Array,
+    openOnReady: Boolean
   },
   emits: ['input'],
   data() {

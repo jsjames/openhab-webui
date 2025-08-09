@@ -118,7 +118,11 @@ import { f7 } from 'framework7-vue'
 
 export default {
   components: { FilterPicker, StrategyPicker, ItemPicker },
-  props: ['configuration', 'strategies', 'filters'],
+  props: {
+    configuration: Object,
+    strategies: Array,
+    filters: Array
+  },
   emits: ['configuration-update'],
   data() {
     return {

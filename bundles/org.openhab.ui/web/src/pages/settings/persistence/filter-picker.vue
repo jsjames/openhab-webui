@@ -45,7 +45,11 @@
 import { f7 } from 'framework7-vue'
 
 export default {
-  props: ['filters', 'value', 'disabled'],
+  props: {
+    filters: Array,
+    value: Array,
+    disabled: Boolean
+  },
   emits: ['filters-selected'],
   data() {
     return {

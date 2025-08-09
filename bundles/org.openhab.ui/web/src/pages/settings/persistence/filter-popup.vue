@@ -55,7 +55,11 @@ import { f7 } from 'framework7-vue'
 
 export default {
   components: { ConfigSheet },
-  props: ['filter', 'filterType', 'filterConfigDescriptionParameters'],
+  props: {
+    filter: Object,
+    filterType: Object,
+    filterConfigDescriptionParameters: Array
+  },
   emits: ['filter-update'],
   data() {
     return {

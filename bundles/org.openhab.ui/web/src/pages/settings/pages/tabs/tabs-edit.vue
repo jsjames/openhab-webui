@@ -181,7 +181,10 @@ export default {
     ),
     PageSettings
   },
-  props: ['createMode', 'uid'],
+  props: {
+    createMode: Boolean,
+    uid: String
+  },
   setup() {
     return { theme }
   },

@@ -21,7 +21,9 @@
 import { defineAsyncComponent } from 'vue'
 
 export default {
-  props: ['bridgeUID'],
+  props: {
+    bridgeUID: String
+  },
   components: {
     'zwave-network': defineAsyncComponent(
       () =>

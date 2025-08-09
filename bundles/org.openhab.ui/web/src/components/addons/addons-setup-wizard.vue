@@ -77,7 +77,11 @@ import AddonLogo from '@/components/addons/addon-logo.vue'
 import { loadLocaleMessages } from '@/js/i18n'
 
 export default {
-  props: ['addons', 'preSelectedAddons', 'enableAddonSelection'],
+  props: {
+    addons: Array,
+    preSelectedAddons: Array,
+    enableAddonSelection: Boolean
+  },
   emits: ['update'],
   components: {
     AddonLogo

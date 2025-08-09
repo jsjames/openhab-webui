@@ -31,7 +31,7 @@ Icon.Default.mergeOptions({
 
 export default {
   props: {
-    'value': [String, Number, Boolean, Array, Object]
+    value: String
   },
   emits: ['input'],
   components: {

@@ -20,7 +20,11 @@
 
 <script>
 export default {
-  props: ['addonsInstalled', 'addonsServices', 'expanded'],
+  props: {
+    addonsInstalled: Array,
+    addonsServices: Array,
+    expanded: Boolean
+  },
   emits: ['expand'],
   computed: {
     addonsSettings() {

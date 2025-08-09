@@ -144,16 +144,16 @@ import { useRuntimeStore } from '@/js/stores/runtime'
 
 export default {
   mixins: [ModelMixin],
-  props: [
-    'value',
-    'multiple',
-    'semanticOnly',
-    'groupsOnly',
-    'editableOnly',
-    'allowEmpty',
-    'popupTitle',
-    'actionLabel'
-  ],
+  props: {
+    value: [String, Array],
+    multiple: Boolean,
+    semanticOnly: Boolean,
+    groupsOnly: Boolean,
+    editableOnly: Boolean,
+    allowEmpty: Boolean,
+    popupTitle: String,
+    actionLabel: String
+  },
   components: {
     ModelTreeview
   },

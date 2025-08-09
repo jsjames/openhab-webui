@@ -231,7 +231,9 @@ export default {
     AddonStatsLine,
     AddonInfoTable
   },
-  props: ['addonId'],
+  props: {
+    addonId: String
+  },
   data() {
     return {
       addon: null,

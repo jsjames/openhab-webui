@@ -89,7 +89,9 @@ export default {
     'empty-state-placeholder': EmptyStatePlaceholder,
     AddonDetailsSheet
   },
-  props: ['addonType'],
+  props: {
+    addonType: String
+  },
   data() {
     return {
       addons: [],

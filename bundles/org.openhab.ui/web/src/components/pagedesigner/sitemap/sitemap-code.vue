@@ -64,7 +64,9 @@ export default {
         )
     )
   },
-  props: ['sitemap'],
+  props: {
+    sitemap: Object
+  },
   emits: ['updated'],
   data() {
     return {

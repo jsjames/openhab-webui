@@ -48,7 +48,11 @@ import { useSemanticsStore } from '@/js/stores/semantics'
 
 export default {
   mixins: [TagMixin],
-  props: ['item', 'createMode', 'hideNone'],
+  props: {
+    item: Object,
+    createMode: Boolean,
+    hideNone: Boolean
+  },
   components: {
     SemanticsPickerPopup
   },

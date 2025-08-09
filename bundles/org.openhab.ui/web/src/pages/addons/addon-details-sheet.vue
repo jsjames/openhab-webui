@@ -127,7 +127,12 @@ import AddonInfoTable from '@/components/addons/addon-info-table.vue'
 import { f7 } from 'framework7-vue'
 
 export default {
-  props: ['addonId', 'serviceId', 'opened', 'noDetails'],
+  props: {
+    addonId: String,
+    serviceId: String,
+    opened: Boolean,
+    noDetails: Boolean
+  },
   components: {
     AddonInfoTable
   },

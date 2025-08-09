@@ -48,8 +48,8 @@ import { f7 } from 'framework7-vue'
 
 export default {
   props: {
-    'groupItem': Object,
-    'context': Object
+    groupItem: Object,
+    context: Object
   },
   components: {
     Item,

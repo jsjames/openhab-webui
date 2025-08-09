@@ -59,7 +59,10 @@ import { f7 } from 'framework7-vue'
 import { nextTick, defineAsyncComponent } from 'vue'
 
 export default {
-  props: ['component', 'componentType'],
+  props: {
+    component: Object,
+    componentType: String
+  },
   mixins: [DirtyMixin, MovablePopupMixin],
   components: {
     editor: defineAsyncComponent(

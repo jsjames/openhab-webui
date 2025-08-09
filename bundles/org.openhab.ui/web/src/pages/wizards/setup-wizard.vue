@@ -514,7 +514,7 @@ export default {
     }
   },
   methods: {
-    beginsetup() {
+    beginSetup() {
       this.$oh.api
         .put('/rest/services/org.openhab.i18n/config', {
           language: this.language,
@@ -543,7 +543,7 @@ export default {
         )
       }
     },
-    skipsetup() {
+    skipSetup() {
       const self = this
       f7.dialog.confirm(
         this.t('setupwizard.skipSetup.confirm.message'),

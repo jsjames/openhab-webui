@@ -195,7 +195,9 @@ export default {
   components: {
     Context
   },
-  props: ['activeHelpTab'],
+  props: {
+    activeHelpTab: String
+  },
   data() {
     return {
       addons: [],

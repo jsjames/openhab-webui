@@ -32,7 +32,11 @@ import Dom7 from 'dom7'
 import { useRuntimeStore } from '@/js/stores/runtime'
 
 export default {
-  props: ['addon', 'size', 'lazy'],
+  props: {
+    addon: Object,
+    size: [String, Number],
+    lazy: Boolean
+  },
   data() {
     return {
       addonIcon: AddonIcons[this.addon.type],

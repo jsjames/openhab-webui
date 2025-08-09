@@ -121,7 +121,10 @@ import { useRuntimeStore } from '@/js/stores/runtime'
 import { mapStores } from 'pinia'
 
 export default {
-  props: ['item', 'metadata'],
+  props: {
+    item: Object,
+    metadata: Object
+  },
   mixins: [ItemMetadataMixin],
   components: {
     ConfigSheet

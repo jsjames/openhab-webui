@@ -67,7 +67,9 @@ export default {
   components: {
     AddonDetailsSheet
   },
-  props: ['addonType'],
+  props: {
+    addonType: String
+  },
   setup() {
     return { theme }
   },

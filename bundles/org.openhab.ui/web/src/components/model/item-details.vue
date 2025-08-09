@@ -87,7 +87,12 @@ import { f7 } from 'framework7-vue'
 
 export default {
   mixins: [ItemMixin],
-  props: ['model', 'links', 'items', 'context'],
+  props: {
+    model: Object,
+    links: Array,
+    items: Array,
+    context: Object
+  },
   components: {
     Item,
     ItemForm

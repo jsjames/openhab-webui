@@ -41,8 +41,8 @@ import { f7 } from 'framework7-vue'
 
 export default {
   props: {
-    'value': [String, Number, Boolean, Array, Object],
-    'title': String
+    value: String,
+    title: String
   },
   components: {
     'location-picker': defineAsyncComponent(

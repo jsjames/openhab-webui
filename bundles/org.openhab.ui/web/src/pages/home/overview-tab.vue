@@ -96,7 +96,10 @@ import { useThemeOptionsStore } from '@/js/stores/theme-options'
 import { mapStores } from 'pinia'
 
 export default {
-  props: ['context', 'allowChat'],
+  props: {
+    context: Object,
+    allowChat: Boolean
+  },
   components: {
     OhLayoutPage,
     'empty-state-placeholder': EmptyStatePlaceholder,

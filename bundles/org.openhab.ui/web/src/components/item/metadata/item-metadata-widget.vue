@@ -124,7 +124,11 @@ import { mapStores } from 'pinia'
 import { utils } from 'framework7'
 
 export default {
-  props: ['item', 'metadata', 'namespace'],
+  props: {
+    item: Object,
+    metadata: Object,
+    namespace: String
+  },
   mixins: [ItemMetadataMixin],
   components: {
     ConfigSheet

@@ -127,7 +127,10 @@ import { useStatesStore } from '@/js/stores/states'
 
 export default {
   mixins: [mixin, CardMixin],
-  props: ['parentLocation', 'tabContext'],
+  props: {
+    parentLocation: String,
+    tabContext: Object
+  },
   components: {
     ModelCard,
     StatusBadge,

@@ -50,7 +50,11 @@ import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
 import { useRuntimeStore } from '@/js/stores/runtime'
 
 export default {
-  props: ['itemName', 'metadata', 'namespace'],
+  props: {
+    itemName: String,
+    metadata: Object,
+    namespace: String
+  },
   mixins: [ItemMetadataMixin],
   components: {
     ConfigSheet

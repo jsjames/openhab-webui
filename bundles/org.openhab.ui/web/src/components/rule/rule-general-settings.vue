@@ -119,15 +119,15 @@
 import TagInput from '@/components/tags/tag-input.vue'
 
 export default {
-  props: [
-    'rule',
-    'ready',
-    'createMode',
-    'stubMode',
-    'templateName',
-    'inScriptEditor',
-    'inSceneEditor'
-  ],
+  props: {
+    rule: Object,
+    ready: Boolean,
+    createMode: Boolean,
+    stubMode: Boolean,
+    templateName: String,
+    inScriptEditor: Boolean,
+    inSceneEditor: Boolean
+  },
   components: {
     TagInput
   },

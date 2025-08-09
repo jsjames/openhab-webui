@@ -18,7 +18,10 @@
 import { f7 } from 'framework7-vue'
 
 export default {
-  props: ['value', 'size'],
+  props: {
+    value: String,
+    size: Number
+  },
   methods: {
     success () {
       f7.toast

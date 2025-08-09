@@ -143,7 +143,10 @@ import { nextTick } from 'vue'
 
 export default {
   components: {},
-  props: ['rule', 'module'],
+  props: {
+    rule: Object,
+    module: Object
+  },
   emits: ['closed', 'update', 'scene-item-config-update'],
   data() {
     return {

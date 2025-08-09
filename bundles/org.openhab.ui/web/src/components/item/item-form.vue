@@ -221,15 +221,15 @@ import uomMixin from '@/components/item/uom-mixin'
 export default {
   mixins: [ItemMixin, uomMixin],
   props: {
-    'item': Object,
-    'items': Array,
-    'createMode': Boolean,
-    'hideCategory': Boolean,
-    'hideType': Boolean,
-    'hideSemantics': Boolean,
-    'forceSemantics': Boolean,
-    'unitHint': String,
-    'stateDescription': String
+    item: Object,
+    items: Array,
+    createMode: Boolean,
+    hideCategory: Boolean,
+    hideType: Boolean,
+    hideSemantics: Boolean,
+    forceSemantics: Boolean,
+    unitHint: String,
+    stateDescription: String
   },
   components: {
     SemanticsPicker,

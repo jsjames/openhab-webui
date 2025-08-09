@@ -30,8 +30,8 @@ import { theme } from 'framework7-vue'
 
 export default {
   props: {
-    'configDescription': Object,
-    'value': Number
+    configDescription: Object,
+    value: [String, Number]
   },
   emits: ['input'],
   setup() {

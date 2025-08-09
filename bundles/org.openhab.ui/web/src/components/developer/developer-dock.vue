@@ -130,7 +130,12 @@ import { useThemeOptionsStore } from '@/js/stores/theme-options'
 import { mapStores } from 'pinia'
 
 export default {
-  props: ['dock', 'helpTab', 'toolTab', 'searchFor'],
+  props: {
+    dock: String,
+    helpTab: String,
+    toolTab: String,
+    searchFor: String
+  },
   components: {
     DeveloperSidebar,
     HelpSidebar

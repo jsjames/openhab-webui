@@ -53,14 +53,14 @@ export default {
     'iconify-icon': Icon
   },
   props: {
-    'icon': String,
-    'width': [String, Number],
-    'height': [String, Number],
-    'color': String,
-    'state': [String, Number],
-    'rotate': [String, Number],
-    'horizontalFlip': Boolean,
-    'verticalFlip': Boolean
+    icon: String,
+    width: [String, Number],
+    height: [String, Number],
+    color: String,
+    state: [String, Number, Boolean, Object], // not sure about this
+    rotate: [String, Number],
+    horizontalFlip: Boolean,
+    verticalFlip: Boolean
   },
   widget: OhIconDefinition,
   data() {

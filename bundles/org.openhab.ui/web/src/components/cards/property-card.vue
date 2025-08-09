@@ -57,7 +57,9 @@ import { useStatesStore } from '@/js/stores/states'
 
 export default {
   mixins: [mixin, CardMixin],
-  props: ['tabContext'],
+  props: {
+    tabContext: Object
+  },
   components: {
     ModelCard
   },

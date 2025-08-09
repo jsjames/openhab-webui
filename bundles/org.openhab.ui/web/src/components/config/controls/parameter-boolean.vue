@@ -14,8 +14,8 @@
 <script>
 export default {
   props: {
-    'configDescription': Object,
-    'value': Boolean
+    configDescription: Object,
+    value: [String, Boolean]
   },
   emits: ['input'],
   computed: {

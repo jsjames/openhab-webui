@@ -664,7 +664,9 @@ import { f7 } from 'framework7-vue'
 
 export default {
   name: 'vueCron',
-  props: ['value'],
+  props: {
+    value: String
+  },
   data() {
     return {
       f7,

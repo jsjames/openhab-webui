@@ -87,7 +87,14 @@ export default {
   components: {
     SemanticsTreeview
   },
-  props: ['item', 'propertyMode', 'classMode', 'hideNone', 'semanticClass', 'semanticProperty'],
+  props: {
+    item: Object,
+    propertyMode: Boolean,
+    classMode: Boolean,
+    hideNone: Boolean,
+    semanticClass: String,
+    semanticProperty: String
+  },
   emits: ['close', 'changed'],
   setup() {
     return {

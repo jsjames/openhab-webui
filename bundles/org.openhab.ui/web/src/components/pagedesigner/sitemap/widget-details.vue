@@ -275,7 +275,10 @@ export default {
     ItemPicker,
     PersistencePicker
   },
-  props: ['widget', 'createMode'],
+  props: {
+    widget: Object,
+    createMode: Boolean
+  },
   emits: ['moveup', 'movedown', 'duplicate', 'remove'],
   data() {
     return {

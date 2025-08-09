@@ -88,7 +88,10 @@ import { useThemeOptionsStore } from '@/js/stores/theme-options'
 import { mapStores } from 'pinia'
 
 export default {
-  props: ['addon', 'installActionText'],
+  props: {
+    addon: Object,
+    installActionText: String
+  },
   emits: ['addon-button-click'],
   components: {
     AddonLogo,

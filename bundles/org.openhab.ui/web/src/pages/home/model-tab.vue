@@ -103,7 +103,10 @@ import { mapState } from 'vuex'
 import { useStatesStore } from '@/js/stores/states'
 
 export default {
-  props: ['type', 'page'],
+  props: {
+    type: String,
+    page: Object
+  },
   components: {
     LocationCard,
     EquipmentCard,

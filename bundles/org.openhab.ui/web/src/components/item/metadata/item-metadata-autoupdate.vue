@@ -25,7 +25,10 @@
 import ItemMetadataMixin from '@/components/item/metadata/item-metadata-mixin'
 
 export default {
-  props: ['itemName', 'metadata'],
+  props: {
+    itemName: String,
+    metadata: Object
+  },
   mixins: [ItemMetadataMixin]
 }
 </script>
