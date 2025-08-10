@@ -134,7 +134,7 @@
                     v-for="moduleType in mt"
                     :value="moduleType.uid"
                     :key="moduleType.uid"
-                    :selected="currentRuleModuleType.uid === moduleType.uid ? true : null">
+                    :selected="currentRuleModuleType?.uid === moduleType.uid ? true : null">
                     {{ moduleType.label }}
                   </option>
                 </optgroup>
@@ -192,12 +192,12 @@ export default {
     ConfigSheet
   },
   props: {
-    'rule': Object,
-    'ruleModule': Object,
-    'ruleModuleType': Object,
-    'moduleTypes': Object,
-    'currentSection': String,
-    'readOnly': Boolean,
+    rule: Object,
+    ruleModule: Object,
+    ruleModuleType: Object,
+    moduleTypes: Object,
+    currentSection: String,
+    readOnly: Boolean,
     f7router: Object
   },
   emits: ['module-update', 'edit-new-script'],

@@ -67,7 +67,7 @@ export default {
   props: {
     rule: Object,
     module: Object,
-    moduleType: String,
+    moduleType: Object,
     createMode: Boolean,
     isScriptRule: Boolean,
     languages: Array,
