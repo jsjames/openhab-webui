@@ -182,20 +182,20 @@ export default {
     }
   },
   methods: {
-    languageExtension() {
-      if(this.mode.includes('yaml')) {
+    languageExtension(mode) {
+      if(mode.includes('yaml')) {
         return yaml()
       }
 
-      if(this.mode.startsWith('application/javascript')) {
+      if(mode.startsWith('application/javascript')) {
         return javascript()
       }
 
-      if(this.mode.startsWith('application/x-python')) {
+      if(mode.startsWith('application/x-python')) {
         return python()
       }
 
-      switch(this.mode) {
+      switch(mode) {
         case 'dsl':
         case 'application/vnd.openhab.dsl.rule':
           return java()
@@ -221,7 +221,7 @@ export default {
         case 'xslt':
           return xml()
         default:
-          console.log('Unsupported codemirror mode:', this.mode)
+          console.log('Unsupported codemirror mode:', mode)
           return null;
       }
     },
@@ -398,7 +398,7 @@ export default {
       const extensions = [
         ...STANDARD_EXTENSIONS,
         EditorState.readOnly.of(this.readOnly),
-        this.languageExtension(),
+        this.languageExtension(this.mode),
         useThemeOptionsStore().getDarkMode() === 'dark' ? gruvboxDark : null
       ].filter(ext => ext)
 
