@@ -10,27 +10,13 @@
 
 <style lang="stylus">
 .code-editor-fit
-  position absolute
-  left 0
-  top var(--f7-navbar-height)
-  height calc(100% - var(--f7-navbar-height))
+  position relative
   width 100%
-  display flex
-  background white
-  align-items center
-  justify-content center
-  .CodeMirror
+  height calc(100vh - var(--f7-navbar-height) - var(--f7-tabbar-height, 48px))
+  display flex !important
+  .cm-editor
     height 100%
     width 100%
-
-    .CodeMirror-line
-      line-height 1.3
-
-    .cm-lkcampbell-indent-guides:not(.CodeMirror-lint-mark-error)
-      margin-top -5px
-      background-repeat repeat-y
-      background-image url("data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='1px' height='2px'><rect width='1' height='1' style='fill:%2377777777' /></svg>")
-      position relative
 
 .CodeMirror-hints
   z-index 999999
@@ -165,6 +151,7 @@ export default {
   data () {
     return {
       code: this.value,
+      autocompletion: null,
       itemsCache: []
     }
   },
@@ -269,9 +256,13 @@ export default {
       }
     },
     onCmReady (cm) {
+      if (!this.mode) {
+        return
+      }
+
       const self = this
       let extraKeys = {}
-      if (this.mode && this.mode.indexOf('application/javascript') === 0) {
+      if (this.mode.indexOf('application/javascript') === 0) {
         window.tern = tern
         if (this.ternAutocompletionHook) {
           tern.registerPlugin('openhab-tern-hook', (server, options) => {
@@ -314,7 +305,29 @@ export default {
           server.updateArgHints(cm)
         })
         */
-      } else {
+      } else if (this.mode) {
+        this.autocompletion = autocompletion({
+          override: [
+            (context) => {
+              if (self.mode.startsWith('application/vnd.openhab.uicomponent')) {
+                return componentsHint(context, self.mode)
+              }
+
+              switch (self.mode) {
+                case 'application/vnd.openhab.rule+yaml':
+                  return rulesHint(context, self.mode)
+                case 'application/python':
+                  return pythonHint(context, self.mode)
+                case 'application/vnd.openhab.thing+yaml':
+                  return thingsHint(context, self.mode)
+                case 'application/vnd.openhab.item+yaml':
+                  return itemsHint(context, self.mode)
+                default:
+                  return completeFromList(context, { label: true })
+              }
+            }
+          ]
+        })
         const autocomplete = function (cm) {
           setTimeout(function () {
             _CodeMirror.commands.autocomplete(cm)
@@ -391,6 +404,7 @@ export default {
         ...STANDARD_EXTENSIONS,
         EditorState.readOnly.of(this.readOnly),
         this.languageExtension(this.mode),
+        this.autocompletion,
         useUIOptionsStore().getDarkMode() === 'dark' ? gruvboxDark : null
       ].filter((ext) => ext)
 
