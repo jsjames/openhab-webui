@@ -81,7 +81,7 @@ const checkDirtyBeforeLeave = function ({ router, to, from, resolve, reject }) {
 }
 
 const loadAsync = (page, props) => {
-  return async ({ router, to, from, resolve, reject }) => {
+  return async ({ f7router, to, from, resolve, reject }) => {
     if (!props) {
       page().then((c) => {
         resolve({ component: c.default })
@@ -92,7 +92,9 @@ const loadAsync = (page, props) => {
       })
     } else if (typeof props === 'function') {
       page().then((c) => {
-        resolve({ component: c.default }, { props: props({ f7router: router, to, from, resolve, reject }) }
+        resolve(
+          { component: c.default },
+          { props: props({ f7router, to, from, resolve, reject }) }
         )
       })
     }
@@ -252,7 +254,9 @@ export default [
           {
             path: ':transformationId',
             beforeLeave: checkDirtyBeforeLeave,
-            async: loadAsync(TransformationsEditPage, (routeTo) => (routeTo.params.transformationId === 'add') ? { createMode: true } : {})
+            async: loadAsync(TransformationsEditPage, ({ to }) =>
+              to.params.transformationId === 'add' ? { createMode: true } : {}
+            )
           }
         ]
       },
@@ -368,7 +372,9 @@ export default [
                 path: 'script/:moduleId',
                 beforeEnter: [enforceAdminForRoute],
                 beforeLeave: [checkDirtyBeforeLeave],
-                async: loadAsync(ScriptEditPage, (routeTo) => (routeTo.params.ruleId === 'add') ? { createMode: true } : {})
+                async: loadAsync(ScriptEditPage, ({ to }) =>
+                  to.params.ruleId === 'add' ? { createMode: true } : {}
+                )
               }
             ]
           }
@@ -493,7 +499,9 @@ export default [
             path: ':uid',
             beforeEnter: [enforceAdminForRoute],
             beforeLeave: [checkDirtyBeforeLeave],
-            async: loadAsync(WidgetEditPage, (routeTo) => (routeTo.params.uid === 'add') ? { createMode: true } : {})
+            async: loadAsync(WidgetEditPage, ({ to }) =>
+              to.params.uid === 'add' ? { createMode: true } : {}
+            )
           }
         ]
       },
@@ -506,7 +514,9 @@ export default [
             path: ':uid',
             beforeEnter: [enforceAdminForRoute],
             beforeLeave: [checkDirtyBeforeLeave],
-            async: loadAsync(BlocksEditPage, (routeTo) => routeTo.params.uid === 'add' ? { createMode: true } : {})
+            async: loadAsync(BlocksEditPage, ({ to }) =>
+              to.params.uid === 'add' ? { createMode: true } : {}
+            )
           }
         ]
       },
