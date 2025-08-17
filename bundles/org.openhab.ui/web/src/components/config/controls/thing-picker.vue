@@ -12,7 +12,7 @@
       <option v-for="thing in things"
               :value="thing.UID"
               :key="thing.UID"
-              :selected="multiple ? value.indexOf(thing.UID) >= 0 : value === thing.UID ? true : null">
+              :selected="multiple ? value.indexOf(thing.UID) >= 0 : value === thing.UID">
         {{ thing.label ? thing.label + ' (' + thing.UID + ')' : thing.UID }}
       </option>
     </select>
@@ -45,8 +45,8 @@ export default {
       smartSelectParams: {
         view: f7.view.main,
         openIn: 'popup',
-        searchbar: true,
         searchbarPlaceholder: this.$t('dialogs.search.things'),
+        searchbar: true,
 
         renderItem: (item, index) => {
           let after = (index > 0) ? this.things[index - 1].location

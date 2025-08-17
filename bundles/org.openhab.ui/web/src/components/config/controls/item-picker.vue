@@ -2,9 +2,9 @@
   <div class="item-picker-container">
     <f7-list-item v-if="ready"
                   :title="title || 'Item'"
-                  :disabled="disabled ? true : null"
                   smart-select
                   :smart-select-params="smartSelectParams"
+                  :disabled="disabled ? true : null"
                   :textColor="textColor"
                   ref="smartSelect"
                   class="item-picker">
@@ -12,10 +12,11 @@
               :multiple="multiple"
               @change="select"
               :required="required">
-        <option value="" v-if="!multiple" />
-        <option v-for="item in preparedItems" :key="item.name"
+        <option v-if="!multiple" value="" />
+        <option v-for="item in preparedItems"
                 :value="item.name"
-                :selected="(multiple) ? Array.isArray(value) && value.indexOf(item.name) >= 0 : value === item.name ? true : null ">
+                :key="item.name"
+                :selected="(multiple) ? Array.isArray(value) && value.indexOf(item.name) >= 0 : value === item.name">
           {{ item.label ? item.label + ' (' + item.name + ')' : item.name }}
         </option>
       </select>
@@ -34,8 +35,8 @@
       </template>
     </f7-list-item>
     <!-- for placeholder purposes before items are loaded -->
-    <f7-list-item link
-                  v-show="!ready"
+    <f7-list-item v-else
+                  link
                   :title="title"
                   disabled
                   no-chevron>
@@ -112,7 +113,7 @@ export default {
   },
   created () {
     this.smartSelectParams.closeOnSelect = !(this.multiple)
-    if (this.setValueText === false) this.smartSelectParams.setValueText = false
+    if (this.setValueText) this.smartSelectParams.setValueText = this.setValueText
     if (!this.items || !this.items.length) {
       this.$oh.api.get('/rest/items?staticDataOnly=true').then((items) => {
         this.sortAndFilterItems(items)
