@@ -92,9 +92,7 @@ export default {
   components: {
     OhLayoutPage,
     'empty-state-placeholder': EmptyStatePlaceholder,
-    habot: defineAsyncComponent(
-      () => import(/* webpackChunkName: "habot" */ '../../components/home/habot.vue')
-    )
+    habot: defineAsyncComponent(() => import(/* webpackChunkName: "habot" */ '../../components/home/habot.vue'))
   },
   setup () {
     return {

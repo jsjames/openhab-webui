@@ -20,7 +20,8 @@ export default {
     return {
       vars: (this.context) ? this.context.vars : {},
       ctxVars: (this.context) ? this.context.ctxVars : {},
-      widgetVars: {}
+      widgetVars: {},
+      varScope: null
     }
   },
   computed: {
@@ -148,7 +149,6 @@ export default {
         clipboardtype: this.context.clipboardtype,
         parent: this.context.parent
       }
-      console.log("childWidgetContext: ", widgetContext)
       return widgetContext
     },
     onCommand (itemName, cmd) {

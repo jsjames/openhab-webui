@@ -30,12 +30,8 @@ export default {
   mixins: [mixin],
   widget: OhVideoDefinition,
   components: {
-    'oh-video-videojs': defineAsyncComponent(
-      () => import(/* webpackChunkName: "oh-video-videojs" */ './oh-video-videojs.vue')
-    ),
-    'oh-video-webrtc': defineAsyncComponent(
-      () => import(/* webpackChunkName: "oh-video-webrtc" */ './oh-video-webrtc.vue')
-    )
+    'oh-video-videojs': defineAsyncComponent(() => import(/* webpackChunkName: "oh-video-videojs" */ './oh-video-videojs.vue')),
+    'oh-video-webrtc': defineAsyncComponent(() => import(/* webpackChunkName: "oh-video-webrtc" */ './oh-video-webrtc.vue'))
   },
   data () {
     return {

@@ -98,9 +98,7 @@ export default {
   mixins: [mixin],
   widget: OhGridLayoutDefinition,
   components: {
-    'grid-layout': defineAsyncComponent(() =>
-      import('grid-layout-plus').then((mod) => mod.GridLayout)
-    ),
+    'grid-layout': defineAsyncComponent(() => import('grid-layout-plus').then((mod) => mod.GridLayout)),
     OhGridItem
   },
   data () {

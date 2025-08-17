@@ -419,11 +419,7 @@ import { loadLocaleMessages } from '@/js/i18n'
 
 export default {
   components: {
-    'oh-chart-page': defineAsyncComponent(
-      () => import(
-        /* webpackChunkName: "chart-page" */ '../../components/widgets/chart/oh-chart-page.vue'
-      )
-    ),
+    'oh-chart-page': defineAsyncComponent(() => import(/* webpackChunkName: "chart-page" */ '../../components/widgets/chart/oh-chart-page.vue')),
     ItemPicker,
     EmptyStatePlaceholder
   },

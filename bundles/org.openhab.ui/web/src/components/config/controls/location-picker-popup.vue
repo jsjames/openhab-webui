@@ -43,9 +43,7 @@ export default {
     title: String
   },
   components: {
-    'location-picker': defineAsyncComponent(
-      () => import(/* webpackChunkName: "location-picker" */ './location-picker.vue')
-    )
+    'location-picker': defineAsyncComponent(() => import(/* webpackChunkName: "location-picker" */ './location-picker.vue'))
   },
   data () {
     return {

@@ -283,7 +283,7 @@
 </style>
 
 <script>
-import { nextTick, defineAsyncComponent } from 'vue'
+import { nextTick } from 'vue'
 import { Dom7 } from 'framework7'
 import { f7, theme } from 'framework7-vue'
 import { mapStores } from 'pinia'

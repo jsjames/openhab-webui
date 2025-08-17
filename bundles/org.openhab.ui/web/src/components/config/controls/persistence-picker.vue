@@ -70,14 +70,14 @@ export default {
       this.ready = true
       if (this.openOnReady) {
         nextTick(() => {
-          this.$refs.smartSelect.$el.f7SmartSelect.open()
+          this.$refs.smartSelect.$el.children[0].f7SmartSelect.open()
         })
       }
     })
   },
   methods: {
     open () {
-      this.$refs.smartSelect.$el.f7SmartSelect.open()
+      this.$refs.smartSelect.$el.children[0].f7SmartSelect.open()
     },
     select (e) {
       f7.input.validateInputs(this.$refs.smartSelect.$el)

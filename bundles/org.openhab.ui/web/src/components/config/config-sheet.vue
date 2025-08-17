@@ -93,9 +93,7 @@ export default {
   },
   emits: ['updated'],
   components: {
-    'config-parameter': defineAsyncComponent(
-      () => import(/* webpackChunkName: "config-parameter" */ './config-parameter.vue')
-    )
+    'config-parameter': defineAsyncComponent(() => import(/* webpackChunkName: "config-parameter" */ './config-parameter.vue'))
   },
   data () {
     return {

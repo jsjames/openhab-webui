@@ -546,9 +546,11 @@ export default {
   components: {
     EmptyStatePlaceholder,
     PanelRight,
-    DeveloperDock: defineAsyncComponent(
-      () => import(/* webpackChunkName: "admin-base" */ '@/components/developer/developer-dock.vue')
-    )
+    DeveloperDock: defineAsyncComponent(() => import(/* webpackChunkName: "admin-base" */ '@/components/developer/developer-dock.vue'))
+  },
+  setup () {
+    console.log("App setup")
+    connectionHealth.connectionHealthSetup()
   },
   data () {
     let theme = localStorage.getItem('openhab.ui:theme')

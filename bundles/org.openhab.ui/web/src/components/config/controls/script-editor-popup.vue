@@ -28,9 +28,7 @@ import { defineAsyncComponent } from 'vue'
 
 export default {
   components: {
-    editor: defineAsyncComponent(
-      () => import(/* webpackChunkName: "script-editor" */ './script-editor.vue')
-    )
+    editor: defineAsyncComponent(() => import(/* webpackChunkName: "script-editor" */ './script-editor.vue'))
   },
   props: {
     title: String,

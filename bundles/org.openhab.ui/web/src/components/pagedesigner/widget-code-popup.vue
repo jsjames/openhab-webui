@@ -63,12 +63,7 @@ export default {
   },
   mixins: [DirtyMixin, MovablePopupMixin],
   components: {
-    editor: defineAsyncComponent(
-      () =>
-        import(
-          /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
-        )
-    )
+    editor: defineAsyncComponent(() => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'))
   },
   emits: ['update', 'closed'],
   data () {

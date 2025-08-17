@@ -8,12 +8,9 @@ import { useStatesStore } from '@/js/stores/useStatesStore'
 export default {
   components: {
     'oh-layout-page': OhLayoutPage,
-    'oh-map-page': defineAsyncComponent(
-      () => import('@/components/widgets/map/oh-map-page.vue')),
-    'oh-plan-page': defineAsyncComponent(
-      () => import('@/components/widgets/plan/oh-plan-page.vue')),
-    'oh-chart-page': defineAsyncComponent(
-      () => import('@/components/widgets/chart/oh-chart-page.vue'))
+    'oh-map-page': defineAsyncComponent(() => import('@/components/widgets/map/oh-map-page.vue')),
+    'oh-plan-page': defineAsyncComponent(() => import('@/components/widgets/plan/oh-plan-page.vue')),
+    'oh-chart-page': defineAsyncComponent(() => import('@/components/widgets/chart/oh-chart-page.vue'))
   },
   props: {
     uid: String,

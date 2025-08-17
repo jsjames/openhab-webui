@@ -228,7 +228,7 @@
 </style>
 
 <script>
-import { nextTick, defineAsyncComponent } from 'vue'
+import { nextTick } from 'vue'
 import { f7, theme } from 'framework7-vue'
 
 import ThingInboxMixin from '@/pages/settings/things/thing-inbox-mixin'

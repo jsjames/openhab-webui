@@ -369,12 +369,8 @@ import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
 export default {
   mixins: [i18n_mixin],
   components: {
-    'parameter-location': defineAsyncComponent(
-      () => import('@/components/config/controls/parameter-location.vue')
-    ),
-    'parameter-options': defineAsyncComponent(
-      () => import('@/components/config/controls/parameter-options.vue')
-    ),
+    'parameter-location': defineAsyncComponent(() => import('@/components/config/controls/parameter-location.vue')),
+    'parameter-options': defineAsyncComponent(() => import('@/components/config/controls/parameter-options.vue')),
     AddonsSetupWizard
   },
   setup () {

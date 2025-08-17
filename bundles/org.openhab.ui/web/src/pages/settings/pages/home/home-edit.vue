@@ -240,9 +240,7 @@ const ConfigurableWidgets = {
 export default {
   mixins: [PageDesigner, HomeCards],
   components: {
-    editor: defineAsyncComponent(() => import(
-      /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
-    )),
+    editor: defineAsyncComponent(() => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue')),
     ConfigSheet,
     ModelTab
   },

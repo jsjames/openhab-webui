@@ -271,9 +271,7 @@ export default {
   components: {
     RuleGeneralSettings,
     ItemPicker,
-    editor: defineAsyncComponent(() => import(
-      /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
-    ))
+    editor: defineAsyncComponent(() => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'))
   },
   props: {
     ruleId: String,

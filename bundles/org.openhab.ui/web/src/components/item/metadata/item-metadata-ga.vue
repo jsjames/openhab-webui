@@ -94,7 +94,7 @@ export default {
       return this.classes === cl
     },
     updateClass () {
-      const value = this.$refs.classes.f7SmartSelect.getValue()
+      const value = this.$refs.classes.$el.children[0].f7SmartSelect.getValue()
       this.metadata.value = value
       this.metadata.config = {}
     }

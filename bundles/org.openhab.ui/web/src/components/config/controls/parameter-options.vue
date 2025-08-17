@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     updateValue (evt) {
-      let value = (this.inlineList) ? evt : this.$refs.item.$el.f7SmartSelect.getValue()
+      let value = (this.inlineList) ? evt : this.$refs.item.$el.children[0].f7SmartSelect.getValue()
       if (!this.configDescription.multiple && this.configDescription.type === 'INTEGER') {
         value = parseInt(value)
       }

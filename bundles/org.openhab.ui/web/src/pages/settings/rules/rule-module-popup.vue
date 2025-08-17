@@ -99,7 +99,7 @@
                           smart-select
                           :smart-select-params="{ view: f7.views.main, openIn: 'popup', closeOnSelect: true }">
               <select name="ruleModuleType"
-                      @change="setModuleType(moduleTypes[currentSection].find((t) => t.uid === $refs.ruleModuleTypeSmartSelect.f7SmartSelect.getValue()), true)">
+                      @change="setModuleType(moduleTypes[currentSection].find((t) => t.uid === $refs.ruleModuleTypeSmartSelect.$el.children[0].f7SmartSelect.getValue()), true)">
                 <optgroup v-for="(mt, scope) in groupedModuleTypes(currentSection)" :key="scope" :label="scope">
                   <option v-for="moduleType in mt"
                           :value="moduleType.uid"

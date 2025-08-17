@@ -73,7 +73,6 @@
 
 <script>
 import { f7 } from 'framework7-vue'
-import { defineAsyncComponent } from 'vue'
 
 import AddonDetailsSheet from './addon-details-sheet.vue'
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'

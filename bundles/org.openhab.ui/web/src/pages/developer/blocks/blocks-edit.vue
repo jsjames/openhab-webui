@@ -168,12 +168,7 @@ const toStringOptions = { toStringDefaults: { lineWidth: 0 } }
 export default {
   mixins: [DirtyMixin],
   components: {
-    editor: defineAsyncComponent(
-      () =>
-        import(
-          /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
-        )
-    ),
+    editor: defineAsyncComponent(() => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue')),
     BlocklyEditor, // 'blockly-editor': () => import(/* webpackChunkName: "blockly-editor" */ '@/components/config/controls/blockly-editor.vue'),
     BlockPreview // 'block-preview': () => import(/* webpackChunkName: "blockly-editor" */ './block-preview.vue')
   },

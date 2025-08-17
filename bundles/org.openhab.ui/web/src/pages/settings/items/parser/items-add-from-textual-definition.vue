@@ -176,11 +176,7 @@ import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 export default {
   components: {
     EmptyStatePlaceholder,
-    editor: defineAsyncComponent(() =>
-      import(
-        /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
-      )
-    )
+    editor: defineAsyncComponent(() => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'))
   },
   props: {
     textualDefinition: String,

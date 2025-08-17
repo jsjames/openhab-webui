@@ -63,7 +63,7 @@ export default {
   methods: {
     updateValue (event) {
       f7.input.validateInputs(this.$refs.item.$el)
-      let value = this.$refs.item.$el.f7SmartSelect.getValue()
+      let value = this.$refs.item.$el.children[0].f7SmartSelect.getValue()
       if (!this.configDescription.multiple && this.configDescription.type === 'INTEGER') {
         value = parseInt(value)
       }

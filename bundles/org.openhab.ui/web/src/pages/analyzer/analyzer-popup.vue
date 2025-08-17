@@ -12,9 +12,7 @@ import { defineAsyncComponent } from 'vue'
 
 export default {
   components: {
-    analyzer: defineAsyncComponent(
-      () => import(/* webpackChunkName: "analyzer" */ './analyzer.vue')
-    )
+    analyzer: defineAsyncComponent(() => import(/* webpackChunkName: "analyzer" */ './analyzer.vue'))
   }
 }
 </script>

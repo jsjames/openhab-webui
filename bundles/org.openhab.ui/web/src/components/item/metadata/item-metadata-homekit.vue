@@ -172,7 +172,7 @@ export default {
       this.classSelectKey = utils.id()
     },
     updateClasses () {
-      const value = this.$refs.classes.f7SmartSelect.getValue()
+      const value = this.$refs.classes.$el.children[0].f7SmartSelect.getValue()
       this.metadata.value = (Array.isArray(value)) ? value.join(',') : value
       this.metadata.config = {}
     },

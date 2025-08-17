@@ -131,9 +131,7 @@ const ConfigurableWidgets = { OhTabDefinition }
 export default {
   mixins: [PageDesignerMixin, WidgetExpressionMixin],
   components: {
-    editor: defineAsyncComponent(() => import(
-      /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
-    )),
+    editor: defineAsyncComponent(() => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue')),
     PageSettings
   },
   props: {

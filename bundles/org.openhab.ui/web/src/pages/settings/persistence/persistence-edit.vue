@@ -390,9 +390,7 @@ export default {
   components: {
     ItemPicker,
     StrategyPicker,
-    editor: defineAsyncComponent(() => import(
-      /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
-    ))
+    editor: defineAsyncComponent(() => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'))
   },
   props: {
     serviceId: String,

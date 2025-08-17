@@ -66,7 +66,7 @@
                             :smart-select-params="{ openIn: 'popover', view: f7.views.main, }"
                             :checked="second.cronEvery === 3 ? true : null"
                             @click="second.cronEvery = 3">
-                <select multiple @change="second.specificSpecific = $refs.specificSecond.f7SmartSelect.getValue()">
+                <select multiple @change="second.specificSpecific = $refs.specificSecond.$el.children[0].f7SmartSelect.getValue()">
                   <option v-for="val in 60"
                           :key="val"
                           :value="val - 1"
@@ -190,7 +190,7 @@
                             :smart-select-params="{ openIn: 'popover', view: f7.views.main, }"
                             :checked="hour.cronEvery === 3 ? true : null"
                             @click="hour.cronEvery = 3">
-                <select multiple @change="hour.specificSpecific = $refs.specificHour.f7SmartSelect.getValue()">
+                <select multiple @change="hour.specificSpecific = $refs.specificHour.$el.children[0].f7SmartSelect.getValue()">
                   <option v-for="val in 24"
                           :key="val"
                           :value="val - 1"
@@ -273,7 +273,7 @@
                             :smart-select-params="{ openIn: 'popover', view: f7.views.main, }"
                             :checked="day.cronEvery === 4 ? true : null"
                             @click="day.cronEvery = 4">
-                <select multiple @change="week.specificSpecific = $refs.specificDayOfWeek.f7SmartSelect.getValue()">
+                <select multiple @change="week.specificSpecific = $refs.specificDayOfWeek.$el.children[0].f7SmartSelect.getValue()">
                   <option v-for="val in 7"
                           :key="val"
                           :value="['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][val - 1]"
@@ -291,7 +291,7 @@
                             :smart-select-params="{ openIn: 'popover', view: f7.views.main, }"
                             :checked="day.cronEvery === 5 ? true : null"
                             @click="day.cronEvery = 5">
-                <select multiple @change="day.specificSpecific = $refs.specificDayOfMonth.f7SmartSelect.getValue()">
+                <select multiple @change="day.specificSpecific = $refs.specificDayOfMonth.$el.children[0].f7SmartSelect.getValue()">
                   <option v-for="val in 31"
                           :key="val"
                           :value="val"
@@ -386,7 +386,7 @@
                             :smart-select-params="{ openIn: 'popover', view: f7.views.main, }"
                             :checked="month.cronEvery === 3 ? true : null"
                             @click="month.cronEvery = 3">
-                <select multiple @change="month.specificSpecific = $refs.specificMonth.f7SmartSelect.getValue()">
+                <select multiple @change="month.specificSpecific = $refs.specificMonth.$el.children[0].f7SmartSelect.getValue()">
                   <option v-for="val in 12"
                           :key="val"
                           :value="val"
@@ -442,7 +442,7 @@
                             :smart-select-params="{ openIn: 'popover', view: f7.views.main, }"
                             :checked="year.cronEvery === 3 ? true : null"
                             @click="year.cronEvery = 3">
-                <select multiple @change="year.specificSpecific = $refs.specificYear.f7SmartSelect.getValue()">
+                <select multiple @change="year.specificSpecific = $refs.specificYear.$el.children[0].f7SmartSelect.getValue()">
                   <option v-for="val in 100"
                           :key="val"
                           :value="val + 2018"

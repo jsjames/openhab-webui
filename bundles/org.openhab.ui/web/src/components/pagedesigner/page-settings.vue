@@ -121,7 +121,7 @@ export default {
       return Array.isArray(this.page.config.visibleTo) && this.page.config.visibleTo.indexOf(userrole) >= 0
     },
     updatePageVisibility (userrole) {
-      let value = this.$refs.pageVisibility.f7SmartSelect.getValue()
+      let value = this.$refs.pageVisibility.$el.children[0].f7SmartSelect.getValue()
       if (value && value.length === 0) {
         delete this.page.config.visibleTo
       } else {

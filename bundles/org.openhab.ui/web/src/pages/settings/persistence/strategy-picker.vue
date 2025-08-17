@@ -58,7 +58,7 @@ export default {
   methods: {
     select () {
       f7.input.validateInputs(this.$refs.smartSelect.$el)
-      const value = this.$refs.smartSelect.f7SmartSelect.getValue()
+      const value = this.$refs.smartSelect.$el.children[0].f7SmartSelect.getValue()
       this.$emit('strategies-selected', value)
     }
   }

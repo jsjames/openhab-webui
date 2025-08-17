@@ -223,9 +223,7 @@ import { useUIOptionsStore } from '@/js/stores/useUIOptionsStore'
 export default {
   mixins: [PageDesigner, actionsMixin],
   components: {
-    editor: defineAsyncComponent(() => import(
-      /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
-    )),
+    editor: defineAsyncComponent(() => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue')),
     OhLayoutPage,
     PageSettings
   },

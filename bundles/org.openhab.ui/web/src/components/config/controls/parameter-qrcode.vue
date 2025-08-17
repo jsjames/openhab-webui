@@ -23,9 +23,7 @@ export default {
     return { theme }
   },
   components: {
-    'vue-qrcode': defineAsyncComponent(
-      () => import(/* webpackChunkName: "vue-qrcode" */ 'vue-qrcode')
-    )
+    'vue-qrcode': defineAsyncComponent(() => import(/* webpackChunkName: "vue-qrcode" */ 'vue-qrcode'))
   }
 }
 </script>

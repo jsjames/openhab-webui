@@ -36,9 +36,7 @@ import { defineAsyncComponent } from 'vue'
 
 export default {
   components: {
-    'config-sheet': defineAsyncComponent(
-      () => import(/* webpackChunkName: "config-sheet" */ '@/components/config/config-sheet.vue')
-    )
+    'config-sheet': defineAsyncComponent(() => import(/* webpackChunkName: "config-sheet" */ '@/components/config/config-sheet.vue'))
   },
   props: {
     props: Object,

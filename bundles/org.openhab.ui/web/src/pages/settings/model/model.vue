@@ -304,7 +304,7 @@
 </style>
 
 <script>
-import { nextTick, defineAsyncComponent } from 'vue'
+import { nextTick } from 'vue'
 import { utils } from 'framework7'
 import { f7, theme } from 'framework7-vue'
 import { mapState } from 'pinia'

@@ -1,13 +1,73 @@
+import { watch } from 'vue'
+import { f7 } from 'framework7-vue'
+import { storeToRefs } from 'pinia'
+
 import reloadMixin from './reload-mixin'
-import { f7, f7ready } from 'framework7-vue'
 
 import { useStatesStore } from '@/js/stores/useStatesStore'
 
-let unsubscribeAction = null
-let unsubscribeMutation = null
-
 export default {
   mixins: [reloadMixin],
+  connectionHealthSetup () {
+    const { sseConnected } = storeToRefs(useStatesStore())
+
+
+    watch(sseConnected, (newValue) => {
+      console.log("SSE Connection Status Changed:", newValue)
+      if(newValue === false) {
+        if (this.communicationFailureToast === null) {
+          this.communicationFailureTimeoutId = setTimeout(() => {
+            if (this.communicationFailureToast !== null) return
+            this.communicationFailureToast = this.displayFailureToast(
+              this.$t('error.communicationFailure'),
+                true,
+                false
+              )
+              this.communicationFailureTimeoutId = null
+            }, 1000)
+          }
+        } else if (newValue === true) {
+          if (this.communicationFailureTimeoutId !== null)
+            clearTimeout(this.communicationFailureTimeoutId)
+          if (this.communicationFailureToast) {
+            this.communicationFailureToast.close()
+            this.communicationFailureToast = null
+          }
+        }
+      })
+
+      const unsubscribeAction = useStatesStore().$onAction(({
+        name,
+        store,
+        args,
+        after,
+        onError
+      }) => {
+        onError((error) => {
+          if (name === 'sendCommand') {
+            let reloadButton = true
+            let msg = this.$t('error.communicationFailure')
+            switch (error) {
+              case 404:
+              case 'Not Found':
+                msg = this.$t('error.itemNotFound').replace('%s', action.payload.itemName)
+                reloadButton = false
+                return this.displayFailureToast(msg, reloadButton)
+            }
+            if (this.communicationFailureToast === null) {
+              this.communicationFailureToast = this.displayFailureToast(
+                this.$t('error.communicationFailure'),
+                true,
+                true
+              )
+              this.communicationFailureToast.on('closed', () => {
+                this.communicationFailureToast = null
+              })
+            }
+          }
+        })
+      })  
+  },
   data () {
     return {
       // For the communication failure toast
@@ -45,81 +105,5 @@ export default {
   },
   created () {
     this.checkPurgeServiceWorkerAndCachesAvailable()
-  },
-  mounted () {
-    f7ready((f7) => {
-      //TODO-V3 - finish implementing in pinia
-      unsubscribeMutation = useStatesStore().$subscribe((mutation, state) => {
-        if (!(this.ready && !window.OHApp && f7)) {
-          // mutation.type === 'sseConnected' is used to avoid the initial call
-          return
-        }
-        if (state.sseConnected === false) {
-          if (this.communicationFailureToast === null) {
-            this.communicationFailureTimeoutId = setTimeout(() => {
-              if (this.communicationFailureToast !== null) return
-              this.communicationFailureToast = this.displayFailureToast(
-                this.$t('error.communicationFailure'),
-                true,
-                false
-              )
-              this.communicationFailureTimeoutId = null
-            }, 1000)
-          }
-        } else if (state.sseConnected === true) {
-          if (this.communicationFailureTimeoutId !== null)
-            clearTimeout(this.communicationFailureTimeoutId)
-          if (this.communicationFailureToast !== null) {
-            this.communicationFailureToast.close()
-            this.communicationFailureToast = null
-          }
-        }
-      })
-    })
-
-    // TODO-V3 - test
-    unsubscribeAction = useStatesStore().$onAction(
-      ({
-        name, // name of the action
-        store, // store instance, same as `someStore`
-        args, // array of parameters passed to the action
-        after, // hook after the action returns or resolves
-        onError // hook if the action throws or rejects
-      }) => {
-        onError((error) => {
-          if (name === 'sendCommand') {
-            let reloadButton = true
-            let msg = this.$t('error.communicationFailure')
-            switch (error) {
-              case 404:
-              case 'Not Found':
-                msg = this.$t('error.itemNotFound').replace('%s', action.payload.itemName)
-                reloadButton = false
-                return this.displayFailureToast(msg, reloadButton)
-            }
-            if (this.communicationFailureToast === null) {
-              this.communicationFailureToast = this.displayFailureToast(
-                this.$t('error.communicationFailure'),
-                true,
-                true
-              )
-              this.communicationFailureToast.on('closed', () => {
-                this.communicationFailureToast = null
-              })
-            }
-          }
-        })
-      }
-    )
-  },
-  unmounted () {
-    if (unsubscribeMutation) {
-      unsubscribeMutation()
-      unsubscribeMutation = null
-    }
-    if (unsubscribeAction) {
-      unsubscribeAction()
-      unsubscribeAction = null
-    }
   }
 }

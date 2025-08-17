@@ -28,8 +28,6 @@
 </style>
 
 <script>
-import { defineAsyncComponent } from 'vue'
-
 import modal from './modal-mixin'
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 

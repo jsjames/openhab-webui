@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { nextTick, defineAsyncComponent } from 'vue'
+import { nextTick } from 'vue'
 import { theme } from 'framework7-vue'
 import { mapStores } from 'pinia'
 

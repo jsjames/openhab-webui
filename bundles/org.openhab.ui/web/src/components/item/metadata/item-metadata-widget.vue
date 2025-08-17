@@ -240,7 +240,7 @@ export default {
       this.configDescriptions = desc
     },
     updateComponent () {
-      const value = this.$refs.widgets.f7SmartSelect.getValue()
+      const value = this.$refs.widgets.$el.children[0].f7SmartSelect.getValue()
       this.metadata.value = value || ' ' // ' ' is used to indicate the default widget
       this.setCurrentComponent()
       this.setConfigDescriptions()

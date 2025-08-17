@@ -120,9 +120,7 @@ import WidgetSlotConfigPopup from '@/components/pagedesigner/widget-slot-config-
 export default {
   mixins: [PageDesigner],
   components: {
-    editor: defineAsyncComponent(() => import(
-      /* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue'
-    )),
+    editor: defineAsyncComponent(() => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue')),
     OhChartPage,
     PageSettings,
     ChartDesigner,
