@@ -55,7 +55,7 @@
                                          :includeItemName="includeItemName"
                                          :itemsList="items"
                                          @selected="selectWidget"
-                                         :selected="selectedWidget ? true : null" />
+                                         :selected="selectedWidget" />
                 </f7-treeview>
               </f7-block>
             </f7-col>

@@ -170,7 +170,7 @@ import { defineAsyncComponent } from 'vue'
 import { f7, theme } from 'framework7-vue'
 
 import { Parser, Grammar } from 'nearley'
-import grammar from '@/assets/items-lexer.nearley.js'
+import * as grammar from '@/assets/items-lexer.nearley.js'
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
 export default {
