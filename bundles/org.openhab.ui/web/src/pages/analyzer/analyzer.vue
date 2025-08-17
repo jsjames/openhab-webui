@@ -39,14 +39,17 @@
       <f7-page>
         <f7-toolbar tabbar :bottom="true">
           <f7-link class="padding-left padding-right"
+                   :tab-link="'#tab-series'"
                    :tab-link-active="controlsTab === 'series'"
                    @click="controlsTab = 'series'"
                    :text="$t('analyzer.series')" />
           <f7-link class="padding-left padding-right"
+                   :tab-link="'#tab-coords'"
                    :tab-link-active="controlsTab === 'coords'"
                    @click="controlsTab = 'coords'"
                    :text="$t('analyzer.coords')" />
           <f7-link class="padding-left padding-right"
+                   :tab-link="'#tab-ranges'"
                    :tab-link-active="controlsTab === 'ranges'"
                    @click="controlsTab = 'ranges'"
                    :text="$t('analyzer.ranges')" />

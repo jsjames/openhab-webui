@@ -14,7 +14,7 @@
       </f7-nav-right>
     </f7-navbar>
     <f7-toolbar v-show="f7.width < 1024 || !leftPanelOpened" tabbar bottom>
-      <f7-link tab-link
+      <f7-link tab-link="#main"
                :tab-link-active="runtimeStore.pagePath === '/addons/'"
                href="/addons/"
                icon-ios="f7:bag_fill"
@@ -22,7 +22,7 @@
                icon-md="material:shopping_bag" />
       <f7-link v-for="section in Object.keys(AddonTitles)"
                :key="section"
-               tab-link
+               tab-link="#{{ section }}"
                :tab-link-active="runtimeStore.pagePath === `/addons/${section}/`"
                :href="`/addons/${section}`"
                :icon-ios="`f7:${AddonIcons[section]}`"
