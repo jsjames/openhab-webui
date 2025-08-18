@@ -1,6 +1,5 @@
 <template>
   <f7-page name="Model"
-           :stacked="true"
            @page:afterin="onPageAfterIn"
            @page:beforeout="onPageBeforeOut"
            @click="selectItem(null)">
@@ -37,7 +36,7 @@
     </f7-navbar>
 
     <!-- Toolbar -->
-    <f7-toolbar bottom class="toolbar-details" v-if="f7.width >= 500">
+    <f7-toolbar v-if="f7.width >= 500" bottom class="toolbar-details">
       <f7-link :disabled="selectedItem != null ? true : null" class="left" @click="selectedItem = null">
         Clear
       </f7-link>

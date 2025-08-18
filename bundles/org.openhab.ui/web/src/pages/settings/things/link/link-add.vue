@@ -93,12 +93,14 @@
         </f7-list>
         <div v-if="selectedThing.UID && selectedThingType.UID">
           <f7-block-title>Channel</f7-block-title>
+          <!--
           <channel-list :thing="selectedThing"
                         :thingType="selectedThingType"
                         :picker-mode="true"
                         :item-type-filter="item.type"
                         :channel-types="selectedThingChannelTypes"
                         @selected="(channel) => loadProfileTypes(channel)" />
+        -->
         </div>
       </f7-col>
 
@@ -170,7 +172,6 @@
 
 <script>
 import { f7, theme } from 'framework7-vue'
-import { mapStores } from 'pinia'
 
 import ConfigSheet from '@/components/config/config-sheet.vue'
 import ItemPicker from '@/components/config/controls/item-picker.vue'
@@ -185,7 +186,6 @@ import ItemMixin from '@/components/item/item-mixin'
 import uomMixin from '@/components/item/uom-mixin'
 import LinkMixin from '@/pages/settings/things/link/link-mixin'
 
-import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
 import { useSemanticsStore } from '@/js/stores/useSemanticsStore'
 
 export default {
@@ -195,7 +195,7 @@ export default {
     ItemPicker,
     ThingPicker,
     Item,
-    ChannelList,
+    //TODO-V3 ChannelList, ReferenceError: Cannot access 'ChannelList' before initialization ???
     ItemForm
   },
   props: {

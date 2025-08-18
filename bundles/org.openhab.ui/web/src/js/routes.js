@@ -252,7 +252,7 @@ export default [
           {
             path: ':transformationId',
             beforeLeave: checkDirtyBeforeLeave,
-            async: loadAsync(TransformationsEditPage, (routeTo) => (routeTo.params.transformationId === 'add') ? { createMode: true } : {})
+            async: loadAsync(TransformationsEditPage, ({ to }) => (to.params.transformationId === 'add') ? { createMode: true } : {})
           }
         ]
       },
@@ -312,12 +312,12 @@ export default [
             path: ':thingId',
             beforeEnter: [enforceAdminForRoute],
             beforeLeave: [checkDirtyBeforeLeave],
-            asyncComponent: ThingDetailsPage
+            async: loadAsync(ThingDetailsPage)
           }
         ]
       },
       {
-        path: 'model',
+        path: 'model/',
         beforeEnter: [enforceAdminForRoute],
         asyncComponent: SemanticModelPage
       },
@@ -368,7 +368,7 @@ export default [
                 path: 'script/:moduleId',
                 beforeEnter: [enforceAdminForRoute],
                 beforeLeave: [checkDirtyBeforeLeave],
-                async: loadAsync(ScriptEditPage, (routeTo) => (routeTo.params.ruleId === 'add') ? { createMode: true } : {})
+                async: loadAsync(ScriptEditPage, ({ to }) => (to.params.ruleId === 'add') ? { createMode: true } : {})
               }
             ]
           }
@@ -493,7 +493,7 @@ export default [
             path: ':uid',
             beforeEnter: [enforceAdminForRoute],
             beforeLeave: [checkDirtyBeforeLeave],
-            async: loadAsync(WidgetEditPage, (routeTo) => (routeTo.params.uid === 'add') ? { createMode: true } : {})
+            async: loadAsync(WidgetEditPage, ({ to }) => (to.params.uid === 'add') ? { createMode: true } : {})
           }
         ]
       },
@@ -506,7 +506,7 @@ export default [
             path: ':uid',
             beforeEnter: [enforceAdminForRoute],
             beforeLeave: [checkDirtyBeforeLeave],
-            async: loadAsync(BlocksEditPage, (routeTo) => routeTo.params.uid === 'add' ? { createMode: true } : {})
+            async: loadAsync(BlocksEditPage, ({ to }) => (to.params.uid === 'add') ? { createMode: true } : {})
           }
         ]
       },

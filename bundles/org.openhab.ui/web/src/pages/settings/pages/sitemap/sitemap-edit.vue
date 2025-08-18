@@ -24,8 +24,10 @@
         Clear
       </f7-link>
       <div class="padding-right text-align-right">
-        <f7-checkbox style="margin-left: 5px" :checked="includeItemName ? true : null" @change="toggleItemName" />
-        <label @click="toggleItemName" class="advanced-label">Show item name</label>
+        <label class="advanced-label">
+          <f7-checkbox style="margin-left: 5px; padding-right: 5px;" v-model:checked="runtimeStore.sitemapIncludeItemName" />
+          Show item name
+        </label>
       </div>
       <f7-link v-if="selectedWidget"
                class="right details-link padding-right"
@@ -52,7 +54,7 @@
                         @click="clearSelection">
                 <f7-treeview>
                   <sitemap-treeview-item :widget="sitemap"
-                                         :includeItemName="includeItemName"
+                                         :includeItemName="runtimeStore.sitemapIncludeItemName"
                                          :itemsList="items"
                                          @selected="selectWidget"
                                          :selected="selectedWidget" />
@@ -356,7 +358,7 @@
 import { nextTick } from 'vue'
 import { utils } from 'framework7'
 import { f7, theme } from 'framework7-vue'
-import { mapState } from 'pinia'
+import { mapStores } from 'pinia'
 
 import cloneDeep from 'lodash/cloneDeep'
 
@@ -424,7 +426,7 @@ export default {
       if (!this.selectedWidget) return
       return this.allowedWidgetTypes(this.selectedWidget)
     },
-    ...mapState(useRuntimeStore, { includeItemName: 'sitemapIncludeItemName' })
+    ...mapStores(useRuntimeStore)
   },
   watch: {
     sitemap: {
@@ -509,10 +511,6 @@ export default {
           })
         })
       }
-    },
-    toggleItemName () {
-      this.includeItemName = !this.includeItemName
-      this.load()
     },
     save (stay, force) {
       this.cleanConfig(this.sitemap)

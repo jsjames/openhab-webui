@@ -58,7 +58,10 @@
       </f7-link>
     </f7-toolbar>
     <f7-tabs v-if="page && pageType === 'tabs' && visibleToCurrentUser">
-      <f7-tab v-for="(tab, idx) in page.slots.default" :id="'tab-' + idx" :key="idx" :tab-active="currentTab === idx">
+      <f7-tab v-for="(tab, idx) in page.slots.default"
+              :id="'tab-' + idx"
+              :key="idx"
+              :tab-active="currentTab === idx">
         <component v-if="currentTab === idx"
                    :is="tabComponent(tab)"
                    :context="tabContext(tab)"

@@ -2,7 +2,7 @@
   <f7-popup ref="modulePopup"
             class="moduleconfig-popup"
             :close-by-backdrop-click="false"
-            @popupClosed="moduleConfigClosed">
+            @popup:closed="moduleConfigClosed">
     <f7-page>
       <f7-navbar>
         <f7-nav-left>

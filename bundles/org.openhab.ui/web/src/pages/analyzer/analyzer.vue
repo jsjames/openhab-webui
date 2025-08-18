@@ -427,6 +427,7 @@ export default {
     EmptyStatePlaceholder
   },
   props: {
+    f7router: Object,
     f7route: Object
   },
   setup () {

@@ -150,7 +150,7 @@ export default {
     }
   },
   methods: {
-    getSeriesPromises (component) {
+    async getSeriesPromises (component) {
       const getter = (data) => seriesComponents[component.component].get(component, data.map((d) => d[1]), this.startTime, this.endTime, this)
 
       const neededItems = seriesComponents[component.component].neededItems(component, this).filter((i) => !!i)
