@@ -152,7 +152,7 @@
           </f7-actions-group>
         </f7-actions>
       </f7-tab>
-      <f7-tab id="code" @tab:show="() => { this.currentTab = 'code' }" :tab-active="currentTab === 'code'">
+      <f7-tab id="code" :tab-active="currentTab === 'code'">
         <sitemap-code v-if="currentTab === 'code'" :sitemap="sitemap" @updated="(value) => update(value)" />
       </f7-tab>
     </f7-tabs>

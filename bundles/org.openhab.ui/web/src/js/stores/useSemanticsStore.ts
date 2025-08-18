@@ -58,17 +58,20 @@ export const useSemanticsStore = defineStore('semantics', () => {
         .then((tags) => {
           setSemantics(tags)
           console.debug('Successfully loaded semantic tags.')
+          loaded.value = true
           return Promise.resolve()
         })
         .catch((e) => {
           console.error('Failed to load semantic tags:')
           console.error(e)
-          Promise.reject('Failed to load semantic tags: ' + e)
+          loaded.value = false
+          return Promise.reject('Failed to load semantic tags: ' + e)
         })
     } else {
+      loaded.value = true
       return Promise.resolve()
     }
   }
 
-  return { Locations, Equipment, Points, Properties, Labels, Tags, loadSemantics }
+  return { Locations, Equipment, Points, Properties, Labels, Descriptions, Synonyms, Tags, loadSemantics, loaded }
 })

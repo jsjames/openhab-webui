@@ -12,14 +12,10 @@
       </f7-nav-right>
     </f7-navbar>
     <f7-toolbar tabbar position="top">
-      <f7-link @click="fromYaml"
-               :tab-link-active="currentTab === 'design' ? true : null"
-               tab-link="#design">
+      <f7-link @click="switchTab('design', fromYaml)" :tab-link-active="currentTab === 'design'" tab-link="#design">
         Design
       </f7-link>
-      <f7-link @click="toYaml"
-               :tab-link-active="currentTab === 'code' ? true : null"
-               tab-link="#code">
+      <f7-link @click="switchTab('code', toYaml)" :tab-link-active="currentTab === 'code' ? true : null" tab-link="#code">
         Code
       </f7-link>
     </f7-toolbar>
@@ -58,7 +54,7 @@
                        :key="pageKey" />
       </f7-tab>
 
-      <f7-tab id="code" @tab:show="() => { this.currentTab = 'code' }" :tab-active="currentTab === 'code'">
+      <f7-tab id="code" :tab-active="currentTab === 'code'">
         <editor v-if="currentTab === 'code'"
                 :style="{ opacity: previewMode ? '0' : '' }"
                 class="page-code-editor"

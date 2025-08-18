@@ -15,8 +15,9 @@
       </f7-col>
     </f7-block>
     <div v-if="hasAdvanced" style="text-align: right" class="padding-right">
-      <label @click="toggleAdvanced" class="advanced-label">Show advanced</label>
-      <f7-checkbox name="channel-advanced" :checked="showAdvanced ? true : null" @change="toggleAdvanced" />
+      <label class="advanced-label">
+        <f7-checkbox name="channel-advanced" v-model:checked="showAdvanced" />
+        Show advanced</label>
     </div>
     <f7-col v-if="thing.channels.length > 0">
       <f7-block width="100" class="channel-group no-margin no-padding" ref="channelList">
@@ -230,9 +231,6 @@ export default {
     }
   },
   methods: {
-    toggleAdvanced (event) {
-      this.showAdvanced = !this.showAdvanced // event.target.checked
-    },
     toggleLinkFilter (val) {
       this.showLinked = val
       const searchbar = this.$refs.searchbar.$el.f7Searchbar
