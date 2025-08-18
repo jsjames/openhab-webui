@@ -53,12 +53,16 @@
         </f7-link>
         <span v-else />
         <div class="padding-right text-align-right">
-          <f7-checkbox :checked="includeNonSemantic ? true : null" @change="toggleNonSemantic" />
-          <label @click="toggleNonSemantic" class="advanced-label">Show non-semantic</label>
-          <f7-checkbox style="margin-left: 5px" :checked="includeItemName ? true : null" @change="toggleItemName" />
-          <label @click="toggleItemName" class="advanced-label">Show name</label>
-          <f7-checkbox style="margin-left: 5px" :checked="includeItemTags ? true : null" @change="toggleItemTags" />
-          <label @click="toggleItemTags" class="advanced-label">Show tags</label>
+          <label class="advanced-label">
+            <f7-checkbox :checked="includeNonSemantic ? true : null" @change="toggleNonSemantic" />
+            Show non-semantic
+          </label>
+          <label class="advanced-label">
+            <f7-checkbox style="margin-left: 5px" v-model:checked="includeItemName" />
+            Show name</label>
+          <label class="advanced-label">
+            <f7-checkbox style="margin-left: 5px" v-model:checked="includeItemTags" />
+            Show tags</label>
         </div>
         <span />
       </f7-toolbar>
@@ -75,14 +79,20 @@
         <span v-else />
         <div class="padding-left padding-right text-align-center" style="font-size: 12px">
           <div>
-            <f7-checkbox :checked="includeNonSemantic ? true : null" @change="toggleNonSemantic" />
-            <label @click="toggleNonSemantic" class="advanced-label">Show non-semantic</label>
+            <label class="advanced-label">
+              <f7-checkbox :checked="includeNonSemantic ? true : null" @change="toggleNonSemantic" />
+              Show non-semantic
+            </label>
           </div>
           <div>
-            <f7-checkbox :checked="includeItemName ? true : null" @change="toggleItemName" />
-            <label @click="toggleItemName" class="advanced-label">Show name</label>
-            <f7-checkbox style="margin-left: 5px" :checked="includeItemTags ? true : null" @change="toggleItemTags" />
-            <label @click="toggleItemTags" class="advanced-label">Show tags</label>
+            <label class="advanced-label">
+              <f7-checkbox v-model:checked="includeItemName" />
+              Show name
+            </label>
+            <label class="advanced-label">
+              <f7-checkbox style="margin-left: 5px" v-model:checked="includeItemTags" />
+              Show tags
+            </label>
           </div>
         </div>
         <span />
@@ -255,14 +265,6 @@ export default {
       this.rootGroups = []
       this.rootItems = []
       this.includeNonSemantic = !this.includeNonSemantic
-      this.load()
-    },
-    toggleItemName () {
-      this.includeItemName = !this.includeItemName
-      this.load()
-    },
-    toggleItemTags () {
-      this.includeItemTags = !this.includeItemTags
       this.load()
     },
     toggleExpanded () {

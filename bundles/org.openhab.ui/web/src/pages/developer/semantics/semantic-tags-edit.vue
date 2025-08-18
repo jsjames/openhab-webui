@@ -25,12 +25,14 @@
       </f7-link>
       <div class="padding-left padding-right text-align-center" style="font-size: 12px">
         <div>
-          <f7-checkbox :checked="showNames" @change="toggleShowNames" />
-          <label @click="toggleShowNames" class="advanced-label">Show tag names</label>
-          <f7-checkbox style="margin-left: 5px"
-                       :checked="showSynonyms"
-                       @change="toggleShowSynonyms" />
-          <label @click="toggleShowSynonyms" class="advanced-label">Show synonyms</label>
+          <label class="advanced-label">
+            <f7-checkbox v-model:checked="showNames" />
+            Show tag names
+          </label>
+          <label class="advanced-label">
+            <f7-checkbox style="margin-left: 5px" v-model:checked="showSynonyms" />
+            Show synonyms
+          </label>
         </div>
       </div>
       <f7-link v-if="selectedTag"
@@ -348,7 +350,8 @@
 </style>
 
 <script>
-import { f7 } from 'framework7-vue'
+import { f7, theme } from 'framework7-vue'
+import { mapState } from 'pinia'
 
 import YAML from 'yaml'
 import fastDeepEqual from 'fast-deep-equal/es6'
@@ -364,6 +367,11 @@ export default {
   components: {
     SemanticsTreeview,
     'editor': () => import(/* webpackChunkName: "script-editor" */ '@/components/config/controls/script-editor.vue')
+  },
+  setup () {
+    return {
+      theme
+    }
   },
   data () {
     return {
@@ -386,6 +394,9 @@ export default {
       nonCodeDirty: false // When editing code, keeps track if it was already dirty before switching to code tab
     }
   },
+  computed: {
+    ...mapState(useSemanticsStore, ['loaded'])
+  },
   watch: {
     semanticTags: {
       handler: function () {
@@ -395,9 +406,9 @@ export default {
       },
       deep: true
     },
-    '$store.getters.semanticsLoaded': {
-      handler: function (loaded) {
-        if (loaded) {
+    loaded: {
+      handler: function (newValue, oldValue) {
+        if (newValue) {
           this.load()
         }
       },
@@ -539,12 +550,6 @@ export default {
       } catch (error) {
         f7.dialog.alert('Error saving: ' + error)
       }
-    },
-    toggleShowNames () {
-      this.showNames = !this.showNames
-    },
-    toggleShowSynonyms () {
-      this.showSynonyms = !this.showSynonyms
     },
     toggleExpanded () {
       this.expanded = !this.expanded
