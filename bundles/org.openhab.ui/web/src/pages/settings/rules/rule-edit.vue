@@ -880,7 +880,7 @@ export default {
 
       const updatePromise = (this.rule.editable || this.createMode) && this.dirty ? this.save() : Promise.resolve()
       updatePromise.then(() => {
-        this.f7router.navigate('/settings/rules/' + this.rule.uid + '/script/' + mod.id, { transition: this.$theme.aurora ? 'f7-cover-v' : '' })
+        this.f7router.navigate('/settings/rules/' + this.rule.uid + '/script/' + mod.id, { transition: theme.aurora ? 'f7-cover-v' : '' })
       })
     },
     toYaml () {

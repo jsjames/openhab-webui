@@ -38,7 +38,7 @@
                    icon-aurora="f7:pause_circle"
                    color="orange"
                    @click="toggleDisabled" />
-          <f7-link v-if="!$theme.aurora"
+          <f7-link v-if="!theme.aurora"
                    :tooltip="isMimeTypeAvailable(mode) ? ('Run Now' + (($device.desktop) ? ' (Ctrl-R)' : '')) : (isScriptRule ? 'Script' : 'Rule') + ' cannot be run, scripting addon for ' + mimeTypeDescription(mode) + ' is not installed'"
                    icon-ios="f7:play_round"
                    icon-md="f7:play_round"
@@ -93,7 +93,7 @@
                          outline
                          small
                          icon-f7="paintbrush"
-                         :icon-size="($theme.aurora) ? 20 : 22"
+                         :icon-size="(theme.aurora) ? 20 : 22"
                          class="no-ripple"
                          style="margin-right: 5px"
                          tooltip="Block Style"
@@ -103,7 +103,7 @@
                          small
                          :active="blocklyShowLabels"
                          icon-f7="square_on_circle"
-                         :icon-size="($theme.aurora) ? 20 : 22"
+                         :icon-size="(theme.aurora) ? 20 : 22"
                          class="no-ripple"
                          style="margin-right: 5px"
                          @click="setBlocklyShowLabels(!blocklyShowLabels)"
@@ -113,7 +113,7 @@
                        outline
                        small
                        icon-f7="ellipsis_vertical"
-                       :icon-size="($theme.aurora) ? 20 : 22"
+                       :icon-size="(theme.aurora) ? 20 : 22"
                        class="no-ripple"
                        style="margin-right: 5px"
                        tooltip="Blockly Settings"
@@ -123,7 +123,7 @@
                          small
                          :active="!blocklyCodePreview"
                          icon-f7="ticket"
-                         :icon-size="($theme.aurora) ? 20 : 22"
+                         :icon-size="(theme.aurora) ? 20 : 22"
                          class="no-ripple"
                          @click="blocklyCodePreview = false"
                          tooltip="Show blocks" />
@@ -131,7 +131,7 @@
                          small
                          :active="blocklyCodePreview"
                          icon-f7="doc_text"
-                         :icon-size="($theme.aurora) ? 20 : 22"
+                         :icon-size="(theme.aurora) ? 20 : 22"
                          class="no-ripple"
                          @click="showBlocklyCode"
                          tooltip="Show generated code" />
