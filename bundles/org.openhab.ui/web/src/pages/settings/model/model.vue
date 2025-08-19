@@ -1,6 +1,5 @@
 <template>
   <f7-page name="Model"
-           :stacked="true"
            @page:afterin="onPageAfterIn"
            @page:beforeout="onPageBeforeOut"
            @click="selectItem(null)">
@@ -37,17 +36,23 @@
     </f7-navbar>
 
     <!-- Toolbar -->
-    <f7-toolbar bottom class="toolbar-details" v-if="f7.width >= 500">
+    <f7-toolbar v-if="f7.width >= 500" bottom class="toolbar-details">
       <f7-link :disabled="selectedItem != null ? true : null" class="left" @click="selectedItem = null">
         Clear
       </f7-link>
       <div class="padding-right text-align-right">
-        <f7-checkbox :checked="includeNonSemantic ? true : null" @change="toggleNonSemantic" />
-        <label @click="toggleNonSemantic" class="advanced-label">Show non-semantic</label>
-        <f7-checkbox style="margin-left: 5px" :checked="includeItemName ? true : null" @change="toggleItemName" />
-        <label @click="toggleItemName" class="advanced-label">Show name</label>
-        <f7-checkbox style="margin-left: 5px" :checked="includeItemTags ? true : null" @change="toggleItemTags" />
-        <label @click="toggleItemTags" class="advanced-label">Show tags</label>
+        <label class="advanced-label">
+          <f7-checkbox :checked="includeNonSemantic ? true : null" @change="toggleNonSemantic" />
+          Show non-semantic
+        </label>
+        <label class="advanced-label">
+          <f7-checkbox style="margin-left: 5px" :checked="includeItemName ? true : null" @change="toggleItemName" />
+          Show name
+        </label>
+        <label class="advanced-label">
+          <f7-checkbox style="margin-left: 5px" :checked="includeItemTags ? true : null" @change="toggleItemTags" />
+          Show tags
+        </label>
       </div>
       <f7-link class="right details-link padding-right"
                ref="detailsLink"
@@ -60,14 +65,20 @@
       </f7-link>
       <div class="padding-left padding-right text-align-center" style="font-size: 12px">
         <div>
-          <f7-checkbox :checked="includeNonSemantic ? true : null" @change="toggleNonSemantic" />
-          <label @click="toggleNonSemantic" class="advanced-label">Show non-semantic</label>
+          <label class="advanced-label">
+            <f7-checkbox :checked="includeNonSemantic ? true : null" @change="toggleNonSemantic" />
+            Show non-semantic
+          </label>
         </div>
         <div>
-          <f7-checkbox :checked="includeItemName ? true : null" @change="toggleItemName" />
-          <label @click="toggleItemName" class="advanced-label">Show name</label>
-          <f7-checkbox style="margin-left: 5px" :checked="includeItemTags ? true : null" @change="toggleItemTags" />
-          <label @click="toggleItemTags" class="advanced-label">Show tags</label>
+          <label class="advanced-label">
+            <f7-checkbox style="margin-left: 5px" :checked="includeItemName ? true : null" @change="toggleItemName" />
+            Show name
+          </label>
+          <label class="advanced-label">
+            <f7-checkbox style="margin-left: 5px" :checked="includeItemTags ? true : null" @change="toggleItemTags" />
+            Show tags
+          </label>
         </div>
       </div>
       <f7-link class="right details-link padding-right"
@@ -307,7 +318,7 @@
 import { nextTick } from 'vue'
 import { utils } from 'framework7'
 import { f7, theme } from 'framework7-vue'
-import { mapState } from 'pinia'
+import { mapWritableState } from 'pinia'
 
 import AddFromThing from './add-from-thing.vue'
 import AddFromTemplate from './add-from-template.vue'
@@ -371,7 +382,7 @@ export default {
     searchPlaceholder () {
       return window.innerWidth >= 1280 ? 'Search (for advanced search, use the developer sidebar (Shift+Alt+D))' : 'Search'
     },
-    ...mapState(useRuntimeStore, {
+    ...mapWritableState(useRuntimeStore, {
       includeItemName: 'modelPicker.includeItemName',
       includeItemTags: 'modelPicker.includeItemTags',
       expanded: 'modelPicker.expanded'

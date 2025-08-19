@@ -316,12 +316,12 @@ export default [
             path: ':thingId',
             beforeEnter: [enforceAdminForRoute],
             beforeLeave: [checkDirtyBeforeLeave],
-            asyncComponent: ThingDetailsPage
+            async: loadAsync(ThingDetailsPage)
           }
         ]
       },
       {
-        path: 'model',
+        path: 'model/',
         beforeEnter: [enforceAdminForRoute],
         asyncComponent: SemanticModelPage
       },

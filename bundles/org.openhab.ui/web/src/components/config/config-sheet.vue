@@ -1,8 +1,10 @@
 <template>
   <f7-block v-if="parameters" class="config-sheet no-margin" ref="sheet">
     <div style="text-align: right" class="padding-right padding-bottom" v-if="hasAdvanced">
-      <label @click="toggleAdvanced" class="advanced-label">Show advanced</label>
-      <f7-checkbox :checked="showAdvanced ? true : null" @change="toggleAdvanced" />
+      <label class="advanced-label">
+        <f7-checkbox v-model:checked="showAdvanced" />
+        Show advanced
+      </label>
     </div>
     <f7-col>
       <f7-block width="100" class="parameter-group no-margin no-padding">
@@ -145,9 +147,6 @@ export default {
   methods: {
     isValid () {
       return f7.input.validateInputs(this.$refs.sheet.$el)
-    },
-    toggleAdvanced (event) {
-      this.showAdvanced = !this.showAdvanced // event.target.checked
     },
     updateParameter (parameter, value) {
       if ((typeof value === 'number' && isNaN(value)) || value === '' || value === undefined || value === null || (parameter.multiple && Array.isArray(value) && !value.length)) {

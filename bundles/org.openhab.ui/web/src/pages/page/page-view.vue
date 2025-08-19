@@ -47,7 +47,7 @@
                 v-if="page && pageType === 'tabs' && visibleToCurrentUser">
       <f7-link v-for="(tab, idx) in page.slots.default"
                :key="idx"
-               tab-link
+               :tab-link="'#tab-' + idx"
                @click="onTabChange(idx)"
                :tab-link-active="currentTab === idx">
         <i v-if="tabEvaluateExpression(tab, idx, 'icon')" class="icon" :style="{ width: tabBarIconSize, height: tabBarIconSize }">
@@ -58,7 +58,10 @@
       </f7-link>
     </f7-toolbar>
     <f7-tabs v-if="page && pageType === 'tabs' && visibleToCurrentUser">
-      <f7-tab v-for="(tab, idx) in page.slots.default" :key="idx" :tab-active="currentTab === idx">
+      <f7-tab v-for="(tab, idx) in page.slots.default"
+              :id="'tab-' + idx"
+              :key="idx"
+              :tab-active="currentTab === idx">
         <component v-if="currentTab === idx"
                    :is="tabComponent(tab)"
                    :context="tabContext(tab)"

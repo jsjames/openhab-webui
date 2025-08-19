@@ -6,7 +6,7 @@
       visibility:
         userStore.user || componentsStore.page('overview') || communicationFailureMsg
           ? ''
-          : 'hidden',
+          : 'hidden'
     }">
     <!-- Left Panel -->
     <f7-panel
@@ -549,7 +549,6 @@ export default {
     DeveloperDock: defineAsyncComponent(() => import(/* webpackChunkName: "admin-base" */ '@/components/developer/developer-dock.vue'))
   },
   setup () {
-    console.log("App setup")
     connectionHealth.connectionHealthSetup()
   },
   data () {
@@ -989,6 +988,7 @@ export default {
     f7ready(async (f7) => {
       this.updateThemeOptions()
 
+      //TODO-V3 - it never appears user is ever set to anything??
       if (!this.user) {
         this.tryExchangeAuthorizationCode()
           .then((user) => {

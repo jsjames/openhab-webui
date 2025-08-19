@@ -35,14 +35,20 @@
       <f7-toolbar bottom class="toolbar-details">
         <span />
         <div class="padding-left padding-right text-align-center" style="font-size: 12px">
-          <div v-if="classMode">
-            <f7-checkbox :checked="!limitToClass" @change="toggleLimitToClass" />
-            <label @click="toggleLimitToClass" class="advanced-label">Show all classes</label>
-          </div>
-          <f7-checkbox :checked="showNames" @change="toggleShowNames" />
-          <label @click="toggleShowNames" class="advanced-label">Show tag names</label>
-          <f7-checkbox style="margin-left: 5px" :checked="showSynonyms" @change="toggleShowSynonyms" />
-          <label @click="toggleShowSynonyms" class="advanced-label">Show synonyms</label>
+          <template v-if="classMode">
+            <label class="advanced-label">
+              <f7-checkbox v-model:checked="showAllClasses" />
+              Show all classes
+            </label>
+          </template>
+          <label class="advanced-label">
+            <f7-checkbox v-model:checked="showNames" />
+            Show tag names
+          </label>
+          <label class="advanced-label">
+            <f7-checkbox style="margin-left: 5px" v-model:checked="showSynonyms" />
+            Show synonyms
+          </label>
         </div>
         <span />
       </f7-toolbar>
@@ -58,7 +64,7 @@
                           picker="true"
                           :propertyMode="!!propertyMode"
                           :classMode="!!classMode"
-                          :limitToClass="!!limitToClass" />
+                          :limitToClass="!showAllClasses" />
     </f7-page>
   </f7-popup>
 </template>
@@ -104,7 +110,7 @@ export default {
       filtering: false,
       expandedBeforeFiltering: false,
       selectedTag: null,
-      limitToClass: true
+      showAllClasses: false
     }
   },
   computed: {
@@ -135,15 +141,6 @@ export default {
       this.selectedTag = this.semanticTags.find((t) => t.name === (this.semanticClass || this.semanticProperty)) || { uid: 'None', label: 'None' }
       // expand tree down to current selection
       this.expandToSelection()
-    },
-    toggleShowNames () {
-      this.showNames = !this.showNames
-    },
-    toggleShowSynonyms () {
-      this.showSynonyms = !this.showSynonyms
-    },
-    toggleLimitToClass () {
-      this.limitToClass = !this.limitToClass
     },
     toggleExpanded () {
       this.expanded = !this.expanded

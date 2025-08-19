@@ -38,7 +38,7 @@
     </draggable>
     <template #label>
       <div class="subtitle">
-        {{ subtitle() }}
+        {{ subtitle }}
       </div>
     </template>
   </f7-treeview-item>
@@ -83,9 +83,6 @@ export default {
     }
   },
   methods: {
-    subtitle () {
-      return this.widgetTypeLabel() + this.widgetConfigDescription(this.includeItemName)
-    },
     select (event) {
       let self = this
       if (Dom7(event.target).is('.treeview-toggle')) return
@@ -127,6 +124,9 @@ export default {
     }
   },
   computed: {
+    subtitle () {
+      return this.widgetTypeLabel() + this.widgetConfigDescription(this.includeItemName)
+    },
     iconColor () {
       return ''
     },

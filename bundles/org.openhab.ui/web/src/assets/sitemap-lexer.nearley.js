@@ -1,9 +1,8 @@
 // Generated automatically by nearley, version 2.20.1
 // http://github.com/Hardmath123/nearley
-(function () {
 function id(x) { return x[0]; }
 
-  const moo = require('moo')
+  import moo from 'moo'
 
   let lexer = moo.compile({
     WS:               /[ \t]+/,
@@ -99,9 +98,8 @@ function id(x) { return x[0]; }
   function joinValue(val) {
     return Array.isArray(val) ? val.join("") : val;
   }
-var grammar = {
-    Lexer: lexer,
-    ParserRules: [
+let Lexer = lexer;
+let ParserRules = [
     {"name": "Main", "symbols": ["_", "Sitemap", "_"], "postprocess": (d) => d[1]},
     {"name": "Sitemap", "symbols": [(lexer.has("sitemap") ? {type: "sitemap"} : sitemap), "_", "SitemapName", "__", "SitemapLabel", "__", (lexer.has("lbrace") ? {type: "lbrace"} : lbrace), "_", "Widgets", "_", (lexer.has("rbrace") ? {type: "rbrace"} : rbrace)], "postprocess": getSitemap},
     {"name": "SitemapName", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)]},
@@ -225,12 +223,6 @@ var grammar = {
     {"name": "__", "symbols": ["__", "Comment"], "postprocess": () => null},
     {"name": "Comment", "symbols": [(lexer.has("SL_COMMENT") ? {type: "SL_COMMENT"} : SL_COMMENT)], "postprocess": () => null},
     {"name": "Comment", "symbols": [(lexer.has("ML_COMMENT") ? {type: "ML_COMMENT"} : ML_COMMENT)], "postprocess": () => null}
-]
-  , ParserStart: "Main"
-}
-if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
-   module.exports = grammar;
-} else {
-   window.grammar = grammar;
-}
-})();
+];
+let ParserStart = "Main";
+export default { Lexer, ParserRules, ParserStart };

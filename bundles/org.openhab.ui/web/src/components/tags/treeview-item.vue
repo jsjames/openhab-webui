@@ -68,7 +68,7 @@
 </style>
 
 <script>
-import { f7 } from 'framework7-vue'
+import { Dom7 } from 'framework7'
 import { VueDraggableNext as Draggable } from 'vue-draggable-next'
 
 import { useUIOptionsStore } from '@/js/stores/useUIOptionsStore'
@@ -105,7 +105,7 @@ export default {
       })
     },
     iconColor () {
-      return (this.tag.editable || this.picker) ? (useUIOptionsStore.getDarkMode() === 'dark' ? 'white' : 'black') : 'gray'
+      return (this.tag.editable || this.picker) ? (useUIOptionsStore().getDarkMode() === 'dark' ? 'white' : 'black') : 'gray'
     },
     canHaveChildren () {
       return (this.children.length > 0 || this.moveState.moving) === true
@@ -140,9 +140,7 @@ export default {
       }
     },
     select (event) {
-      let self = this
-      let $ = self.$$
-      if ($(event.target).is('.treeview-toggle')) return
+      if (Dom7(event.target).is('.treeview-toggle')) return
       this.$emit('selected', this.tag)
     },
     setTagOpened (opened, uid) {

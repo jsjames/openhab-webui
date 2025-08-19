@@ -107,7 +107,6 @@ export default {
      * @returns {string|null} the key of the variable context/scope to be used
      */
     getVariableScope (varObj, scopeObj, key) {
-      console.log("getVariableScope", varObj, scopeObj, key)
       if (!scopeObj) return null
       const scopeIDs = scopeObj.split('-')
       for (let scope_idx = scopeIDs.length; scope_idx > 1; scope_idx--) {

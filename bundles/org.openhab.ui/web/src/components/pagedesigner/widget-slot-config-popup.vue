@@ -23,7 +23,7 @@
                  :key="idx"
                  @click="switchTab(idx)"
                  :tab-link-active="currentTab === idx"
-                 tab-link="tab-{{ idx }}">
+                 tab-link="#tab-{{ idx }}">
           {{ idx }}
         </f7-link>
         <!-- TODO-V3 need to verify -->

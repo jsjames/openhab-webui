@@ -1,8 +1,8 @@
 <template>
   <div class="oh-chart-container" :style="{ height: activeHeight }">
     <chart
-      ref="chart"
       v-if="ready"
+      ref="chart"
       :init-options="initOptions"
       :option="options"
       class="oh-chart"

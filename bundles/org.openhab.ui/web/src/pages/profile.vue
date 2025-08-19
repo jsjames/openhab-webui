@@ -193,7 +193,8 @@ export default {
   computed: {
     filteredSessions () {
       return (this.expandedTypes.sessions) ? this.sessions : (this.sessions ? this.sessions.slice(this.sessions.length - 10, this.sessions.length) : [])
-    }
+    },
+    ...mapStores(useRuntimeStore)
   },
   methods: {
     onPageBeforeIn () {

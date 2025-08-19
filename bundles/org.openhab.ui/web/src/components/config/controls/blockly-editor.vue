@@ -1311,7 +1311,7 @@ export default {
           'blockDragger': MultiselectBlockDragger
         },
         horizontalLayout: !this.$device.desktop,
-        theme: this.uiOptionsStore.getDarkMode() === 'dark' ? DarkTheme : undefined,
+        theme: useUIOptionsStore().getDarkMode() === 'dark' ? DarkTheme : undefined,
         zoom: {
           controls: true,
           wheel: true,

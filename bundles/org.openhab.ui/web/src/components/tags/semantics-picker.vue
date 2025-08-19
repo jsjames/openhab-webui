@@ -13,26 +13,26 @@
                   @click="openPopup('property')"
                   class="aligned-smart-select"
                   :link="editable" />
-    <semantics-picker-popup
-      ref="classPopup"
-      :key="'semantics-class'"
-      v-if="popupType === 'class'"
-      :item="item"
-      :hideNone="hideNone"
-      classMode="true"
-      :semanticClass="semanticClass"
-      @changed="itemChanged"
-      @close="closePopup" />
-    <semantics-picker-popup
-      ref="propertyPopup"
-      :key="'semantics-property'"
-      v-if="popupType === 'property'"
-      :item="item"
-      :hideNone="hideNone"
-      propertyMode="true"
-      @changed="itemChanged"
-      :semanticProperty="semanticProperty"
-      @close="closePopup" />
+    <f7-group-item>
+      <semantics-picker-popup v-if="popupType === 'class'"
+                              ref="classPopup"
+                              :key="'semantics-class'"
+                              :item="item"
+                              :hideNone="hideNone"
+                              classMode="true"
+                              :semanticClass="semanticClass"
+                              @changed="itemChanged"
+                              @close="closePopup" />
+      <semantics-picker-popup v-if="popupType === 'property'"
+                              ref="propertyPopup"
+                              :key="'semantics-property'"
+                              :item="item"
+                              :hideNone="hideNone"
+                              propertyMode="true"
+                              @changed="itemChanged"
+                              :semanticProperty="semanticProperty"
+                              @close="closePopup" />
+    </f7-group-item>
   </f7-list>
 </template>
 
