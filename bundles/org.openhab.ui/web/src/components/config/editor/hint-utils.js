@@ -1,4 +1,4 @@
-import CodeMirror from 'codemirror'
+// import CodeMirror from 'codemirror'
 
 export const cls = 'CodeMirror-Tern-'
 
@@ -28,6 +28,7 @@ export function remove (node) {
   if (p) p.removeChild(node)
 }
 
+// TODO-V3 No longer needed in CM6
 export function filterPartialCompletions (cm, line, completions, property = 'text', remover) {
   const cursor = cm.getCursor()
   let lineBeforeCursor = line.substring(0, cursor.ch)
@@ -80,13 +81,37 @@ export function addTooltipHandlers (cm, ret, retriggerHint) {
   })
 }
 
-export function getTypeClasses (type) {
-  return cls + 'completion ' + cls + 'completion-' + type
-}
-
-export function getClassNamesForParameter (param) {
-  if (param.type === 'TEXT') return getTypeClasses('string')
-  if (param.type === 'INTEGER') return getTypeClasses('number')
-  if (param.type === 'BOOLEAN') return getTypeClasses('bool')
-  return getTypeClasses('unknown')
+/**
+ * Converts a Parameter Type to CodeMirror's completion type
+ *
+ * Icons are styled with a CSS class created by appending the type name to "cm-completionIcon-".
+ * You can define or restyle icons by defining these selectors.
+ *
+ * script-editor.vue also supports:
+ * - string
+ * - number
+ * - boolean
+ * - unknown
+ *
+ * The base library defines simple icons for:
+ * - class
+ * - constant
+ * - enum
+ * - function
+ * - interface
+ * - keyword
+ * - method
+ * - namespace
+ * - property
+ * - text
+ * - type
+ * - variable
+ */
+export function getCompletionType (parameterType) {
+  switch (parameterType) {
+    case 'TEXT': return 'string'
+    case 'INTEGER': return 'number'
+    case 'BOOLEAN': return 'boolean'
+    default: return 'unknown'
+  }
 }

@@ -41,7 +41,6 @@
     <f7-tabs class="layout-editor-tabs">
       <f7-tab id="design"
               class="layout-editor-design-tab"
-              @tab:show="() => this.currentTab = 'design'"
               :tab-active="currentTab === 'design'">
         <f7-block v-if="!ready" class="text-align-center">
           <f7-preloader />
@@ -147,7 +146,7 @@
         <editor v-if="currentTab === 'code'"
                 :style="{ opacity: previewMode ? '0' : '' }"
                 class="page-code-editor"
-                mode="application/vnd.openhab.uicomponent+yaml?type=layout"
+                mode="application/vnd.openhab.uicomponent+yaml;type=layout"
                 :value="pageYaml"
                 @input="onEditorInput" />
         <!-- <pre class="yaml-message padding-horizontal" :class="[yamlError === 'OK' ? 'text-color-green' : 'text-color-red']">{{yamlError}}</pre> -->

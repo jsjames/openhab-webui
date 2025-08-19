@@ -14,24 +14,40 @@
   width 100%
   height calc(100vh - var(--f7-navbar-height) - var(--f7-tabbar-height, 48px))
   display flex !important
+
   .cm-editor
     height 100%
     width 100%
 
-.CodeMirror-hints
-  z-index 999999
-.CodeMirror-Tern-tooltip
-  z-index 999998
-  opacity 1 !important
-  position absolute
-.CodeMirror-lint-tooltip
-  z-index 999998
-  opacity 1 !important
-  position absolute
+    .cm-completionIcon
+      border-radius 50%
+      padding 0
+      width 16px
+      height 16px
+      line-height 16px
+      background #999
+      color #fff
+      font-size 12px
+      font-weight 700
+      opacity 0.95
+      margin 1px 6px
+
+    .cm-completionIcon::before
+      line-height 16px !important
+
+    .cm-completionIcon-boolean::before
+      content "B"
+    .cm-completionIcon-number::before
+      content "N"
+    .cm-completionIcon-string::before
+      content "S"
+    .cm-completionIcon-unknown::before
+      content "?"
+    .cm-completionIcon-unknown
+      background #4bb
 </style>
 
 <script>
-import openhab from '@/js/openhab'
 import { useUIOptionsStore } from '@/js/stores/useUIOptionsStore'
 import { mapStores } from 'pinia'
 
@@ -71,8 +87,8 @@ import { gruvboxDark } from '@uiw/codemirror-theme-gruvbox-dark'
 //TODO-V3 import 'codemirror/addon/lint/lint.css';
 import YAML from 'yaml'
 
-import tern from 'tern'
-import infer from 'tern/lib/infer'
+// import tern from 'tern'
+// import infer from 'tern/lib/infer'
 
 // import 'tern/lib/signal.js'
 // import * as Tern from 'tern/lib/tern.js'
@@ -81,15 +97,15 @@ import infer from 'tern/lib/infer'
 // import 'tern/lib/infer.js'
 // import 'tern/plugin/doc_comment.js'
 
-import EcmascriptDefs from 'tern/defs/ecmascript.json'
-import NashornDefs from '@/assets/nashorn-tern-defs.json'
-import OpenhabJsDefs from '@/assets/openhab-js-tern-defs.json'
+// import EcmascriptDefs from 'tern/defs/ecmascript.json'
+// import NashornDefs from '@/assets/nashorn-tern-defs.json'
+// import OpenhabJsDefs from '@/assets/openhab-js-tern-defs.json'
 
-//TODO-V3 import componentsHint from '../editor/hint-components';
-//TODO-V3 import itemsHint from '../editor/hint-items';
-//TODO-V3 import rulesHint from '../editor/hint-rules';
-//TODO-V3 import thingsHint from '../editor/hint-things';
-//TODO-V3 import pythonHint from '../editor/hint-python';
+import componentsHint from '../editor/hint-components';
+// import itemsHint from '../editor/hint-items';
+// import rulesHint from '../editor/hint-rules';
+// import thingsHint from '../editor/hint-things';
+// import pythonHint from '../editor/hint-python';
 
 const KEYMAP = [
   {
@@ -205,167 +221,37 @@ export default {
           return null
       }
     },
-    ternComplete (file, query) {
-      let pos = tern.resolvePos(file, query.end)
-      let lit = infer.findExpressionAround(file.ast, null, pos, file.scope, 'Literal')
-      if (!lit || !lit.node) return
-      let call = infer.findExpressionAround(file.ast, null, lit.node.start - 2, file.scope)
-      if (!call || !call.node) return
-      if (call.node.type !== 'MemberExpression' || (!call.node.object && !call.node.property))
-        return
-      if (
-        (call.node.object.name === 'events' && call.node.property.name === 'postUpdate') ||
-        (call.node.object.name === 'events' && call.node.property.name === 'sendCommand') ||
-        (call.node.object.name === 'itemRegistry' && call.node.property.name === 'getItem') ||
-        (call.node.object.name === 'ir' && call.node.property.name === 'getItem') ||
-        (call.node.object.name === 'items' && call.node.property.name === 'getItem')
-      ) {
-        console.debug('Completing item names!')
-
-        let before = lit.node.value.slice(0, pos - lit.node.start - 1)
-        let matches = []
-        this.itemsCache
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .forEach((item) => {
-            if (
-              item.name.length > before.length &&
-              item.name.toLowerCase().indexOf(before.toLowerCase()) >= 0
-            ) {
-              if (query.types || query.docs || query.urls || query.origins) {
-                let rec = {
-                  name: JSON.stringify(item.name),
-                  displayName: item.name,
-                  doc: (item.label ? item.label + ' ' : '') + '[' + item.type + ']'
-                }
-                matches.push(rec)
-                if (query.types) rec.type = 'string'
-                if (query.origins) rec.origin = item.name
-              }
-            }
-          })
-
-        return {
-          start: tern.outputPos(query, file, lit.node.start),
-          end: tern.outputPos(
-            query,
-            file,
-            pos + (file.text.charAt(pos) === file.text.charAt(lit.node.start) ? 1 : 0)
-          ),
-          isProperty: false,
-          completions: matches
-        }
-      }
-    },
-    onCmReady (cm) {
-      if (!this.mode) {
-        return
+    autocompletionExtension (mode) {
+      if (!mode) {
+        return null
       }
 
-      const self = this
-      let extraKeys = {}
-      if (this.mode.indexOf('application/javascript') === 0) {
-        window.tern = tern
-        if (this.ternAutocompletionHook) {
-          tern.registerPlugin('openhab-tern-hook', (server, options) => {
-            server.mod.completeStrings = {
-              maxLen: (options && options.maxLength) || 15,
-              seen: Object.create(null)
-            }
-            server.on('completion', this.ternComplete)
-          })
-          openhab.api.get('/rest/items?staticDataOnly=true').then((data) => {
-            this.itemsCache = data
-          })
-        }
-        /* TODO-V3
-        const server = new _CodeMirror.TernServer({
-          defs:
-            this.mode.indexOf('version=ECMAScript-5.1') > 0
-              ? [EcmascriptDefs, NashornDefs]
-              : [EcmascriptDefs, OpenhabJsDefs],
-          plugins: this.ternAutocompletionHook ? { 'openhab-tern-hook': {} } : undefined,
-          ecmaVersion: this.mode.indexOf('version=ECMAScript-5.1') > 0 ? 5 : 6,
-        });
-        extraKeys = {
-          'Ctrl-Space': function (cm) {
-            server.complete(cm);
-          },
-          'Ctrl-Q': function (cm) {
-            server.showDocs(cm);
-          },
-          "'.'": function (cm) {
-            setTimeout(function () {
-              server.complete(cm);
-            }, 100);
-            return _CodeMirror.Pass; // tell CodeMirror we didn't handle the key
-          },
-        };
-        */
-        /*
-        cm.on('cursorActivity', function (cm) {
-          server.updateArgHints(cm)
-        })
-        */
-      } else if (this.mode) {
-        this.autocompletion = autocompletion({
-          override: [
-            (context) => {
-              if (self.mode.startsWith('application/vnd.openhab.uicomponent')) {
-                return componentsHint(context, self.mode)
-              }
+      const acOpts = {
+        activateOnCompletion: () => true
+      }
 
-              switch (self.mode) {
-                case 'application/vnd.openhab.rule+yaml':
-                  return rulesHint(context, self.mode)
-                case 'application/python':
-                  return pythonHint(context, self.mode)
-                case 'application/vnd.openhab.thing+yaml':
-                  return thingsHint(context, self.mode)
-                case 'application/vnd.openhab.item+yaml':
-                  return itemsHint(context, self.mode)
-                default:
-                  return completeFromList(context, { label: true })
-              }
-            }
-          ]
-        })
-        const autocomplete = function (cm) {
-          setTimeout(function () {
-            _CodeMirror.commands.autocomplete(cm)
-          }, 250)
-          return _CodeMirror.Pass // tell CodeMirror we didn't handle the key
-        }
-        extraKeys = {
-          'Ctrl-Space': 'autocomplete',
-          '\'.\'': autocomplete,
-          '\'=\'': autocomplete,
-          Space: autocomplete,
-          '\'@\'': autocomplete
-        }
-        cm.state.$oh = this.$oh
-        cm.state.originalMode = this.mode
-        if (this.hintContext) cm.state.hintContext = Object.assign({}, this.hintContext)
-        /* TODO-V3
-        cm.setOption('hintOptions', {
-          closeOnUnfocus: false,
-          completeSingle: self.mode && self.mode.indexOf('yaml') > 0,
-          hint(cm, option) {
-            if (self.mode && self.mode.indexOf('application/vnd.openhab.uicomponent') === 0) {
-              return componentsHint(cm, option, self.mode);
-            } else if (self.mode === 'application/vnd.openhab.item+yaml') {
-              return itemsHint(cm, option, self.mode);
-            } else if (self.mode === 'application/vnd.openhab.rule+yaml') {
-              return rulesHint(cm, option, self.mode);
-            } else if (self.mode === 'application/vnd.openhab.thing+yaml') {
-              return thingsHint(cm, option, self.mode);
-            } else if (self.mode === 'application/python') {
-              return pythonHint(cm, option, self.mode);
-            } else {
-              return _CodeMirror.hint.anyword(cm, option, self.mode);
-            }
-          },
-        });
-        */
+      if (mode.startsWith('application/javascript')) {
+        return autocompletion(acOpts)
+        // TODO-V3 add items autocompletion
+      }
+
+      if (mode.startsWith('application/vnd.openhab.uicomponent')) {
+        return autocompletion({ ...acOpts, override: [ componentsHint ] })
+      }
+
+      // TODO-V3
+      // switch (mode) {
+      //   case 'application/vnd.openhab.rule+yaml':
+      //     return autocompletion({ ...acOpts, override: [ rulesHint ] })
+      //   case 'application/python':
+      //     return autocompletion({ ...acOpts, override: [ pythonHint ] })
+      //   case 'application/vnd.openhab.thing+yaml':
+      //     return autocompletion({ ...acOpts, override: [ thingsHint ] })
+      //   case 'application/vnd.openhab.item+yaml':
+      //     return autocompletion({ ...acOpts, override: [ itemsHint ] })
+      //   default:
+      //     return autocompletion(acOpts)
+      // }
 
         /* TODO-V3
         _CodeMirror.registerHelper('lint', 'yaml', function (text) {
@@ -389,11 +275,11 @@ export default {
           return found;
         });
         */
-
-        // this.cmOptions.lint = true
-      }
-      // TODO-V3 cm.setOption('extraKeys', extraKeys);
-      // TODO-V3 cm.refresh();
+    },
+    onCmReady (cm) {
+      cm.view.$oh = this.$oh
+      cm.view.originalMode = this.mode
+      if (this.hintContext) cm.view.hintContext = Object.assign({}, this.hintContext)
     },
     onCmCodeChange (newCode) {
       this.$emit('input', newCode)
@@ -405,7 +291,7 @@ export default {
         ...STANDARD_EXTENSIONS,
         EditorState.readOnly.of(this.readOnly),
         this.languageExtension(this.mode),
-        this.autocompletion,
+        this.autocompletionExtension(this.mode),
         useUIOptionsStore().getDarkMode() === 'dark' ? gruvboxDark : null
       ].filter((ext) => ext)
 

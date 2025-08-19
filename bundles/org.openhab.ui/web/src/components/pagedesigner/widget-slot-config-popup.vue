@@ -23,7 +23,7 @@
                  :key="idx"
                  @click="switchTab(idx)"
                  :tab-link-active="currentTab === idx"
-                 tab-link="#tab-{{ idx }}">
+                 :tab-link="'#tab-' + idx">
           {{ idx }}
         </f7-link>
         <!-- TODO-V3 need to verify -->
@@ -31,7 +31,7 @@
       </f7-toolbar>
       <f7-tabs>
         <f7-tab v-for="(slotComponent, idx) in slotConfig"
-                id="tab-{{ idx }}"
+                :id="'tab-' + idx"
                 :key="idx"
                 :tab-active="currentTab === idx">
           <config-sheet v-if="currentTab === idx && getWidgetDefinition(slotComponent.component)"
