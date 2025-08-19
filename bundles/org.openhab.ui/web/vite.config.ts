@@ -23,6 +23,7 @@ export default defineConfig({
   }), vueDevtools(), visualizer({ open: true }), vitePluginTopLevelAwait()],
   server: {
     port: 8080,
+    host: '0.0.0.0',
     proxy: {
       '/rest': {
         target: apiBaseUrl,
