@@ -54,14 +54,14 @@
         <span v-else />
         <div class="padding-right text-align-right">
           <label class="advanced-label">
-            <f7-checkbox :checked="includeNonSemantic ? true : null" @change="toggleNonSemantic" />
+            <f7-checkbox v-model:checked="includeNonSemantic" @change="changeNonSemantic" />
             Show non-semantic
           </label>
           <label class="advanced-label">
-            <f7-checkbox style="margin-left: 5px" v-model:checked="includeItemName" />
+            <f7-checkbox v-model:checked="includeItemName" />
             Show name</label>
           <label class="advanced-label">
-            <f7-checkbox style="margin-left: 5px" v-model:checked="includeItemTags" />
+            <f7-checkbox v-model:checked="includeItemTags" />
             Show tags</label>
         </div>
         <span />
@@ -80,7 +80,7 @@
         <div class="padding-left padding-right text-align-center" style="font-size: 12px">
           <div>
             <label class="advanced-label">
-              <f7-checkbox :checked="includeNonSemantic ? true : null" @change="toggleNonSemantic" />
+              <f7-checkbox v-model:checked="includeNonSemantic" @change="changeNonSemantic" />
               Show non-semantic
             </label>
           </div>
@@ -90,7 +90,7 @@
               Show name
             </label>
             <label class="advanced-label">
-              <f7-checkbox style="margin-left: 5px" v-model:checked="includeItemTags" />
+              <f7-checkbox v-model:checked="includeItemTags" />
               Show tags
             </label>
           </div>
@@ -261,10 +261,9 @@ export default {
         this.checkedItems.splice(this.checkedItems.indexOf(item), 1)
       }
     },
-    toggleNonSemantic () {
+    changeNonSemantic () {
       this.rootGroups = []
       this.rootItems = []
-      this.includeNonSemantic = !this.includeNonSemantic
       this.load()
     },
     toggleExpanded () {

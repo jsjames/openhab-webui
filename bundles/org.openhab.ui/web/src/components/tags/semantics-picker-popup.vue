@@ -46,7 +46,7 @@
             Show tag names
           </label>
           <label class="advanced-label">
-            <f7-checkbox style="margin-left: 5px" v-model:checked="showSynonyms" />
+            <f7-checkbox v-model:checked="showSynonyms" />
             Show synonyms
           </label>
         </div>

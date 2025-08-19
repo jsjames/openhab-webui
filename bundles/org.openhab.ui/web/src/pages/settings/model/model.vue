@@ -42,15 +42,15 @@
       </f7-link>
       <div class="padding-right text-align-right">
         <label class="advanced-label">
-          <f7-checkbox :checked="includeNonSemantic ? true : null" @change="toggleNonSemantic" />
+          <f7-checkbox v-model:checked="includeNonSemantic" @change="changeNonSemantic" />
           Show non-semantic
         </label>
         <label class="advanced-label">
-          <f7-checkbox style="margin-left: 5px" :checked="includeItemName ? true : null" @change="toggleItemName" />
+          <f7-checkbox v-model:checked="includeItemName" />
           Show name
         </label>
         <label class="advanced-label">
-          <f7-checkbox style="margin-left: 5px" :checked="includeItemTags ? true : null" @change="toggleItemTags" />
+          <f7-checkbox v-model:checked="includeItemTags" />
           Show tags
         </label>
       </div>
@@ -66,17 +66,17 @@
       <div class="padding-left padding-right text-align-center" style="font-size: 12px">
         <div>
           <label class="advanced-label">
-            <f7-checkbox :checked="includeNonSemantic ? true : null" @change="toggleNonSemantic" />
+            <f7-checkbox v-model:checked="includeNonSemantic" @change="changeNonSemantic" />
             Show non-semantic
           </label>
         </div>
         <div>
           <label class="advanced-label">
-            <f7-checkbox style="margin-left: 5px" :checked="includeItemName ? true : null" @change="toggleItemName" />
+            <f7-checkbox v-model:checked="includeItemName" />
             Show name
           </label>
           <label class="advanced-label">
-            <f7-checkbox style="margin-left: 5px" :checked="includeItemTags ? true : null" @change="toggleItemTags" />
+            <f7-checkbox v-model:checked="includeItemTags" />
             Show tags
           </label>
         </div>
@@ -479,7 +479,6 @@ export default {
       if (!visibility || visibility !== 'hidden') {
         this.detailsOpened = true
       }
-      // console.log('selected ' + item.item.name)
     },
     clearSelection (ev) {
       if (ev.target && ev.currentTarget && ev.target === ev.currentTarget) {
@@ -487,18 +486,9 @@ export default {
         this.detailsOpened = false
       }
     },
-    toggleNonSemantic () {
+    changeNonSemantic () {
       this.rootGroups = []
       this.rootItems = []
-      this.includeNonSemantic = !this.includeNonSemantic
-      this.load()
-    },
-    toggleItemName () {
-      this.includeItemName = !this.includeItemName
-      this.load()
-    },
-    toggleItemTags () {
-      this.includeItemTags = !this.includeItemTags
       this.load()
     },
     toggleExpanded () {
