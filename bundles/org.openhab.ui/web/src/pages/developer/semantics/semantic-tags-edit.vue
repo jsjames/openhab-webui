@@ -20,7 +20,7 @@
       </f7-link>
     </f7-toolbar>
     <f7-toolbar bottom class="toolbar-details" v-if="currentTab === 'tree'">
-      <f7-link :disabled="selectedTag != null ? true : null" class="left" @click="selectTag(null)">
+      <f7-link class="left" :class="{ disabled: selectedTag == null }" @click="selectTag(null)">
         Clear
       </f7-link>
       <div class="padding-left padding-right text-align-center" style="font-size: 12px">

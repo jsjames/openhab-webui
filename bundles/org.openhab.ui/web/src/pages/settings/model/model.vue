@@ -1,8 +1,7 @@
 <template>
   <f7-page name="Model"
            @page:afterin="onPageAfterIn"
-           @page:beforeout="onPageBeforeOut"
-           @click="selectItem(null)">
+           @page:beforeout="onPageBeforeOut">
     <f7-navbar title="Semantic Model"
                back-link="Settings"
                back-link-url="/settings/"
@@ -37,7 +36,7 @@
 
     <!-- Toolbar -->
     <f7-toolbar v-if="f7.width >= 500" bottom class="toolbar-details">
-      <f7-link :disabled="selectedItem != null ? true : null" class="left" @click="selectedItem = null">
+      <f7-link  class="left" :class="{ disabled: selectedItem == null }" @click="selectedItem = null">
         Clear
       </f7-link>
       <div class="padding-right text-align-right">
@@ -60,7 +59,7 @@
                icon-f7="chevron_up" />
     </f7-toolbar>
     <f7-toolbar v-else bottom class="toolbar-details">
-      <f7-link :disabled="selectedItem != null ? true : null" class="left" @click="selectedItem = null">
+      <f7-link :class="{ disabled: selectedItem == null }" @click="selectedItem = null">
         Clear
       </f7-link>
       <div class="padding-left padding-right text-align-center" style="font-size: 12px">
@@ -144,8 +143,8 @@
             <f7-card>
               <f7-card-content>
                 <f7-list>
-                  <f7-list-button color="blue"
-                                  v-show="!selectedItem || selectedItem.class.indexOf('Location') === 0"
+                  <f7-list-button v-show="!selectedItem || selectedItem.class.indexOf('Location') === 0"
+                                  color="blue"
                                   title="Add Location"
                                   @click="addSemanticItem('Location')" />
                   <f7-list-button color="blue" title="Create Equipment from Thing" @click="addFromThing(true)" />

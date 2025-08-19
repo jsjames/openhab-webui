@@ -12,6 +12,7 @@
     :key="mapKey"
     @update:bounds="ready = true"
     class="oh-plan-page-lmap"
+    @ready="fitMapBounds"
     :class="{ 'with-tabbar': context.tab,
               'oh-plan-white-background': config.backgroundColor === 'white',
               'oh-plan-black-background': config.backgroundColor === 'black',
@@ -90,6 +91,12 @@ dark-tooltip()
 .dark
   .oh-plan-tooltip-blackwhite
     dark-tooltip()
+
+// override leaflet style
+.leaflet-div-icon
+  background: unset
+  border: unset
+
 </style>
 
 <script>

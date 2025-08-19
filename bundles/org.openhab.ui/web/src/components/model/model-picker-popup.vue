@@ -46,8 +46,8 @@
       <!-- Toolbar -->
       <f7-toolbar v-if="f7.width >= 500" bottom class="toolbar-details">
         <f7-link v-if="!multiple"
-                 :disabled="selectedItem != null ? true : null"
                  class="left"
+                 :class="{ disabled: selectedItem == null }"
                  @click="selectedItem = null">
           Clear
         </f7-link>

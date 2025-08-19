@@ -29,6 +29,11 @@
   height calc(100% - var(--f7-safe-area-top) - var(--f7-navbar-height)) !important
   &.with-tabbar
     height calc(100% - var(--f7-safe-area-top) - var(--f7-navbar-height) - var(--f7-tabbar-labels-height)) !important
+
+// override leaflet style
+.leaflet-div-icon
+  background: unset
+  border: unset
 </style>
 
 <script>
