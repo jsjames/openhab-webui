@@ -1,14 +1,20 @@
 <template>
   <f7-page name="devtools" @page:beforeremove="onPageBeforeRemove">
-    <f7-navbar title="Developer Tools"
-               back-link="Back"
-               back-link-url="/"
-               back-link-force
-               no-hairline>
+    <f7-navbar no-hairline>
+      <f7-nav-left>
+        <f7-link icon-f7="chevron_left" href="/overview/">
+          Overview
+        </f7-link>
+      </f7-nav-left>
+      <f7-nav-title>
+        Developer Tools
+      </f7-nav-title>
       <f7-nav-right>
         <developer-dock-icon />
       </f7-nav-right>
     </f7-navbar>
+
+
     <f7-toolbar tabbar position="top">
       <f7-link @click="currentTab = 'menu'"
                :tab-link-active="currentTab === 'menu'"

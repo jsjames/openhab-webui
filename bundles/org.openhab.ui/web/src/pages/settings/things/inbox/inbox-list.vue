@@ -1,9 +1,14 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:afterout="stopEventSource">
-    <f7-navbar title="Inbox"
-               back-link="Things"
-               back-link-url="/settings/things/"
-               back-link-force>
+    <f7-navbar>
+      <f7-nav-left>
+        <f7-link icon-f7="chevron_left" href="/settings/things/">
+          Things
+        </f7-link>
+      </f7-nav-left>
+      <f7-nav-title>
+        Inbox
+      </f7-nav-title>
       <f7-nav-right>
         <f7-link icon-md="material:done_all"
                  @click="toggleCheck()"
@@ -138,12 +143,16 @@
             </template>
           </span>
           <div v-if="!$device.desktop && f7.width < 1024" style="text-align: right; color: var(--f7-block-text-color); font-weight: normal" class="float-right">
-            <f7-checkbox :checked="showIgnored ? true : null" @change="toggleIgnored" />
-            <label @click="toggleIgnored" style="cursor: pointer">Show ignored</label>
+            <label class="advanced-label">
+              <f7-checkbox v-model:checked="showIgnored" @change="changeIgnored" />
+              Show ignored
+            </label>
           </div>
           <div v-else style="text-align: right; color: var(--f7-block-text-color); font-weight: normal" class="float-right">
-            <label @click="toggleIgnored" style="cursor: pointer">Show ignored</label>
-            <f7-checkbox :checked="showIgnored ? true : null" @change="toggleIgnored" />
+            <label class="advanced-label">
+              Show ignored
+              <f7-checkbox v-model:checked="showIgnored" @change="changeIgnored" />
+            </label>
           </div>
         </f7-block-title>
         <div class="searchbar-found padding-left padding-right" v-show="!ready || inboxCount > 0">
@@ -171,7 +180,10 @@
           </f7-list-group>
         </f7-list>
 
-        <f7-list v-else class="searchbar-found col" :contacts-list="groupBy === 'alphabetical'">
+        <f7-list v-else
+                 media-list
+                 class="searchbar-found col"
+                 :contacts-list="groupBy === 'alphabetical'">
           <f7-list-group v-for="(inboxWithInitial, initial) in filteredIndexedInbox" :key="initial">
             <f7-list-item v-if="inboxWithInitial.length" :title="initial" group-title />
             <f7-list-item v-for="entry in inboxWithInitial"
@@ -461,8 +473,7 @@ export default {
         this.load()
       })
     },
-    toggleIgnored () {
-      this.showIgnored = !this.showIgnored
+    changeIgnored () {
       setTimeout(() => { this.$refs.listIndex.update() })
     },
     toggleCheck () {

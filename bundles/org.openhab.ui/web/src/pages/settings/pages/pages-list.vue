@@ -1,9 +1,14 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut">
-    <f7-navbar title="Pages"
-               back-link="Settings"
-               back-link-url="/settings/"
-               back-link-force>
+    <f7-navbar>
+      <f7-nav-left>
+        <f7-link icon-f7="chevron_left" href="/settings/">
+          Settings
+        </f7-link>
+      </f7-nav-left>
+      <f7-nav-title>
+        Pages
+      </f7-nav-title>
       <f7-nav-right>
         <developer-dock-icon />
         <f7-link icon-md="material:done_all"
@@ -22,6 +27,7 @@
           :disable-button="!theme.aurora" />
       </f7-subnavbar>
     </f7-navbar>
+
     <f7-toolbar v-if="showCheckboxes"
                 class="contextual-toolbar"
                 :class="{ navbar: theme.md }"

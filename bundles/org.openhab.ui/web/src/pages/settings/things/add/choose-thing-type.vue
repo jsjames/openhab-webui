@@ -236,13 +236,13 @@ export default {
       return this.$oh.api.get('/rest/inbox?includeIgnored=false').then((data) => {
         this.loading = false
         this.scanResults = data.filter((e) => e.thingTypeUID.split(':')[0] === this.bindingId)
-        const filterQuery = this.$refs.searchbar?.f7Searchbar.query
+        const filterQuery = this.$refs.searchbar?.$el.f7Searchbar.query
         this.initSearchbar = false
         nextTick(() => {
           this.initSearchbar = true
           if (!filterQuery) return
           nextTick(() => {
-            const searchbar = this.$refs.searchbar?.f7Searchbar
+            const searchbar = this.$refs.searchbar?.$el.f7Searchbar
             searchbar.clear()
             searchbar.search(filterQuery)
           })

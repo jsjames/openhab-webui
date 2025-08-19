@@ -5,8 +5,6 @@ import NotFoundPage from '../pages/not-found.vue'
 import PageViewPage from '../pages/page/page-view.vue'
 import AnalyzerPopup from '../pages/analyzer/analyzer-popup.vue'
 import { AddonTitles } from '@/assets/addon-store'
-import { id } from 'framework7/shared/utils'
-import BlocksList from '@/pages/developer/blocks/blocks-list.vue'
 
 const AboutPage = () => import(/* webpackChunkName: "about-page" */ '../pages/about.vue')
 const UserProfilePage = () => import(/* webpackChunkName: "profile-page" */ '../pages/profile.vue')
@@ -110,7 +108,7 @@ export default [
     },
     routes: [
       {
-        path: 'overview',
+        path: 'overview/',
         component: HomePage,
         options: {
           props: {
@@ -119,7 +117,7 @@ export default [
         }
       },
       {
-        path: 'locations',
+        path: 'locations/',
         component: HomePage,
         options: {
           props: {
@@ -128,7 +126,7 @@ export default [
         }
       },
       {
-        path: 'equipment',
+        path: 'equipment/',
         component: HomePage,
         options: {
           props: {
@@ -137,7 +135,7 @@ export default [
         }
       },
       {
-        path: 'properties',
+        path: 'properties/',
         component: HomePage,
         options: {
           props: {
@@ -189,7 +187,7 @@ export default [
     // keepAlive: true,  // keepAlive is not supported for async routes
     routes: [
       {
-        path: 'items',
+        path: 'items/',
         beforeEnter: [enforceAdminForRoute],
         asyncComponent: ItemsListPage,
         routes: [
@@ -209,7 +207,7 @@ export default [
             asyncComponent: ItemsAddFromTextualDefinition
           },
           {
-            path: ':itemName',
+            path: ':itemName/',
             beforeEnter: [enforceAdminForRoute],
             asyncComponent: ItemDetailsPage,
             routes: [
@@ -249,7 +247,7 @@ export default [
       },
       {
         path: 'transformations/',
-        asyncComponent: TransformationsEditPage,
+        asyncComponent: TransformationsListPage,
         routes: [
           {
             path: ':transformationId',
@@ -261,7 +259,7 @@ export default [
         ]
       },
       {
-        path: 'health',
+        path: 'health/',
         beforeEnter: [enforceAdminForRoute],
         asyncComponent: HealthOverviewPage,
         routes: [
@@ -288,7 +286,7 @@ export default [
             asyncComponent: AddThingChooseBindingPage,
             routes: [
               {
-                path: ':bindingId',
+                path: ':bindingId/',
                 beforeEnter: [enforceAdminForRoute],
                 asyncComponent: AddThingChooseThingTypePage,
                 routes: [
@@ -363,7 +361,7 @@ export default [
             async: loadAsync(RuleEditPage, { createMode: false, stubMode: true})
           },
           {
-            path: ':ruleId',
+            path: ':ruleId/',
             beforeEnter: [enforceAdminForRoute],
             beforeLeave: [checkDirtyBeforeLeave],
             asyncComponent: RuleEditPage,
@@ -444,7 +442,7 @@ export default [
         ]
       },
       {
-        path: 'addons',
+        path: 'addons/',
         routes: [
           {
             path: ':addonId',
@@ -527,17 +525,17 @@ export default [
         asyncComponent: SemanticsEditPage
       },
       {
-        path: 'add-items-dsl',
+        path: 'add-items-dsl/',
         beforeEnter: [enforceAdminForRoute],
         asyncComponent: ItemsAddFromTextualDefinition
       },
       {
-        path: 'api-explorer',
+        path: 'api-explorer/',
         beforeEnter: [enforceAdminForRoute],
         asyncComponent: ApiExplorerPage
       },
       {
-        path: 'log-viewer',
+        path: 'log-viewer/',
         beforeEnter: [enforceAdminForRoute],
         asyncComponent: LogViewerPage
       }

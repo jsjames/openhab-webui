@@ -196,11 +196,15 @@
       </f7-page>
     </f7-popup>
 
-    <!-- Main Display -->
-    <f7-navbar title="Log Viewer"
-               back-link="Developer Tools"
-               back-link-url="/developer/"
-               back-link-force>
+    <f7-navbar>
+      <f7-nav-left>
+        <f7-link icon-f7="chevron_left" href="/developer/">
+          Developer Tools
+        </f7-link>
+      </f7-nav-left>
+      <f7-nav-title>
+        Log Viewer
+      </f7-nav-title>
       <f7-nav-right>
         <f7-link icon-ios="f7:play_fill"
                  icon-f7="play_fill"
@@ -224,7 +228,6 @@
                  :class="{ 'disabled-link': !stateConnected, 'no-margin-left': $device.ios }"
                  @click="loggingStop" />
       </f7-nav-right>
-
       <f7-subnavbar :inner="false" style="padding-right: var(--f7-safe-area-right)">
         <f7-searchbar ref="searchbar"
                       :value="filterText"

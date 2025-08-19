@@ -192,6 +192,7 @@ export default {
           return StreamLanguage.define(groovy)
         case 'map':
         case 'scale':
+        case 'text/x-properties':
           return StreamLanguage.define(properties)
         case 'exec':
           return StreamLanguage.define(shell)

@@ -1,9 +1,14 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn">
-    <f7-navbar title="Health Checks"
-               back-link="Settings"
-               back-link-url="/settings/"
-               back-link-force>
+    <f7-navbar>
+      <f7-nav-left>
+        <f7-link icon-f7="chevron_left" href="/settings/">
+          Settings
+        </f7-link>
+      </f7-nav-left>
+      <f7-nav-title>
+        Health Checks
+      </f7-nav-title>
       <f7-nav-right>
         <developer-dock-icon />
       </f7-nav-right>

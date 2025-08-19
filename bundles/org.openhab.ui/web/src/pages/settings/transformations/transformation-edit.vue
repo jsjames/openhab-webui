@@ -1,6 +1,14 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut">
-    <f7-navbar :title="(createMode ? 'Create' : 'Edit') + ' Transformation' + dirtyIndicator" :subtitle="(!createMode && transformation) ? editorMode : ''" back-link="Back">
+    <f7-navbar>
+      <f7-nav-left>
+        <f7-link icon-f7="chevron_left" href="/settings/transformations/">
+          Transformations
+        </f7-link>
+      </f7-nav-left>
+      <f7-nav-title :subtitle="(!createMode && transformation) ? editorMode : ''">
+        {{ (createMode ? 'Create' : 'Edit') + ' Transformation' + dirtyIndicator }}
+      </f7-nav-title>
       <f7-nav-right>
         <f7-link v-if="createMode" @click="createTransformation" icon-md="material:save">
           {{ theme.md ? '' : 'Create' }}
@@ -224,7 +232,7 @@ export default {
       this.load()
     },
     onPageBeforeOut () {
-      if (this.$refs.detailsSheet.$el.f7Modal) this.$refs.detailsSheet.$el.f7Modal.close()
+      if (this.$refs.detailsSheet?.$el.f7Modal) this.$refs.detailsSheet.$el.f7Modal.close()
       if (window) {
         window.removeEventListener('keydown', this.keyDown)
       }

@@ -1,9 +1,18 @@
 <template>
   <f7-page name="apiexplorer" @page:afterin="onPageAfterIn">
-    <f7-navbar title="API Explorer"
-               back-link="Developer Tools"
-               back-link-url="/developer/"
-               back-link-force />
+    <f7-navbar>
+      <f7-nav-left>
+        <f7-link icon-f7="chevron_left" href="/developer/">
+          Developer Tools
+        </f7-link>
+      </f7-nav-left>
+      <f7-nav-title>
+        API Explorer
+      </f7-nav-title>
+      <f7-nav-right>
+        <developer-dock-icon />
+      </f7-nav-right>
+    </f7-navbar>
     <f7-block>
       <f7-col>
         <f7-card id="swaggerUi" />

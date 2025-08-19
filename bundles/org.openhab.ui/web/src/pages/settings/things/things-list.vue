@@ -1,18 +1,23 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="onPageBeforeOut">
-    <f7-navbar title="Things"
-               back-link="Settings"
-               back-link-url="/settings/"
-               back-link-force>
+    <f7-navbar>
+      <f7-nav-left>
+        <f7-link icon-f7="chevron_left" href="/settings/">
+          Settings
+        </f7-link>
+      </f7-nav-left>
+      <f7-nav-title>
+        Things
+      </f7-nav-title>
       <f7-nav-right>
         <developer-dock-icon />
         <f7-link icon-md="material:done_all"
                  @click="toggleCheck()"
                  :text="!theme.md ? (showCheckboxes ? 'Done' : 'Select') : ''" />
       </f7-nav-right>
-      <f7-subnavbar :inner="false" v-show="initSeachbar">
+      <f7-subnavbar :inner="false" v-show="initSearchbar">
         <f7-searchbar
-          v-if="initSeachbar"
+          v-if="initSearchbar"
           ref="searchbar"
           class="searchbar-things"
           custom-search
@@ -275,7 +280,7 @@ export default {
   data () {
     return {
       ready: false,
-      initSeachbar: false,
+      initSearchbar: false,
       loading: false,
       things: [],
       inbox: [],
@@ -374,8 +379,8 @@ export default {
       if (this.loading) return
       this.loading = true
 
-      if (this.initSeachbar) useLastSearchQueryStore().lastThingsSearchQuery = this.$refs.searchbar?.query
-      this.initSeachbar = false
+      if (this.initSearchbar) useLastSearchQueryStore().lastThingsSearchQuery = this.$refs.searchbar?.query
+      this.initSearchbar = false
 
       if (this.searchFor) {
         this.$refs.searchbar?.$inputEl.val(this.searchFor)
@@ -384,7 +389,7 @@ export default {
       this.$oh.api.get('/rest/things?summary=true').then((data) => {
         this.things = data.sort((a, b) => (a.label || a.UID).localeCompare(b.label || a.UID))
         this.filteredThings = this.things
-        this.initSeachbar = true
+        this.initSearchbar = true
         this.loading = false
         this.ready = true
         nextTick(() => {

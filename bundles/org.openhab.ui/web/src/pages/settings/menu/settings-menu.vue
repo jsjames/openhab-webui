@@ -1,12 +1,14 @@
 <template>
   <f7-page @page:init="onPageInit" @page:afterin="onPageAfterIn" class="page-settings">
-    <f7-navbar large
-               :large-transparent="false"
-               title-large="Settings"
-               title="Settings"
-               back-link="Back"
-               back-link-url="/"
-               back-link-force>
+    <f7-navbar large>
+      <f7-nav-left>
+        <f7-link icon-f7="chevron_left" href="/overview/">
+          Overview
+        </f7-link>
+      </f7-nav-left>
+      <f7-nav-title-large>
+        Settings
+      </f7-nav-title-large>
       <f7-nav-right>
         <developer-dock-icon />
         <f7-link
@@ -24,6 +26,7 @@
         @searchbar:search="expandAll"
         :disable-button="!theme.aurora" />
     </f7-navbar>
+
     <f7-block class="block-narrow after-big-title settings-menu">
       <f7-row>
         <f7-col :class="!addonsLoaded || (addonsLoaded && addonsInstalled.length > 0) ? 'settings-col' : ''" width="100" medium="50">

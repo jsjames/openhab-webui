@@ -1,12 +1,14 @@
 <template>
   <f7-page @page:afterin="onPageAfterIn" @page:beforeout="addonPopupOpened = false" @page:afterout="stopEventSource">
-    <f7-navbar :title="'Add-ons: ' + addonsLabels[addonType]"
-               back-link="Settings"
-               back-link-url="/settings/"
-               back-link-force>
-               <!-- <f7-nav-right>
-        <f7-link href="add">Add</f7-link>
-      </f7-nav-right>-->
+    <f7-navbar>
+      <f7-nav-left>
+        <f7-link icon-f7="chevron_left" href="/settings/">
+          Settings
+        </f7-link>
+      </f7-nav-left>
+      <f7-nav-title>
+        {{ 'Add-ons: ' + addonsLabels[addonType] }}
+      </f7-nav-title>
     </f7-navbar>
     <f7-block form class="block-narrow">
       <f7-col>

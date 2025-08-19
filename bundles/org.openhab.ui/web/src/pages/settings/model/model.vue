@@ -2,10 +2,15 @@
   <f7-page name="Model"
            @page:afterin="onPageAfterIn"
            @page:beforeout="onPageBeforeOut">
-    <f7-navbar title="Semantic Model"
-               back-link="Settings"
-               back-link-url="/settings/"
-               back-link-force>
+    <f7-navbar>
+      <f7-nav-left>
+        <f7-link icon-f7="chevron_left" href="/settings/">
+          Settings
+        </f7-link>
+      </f7-nav-left>
+      <f7-nav-title>
+        Semantic Model
+      </f7-nav-title>
       <f7-nav-right>
         <developer-dock-icon />
       </f7-nav-right>
@@ -36,7 +41,7 @@
 
     <!-- Toolbar -->
     <f7-toolbar v-if="f7.width >= 500" bottom class="toolbar-details">
-      <f7-link  class="left" :class="{ disabled: selectedItem == null }" @click="selectedItem = null">
+      <f7-link class="left" :class="{ disabled: selectedItem == null }" @click="selectedItem = null">
         Clear
       </f7-link>
       <div class="padding-right text-align-right">

@@ -16,7 +16,7 @@
       class="sidebar"
       :visible-breakpoint="1024">
       <f7-page>
-        <f7-link href="/overview" class="openhab-logo no-ripple" panel-close>
+        <f7-link href="/overview/" class="openhab-logo no-ripple" panel-close>
           <div class="logo-inner">
             <img
               v-if="uiOptionsStore.getDarkMode() === 'dark'"
@@ -263,7 +263,7 @@
                 </template>
               </f7-list-item>
               <f7-list-item
-                link="/developer/api-explorer"
+                link="/developer/api-explorer/"
                 title="API Explorer"
                 view=".view-main"
                 panel-close
@@ -277,7 +277,7 @@
                 </template>
               </f7-list-item>
               <f7-list-item
-                link="/developer/log-viewer"
+                link="/developer/log-viewer/"
                 title="Log Viewer"
                 view=".view-main"
                 panel-close
