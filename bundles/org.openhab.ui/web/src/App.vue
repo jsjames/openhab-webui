@@ -867,7 +867,11 @@ export default {
             break
           case 77: // M for menu
             const leftPanel = f7.panel.get('left')
-            leftPanel.opened ? leftPanel.close() : leftPanel.open()
+            if(leftPanel.opened) {
+              leftPanel.close()
+            } else {
+              leftPanel.open()
+            }
             break
           default:
             return
@@ -884,7 +888,7 @@ export default {
     updateTitle () {
       const title = [this.f7params.name] // ['openHAB']
       const navbarTitle = () => {
-        Dom7('.page-current .navbar .title')?.[0]?.textContent
+        return Dom7('.page-current .navbar .title')?.[0]?.textContent
       }
 
       // Some special cases where the title should be different

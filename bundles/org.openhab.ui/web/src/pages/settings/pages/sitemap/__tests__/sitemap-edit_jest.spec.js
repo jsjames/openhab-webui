@@ -13,7 +13,7 @@ describe('SitemapEdit', () => {
     return {
       ...actual,
       f7: {
-        utils: require('framework7').utils,
+        utils: (await import('framework7')).utils,
         params: { navbar: {} },
         dialog: {
           create: (config) => {
