@@ -53,7 +53,7 @@ import VueClipboard from 'vue3-clipboard'
 
 import { createPinia } from 'pinia'
 const pinia = createPinia()
-export const app = createApp(App)
+const app = createApp(App)
 
 // Register all Framework7 Vue components
 registerComponents(app)

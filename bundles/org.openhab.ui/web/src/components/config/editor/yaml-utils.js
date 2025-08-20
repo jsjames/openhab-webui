@@ -14,10 +14,11 @@ export function findParent (context, line) {
   }
 }
 
-export function findParentRoot (cm, linenr) {
-  for (let l = linenr; l >= 0; l--) {
-    if (lineIndent(cm, l) === 0) return l
+export function findParentRoot (context, line) {
+  while (lineIndent(line) > 0 && line.number > 1) {
+    line = context.state.doc.line(line.number - 1)
   }
+  return line
 }
 
 /**
