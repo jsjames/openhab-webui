@@ -52,12 +52,11 @@ import { useUIOptionsStore } from '@/js/stores/useUIOptionsStore'
 import { mapStores } from 'pinia'
 
 import { Codemirror } from 'vue-codemirror'
-import { EditorView, keymap } from '@codemirror/view'
+import { keymap } from '@codemirror/view'
 import { EditorState, EditorSelection } from '@codemirror/state'
-import { defaultKeymap, historyKeymap, insertTab, indentLess, indentMore } from '@codemirror/commands'
-import { StreamLanguage, getIndentUnit, codeFolding } from '@codemirror/language'
-import { autocompletion, completeFromList, closeBrackets } from '@codemirror/autocomplete'
+import { defaultKeymap, historyKeymap, indentMore } from '@codemirror/commands'
 import { indentationMarkers } from '@replit/codemirror-indentation-markers'
+import { StreamLanguage, getIndentUnit, codeFolding } from '@codemirror/language'
 
 // languages
 import { javascript } from '@codemirror/lang-javascript'
@@ -74,17 +73,14 @@ import { shell } from '@codemirror/legacy-modes/mode/shell'
 import { gruvboxDark } from '@uiw/codemirror-theme-gruvbox-dark'
 
 // for autocomplete
-//TODO-V3.0import 'codemirror/addon/hint/show-hint.js';
-//TODO-V3.0import 'codemirror/addon/hint/show-hint.css';
-//TODO-V3.0import 'codemirror/addon/hint/anyword-hint.js';
-//TODO-V3.0import 'codemirror/addon/dialog/dialog.js';
-//TODO-V3.0import 'codemirror/addon/dialog/dialog.css';
+import { autocompletion, closeBrackets } from '@codemirror/autocomplete'
 //TODO-V3.0import 'codemirror/addon/tern/tern.js';
 //TODO-V3.0import 'codemirror/addon/tern/tern.css';
 
 // for linting
-//TODO-V3.0import 'codemirror/addon/lint/lint.js';
-//TODO-V3.0import 'codemirror/addon/lint/lint.css';
+import { linter } from '@codemirror/lint'
+import { lintGutter } from '@codemirror/lint'
+import { tooltips } from '@codemirror/view'
 import YAML from 'yaml'
 
 // import tern from 'tern'
@@ -102,8 +98,8 @@ import YAML from 'yaml'
 // import OpenhabJsDefs from '@/assets/openhab-js-tern-defs.json'
 
 import componentsHint from '../editor/hint-components'
+import rulesHint from '../editor/hint-rules';
 // import itemsHint from '../editor/hint-items';
-// import rulesHint from '../editor/hint-rules';
 // import thingsHint from '../editor/hint-things';
 // import pythonHint from '../editor/hint-python';
 
@@ -149,6 +145,11 @@ const STANDARD_EXTENSIONS = [
   indentationMarkers({
     hideFirstIndent: true,
     activeThickness: 2
+  }),
+  lintGutter(),
+  tooltips({
+    // This prevents the lint tooltip from going outside the editor and getting clipped
+    tooltipSpace: (view) => view.contentDOM.getBoundingClientRect()
   })
 ]
 
@@ -167,8 +168,7 @@ export default {
   data () {
     return {
       code: this.value,
-      autocompletion: null,
-      itemsCache: []
+      autocompletion: null
     }
   },
   beforeUnmount () {
@@ -235,46 +235,41 @@ export default {
         // TODO-V3 add items autocompletion
       }
 
+      // if (mode.startsWith('application/x-python') || mode.startsWith('py')) {
+      //   return autocompletion({ ...acOpts, override: [ pythonHint ] })
+      // }
+
       if (mode.startsWith('application/vnd.openhab.uicomponent')) {
         return autocompletion({ ...acOpts, override: [ componentsHint ] })
       }
 
       // TODO-V3
-      // switch (mode) {
-      //   case 'application/vnd.openhab.rule+yaml':
-      //     return autocompletion({ ...acOpts, override: [ rulesHint ] })
-      //   case 'application/python':
-      //     return autocompletion({ ...acOpts, override: [ pythonHint ] })
-      //   case 'application/vnd.openhab.thing+yaml':
-      //     return autocompletion({ ...acOpts, override: [ thingsHint ] })
-      //   case 'application/vnd.openhab.item+yaml':
-      //     return autocompletion({ ...acOpts, override: [ itemsHint ] })
-      //   default:
-      //     return autocompletion(acOpts)
-      // }
-
-      /* TODO-V3
-        _CodeMirror.registerHelper('lint', 'yaml', function (text) {
-          const found = [];
-          const parsed = YAML.parseDocument(text);
-          if (parsed.errors.length > 0) {
-            parsed.errors.forEach(e => {
-              const message = e.message;
-              found.push({
-                message,
-                from: e.linePos[0]
-                  ? { line: e.linePos[0].line - 1, ch: e.linePos[0].col - 1 }
-                  : undefined,
-                to: e.linePos[1]
-                  ? { line: e.linePos[1].line - 1, ch: e.linePos[1].col - 1 }
-                  : undefined,
-              });
-            });
-          }
-
-          return found;
-        });
-        */
+      switch (mode) {
+        case 'application/vnd.openhab.rule+yaml':
+          return autocompletion({ ...acOpts, override: [ rulesHint ] })
+        // case 'application/vnd.openhab.thing+yaml':
+        //   return autocompletion({ ...acOpts, override: [ thingsHint ] })
+        // case 'application/vnd.openhab.item+yaml':
+        //   return autocompletion({ ...acOpts, override: [ itemsHint ] })
+        default:
+          return autocompletion(acOpts)
+      }
+    },
+    linterExtension (mode) {
+      if (mode.includes('yaml')) {
+        return linter(view => {
+          const parsed = YAML.parseDocument(view.state.doc.toString())
+          return parsed.errors.map(e => {
+            const severity = e.name === 'YAMLParseError' ? 'error' : 'warning'
+            return {
+              from: e.pos[0],
+              to: e.pos[1],
+              message: e.message,
+              severity
+            }
+          })
+        })
+      }
     },
     onCmReady (cm) {
       cm.view.$oh = this.$oh
@@ -292,6 +287,7 @@ export default {
         EditorState.readOnly.of(this.readOnly),
         this.languageExtension(this.mode),
         this.autocompletionExtension(this.mode),
+        this.linterExtension(this.mode),
         useUIOptionsStore().getDarkMode() === 'dark' ? gruvboxDark : null
       ].filter((ext) => ext)
 

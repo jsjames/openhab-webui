@@ -1,8 +1,7 @@
 import { lineIndent, findParent, isConfig, isComponent, isSlots, findComponentType, findWordStart } from './yaml-utils'
-import { cls, getCompletionType } from './hint-utils'
+import { hintBooleanValue, hintItems, hintParameterOptions, hintParameters } from './hint-utils'
 
 import * as f7vue from 'framework7-vue'
-import { app } from '@/main'
 
 import * as SystemWidgets from '@/components/widgets/system'
 import * as StandardWidgets from '@/components/widgets/standard'
@@ -19,8 +18,6 @@ import {
   OhPropertyCardParameters
 } from '@/assets/definitions/widgets/home'
 import { BlockLibrariesComponentDefinitions } from '@/assets/definitions/blockly/libraries-components'
-
-let itemsCache = null
 
 let ohComponents = null
 let f7Components = null
@@ -76,94 +73,14 @@ function getWidgetDefinitions (context) {
   }
 }
 
-function hintItems (context, line, replaceAfterColon, addStatePropertySuffix, addQuotes) {
-  const promise = itemsCache
-    ? Promise.resolve(itemsCache)
-    : context.view.$oh.api.get('/rest/items?staticDataOnly=true')
-  return promise.then((data) => {
-    if (!itemsCache) itemsCache = data
-
-    const apply = (view, completion, _from, _to) => {
-      let from, to
-      const currentLine = view.state.doc.lineAt(context.pos)
-      if (replaceAfterColon) {
-        const colonPos = currentLine.text.indexOf(':')
-        from = currentLine.from + colonPos + 2
-        to = currentLine.to
-      } else  {
-        const wordAtCursor = view.state.wordAt(context.pos)
-        if (wordAtCursor) {
-          // if the user typed a word, replace it
-          from = wordAtCursor.from
-          to = wordAtCursor.to
-        } else {
-          from = to = context.pos
-        }
-      }
-
-      const insert =
-        (addQuotes ? '\'' : '') +
-        completion.label +
-        (addStatePropertySuffix ? '.state' : '') +
-        (addQuotes ? '\'' : '')
-      view.dispatch({
-        changes: { from, to, insert },
-        selection: { anchor: from + insert.length }
-      })
-    }
-
-    // Works for @, @@, #, and items., just start after the symbol
-    const wordAtCursor = context.state.wordAt(context.pos)
-    const from = wordAtCursor ? wordAtCursor.from : context.pos
-    return {
-      from,
-      validFor: /\w+/,
-      options: data
-        .map((item) => {
-          return {
-            label: item.name,
-            info: `${item.label ? item.label + ' ' : ''}(${item.type})\n${item.state}`,
-            apply
-          }
-        })
-    }
-  })
-}
-
-function hintOptions (context, line, parameter, colonPos) {
-  const apply = (view, completion, _from, _to) => {
-    const from = line.from + colonPos + 2
-    const to = view.state.doc.lineAt(context.pos).to
-    const insert = completion.label
-    view.dispatch({
-      changes: { from, to, insert },
-      selection: { anchor: from + insert.length }
-    })
-  }
-
-  let boost = 0
-  return {
-    from: line.from + findWordStart(context, line),
-    validFor: /\w+/,
-    options: parameter.options.map((o) => {
-      return {
-        label: o.value,
-        info: o.label || o.value,
-        apply,
-        boost: boost-- // preserve the original order, don't sort alphabetically
-      }
-    }).filter((o) => o.label) // discard empty options
-  }
-}
-
 function hintExpression (context, line) {
   const cursor = context.pos - line.from
 
   const lastOp = line.text.substring(0, cursor).replace(/([@#.])[A-Za-z0-9_-]*$/, '$1')
   if (lastOp.endsWith('@') || lastOp.endsWith('#')) {
-    return hintItems(context, line, false, false, true)
+    return hintItems(context, { prefix: '\'', suffix: '\'' })
   } else if (lastOp.endsWith('items.')) {
-    return hintItems(context, line, false, true)
+    return hintItems(context, { suffix: '.state' })
   }
 
   const wordStart = findWordStart(context, line, /[^\s=.]/)
@@ -300,27 +217,6 @@ function f7ComponentParameters (componentName) {
   return params
 }
 
-function hintBooleanValue (context, line, column, colonPos) {
-  const trimmedLine = line.text.trimEnd()
-  if (trimmedLine.endsWith('true') || trimmedLine.endsWith('false')) return
-
-  const apply = (view, completion, _from, _to) => {
-    const from = line.from + colonPos + 2
-    const to = view.state.doc.lineAt(context.pos).to
-    const insert = completion.label
-    view.dispatch({
-      changes: { from, to, insert },
-      selection: { anchor: from + insert.length }
-    })
-  }
-
-  return {
-    from: line.from + findWordStart(context, line),
-    validFor: /\w+/,
-    options: [{ label: 'true', apply, boost: 1 }, { label: 'false', apply }]
-  }
-}
-
 function hintConfig (context, line, parentLine) {
   const componentType = findComponentType(context, parentLine)
   console.debug('hinting config for component type:', componentType)
@@ -354,29 +250,16 @@ function hintConfig (context, line, parentLine) {
     const parameter = parameters.find((p) => p.name === parameterName)
     if (parameter) {
       if (parameter.type === 'BOOLEAN') {
-        return hintBooleanValue(context, line, column, colonPos)
+        return hintBooleanValue(context, line, colonPos)
       } else if (parameter.context === 'item') {
-        return hintItems(context, line, true)
+        return hintItems(context, { replaceAfterColon: true })
       } else if (parameter.options) {
-        return hintOptions(context, line, parameter, colonPos)
+        return hintParameterOptions(context, line, parameter, colonPos)
       }
     }
   } else {
     console.debug(widgetDefinition)
-
-    const prepends = ' '.repeat(indent + 2 - currentIndent)
-    return {
-      from: line.from + currentIndent,
-      validFor: /\w+/,
-      options: parameters.map((p) => {
-        return {
-          label: p.name,
-          apply: prepends + p.name + ': ',
-          info: p.description,
-          type: getCompletionType(p.type)
-        }
-      })
-    }
+    return hintParameters(context, line, parameters, indent + 2)
   }
 }
 
