@@ -207,7 +207,7 @@ export default [
             asyncComponent: ItemsAddFromTextualDefinition
           },
           {
-            path: ':itemName/',
+            path: ':itemName',
             beforeEnter: [enforceAdminForRoute],
             asyncComponent: ItemDetailsPage,
             routes: [
@@ -286,7 +286,7 @@ export default [
             asyncComponent: AddThingChooseBindingPage,
             routes: [
               {
-                path: ':bindingId/',
+                path: ':bindingId',
                 beforeEnter: [enforceAdminForRoute],
                 asyncComponent: AddThingChooseThingTypePage,
                 routes: [
@@ -361,7 +361,7 @@ export default [
             async: loadAsync(RuleEditPage, { createMode: false, stubMode: true})
           },
           {
-            path: ':ruleId/',
+            path: ':ruleId',
             beforeEnter: [enforceAdminForRoute],
             beforeLeave: [checkDirtyBeforeLeave],
             asyncComponent: RuleEditPage,

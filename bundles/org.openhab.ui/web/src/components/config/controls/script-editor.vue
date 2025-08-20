@@ -74,17 +74,17 @@ import { shell } from '@codemirror/legacy-modes/mode/shell'
 import { gruvboxDark } from '@uiw/codemirror-theme-gruvbox-dark'
 
 // for autocomplete
-//TODO-V3 import 'codemirror/addon/hint/show-hint.js';
-//TODO-V3 import 'codemirror/addon/hint/show-hint.css';
-//TODO-V3 import 'codemirror/addon/hint/anyword-hint.js';
-//TODO-V3 import 'codemirror/addon/dialog/dialog.js';
-//TODO-V3 import 'codemirror/addon/dialog/dialog.css';
-//TODO-V3 import 'codemirror/addon/tern/tern.js';
-//TODO-V3 import 'codemirror/addon/tern/tern.css';
+//TODO-V3.0import 'codemirror/addon/hint/show-hint.js';
+//TODO-V3.0import 'codemirror/addon/hint/show-hint.css';
+//TODO-V3.0import 'codemirror/addon/hint/anyword-hint.js';
+//TODO-V3.0import 'codemirror/addon/dialog/dialog.js';
+//TODO-V3.0import 'codemirror/addon/dialog/dialog.css';
+//TODO-V3.0import 'codemirror/addon/tern/tern.js';
+//TODO-V3.0import 'codemirror/addon/tern/tern.css';
 
 // for linting
-//TODO-V3 import 'codemirror/addon/lint/lint.js';
-//TODO-V3 import 'codemirror/addon/lint/lint.css';
+//TODO-V3.0import 'codemirror/addon/lint/lint.js';
+//TODO-V3.0import 'codemirror/addon/lint/lint.css';
 import YAML from 'yaml'
 
 // import tern from 'tern'
@@ -101,7 +101,7 @@ import YAML from 'yaml'
 // import NashornDefs from '@/assets/nashorn-tern-defs.json'
 // import OpenhabJsDefs from '@/assets/openhab-js-tern-defs.json'
 
-import componentsHint from '../editor/hint-components';
+import componentsHint from '../editor/hint-components'
 // import itemsHint from '../editor/hint-items';
 // import rulesHint from '../editor/hint-rules';
 // import thingsHint from '../editor/hint-things';
@@ -253,7 +253,7 @@ export default {
       //     return autocompletion(acOpts)
       // }
 
-        /* TODO-V3
+      /* TODO-V3
         _CodeMirror.registerHelper('lint', 'yaml', function (text) {
           const found = [];
           const parsed = YAML.parseDocument(text);

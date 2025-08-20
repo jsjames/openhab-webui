@@ -18,18 +18,18 @@
     <f7-toolbar tabbar position="top">
       <f7-link @click="currentTab = 'menu'"
                :tab-link-active="currentTab === 'menu'"
-               tab-link="#menu-tab">
+               tab-link="#tab-menu">
         Expert Features
       </f7-link>
       <f7-link @click="currentTab = 'debug'"
                :tab-link-active="currentTab === 'debug'"
-               tab-link="#debug-tab">
+               tab-link="#tab-debug">
         Debug
       </f7-link>
     </f7-toolbar>
 
     <f7-tabs>
-      <f7-tab id="menu-tab"
+      <f7-tab id="tab-menu"
               tab:show="() => this.currentTab = 'menu'"
               :tab-active="currentTab === 'menu'">
         <f7-block class="block-narrow after-big-title settings-menu">
@@ -82,7 +82,7 @@
                 <f7-list-item media-item
                               title="Add Items from DSL Definition"
                               footer="Create or update items &amp; links in bulk"
-                              link="add-items-dsl">
+                              link="add-items-dsl/">
                   <template #media>
                     <f7-icon f7="text_badge_plus" color="gray" />
                   </template>
@@ -111,7 +111,7 @@
                 <f7-list-item media-item
                               title="API Explorer"
                               footer="Discover and access the REST API directly"
-                              link="api-explorer">
+                              link="api-explorer/">
                   <template #media>
                     <f7-icon f7="burn" color="gray" />
                   </template>
@@ -119,7 +119,7 @@
                 <f7-list-item media-item
                               title="Log Viewer"
                               footer="Monitor openHAB log output"
-                              link="log-viewer">
+                              link="log-viewer/">
                   <template #media>
                     <f7-icon f7="square_list" color="gray" />
                   </template>
@@ -162,7 +162,7 @@
           </f7-block-footer>
         </f7-block>
       </f7-tab>
-      <f7-tab id="debug-tab"
+      <f7-tab id="tab-debug"
               @tab:show="() => (this.currentTab = 'debug')"
               :tab-active="currentTab === 'debug'">
         <!-- Test SSE connection -->

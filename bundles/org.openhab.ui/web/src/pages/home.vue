@@ -53,11 +53,12 @@
                  @click="runtimeStore.developerDock ? f7.emit('toggleDeveloperDock') : ''" />
       </f7-nav-right>
     </f7-navbar>
+
     <f7-toolbar tabbar
                 labels
                 bottom
                 v-if="tabsVisible">
-      <f7-link tab-link="overview"
+      <f7-link tab-link="#tab-overview"
                href="/overview/"
                :tab-link-active="currentTab === 'overview' ? true : null"
                icon-ios="f7:house_fill"
@@ -65,7 +66,7 @@
                icon-md="material:home"
                :text="$t('home.overview.tab')" />
       <f7-link v-if="tabVisible('locations')"
-               tab-link="#locations"
+               tab-link="#tab-locations"
                href="/locations/"
                :tab-link-active="currentTab === 'locations' ? true : null"
                icon-ios="f7:placemark_fill"
@@ -73,7 +74,7 @@
                icon-md="material:place"
                :text="$t('home.locations.tab')" />
       <f7-link v-if="tabVisible('equipment')"
-               tab-link="#equipment"
+               tab-link="#tab-equipment"
                href="/equipment/"
                :tab-link-active="currentTab === 'equipment' ? true : null"
                icon-ios="f7:cube_box_fill"
@@ -81,7 +82,7 @@
                icon-md="material:payments"
                :text="$t('home.equipment.tab')" />
       <f7-link v-if="tabVisible('properties')"
-               tab-link="#properties"
+               tab-link="#tab-properties"
                href="/properties/"
                :tab-link-active="currentTab === 'properties' ? true : null"
                icon-ios="f7:bolt_fill"

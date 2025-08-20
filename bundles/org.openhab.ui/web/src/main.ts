@@ -11,11 +11,11 @@ import GenericWidgetComponent from './components/widgets/generic-widget-componen
 import DeveloperDockIcon from './components/developer/developer-dock-icon.vue'
 
 // Import Framework7
-// @ts-expect-error   TODO-V3
+// @ts-expect-error   TODO-V3.0
 import Framework7 from 'framework7/lite-bundle'
-// @ts-expect-error   TODO-V3
+// @ts-expect-error   TODO-V3.0
 import Framework7Vue, { registerComponents } from 'framework7-vue/bundle'
-// @ts-expect-error   TODO-V3
+// @ts-expect-error   TODO-V3.0
 import { getDevice } from 'framework7'
 import 'framework7/css/bundle'
 

@@ -170,8 +170,8 @@ export default {
       this.widgetConfigOpened = false
       this.widgetSlotConfigOpened = false
     },
-    updateWidgetSlotConfig () {
-      this.currentSlotParent.slots[this.currentSlot] = this.currentSlotConfig
+    updateWidgetSlotConfig (slotConfig) {
+      this.currentSlotParent.slots[this.currentSlot] = slotConfig
       this.forceUpdate()
       this.widgetConfigClosed()
     },

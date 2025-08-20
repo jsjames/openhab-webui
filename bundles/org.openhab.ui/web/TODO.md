@@ -2,6 +2,7 @@ TODO
 - [] HIGH - Swiper-slide needs to be retrofited with new (https://v6.framework7.io/vue/migration-from-v5#swiper)
 - [] HIGH - TODO-V3 comments in code need to be cleaned up / examined
 - [] HIGH - fix remaining lint errors
+- [] HIGH - test startup wizard
 - [] MED - Codemirror - codemirror is basically in place, but many of the addon features need to be added
 - [] LOW - Update storage from vuex to pinia - all done with the exception of model store
 - [] LOW - Clean up tabs - there's a lot of unecessary code that is handled automatically by vue3 - like @click=switchTab
@@ -13,10 +14,11 @@ TODO
 
 BUGS
 - [x] on item-detail->oh-label-card->oh-trend - the width of the graph is fixed at 300
-- [] back button from settings/items, settings/things, settings/model - the URL in the address bar does not change.
+- [x] back button from settings/items, settings/things, settings/model - the URL in the address bar does not change.
 - [x] API Explorer - formatting needs to be fixed
 - [x] Blockly tool bar at button not showing up
-- [] Blockly drag/drop not working
+- [] Blockly drag/drop not working - recommend upgrading the library, but it requires blockley v11
+- [] login is flaky
 
 - [x] HIGH - production build scripts and reporting
 - [x] HIGH - no babel support - is this needed moving forward? - Vite has built-in support for this.
@@ -25,7 +27,6 @@ BUGS
 - [x] HIGH - Cypress - haven't even looked at this or testing yet - removed
 - [] HIGH - Swiper-slide needs to be retrofited with new (https://v6.framework7.io/vue/migration-from-v5#swiper)
 - [x] HIGH - decide on prettier or other formatter? which rules (currently I just have used default rules)
-- [] HIGH - TODO-V3 comments in code need to be cleaned up / examined
 - [x] HIGH - Jest --> Vitest
 - [x] HIGH - vuex reactive items are not getting updated
 - [x] HIGH - add support for Codemirror v6

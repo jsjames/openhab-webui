@@ -24,7 +24,7 @@
                :key="tab.value"
                @click="showCardControls = false; currentModelTab = tab.value;"
                :tab-link-active="currentModelTab === tab.value"
-               tab-link="#{{ tab.value }}">
+               :tab-link="'#' + tab.value">
         {{ tab.label }}
       </f7-link>
     </f7-toolbar>

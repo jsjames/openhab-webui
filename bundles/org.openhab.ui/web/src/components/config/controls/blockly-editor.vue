@@ -1192,7 +1192,7 @@ import { javascriptGenerator } from 'blockly/javascript.js'
 import DarkTheme from '@blockly/theme-dark'
 import { ZoomToFitControl } from '@blockly/zoom-to-fit'
 import { shadowBlockConversionChangeListener } from '@blockly/shadow-block-converter'
-import { Multiselect, MultiselectBlockDragger } from '@mit-app-inventor/blockly-plugin-workspace-multiselect'
+// TODO-V3.1 import { Multiselect, MultiselectBlockDragger } from '@mit-app-inventor/blockly-plugin-workspace-multiselect'
 import { TypedVariableModal } from '@blockly/plugin-typed-variable-modal'
 
 import { f7, theme } from 'framework7-vue'
@@ -1307,9 +1307,9 @@ export default {
 
       const options = {
         toolbox: this.$refs.toolbox,
-        plugins: {
-          'blockDragger': MultiselectBlockDragger
-        },
+        //TODO-V3.1 plugins: {
+        // 'blockDragger': MultiselectBlockDragger
+        // },
         horizontalLayout: !this.$device.desktop,
         theme: useUIOptionsStore().getDarkMode() === 'dark' ? DarkTheme : undefined,
         zoom: {
@@ -1381,8 +1381,9 @@ export default {
       const zoomToFit = new ZoomToFitControl(this.workspace)
       zoomToFit.init()
 
-      const multiselectPlugin = new Multiselect(this.workspace)
-      multiselectPlugin.init(options)
+      // TODO-V3.1
+      // const multiselectPlugin = new Multiselect(this.workspace)
+      // multiselectPlugin.init(options)
 
       this.registerLibraryCallbacks(libraryDefinitions)
       const xml = Blockly.utils.xml.textToDom(this.blocks)

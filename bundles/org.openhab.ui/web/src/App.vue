@@ -988,7 +988,7 @@ export default {
     f7ready(async (f7) => {
       this.updateThemeOptions()
 
-      //TODO-V3 - it never appears user is ever set to anything??
+      //TODO-V3.0- it never appears user is ever set to anything??
       if (!this.user) {
         this.tryExchangeAuthorizationCode()
           .then((user) => {

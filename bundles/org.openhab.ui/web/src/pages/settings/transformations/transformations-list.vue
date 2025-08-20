@@ -197,7 +197,7 @@ export default {
       selectedTransformations: [],
       groupBy: 'alphabetical',
       showCheckboxes: false,
-      searchQuery: ''    // TODO-V3 - don't think this has ever been implemented
+      searchQuery: ''    // TODO-V3.0 - don't think this has ever been implemented
     }
   },
   computed: {

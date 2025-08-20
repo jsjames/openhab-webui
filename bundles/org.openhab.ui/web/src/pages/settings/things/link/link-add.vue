@@ -195,7 +195,7 @@ export default {
     ItemPicker,
     ThingPicker,
     Item,
-    //TODO-V3 ChannelList, ReferenceError: Cannot access 'ChannelList' before initialization ???
+    //TODO-V3.0 ChannelList, ReferenceError: Cannot access 'ChannelList' before initialization ???
     ItemForm
   },
   props: {

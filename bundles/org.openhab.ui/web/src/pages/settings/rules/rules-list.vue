@@ -427,7 +427,7 @@ export default {
     },
     onPageBeforeOut () {
       this.stopEventSource()
-      //TODO-V3 useLastSearchQueryStore().lastRulesSearchQuery[this.type] = this.$refs.searchbar?.$el.f7Searchbar.query;
+      //TODO-V3.0 useLastSearchQueryStore().lastRulesSearchQuery[this.type] = this.$refs.searchbar?.$el.f7Searchbar.query;
     },
     load () {
       if (this.loading) return

@@ -87,7 +87,7 @@
                                     :showNames="showNames"
                                     :showSynonyms="showSynonyms"
                                     :selectedTag="selectedTag"
-                                    canDragDrop="true" />
+                                    :canDragDrop="true" />
               </f7-block>
             </f7-col>
             <f7-col class="details-pane">

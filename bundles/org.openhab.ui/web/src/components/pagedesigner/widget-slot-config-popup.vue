@@ -26,8 +26,7 @@
                  :tab-link="'#tab-' + idx">
           {{ idx }}
         </f7-link>
-        <!-- TODO-V3 need to verify -->
-        <f7-link @click="addComponentToSlot" icon-f7="plus_filled" tab-link />
+        <f7-link @click="addComponentToSlot" icon-f7="plus_filled" />
       </f7-toolbar>
       <f7-tabs>
         <f7-tab v-for="(slotComponent, idx) in slotConfig"
