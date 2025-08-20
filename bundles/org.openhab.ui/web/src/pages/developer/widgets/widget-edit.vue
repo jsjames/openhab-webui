@@ -25,7 +25,7 @@
       <f7-row resizable>
         <f7-col style="min-width: 20px" class="widget-code">
           <editor class="widget-component-editor"
-                  mode="application/vnd.openhab.uicomponent+yaml?type=widget"
+                  mode="application/vnd.openhab.uicomponent+yaml;type=widget"
                   :value="widgetDefinition"
                   @input="onEditorInput" />
         </f7-col>
@@ -40,7 +40,7 @@
       <f7-row resizable>
         <f7-col resizable style="min-width: 20px" class="widget-code">
           <editor class="widget-component-editor"
-                  mode="application/vnd.openhab.uicomponent+yaml?type=widget"
+                  mode="application/vnd.openhab.uicomponent+yaml;type=widget"
                   :value="widgetDefinition"
                   @input="onEditorInput" />
         </f7-col>

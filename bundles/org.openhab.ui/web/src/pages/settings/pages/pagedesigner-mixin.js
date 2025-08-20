@@ -264,6 +264,10 @@ export default {
         this.widgetConfigClosed()
       })
     },
+    configureSlot () {
+      // This needs to be defined here, otherwise vue will complain about it in the computed context() method above.
+      // it will get overridden by the component that includes this mixin.
+    },
     editWidgetCode (component, parentContext, slot) {
       if (slot && !component.slots) component.slots = {}
       if (slot && !component.slots[slot]) component.slots[slot] = []

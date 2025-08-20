@@ -2,7 +2,7 @@ import { lineIndent, findParent, findParentRoot, isConfig, isRuleSection } from 
 import {
   filterPartialCompletions,
   addTooltipHandlers,
-  getClassNamesForParameter
+  getCompletionType
 } from './hint-utils'
 
 let itemsCache = null
@@ -124,7 +124,7 @@ function hintConfig (cm, line, parentLineNr) {
           text: p.name + ': ',
           displayText: p.name,
           description: p.description,
-          className: getClassNamesForParameter(p)
+          className: getCompletionType(p.type)
         }
       })
       completions = filterPartialCompletions(cm, line, completions)

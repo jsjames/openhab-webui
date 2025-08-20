@@ -40,7 +40,6 @@ import App from './App.vue'
 // Init Framework7-Vue Plugin
 Framework7.use(Framework7Vue)
 
-// Import VueX store
 import { store } from '@/js/store/index'
 
 // initialize i18n
@@ -54,7 +53,7 @@ import VueClipboard from 'vue3-clipboard'
 
 import { createPinia } from 'pinia'
 const pinia = createPinia()
-const app = createApp(App)
+export const app = createApp(App)
 
 // Register all Framework7 Vue components
 registerComponents(app)
