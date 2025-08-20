@@ -14,8 +14,8 @@ import pluginImport from 'eslint-plugin-import-x'
 // const _import = require("eslint-plugin-import");
 // const es = require("eslint-plugin-es");
 
-import { fixupPluginRules } from '@eslint/compat'
-import { glob } from 'fs'
+// import { fixupPluginRules } from '@eslint/compat'
+// import { glob } from 'fs'
 
 // import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 // import eslintConfigPrettier from 'eslint-config-prettier/flat'

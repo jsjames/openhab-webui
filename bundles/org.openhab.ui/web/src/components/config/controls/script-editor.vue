@@ -52,7 +52,7 @@ import { useUIOptionsStore } from '@/js/stores/useUIOptionsStore'
 import { mapStores } from 'pinia'
 
 import { Codemirror } from 'vue-codemirror'
-import { keymap } from '@codemirror/view'
+import { keymap, tooltips } from '@codemirror/view'
 import { EditorState, EditorSelection } from '@codemirror/state'
 import { defaultKeymap, historyKeymap, indentMore } from '@codemirror/commands'
 import { indentationMarkers } from '@replit/codemirror-indentation-markers'
@@ -78,9 +78,7 @@ import { autocompletion, closeBrackets } from '@codemirror/autocomplete'
 //TODO-V3.0import 'codemirror/addon/tern/tern.css';
 
 // for linting
-import { linter } from '@codemirror/lint'
-import { lintGutter } from '@codemirror/lint'
-import { tooltips } from '@codemirror/view'
+import { linter, lintGutter } from '@codemirror/lint'
 import YAML from 'yaml'
 
 // import tern from 'tern'
@@ -98,7 +96,7 @@ import YAML from 'yaml'
 // import OpenhabJsDefs from '@/assets/openhab-js-tern-defs.json'
 
 import componentsHint from '../editor/hint-components'
-import rulesHint from '../editor/hint-rules';
+import rulesHint from '../editor/hint-rules'
 // import itemsHint from '../editor/hint-items';
 // import thingsHint from '../editor/hint-things';
 // import pythonHint from '../editor/hint-python';
@@ -257,9 +255,9 @@ export default {
     },
     linterExtension (mode) {
       if (mode.includes('yaml')) {
-        return linter(view => {
+        return linter((view) => {
           const parsed = YAML.parseDocument(view.state.doc.toString())
-          return parsed.errors.map(e => {
+          return parsed.errors.map((e) => {
             const severity = e.name === 'YAMLParseError' ? 'error' : 'warning'
             return {
               from: e.pos[0],

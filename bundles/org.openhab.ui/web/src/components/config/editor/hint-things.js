@@ -1,9 +1,5 @@
 import { lineIndent, findParent, isConfig, isChannelsSection } from './yaml-utils'
-import {
-  filterPartialCompletions,
-  addTooltipHandlers,
-  getCompletionType
-} from './hint-utils'
+import { getCompletionType } from './hint-utils'
 
 function hintOptions (cm, line, parameter) {
   const cursor = cm.getCursor()
@@ -16,10 +12,10 @@ function hintOptions (cm, line, parameter) {
       }
     })
   }
-  ret.list = filterPartialCompletions(cm, line, ret.list)
+  // ret.list = filterPartialCompletions(cm, line, ret.list)
   ret.from = { line: cursor.line, ch: colonPos + 2 }
   ret.to = { line: cursor.line, ch: line.length }
-  addTooltipHandlers(cm, ret)
+  // addTooltipHandlers(cm, ret)
   return ret
 }
 
@@ -52,13 +48,13 @@ function hintThingConfig (cm, line, parentLineNr) {
         className: getCompletionType(p.type)
       }
     })
-    completions = filterPartialCompletions(cm, line, completions)
+    // completions = filterPartialCompletions(cm, line, completions)
     let ret = {
       list: completions,
       from: { line: cursor.line, ch: 6 },
       to: { line: cursor.line, ch: line.length }
     }
-    addTooltipHandlers(cm, ret, true)
+    // addTooltipHandlers(cm, ret, true)
     return ret
   }
 }
@@ -111,13 +107,13 @@ function hintChannelConfig (cm, line, parentLineNr) {
         className: getCompletionType(p.type)
       }
     })
-    completions = filterPartialCompletions(cm, line, completions)
+    // completions = filterPartialCompletions(cm, line, completions)
     let ret = {
       list: completions,
       from: { line: cursor.line, ch: 6 },
       to: { line: cursor.line, ch: line.length }
     }
-    addTooltipHandlers(cm, ret, true)
+    // addTooltipHandlers(cm, ret, true)
     return ret
   }
 }
@@ -149,8 +145,8 @@ function hintChannelStructure (cm, line, parentLineNr) {
     from: { line: cursor.line, ch: 0 },
     to: { line: cursor.line, ch: cm.getLine(cursor.line).length }
   }
-  ret.list = filterPartialCompletions(cm, line, ret.list)
-  addTooltipHandlers(cm, ret)
+  // ret.list = filterPartialCompletions(cm, line, ret.list)
+  // addTooltipHandlers(cm, ret)
   return ret
 }
 
@@ -171,7 +167,7 @@ export default function hint (cm, option, mode) {
     ret = hintChannelStructure(cm, line, parentLineNr)
   }
 
-  if (!(ret instanceof Promise)) addTooltipHandlers(cm, ret)
+  // if (!(ret instanceof Promise)) addTooltipHandlers(cm, ret)
 
   return ret
 }
