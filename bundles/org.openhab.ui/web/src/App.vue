@@ -333,7 +333,7 @@
                 <em>{{ $t('sidebar.tip.signIn') }}<br><f7-icon f7="arrow_down" size="20" /></em>
               </div>
               <f7-button
-                @click="authorize"
+                @click="authorize(false)"
                 v-if="!loggedIn"
                 icon-f7="lock_shield_fill"
                 large
@@ -988,7 +988,6 @@ export default {
     f7ready(async (f7) => {
       this.updateThemeOptions()
 
-      //TODO-V3.0- it never appears user is ever set to anything??
       if (!this.user) {
         this.tryExchangeAuthorizationCode()
           .then((user) => {

@@ -47,7 +47,7 @@ export default {
             return this.$oh.auth.setAccessToken(resp.access_token, this.$oh.api).then(() => {
               // schedule the next token refresh when 95% of this token's lifetime has elapsed, i.e. 3 minutes before a 1-hour token is due to expire
               setTimeout(this.refreshAccessToken, resp.expires_in * 950)
-              useUserStore().setUser({ user: resp.user })
+              useUserStore().setUser(resp.user)
 
               const nextRoute = authState.indexOf('setup') === 0 ? '/setup-wizard/' : '/'
               f7.views.main.router.navigate(nextRoute, { animate: false, clearPreviousHistory: true })
@@ -112,7 +112,7 @@ export default {
         }).catch((err) => {
           console.log('Failed to log out', err)
           this.$oh.auth.clearAccessToken()
-          useUserStore().setUser({ user: null})
+          useUserStore().setUser(null)
           reject(err)
         })
       })

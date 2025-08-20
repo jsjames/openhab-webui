@@ -19,10 +19,10 @@
           {{item.label ? item.label[0] : item.name[0]}}
         </span> -->
         </div>
-        <h2>{{ user.name }}</h2>
+        <h2>{{ userStore.user.name }}</h2>
         <!-- <h4 v-show="item.label">{{item.name}}</h4> -->
         <h5>
-          <small>{{ user.roles.join(', ') }}</small>
+          <small>{{ userStore.user.roles.join(', ') }}</small>
         </h5>
       </f7-subnavbar>
     </f7-navbar>
@@ -178,7 +178,6 @@ export default {
   },
   data () {
     return {
-      user: useUserStore().user,
       sessions: [],
       apiTokens: [],
 
@@ -194,7 +193,7 @@ export default {
     filteredSessions () {
       return (this.expandedTypes.sessions) ? this.sessions : (this.sessions ? this.sessions.slice(this.sessions.length - 10, this.sessions.length) : [])
     },
-    ...mapStores(useRuntimeStore)
+    ...mapStores(useRuntimeStore, useUserStore)
   },
   methods: {
     onPageBeforeIn () {
@@ -260,6 +259,7 @@ export default {
       f7.preloader.show()
       this.cleanSession().then(() => {
         this.loggedIn = false
+
         f7.views.main.router.navigate('/', { animate: false, clearPreviousHistory: true })
         window.location = window.location.origin
       }).catch((err) => {

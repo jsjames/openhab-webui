@@ -18,7 +18,7 @@ BUGS
 - [x] API Explorer - formatting needs to be fixed
 - [x] Blockly tool bar at button not showing up
 - [] Blockly drag/drop not working - recommend upgrading the library, but it requires blockley v11
-- [] login is flaky
+- [x] login is flaky
 
 - [x] HIGH - production build scripts and reporting
 - [x] HIGH - no babel support - is this needed moving forward? - Vite has built-in support for this.
