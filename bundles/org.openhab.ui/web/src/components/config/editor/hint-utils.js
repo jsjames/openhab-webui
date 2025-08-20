@@ -1,4 +1,4 @@
-import { findWordStart } from "./yaml-utils"
+import { findWordStart } from './yaml-utils'
 
 export function remove (node) {
   let p = node && node.parentNode
@@ -6,6 +6,7 @@ export function remove (node) {
 }
 
 // TODO-V3 No longer needed in CM6
+/*
 export function filterPartialCompletions (cm, line, completions, property = 'text', remover) {
   const cursor = cm.getCursor()
   let lineBeforeCursor = line.substring(0, cursor.ch)
@@ -57,6 +58,7 @@ export function addTooltipHandlers (cm, ret, retriggerHint) {
     }
   })
 }
+  */
 
 /**
  * Converts a Parameter Type to CodeMirror's completion type
@@ -243,7 +245,7 @@ export function hintParameterOptions (context, line, parameter, colonPos) {
  * @param {number} indent - Number of spaces to prepend so the inserted parameter lines match the target indent.
  * @returns {import("@codemirror/autocomplete").CompletionResult} A CompletionResult with `from`, `validFor` and `options`.
  */
-export function hintParameters(context, line, parameters, indent) {
+export function hintParameters (context, line, parameters, indent) {
   const currentIndent = findWordStart(context, line)
   if (indent < currentIndent) return // we can't tell it to insert before "from" unless we use an apply function
   const prepends = ' '.repeat(indent - currentIndent)
