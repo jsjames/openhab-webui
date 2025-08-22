@@ -21,27 +21,6 @@ export function findParentRoot (context, line) {
   return line
 }
 
-/**
- * Finds the start of the word at the cursor position.
- *
- * If the cursor is inside or at the end of a "word", find the start of that word
- * otherwise just return the cursor position.
- *
- * See also CodeMirror's EditorState.wordAt, which uses /\w/ to search.
- *
- * @param context completion context
- * @param line CodeMirror Line object where context.pos is located
- * @param wordChar a regex that matches characters that are part of a word, defaults to non-space characters
- * @returns the column position relative to the given line
- */
-export function findWordStart (context, line, wordChar = /\S/) {
-  let column = context.pos - line.from
-  while (column > 0 && wordChar.test(line.text[column - 1])) {
-    column--
-  }
-  return column
-}
-
 export function findComponentType (context, line) {
   const currentIndent = lineIndent(line)
   for (let l = line.number - 1; l >= 1; l--) {
