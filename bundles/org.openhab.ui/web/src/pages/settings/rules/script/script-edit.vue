@@ -144,7 +144,7 @@
                  icon-md="f7:question_circle"
                  icon-aurora="f7:question_circle"
                  color="blue"
-                 :href="$store.state.websiteUrl + documentationLink(mode)"
+                 :href="runtimeStore.websiteUrl + documentationLink(mode)"
                  target="_blank"
                  external />
         <f7-link class="right details-link margin-left padding-right"

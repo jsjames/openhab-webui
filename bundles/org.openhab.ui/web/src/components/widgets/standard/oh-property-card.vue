@@ -8,20 +8,20 @@ import mixin from '../widget-mixin'
 import { OhPropertyCardParameters } from '@/assets/definitions/widgets/home'
 import PropertyCard from '@/components/cards/property-card.vue'
 
+import { useModelStore } from '@/js/stores/useModelStore'
+
 export default {
   components: { PropertyCard },
   mixins: [mixin],
   computed: {
     element () {
-      return (
-        this.$store.getters.semanticModelElement(this.config.item, 'property') || {
-          defaultTitle: 'Property Card',
-          item: { equipment: [], metadata: { semantics: { value: '' } } },
-          equipment: [],
-          properties: [],
-          points: []
-        }
-      )
+      return useModelStore().getSemanticModelElement(this.config.item, 'property') || {
+        defaultTitle: 'Property Card',
+        item: { equipment: [], metadata: { semantics: { value: '' } } },
+        equipment: [],
+        properties: [],
+        points: []
+      }
     }
   },
   widget: () => {

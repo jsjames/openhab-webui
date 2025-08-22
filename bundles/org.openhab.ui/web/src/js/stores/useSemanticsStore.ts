@@ -5,17 +5,14 @@ import api from '@/js/openhab/api'
 import { i18n } from '@/js/i18n'
 import { useRuntimeStore } from './useRuntimeStore'
 
-interface Tag {
-  uid: string
-  name: string
+import { type Tag } from '@/types/openhab'
+interface ModelTag extends Tag {
   parent: string
-  label: string
-  description: string
-  synonyms: string
 }
 
 export const useSemanticsStore = defineStore('semantics', () => {
-  const Tags = ref<Tag[]>([])
+  // State
+  const Tags = ref<ModelTag[]>([])
   const Locations = ref<string[]>([])
   const Equipment = ref<string[]>([])
   const Points = ref<string[]>([])
@@ -23,9 +20,10 @@ export const useSemanticsStore = defineStore('semantics', () => {
   const Labels = ref<{ [key: string]: string }>({})
   const Descriptions = ref<{ [key: string]: string }>({})
   const Synonyms = ref<{ [key: string]: string | string[] }>({})
-  const loaded = ref<boolean>(false)
+  const ready = ref<boolean>(false)
 
-  function setSemantics (tags: Tag[]) {
+  // Actions
+  function setSemantics (tags: ModelTag[]) {
     Tags.value = tags
     Tags.value.forEach((tag) => {
       const tagParts = tag.uid.split('_')
@@ -51,27 +49,27 @@ export const useSemanticsStore = defineStore('semantics', () => {
   }
 
   async function loadSemantics () {
-    console.debug('Loading semantic tags ...')
+    console.log('Loading semantic tags ...')
     if (useRuntimeStore().apiEndpoint('tags')) {
       return api
         .get('/rest/tags')
-        .then((tags) => {
-          setSemantics(tags)
+        .then((tags : Tag[]) => {
+          let modelTags  = tags as ModelTag[]
+          setSemantics(modelTags)
           console.debug('Successfully loaded semantic tags.')
-          loaded.value = true
-          return Promise.resolve()
+          ready.value = true
         })
         .catch((e) => {
           console.error('Failed to load semantic tags:')
           console.error(e)
-          loaded.value = false
+          ready.value = false
           return Promise.reject('Failed to load semantic tags: ' + e)
         })
     } else {
-      loaded.value = true
+      ready.value = true
       return Promise.resolve()
     }
   }
 
-  return { Locations, Equipment, Points, Properties, Labels, Descriptions, Synonyms, Tags, loadSemantics, loaded }
+  return { Locations, Equipment, Points, Properties, Labels, Descriptions, Synonyms, Tags, ready, loadSemantics }
 })

@@ -218,6 +218,7 @@ import itemDefaultCellComponent from '@/components/widgets/standard/cell/default
 import { compareItems } from '@/components/widgets/widget-order'
 
 import { useUIOptionsStore } from '@/js/stores/useUIOptionsStore'
+import { useComponentsStore } from '@/js/stores/useComponentsStore'
 
 export default {
   mixins: [PageDesigner, actionsMixin],
@@ -320,7 +321,7 @@ export default {
             onClick: () => doAddWidget(stdWidgets[k].widget().name)
           }
         })
-        const customWidgetOptions = this.$store.state.components.widgets.map((w) => {
+        const customWidgetOptions = useComponentsStore().widgets().map((w) => {
           return {
             text: w.uid,
             color: 'blue',

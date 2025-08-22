@@ -19,6 +19,7 @@ import jsepRegex from '@jsep-plugin/regex'
 import jsepArrow from '@jsep-plugin/arrow'
 import jsepObject from '@jsep-plugin/object'
 import jsepTemplate from '@jsep-plugin/template'
+
 expr.jsep.plugins.register(jsepRegex, jsepArrow, jsepObject, jsepTemplate)
 
 addUnaryOp('@', (itemName) => {

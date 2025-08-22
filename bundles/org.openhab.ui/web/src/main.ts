@@ -40,8 +40,6 @@ import App from './App.vue'
 // Init Framework7-Vue Plugin
 Framework7.use(Framework7Vue)
 
-import { store } from '@/js/store/index'
-
 // initialize i18n
 import { i18n } from '@/js/i18n'
 
@@ -63,7 +61,6 @@ app.config.globalProperties.$device = getDevice()
 
 app.use(pinia)
 app.use(i18n)
-app.use(store)
 app.use(AsyncComputed)
 app.use(fullscreen)
 app.use(VueClipboard, {

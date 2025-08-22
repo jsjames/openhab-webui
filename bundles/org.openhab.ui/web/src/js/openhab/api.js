@@ -2,9 +2,11 @@ import { request } from 'framework7'
 
 import { getAccessToken, getTokenInCustomHeader, getBasicCredentials } from './auth'
 
-function wrapPromise (f7promise) {
+async function wrapPromise (f7promise) {
   return new Promise((resolve, reject) => {
-    f7promise.then((data) => resolve(data.data)).catch((err) => reject(err.message || err.status))
+    f7promise
+      .then((data) => resolve(data.data))
+      .catch((err) => reject(err.message || err.status))
   })
 }
 
@@ -26,7 +28,7 @@ request.setup({
 })
 
 export default {
-  get (uri, data) {
+  async get (uri, data) {
     return wrapPromise(request.json(uri, data))
   },
   getPlain (uri, data, contentType, responseType, headers) {

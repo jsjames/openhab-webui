@@ -1,6 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
+import api from '@/js/openhab/api'
+
+import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
+
 interface Widget {
   uid: string
 }
@@ -10,10 +14,12 @@ interface Page {
 }
 
 export const useComponentsStore = defineStore('components', () => {
+  // States
   const _widgets = ref<Widget[]>([])
   const _pages = ref<Page[]>([])
   const ready = ref<boolean>(false)
 
+  // Getters
   function widget (uid: string) {
     return _widgets.value.find((widget) => widget.uid === uid)
   }
@@ -31,12 +37,21 @@ export const useComponentsStore = defineStore('components', () => {
     return pages
   }
 
-  function setPagesAndWidgets (newPages: Page[], newWidgets: Widget[]) {
-    _pages.value = newPages
-    _widgets.value = newWidgets
-
-    ready.value = true
+  // Actions
+  async function loadPagesAndWidgets (): Promise<void> {
+    if (useRuntimeStore().apiEndpoint('ui')) {
+      return Promise.all([
+        api.get('/rest/ui/components/ui:page'),
+        api.get('/rest/ui/components/ui:widget')
+      ]).then((data: [Page[], Widget[]]) => {
+        _pages.value = data[0]
+        _widgets.value = data[1]
+        ready.value = true
+      })
+    } else {
+      return Promise.resolve()
+    }
   }
 
-  return { ready, widget, widgets, page, pages, setPagesAndWidgets }
+  return { ready, widget, widgets, page, pages, loadPagesAndWidgets }
 })

@@ -511,9 +511,9 @@
 </style>
 
 <script>
-import { nextTick, onBeforeMount, reactive, provide, defineAsyncComponent } from 'vue'
+import { nextTick, defineAsyncComponent } from 'vue'
 import { request, Dom7 } from 'framework7'
-import { f7, f7ready, theme } from 'framework7-vue'
+import { f7, f7ready } from 'framework7-vue'
 import { mapStores } from 'pinia'
 
 import buildInfo from '@/assets/build-info'
@@ -540,6 +540,7 @@ import { useUserStore } from '@/js/stores/useUserStore'
 import { useComponentsStore } from '@/js/stores/useComponentsStore'
 import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
 import { useSemanticsStore } from '@/js/stores/useSemanticsStore'
+import { useModelStore } from '@/js/stores/useModelStore'
 
 export default {
   mixins: [auth, i18n_mixin, connectionHealth, sseEvents],
@@ -609,7 +610,6 @@ export default {
           sequential: false
         }
       },
-      user: null,
 
       pages: null,
       showSidebar: true,
@@ -746,13 +746,13 @@ export default {
         .then((res) => res.data)
         .then((rootResponse) => {
           // store the REST API services present on the system
-          useRuntimeStore().loadRootResource(rootResponse)
+          useRuntimeStore().setRootResource(rootResponse)
           this.updateLocale()
           if (!useRuntimeStore().apiEndpoint('auth')) useUserStore().setNoAuth(true)
           return rootResponse
         })
         .then((rootResponse) => {
-          const locale = useRuntimeStore().locale?.toLocaleLowerCase() | 'default'
+          const locale = useRuntimeStore().locale.toLocaleLowerCase()
           let dayjsLocalePromise = Promise.resolve(null)
           // try to resolve the dayjs file to load if it exists
           if (locale) {
@@ -767,22 +767,14 @@ export default {
                 })
               : Promise.resolve(null)
           }
-          // load the pages & widgets, only if the 'ui' endpoint exists (or empty arrays otherwise)
-          // load the semantic tags
           return Promise.all([
-            ...(useRuntimeStore().apiEndpoint('ui')
-              ? [
-                this.$oh.api.get('/rest/ui/components/ui:page'),
-                this.$oh.api.get('/rest/ui/components/ui:widget')
-              ]
-              : [Promise.resolve([]), Promise.resolve([])]),
+            useComponentsStore().loadPagesAndWidgets(),
             dayjsLocalePromise,
             useSemanticsStore().loadSemantics()
           ])
         })
         .then((data) => {
-          useComponentsStore().setPagesAndWidgets(data[0], data[1])
-          this.pages = data[0]
+          this.pages = useComponentsStore().pages()
             .filter((p) => p.config.sidebar && this.pageIsVisible(p))
             .sort((p1, p2) => {
               const order1 = p1.config.order || 1000
@@ -791,10 +783,10 @@ export default {
             })
           this.updateTitle()
 
-          if (data[2]) locale(data[2].key)
+          if (data[1]) locale(data[1].key)
 
           // load & build the semantic model
-          return this.$store.dispatch('loadSemanticModel')
+          useModelStore().loadSemanticModel()
         })
         .then(() => {
           // finished with loading
@@ -992,31 +984,27 @@ export default {
     f7ready(async (f7) => {
       this.updateThemeOptions()
 
-      if (!this.user) {
-        this.tryExchangeAuthorizationCode()
-          .then((user) => {
-            this.loggedIn = true
-            this.loadData()
-          })
-          .catch((err) => {
-            if (err) {
-              f7.dialog.alert('An error occurred while getting authorization: ' + err)
-            } else {
-              // we're just not signed in
-              const refreshToken = this.getRefreshToken()
-              this.loadData().then(() => {
-                if (
-                  !refreshToken &&
-                  useRuntimeStore().apiEndpoint('ui') &&
-                  !useComponentsStore().page('overview')
-                ) {
-                  // as there is no overview page, assume the setup wizard hasn't run yet so launch it right away
-                  this.authorize(true)
-                }
-              })
+      this.tryExchangeAuthorizationCode().then((user) => {
+        this.loggedIn = true
+        this.loadData()
+      }).catch((err) => {
+        if (err) {
+          f7.dialog.alert('An error occurred while getting authorization: ' + err)
+        } else {
+          // we're just not signed in
+          const refreshToken = this.getRefreshToken()
+          this.loadData().then(() => {
+            if (
+              !refreshToken &&
+              useRuntimeStore().apiEndpoint('ui') &&
+              !useComponentsStore().page('overview')
+            ) {
+              // as there is no overview page, assume the setup wizard hasn't run yet so launch it right away
+              this.authorize(true)
             }
           })
-      }
+        }
+      })
 
       f7.on('routeChange', (route) => {
         console.log('Route changed:', route.url)

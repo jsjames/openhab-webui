@@ -52,8 +52,8 @@
                 v-for="session in filteredSessions"
                 :key="session.sessionId"
                 :title="session.clientId"
-                :subtitle="$t('profile.sessions.created') + new Date(session.createdTime).toLocaleString($store.getters.locale)"
-                :text="$t('profile.sessions.lastRefreshed') + new Date(session.lastRefreshTime).toLocaleString($store.getters.locale)">
+                :subtitle="$t('profile.sessions.created') + new Date(session.createdTime).toLocaleString(runtimeStore.locale)"
+                :text="$t('profile.sessions.lastRefreshed') + new Date(session.lastRefreshTime).toLocaleString(runtimeStore.locale)">
                 <template #media>
                   <f7-link
                     icon-color="red"

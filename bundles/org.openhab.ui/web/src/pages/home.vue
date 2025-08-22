@@ -183,11 +183,6 @@ export default {
     OverviewTab,
     ModelTab
   },
-  setup () {
-    return {
-      f7
-    }
-  },
   data () {
     return {
       showSetup: true,
@@ -201,7 +196,7 @@ export default {
   },
   computed: {
     ready () {
-      return useRuntimeStore().apiVersion > 0
+      return useComponentsStore().ready && useRuntimeStore().ready
     },
     context () {
       return {
@@ -276,6 +271,7 @@ export default {
   watch: {
     ready (val, oldVal) {
       if (val && !oldVal) {
+        console.log('home1 - startTrackingState')
         useStatesStore().startTrackingStates()
       }
     }
@@ -286,7 +282,8 @@ export default {
     },
     onPageAfterIn () {
       if (this.ready) {
-        useStatesStore().startTrackingStates()
+        console.log('home2 - startTrackingState')
+        // useStatesStore().startTrackingStates()
       }
     },
     onPageBeforeOut () {

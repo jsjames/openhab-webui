@@ -351,7 +351,6 @@
 
 <script>
 import { f7, theme } from 'framework7-vue'
-import { mapState } from 'pinia'
 
 import YAML from 'yaml'
 import fastDeepEqual from 'fast-deep-equal/es6'
@@ -383,7 +382,6 @@ export default {
       detailsTab: 'tag',
       detailsOpened: false,
       loading: false,
-      ready: false,
       showNames: false,
       showSynonyms: false,
       expanded: false,
@@ -395,7 +393,9 @@ export default {
     }
   },
   computed: {
-    ...mapState(useSemanticsStore, ['loaded'])
+    ready () {
+      return useSemanticsStore().ready
+    }
   },
   watch: {
     semanticTags: {
@@ -429,7 +429,7 @@ export default {
     },
     onPageAfterOut () {
       if (this.dirty) {
-        this.$store.dispatch('loadSemantics')
+        useSemanticsStore().loadSemantics()
       }
     },
     onEditorInput (value) {

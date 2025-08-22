@@ -98,7 +98,6 @@
 
 <script>
 import CardMixin from './card-mixin'
-import { f7, theme } from 'framework7-vue'
 
 import { useUIOptionsStore } from '@/js/stores/useUIOptionsStore'
 import { mapStores } from 'pinia'

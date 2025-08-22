@@ -13,6 +13,7 @@ declare global {
 }
 
 export const useUIOptionsStore = defineStore('uiOptions', () => {
+  // States
   const _storedDarkMode = localStorage.getItem('openhab.ui:theme.dark')
   const storedDarkMode = ref<'auto' | 'dark' | 'light'>(
     _storedDarkMode === 'auto' || _storedDarkMode === 'dark' || _storedDarkMode === 'light'
@@ -61,6 +62,7 @@ export const useUIOptionsStore = defineStore('uiOptions', () => {
     localStorage.getItem('openhab.ui:panel.visibleBreakpointDisabled') === 'true'
   )
 
+  // Getters
   function getDarkMode () {
     if (storedDarkMode.value === 'auto') {
       return window.OHApp ? window.OHApp.preferDarkMode() : f7.darkMode ? 'dark' : 'light'
@@ -69,6 +71,11 @@ export const useUIOptionsStore = defineStore('uiOptions', () => {
     return storedDarkMode.value
   }
 
+  function isAutoDarkMode () {
+    return storedDarkMode.value === 'auto'
+  }
+
+  // Actions
   function setDarkMode (value: 'auto' | 'dark' | 'light') {
     storedDarkMode.value = value
 
@@ -82,10 +89,6 @@ export const useUIOptionsStore = defineStore('uiOptions', () => {
 
     bars.value = 'light' // Reset bars to light when dark mode changes
     updateClasses()
-  }
-
-  function isAutoDarkMode () {
-    return storedDarkMode.value === 'auto'
   }
 
   watch(bars, (newValue) => {

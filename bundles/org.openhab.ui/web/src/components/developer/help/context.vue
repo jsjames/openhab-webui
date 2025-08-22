@@ -40,8 +40,8 @@ export default {
       return useRuntimeStore().pagePath
     },
     documentationLink () {
-      if (this.path.endsWith('index')) return `${this.$store.state.websiteUrl}/docs/mainui${this.path.replace('index', '')}`
-      return `${this.$store.state.websiteUrl}/docs/mainui${this.path}`
+      if (this.path.endsWith('index')) return `${useRuntimeStore().websiteUrl}/docs/mainui${this.path.replace('index', '')}`
+      return `${useRuntimeStore().websiteUrl}/docs/mainui${this.path}`
     },
     ...mapStores(useRuntimeStore)
   },
@@ -98,7 +98,7 @@ export default {
             body = body.replace(/<img src=".*$/gm, '') // Remove images
 
             // Fix {{base}} and /docs anchor href for doc pages
-            body = body.replace(/<a href="(%7B%7Bbase%7D%7D|\/docs)/gm, `<a class="external" target="_blank" href="${this.$store.state.websiteUrl}/docs`)
+            body = body.replace(/<a href="(%7B%7Bbase%7D%7D|\/docs)/gm, `<a class="external" target="_blank" href="${useRuntimeStore().websiteUrl}/docs`)
             // Fix local folder anchor href: Rewrite folder to /folder/
             body = body.replace(/(<a href=")([A-z-]+)(")/gm, '$1' + this.localUrl + '$2/$3')
             // Fix external anchor href

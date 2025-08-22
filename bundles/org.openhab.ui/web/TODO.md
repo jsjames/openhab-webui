@@ -3,10 +3,10 @@ TODO
 - [] HIGH - TODO-V3 comments in code need to be cleaned up / examined
 - [] HIGH - fix remaining lint errors
 - [] HIGH - test startup wizard
-- [] MED - Codemirror - codemirror is basically in place, but many of the addon features need to be added
-- [] LOW - Update storage from vuex to pinia - all done with the exception of model store
-- [] LOW - Clean up tabs - there's a lot of unecessary code that is handled automatically by vue3 - like @click=switchTab
-- [] LOW - Convert i18n to non-legacy mode since this is deprecated
+- [x] MED - Codemirror - codemirror is basically in place, but many of the addon features need to be added
+- [x] LOW - Update storage from vuex to pinia - all done with the exception of model store
+- [] LOW - (after vue3 port) Clean up tabs - there's a lot of unecessary code that is handled automatically by vue3 - like @click=switchTab
+- [] LOW - (after vue3 port) Convert i18n to non-legacy mode since this is deprecated
 - [] LOW - document common coding practices
     - v-?? should show up first in any html element
     - use vue3 principles of reactivity where possible (vs. direct DOM manipulation)
@@ -17,7 +17,7 @@ BUGS
 - [x] back button from settings/items, settings/things, settings/model - the URL in the address bar does not change.
 - [x] API Explorer - formatting needs to be fixed
 - [x] Blockly tool bar at button not showing up
-- [] Blockly drag/drop not working - recommend upgrading the library, but it requires blockley v11
+- [] Blockly multi drag/drop not working - recommend upgrading the library, but it requires blockley v11
 - [x] login is flaky
 
 - [x] HIGH - production build scripts and reporting

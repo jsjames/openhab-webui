@@ -14,43 +14,45 @@
       <habot v-if="showHABot" @session-started="inChatSession = true" @session-end="inChatSession = false" />
     </f7-block>
 
-    <f7-block v-if="!componentsStore.ready || !statesStore.ready" class="text-align-center">
+    <f7-block v-if="!ready" class="text-align-center">
       <f7-preloader />
       <div>Loading...</div>
     </f7-block>
 
-    <component v-if="overviewPage"
-               :is="overviewPage.component"
-               v-show="!inChatSession"
-               :context="overviewPageContext"
-               :class="{ notready: !ready }"
-               @command="onCommand" />
-    <div class="empty-overview" v-else-if="!inChatSession">
-      <empty-state-placeholder icon="house" title="overview.title" text="overview.text" />
-      <f7-row v-if="!userStore.isAdmin() || f7.width < 1280" class="display-flex justify-content-center">
-        <f7-button large
-                   fill
-                   color="blue"
-                   external
-                   :href="`${runtimeStore.websiteUrl}/link/docs`"
-                   target="_blank"
-                   :text="$t('home.overview.button.documentation')" />
-        <span style="width: 8px" />
-        <f7-button large
-                   color="blue"
-                   external
-                   :href="`${runtimeStore.websiteUrl}/link/tutorial`"
-                   target="_blank"
-                   :text="$t('home.overview.button.tutorial')" />
-      </f7-row>
-      <f7-row v-else class="display-flex justify-content-center">
-        <f7-button large
-                   fill
-                   color="blue"
-                   @click="f7.emit('selectDeveloperDock', { dock: 'help', helpTab: 'quick' })"
-                   :text="$t('home.overview.button.quickstart')" />
-      </f7-row>
-    </div>
+    <template v-else>
+      <component v-if="overviewPage"
+                 :is="overviewPage.component"
+                 v-show="!inChatSession"
+                 :context="overviewPageContext"
+                 :class="{ notready: !ready }"
+                 @command="onCommand" />
+      <div v-else-if="!inChatSession" class="empty-overview">
+        <empty-state-placeholder icon="house" title="overview.title" text="overview.text" />
+        <f7-row v-if="!userStore.isAdmin() || f7.width < 1280" class="display-flex justify-content-center">
+          <f7-button large
+                     fill
+                     color="blue"
+                     external
+                     :href="`${runtimeStore.websiteUrl}/link/docs`"
+                     target="_blank"
+                     :text="$t('home.overview.button.documentation')" />
+          <span style="width: 8px" />
+          <f7-button large
+                     color="blue"
+                     external
+                     :href="`${runtimeStore.websiteUrl}/link/tutorial`"
+                     target="_blank"
+                     :text="$t('home.overview.button.tutorial')" />
+        </f7-row>
+        <f7-row v-else class="display-flex justify-content-center">
+          <f7-button large
+                     fill
+                     color="blue"
+                     @click="f7.emit('selectDeveloperDock', { dock: 'help', helpTab: 'quick' })"
+                     :text="$t('home.overview.button.quickstart')" />
+        </f7-row>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -94,18 +96,16 @@ export default {
     'empty-state-placeholder': EmptyStatePlaceholder,
     habot: defineAsyncComponent(() => import(/* webpackChunkName: "habot" */ '../../components/home/habot.vue'))
   },
-  setup () {
-    return {
-      f7
-    }
-  },
   data () {
     return {
       inChatSession: false,
-      ready: true
+      f7
     }
   },
   computed: {
+    ready () {
+      return useComponentsStore().ready && useStatesStore().ready
+    },
     showHABot () {
       return (useRuntimeStore().apiEndpoint('habot') && this.allowChat && !useUIOptionsStore().hideChatInput)
     },
@@ -131,7 +131,7 @@ export default {
       if (!this.overviewPage) return null
       return this.overviewPage.config.style
     },
-    ...mapStores(useUserStore, useRuntimeStore, useStatesStore, useComponentsStore, useUIOptionsStore)
+    ...mapStores(useUserStore,  useStatesStore, useComponentsStore, useUIOptionsStore, useRuntimeStore)
   },
   methods: {
     onCommand (itemName, command) {

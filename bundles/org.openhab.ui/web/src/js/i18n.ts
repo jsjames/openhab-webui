@@ -1,5 +1,4 @@
-import { createI18n } from 'vue-i18n'
-import type { I18n } from 'vue-i18n'
+import { createI18n, type I18n, type I18nOptions } from 'vue-i18n'
 
 export async function loadLocaleMessages (scopes: { [key: string]: () => Promise<any> }) {
   const locale = i18n.global.locale
@@ -18,15 +17,16 @@ export async function loadLocaleMessages (scopes: { [key: string]: () => Promise
   return allMessages
 }
 
-export const i18n: I18n = createI18n({
+const i18nOptions : I18nOptions = {
   legacy: true,
   locale: import.meta.env.VUE_APP_I18N_LOCALE || 'en',
   fallbackLocale: import.meta.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
   messages: {},
-  allowComposition: true, // you need to specify that!
   silentFallbackWarn: true,
   globalInjection: true
-})
+}
+
+export const i18n: I18n = createI18n<false, typeof i18nOptions>(i18nOptions)
 
 export function isLocaleSupported (locale: string): boolean {
   try {

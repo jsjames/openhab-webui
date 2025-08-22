@@ -109,12 +109,14 @@ export default {
         for (const item of items) {
           if (!useStatesStore().isItemTracked(item)) useStatesStore().addToTrackingList(item)
           // TODO-V3.0 - subscribe to state changes in pinia store
+          /*
           const unsubscribe = this.$store.subscribe((mutation, state) => {
             if (mutation.type === 'setItemState' && mutation.payload.itemName === item) {
               this.applyStateToSvgElement(item, state.states.itemStates[item], this.config.embeddedSvgActions[subElement.id], subElement)
             }
           })
           this.embeddedSvgStateTrackingUnsubscribes.push(unsubscribe)
+          */
         }
       }
 
