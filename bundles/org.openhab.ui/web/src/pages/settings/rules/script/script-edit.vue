@@ -28,6 +28,132 @@
       </f7-nav-right>
     </f7-navbar>
 
+    <f7-toolbar v-if="ready && !createMode" bottom>
+      <span class="display-flex flex-direction-row align-items-center">
+        <f7-link :icon-color="(rule.status.statusDetail === 'DISABLED') ? 'orange' : 'gray'"
+                 :tooltip="((rule.status.statusDetail === 'DISABLED') ? 'Enable' : 'Disable') + (($device.desktop) ? ' (Ctrl-D)' : '')"
+                 icon-ios="f7:pause_circle"
+                 icon-md="f7:pause_circle"
+                 icon-aurora="f7:pause_circle"
+                 color="orange"
+                 @click="toggleDisabled" />
+        <f7-link v-if="!theme.aurora"
+                 :tooltip="isMimeTypeAvailable(mode) ? ('Run Now' + (($device.desktop) ? ' (Ctrl-R)' : '')) : (isScriptRule ? 'Script' : 'Rule') + ' cannot be run, scripting addon for ' + mimeTypeDescription(mode) + ' is not installed'"
+                 icon-ios="f7:play_round"
+                 icon-md="f7:play_round"
+                 icon-aurora="f7:play_round"
+                 :color="((rule.status.status === 'IDLE') && isMimeTypeAvailable(mode)) ? 'blue' : 'gray'"
+                 @click="runNow" />
+        <f7-link v-else
+                 class="margin-left"
+                 :text="'Run Now' + (($device.desktop) ? ' (Ctrl-R)' : '')"
+                 :tooltip="!isMimeTypeAvailable(mode) ? (isScriptRule ? 'Script' : 'Rule') + ' cannot be run, scripting addon for ' + mimeTypeDescription(mode) + ' is not installed' : undefined"
+                 icon-ios="f7:play_round"
+                 icon-md="f7:play_round"
+                 icon-aurora="f7:play_round"
+                 :color="(rule.status.status === 'IDLE') && isMimeTypeAvailable(mode) ? 'blue' : 'gray'"
+                 @click="runNow" />
+        <f7-chip class="margin-left"
+                 v-if="currentModule && currentModule.configuration.script"
+                 :text="ruleStatusBadgeText(rule.status)"
+                 :color="ruleStatusBadgeColor(rule.status)"
+                 :tooltip="rule.status.description" />
+      </span>
+      <span class="display-flex flex-direction-row align-items-center">
+        <template v-if="isBlockly">
+          <f7-popover class="config-popover">
+            <f7-list class="config-menu">
+              <f7-list-item group-title title="Block Style" />
+              <f7-list-item v-for="renderer in blocklyRenderers"
+                            :key="renderer"
+                            :title="renderer"
+                            style="text-transform:capitalize"
+                            color="blue"
+                            radio
+                            :checked="renderer === blocklyRenderer"
+                            @click="setBlocklyRenderer(renderer)" />
+              <f7-list-item v-if="!$device.desktop" group-title title="Show Items" />
+              <f7-list-item v-if="!$device.desktop"
+                            title="As Labels"
+                            color="blue"
+                            radio
+                            :checked="blocklyShowLabels"
+                            @click="setBlocklyShowLabels(true)" />
+              <f7-list-item v-if="!$device.desktop"
+                            title="As Item IDs"
+                            color="blue"
+                            radio
+                            :checked="!blocklyShowLabels"
+                            @click="setBlocklyShowLabels(false)" />
+            </f7-list>
+          </f7-popover>
+          <template v-if="$device.desktop">
+            <f7-button v-if="!blocklyCodePreview"
+                       outline
+                       small
+                       icon-f7="paintbrush"
+                       :icon-size="(theme.aurora) ? 20 : 22"
+                       class="no-ripple"
+                       style="margin-right: 5px"
+                       tooltip="Block Style"
+                       popover-open=".config-popover" />
+            <f7-button v-if="!createMode && !blocklyCodePreview"
+                       outline
+                       small
+                       :active="blocklyShowLabels"
+                       icon-f7="square_on_circle"
+                       :icon-size="(theme.aurora) ? 20 : 22"
+                       class="no-ripple"
+                       style="margin-right: 5px"
+                       @click="setBlocklyShowLabels(!blocklyShowLabels)"
+                       tooltip="Toggle to show either Item labels or IDs" />
+          </template>
+          <f7-button v-else-if="!blocklyCodePreview"
+                     outline
+                     small
+                     icon-f7="ellipsis_vertical"
+                     :icon-size="(theme.aurora) ? 20 : 22"
+                     class="no-ripple"
+                     style="margin-right: 5px"
+                     tooltip="Blockly Settings"
+                     popover-open=".config-popover" />
+          <f7-segmented v-if="!createMode" class="margin-right">
+            <f7-button outline
+                       small
+                       :active="!blocklyCodePreview"
+                       icon-f7="ticket"
+                       :icon-size="(theme.aurora) ? 20 : 22"
+                       class="no-ripple"
+                       @click="blocklyCodePreview = false"
+                       tooltip="Show blocks" />
+            <f7-button outline
+                       small
+                       :active="blocklyCodePreview"
+                       icon-f7="doc_text"
+                       :icon-size="(theme.aurora) ? 20 : 22"
+                       class="no-ripple"
+                       @click="showBlocklyCode"
+                       tooltip="Show generated code" />
+          </f7-segmented>
+        </template>
+        <f7-link v-if="documentationLink(mode) && !isBlockly"
+                 icon-color="blue"
+                 :text="$device.desktop ? 'Open Documentation' : 'Docs'"
+                 tooltip="Open documentation"
+                 icon-ios="f7:question_circle"
+                 icon-md="f7:question_circle"
+                 icon-aurora="f7:question_circle"
+                 color="blue"
+                 :href="$store.state.websiteUrl + documentationLink(mode)"
+                 target="_blank"
+                 external />
+        <f7-link class="right details-link margin-left padding-right"
+                 ref="detailsLink"
+                 @click="detailsOpened = true"
+                 icon-f7="chevron_up" />
+      </span>
+    </f7-toolbar>
+
     <template v-if="ready">
       <f7-icon v-if="!createMode && (!isBlockly && !editable) || (blocklyCodePreview && isBlockly)"
                f7="lock"
@@ -148,132 +274,6 @@
           </f7-block>
         </f7-page>
       </f7-sheet>
-
-      <f7-toolbar v-if="!createMode" position="bottom">
-        <span class="display-flex flex-direction-row align-items-center">
-          <f7-link :icon-color="(rule.status.statusDetail === 'DISABLED') ? 'orange' : 'gray'"
-                   :tooltip="((rule.status.statusDetail === 'DISABLED') ? 'Enable' : 'Disable') + (($device.desktop) ? ' (Ctrl-D)' : '')"
-                   icon-ios="f7:pause_circle"
-                   icon-md="f7:pause_circle"
-                   icon-aurora="f7:pause_circle"
-                   color="orange"
-                   @click="toggleDisabled" />
-          <f7-link v-if="!theme.aurora"
-                   :tooltip="isMimeTypeAvailable(mode) ? ('Run Now' + (($device.desktop) ? ' (Ctrl-R)' : '')) : (isScriptRule ? 'Script' : 'Rule') + ' cannot be run, scripting addon for ' + mimeTypeDescription(mode) + ' is not installed'"
-                   icon-ios="f7:play_round"
-                   icon-md="f7:play_round"
-                   icon-aurora="f7:play_round"
-                   :color="((rule.status.status === 'IDLE') && isMimeTypeAvailable(mode)) ? 'blue' : 'gray'"
-                   @click="runNow" />
-          <f7-link v-else
-                   class="margin-left"
-                   :text="'Run Now' + (($device.desktop) ? ' (Ctrl-R)' : '')"
-                   :tooltip="!isMimeTypeAvailable(mode) ? (isScriptRule ? 'Script' : 'Rule') + ' cannot be run, scripting addon for ' + mimeTypeDescription(mode) + ' is not installed' : undefined"
-                   icon-ios="f7:play_round"
-                   icon-md="f7:play_round"
-                   icon-aurora="f7:play_round"
-                   :color="(rule.status.status === 'IDLE') && isMimeTypeAvailable(mode) ? 'blue' : 'gray'"
-                   @click="runNow" />
-          <f7-chip class="margin-left"
-                   v-if="currentModule && currentModule.configuration.script"
-                   :text="ruleStatusBadgeText(rule.status)"
-                   :color="ruleStatusBadgeColor(rule.status)"
-                   :tooltip="rule.status.description" />
-        </span>
-        <span class="display-flex flex-direction-row align-items-center">
-          <template v-if="isBlockly">
-            <f7-popover class="config-popover">
-              <f7-list class="config-menu">
-                <f7-list-item group-title title="Block Style" />
-                <f7-list-item v-for="renderer in blocklyRenderers"
-                              :key="renderer"
-                              :title="renderer"
-                              style="text-transform:capitalize"
-                              color="blue"
-                              radio
-                              :checked="renderer === blocklyRenderer"
-                              @click="setBlocklyRenderer(renderer)" />
-                <f7-list-item v-if="!$device.desktop" group-title title="Show Items" />
-                <f7-list-item v-if="!$device.desktop"
-                              title="As Labels"
-                              color="blue"
-                              radio
-                              :checked="blocklyShowLabels"
-                              @click="setBlocklyShowLabels(true)" />
-                <f7-list-item v-if="!$device.desktop"
-                              title="As Item IDs"
-                              color="blue"
-                              radio
-                              :checked="!blocklyShowLabels"
-                              @click="setBlocklyShowLabels(false)" />
-              </f7-list>
-            </f7-popover>
-            <template v-if="$device.desktop">
-              <f7-button v-if="!blocklyCodePreview"
-                         outline
-                         small
-                         icon-f7="paintbrush"
-                         :icon-size="(theme.aurora) ? 20 : 22"
-                         class="no-ripple"
-                         style="margin-right: 5px"
-                         tooltip="Block Style"
-                         popover-open=".config-popover" />
-              <f7-button v-if="!createMode && !blocklyCodePreview"
-                         outline
-                         small
-                         :active="blocklyShowLabels"
-                         icon-f7="square_on_circle"
-                         :icon-size="(theme.aurora) ? 20 : 22"
-                         class="no-ripple"
-                         style="margin-right: 5px"
-                         @click="setBlocklyShowLabels(!blocklyShowLabels)"
-                         tooltip="Toggle to show either Item labels or IDs" />
-            </template>
-            <f7-button v-else-if="!blocklyCodePreview"
-                       outline
-                       small
-                       icon-f7="ellipsis_vertical"
-                       :icon-size="(theme.aurora) ? 20 : 22"
-                       class="no-ripple"
-                       style="margin-right: 5px"
-                       tooltip="Blockly Settings"
-                       popover-open=".config-popover" />
-            <f7-segmented v-if="!createMode" class="margin-right">
-              <f7-button outline
-                         small
-                         :active="!blocklyCodePreview"
-                         icon-f7="ticket"
-                         :icon-size="(theme.aurora) ? 20 : 22"
-                         class="no-ripple"
-                         @click="blocklyCodePreview = false"
-                         tooltip="Show blocks" />
-              <f7-button outline
-                         small
-                         :active="blocklyCodePreview"
-                         icon-f7="doc_text"
-                         :icon-size="(theme.aurora) ? 20 : 22"
-                         class="no-ripple"
-                         @click="showBlocklyCode"
-                         tooltip="Show generated code" />
-            </f7-segmented>
-          </template>
-          <f7-link v-if="documentationLink(mode) && !isBlockly"
-                   icon-color="blue"
-                   :text="$device.desktop ? 'Open Documentation' : 'Docs'"
-                   tooltip="Open documentation"
-                   icon-ios="f7:question_circle"
-                   icon-md="f7:question_circle"
-                   icon-aurora="f7:question_circle"
-                   color="blue"
-                   :href="$store.state.websiteUrl + documentationLink(mode)"
-                   target="_blank"
-                   external />
-          <f7-link class="right details-link margin-left padding-right"
-                   ref="detailsLink"
-                   @click="detailsOpened = true"
-                   icon-f7="chevron_up" />
-        </span>
-      </f7-toolbar>
     </template>
   </f7-page>
 </template>
