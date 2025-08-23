@@ -109,7 +109,6 @@
     "stream-browserify": "^3.0.0",
     "strip-css-comments": "^5.0.0",
     "template7": "^1.4.2",
-    "tern": "^0.24.3",
     "tslib": "^2.8.1",
     "uuid": "^11.1.0",
     "video.js": "^7.10.2",
