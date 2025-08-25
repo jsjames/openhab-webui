@@ -34,6 +34,7 @@ const rules = {
     'import-x/no-unresolved': 'error',
     'import-x/no-dynamic-require': 'warn',
     'import-x/no-nodejs-modules': 'warn',
+    'import-x/no-named-as-default-member': 'off',
     'indent': ['error', 2, { 'SwitchCase': 1 }],
     'jsx-quotes': 'error',
     'linebreak-style': 'off',

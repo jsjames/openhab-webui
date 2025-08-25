@@ -128,6 +128,7 @@ import { useI18n } from 'vue-i18n'
 import { loadLocaleMessages } from '@/js/i18n'
 
 import { useStatesStore } from '@/js/stores/useStatesStore'
+import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
 
 export default {
   props: {

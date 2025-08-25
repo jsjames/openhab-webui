@@ -51,10 +51,10 @@ import chart from '../chart/chart-mixin'
 import { actionsMixin } from '../widget-actions'
 import { i18n } from '@/js/i18n'
 
-import dayjs, { extend } from 'dayjs'
+import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 
-extend(LocalizedFormat)
+dayjs.extend(LocalizedFormat)
 
 import { use, registerLocale, registerTheme } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'

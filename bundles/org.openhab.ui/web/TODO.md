@@ -6,7 +6,7 @@ TODO
 - [x] MED - Codemirror - codemirror is basically in place, but many of the addon features need to be added
 - [x] LOW - Update storage from vuex to pinia - all done with the exception of model store
 - [] LOW - (after vue3 port) Clean up tabs - there's a lot of unecessary code that is handled automatically by vue3 - like @click=switchTab
-- [] LOW - (after vue3 port) Convert i18n to non-legacy mode since this is deprecated
+- [x] LOW - Convert i18n to non-legacy mode since this is deprecated
 - [] LOW - document common coding practices
     - v-?? should show up first in any html element
     - use vue3 principles of reactivity where possible (vs. direct DOM manipulation)

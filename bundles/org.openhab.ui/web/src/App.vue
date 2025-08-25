@@ -530,7 +530,6 @@ import sseEvents from '@/components/sse-events-mixin'
 import { i18n } from '@/js/i18n'
 import dayjs from 'dayjs'
 import dayjsLocales from 'dayjs/locale.json'
-import 'dayjs/locale/de.js'
 import { useI18n } from 'vue-i18n'
 
 import { AddonIcons, AddonTitles } from '@/assets/addon-store'
@@ -556,7 +555,7 @@ export default {
     connectionHealth.connectionHealthSetup()
 
     return {
-      t, 
+      t,
       globalSetLocaleMessage
     }
   },
@@ -752,7 +751,7 @@ export default {
         .then((rootResponse) => {
           // store the REST API services present on the system
           useRuntimeStore().setRootResource(rootResponse)
-          console.log("setRootResource")
+          console.log('setRootResource')
           this.updateLocale(this.globalSetLocaleMessage)
           if (!useRuntimeStore().apiEndpoint('auth')) useUserStore().setNoAuth(true)
           return rootResponse
@@ -992,7 +991,7 @@ export default {
     }
   },
   mounted () {
-    console.log("App mounted")
+    console.log('App mounted')
     f7ready(async (f7) => {
       this.updateThemeOptions()
 

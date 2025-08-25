@@ -39,9 +39,9 @@ export const useComponentsStore = defineStore('components', () => {
 
   // Actions
   function setPagesAndWidgets (pages: Page[], widgets: Widget[]): void {
-        _pages.value = pages
-        _widgets.value = widgets
-        ready.value = true
+    _pages.value = pages
+    _widgets.value = widgets
+    ready.value = true
   }
 
   async function loadPagesAndWidgets (): Promise<void> {

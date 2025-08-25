@@ -1,7 +1,6 @@
 import { f7 } from 'framework7-vue'
 import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
-import { i18n } from '@/js/i18n'
-import { loadLocaleMessages } from '@/js/i18n'
+import { i18n, loadLocaleMessages  } from '@/js/i18n'
 
 export default {
   methods: {

@@ -19,7 +19,7 @@
 <script>
 import { useI18n } from 'vue-i18n'
 import { loadLocaleMessages } from '@/js/i18n'
-import { useRuntimeStore } from '@/js/stores/useRuntimeStore';
+import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
 
 export default {
   props: {
@@ -35,7 +35,7 @@ export default {
     return {
       t,
       setLocaleMessage
-    } 
-  },
+    }
+  }
 }
 </script>

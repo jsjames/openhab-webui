@@ -74,6 +74,8 @@ import AddonLogo from '@/components/addons/addon-logo.vue'
 import { useI18n } from 'vue-i18n'
 import { loadLocaleMessages } from '@/js/i18n'
 
+import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
+
 export default {
   props: {
     addons: Array,

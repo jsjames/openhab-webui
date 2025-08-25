@@ -180,9 +180,8 @@ export default {
     loadLocaleMessages([useRuntimeStore().locale, 'en'], 'profile', setLocaleMessage)
 
     return {
-      t
+      t, theme
     }
-    return { theme }
   },
   data () {
     return {

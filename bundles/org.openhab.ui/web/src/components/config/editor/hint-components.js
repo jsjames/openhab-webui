@@ -1,5 +1,6 @@
-import { lineIndent, findParent, isConfig, isComponent, isSlots, findComponentType, findWordStart } from './yaml-utils'
-import { hintBooleanValue, hintItems, hintParameterOptions, hintParameters } from './hint-utils'
+import { insertCompletionText, pickedCompletion } from '@codemirror/autocomplete'
+import { lineIndent, findParent, isConfig, isComponent, isSlots, findComponentType } from './yaml-utils'
+import { completionStart, hintBooleanValue, hintItems, hintParameterOptions, hintParameters } from './hint-utils'
 
 import * as f7vue from 'framework7-vue'
 
@@ -18,6 +19,8 @@ import {
   OhPropertyCardParameters
 } from '@/assets/definitions/widgets/home'
 import { BlockLibrariesComponentDefinitions } from '@/assets/definitions/blockly/libraries-components'
+
+const ComponentID = /[\w-]+/
 
 let ohComponents = null
 let f7Components = null
@@ -81,16 +84,33 @@ function hintExpression (context, line) {
     return hintItems(context, { prefix: '\'', suffix: '\'' })
   } else if (lastOp.endsWith('items.')) {
     return hintItems(context, { suffix: '.state' })
+  } else if (lastOp.endsWith('.')) {
+    return
   }
 
-  const wordStart = findWordStart(context, line, /[^\s=.]/)
-  if (line.text[wordStart - 1] !== ' ' && line.text[wordStart - 1] !== '=') return
-
+  const Expression = /[\w@#]+/
   let boost = 0
   return {
-    from: line.from + wordStart,
-    validFor: /[^\s=.]+/,
+    from: completionStart(context, Expression),
+    validFor: Expression,
     options: [
+      {
+        label: '@',
+        info: 'Shortcut for accessing item displayState\nwith fall back to raw item state'
+      },
+      {
+        label: '@@',
+        info: 'Shortcut for accessing raw item state'
+      },
+      {
+        label: '#',
+        info: 'Shortcut for accessing items numeric state'
+      },
+      {
+        label: 'items',
+        apply: 'items.',
+        info: 'Access to item states'
+      },
       {
         label: 'items',
         apply: 'items.',
@@ -221,8 +241,6 @@ function hintConfig (context, line, parentLine) {
   const componentType = findComponentType(context, parentLine)
   console.debug('hinting config for component type:', componentType)
   if (!componentType) return
-  const currentIndent = lineIndent(line)
-  const indent = lineIndent(parentLine)
   const colonPos = line.text.indexOf(':')
   const column = context.pos - line.from
   const afterColon = colonPos > 0 && column > colonPos
@@ -254,12 +272,13 @@ function hintConfig (context, line, parentLine) {
       } else if (parameter.context === 'item') {
         return hintItems(context, { replaceAfterColon: true })
       } else if (parameter.options) {
-        return hintParameterOptions(context, line, parameter, colonPos)
+        return hintParameterOptions(context, parameter, colonPos)
       }
     }
   } else {
     console.debug(widgetDefinition)
-    return hintParameters(context, line, parameters, indent + 2)
+    const parentIndent = lineIndent(parentLine)
+    return hintParameters(context, parameters, parentIndent + 2)
   }
 }
 
@@ -272,17 +291,14 @@ function hintComponents (context, line) {
     const from = line.from + colonPos + 2
     const to = view.state.doc.lineAt(context.pos).to
     const insert = completion.label
-    view.dispatch({
-      changes: { from, to, insert },
-      selection: { anchor: from + insert.length }
-    })
+    view.dispatch(insertCompletionText(view.state, insert, from, to))
   }
 
   const components = getWidgetDefinitions(context)
   let boost = 0
   return {
-    from: line.from + findWordStart(context, line),
-    validFor: /[\w-]+/,
+    from: completionStart(context, ComponentID),
+    validFor: ComponentID,
     options: components.map((c) => {
       return {
         label: c.name,
@@ -294,20 +310,20 @@ function hintComponents (context, line) {
   }
 }
 
-function hintComponentStructure (context, line, parentLine) {
+function hintComponentStructure (context, parentLine) {
   const indent = parentLine ? lineIndent(parentLine) : -2
   const apply = (view, completion, _from, _to) => {
-    const from = line.from
-    const to = view.state.doc.lineAt(context.pos).to
+    const line = view.state.doc.lineAt(context.pos)
+    const { from, to } = line
     const insert = completion.code
     view.dispatch({
-      changes: { from, to, insert },
-      selection: { anchor: from + insert.length }
+      ...insertCompletionText(view.state, insert, from, to),
+      annotations: pickedCompletion.of(completion) // trigger subsequent completion
     })
   }
 
   return {
-    from: line.from + findWordStart(context, line),
+    from: completionStart(context),
     validFor: /\w+/,
     options: [
       {
@@ -345,16 +361,16 @@ function hintSlots (context, line, parentLine) {
     const from = line.from
     const to = view.state.doc.lineAt(context.pos).to
     view.dispatch({
-      changes: { from, to, insert },
-      selection: { anchor: from + insert.length }
+      ...insertCompletionText(view.state, insert, from, to),
+      annotations: pickedCompletion.of(completion) // trigger subsequent completion
     })
   }
 
   const definitions = getWidgetDefinitions(context)
   let boost = 0
   return {
-    from: line.from + findWordStart(context, line),
-    validFor: /[\w-]+/,
+    from: completionStart(context, ComponentID),
+    validFor: ComponentID,
     options: definitions.map((c) => {
       return {
         label: c.name,
@@ -374,15 +390,13 @@ export default function hint (context) {
   if (isConfig(parentLine)) {
     return hintConfig(context, currentLine, parentLine)
   } else if (isComponent(parentLine) || lineIndent(currentLine) === 0) {
-    return hintComponentStructure(context, currentLine, parentLine)
+    return hintComponentStructure(context, parentLine)
   } else if (isComponent(currentLine)) {
     return hintComponents(context, currentLine)
-  } else {
-    if (parentLine) {
-      const grandparentLine = findParent(context, parentLine)
-      if (isSlots(grandparentLine)) {
-        return hintSlots(context, currentLine, parentLine)
-      }
+  } else if (parentLine) {
+    const grandparentLine = findParent(context, parentLine)
+    if (isSlots(grandparentLine)) {
+      return hintSlots(context, currentLine, parentLine)
     }
   }
 }

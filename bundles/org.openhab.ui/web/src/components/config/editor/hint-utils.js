@@ -1,64 +1,25 @@
-import { findWordStart } from './yaml-utils'
+import { pickedCompletion, insertCompletionText } from '@codemirror/autocomplete'
 
-export function remove (node) {
-  let p = node && node.parentNode
-  if (p) p.removeChild(node)
+// Pattern for ParameterOptions.
+// It can include things like `application/javascript;version=ECMAScript-2021`
+// so let's match any non-space
+const ParameterOptions = /\S+/
+
+/**
+ * Finds the start of the word at the cursor position.
+ *
+ * If the cursor is inside or at the end of a "word", find the start of that word
+ * otherwise just return the cursor position.
+ *
+ * See also CodeMirror's EditorState.wordAt, which uses /\w/ to search.
+ *
+ * @param context completion context
+ * @param regex a regex that matches the characters of the completion options
+ * @returns the position from the start of the document
+ */
+export function completionStart (context, regex = /\w+/) {
+  return context.matchBefore(regex)?.from ?? context.pos
 }
-
-// TODO-V3 No longer needed in CM6
-/*
-export function filterPartialCompletions (cm, line, completions, property = 'text', remover) {
-  const cursor = cm.getCursor()
-  let lineBeforeCursor = line.substring(0, cursor.ch)
-  if (remover) lineBeforeCursor = lineBeforeCursor.replace(remover, '')
-  const completionBeginPos = Math.max(
-    lineBeforeCursor.lastIndexOf(' '),
-    lineBeforeCursor.lastIndexOf('.'),
-    lineBeforeCursor.lastIndexOf('@')
-  )
-  const partialCompletion = lineBeforeCursor.substring(completionBeginPos + 1)
-  return completions.filter(
-    (c) => c[property] && c[property].toLowerCase().indexOf(partialCompletion.toLowerCase()) >= 0
-  )
-}
-
-export function addTooltipHandlers (cm, ret, retriggerHint) {
-  let tooltip = null
-  const cursor = cm.getCursor()
-
-  if (!ret) return
-  if (ret.tooltip) return
-  if (!ret.from) ret.from = cursor
-  if (!ret.to) ret.to = cursor
-  ret.tooltip = true
-
-  CodeMirror.on(ret, 'close', function () {
-    remove(tooltip)
-  })
-  CodeMirror.on(ret, 'update', function () {
-    remove(tooltip)
-  })
-  CodeMirror.on(ret, 'pick', function () {
-    setTimeout(() => {
-      cm.scrollIntoView(cm.getCursor())
-      if (retriggerHint) CodeMirror.commands.autocomplete(cm)
-    }, 100)
-  })
-  CodeMirror.on(ret, 'select', function (cur, node) {
-    remove(tooltip)
-    let content = cur.description
-    if (content) {
-      tooltip = makeTooltip(
-        node.parentNode.getBoundingClientRect().right + window.pageXOffset,
-        node.getBoundingClientRect().top + window.pageYOffset,
-        content,
-        cm
-      )
-      tooltip.className += ' ' + cls + 'hint-doc'
-    }
-  })
-}
-  */
 
 /**
  * Converts a Parameter Type to CodeMirror's completion type
@@ -111,14 +72,11 @@ export function hintBooleanValue (context, line, colonPos) {
     const from = line.from + colonPos + 2
     const to = view.state.doc.lineAt(context.pos).to
     const insert = completion.label
-    view.dispatch({
-      changes: { from, to, insert },
-      selection: { anchor: from + insert.length }
-    })
+    view.dispatch(insertCompletionText(view.state, insert, from, to))
   }
 
   return {
-    from: line.from + findWordStart(context, line),
+    from: completionStart(context),
     validFor: /\w+/,
     options: [{ label: 'true', apply, boost: 1 }, { label: 'false', apply }]
   }
@@ -172,22 +130,18 @@ export async function hintItems (context, { replaceAfterColon = false, indent = 
       }
 
       const insert = prefix + completion.label + suffix
-      view.dispatch({
-        changes: { from, to, insert },
-        selection: { anchor: from + insert.length }
-      })
+      view.dispatch(insertCompletionText(view.state, insert, from, to))
     }
 
-    const wordAtCursor = context.state.wordAt(context.pos)
-    const from = wordAtCursor ? wordAtCursor.from : context.pos
     return {
-      from,
+      from: completionStart(context),
       validFor: /\w+/,
       options: data
         .map((item) => {
           return {
             label: item.name,
-            info: `${item.label ? item.label + ' ' : ''}(${item.type})\n${item.state}`,
+            info: `${item.label ? item.label + ' ' : ''}(${item.type})`,
+            type: item.type === 'Group' ? 'groupitem' : 'item',
             apply
           }
         })
@@ -199,27 +153,24 @@ export async function hintItems (context, { replaceAfterColon = false, indent = 
  * Provide completion entries for a parameter's allowed options.
  *
  * @param {import("@codemirror/autocomplete").CompletionContext} context - CodeMirror completion context.
- * @param {Object} line - Current line object (as returned by state.doc.lineAt).
  * @param {Object} parameter - Parameter descriptor containing an `options` array:
  *        { options: Array<{ value: string, label?: string }> }.
  * @param {number} colonPos - Zero-based index of the colon character on the line; insertion starts after `colonPos + 2`.
  * @returns {import("@codemirror/autocomplete").CompletionResult} CompletionResult.
  */
-export function hintParameterOptions (context, line, parameter, colonPos) {
+export function hintParameterOptions (context, parameter, colonPos) {
   const apply = (view, completion, _from, _to) => {
+    const line = view.state.doc.lineAt(context.pos)
     const from = line.from + colonPos + 2
-    const to = view.state.doc.lineAt(context.pos).to
+    const to = line.to
     const insert = completion.label
-    view.dispatch({
-      changes: { from, to, insert },
-      selection: { anchor: from + insert.length }
-    })
+    view.dispatch(insertCompletionText(view.state, insert, from, to))
   }
 
   let boost = 0
   return {
-    from: line.from + findWordStart(context, line),
-    validFor: /\w+/,
+    from: completionStart(context, ParameterOptions),
+    validFor: ParameterOptions,
     options: parameter.options.map((o) => {
       return {
         label: o.value,
@@ -234,29 +185,34 @@ export function hintParameterOptions (context, line, parameter, colonPos) {
 /**
  * Provide completion entries for a list of parameters.
  *
- * Creates a CompletionResult that inserts parameter names at the current
- * cursor position, prepending the requested indentation so the inserted
- * text aligns with the desired column.
+ * Creates a CompletionResult that inserts parameter names at the current line,
+ * prepending the requested indentation so the inserted text aligns with the desired column.
  *
  * @param {import("@codemirror/autocomplete").CompletionContext} context - CodeMirror completion context.
- * @param {Object} line - Current line object (as returned by state.doc.lineAt).
  * @param {Array<{name: string, description?: string, type?: string}>} parameters - Array of parameter descriptors.
  *        Each descriptor should have a `name` and may include `description` and `type`.
  * @param {number} indent - Number of spaces to prepend so the inserted parameter lines match the target indent.
  * @returns {import("@codemirror/autocomplete").CompletionResult} A CompletionResult with `from`, `validFor` and `options`.
  */
-export function hintParameters (context, line, parameters, indent) {
-  const currentIndent = findWordStart(context, line)
-  if (indent < currentIndent) return // we can't tell it to insert before "from" unless we use an apply function
-  const prepends = ' '.repeat(indent - currentIndent)
+export function hintParameters (context, parameters, indent) {
+  const apply = (view, completion, _from, _to) => {
+    const line = view.state.doc.lineAt(context.pos)
+    const { from, to } = line
+    const insert = ' '.repeat(indent) + completion.label + ': '
+    view.dispatch({
+      ...insertCompletionText(view.state, insert, from, to),
+      annotations: pickedCompletion.of(completion) // trigger subsequent completion (parameter options)
+    })
+  }
+
   return {
-    from: line.from + currentIndent,
+    from: completionStart(context),
     validFor: /\w+/,
     options: parameters.map((p) => {
       return {
         label: p.name,
-        apply: prepends + p.name + ': ',
         info: p.description,
+        apply,
         type: getCompletionType(p.type)
       }
     })
