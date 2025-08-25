@@ -1,24 +1,35 @@
 import { createI18n, type I18n, type I18nOptions } from 'vue-i18n'
 
-export async function loadLocaleMessages (scopes: { [key: string]: () => Promise<any> }) {
-  const locale = i18n.global.locale
+/**
+ * Load locale messages for a specific path and set them in the i18n instance.
+ * 
+ * @param locales Array of locale strings to load.
+ * @param group Directory group containint the locale JSON files.
+ * @param setLocaleMessage Function to set the loaded locale messages - should be optained from useI18n with either 'local' or 'global' useScope from the setup function
+ * @returns Promise that resolves when all messages are loaded.
+ */
+export async function loadLocaleMessages (locales : string[], dir : string, setLocaleMessage: (locale: string, messages: any) => void) {
 
-  const allMessages: { [key: string]: any } = {}
+  const allMessages: { [key: string]: any} = {}
+  const localeFiles: Set<string> = new Set([...locales, ...locales.map(l => l.split('-')[0])])
+  const localeFilesArray = Array.from(localeFiles)
 
-  for (const key in scopes) {
-    const matched = key.match(/([A-Za-z0-9-_]+)\./i)
-    if (matched && matched.length > 1 && matched[1] === locale) {
-      const messages = await scopes[key]()
-      console.debug('loading i18n messages from: ' + key)
-      console.debug('messages', messages)
-      allMessages[locale] = { ...allMessages[locale], ...messages.default }
-    }
-  }
-  return allMessages
+  console.log("Loading locale messages...", locales, localeFilesArray)
+
+  return Promise.allSettled(
+    localeFilesArray.map((locale) => import(`../assets/i18n/${dir}/${locale}.json`))
+  ).then((results) => { 
+    results.forEach((result, index) => {
+      const locale = localeFilesArray[index]
+      if (result.status === 'fulfilled') {
+        setLocaleMessage(locale, { ...result.value.default })
+      }
+    })
+  })
 }
 
 const i18nOptions : I18nOptions = {
-  legacy: true,
+  legacy: false,
   locale: import.meta.env.VUE_APP_I18N_LOCALE || 'en',
   fallbackLocale: import.meta.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
   messages: {},
@@ -26,7 +37,7 @@ const i18nOptions : I18nOptions = {
   globalInjection: true
 }
 
-export const i18n: I18n = createI18n<false, typeof i18nOptions>(i18nOptions)
+export const i18n: I18n = createI18n(i18nOptions)
 
 export function isLocaleSupported (locale: string): boolean {
   try {

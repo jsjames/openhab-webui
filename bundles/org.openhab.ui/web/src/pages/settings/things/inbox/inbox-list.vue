@@ -252,10 +252,11 @@ export default {
     EmptyStatePlaceholder
   },
   setup () {
-    return { f7, theme }
+    return { theme }
   },
   data () {
     return {
+      f7,
       ready: false,
       loading: false,
       initSearchbar: false,

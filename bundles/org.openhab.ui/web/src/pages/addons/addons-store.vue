@@ -302,10 +302,11 @@ export default {
     AddonsSection
   },
   setup () {
-    return { f7, theme }
+    return { theme }
   },
   data () {
     return {
+      f7,
       leftPanelOpened: false,
       currentTab: 'main',
       services: null,

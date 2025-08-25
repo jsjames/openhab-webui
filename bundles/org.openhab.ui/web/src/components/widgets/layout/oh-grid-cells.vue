@@ -22,7 +22,7 @@
         </f7-menu-item>
       </f7-menu>
     </div>
-    <MasonryGrid v-if="visible" :cols="config.cols || { default: 5, 1400: 4, 1280: 3, 576: 3, 480: 2 }">
+    <MasonryGrid v-if="visible" :columns="config.cols || { default: 5, 1400: 4, 1280: 3, 576: 3, 480: 2 }">
       <MasonryGridItem v-for="(slotComponent, idx) in context.component.slots.default"
                        :key="idx"
                        class="oh-cell-container">
@@ -47,9 +47,11 @@
         </f7-menu>
         <generic-widget-component v-bind="$attrs" :context="childContext(slotComponent)" />
       </MasonryGridItem>
-      <oh-placeholder-widget v-if="context.editmode"
-                             class="cell-placeholder placeholder"
-                             @click="context.editmode.addWidget(context.component, null, context.parent)" />
+      <MasonryGridItem>
+        <oh-placeholder-widget v-if="context.editmode"
+                              class="cell-placeholder placeholder"
+                              @click="context.editmode.addWidget(context.component, null, context.parent)" />
+      </MasonryGridItem>
     </MasonryGrid>
   </div>
 </template>

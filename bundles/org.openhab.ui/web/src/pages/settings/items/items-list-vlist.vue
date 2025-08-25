@@ -230,10 +230,11 @@ export default {
     EmptyStatePlaceholder
   },
   setup () {
-    return { f7, theme }
+    return { theme }
   },
   data () {
     return {
+      f7,
       ready: false,
       initSearchbar: false,
       loading: false,

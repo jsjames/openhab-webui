@@ -186,10 +186,11 @@ export default {
     ClipboardIcon
   },
   setup () {
-    return { f7, theme }
+    return { theme }
   },
   data () {
     return {
+      f7,
       ready: false,
       loading: false,
       transformations: [],

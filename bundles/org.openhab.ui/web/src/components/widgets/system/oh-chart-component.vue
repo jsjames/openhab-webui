@@ -73,7 +73,7 @@ use([CanvasRenderer, LineChart, BarChart, GaugeChart, HeatmapChart, PieChart, Sc
   LegendComponent, LegendScrollComponent, GridComponent, SingleAxisComponent, ToolboxComponent, TooltipComponent, DataZoomComponent,
   MarkLineComponent, MarkPointComponent, MarkAreaComponent, VisualMapComponent, CalendarComponent, LabelLayout])
 
-let echartsLocale = i18n.global.locale.split('-')[0].toUpperCase()
+let echartsLocale = i18n.global.locale.value.split('-')[0].toUpperCase()
 
 import(`../../../../node_modules/echarts/i18n/lang${echartsLocale}-obj.js`)   // must be relative import @rollup/plugin-dynamic-import-vars
   .then((lang) => {

@@ -358,12 +358,12 @@ export default {
   },
   setup () {
     return {
-      f7,
       theme
     }
   },
   data () {
     return {
+      f7,
       newItem: null,
       newItemParent: null,
       initSearchbar: false,

@@ -522,15 +522,16 @@ import routes from '@/js/routes.js'
 import PanelRight from '@/pages/panel-right.vue'
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
 
-import { loadLocaleMessages } from '@/js/i18n'
-
 import auth from '@/components/auth-mixin'
 import i18n_mixin from '@/components/i18n-mixin'
 import connectionHealth from '@/components/connection-health-mixin'
 import sseEvents from '@/components/sse-events-mixin'
 
-import { locale } from 'dayjs'
+import { i18n } from '@/js/i18n'
+import dayjs from 'dayjs'
 import dayjsLocales from 'dayjs/locale.json'
+import 'dayjs/locale/de.js'
+import { useI18n } from 'vue-i18n'
 
 import { AddonIcons, AddonTitles } from '@/assets/addon-store'
 
@@ -550,7 +551,14 @@ export default {
     DeveloperDock: defineAsyncComponent(() => import(/* webpackChunkName: "admin-base" */ '@/components/developer/developer-dock.vue'))
   },
   setup () {
+    const { t, setLocaleMessage : globalSetLocaleMessage } = useI18n({ useScope: 'global'})
+
     connectionHealth.connectionHealthSetup()
+
+    return {
+      t, 
+      globalSetLocaleMessage
+    }
   },
   data () {
     let theme = localStorage.getItem('openhab.ui:theme')
@@ -621,9 +629,6 @@ export default {
       developerSearch: null,
       currentUrl: ''
     }
-  },
-  i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('./src/assets/i18n/about/*.json'))
   },
   computed: {
     currentPath () {
@@ -747,7 +752,8 @@ export default {
         .then((rootResponse) => {
           // store the REST API services present on the system
           useRuntimeStore().setRootResource(rootResponse)
-          this.updateLocale()
+          console.log("setRootResource")
+          this.updateLocale(this.globalSetLocaleMessage)
           if (!useRuntimeStore().apiEndpoint('auth')) useUserStore().setNoAuth(true)
           return rootResponse
         })
@@ -759,21 +765,26 @@ export default {
             const dayjsLocale = dayjsLocales.find(
               (l) => l.key === locale || l.key === locale.split('-')[0]
             )
+
             dayjsLocalePromise = dayjsLocale
-              ? import(/* @vite-ignore */ '../node_modules/dayjs/locale/' + dayjsLocale.key + '.js')
-                .then(() => Promise.resolve(dayjsLocale))
-                .catch((error) => {
-                  console.error('Error fetching dayjs: ', error)
+              ? import(`../node_modules/dayjs/esm/locale/${dayjsLocale.key}.js`)
+                .then(() => {
+                  return dayjsLocale
+                }).catch((error) => {
+                  console.error('Error fetching dayjs: ', error, dayjsLocale)
                 })
               : Promise.resolve(null)
           }
           return Promise.all([
-            useComponentsStore().loadPagesAndWidgets(),
+            ...(useRuntimeStore().apiEndpoint('ui'))
+              ? [this.$oh.api.get('/rest/ui/components/ui:page'), this.$oh.api.get('/rest/ui/components/ui:widget')]
+              : [Promise.resolve([]), Promise.resolve([])],
             dayjsLocalePromise,
-            useSemanticsStore().loadSemantics()
+            useSemanticsStore().loadSemantics(i18n)
           ])
         })
         .then((data) => {
+          useComponentsStore().setPagesAndWidgets(data[0], data[1])
           this.pages = useComponentsStore().pages()
             .filter((p) => p.config.sidebar && this.pageIsVisible(p))
             .sort((p1, p2) => {
@@ -783,7 +794,7 @@ export default {
             })
           this.updateTitle()
 
-          if (data[1]) locale(data[1].key)
+          if (data[2]) dayjs.locale(data[2].key)
 
           // load & build the semantic model
           useModelStore().loadSemanticModel()
@@ -981,6 +992,7 @@ export default {
     }
   },
   mounted () {
+    console.log("App mounted")
     f7ready(async (f7) => {
       this.updateThemeOptions()
 

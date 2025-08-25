@@ -250,10 +250,11 @@ export default {
     AddonSection
   },
   setup () {
-    return { f7, theme }
+    return { theme }
   },
   data () {
     return {
+      f7,
       addonsLoaded: false,
       servicesLoaded: false,
       addonsInstalled: [],

@@ -46,7 +46,7 @@
                              @click="context.editmode.addWidget(context.component, null, context.parent)" />
     </div>
     <MasonryGrid v-else
-                 :columns="config.cols || { default: 5, 1400: 4, 1280: 3, 1023: 4, 768: 3, 576: 2, 480: 1, } ">
+                 :columns="config.cols || { default: 5, 1400: 4, 1280: 3, 1023: 4, 768: 3, 576: 2, 480: 1 } ">
       <MasonryGridItem v-for="(slotComponent, idx) in context.component.slots.default" :key="idx">
         <f7-menu v-if="context.editmode" class="configure-layout-menu">
           <f7-menu-item style="margin-left: auto"

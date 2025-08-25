@@ -173,7 +173,9 @@
 </style>
 
 <script>
+import { useI18n } from 'vue-i18n'
 import { loadLocaleMessages } from '@/js/i18n'
+
 import Context from '@/components/developer/help/context.vue'
 
 import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
@@ -185,6 +187,15 @@ export default {
   },
   props: {
     activeHelpTab: String
+  },
+  setup () {
+    const { t, setLocaleMessage } = useI18n({ useScope: 'local' })
+
+    loadLocaleMessages([useRuntimeStore().locale, 'en'], 'about', setLocaleMessage)
+
+    return {
+      t
+    }
   },
   data () {
     return {
@@ -234,9 +245,6 @@ export default {
       return '/index'
     },
     ...mapStores(useRuntimeStore)
-  },
-  i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/about/*.json'))
   }
 }
 </script>

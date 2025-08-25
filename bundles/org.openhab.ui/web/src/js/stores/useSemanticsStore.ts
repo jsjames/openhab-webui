@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 import api from '@/js/openhab/api'
 import { i18n } from '@/js/i18n'
+import { useI18n, type I18n } from 'vue-i18n'
 import { useRuntimeStore } from './useRuntimeStore'
 
 import { type Tag } from '@/types/openhab'
@@ -23,7 +24,7 @@ export const useSemanticsStore = defineStore('semantics', () => {
   const ready = ref<boolean>(false)
 
   // Actions
-  function setSemantics (tags: ModelTag[]) {
+  function setSemantics (tags: ModelTag[], i18n: I18n) {
     Tags.value = tags
     Tags.value.forEach((tag) => {
       const tagParts = tag.uid.split('_')
@@ -45,17 +46,18 @@ export const useSemanticsStore = defineStore('semantics', () => {
       Synonyms.value[t.name] = t.synonyms || []
     }
     // Save labels as i18n messages
-    i18n.global.mergeLocaleMessage(i18n.global.locale as string, Labels.value)
+    // @ts-expect-error   TODO-V3.0
+    i18n.global.mergeLocaleMessage(i18n.global.locale.value as string, Labels.value)
   }
 
-  async function loadSemantics () {
+  async function loadSemantics (i18n: I18n) {
     console.log('Loading semantic tags ...')
     if (useRuntimeStore().apiEndpoint('tags')) {
       return api
         .get('/rest/tags')
         .then((tags : Tag[]) => {
           let modelTags  = tags as ModelTag[]
-          setSemantics(modelTags)
+          setSemantics(modelTags, i18n)
           console.debug('Successfully loaded semantic tags.')
           ready.value = true
         })

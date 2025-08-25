@@ -151,10 +151,11 @@ export default {
   },
   emits: ['closed', 'input'],
   setup () {
-    return { theme, f7 }
+    return { theme }
   },
   data () {
     return {
+      f7,
       initSearchbar: false,
       doubleClickStarted: null,
       doubleClickItem: null,

@@ -271,7 +271,6 @@ export default {
   watch: {
     ready (val, oldVal) {
       if (val && !oldVal) {
-        console.log('home1 - startTrackingState')
         useStatesStore().startTrackingStates()
       }
     }

@@ -28,6 +28,8 @@ import '@/css/app.styl'
 import openhab from '@/js/openhab/index'
 
 // Import AsyncComputed
+// import AsyncComputed from 'vue-async-computed'
+
 import AsyncComputed from 'vue-async-computed'
 
 // Import vue-magic-grid

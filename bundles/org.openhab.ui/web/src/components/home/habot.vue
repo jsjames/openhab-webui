@@ -21,11 +21,11 @@
                     @click="chooseSuggestion(suggestion)"
                     link
                     :title="suggestion"
-                    :footer="history.length === 0 ? $t('habot.example.label') : ''"
+                    :footer="history.length === 0 ? t('habot.example.label') : ''"
                     no-chevron />
       <f7-list-button v-if="history.length > 0"
                       color="red"
-                      :title="$t('habot.clearHistory')"
+                      :title="t('habot.clearHistory')"
                       @click="clearHistory" />
     </f7-list>
     <f7-message v-if="interimSpeechResult"
@@ -61,7 +61,7 @@
                  round
                  color="blue"
                  @click="endSession">
-        {{ $t('habot.dismiss') }}
+        {{ t('habot.dismiss') }}
       </f7-button>
     </div>
   </div>
@@ -124,6 +124,7 @@
 import itemDefaultStandaloneComponent from '@/components/widgets/standard/default-standalone-item'
 import itemDefaultListComponent from '@/components/widgets/standard/list/default-list-item'
 import SpeechButton from './speech-button.vue'
+import { useI18n } from 'vue-i18n'
 import { loadLocaleMessages } from '@/js/i18n'
 
 import { useStatesStore } from '@/js/stores/useStatesStore'
@@ -136,6 +137,15 @@ export default {
     SpeechButton
   },
   emits: ['session-started', 'session-end'],
+  setup () {
+    const { t, setLocaleMessage } = useI18n({ useScope: 'local' })
+
+    loadLocaleMessages([useRuntimeStore().locale, 'en'], 'habot', setLocaleMessage)
+
+    return {
+      t
+    }
+  },
   data () {
     return {
       greeting: null,
@@ -151,9 +161,6 @@ export default {
       focused: false
     }
   },
-  i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/habot/*.json'))
-  },
   mounted () {
     this.greet()
     const savedHistory = localStorage.getItem('openhab.ui:chat.history')
@@ -168,7 +175,7 @@ export default {
       }
     },
     suggestions () {
-      return (this.history.length > 0) ? this.history : [this.$t('habot.example1'), this.$t('habot.example2'), this.$t('habot.example3')]
+      return (this.history.length > 0) ? this.history : [this.t('habot.example1'), this.t('habot.example2'), this.t('habot.example3')]
     }
   },
   methods: {
@@ -249,7 +256,7 @@ export default {
         } else {
           this.busy = false
         }
-        this.greeting = this.$t('habot.anythingElse')
+        this.greeting = this.t('habot.anythingElse')
       })
     },
     convertHABotCard (habotCard) {
@@ -259,7 +266,7 @@ export default {
           component: 'f7-card',
           config: {
             title: habotCard.title,
-            footer: this.$t('habot.cardDeckIsIncompatible')
+            footer: this.t('habot.cardDeckIsIncompatible')
           }
         }
         return
@@ -270,7 +277,7 @@ export default {
           component: 'f7-card',
           config: {
             title: habotCard.title,
-            footer: this.$t('habot.cardIsIncompatible')
+            footer: this.t('habot.cardIsIncompatible')
           }
         }
         return

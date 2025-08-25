@@ -3,8 +3,10 @@ import vue from '@vitejs/plugin-vue'
 import vueDevtools from 'vite-plugin-vue-devtools'
 import { visualizer } from 'rollup-plugin-visualizer'
 import vitePluginTopLevelAwait from 'vite-plugin-top-level-await'
-import pluginDynamicImportVars from '@rollup/plugin-dynamic-import-vars'
+// import pluginDynamicImportVars from '@rollup/plugin-dynamic-import-vars'
+import pluginDynamicImport from 'vite-plugin-dynamic-import'
 import { resolve } from 'path'
+import { plugin } from 'typescript-eslint'
 
 const projectRootDir = resolve(__dirname)
 
@@ -14,13 +16,28 @@ const maven = process.env.MAVEN || false
 const outPath = maven ? '../target/classes/app' : 'www'
 
 export default defineConfig({
-  plugins: [vue({
-    template: {
-      compilerOptions: {
-        isCustomElement: (tag : String) => ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep', 'shadow'].includes(tag) // blockly custom elements
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag : String) => ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep', 'shadow'].includes(tag) // blockly custom elements
+        }
       }
-    }
-  }), vueDevtools(), visualizer({ open: true }), vitePluginTopLevelAwait()],
+    }),
+    pluginDynamicImport({
+      filter(id) {
+        if(id.includes('/node_modules/')) {
+          return true
+        }
+      }
+    }),
+    vueDevtools(),
+    visualizer({ open: true }),
+    vitePluginTopLevelAwait()
+  ],
+  define: {
+    // __VUE_I18N_LEGACY_API__: false    // tree-shake legacy mode
+  },
   server: {
     port: 8080,
     host: '0.0.0.0',
@@ -75,11 +92,19 @@ export default defineConfig({
     outDir: resolve(outPath),
     emptyOutDir: true,
     target: ['chrome107', 'edge107', 'firefox104', 'safari11.1'],
+    /*
     rollupOptions: {
       plugins: [
-        pluginDynamicImportVars({ })
+        pluginDynamicImportVars({
+          filter(id) {
+            if(id.includes('/node_modules/')) {
+              return true
+            }
+          }
+        })
       ]
     }
+    */
   },
   resolve: {
     alias: {

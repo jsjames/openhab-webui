@@ -1,9 +1,9 @@
 <template>
   <f7-page class="analyzer-content">
-    <f7-navbar :title="titleDisplayText" :back-link="$t('analyzer.back')">
+    <f7-navbar :title="titleDisplayText" :back-link="t('analyzer.back')">
       <f7-nav-right>
         <f7-link v-if="userStore.isAdmin()" icon-md="material:save" @click="savePage">
-          {{ theme.md ? '' : $t('analyzer.save') }}
+          {{ theme.md ? '' : t('analyzer.save') }}
         </f7-link>
       </f7-nav-right>
     </f7-navbar>
@@ -11,7 +11,7 @@
     <f7-toolbar bottom>
       <span />
       <f7-link class="right controls-link padding-right" ref="detailsLink" @click="openControls">
-        {{ $t('analyzer.controls') }}&nbsp;<f7-icon f7="chevron_up" />
+        {{ t('analyzer.controls') }}&nbsp;<f7-icon f7="chevron_up" />
       </f7-link>
       <f7-link v-if="coordSystem !== 'time'"
                color="blue"
@@ -27,8 +27,8 @@
                    :context="context" />
     <empty-state-placeholder v-else-if="invalidConfiguration"
                              icon="exclamationmark"
-                             :title="$t('analyzer.invalid-configuration.title')"
-                             :text="$t('analyzer.invalid-configuration.text')" />
+                             :title="t('analyzer.invalid-configuration.title')"
+                             :text="t('analyzer.invalid-configuration.text')" />
 
     <!-- analyzer controls -->
     <f7-sheet class="analyzer-controls"
@@ -42,17 +42,17 @@
                    :tab-link="'#tab-series'"
                    :tab-link-active="controlsTab === 'series'"
                    @click="controlsTab = 'series'"
-                   :text="$t('analyzer.series')" />
+                   :text="t('analyzer.series')" />
           <f7-link class="padding-left padding-right"
                    :tab-link="'#tab-coords'"
                    :tab-link-active="controlsTab === 'coords'"
                    @click="controlsTab = 'coords'"
-                   :text="$t('analyzer.coords')" />
+                   :text="t('analyzer.coords')" />
           <f7-link class="padding-left padding-right"
                    :tab-link="'#tab-ranges'"
                    :tab-link-active="controlsTab === 'ranges'"
                    @click="controlsTab = 'ranges'"
-                   :text="$t('analyzer.ranges')" />
+                   :text="t('analyzer.ranges')" />
           <div class="right">
             <f7-link sheet-close class="padding-right">
               <f7-icon f7="chevron_down" />
@@ -84,22 +84,22 @@
                     <thead>
                       <tr>
                         <th class="label-cell">
-                          {{ $t('analyzer.series.table.header.label') }}
+                          {{ t('analyzer.series.table.header.label') }}
                         </th>
                         <th class="label-cell">
-                          {{ $t('analyzer.series.table.header.type') }}
+                          {{ t('analyzer.series.table.header.type') }}
                         </th>
                         <th class="label-cell">
-                          {{ $t('analyzer.series.table.header.axis') }}
+                          {{ t('analyzer.series.table.header.axis') }}
                         </th>
                         <th class="label-cell">
-                          {{ $t('analyzer.series.table.header.markers') }}
+                          {{ t('analyzer.series.table.header.markers') }}
                         </th>
                         <th v-if="coordSystem !== 'time'" class="label-cell">
-                          {{ $t('analyzer.series.table.header.aggregation') }}
+                          {{ t('analyzer.series.table.header.aggregation') }}
                         </th>
                         <th v-if="coordSystem === 'time'" class="label-cell">
-                          {{ $t('analyzer.series.table.header.silent') }}
+                          {{ t('analyzer.series.table.header.silent') }}
                         </th>
                       </tr>
                     </thead>
@@ -118,27 +118,27 @@
                                        style="width: 60px"
                                        :fill="options.type === 'bar'"
                                        @click="options.type = 'bar'"
-                                       :text="$t('analyzer.series.table.type.bar')" />
+                                       :text="t('analyzer.series.table.type.bar')" />
                             <f7-button v-if="!options.discrete && coordSystem !== 'calendar' && aggregateDimensions === 1"
                                        small
                                        outline
                                        style="width: 60px"
                                        :fill="options.type === 'line'"
                                        @click="options.type = 'line'"
-                                       :text="$t('analyzer.series.table.type.line')" />
+                                       :text="t('analyzer.series.table.type.line')" />
                             <f7-button v-if="coordSystem === 'time' || (coordSystem === 'aggregate' && aggregateDimensions === 1)"
                                        small
                                        outline
                                        style="width: 60px"
                                        :fill="options.type === 'area'"
                                        @click="options.type = 'area'"
-                                       :text="$t('analyzer.series.table.type.area')" />
+                                       :text="t('analyzer.series.table.type.area')" />
                             <f7-button v-if="coordSystem === 'calendar' || (coordSystem === 'aggregate' && aggregateDimensions === 2)"
                                        small
                                        fill
                                        outline
                                        style="width: 90px"
-                                       :text="$t('analyzer.series.table.type.heatmap')" />
+                                       :text="t('analyzer.series.table.type.heatmap')" />
                           </f7-segmented>
                         </td>
                         <td class="label-cell">
@@ -153,13 +153,13 @@
                               {{ axis.unit }}
                             </f7-button>
                           </f7-segmented>
-                          <span v-else>{{ $t('analyzer.series.table.na') }}</span>
+                          <span v-else>{{ t('analyzer.series.table.na') }}</span>
                         </td>
                         <td class="label-cell">
                           <f7-link v-if="!options.discrete && options.type !== 'heatmap'" @click="chooseMarkers(options)">
                             {{ options.markers || 'none' }}
                           </f7-link>
-                          <span v-else>{{ $t('analyzer.series.table.na') }}</span>
+                          <span v-else>{{ t('analyzer.series.table.na') }}</span>
                         </td>
                         <td v-if="coordSystem !== 'time'" class="label-cell">
                           <f7-link @click="chooseAggregation(options)">
@@ -170,7 +170,7 @@
                         <td v-if="coordSystem === 'time'" class="label-cell">
                           <f7-checkbox v-if="options.discrete"
                                        @change="(evt) => options.silent = evt.target.checked" />
-                          <span v-else>{{ $t('analyzer.series.table.na') }}</span>
+                          <span v-else>{{ t('analyzer.series.table.na') }}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -185,54 +185,54 @@
         <f7-block class="no-margin" v-show="controlsTab === 'coords'">
           <f7-row>
             <f7-col :width="100" :medium="50" class="margin-bottom">
-              <f7-block-header>{{ $t('analyzer.coords.period') }}</f7-block-header>
+              <f7-block-header>{{ t('analyzer.coords.period') }}</f7-block-header>
               <f7-segmented strong class="margin-bottom">
                 <f7-button :active="chartType === ''"
                            @click="changeChartType('')"
-                           :text="$t('analyzer.coords.period.dynamic')" />
+                           :text="t('analyzer.coords.period.dynamic')" />
                 <f7-button :active="chartType !== ''"
                            @click="changeChartType('day')"
-                           :text="$t('analyzer.coords.period.fixed')" />
+                           :text="t('analyzer.coords.period.fixed')" />
               </f7-segmented>
               <f7-segmented v-if="chartType !== ''">
                 <f7-button :disabled="coordSystem === 'calendar' ? true : null"
                            :active="chartType === 'day'"
                            @click="changeChartType('day')"
-                           :text="$t('analyzer.coords.period.day')" />
+                           :text="t('analyzer.coords.period.day')" />
                 <f7-button :disabled="coordSystem === 'calendar' ? true : null"
                            :active="chartType === 'isoWeek'"
                            @click="changeChartType('isoWeek')"
-                           :text="$t('analyzer.coords.period.week')" />
+                           :text="t('analyzer.coords.period.week')" />
                 <f7-button :active="chartType === 'month'"
                            @click="changeChartType('month')"
-                           :text="$t('analyzer.coords.period.month')" />
+                           :text="t('analyzer.coords.period.month')" />
                 <f7-button :active="chartType === 'year'"
                            @click="changeChartType('year')"
-                           :text="$t('analyzer.coords.period.year')" />
+                           :text="t('analyzer.coords.period.year')" />
               </f7-segmented>
             </f7-col>
             <f7-col :width="100" :medium="50" class="margin-bottom">
-              <f7-block-header>{{ $t('analyzer.coords.coordSystem') }}</f7-block-header>
+              <f7-block-header>{{ t('analyzer.coords.coordSystem') }}</f7-block-header>
               <f7-segmented strong class="margin-bottom">
                 <f7-button :active="coordSystem === 'time'"
                            @click="changeCoordSystem('time')"
-                           :text="$t('analyzer.coords.coordSystem.time')" />
+                           :text="t('analyzer.coords.coordSystem.time')" />
                 <f7-button :disabled="chartType === '' ? true : null"
                            :active="coordSystem === 'aggregate'"
                            @click="changeCoordSystem('aggregate')"
-                           :text="$t('analyzer.coords.coordSystem.aggregate')" />
+                           :text="t('analyzer.coords.coordSystem.aggregate')" />
                 <f7-button :disabled="chartType === '' ? true : null"
                            :active="coordSystem === 'calendar'"
                            @click="changeCoordSystem('calendar')"
-                           :text="$t('analyzer.coords.coordSystem.calendar')" />
+                           :text="t('analyzer.coords.coordSystem.calendar')" />
               </f7-segmented>
               <f7-segmented v-if="coordSystem === 'aggregate'">
                 <f7-button :active="aggregateDimensions === 1"
                            @click="changeAggregateDimensions(1)"
-                           :text="$t('analyzer.coords.coordSystem.aggregate.1dimension')" />
+                           :text="t('analyzer.coords.coordSystem.aggregate.1dimension')" />
                 <f7-button :active="aggregateDimensions === 2"
                            @click="changeAggregateDimensions(2)"
-                           :text="$t('analyzer.coords.coordSystem.aggregate.2dimensions')" />
+                           :text="t('analyzer.coords.coordSystem.aggregate.2dimensions')" />
               </f7-segmented>
             </f7-col>
             <f7-col
@@ -246,7 +246,7 @@
                          icon-f7="crop_rotate"
                          icon-size="20"
                          @click="orientation = orientation === 'horizontal' ? 'vertical' : 'horizontal'">
-                {{ $t('analyzer.coords.rotate') }}
+                {{ t('analyzer.coords.rotate') }}
               </f7-button>
             </f7-col>
           </f7-row>
@@ -258,65 +258,65 @@
             <f7-col :width="100" :medium="50">
               <f7-list class="no-margin-vertical">
                 <f7-list-item divider>
-                  {{ $t('analyzer.ranges.visualPalette') }}
+                  {{ t('analyzer.ranges.visualPalette') }}
                 </f7-list-item>
                 <f7-list-item radio
                               name="visualMapPalette"
                               :checked="visualMapPalette === '' ? true : null"
                               @change="changeVisualMapPalette('')">
-                  {{ $t('analyzer.ranges.visualPalette.yellowred') }}
+                  {{ t('analyzer.ranges.visualPalette.yellowred') }}
                 </f7-list-item>
                 <f7-list-item radio
                               name="visualMapPalette"
                               :checked="visualMapPalette === 'greenred' ? true : null"
                               @change="changeVisualMapPalette('greenred')">
-                  {{ $t('analyzer.ranges.visualPalette.greenred') }}
+                  {{ t('analyzer.ranges.visualPalette.greenred') }}
                 </f7-list-item>
                 <f7-list-item radio
                               name="visualMapPalette"
                               :checked="visualMapPalette === 'whiteblue' ? true : null"
                               @change="changeVisualMapPalette('whiteblue')">
-                  {{ $t('analyzer.ranges.visualPalette.whiteblue') }}
+                  {{ t('analyzer.ranges.visualPalette.whiteblue') }}
                 </f7-list-item>
                 <f7-list-item radio
                               name="visualMapPalette"
                               :checked="visualMapPalette === 'bluered' ? true : null"
                               @change="changeVisualMapPalette('bluered')">
-                  {{ $t('analyzer.ranges.visualPalette.bluered') }}
+                  {{ t('analyzer.ranges.visualPalette.bluered') }}
                 </f7-list-item>
               </f7-list>
             </f7-col>
             <f7-col :width="100" :medium="50">
               <f7-list class="no-margin-vertical" inline-labels no-hairlines-md>
                 <f7-list-item divider>
-                  {{ $t('analyzer.ranges.range') }}
+                  {{ t('analyzer.ranges.range') }}
                 </f7-list-item>
-                <f7-list-input :label="$t('analyzer.ranges.range.min')"
+                <f7-list-input :label="t('analyzer.ranges.range.min')"
                                :value="visualMapMin"
                                type="number"
                                @input="visualMapMin = $event.target.value"
                                placeholder="Auto"
                                clear-button />
-                <f7-list-input :label="$t('analyzer.ranges.range.max')"
+                <f7-list-input :label="t('analyzer.ranges.range.max')"
                                :value="visualMapMax"
                                type="number"
                                @input="visualMapMax = $event.target.value"
                                placeholder="Auto"
                                clear-button />
                 <f7-list-item divider>
-                  {{ $t('analyzer.ranges.range.type') }}
+                  {{ t('analyzer.ranges.range.type') }}
                 </f7-list-item>
                 <f7-list-item radio
                               name="visualMapType"
                               :checked="visualMapType === 'continuous' ? true : null"
                               @change="changeVisualMapType('continuous')">
-                  {{ $t('analyzer.ranges.range.type.continuous') }}
+                  {{ t('analyzer.ranges.range.type.continuous') }}
                 </f7-list-item>
                 <f7-list-item radio
                               name="visualMapType"
                               :checked="visualMapType === 'piecewise' ? true : null"
                               @change="changeVisualMapType('piecewise')">
-                  {{ $t('analyzer.ranges.range.type.piecewise') }}
+                  {{ t('analyzer.ranges.range.type.piecewise') }}
                 </f7-list-item>
               </f7-list>
             </f7-col>
@@ -325,26 +325,26 @@
             <f7-col :width="100">
               <div class="card data-table">
                 <div class="card-header">
-                  {{ $t('analyzer.ranges.valueAxes') }}
+                  {{ t('analyzer.ranges.valueAxes') }}
                 </div>
                 <div class="card-content">
                   <table>
                     <thead>
                       <tr>
                         <th class="label-cell">
-                          {{ $t('analyzer.ranges.valueAxes.table.header.label') }}
+                          {{ t('analyzer.ranges.valueAxes.table.header.label') }}
                         </th>
                         <th class="label-cell">
-                          {{ $t('analyzer.ranges.valueAxes.table.header.min') }}
+                          {{ t('analyzer.ranges.valueAxes.table.header.min') }}
                         </th>
                         <th class="label-cell">
-                          {{ $t('analyzer.ranges.valueAxes.table.header.max') }}
+                          {{ t('analyzer.ranges.valueAxes.table.header.max') }}
                         </th>
                         <th class="label-cell">
-                          {{ $t('analyzer.ranges.valueAxes.table.header.scale') }}
+                          {{ t('analyzer.ranges.valueAxes.table.header.scale') }}
                         </th>
                         <th class="label-cell">
-                          {{ $t('analyzer.ranges.valueAxes.table.header.split') }}
+                          {{ t('analyzer.ranges.valueAxes.table.header.split') }}
                         </th>
                       </tr>
                     </thead>
@@ -360,7 +360,7 @@
                             <input type="number"
                                    v-model.lazy="axis.min"
                                    style="min-width: 100px"
-                                   :placeholder="$t('analyzer.ranges.valueAxes.placeholder.auto')">
+                                   :placeholder="t('analyzer.ranges.valueAxes.placeholder.auto')">
                           </div>
                         </td>
                         <td class="label-cell">
@@ -368,7 +368,7 @@
                             <input type="number"
                                    v-model.lazy="axis.max"
                                    style="min-width: 100px"
-                                   :placeholder="$t('analyzer.ranges.valueAxes.placeholder.auto')">
+                                   :placeholder="t('analyzer.ranges.valueAxes.placeholder.auto')">
                           </div>
                         </td>
                         <td class="label-cell">
@@ -407,6 +407,7 @@
 import { nextTick, defineAsyncComponent } from 'vue'
 import { utils } from 'framework7'
 import { f7, theme } from 'framework7-vue'
+import { mapStores } from 'pinia'
 
 import ItemPicker from '@/components/config/controls/item-picker.vue'
 import EmptyStatePlaceholder from '@/components/empty-state-placeholder.vue'
@@ -416,8 +417,9 @@ import ChartCalendar from './chart-calendar'
 
 import { useUserStore } from '@/js/stores/useUserStore'
 import { useComponentsStore } from '@/js/stores/useComponentsStore'
-import { mapStores } from 'pinia'
+import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
 
+import { useI18n } from 'vue-i18n'
 import { loadLocaleMessages } from '@/js/i18n'
 
 export default {
@@ -431,7 +433,13 @@ export default {
     f7route: Object
   },
   setup () {
-    return { f7, theme }
+    const { t, setLocaleMessage } = useI18n({ useScope: 'local' })
+
+    loadLocaleMessages([useRuntimeStore().locale, 'en'], 'analyzer', setLocaleMessage)
+
+    return {
+      t, f7, theme
+    }
   },
   data () {
     return {
@@ -457,10 +465,6 @@ export default {
       chartKey: utils.id()
     }
   },
-  i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/analyzer/*.json'))
-  },
-
   computed: {
     titleDisplayText () {
       if (!this.items || !this.items.length) return 'Analyze'
@@ -673,11 +677,11 @@ export default {
       this.$f7.actions.create({
         buttons: [
           [
-            { label: true, text: this.$t('analyzer.dialogs.header.markers') },
+            { label: true, text: this.t('analyzer.dialogs.header.markers') },
             ...actions
           ],
           [
-            { color: 'red', text: this.$t('dialogs.cancel'), close: true }
+            { color: 'red', text: this.t('dialogs.cancel'), close: true }
           ]
         ]
       }).open()
@@ -693,11 +697,11 @@ export default {
       this.$f7.actions.create({
         buttons: [
           [
-            { label: true, text: this.$t('analyzer.dialogs.header.aggregation') },
+            { label: true, text: this.t('analyzer.dialogs.header.aggregation') },
             ...actions
           ],
           [
-            { color: 'red', text: this.$t('dialogs.cancel'), close: true }
+            { color: 'red', text: this.t('dialogs.cancel'), close: true }
           ]
         ]
       }).open()
@@ -712,7 +716,7 @@ export default {
       })
       f7.actions.create({
         buttons: [
-          [{ label: true, text: this.$t('analyzer.dialogs.header.split') }, ...actions],
+          [{ label: true, text: this.t('analyzer.dialogs.header.split') }, ...actions],
           [{ color: 'red', text: 'Cancel', close: true }]
         ]
       })
@@ -726,17 +730,17 @@ export default {
 
       const self = this
       f7.dialog.prompt(
-        this.$t('analyzer.dialogs.save.message'),
-        this.$t('analyzer.dialogs.save.title'),
+        this.t('analyzer.dialogs.save.message'),
+        this.t('analyzer.dialogs.save.title'),
         (uid) => {
           if (!uid.match(/^[A-Za-z0-9_]+$/)) {
-            f7.dialog.alert(this.$t('analyzer.dialogs.save.invalid'))
+            f7.dialog.alert(this.t('analyzer.dialogs.save.invalid'))
             return
           }
           if (useComponentsStore().page(uid)) {
             f7.dialog.confirm(
-              this.$t('analyzer.dialogs.save.replace.message', { uid }),
-              this.$t('analyzer.dialogs.save.replace.title'),
+              this.t('analyzer.dialogs.save.replace.message', { uid }),
+              this.t('analyzer.dialogs.save.replace.title'),
               () => { self.doSavePage(uid, true) })
             return
           }
@@ -756,14 +760,14 @@ export default {
       promise.then((data) => {
         if (overwrite) {
           f7.toast.create({
-            text: this.$t('analyzer.page.updated'),
+            text: this.t('analyzer.page.updated'),
             destroyOnClose: true,
             closeTimeout: 2000
           }).open()
           this.load()
         } else {
           f7.toast.create({
-            text: this.$t('analyzer.page.created'),
+            text: this.t('analyzer.page.created'),
             destroyOnClose: true,
             closeTimeout: 2000
           }).open()
@@ -774,14 +778,14 @@ export default {
   },
   created () {
     this.Aggregations = [
-      { value: 'average', label: this.$t('analyzer.aggregations.average') },
-      { value: 'sum', label: this.$t('analyzer.aggregations.sum') },
-      { value: 'min', label: this.$t('analyzer.aggregations.min') },
-      { value: 'max', label: this.$t('analyzer.aggregations.max') },
-      { value: 'first', label: this.$t('analyzer.aggregations.first') },
-      { value: 'last', label: this.$t('analyzer.aggregations.last') },
-      { value: 'diff_first', label: this.$t('analyzer.aggregations.diffFirst') },
-      { value: 'diff_last', label: this.$t('analyzer.aggregations.diffLast') }
+      { value: 'average', label: this.t('analyzer.aggregations.average') },
+      { value: 'sum', label: this.t('analyzer.aggregations.sum') },
+      { value: 'min', label: this.t('analyzer.aggregations.min') },
+      { value: 'max', label: this.t('analyzer.aggregations.max') },
+      { value: 'first', label: this.t('analyzer.aggregations.first') },
+      { value: 'last', label: this.t('analyzer.aggregations.last') },
+      { value: 'diff_first', label: this.t('analyzer.aggregations.diffFirst') },
+      { value: 'diff_last', label: this.t('analyzer.aggregations.diffLast') }
     ]
   },
   mounted () {

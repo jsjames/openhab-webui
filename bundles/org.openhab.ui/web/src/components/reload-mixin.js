@@ -1,14 +1,10 @@
 import { f7 } from 'framework7-vue'
-import { loadLocaleMessages } from '@/js/i18n'
 
 export default {
   data () {
     return {
       showCachePurgeOption: false
     }
-  },
-  i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/about/*.json'))
   },
   methods: {
     checkPurgeServiceWorkerAndCachesAvailable () {

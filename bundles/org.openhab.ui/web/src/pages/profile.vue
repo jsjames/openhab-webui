@@ -1,6 +1,6 @@
 <template>
   <f7-page class="user-profile-page" @page:beforein="onPageBeforeIn" @page:afterin="onPageAfterIn">
-    <f7-navbar :title="$t('profile.title')"
+    <f7-navbar :title="t('profile.title')"
                back-link="Back"
                no-shadow
                no-hairline
@@ -31,7 +31,7 @@
         <f7-col>
           <f7-list>
             <f7-list-button color="blue" :external="true" href="/changePassword">
-              {{ $t('profile.changePassword') }}
+              {{ t('profile.changePassword') }}
             </f7-list-button>
           </f7-list>
         </f7-col>
@@ -40,9 +40,9 @@
     <f7-block class="block-narrow">
       <f7-row>
         <f7-col>
-          <f7-block-title>{{ $t('profile.sessions') }}</f7-block-title>
+          <f7-block-title>{{ t('profile.sessions') }}</f7-block-title>
           <f7-block-footer class="padding-horizontal">
-            {{ $t('profile.sessions.header') }}
+            {{ t('profile.sessions.header') }}
           </f7-block-footer>
           <f7-card>
             <f7-list media-list swipeout>
@@ -52,8 +52,8 @@
                 v-for="session in filteredSessions"
                 :key="session.sessionId"
                 :title="session.clientId"
-                :subtitle="$t('profile.sessions.created') + new Date(session.createdTime).toLocaleString(runtimeStore.locale)"
-                :text="$t('profile.sessions.lastRefreshed') + new Date(session.lastRefreshTime).toLocaleString(runtimeStore.locale)">
+                :subtitle="t('profile.sessions.created') + new Date(session.createdTime).toLocaleString(runtimeStore.locale)"
+                :text="t('profile.sessions.lastRefreshed') + new Date(session.lastRefreshTime).toLocaleString(runtimeStore.locale)">
                 <template #media>
                   <f7-link
                     icon-color="red"
@@ -64,15 +64,15 @@
                 </template>
                 <f7-swipeout-actions right>
                   <f7-swipeout-button @click="(ev) => deleteSession(ev, session)" style="background-color: var(--f7-swipeout-delete-button-bg-color)">
-                    {{ $t('dialogs.delete') }}
+                    {{ t('dialogs.delete') }}
                   </f7-swipeout-button>
                 </f7-swipeout-actions>
               </f7-list-item>
               <f7-list-button v-if="!expandedTypes.sessions && sessions.length > 10" color="blue" @click="expandedTypes.sessions = true">
-                {{ $t('dialogs.showAll') }}
+                {{ t('dialogs.showAll') }}
               </f7-list-button>
               <f7-list-button color="red" @click="logout()">
-                {{ $t('profile.sessions.signOut') }}
+                {{ t('profile.sessions.signOut') }}
               </f7-list-button>
             </f7-list>
           </f7-card>
@@ -82,9 +82,9 @@
     <f7-block class="block-narrow margin-bottom padding-bottom">
       <f7-row>
         <f7-col>
-          <f7-block-title>{{ $t('profile.apiTokens') }}</f7-block-title>
+          <f7-block-title>{{ t('profile.apiTokens') }}</f7-block-title>
           <f7-block-footer class="padding-horizontal">
-            {{ $t('profile.apiTokens.header') }}
+            {{ t('profile.apiTokens.header') }}
           </f7-block-footer>
           <f7-card>
             <f7-list media-list swipeout>
@@ -94,8 +94,8 @@
                 v-for="apiToken in apiTokens"
                 :key="apiToken.name"
                 :title="apiToken.name"
-                :subtitle="$t('profile.apiTokens.created') + new Date(apiToken.createdTime).toLocaleString(runtimeStore.locale | 'default')"
-                :text="$t('profile.apiTokens.validForScope') + (apiToken.scope || 'N/A')">
+                :subtitle="t('profile.apiTokens.created') + new Date(apiToken.createdTime).toLocaleString(runtimeStore.locale | 'default')"
+                :text="t('profile.apiTokens.validForScope') + (apiToken.scope || 'N/A')">
                 <template #media>
                   <f7-link icon-color="red"
                            icon-aurora="f7:minus_circle_filled"
@@ -105,12 +105,12 @@
                 </template>
                 <f7-swipeout-actions right>
                   <f7-swipeout-button @click="(ev) => deleteApiToken(ev, apiToken)" style="background-color: var(--f7-swipeout-delete-button-bg-color)">
-                    {{ $t('dialogs.delete') }}
+                    {{ t('dialogs.delete') }}
                   </f7-swipeout-button>
                 </f7-swipeout-actions>
               </f7-list-item>
               <f7-list-button color="blue" :external="true" href="/createApiToken">
-                {{ $t('profile.apiTokens.create') }}
+                {{ t('profile.apiTokens.create') }}
               </f7-list-button>
             </f7-list>
           </f7-card>
@@ -166,6 +166,7 @@ import { f7, theme } from 'framework7-vue'
 import { mapStores } from 'pinia'
 
 import auth from '@/components/auth-mixin.js'
+import { useI18n } from 'vue-i18n'
 import { loadLocaleMessages } from '@/js/i18n'
 import { useUserStore } from '@/js/stores/useUserStore'
 import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
@@ -174,6 +175,13 @@ import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
 export default {
   mixins: [auth],
   setup () {
+    const { t, setLocaleMessage } = useI18n({ useScope: 'local' })
+
+    loadLocaleMessages([useRuntimeStore().locale, 'en'], 'profile', setLocaleMessage)
+
+    return {
+      t
+    }
     return { theme }
   },
   data () {
@@ -185,9 +193,6 @@ export default {
         sessions: false
       }
     }
-  },
-  i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/profile/*.json'))
   },
   computed: {
     filteredSessions () {
@@ -229,12 +234,12 @@ export default {
         f7.swipeout.delete(swipeoutElement, () => {
         })
         f7.toast.create({
-          text: this.$t('profile.sessions.delete.success'),
+          text: this.t('profile.sessions.delete.success'),
           destroyOnClose: true,
           closeTimeout: 2000
         }).open()
       }).catch((err) => {
-        f7.dialog.alert(this.$t('profile.sessions.delete.error') + err)
+        f7.dialog.alert(this.t('profile.sessions.delete.error') + err)
       })
     },
     deleteApiToken (ev, apiToken) {
@@ -247,12 +252,12 @@ export default {
         f7.swipeout.delete(swipeoutElement, () => {
         })
         f7.toast.create({
-          text: this.$t('profile.apiTokens.delete.success'),
+          text: this.t('profile.apiTokens.delete.success'),
           destroyOnClose: true,
           closeTimeout: 2000
         }).open()
       }).catch((err) => {
-        f7.dialog.alert(this.$t('profile.apiTokens.delete.error') + err)
+        f7.dialog.alert(this.t('profile.apiTokens.delete.error') + err)
       })
     },
     logout () {
@@ -264,7 +269,7 @@ export default {
         window.location = window.location.origin
       }).catch((err) => {
         f7.preloader.hide()
-        f7.dialog.alert(this.$t('profile.sessions.signOut.error') + err)
+        f7.dialog.alert(this.t('profile.sessions.signOut.error') + err)
       })
     }
   }

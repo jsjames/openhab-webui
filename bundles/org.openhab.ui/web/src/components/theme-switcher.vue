@@ -1,11 +1,11 @@
 <template>
   <f7-block class="theme-switcher">
     <f7-block-title class="padding-left">
-      {{ $t('about.theme') }}
+      {{ t('about.theme') }}
     </f7-block-title>
     <f7-row>
       <f7-col width="25" class="theme-picker auto" @click="switchTheme('auto')">
-        <span class="text-color-gray"> {{ $t('about.theme.auto') }}</span>
+        <span class="text-color-gray"> {{ t('about.theme.auto') }}</span>
         <f7-checkbox checked disabled v-if="theme === 'auto'" />
       </f7-col>
       <f7-col width="25" class="theme-picker" @click="switchTheme('md')">
@@ -21,28 +21,28 @@
         <f7-checkbox checked disabled v-if="theme === 'aurora'" />
       </f7-col>
     </f7-row>
-    <f7-block-title>{{ $t('about.darkMode') }}</f7-block-title>
+    <f7-block-title>{{ t('about.darkMode') }}</f7-block-title>
     <f7-row>
       <f7-col width="33" class="theme-picker auto" @click="uiOptionsStore.setDarkMode('auto')">
-        <span class="text-color-gray">{{ $t('about.darkMode.auto') }}</span>
+        <span class="text-color-gray">{{ t('about.darkMode.auto') }}</span>
         <f7-checkbox checked disabled v-if="uiOptionsStore.storedDarkMode === 'auto'" />
       </f7-col>
       <f7-col
         width="33"
         class="bg-color-white theme-picker"
         @click="uiOptionsStore.setDarkMode('light')">
-        <span class="text-color-gray">{{ $t('about.darkMode.light') }}</span>
+        <span class="text-color-gray">{{ t('about.darkMode.light') }}</span>
         <f7-checkbox checked disabled v-if="uiOptionsStore.storedDarkMode === 'light'" />
       </f7-col>
       <f7-col
         width="33"
         class="bg-color-black theme-picker"
         @click="uiOptionsStore.setDarkMode('dark')">
-        <span class="text-color-gray">{{ $t('about.darkMode.dark') }}</span>
+        <span class="text-color-gray">{{ t('about.darkMode.dark') }}</span>
         <f7-checkbox checked disabled v-if="uiOptionsStore.storedDarkMode === 'dark'" />
       </f7-col>
     </f7-row>
-    <f7-block-title>{{ $t('about.navigationBarsStyle') }}</f7-block-title>
+    <f7-block-title>{{ t('about.navigationBarsStyle') }}</f7-block-title>
     <f7-row>
       <f7-col width="50" class="nav-bars-picker nav-bars-picker-empty" @click="bars='light'">
         <div class="demo-navbar" />
@@ -56,51 +56,51 @@
 
     <f7-row>
       <f7-col>
-        <f7-block-title>{{ $t('about.miscellaneous') }}</f7-block-title>
+        <f7-block-title>{{ t('about.miscellaneous') }}</f7-block-title>
         <f7-list>
           <f7-list-item>
-            <span>{{ $t('about.miscellaneous.home.navbar') }}</span>
+            <span>{{ t('about.miscellaneous.home.navbar') }}</span>
             <f7-segmented class="home-navbar-selection">
               <f7-button v-for="navbarstyle in ['default', 'simple', 'large']"
                          outline
                          small
                          :active="homeNavBar === navbarstyle"
                          @click="homeNavBar = navbarstyle"
-                         :text="$t('about.miscellaneous.home.navbar.' + navbarstyle)"
+                         :text="t('about.miscellaneous.home.navbar.' + navbarstyle)"
                          :key="navbarstyle" />
             </f7-segmented>
           </f7-list-item>
           <f7-list-item>
-            <span>{{ $t('about.miscellaneous.home.background') }}</span>
+            <span>{{ t('about.miscellaneous.home.background') }}</span>
             <f7-segmented class="home-navbar-selection">
               <f7-button v-for="background in ['default', 'standard', 'white']"
                          outline
                          small
                          :active="homeBackground === background"
                          @click="homeBackground = background"
-                         :text="$t('about.miscellaneous.home.background.' + background)"
+                         :text="t('about.miscellaneous.home.background.' + background)"
                          :key="background" />
             </f7-segmented>
           </f7-list-item>
           <f7-list-item v-show="runtimeStore.apiEndpoint('habot')">
-            <span>{{ $t('about.miscellaneous.home.hideChatInput') }}</span>
+            <span>{{ t('about.miscellaneous.home.hideChatInput') }}</span>
             <f7-toggle v-model:checked="hideChatInput" />
           </f7-list-item>
           <f7-list-item>
-            <span>{{ $t('about.miscellaneous.home.disableCardExpansionAnimation') }}</span>
+            <span>{{ t('about.miscellaneous.home.disableCardExpansionAnimation') }}</span>
             <f7-toggle v-model:checked="disableExpandableCardAnimation" />
           </f7-list-item>
           <f7-list-item>
-            <span>{{ $t('about.miscellaneous.theme.disablePageTransition') }}</span>
+            <span>{{ t('about.miscellaneous.theme.disablePageTransition') }}</span>
             <f7-toggle v-model:checked="disablePageTransitionAnimation" />
           </f7-list-item>
           <f7-list-item>
-            <span>{{ $t('about.miscellaneous.webaudio.enable') }}</span>
+            <span>{{ t('about.miscellaneous.webaudio.enable') }}</span>
             <f7-toggle v-model:checked="webAudio" />
           </f7-list-item>
           <f7-list-group>
             <item-picker
-              :title="$t('about.miscellaneous.commandItem.title')"
+              :title="t('about.miscellaneous.commandItem.title')"
               :multiple="false"
               :value="commandItem"
               @input="setCommandItem" />
@@ -120,18 +120,27 @@
 <script>
 import { mapStores, mapWritableState } from 'pinia'
 
-import { loadLocaleMessages } from '@/js/i18n'
 import ItemPicker from '@/components/config/controls/item-picker.vue'
+
+import { loadLocaleMessages } from '@/js/i18n'
+import { useI18n } from 'vue-i18n'
 
 import { useRuntimeStore } from '@/js/stores/useRuntimeStore'
 import { useUIOptionsStore } from '@/js/stores/useUIOptionsStore'
+
 
 export default {
   components: {
     ItemPicker
   },
-  i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/theme-switcher/*.json'))
+  setup () {
+    const { t, setLocaleMessage } = useI18n({ useScope: 'local' })
+
+    loadLocaleMessages([useRuntimeStore().locale, 'en'], 'theme-switcher', setLocaleMessage)
+
+    return {
+      t
+    }
   },
   methods: {
     switchTheme (theme) {

@@ -14,7 +14,7 @@
         </f7-login-screen-title>
         <f7-list form style="margin-top: 4rem" v-if="i18nReady">
           <f7-list-item
-            :title="$t('setupwizard.language')"
+            :title="t('setupwizard.language')"
             smart-select
             :smart-select-params="{ openIn: 'popup', searchbar: true, closeOnSelect: true, }">
             <select name="language" @change="(evt) => language = evt.target.value">
@@ -28,7 +28,7 @@
             </select>
           </f7-list-item>
           <f7-list-item
-            :title="$t('setupwizard.region')"
+            :title="t('setupwizard.region')"
             smart-select
             :smart-select-params="{ openIn: 'popup', searchbar: true, closeOnSelect: true }">
             <select name="region" @change="(evt) => (region = evt.target.value)">
@@ -42,7 +42,7 @@
             </select>
           </f7-list-item>
           <f7-list-item
-            :title="$t('setupwizard.timezone')"
+            :title="t('setupwizard.timezone')"
             smart-select
             :smart-select-params="{ openIn: 'popup', searchbar: true, virtualList: true, closeOnSelect: true, virtualListHeight: theme.aurora ? 32 : undefined, }">
             <select name="timezone" @change="(evt) => timezone = evt.target.value">
@@ -61,11 +61,11 @@
             <f7-button large
                        fill
                        color="blue"
-                       :text="$t('setupwizard.beginSetup')"
+                       :text="t('setupwizard.beginSetup')"
                        @click="beginSetup" />
             <f7-button large
                        color="blue"
-                       :text="$t('setupwizard.skipSetup')"
+                       :text="t('setupwizard.skipSetup')"
                        class="margin-top"
                        @click="skipSetup" />
           </div>
@@ -85,18 +85,18 @@
             <div class="padding">
               <f7-icon size="48" color="blue" f7="map_pin_ellipse" />
             </div>
-            {{ $t('setupwizard.location.title') }}
+            {{ t('setupwizard.location.title') }}
           </f7-login-screen-title>
         </f7-block>
         <f7-block strong>
-          {{ $t('setupwizard.location.header1') }}<br>{{ $t('setupwizard.location.header2') }}
+          {{ t('setupwizard.location.header1') }}<br>{{ t('setupwizard.location.header2') }}
         </f7-block>
         <f7-list>
           <f7-list-group>
             <parameter-location :value="location"
-                                :config-description="{ label: $t('setupwizard.location.parameterLabel'), name: 'Location' }"
+                                :config-description="{ label: t('setupwizard.location.parameterLabel'), name: 'Location' }"
                                 @input="value => location = value"
-                                :placeholder="$t('setupwizard.location.placeholder')" />
+                                :placeholder="t('setupwizard.location.placeholder')" />
           </f7-list-group>
         </f7-list>
         <f7-block class="padding">
@@ -106,11 +106,11 @@
                          icon-f7="location_fill"
                          icon-size="24"
                          @click="getCurrentPosition()"
-                         :text="$t('setupwizard.location.retrieveFromDevice')" />
+                         :text="t('setupwizard.location.retrieveFromDevice')" />
             </f7-col>
           </f7-row>
           <f7-block-footer>
-            <small>{{ $t('setupwizard.location.footer') }}</small>
+            <small>{{ t('setupwizard.location.footer') }}</small>
           </f7-block-footer>
         </f7-block>
         <f7-block class="display-flex flex-direction-column padding" v-if="networksReady">
@@ -119,11 +119,11 @@
                        large
                        fill
                        color="blue"
-                       :text="$t('setupwizard.location.setLocation')"
+                       :text="t('setupwizard.location.setLocation')"
                        @click="setLocation" />
             <f7-button large
                        color="blue"
-                       :text="$t('setupwizard.configureLater')"
+                       :text="t('setupwizard.configureLater')"
                        class="margin-top"
                        @click="skipLocation" />
           </div>
@@ -143,11 +143,11 @@
             <div class="padding">
               <f7-icon size="48" color="blue" f7="wifi" />
             </div>
-            {{ $t('setupwizard.network.title') }}
+            {{ t('setupwizard.network.title') }}
           </f7-login-screen-title>
         </f7-block>
         <f7-block strong>
-          {{ $t('setupwizard.network.header1') }} {{ $t('setupwizard.network.header2') }}
+          {{ t('setupwizard.network.header1') }} {{ t('setupwizard.network.header2') }}
         </f7-block>
         <f7-list>
           <f7-list-group>
@@ -163,11 +163,11 @@
             <f7-button large
                        fill
                        color="blue"
-                       :text="$t('setupwizard.network.setNetwork')"
+                       :text="t('setupwizard.network.setNetwork')"
                        @click="setNetwork" />
             <f7-button large
                        color="blue"
-                       :text="$t('setupwizard.configureLater')"
+                       :text="t('setupwizard.configureLater')"
                        class="margin-top"
                        @click="skipNetwork" />
           </div>
@@ -187,36 +187,36 @@
             <div class="padding">
               <f7-icon size="48" color="blue" f7="download_circle" />
             </div>
-            {{ $t('setupwizard.persistence.title') }}
+            {{ t('setupwizard.persistence.title') }}
           </f7-login-screen-title>
         </f7-block>
         <f7-block strong>
-          {{ $t('setupwizard.persistence.header1') }} {{ $t('setupwizard.persistence.header2') }}
+          {{ t('setupwizard.persistence.header1') }} {{ t('setupwizard.persistence.header2') }}
         </f7-block>
         <f7-block style="margin-top: 0; margin-bottom: 2em">
           <f7-block v-if="waitingForAddonSuggestions">
             <div class="display-flex justify-content-center margin-bottom">
               <f7-progressbar id="suggestions-progress-bar-persistence" :progress="0" />
             </div>
-            <div>{{ $t('setupwizard.addons.suggestionsWaitMessage') }}</div>
+            <div>{{ t('setupwizard.addons.suggestionsWaitMessage') }}</div>
           </f7-block>
           <addons-setup-wizard v-if="addonSuggestionsReady && recommendedAddonsByType('persistence').length"
                                :addons="recommendedAddonsByType('persistence')"
                                :preSelectedAddons="selectedAddons"
                                @update="updateAddonSelection(recommendedAddonsByType('persistence'), $event)" />
           <f7-block-footer class="margin-bottom">
-            <small>{{ $t('setupwizard.persistence.footer') }}</small>
+            <small>{{ t('setupwizard.persistence.footer') }}</small>
           </f7-block-footer>
           <div>
             <f7-button v-if="addonSuggestionsReady && selectedAddons.length > 0"
                        large
                        fill
                        color="blue"
-                       :text="$t('setupwizard.persistence.install')"
+                       :text="t('setupwizard.persistence.install')"
                        @click="selectPersistence" />
             <f7-button large
                        color="blue"
-                       :text="$t('setupwizard.persistence.installLater')"
+                       :text="t('setupwizard.persistence.installLater')"
                        class="margin-top"
                        @click="skipPersistence" />
           </div>
@@ -236,22 +236,22 @@
             <div class="padding">
               <f7-icon size="48" color="blue" f7="bag_badge_plus" />
             </div>
-            {{ $t('setupwizard.addons.title') }}
+            {{ t('setupwizard.addons.title') }}
           </f7-login-screen-title>
         </f7-block>
         <f7-block strong>
-          {{ $t('setupwizard.addons.header1') }}<br>{{ $t('setupwizard.addons.header2') }}<br>{{ $t('setupwizard.addons.header3') }} <br><br>
+          {{ t('setupwizard.addons.header1') }}<br>{{ t('setupwizard.addons.header2') }}<br>{{ t('setupwizard.addons.header3') }} <br><br>
           <a class="text-color-blue external"
              target="_blank"
              href="https://www.openhab.org/addons/">
-            {{ $t('setupwizard.addons.browseAddonsOnWebsite') }}</a>
+            {{ t('setupwizard.addons.browseAddonsOnWebsite') }}</a>
         </f7-block>
         <f7-block class="padding">
           <f7-block v-if="waitingForAddonSuggestions">
             <div class="display-flex justify-content-center margin-bottom">
               <f7-progressbar id="suggestions-progress-bar-addons" :progress="0" />
             </div>
-            <div>{{ $t('setupwizard.addons.suggestionsWaitMessage') }}</div>
+            <div>{{ t('setupwizard.addons.suggestionsWaitMessage') }}</div>
           </f7-block>
           <addons-setup-wizard v-if="addonSuggestionsReady && mainAddons.length"
                                :enableAddonSelection="true"
@@ -259,18 +259,18 @@
                                :preSelectedAddons="selectedAddons"
                                @update="updateAddonSelection(mainAddonSelection, $event)" />
           <f7-block-footer class="margin-bottom">
-            <small>{{ $t('setupwizard.addons.footer') }}</small>
+            <small>{{ t('setupwizard.addons.footer') }}</small>
           </f7-block-footer>
           <div>
             <f7-button v-if="addonSuggestionsReady && toInstallAddons.filter(a => !preSelectedAddon(a) && !a.installed).length > 0"
                        large
                        fill
                        color="blue"
-                       :text="$t('setupwizard.addons.installAddons', toInstallAddons.filter(a => !preSelectedAddon(a) && !a.installed).length)"
+                       :text="t('setupwizard.addons.installAddons', toInstallAddons.filter(a => !preSelectedAddon(a) && !a.installed).length)"
                        @click="installAddons" />
             <f7-button large
                        color="blue"
-                       :text="$t('setupwizard.addons.installLater')"
+                       :text="t('setupwizard.addons.installLater')"
                        class="margin-top"
                        @click="skipAddons" />
           </div>
@@ -288,13 +288,13 @@
             tab-link-active
             style="visibility: hidden" />
           <f7-login-screen-title class="text-color-gray">
-            {{ $t('setupwizard.addons.pleaseWait') }}
+            {{ t('setupwizard.addons.pleaseWait') }}
           </f7-login-screen-title>
           <div class="display-flex justify-content-center flex-direction-column text-align-center text-color-gray" style="margin-top: 4rem">
             <div class="display-flex justify-content-center margin-bottom">
               <f7-preloader size="24" />
             </div>
-            <div>{{ $t('setupwizard.addons.waitMessage') }}</div>
+            <div>{{ t('setupwizard.addons.waitMessage') }}</div>
           </div>
         </f7-block>
       </f7-tab>
@@ -310,16 +310,16 @@
                   color="blue"
                   tab-link-active
                 ></f7-link>-->
-          <f7-login-screen-title>{{ $t('setupwizard.welcome.title') }}</f7-login-screen-title>
+          <f7-login-screen-title>{{ t('setupwizard.welcome.title') }}</f7-login-screen-title>
         </f7-block>
         <f7-block v-if="bindingInstalled">
-          {{ $t('setupwizard.welcome.bindingsInstalled') }}
+          {{ t('setupwizard.welcome.bindingsInstalled') }}
         </f7-block>
         <f7-block class="display-flex flex-direction-column padding" style="margin-top: 4rem">
           <div>
             <f7-button large
                        color="blue"
-                       :text="$t('setupwizard.welcome.getStarted')"
+                       :text="t('setupwizard.welcome.getStarted')"
                        @click="finish" />
           </div>
         </f7-block>
@@ -361,6 +361,7 @@
 import { nextTick, defineAsyncComponent } from 'vue'
 import { f7, theme } from 'framework7-vue'
 import i18n_mixin from '@/components/i18n-mixin'
+import { useI18n } from 'vue-i18n'
 import { i18n, loadLocaleMessages } from '@/js/i18n'
 import AddonsSetupWizard from '@/components/addons/addons-setup-wizard.vue'
 
@@ -374,7 +375,11 @@ export default {
     AddonsSetupWizard
   },
   setup () {
-    return { theme }
+    const { t, setLocaleMessage } = useI18n({ useScope: 'local' })
+
+    loadLocaleMessages([useRuntimeStore().locale, 'en'], 'setup-wizard', setLocaleMessage)
+
+    return { t, theme }
   },
   data () {
     return {
@@ -407,9 +412,6 @@ export default {
       installingAddons: false,
       bindingInstalled: false
     }
-  },
-  i18n: {
-    messages: await loadLocaleMessages(import.meta.glob('/src/assets/i18n/setup-wizard/*.json'))
   },
   computed: {
     locale () {

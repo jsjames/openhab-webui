@@ -98,8 +98,8 @@ export default {
   },
   data () {
     return {
-      inChatSession: false,
-      f7
+      f7,
+      inChatSession: false
     }
   },
   computed: {
