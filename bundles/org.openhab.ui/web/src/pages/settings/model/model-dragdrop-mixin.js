@@ -6,6 +6,8 @@ import ItemMixin from '@/components/item/item-mixin'
 import TagMixin from '@/components/tags/tag-mixin'
 import fastDeepEqual from 'fast-deep-equal/es6'
 
+// TODO-V3.1 console.debug calls with cloneDeep - do we need to remove them?
+
 export default {
   mixins: [ItemMixin, TagMixin],
   props: {
@@ -56,7 +58,7 @@ export default {
         newChildren.points = nodeList.filter((n) => n.item.metadata?.semantics?.value?.startsWith('Point'))
         newChildren.groups = nodeList.filter((n) => !n.item.metadata?.semantics && n.item.type === 'Group')
         newChildren.items = nodeList.filter((n) => !n.item.metadata?.semantics && n.item.type !== 'Group')
-        this.$set(this.model, 'children', newChildren)
+        this.model.children = newChildren
       }
     },
     iconColor () {

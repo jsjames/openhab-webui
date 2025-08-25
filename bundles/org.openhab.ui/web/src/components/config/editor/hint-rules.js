@@ -1,5 +1,6 @@
-import { findParent, findParentRoot, findWordStart, isConfig, isRuleSection } from './yaml-utils'
-import { hintBooleanValue, hintItems, hintParameterOptions, hintParameters } from './hint-utils'
+import { insertCompletionText } from '@codemirror/autocomplete'
+import { findParent, findParentRoot, isConfig, isRuleSection } from './yaml-utils'
+import { completionStart, hintBooleanValue, hintItems, hintParameterOptions, hintParameters } from './hint-utils'
 
 let moduleTypesCache = null
 
@@ -50,12 +51,12 @@ function hintConfig (context, line, parentLine) {
         } else if (parameter.context === 'item') {
           return hintItems(context, { replaceAfterColon: true })
         } else if (parameter.options) {
-          return hintParameterOptions(context, line, parameter, colonPos)
+          return hintParameterOptions(context, parameter, colonPos)
         }
       }
     } else {
       console.debug(moduleType)
-      return hintParameters(context, line, parameters, 6)
+      return hintParameters(context, parameters, 6)
     }
   })
 }
@@ -100,15 +101,12 @@ function hintModuleStructure (context, line, parentLine) {
 
   const apply = (view, completion, _from, _to) => {
     const insert = buildModuleStructure(view, completion.moduleType)
-    view.dispatch({
-      changes: { from: line.from, to: line.to, insert },
-      selection: { anchor: line.from + insert.length }
-    })
+    view.dispatch(insertCompletionText(view.state, insert, line.from, line.to))
   }
 
   return getModuleTypes(context, section).then((moduleTypes) => {
     return {
-      from: line.from + findWordStart(context, line),
+      from: completionStart(context),
       validFor: /\w+/,
       options: moduleTypes.map((m) => {
         return {
@@ -128,7 +126,6 @@ export default function hint (context) {
   console.debug('parent line', parentLine)
 
   if (isConfig(parentLine)) {
-    console.log('in config')
     return hintConfig(context, line, parentLine)
   } else if (isRuleSection(parentLine)) {
     return hintModuleStructure(context, line, parentLine)
