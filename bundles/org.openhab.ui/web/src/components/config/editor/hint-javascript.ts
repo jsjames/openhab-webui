@@ -215,7 +215,7 @@ function hintOpenhabJs (context: CompletionContext) {
 }
 
 function hintJsItems (context: any) {
-  if (context.matchBefore(/(\s|^)items\.(getItem\(')?[\w-]*/)) {
+  if (context.matchBefore(/(\s|^)items\.(getItem\(['"])?[\w]*/)) {
     return hintUtils.hintItems(context)
   }
 }
