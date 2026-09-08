@@ -26,14 +26,14 @@
                 @click="$oh.utils.normalizeInputForThingId('#input')" />
             </template>
           </f7-list-input>
-          <f7-list-item v-if="!createMode" media-item class="channel-item" title="Channel UID">
-            <template #subtitle>
-              <div>
+          <f7-list-input v-else label="Channel UID" type="text" class="wrap-text" :input="false">
+            <template #input>
+              <span>
                 {{ channel.uid }}
                 <clipboard-icon :value="channel.uid" tooltip="Copy UID" />
-              </div>
+              </span>
             </template>
-          </f7-list-item>
+          </f7-list-input>
 
           <f7-list-input
             label="Label"
